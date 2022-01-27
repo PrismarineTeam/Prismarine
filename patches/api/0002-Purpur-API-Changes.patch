@@ -1,8 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Alpha <alphakr93@outlook.com>
-Date: Wed, 26 Jan 2022 13:02:49 +0900
+From: Github Actions <no-reply@github.com>
+Date: Thu, 27 Jan 2022 12:21:01 +0000
 Subject: [PATCH] Purpur API Changes
 
+Purpur Commit: 414cf7d035cfecf8c15a0e8643ff80e5603f58b1
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 554f5e35954f35aecaf454853a0a2999f15d19bc..9203d7aa155319abfab0a65d4ef6804cb7e48769 100644
@@ -2277,24 +2278,6 @@ index ceb3e2c5117740ce284e893fff8e41a002d78649..fab5c3c90f55c113cae2bca2354a94e8
  public interface ThrowableProjectile extends Projectile {
  
      /**
-diff --git a/src/main/java/org/bukkit/entity/Villager.java b/src/main/java/org/bukkit/entity/Villager.java
-index 02ecc87a90bbd81e7d21279fac701ba41c74fd9f..89e8e28f78301bb062a394eae9e23e5a82511e28 100644
---- a/src/main/java/org/bukkit/entity/Villager.java
-+++ b/src/main/java/org/bukkit/entity/Villager.java
-@@ -285,4 +285,13 @@ public interface Villager extends AbstractVillager {
-      */
-     public void clearReputations();
-     // Paper end
-+
-+    // Purpur start
-+    /**
-+     * Check if villager is currently lobotomized
-+     *
-+     * @return True if lobotomized
-+     */
-+    boolean isLobotomized();
-+    // Purpur end
- }
 diff --git a/src/main/java/org/bukkit/entity/Wither.java b/src/main/java/org/bukkit/entity/Wither.java
 index 8c95cd6933f11076de936854f379e6fc8600b525..86907637ed0a53d4967606dbba3ea20320b528f8 100644
 --- a/src/main/java/org/bukkit/entity/Wither.java

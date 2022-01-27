@@ -1,8 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Alpha <alphakr93@outlook.com>
-Date: Wed, 26 Jan 2022 12:57:51 +0900
+From: Github Actions <no-reply@github.com>
+Date: Thu, 27 Jan 2022 12:19:46 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
+Pufferfish Commit: 3e75ff07a5f95e1d627f47bec2baa8eed7a54e00
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 028f6a1795ceb99d1760c73b0980238677b4b8bc..0f194168f5fca8eb768bca3ce953f28097fed578 100644
