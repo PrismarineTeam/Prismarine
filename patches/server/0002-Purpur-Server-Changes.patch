@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Github Actions <no-reply@github.com>
-Date: Thu, 27 Jan 2022 12:21:00 +0000
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Thu, 27 Jan 2022 17:27:16 +0000
 Subject: [PATCH] Purpur Server Changes
 
-Purpur Commit: 414cf7d035cfecf8c15a0e8643ff80e5603f58b1
+Purpur Commit: 6eef61bf99be4bae724bac2c89a43edff57ae98f
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 0f194168f5fca8eb768bca3ce953f28097fed578..1bdcca4d1a25f4292ab9421d44fa3018af263341 100644
@@ -11882,18 +11882,20 @@ index 436f9cb45ff5b83f55b12f291bed355fa12a0655..590915d1c6eacc296be4880e6712b100
              return 1;
          }
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc7d2d20b0 100644
+index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..3cf27428820e9cd96cd54abe3bfc80d9e6bbf96a 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-@@ -137,6 +137,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -137,6 +137,9 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }, MemoryModuleType.MEETING_POINT, (entityvillager, villageplacetype) -> {
          return villageplacetype == PoiType.MEETING;
      });
 +    private final int brainTickOffset; // Purpur
++    private boolean isLobotomized = false; public boolean isLobotomized() { return this.isLobotomized; } // Purpur
++    private int notLobotomizedCount = 0; // Purpur
  
      public long nextGolemPanic = -1; // Pufferfish
  
-@@ -151,8 +152,52 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -151,8 +154,93 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
          this.getNavigation().setCanFloat(true);
          this.setCanPickUpLoot(true);
          this.setVillagerData(this.getVillagerData().setType(type).setProfession(VillagerProfession.NONE));
@@ -11941,12 +11943,53 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
 +    protected boolean isAlwaysExperienceDropper() {
 +        return this.level.purpurConfig.villagerAlwaysDropExp;
 +    }
++
++    private boolean checkLobotomized() {
++        int interval = this.level.purpurConfig.villagerLobotomizeCheckInterval;
++        if (this.notLobotomizedCount > 3) {
++            // check half as often if not lobotomized for the last 3+ consecutive checks
++            interval *= 2;
++        }
++        if ((this.level.getGameTime() + brainTickOffset) % interval == 0) {
++            // offset Y for short blocks like dirt_path/farmland
++            this.isLobotomized = !canTravelFrom(new BlockPos(getX(), getY() + 0.0625D, getZ()));
++
++            if (this.isLobotomized) {
++                this.notLobotomizedCount = 0;
++            } else {
++                this.notLobotomizedCount++;
++            }
++        }
++        return this.isLobotomized;
++    }
++
++    private boolean canTravelFrom(BlockPos pos) {
++        return canTravelTo(pos.east()) || canTravelTo(pos.west()) || canTravelTo(pos.north()) || canTravelTo(pos.south());
++    }
++
++    private boolean canTravelTo(BlockPos pos) {
++        BlockState state = this.level.getBlockStateIfLoaded(pos);
++        if (state == null) {
++            // chunk not loaded
++            return false;
++        }
++        net.minecraft.world.level.block.Block bottom = state.getBlock();
++        if (bottom instanceof net.minecraft.world.level.block.FenceBlock ||
++                bottom instanceof net.minecraft.world.level.block.FenceGateBlock ||
++                bottom instanceof net.minecraft.world.level.block.WallBlock) {
++            // bottom block is too tall to get over
++            return false;
++        }
++        net.minecraft.world.level.block.Block top = level.getBlockState(pos.above()).getBlock();
++        // only if both blocks have no collision
++        return !bottom.hasCollision && !top.hasCollision;
++    }
 +    // Purpur end
 +
      @Override
      public Brain<Villager> getBrain() {
          return (Brain<Villager>) super.getBrain(); // CraftBukkit - decompile error
-@@ -187,7 +232,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -187,7 +275,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
              brain.addActivity(Activity.PLAY, VillagerGoalPackages.getPlayPackage(0.5F));
          } else {
              brain.setSchedule(Schedule.VILLAGER_DEFAULT);
@@ -11955,8 +11998,19 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
          }
  
          brain.addActivity(Activity.CORE, VillagerGoalPackages.getCorePackage(villagerprofession, 0.5F));
-@@ -250,7 +295,11 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -248,12 +336,31 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+     protected void customServerAiStep() { mobTick(false); }
+     protected void mobTick(boolean inactive) {
          this.level.getProfiler().push("villagerBrain");
++        // Purpur start
++        if (this.level.purpurConfig.villagerLobotomizeEnabled) {
++            // treat as inactive if lobotomized
++            inactive = inactive || checkLobotomized();
++        } else {
++            // clean up state for API
++            this.isLobotomized = false;
++        }
++        // Purpur end
          // Pufferfish start
          if (!inactive) {
 -            if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
@@ -11968,7 +12022,16 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
              this.getBrain().tick((ServerLevel) this.level, this); // Paper
           }
          // Pufferfish end
-@@ -310,7 +359,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
++        // Purpur start
++        else if (this.isLobotomized && shouldRestock()) {
++            // make sure we restock if needed when lobotomized
++            restock();
++        }
++        // Purpur end
+         this.level.getProfiler().pop();
+         if (this.assignProfessionWhenSpawned) {
+             this.assignProfessionWhenSpawned = false;
+@@ -310,7 +417,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
          if (!itemstack.is(Items.VILLAGER_SPAWN_EGG) && this.isAlive() && !this.isTrading() && !this.isSleeping()) {
              if (this.isBaby()) {
                  this.setUnhappy();
@@ -11977,7 +12040,7 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
              } else {
                  boolean flag = this.getOffers().isEmpty();
  
-@@ -323,9 +372,10 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -323,9 +430,10 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
                  }
  
                  if (flag) {
@@ -11990,7 +12053,7 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
                          this.startTrading(player);
                      }
  
-@@ -482,7 +532,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -482,7 +590,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
          while (iterator.hasNext()) {
              MerchantOffer merchantrecipe = (MerchantOffer) iterator.next();
  
@@ -11999,7 +12062,7 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
          }
  
      }
-@@ -732,7 +782,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -732,7 +840,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
  
      @Override
      public boolean canBreed() {
@@ -12008,7 +12071,7 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
      }
  
      private boolean hungry() {
-@@ -947,6 +997,11 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -947,6 +1055,11 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      public boolean hasFarmSeeds() {
@@ -12020,7 +12083,7 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
          return this.getInventory().hasAnyOf(ImmutableSet.of(Items.WHEAT_SEEDS, Items.POTATO, Items.CARROT, Items.BEETROOT_SEEDS));
      }
  
-@@ -1010,6 +1065,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -1010,6 +1123,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
  
      @Nullable
      private IronGolem trySpawnGolem(ServerLevel world) {
@@ -12028,7 +12091,7 @@ index 7d6bc3c253a77adfc7c35383caadb37154dc5c0f..b9f228d660b2279284e64fc3bbfa90fc
          BlockPos blockposition = this.blockPosition();
  
          for (int i = 0; i < 10; ++i) {
-@@ -1123,6 +1179,12 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -1123,6 +1237,12 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
  
      @Override
      public void startSleeping(BlockPos pos) {
@@ -13025,7 +13088,7 @@ index 4adfc26062b322443828e94e6b0943884a18846b..0d9ecca25bff63f3428ccf93e2789fca
                  } else if (this.isFuel(itemstack1)) {
                      if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index 073cec4838b88bf4e7444321a74ab73fff732486..669093b7f531b4ff9d8348d0a08c8690f984218c 100644
+index a8d1ffd70c539cac42df9f086e4e336990e5a383..d2ba5cd4d52105d91fd1e67fc6d05d72cfd5dfea 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -2,7 +2,14 @@ package net.minecraft.world.inventory;
@@ -16629,7 +16692,7 @@ index a3673e2943f251e056ecf84a9bff2de12efdb52a..22f19467e0d5e0ab96e1f696d7aa22c4
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
-index b39117c4505926da0be9c8248964a233393e8e2d..c31af7b3c186244857e9f2c40005daa764d7ba7c 100644
+index e7108dd70f1eb91f38e04ad71e595bc679560f75..9f326161e13155283acfc9d73b2d568fdc135168 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 @@ -245,6 +245,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
@@ -16986,6 +17049,22 @@ index 659e2959c5330e4764ea1edc7f8de9f464f9ff52..c2bac8ae958630acaaa8d758e31428d2
 +    }
 +    // Purpur end
  }
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
+index dbc1ea96223675fbe03585598a9c7f51acc61d2e..dde09a8495270d9038f55974e252576095259ca9 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
+@@ -187,4 +187,11 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
+         getHandle().getGossips().getReputations().clear();
+     }
+     // Paper end
++
++    // Purpur start
++    @Override
++    public boolean isLobotomized() {
++        return getHandle().isLobotomized();
++    }
++    // Purpur end
+ }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java
 index 299d5e47489cfe489ac130a33a08cdb29ba76d72..6b4a9b706142866d5e712d1ed49ae7220e471c91 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java
@@ -17134,7 +17213,7 @@ index 396a4ae3d5a829eda78ef98561333aea300aa722..91478d614a56d1ac371187515d4c92b2
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAnvil.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAnvil.java
-index 3ff03e3e8c723d0f2a7c115d4dba01f1b3c2c46e..4dc71c761371400fb92e6943ba44bf40968dae97 100644
+index 88d3ca586ff6905f18a8ab9f0e229f440ed44088..27dd4eb4781a3c75772860c11db886e1038cecd2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAnvil.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAnvil.java
 @@ -9,7 +9,7 @@ import org.bukkit.inventory.AnvilInventory;
@@ -17146,7 +17225,7 @@ index 3ff03e3e8c723d0f2a7c115d4dba01f1b3c2c46e..4dc71c761371400fb92e6943ba44bf40
  
      public CraftInventoryAnvil(Location location, Container inventory, Container resultInventory, AnvilMenu container) {
          super(inventory, resultInventory);
-@@ -47,4 +47,26 @@ public class CraftInventoryAnvil extends CraftResultInventory implements AnvilIn
+@@ -57,4 +57,26 @@ public class CraftInventoryAnvil extends CraftResultInventory implements AnvilIn
          Preconditions.checkArgument(levels >= 0, "Maximum repair cost must be positive (or 0)");
          container.maximumRepairCost = levels;
      }
@@ -17337,7 +17416,7 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b211c90a7e0a614760e2a6f7c27cbfd6fe1cf9bd
+index 0000000000000000000000000000000000000000..7cdcc3e266a37c8e430de1dd508b29a58422c6a3
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -0,0 +1,488 @@
@@ -17415,8 +17494,8 @@ index 0000000000000000000000000000000000000000..b211c90a7e0a614760e2a6f7c27cbfd6
 +        commands = new HashMap<>();
 +        commands.put("purpur", new PurpurCommand("purpur"));
 +
-+        version = getInt("config-version", 26);
-+        set("config-version", 26);
++        version = getInt("config-version", 27);
++        set("config-version", 27);
 +
 +        readConfig(PurpurConfig.class, null);
 +    }
@@ -17831,10 +17910,10 @@ index 0000000000000000000000000000000000000000..b211c90a7e0a614760e2a6f7c27cbfd6
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7580ab1f6bf38a784bcf91ef594d068de6b5d10d
+index 0000000000000000000000000000000000000000..ff2be61f790f39aae37794e7d7e4115073bfd716
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3040 @@
+@@ -0,0 +1,3053 @@
 +package org.purpurmc.purpur;
 +
 +import net.minecraft.core.Registry;
@@ -20503,6 +20582,8 @@ index 0000000000000000000000000000000000000000..7580ab1f6bf38a784bcf91ef594d068d
 +    public boolean villagerAllowTrading = true;
 +    public boolean villagerAlwaysDropExp = false;
 +    public int villagerMinimumDemand = 0;
++    public boolean villagerLobotomizeEnabled = false;
++    public int villagerLobotomizeCheckInterval = 100;
 +    public boolean villagerDisplayTradeItem = true;
 +    private void villagerSettings() {
 +        villagerRidable = getBoolean("mobs.villager.ridable", villagerRidable);
@@ -20529,6 +20610,17 @@ index 0000000000000000000000000000000000000000..7580ab1f6bf38a784bcf91ef594d068d
 +        villagerAllowTrading = getBoolean("mobs.villager.allow-trading", villagerAllowTrading);
 +        villagerAlwaysDropExp = getBoolean("mobs.villager.always-drop-exp", villagerAlwaysDropExp);
 +        villagerMinimumDemand = getInt("mobs.villager.minimum-demand", villagerMinimumDemand);
++        if (PurpurConfig.version < 9) {
++            boolean oldValue = getBoolean("mobs.villager.lobotomize-1x1", villagerLobotomizeEnabled);
++            set("mobs.villager.lobotomize.enabled", oldValue);
++            set("mobs.villager.lobotomize-1x1", null);
++        }
++        if (PurpurConfig.version < 27) {
++            int oldValue = getInt("mobs.villager.lobotomize.check-interval", villagerLobotomizeCheckInterval);
++            set("mobs.villager.lobotomize.check-interval", oldValue == 60 ? 100 : oldValue);
++        }
++        villagerLobotomizeEnabled = getBoolean("mobs.villager.lobotomize.enabled", villagerLobotomizeEnabled);
++        villagerLobotomizeCheckInterval = getInt("mobs.villager.lobotomize.check-interval", villagerLobotomizeCheckInterval);
 +        villagerDisplayTradeItem = getBoolean("mobs.villager.display-trade-item", villagerDisplayTradeItem);
 +    }
 +

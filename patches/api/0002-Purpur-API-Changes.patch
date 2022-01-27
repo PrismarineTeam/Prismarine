@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Github Actions <no-reply@github.com>
-Date: Thu, 27 Jan 2022 12:21:01 +0000
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Thu, 27 Jan 2022 17:27:17 +0000
 Subject: [PATCH] Purpur API Changes
 
-Purpur Commit: 414cf7d035cfecf8c15a0e8643ff80e5603f58b1
+Purpur Commit: 6eef61bf99be4bae724bac2c89a43edff57ae98f
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 554f5e35954f35aecaf454853a0a2999f15d19bc..9203d7aa155319abfab0a65d4ef6804cb7e48769 100644
@@ -2278,6 +2278,25 @@ index ceb3e2c5117740ce284e893fff8e41a002d78649..fab5c3c90f55c113cae2bca2354a94e8
  public interface ThrowableProjectile extends Projectile {
  
      /**
+diff --git a/src/main/java/org/bukkit/entity/Villager.java b/src/main/java/org/bukkit/entity/Villager.java
+index 02ecc87a90bbd81e7d21279fac701ba41c74fd9f..5b1d1403c5cf57a797e80ecd5442499ba666f8d3 100644
+--- a/src/main/java/org/bukkit/entity/Villager.java
++++ b/src/main/java/org/bukkit/entity/Villager.java
+@@ -285,4 +285,14 @@ public interface Villager extends AbstractVillager {
+      */
+     public void clearReputations();
+     // Paper end
++
++    // Purpur start
++
++    /**
++     * Check if villager is currently lobotomized
++     *
++     * @return True if lobotomized
++     */
++    boolean isLobotomized();
++    // Purpur end
+ }
 diff --git a/src/main/java/org/bukkit/entity/Wither.java b/src/main/java/org/bukkit/entity/Wither.java
 index 8c95cd6933f11076de936854f379e6fc8600b525..86907637ed0a53d4967606dbba3ea20320b528f8 100644
 --- a/src/main/java/org/bukkit/entity/Wither.java
@@ -2935,10 +2954,10 @@ index e1f4930f4d7cf657a75282b4c3480cabaaee2765..00b3b1d65f80d8e17ca1a40b704ece57
          private TopicNameComparator() {}
  
 diff --git a/src/main/java/org/bukkit/inventory/AnvilInventory.java b/src/main/java/org/bukkit/inventory/AnvilInventory.java
-index b95e563b5454306a9188ae3295309ee86a756477..435026e533ea9edb8c1800d35c63543ca023a904 100644
+index c60be4fd24c7fdf65251dd6169e5e1ac3b588d95..569deccd2f1cf21da9b5906433ac493c1f2081be 100644
 --- a/src/main/java/org/bukkit/inventory/AnvilInventory.java
 +++ b/src/main/java/org/bukkit/inventory/AnvilInventory.java
-@@ -109,4 +109,14 @@ public interface AnvilInventory extends Inventory {
+@@ -123,4 +123,14 @@ public interface AnvilInventory extends Inventory {
          setItem(2, result);
      }
      // Paper end
