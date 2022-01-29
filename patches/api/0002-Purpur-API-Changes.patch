@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 27 Jan 2022 17:27:17 +0000
+Date: Sat, 29 Jan 2022 15:50:09 +0000
 Subject: [PATCH] Purpur API Changes
 
-Purpur Commit: 6eef61bf99be4bae724bac2c89a43edff57ae98f
+Purpur Commit: b2849bcd9c6076c964d3c584f0623cc23f1b764a
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 554f5e35954f35aecaf454853a0a2999f15d19bc..9203d7aa155319abfab0a65d4ef6804cb7e48769 100644

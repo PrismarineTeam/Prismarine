@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 27 Jan 2022 17:27:16 +0000
+Date: Sat, 29 Jan 2022 15:50:09 +0000
 Subject: [PATCH] Purpur Server Changes
 
-Purpur Commit: 6eef61bf99be4bae724bac2c89a43edff57ae98f
+Purpur Commit: b2849bcd9c6076c964d3c584f0623cc23f1b764a
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 0f194168f5fca8eb768bca3ce953f28097fed578..1bdcca4d1a25f4292ab9421d44fa3018af263341 100644
@@ -17416,7 +17416,7 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7cdcc3e266a37c8e430de1dd508b29a58422c6a3
+index 0000000000000000000000000000000000000000..ea2b2a2c7aa311826cd78d80dd139b9aa0b83849
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -0,0 +1,488 @@
@@ -17893,7 +17893,7 @@ index 0000000000000000000000000000000000000000..7cdcc3e266a37c8e430de1dd508b29a5
 +                        return;
 +                    }
 +                    food.getEffects().removeIf(pair -> pair.getFirst().getEffect() == effect);
-+                    float chance = (float) effects.getDouble(effectKey + ".chance", (double) effectDefaults.get("chance"));
++                    float chance = (float) effects.getDouble(effectKey + ".chance", ((Float) effectDefaults.get("chance")).doubleValue());
 +                    int duration = effects.getInt(effectKey + ".duration", (int) effectDefaults.get("duration"));
 +                    if (chance <= 0.0F || duration < 0) {
 +                        return;
