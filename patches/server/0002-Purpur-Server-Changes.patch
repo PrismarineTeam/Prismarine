@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 30 Jan 2022 01:53:54 +0000
+Date: Sun, 30 Jan 2022 08:41:33 +0000
 Subject: [PATCH] Purpur Server Changes
 
-Purpur Commit: 3a6f25b1a53fd7326952c0cb83b44ced7816f6dc
+Purpur Commit: cef3815b3d642a172c5092d47106091a1aabb5f7
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 0f194168f5fca8eb768bca3ce953f28097fed578..1bdcca4d1a25f4292ab9421d44fa3018af263341 100644
@@ -6540,6 +6540,18 @@ index 56e9c0d15249562ebea8eb451d4bcc9ff5e7d594..1b14e6fed7669651741344a18c81da62
  
                  this.turtle.setSpeed(Mth.lerp(0.125F, this.turtle.getSpeed(), f1));
                  this.turtle.setDeltaMovement(this.turtle.getDeltaMovement().add(0.0D, (double) this.turtle.getSpeed() * d1 * 0.1D, 0.0D));
+diff --git a/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java b/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java
+index c3bba52a5c7a618fd9731045268fa9ccebff14f4..f9252c03c356ea8bfb6a7592ea7c6bf43f11a534 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java
++++ b/src/main/java/net/minecraft/world/entity/animal/WaterAnimal.java
+@@ -83,6 +83,6 @@ public abstract class WaterAnimal extends PathfinderMob {
+         i = world.getMinecraftWorld().paperConfig.waterAnimalMaxSpawnHeight != null ? world.getMinecraftWorld().paperConfig.waterAnimalMaxSpawnHeight : i;
+         j = world.getMinecraftWorld().paperConfig.waterAnimalMinSpawnHeight != null ? world.getMinecraftWorld().paperConfig.waterAnimalMinSpawnHeight : j;
+         // Paper end
+-        return world.getFluidState(pos.below()).is(FluidTags.WATER) && world.getBlockState(pos.above()).is(Blocks.WATER) && pos.getY() >= j && pos.getY() <= i;
++        return world.getFluidState(pos.below()).is(FluidTags.WATER) && world.getBlockState(pos.above()).is(Blocks.WATER) && ((reason == MobSpawnType.SPAWNER && world.getMinecraftWorld().purpurConfig.spawnerFixMC238526) || (pos.getY() >= j && pos.getY() <= i)); // Purpur
+     }
+ }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 index 4797c34872f8fa2fba00172357c4f45e45cfe27f..f3ff018e61eb89d581744d5dfae00f4d5bcd4949 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
@@ -10522,7 +10534,7 @@ index 3a3f3358c4bbd16bdcadc56c6a865ecfb942ad54..51c548cd84bd83624fbff3f853a8050d
      protected void defineSynchedData() {
          super.defineSynchedData();
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index 9c440625ce89686b2c250e6aaa62ed83b7015412..b7c8ddc09a1761260919dbd3e49389104ce994e7 100644
+index 9c440625ce89686b2c250e6aaa62ed83b7015412..d8a21a982b4ebb133f6208fded11ba5f588d9f1f 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
 @@ -67,18 +67,96 @@ public class Slime extends Mob implements Enemy {
@@ -10634,7 +10646,15 @@ index 9c440625ce89686b2c250e6aaa62ed83b7015412..b7c8ddc09a1761260919dbd3e4938910
          if (heal) {
              this.setHealth(this.getMaxHealth());
          }
-@@ -368,11 +446,12 @@ public class Slime extends Mob implements Enemy {
+@@ -327,6 +405,7 @@ public class Slime extends Mob implements Enemy {
+ 
+     public static boolean checkSlimeSpawnRules(EntityType<Slime> type, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+         if (world.getDifficulty() != Difficulty.PEACEFUL) {
++            if (spawnReason == MobSpawnType.SPAWNER && world.getMinecraftWorld().purpurConfig.spawnerFixMC50647) return true; // Purpur
+             // Paper start - Replace rules for Height in Swamp Biome
+             final double maxHeightSwamp = world.getMinecraftWorld().paperConfig.slimeMaxSpawnHeightInSwamp;
+             final double minHeightSwamp = world.getMinecraftWorld().paperConfig.slimeMinSpawnHeightInSwamp;
+@@ -368,11 +447,12 @@ public class Slime extends Mob implements Enemy {
      }
  
      @Override
@@ -10648,7 +10668,7 @@ index 9c440625ce89686b2c250e6aaa62ed83b7015412..b7c8ddc09a1761260919dbd3e4938910
      }
  
      @Nullable
-@@ -405,7 +484,7 @@ public class Slime extends Mob implements Enemy {
+@@ -405,7 +485,7 @@ public class Slime extends Mob implements Enemy {
          return super.getDimensions(pose).scale(0.255F * (float) this.getSize());
      }
  
@@ -10657,7 +10677,7 @@ index 9c440625ce89686b2c250e6aaa62ed83b7015412..b7c8ddc09a1761260919dbd3e4938910
  
          private float yRot;
          private int jumpDelay;
-@@ -424,21 +503,33 @@ public class Slime extends Mob implements Enemy {
+@@ -424,21 +504,33 @@ public class Slime extends Mob implements Enemy {
          }
  
          public void setWantedMovement(double speed) {
@@ -10694,7 +10714,7 @@ index 9c440625ce89686b2c250e6aaa62ed83b7015412..b7c8ddc09a1761260919dbd3e4938910
                      if (this.jumpDelay-- <= 0) {
                          this.jumpDelay = this.slime.getJumpDelay();
                          if (this.isAggressive) {
-@@ -455,7 +546,7 @@ public class Slime extends Mob implements Enemy {
+@@ -455,7 +547,7 @@ public class Slime extends Mob implements Enemy {
                          this.mob.setSpeed(0.0F);
                      }
                  } else {
@@ -17929,10 +17949,10 @@ index 0000000000000000000000000000000000000000..eadb28372be56d424b3fec362433a3e8
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ff2be61f790f39aae37794e7d7e4115073bfd716
+index 0000000000000000000000000000000000000000..c3b8387896fe5a7618e363b3fad1cdd3a06c55b5
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3053 @@
+@@ -0,0 +1,3057 @@
 +package org.purpurmc.purpur;
 +
 +import net.minecraft.core.Registry;
@@ -18896,8 +18916,12 @@ index 0000000000000000000000000000000000000000..ff2be61f790f39aae37794e7d7e41150
 +    }
 +
 +    public boolean spawnerDeactivateByRedstone = false;
++    public boolean spawnerFixMC50647 = false;
++    public boolean spawnerFixMC238526 = false;
 +    private void spawnerSettings() {
 +        spawnerDeactivateByRedstone = getBoolean("blocks.spawner.deactivate-by-redstone", spawnerDeactivateByRedstone);
++        spawnerFixMC50647 = getBoolean("blocks.spawner.fix-mc-50647", spawnerFixMC50647);
++        spawnerFixMC238526 = getBoolean("blocks.spawner.fix-mc-238526", spawnerFixMC238526);
 +    }
 +
 +    public int spongeAbsorptionArea = 64;
