@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 29 Jan 2022 15:58:43 +0000
+Date: Sun, 30 Jan 2022 01:53:54 +0000
 Subject: [PATCH] Purpur Server Changes
 
-Purpur Commit: b2849bcd9c6076c964d3c584f0623cc23f1b764a
+Purpur Commit: 3a6f25b1a53fd7326952c0cb83b44ced7816f6dc
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 0f194168f5fca8eb768bca3ce953f28097fed578..1bdcca4d1a25f4292ab9421d44fa3018af263341 100644
@@ -778,6 +778,23 @@ index 514cc0e8805045549eacde6c280859aa2dc4a91d..4c8eeb66a9368597330957dd3c148634
                              itemStack.enchant(enchantment, level);
                              ++i;
                          } else if (targets.size() == 1) {
+diff --git a/src/main/java/net/minecraft/server/commands/FillCommand.java b/src/main/java/net/minecraft/server/commands/FillCommand.java
+index 5db7c22f3b2db4fc19af007ee45ad0e11fa5e9cb..9e80bcf237e8e968caa692ec386f7cc94023aba1 100644
+--- a/src/main/java/net/minecraft/server/commands/FillCommand.java
++++ b/src/main/java/net/minecraft/server/commands/FillCommand.java
+@@ -58,8 +58,10 @@ public class FillCommand {
+ 
+     private static int fillBlocks(CommandSourceStack source, BoundingBox range, BlockInput block, FillCommand.Mode mode, @Nullable Predicate<BlockInWorld> filter) throws CommandSyntaxException {
+         int i = range.getXSpan() * range.getYSpan() * range.getZSpan();
+-        if (i > 32768) {
+-            throw ERROR_AREA_TOO_LARGE.create(32768, i);
++        // Purpur start
++        if (i > org.purpurmc.purpur.PurpurConfig.commandFillMaxArea) {
++            throw ERROR_AREA_TOO_LARGE.create(org.purpurmc.purpur.PurpurConfig.commandFillMaxArea, i);
++            // Purpur end
+         } else {
+             List<BlockPos> list = Lists.newArrayList();
+             ServerLevel serverLevel = source.getLevel();
 diff --git a/src/main/java/net/minecraft/server/commands/GameModeCommand.java b/src/main/java/net/minecraft/server/commands/GameModeCommand.java
 index 79f6089b934124c3309c6bee2e48b36b937252e0..d1e6ac2dcff3f058dc147c8ed4d16d273b7c40a9 100644
 --- a/src/main/java/net/minecraft/server/commands/GameModeCommand.java
@@ -17416,10 +17433,10 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ea2b2a2c7aa311826cd78d80dd139b9aa0b83849
+index 0000000000000000000000000000000000000000..eadb28372be56d424b3fec362433a3e8b751d9e2
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,488 @@
+@@ -0,0 +1,490 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -17691,6 +17708,7 @@ index 0000000000000000000000000000000000000000..ea2b2a2c7aa311826cd78d80dd139b9a
 +    public static float commandCompassBarProgressPercent = 1.0F;
 +    public static int commandCompassBarTickInterval = 5;
 +    public static boolean commandGamemodeRequiresPermission = false;
++    public static int commandFillMaxArea = 32768;
 +    public static boolean hideHiddenPlayersFromEntitySelector = false;
 +    public static String uptimeFormat = "<days><hours><minutes><seconds>";
 +    public static String uptimeDay = "%02d day, ";
@@ -17720,6 +17738,7 @@ index 0000000000000000000000000000000000000000..ea2b2a2c7aa311826cd78d80dd139b9a
 +        commandCompassBarTickInterval = getInt("settings.command.compass.tick-interval", commandCompassBarTickInterval);
 +
 +        commandGamemodeRequiresPermission = getBoolean("settings.command.gamemode.requires-specific-permission", commandGamemodeRequiresPermission);
++        commandFillMaxArea = getInt("settings.command.fill.max-area", commandFillMaxArea);
 +        hideHiddenPlayersFromEntitySelector = getBoolean("settings.command.hide-hidden-players-from-entity-selector", hideHiddenPlayersFromEntitySelector);
 +        uptimeFormat = getString("settings.command.uptime.format", uptimeFormat);
 +        uptimeDay = getString("settings.command.uptime.day", uptimeDay);
