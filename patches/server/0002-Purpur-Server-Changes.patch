@@ -46,10 +46,10 @@ index 0f194168f5fca8eb768bca3ce953f28097fed578..1bdcca4d1a25f4292ab9421d44fa3018
      standardInput = System.`in`
      workingDir = rootProject.layout.projectDirectory
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 26bde1c22363ddbdbe4127d14bae54e17b0d7393..0f4b41fd7037f380f759a93f9ef70b4860816ad1 100644
+index d3bb2a3ead944a89330bbced6812df73d174d061..aa906caf51d81b26a5565a92ea24fb79c920a73a 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -225,10 +225,14 @@ public class TimingsExport extends Thread {
+@@ -229,10 +229,14 @@ public class TimingsExport extends Thread {
          // Information on the users Config
  
          parent.put("config", createObject(
@@ -67,7 +67,7 @@ index 26bde1c22363ddbdbe4127d14bae54e17b0d7393..0f4b41fd7037f380f759a93f9ef70b48
          ));
  
          new TimingsExport(listeners, parent, history).start();
-@@ -269,6 +273,19 @@ public class TimingsExport extends Thread {
+@@ -273,6 +277,19 @@ public class TimingsExport extends Thread {
          return timingsCost;
      }
  
@@ -112,7 +112,7 @@ index f2fe6ea3719ff8b2913b7a3a939d7a5b75cb8b28..ed13b7b3f9d2a0b644d17d1019d42cbc
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 8d205a841c2d77dd57e1f2d189686f6f7426896c..1b0335ff450cd37f0746f3f7bdedf420a8d887cc 100644
+index 499d5d5a35323571571911969cc9bac3b90cec99..107809776c08a005fa3f0346e42c9d92e753c411 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -243,6 +243,12 @@ public class PaperConfig {
@@ -568,10 +568,10 @@ index c861505325efecfb53069ce44c14bc20fb851c59..405884a6ab983eed56554eeba6d6acd4
                      return true;
                  }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 81dde0efc1a06420c0791520b9e40b24dd1f0318..bf053d317981a49b33f5d1f80feabbc40650a15f 100644
+index 7b8f9cf06833860d0fc02399822e6aea214883ed..03701c154e7bfad5314f3ed0e51866a292a08175 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -503,11 +503,20 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -532,11 +532,20 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      private static final int MAX_PER_TICK = com.destroystokyo.paper.PaperConfig.maxJoinsPerTick; // Paper
      private static int joinAttemptsThisTick; // Paper
      private static int currTick; // Paper
@@ -606,7 +606,7 @@ index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fe
      public ClientboundSetTimePacket(long time, long timeOfDay, boolean doDaylightCycle) {
          this.gameTime = time % 192000; // Paper - fix guardian beam
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 5025b0b47e980b3f28dea9535c7dbc273753bb96..4502e3c1382041ed3896233d2b04e7feb78944eb 100644
+index 3ec35d19f63832ee465a54518219184a14bb08e2..961db18299d6316069c9550dcd01399577939c82 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -294,6 +294,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -710,7 +710,7 @@ index 5025b0b47e980b3f28dea9535c7dbc273753bb96..4502e3c1382041ed3896233d2b04e7fe
                      this.waitUntilNextTick();
                      this.profiler.pop();
                      this.endMetricsRecordingTick();
-@@ -1572,7 +1597,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1576,7 +1601,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              long worldTime = world.getGameTime();
              final ClientboundSetTimePacket worldPacket = new ClientboundSetTimePacket(worldTime, dayTime, doDaylight);
              for (Player entityhuman : world.players()) {
@@ -719,7 +719,7 @@ index 5025b0b47e980b3f28dea9535c7dbc273753bb96..4502e3c1382041ed3896233d2b04e7fe
                      continue;
                  }
                  ServerPlayer entityplayer = (ServerPlayer) entityhuman;
-@@ -1589,6 +1614,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1593,6 +1618,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              ServerLevel worldserver = (ServerLevel) iterator.next();
              worldserver.hasPhysicsEvent =  org.bukkit.event.block.BlockPhysicsEvent.getHandlerList().getRegisteredListeners().length > 0; // Paper
              worldserver.hasEntityMoveEvent =  io.papermc.paper.event.entity.EntityMoveEvent.getHandlerList().getRegisteredListeners().length > 0; // Paper
@@ -727,7 +727,7 @@ index 5025b0b47e980b3f28dea9535c7dbc273753bb96..4502e3c1382041ed3896233d2b04e7fe
              net.minecraft.world.level.block.entity.HopperBlockEntity.skipHopperEvents = worldserver.paperConfig.disableHopperMoveEvents || org.bukkit.event.inventory.InventoryMoveItemEvent.getHandlerList().getRegisteredListeners().length == 0; // Paper
  
              this.profiler.push(() -> {
-@@ -1711,7 +1737,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1715,7 +1741,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -918,10 +918,10 @@ index f944e6beafc7876ed9c6923a22f58d82967b77cb..e1c7b7a659e56fa5b3a1f52cb2ccc99b
      public final boolean spawnNpcs = this.get("spawn-npcs", true);
      public final boolean pvp = this.get("pvp", true);
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index cf6ec0cf43d680f3cc1b8b7006d582c41cb072bc..8819f8f72f0414d64066ba2be0e08b0646faccf6 100644
+index ca07ba8eb33f1b4f10aba9f4b4c7c1078f80f61b..ef34a8a6cf82202f79a918b6f117ecbd6249f044 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -1748,7 +1748,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -1741,7 +1741,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          return this.anyPlayerCloseEnoughForSpawning(this.getUpdatingChunkIfPresent(chunkcoordintpair.toLong()), chunkcoordintpair, reducedRange);
      }
  
@@ -930,7 +930,7 @@ index cf6ec0cf43d680f3cc1b8b7006d582c41cb072bc..8819f8f72f0414d64066ba2be0e08b06
          // this function is so hot that removing the map lookup call can have an order of magnitude impact on its performance
          // tested and confirmed via System.nanoTime()
          com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInRange = reducedRange ? playerchunk.playersInMobSpawnRange : playerchunk.playersInChunkTickRange;
-@@ -2230,7 +2230,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -2190,7 +2190,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
  
      public class TrackedEntity {
  
@@ -953,7 +953,7 @@ index e80176708db486190dd527e3ade5fc690ceb39f7..e3d7a80f8c4b68933875ef90006b7977
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09beaf389b 100644
+index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b78266bb46878 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -83,6 +83,7 @@ import net.minecraft.world.entity.MobCategory;
@@ -1043,7 +1043,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
              // CraftBukkit start
              j = this.levelData.getDayTime() + 24000L;
              TimeSkipEvent event = new TimeSkipEvent(this.getWorld(), TimeSkipEvent.SkipReason.NIGHT_SKIP, (j - j % 24000L) - this.getDayTime());
-@@ -709,6 +735,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -712,6 +738,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setGameTime(i);
              this.serverLevelData.getScheduledEvents().tick(this.server, i);
              if (this.levelData.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
@@ -1057,7 +1057,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
                  this.setDayTime(this.levelData.getDayTime() + 1L);
              }
  
-@@ -717,8 +750,22 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -720,8 +753,22 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      public void setDayTime(long timeOfDay) {
          this.serverLevelData.setDayTime(timeOfDay);
@@ -1080,7 +1080,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
      public void tickCustomSpawners(boolean spawnMonsters, boolean spawnAnimals) {
          Iterator iterator = this.customSpawners.iterator();
  
-@@ -764,9 +811,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -767,9 +814,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
                  boolean flag1 = this.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) difficultydamagescaler.getEffectiveDifficulty() * paperConfig.skeleHorseSpawnChance && !this.getBlockState(blockposition.below()).is(Blocks.LIGHTNING_ROD); // Paper
  
                  if (flag1) {
@@ -1099,7 +1099,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
                      entityhorseskeleton.setAge(0);
                      entityhorseskeleton.setPos((double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ());
                      this.addFreshEntity(entityhorseskeleton, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING); // CraftBukkit
-@@ -862,7 +915,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -865,7 +918,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return villageplacetype == PoiType.LIGHTNING_ROD;
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getLevel().getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -1108,7 +1108,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -911,11 +964,29 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -914,11 +967,29 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
@@ -1139,7 +1139,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
                      chatmessage = new TranslatableComponent("sleep.players_sleeping", new Object[]{this.sleepStatus.amountSleeping(), this.sleepStatus.sleepersNeeded(i)});
                  }
  
-@@ -1054,6 +1125,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1057,6 +1128,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      private void resetWeatherCycle() {
          // CraftBukkit start
@@ -1147,7 +1147,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
          this.serverLevelData.setRaining(false, org.bukkit.event.weather.WeatherChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
          // Not that everyone ever manages to get the whole server to sleep at the same time....
-@@ -1061,6 +1133,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1064,6 +1136,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setRainTime(0);
          }
          // CraftBukkit end
@@ -1155,7 +1155,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
          this.serverLevelData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2491,7 +2564,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2494,7 +2567,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Spigot Start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start
@@ -1165,7 +1165,7 @@ index 8cdacd7ed9a26e6757eeff89545fde21ddb80fd2..70bbd689e60901b76e9c1d2aab470e09
                  }
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 7b23535a680d2a8534dcb8dd87770f66fb982c13..a9885f92e0a3494b27376a7a01edbd0e22a31708 100644
+index 470dbed47830e2f580c090bc762a7be5cf389ce5..61b0b0a847042557d7b9cd20f0ad51f0ff1751b8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -254,6 +254,10 @@ public class ServerPlayer extends Player {
@@ -1517,7 +1517,7 @@ index 3125af569ec2bb1cd613a9dd96c3a181d723006d..c5c7fd414953fb432549e46918fe7e32
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a95d7cb89c 100644
+index cb35f2f1f2f4d568bc59ce5c08ab3b908533264c..28c75287e8b104bc3673420e902e2efe5eb7c9b2 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -228,6 +228,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -1593,7 +1593,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                      // Skip the first time we do this
                      if (true) { // Spigot - don't skip any move events
                          Location oldTo = to.clone();
-@@ -1118,10 +1156,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1124,10 +1162,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              int maxBookPageSize = com.destroystokyo.paper.PaperConfig.maxBookPageSize;
              double multiplier = Math.max(0.3D, Math.min(1D, com.destroystokyo.paper.PaperConfig.maxBookTotalSizeMultiplier));
              long byteAllowed = maxBookPageSize;
@@ -1606,7 +1606,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                      server.scheduleOnMain(() -> this.disconnect("Book too large!", org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION)); // Paper - kick event cause
                      return;
                  }
-@@ -1145,6 +1185,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1151,6 +1191,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              if (byteTotal > byteAllowed) {
                  ServerGamePacketListenerImpl.LOGGER.warn(this.player.getScoreboardName() + " tried to send too large of a book. Book Size: " + byteTotal + " - Allowed:  "+ byteAllowed + " - Pages: " + pageList.size());
@@ -1614,7 +1614,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                  server.scheduleOnMain(() -> this.disconnect("Book too large!", org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION)); // Paper - kick event cause
                  return;
              }
-@@ -1196,13 +1237,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1202,13 +1243,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  itemstack1.setTag(nbttagcompound.copy());
              }
  
@@ -1634,7 +1634,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
  
              this.updateBookPages(pages, (s) -> {
                  return Component.Serializer.toJson(new TextComponent(s));
-@@ -1214,10 +1258,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1220,10 +1264,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      private void updateBookPages(List<TextFilter.FilteredText> list, UnaryOperator<String> unaryoperator, ItemStack itemstack, int slot, ItemStack handItem) { // CraftBukkit
          ListTag nbttaglist = new ListTag();
  
@@ -1650,7 +1650,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
  
              Objects.requireNonNull(nbttaglist);
              stream.forEach(nbttaglist::add);
-@@ -1227,10 +1274,10 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1233,10 +1280,10 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              for (int j = list.size(); i < j; ++i) {
                  TextFilter.FilteredText itextfilter_a = (TextFilter.FilteredText) list.get(i);
@@ -1663,7 +1663,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
  
                  if (!s.equals(s1)) {
                      nbttagcompound.putString(String.valueOf(i), (String) unaryoperator.apply(s1));
-@@ -1246,6 +1293,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1252,6 +1299,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
          this.player.getInventory().setItem(slot, CraftEventFactory.handleEditBookEvent(player, slot, handItem, itemstack)); // CraftBukkit // Paper - Don't ignore result (see other callsite for handleEditBookEvent)
      }
  
@@ -1680,7 +1680,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
      @Override
      public void handleEntityTagQuery(ServerboundEntityTagQuery packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -1440,7 +1497,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1446,7 +1503,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
                              if (!this.player.isChangingDimension() && d11 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.gameMode.isCreative() && this.player.gameMode.getGameModeForPlayer() != GameType.SPECTATOR) { // Spigot
                                  flag1 = true; // Paper - diff on change, this should be moved wrongly
@@ -1689,7 +1689,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                              }
  
                              this.player.absMoveTo(d0, d1, d2, f, f1);
-@@ -1490,6 +1547,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1496,6 +1553,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                                      this.lastYaw = to.getYaw();
                                      this.lastPitch = to.getPitch();
  
@@ -1698,7 +1698,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                                      // Skip the first time we do this
                                      if (from.getX() != Double.MAX_VALUE) {
                                          Location oldTo = to.clone();
-@@ -1530,6 +1589,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1536,6 +1595,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                                      this.player.resetFallDistance();
                                  }
  
@@ -1712,7 +1712,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                                  this.player.checkMovementStatistics(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
                                  this.lastGoodX = this.player.getX();
                                  this.lastGoodY = this.player.getY();
-@@ -1563,6 +1629,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1569,6 +1635,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      }
      // Paper end - optimise out extra getCubes
  
@@ -1725,7 +1725,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
      private boolean isPlayerCollidingWithAnythingNew(LevelReader world, AABB box) {
          Iterable<VoxelShape> iterable = world.getCollisions(this.player, this.player.getBoundingBox().deflate(9.999999747378752E-6D));
          VoxelShape voxelshape = Shapes.create(box.deflate(9.999999747378752E-6D));
-@@ -1888,6 +1960,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1894,6 +1966,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              boolean cancelled;
              if (movingobjectposition == null || movingobjectposition.getType() != HitResult.Type.BLOCK) {
@@ -1733,7 +1733,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                  org.bukkit.event.player.PlayerInteractEvent event = CraftEventFactory.callPlayerInteractEvent(this.player, Action.RIGHT_CLICK_AIR, itemstack, enumhand);
                  cancelled = event.useItemInHand() == Event.Result.DENY;
              } else {
-@@ -1940,12 +2013,21 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1946,12 +2019,21 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      @Override
      public void handleResourcePackResponse(ServerboundResourcePackPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
@@ -1755,7 +1755,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
          player.getBukkitEntity().setResourcePackStatus(packStatus);
          this.cserver.getPluginManager().callEvent(new PlayerResourcePackStatusEvent(this.getCraftPlayer(), packStatus)); // CraftBukkit
          // Paper end
-@@ -2456,6 +2538,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2462,6 +2544,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
                          ServerGamePacketListenerImpl.this.cserver.getPluginManager().callEvent(event);
  
@@ -1764,7 +1764,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
                          // Entity in bucket - SPIGOT-4048 and SPIGOT-6859
                          if ((entity instanceof Bucketable && entity instanceof LivingEntity && origItem != null && origItem.asItem() == Items.WATER_BUCKET) && (event.isCancelled() || ServerGamePacketListenerImpl.this.player.getInventory().getSelected() == null || ServerGamePacketListenerImpl.this.player.getInventory().getSelected().getItem() != origItem)) {
                              ServerGamePacketListenerImpl.this.send(new ClientboundAddMobPacket((LivingEntity) entity));
-@@ -3076,11 +3160,15 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3082,11 +3166,15 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  }
                  // Paper end
  
@@ -1785,7 +1785,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
              }
              SignChangeEvent event = new SignChangeEvent((org.bukkit.craftbukkit.block.CraftBlock) player.getWorld().getBlockAt(x, y, z), this.player.getBukkitEntity(), lines);
              this.cserver.getPluginManager().callEvent(event);
-@@ -3102,6 +3190,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3108,6 +3196,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      @Override
      public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
@@ -1802,7 +1802,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
          //PlayerConnectionUtils.ensureMainThread(packetplayinkeepalive, this, this.player.getWorldServer()); // CraftBukkit // Paper - This shouldn't be on the main thread
          if (this.keepAlivePending && packet.getId() == this.keepAliveChallenge) {
              int i = (int) (Util.getMillis() - this.keepAliveTime);
-@@ -3145,6 +3243,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3151,6 +3249,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      private static final ResourceLocation CUSTOM_UNREGISTER = new ResourceLocation("unregister");
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
@@ -1810,7 +1810,7 @@ index 2cb12547c778fe439536e2e2aa479d4a25ab4a6e..858d590a68c9ed5a7162252bc36a76a9
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3169,6 +3268,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3175,6 +3274,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
@@ -1859,7 +1859,7 @@ index 4fa79d37ff4e70c61672cce7c55257c46232c026..df43d0a0f3d1e34baabae150cbf01a00
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index cd08f9b16c065be8f0eacaeba51d3e72d332daf9..d23d178ff161b8f3d645b7776295bdb0808d12a5 100644
+index 7a0c1ba40156df69bbbf36d96bed0950130d2351..62cc439c024bd73650bfd5532bf12dcc03cf7831 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -486,6 +486,7 @@ public abstract class PlayerList {
@@ -7654,7 +7654,7 @@ index d8c4f36ae0e65c6d0398fac80c93b78646bdf6a4..06c6addfa2a8dab1ad52a3588e9aeba5
  
                  this.onDestroyedBy(source);
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index e17a3afa41fd628d2c4a3637ae19418e258a99b8..c28c2a2a888ddd6c0e6e4feed952fe99bc2a0cfe 100644
+index b74cdaecb361851b0662002c8ec8f196ab1275bd..f6c0344b32002306f37336617379cc475c0e38e5 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 @@ -102,6 +102,7 @@ public class EnderDragon extends Mob implements Enemy {
@@ -7839,7 +7839,7 @@ index e17a3afa41fd628d2c4a3637ae19418e258a99b8..c28c2a2a888ddd6c0e6e4feed952fe99
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-index ede0ced64d74d71547d1b8bb6853c5aacc1b486a..ce09b56dc4681eef7fb7f6563125889da016fc07 100644
+index c0ee9915c971482e765d91b4f85d65c3a1f526eb..87d072bbf95ec15cbd5664f5138f7c8473764d68 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 @@ -85,6 +85,8 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
@@ -14248,7 +14248,7 @@ index 1f4b72a0aca200b2e0860449c718e6e607d2fc47..e1dd8932594780b07db13f68efa117eb
                  if (range < 0.0D || d < range * range) {
                      return true;
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 90aa1d75b5c23e5ee27ceae9f6ef90de913a6601..dfcb5d9fe165852bffe2a676f134ba060ea1aa71 100644
+index a98d115b7dccd836fa2c0f50333730db6f388aff..4451967905f4e564cd354226c79bf6df4364833a 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -169,6 +169,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -14319,7 +14319,7 @@ index 90aa1d75b5c23e5ee27ceae9f6ef90de913a6601..dfcb5d9fe165852bffe2a676f134ba06
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
          this.ticksPerAnimalSpawns = this.getCraftServer().getTicksPerAnimalSpawns(); // CraftBukkit
-@@ -1595,4 +1642,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1600,4 +1647,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public boolean shouldDelayFallingBlockEntityRemoval(Entity.RemovalReason reason) {
          return false;
      }
@@ -16002,7 +16002,7 @@ index 744d91546d1a810f60a43c15ed74b4158f341a4a..354538daefa603f6df5a139b6bff87db
                      }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-index 05c46f3b3bce5225b819d86e6e06729a5093e092..b2dd2a211bdd1441eae67dd6bd93691964e07620 100644
+index eac017fc521bfd1391e75db8628f42b28329d681..e82776b32b5fed044134ff19504cfa814067150d 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 @@ -69,7 +69,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
@@ -16938,7 +16938,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 8cac6f49b23841414fbcc7f3a158a7342b382496..5abecfec78f2249555b327db214384d3400275b5 100644
+index e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3..8d7fcd128b497a6366a0710a1176e63b41a25cdc 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -431,10 +431,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -16958,7 +16958,7 @@ index 8cac6f49b23841414fbcc7f3a158a7342b382496..5abecfec78f2249555b327db214384d3
          for (ServerPlayer player : (List<ServerPlayer>) server.getHandle().players) {
              if (player.getBukkitEntity().canSee(this)) {
                  player.connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME, this.getHandle()));
-@@ -1006,6 +1011,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1030,6 +1035,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
  
          if (entity.isVehicle()) {
@@ -16969,7 +16969,7 @@ index 8cac6f49b23841414fbcc7f3a158a7342b382496..5abecfec78f2249555b327db214384d3
              return false;
          }
  
-@@ -1596,7 +1605,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1620,7 +1629,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -16984,7 +16984,7 @@ index 8cac6f49b23841414fbcc7f3a158a7342b382496..5abecfec78f2249555b327db214384d3
      }
  
      @Override
-@@ -1960,6 +1975,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1984,6 +1999,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.getHandle().getAbilities().walkingSpeed * 2f;
      }
  
@@ -17013,7 +17013,7 @@ index 8cac6f49b23841414fbcc7f3a158a7342b382496..5abecfec78f2249555b327db214384d3
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2661,4 +2698,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2685,4 +2722,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end

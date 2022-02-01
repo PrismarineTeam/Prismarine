@@ -5,22 +5,22 @@ Subject: [PATCH] Use normal context, which is already lazy
 
 
 diff --git a/src/main/java/io/papermc/paper/util/CollisionUtil.java b/src/main/java/io/papermc/paper/util/CollisionUtil.java
-index 58629451977c89db2fa895bde946135784a0d8bc..1909c3b485becf19bf3cacc2987877b0a4a33caf 100644
+index 3ce132ea28ff9fc6f7afd68bcd0fc1ae843a3cd5..13992d1cbc141954150f8bfc21381a77955a31cc 100644
 --- a/src/main/java/io/papermc/paper/util/CollisionUtil.java
 +++ b/src/main/java/io/papermc/paper/util/CollisionUtil.java
-@@ -519,7 +519,11 @@ public final class CollisionUtil {
-                             if ((edgeCount != 1 || blockData.shapeExceedsCube()) && (edgeCount != 2 || blockData.getBlock() == Blocks.MOVING_PISTON)) {
-                                 mutablePos.set(blockX, blockY, blockZ);
-                                 if (collisionShape == null) {
--                                    collisionShape = new LazyEntityCollisionContext(entity);
+@@ -644,8 +644,12 @@ public final class CollisionUtil {
+                                 if ((edgeCount != 1 || blockData.shapeExceedsCube()) && (edgeCount != 2 || blockData.getBlock() == Blocks.MOVING_PISTON)) {
+                                     mutablePos.set(blockX, blockY, blockZ);
+                                     if (collisionShape == null) {
 +                                    if (net.prismarineteam.prismarine.PrismarineConfig.useNormalCollisionContext) {
 +                                        collisionShape = CollisionContext.of(entity);
 +                                    } else {
-+                                        collisionShape = new LazyEntityCollisionContext(entity);
+                                         collisionShape = new LazyEntityCollisionContext(entity);
+                                     }
 +                                    }
-                                 }
-                                 VoxelShape voxelshape2 = blockData.getCollisionShape(getter, mutablePos, collisionShape);
-                                 if (voxelshape2 != Shapes.empty()) {
+                                     VoxelShape voxelshape2 = blockData.getCollisionShape(getter, mutablePos, collisionShape);
+                                     if (voxelshape2 != Shapes.empty()) {
+                                         VoxelShape voxelshape3 = voxelshape2.move((double)blockX, (double)blockY, (double)blockZ);
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index 29f18e26258c2d6b23bc8e601167da7dbe13f34b..4dad7fc69bd213fcd20c24b032e1fa70cc6d0366 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
