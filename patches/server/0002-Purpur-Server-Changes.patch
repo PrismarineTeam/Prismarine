@@ -2710,7 +2710,7 @@ index 645c1dc9bd09b135a641759c76ce8d957b9bd488..7b0afbfaaddf19997d5282473e8c1c60
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index a6681690e1e556440320c492bf2a8e617008baa1..78c999b20a312b576095a745d89229cbc110c3cd 100644
+index 11c20b409640889c0c36764e58f2d24e29374f34..25012f3f9f784fa025f5b7f5eafc66f0dd73d206 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -43,6 +43,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16950,10 +16950,10 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3..8d7fcd128b497a6366a0710a1176e63b41a25cdc 100644
+index a5ccc1b3c7cef43527556c33d846cc9904e3ab8b..1bfc4c8156ebcab30a7009f5daaf5ebcd59aed45 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -431,10 +431,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -433,10 +433,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public void setPlayerListName(String name) {
@@ -16970,7 +16970,7 @@ index e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3..8d7fcd128b497a6366a0710a1176e63b
          for (ServerPlayer player : (List<ServerPlayer>) server.getHandle().players) {
              if (player.getBukkitEntity().canSee(this)) {
                  player.connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME, this.getHandle()));
-@@ -1030,6 +1035,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1032,6 +1037,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
  
          if (entity.isVehicle()) {
@@ -16981,7 +16981,7 @@ index e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3..8d7fcd128b497a6366a0710a1176e63b
              return false;
          }
  
-@@ -1620,7 +1629,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1626,7 +1635,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -16996,7 +16996,7 @@ index e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3..8d7fcd128b497a6366a0710a1176e63b
      }
  
      @Override
-@@ -1984,6 +1999,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1990,6 +2005,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.getHandle().getAbilities().walkingSpeed * 2f;
      }
  
@@ -17025,7 +17025,7 @@ index e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3..8d7fcd128b497a6366a0710a1176e63b
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2685,4 +2722,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2691,4 +2728,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end

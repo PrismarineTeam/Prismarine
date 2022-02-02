@@ -6336,7 +6336,7 @@ index 4247dcb003626535dbb997f48ad9f61380bd17e9..a98d115b7dccd836fa2c0f50333730db
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index c6bddf5e08376f1f254a27fc38647587eefcb00a..4ae9717b9ee77b3c28282e6560fc42081b6188ae 100644
+index 29b27f31080204c9cf33c9eeb8f48bf7928e0371..656b7e07ce6294f4b56b99b928cf37da41ea167d 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -431,12 +431,12 @@ public final class NaturalSpawner {
@@ -7260,10 +7260,10 @@ index 5fb475b3ccaa98861e2c817b37cd1740e5bfed8d..c0e1d53f41bf8ed0de8cca901ea75483
      // Spigot end
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 8cac6f49b23841414fbcc7f3a158a7342b382496..e204ddd09c8fa8d1e6f7cfcc064e6561ed19bdb3 100644
+index 06b4135d3a684ef31c969b23d2349a6fef8a905f..a5ccc1b3c7cef43527556c33d846cc9904e3ab8b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -524,35 +524,59 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -526,35 +526,59 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
      }
  
