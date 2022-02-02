@@ -1516,6 +1516,18 @@ index 3125af569ec2bb1cd613a9dd96c3a181d723006d..c5c7fd414953fb432549e46918fe7e32
 +    }
 +    // Purpur end
  }
+diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+index 9b25d36fe5230e287d81b99be31b9eddd8e76002..298a19f7b2bd5733823afe1d0ac0b1effe37dcc6 100644
+--- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
++++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+@@ -286,6 +286,7 @@ public class WorldGenRegion implements WorldGenLevel {
+ 
+             return true;
+         } else {
++            if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSetBlockFarChunk)
+             Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
+             return false;
+         }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 index cb35f2f1f2f4d568bc59ce5c08ab3b908533264c..28c75287e8b104bc3673420e902e2efe5eb7c9b2 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
@@ -17453,10 +17465,10 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..eadb28372be56d424b3fec362433a3e8b751d9e2
+index 0000000000000000000000000000000000000000..a001a09ea5fd0934eba81a5ee23b0c51c569d2fb
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,490 @@
+@@ -0,0 +1,492 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -17869,10 +17881,12 @@ index 0000000000000000000000000000000000000000..eadb28372be56d424b3fec362433a3e8
 +    public static boolean loggerSuppressInitLegacyMaterialError = false;
 +    public static boolean loggerSuppressIgnoredAdvancementWarnings = false;
 +    public static boolean loggerSuppressUnrecognizedRecipeErrors = false;
++    public static boolean loggerSuppressSetBlockFarChunk = false;
 +    private static void loggerSettings() {
 +        loggerSuppressInitLegacyMaterialError = getBoolean("settings.logger.suppress-init-legacy-material-errors", loggerSuppressInitLegacyMaterialError);
 +        loggerSuppressIgnoredAdvancementWarnings = getBoolean("settings.logger.suppress-ignored-advancement-warnings", loggerSuppressIgnoredAdvancementWarnings);
 +        loggerSuppressUnrecognizedRecipeErrors = getBoolean("settings.logger.suppress-unrecognized-recipe-errors", loggerSuppressUnrecognizedRecipeErrors);
++        loggerSuppressSetBlockFarChunk = getBoolean("settings.logger.suppress-setblock-in-far-chunk-errors", loggerSuppressSetBlockFarChunk);
 +    }
 +
 +    public static boolean tpsCatchup = true;
