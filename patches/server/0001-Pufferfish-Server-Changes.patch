@@ -650,10 +650,10 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +}
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..284f9eb542b686833ec54d4de6493d7dac5aa6b8
+index 0000000000000000000000000000000000000000..5cde20e6901aec3b7cf05f2332c361bf10c11e7c
 --- /dev/null
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-@@ -0,0 +1,266 @@
+@@ -0,0 +1,275 @@
 +package gg.pufferfish.pufferfish;
 +
 +import java.io.File;
@@ -820,6 +820,15 @@ index 0000000000000000000000000000000000000000..284f9eb542b686833ec54d4de6493d7d
 +				"Servers that anticipate being a target for duping may want to consider",
 +				"disabling this option.",
 +				"This can be overridden per-player with the permission pufferfish.usebooks");
++	}
++
++	public static boolean enableSuffocationOptimization;
++	private static void suffocationOptimization() {
++		enableSuffocationOptimization = getBoolean("enable-suffocation-optimization", true,
++				"Optimizes the suffocation check by selectively skipping",
++				"the check in a way that still appears vanilla. This should",
++				"be left enabled on most servers, but is provided as a",
++				"configuration option if the vanilla deviation is undesirable.");
 +	}
 +	
 +	public static boolean enableAsyncMobSpawning;
@@ -5475,7 +5484,7 @@ index 419a7e9614af2328ed401fc954196056243a984c..9bc568a2b0df13f55ee8670839b9e6a6
      public final String id;
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 25338fe4cfdc683ca4c01487e166a1649c6f640b..a6681690e1e556440320c492bf2a8e617008baa1 100644
+index 25338fe4cfdc683ca4c01487e166a1649c6f640b..11c20b409640889c0c36764e58f2d24e29374f34 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -139,7 +139,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -5492,7 +5501,7 @@ index 25338fe4cfdc683ca4c01487e166a1649c6f640b..a6681690e1e556440320c492bf2a8e61
              boolean flag = this instanceof net.minecraft.world.entity.player.Player;
 -
 -            if (this.isInWall()) {
-+            if (tickCount % 20 == 0 && couldPossiblyBeHurt(1.0F) && this.isInWall()) { // Pufferfish - optimize suffocation
++            if ((!gg.pufferfish.pufferfish.PufferfishConfig.enableSuffocationOptimization || (tickCount % hurtDuration == 0 && couldPossiblyBeHurt(1.0F))) && this.isInWall()) { // Pufferfish - optimize suffocation
                  this.hurt(DamageSource.IN_WALL, 1.0F);
              } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
                  double d0 = this.level.getWorldBorder().getDistanceToBorder(this) + this.level.getWorldBorder().getDamageSafeZone();
