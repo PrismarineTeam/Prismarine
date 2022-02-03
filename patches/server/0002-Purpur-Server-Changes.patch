@@ -1517,14 +1517,14 @@ index 3125af569ec2bb1cd613a9dd96c3a181d723006d..c5c7fd414953fb432549e46918fe7e32
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-index 9b25d36fe5230e287d81b99be31b9eddd8e76002..298a19f7b2bd5733823afe1d0ac0b1effe37dcc6 100644
+index 9b25d36fe5230e287d81b99be31b9eddd8e76002..2eecd5021d40ec3a9ebf56ce2c7abb976c93de12 100644
 --- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 +++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 @@ -286,6 +286,7 @@ public class WorldGenRegion implements WorldGenLevel {
  
              return true;
          } else {
-+            if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSetBlockFarChunk)
++            if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSetBlockFarChunk) // Purpur
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              return false;
          }
@@ -1871,7 +1871,7 @@ index 4fa79d37ff4e70c61672cce7c55257c46232c026..df43d0a0f3d1e34baabae150cbf01a00
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 7a0c1ba40156df69bbbf36d96bed0950130d2351..62cc439c024bd73650bfd5532bf12dcc03cf7831 100644
+index 7a0c1ba40156df69bbbf36d96bed0950130d2351..58be46b071a32ac8d09274bf599ed921580debf1 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -486,6 +486,7 @@ public abstract class PlayerList {
@@ -1953,7 +1953,35 @@ index 7a0c1ba40156df69bbbf36d96bed0950130d2351..62cc439c024bd73650bfd5532bf12dcc
  
              player.connection.send(new ClientboundEntityEventPacket(player, b0));
          }
-@@ -1377,6 +1383,62 @@ public abstract class PlayerList {
+@@ -1168,6 +1174,27 @@ public abstract class PlayerList {
+         player.getBukkitEntity().recalculatePermissions(); // CraftBukkit
+         this.server.getCommands().sendCommands(player);
+         } // Paper
++
++        // Purpur start
++        if (org.purpurmc.purpur.PurpurConfig.enderChestSixRows && org.purpurmc.purpur.PurpurConfig.enderChestPermissionRows) {
++            org.bukkit.craftbukkit.entity.CraftHumanEntity bukkit = player.getBukkitEntity();
++            if (bukkit.hasPermission("purpur.enderchest.rows.six")) {
++                player.sixRowEnderchestSlotCount = 54;
++            } else if (bukkit.hasPermission("purpur.enderchest.rows.five")) {
++                player.sixRowEnderchestSlotCount = 45;
++            } else if (bukkit.hasPermission("purpur.enderchest.rows.four")) {
++                player.sixRowEnderchestSlotCount = 36;
++            } else if (bukkit.hasPermission("purpur.enderchest.rows.three")) {
++                player.sixRowEnderchestSlotCount = 27;
++            } else if (bukkit.hasPermission("purpur.enderchest.rows.two")) {
++                player.sixRowEnderchestSlotCount = 18;
++            } else if (bukkit.hasPermission("purpur.enderchest.rows.one")) {
++                player.sixRowEnderchestSlotCount = 9;
++            }
++        } else {
++            player.sixRowEnderchestSlotCount = -1;
++        }
++        //Purpur end
+     }
+ 
+     // Paper start
+@@ -1377,6 +1404,62 @@ public abstract class PlayerList {
      }
      // CraftBukkit end
  
@@ -3535,14 +3563,14 @@ index 469dbdf09e83a1837919008c009d1a350cce4316..b0064d5913f27ab7614d01813f09eb2d
                          } else {
                              DoorBlock blockdoor = (DoorBlock) iblockdata.getBlock();
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java b/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java
-index 385f3df7044e3f03f17c3ec7484b268004a3def9..47f9832bbba6f9c6038aa96022c28bf023977b78 100644
+index 385f3df7044e3f03f17c3ec7484b268004a3def9..90ba6a3abf62e4b272fada96b554ca31f72921ae 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java
 @@ -42,6 +42,7 @@ public class ShowTradesToPlayer extends Behavior<Villager> {
  
      @Override
      public boolean canStillUse(ServerLevel serverLevel, Villager villager, long l) {
-+        if (!villager.level.purpurConfig.villagerDisplayTradeItem) return false;
++        if (!villager.level.purpurConfig.villagerDisplayTradeItem) return false; // Purpur
          return this.checkExtraStartConditions(serverLevel, villager) && this.lookTime > 0 && villager.getBrain().getMemory(MemoryModuleType.INTERACTION_TARGET).isPresent();
      }
  
@@ -9759,7 +9787,7 @@ index 1d66588cfe94d190a34dc376b4b5bff9461a3529..9459255dd06d71dc1728e440e501cb3c
              return false;
          } else if (world.getBrightness(LightLayer.BLOCK, pos) > (world.getLevel().paperConfig.maxBlockLightForMonsterSpawning >= 0 ? world.getLevel().paperConfig.maxBlockLightForMonsterSpawning : 0)) { // Paper - configurable max block light level
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Phantom.java b/src/main/java/net/minecraft/world/entity/monster/Phantom.java
-index 5c35b73c13c3826be9705e05154076810a78d147..32ba17f4098382cc8d8d278378ca00211209b8ae 100644
+index 5c35b73c13c3826be9705e05154076810a78d147..b9bb5be18259a05f6fdde1485591a3b518ccf42b 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Phantom.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Phantom.java
 @@ -49,6 +49,8 @@ public class Phantom extends FlyingMob implements Enemy {
@@ -9972,7 +10000,7 @@ index 5c35b73c13c3826be9705e05154076810a78d147..32ba17f4098382cc8d8d278378ca0021
 +    // private boolean shouldBurnInDay = true; // Purpur - moved to LivingEntity - keep methods for ABI compatibility
 +    // Purpur start
 +    public boolean shouldBurnInDay() {
-+        boolean burnFromDaylight = this.shouldBurnInDay && this.level.purpurConfig.phantomBurnInDaylight && this.isSunBurnTick();
++        boolean burnFromDaylight = this.shouldBurnInDay && this.level.purpurConfig.phantomBurnInDaylight;
 +        boolean burnFromLightSource = this.level.purpurConfig.phantomBurnInLight > 0 && this.level.getMaxLocalRawBrightness(blockPosition()) >= this.level.purpurConfig.phantomBurnInLight;
 +        return burnFromDaylight || burnFromLightSource;
 +    }
@@ -12267,19 +12295,34 @@ index 323eea2bccacfcc85849b5d82c2b30d991e0c0d8..bb5918ff947eb4cc4d0c964b2a8a9166
              if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, world, blockposition2, EntityType.WANDERING_TRADER)) {
                  blockposition1 = blockposition2;
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a37b12fa3 100644
+index d85da02be7f1d494af8f2cc840c49073774f5f9c..56eb9f64b4a32a479905edb9e1d3938daddef3c2 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -180,6 +180,8 @@ public abstract class Player extends LivingEntity {
-     // Paper start
-     public boolean affectsSpawning = true;
-     // Paper end
-+    public boolean flyingFallDamage = false; // Purpur
-+    public boolean canPortalInstant = false; // Purpur
+@@ -113,6 +113,7 @@ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.scores.PlayerTeam;
+ import net.minecraft.world.scores.Scoreboard;
+ // CraftBukkit start
++import org.bukkit.attribute.Attribute;
+ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+ import org.bukkit.craftbukkit.event.CraftEventFactory;
+ import org.bukkit.craftbukkit.util.CraftVector;
+@@ -177,9 +178,12 @@ public abstract class Player extends LivingEntity {
+     private final ItemCooldowns cooldowns;
+     @Nullable
+     public FishingHook fishing;
+-    // Paper start
+-    public boolean affectsSpawning = true;
+-    // Paper end
++    public boolean affectsSpawning = true; // Paper
++    // Purpur start
++    public boolean flyingFallDamage = false;
++    public boolean canPortalInstant = false;
++    public int sixRowEnderchestSlotCount = -1;
++    // Purpur end
  
      // CraftBukkit start
      public boolean fauxSleeping;
-@@ -191,6 +193,28 @@ public abstract class Player extends LivingEntity {
+@@ -191,6 +195,28 @@ public abstract class Player extends LivingEntity {
      }
      // CraftBukkit end
  
@@ -12308,7 +12351,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
      public Player(Level world, BlockPos pos, float yaw, GameProfile profile) {
          super(EntityType.PLAYER, world);
          this.lastItemInMainHand = ItemStack.EMPTY;
-@@ -234,6 +258,12 @@ public abstract class Player extends LivingEntity {
+@@ -234,6 +260,12 @@ public abstract class Player extends LivingEntity {
  
      @Override
      public void tick() {
@@ -12321,7 +12364,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
          this.noPhysics = this.isSpectator();
          if (this.isSpectator()) {
              this.onGround = false;
-@@ -337,6 +367,16 @@ public abstract class Player extends LivingEntity {
+@@ -337,6 +369,16 @@ public abstract class Player extends LivingEntity {
              this.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 200, 0, false, false, true), org.bukkit.event.entity.EntityPotionEffectEvent.Cause.TURTLE_HELMET); // CraftBukkit
          }
  
@@ -12338,7 +12381,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
      }
  
      protected ItemCooldowns createItemCooldowns() {
-@@ -423,7 +463,7 @@ public abstract class Player extends LivingEntity {
+@@ -423,7 +465,7 @@ public abstract class Player extends LivingEntity {
  
      @Override
      public int getPortalWaitTime() {
@@ -12347,7 +12390,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
      }
  
      @Override
-@@ -580,7 +620,7 @@ public abstract class Player extends LivingEntity {
+@@ -580,7 +622,7 @@ public abstract class Player extends LivingEntity {
              for (int i = 0; i < list.size(); ++i) {
                  Entity entity = (Entity) list.get(i);
  
@@ -12356,7 +12399,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
                      list1.add(entity);
                  } else if (!entity.isRemoved()) {
                      this.touch(entity);
-@@ -1224,7 +1264,7 @@ public abstract class Player extends LivingEntity {
+@@ -1224,7 +1266,7 @@ public abstract class Player extends LivingEntity {
                      flag2 = flag2 && !level.paperConfig.disablePlayerCrits; // Paper
                      flag2 = flag2 && !this.isSprinting();
                      if (flag2) {
@@ -12365,7 +12408,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
                      }
  
                      f += f1;
-@@ -1698,7 +1738,7 @@ public abstract class Player extends LivingEntity {
+@@ -1698,7 +1740,7 @@ public abstract class Player extends LivingEntity {
  
      @Override
      public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
@@ -12374,7 +12417,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
              return false;
          } else {
              if (fallDistance >= 2.0F) {
-@@ -1888,9 +1928,18 @@ public abstract class Player extends LivingEntity {
+@@ -1888,9 +1930,18 @@ public abstract class Player extends LivingEntity {
      @Override
      protected int getExperienceReward(Player player) {
          if (!this.level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && !this.isSpectator()) {
@@ -12396,7 +12439,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
          } else {
              return 0;
          }
-@@ -1965,6 +2014,11 @@ public abstract class Player extends LivingEntity {
+@@ -1965,6 +2016,11 @@ public abstract class Player extends LivingEntity {
          return this.inventory.armor;
      }
  
@@ -12408,7 +12451,7 @@ index d85da02be7f1d494af8f2cc840c49073774f5f9c..e014859b52f31f29923dc4cf7cc0bf4a
      public boolean setEntityOnShoulder(CompoundTag entityNbt) {
          if (!this.isPassenger() && this.onGround && !this.isInWater() && !this.isInPowderSnow) {
              if (this.getShoulderEntityLeft().isEmpty()) {
-@@ -2257,7 +2311,7 @@ public abstract class Player extends LivingEntity {
+@@ -2257,7 +2313,7 @@ public abstract class Player extends LivingEntity {
      public ItemStack eat(Level world, ItemStack stack) {
          this.getFoodData().eat(stack.getItem(), stack);
          this.awardStat(Stats.ITEM_USED.get(stack.getItem()));
@@ -13382,10 +13425,10 @@ index 111da6398bb561e58571e47743088ce80416234d..0a2c776b9b1da7d0d4481dd527e0068b
  
                  @Override
 diff --git a/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java b/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java
-index 59acb1aab21e2dce0f046942f124b50ac1cb8d0f..6675f9fa1767389a1166302e27427f5e54330552 100644
+index 59acb1aab21e2dce0f046942f124b50ac1cb8d0f..5058b30994fe38d8db2336267121476eaf4f1ff6 100644
 --- a/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java
 +++ b/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java
-@@ -29,11 +29,34 @@ public class PlayerEnderChestContainer extends SimpleContainer {
+@@ -29,11 +29,18 @@ public class PlayerEnderChestContainer extends SimpleContainer {
      }
  
      public PlayerEnderChestContainer(Player owner) {
@@ -13398,23 +13441,7 @@ index 59acb1aab21e2dce0f046942f124b50ac1cb8d0f..6675f9fa1767389a1166302e27427f5e
 +    // Purpur start
 +    @Override
 +    public int getContainerSize() {
-+        if (org.purpurmc.purpur.PurpurConfig.enderChestSixRows && org.purpurmc.purpur.PurpurConfig.enderChestPermissionRows && owner != null && owner.getGameProfile() != null) {
-+            org.bukkit.craftbukkit.entity.CraftHumanEntity bukkit = owner.getBukkitEntity();
-+            if (bukkit.hasPermission("purpur.enderchest.rows.six")) {
-+                return 54;
-+            } else if (bukkit.hasPermission("purpur.enderchest.rows.five")) {
-+                return 45;
-+            } else if (bukkit.hasPermission("purpur.enderchest.rows.four")) {
-+                return 36;
-+            } else if (bukkit.hasPermission("purpur.enderchest.rows.three")) {
-+                return 27;
-+            } else if (bukkit.hasPermission("purpur.enderchest.rows.two")) {
-+                return 18;
-+            } else if (bukkit.hasPermission("purpur.enderchest.rows.one")) {
-+                return 9;
-+            }
-+        }
-+        return super.getContainerSize();
++        return owner.sixRowEnderchestSlotCount < 0 ? super.getContainerSize() : owner.sixRowEnderchestSlotCount;
 +    }
 +    // Purpur end
 +
