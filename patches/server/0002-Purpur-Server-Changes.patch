@@ -2710,7 +2710,7 @@ index 645c1dc9bd09b135a641759c76ce8d957b9bd488..7b0afbfaaddf19997d5282473e8c1c60
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 11c20b409640889c0c36764e58f2d24e29374f34..25012f3f9f784fa025f5b7f5eafc66f0dd73d206 100644
+index 3236a1dc51c394b784d3f42b78e76bf7c2f69c37..260b5a61890ceac0e36aa08b70f0a0fa430cabb0 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -43,6 +43,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16488,7 +16488,7 @@ index 88bc0807e8bf66a65422f85f1112336334eb3de2..d0e822b329085b9d0a42276c3cacd6cb
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 868e148e6a8cd85ef89b79ad539dd5f3bce0a7c7..307bedbd84c2740a30145647d6dbc69c3480930b 100644
+index 4bfae47b8163d2737ba796827be8557166db84d1..437ba82a6ba122a346b795d96cd77120f685002e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -254,7 +254,7 @@ import javax.annotation.Nullable; // Paper
@@ -16544,7 +16544,7 @@ index 868e148e6a8cd85ef89b79ad539dd5f3bce0a7c7..307bedbd84c2740a30145647d6dbc69c
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2621,6 +2637,7 @@ public final class CraftServer implements Server {
+@@ -2628,6 +2644,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16552,7 +16552,7 @@ index 868e148e6a8cd85ef89b79ad539dd5f3bce0a7c7..307bedbd84c2740a30145647d6dbc69c
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2667,6 +2684,18 @@ public final class CraftServer implements Server {
+@@ -2674,6 +2691,18 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
@@ -16571,7 +16571,7 @@ index 868e148e6a8cd85ef89b79ad539dd5f3bce0a7c7..307bedbd84c2740a30145647d6dbc69c
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2821,4 +2850,16 @@ public final class CraftServer implements Server {
+@@ -2828,4 +2857,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
@@ -16644,10 +16644,10 @@ index dbff1eda25b02b16ec123515338d470489f3b3c4..e8323ebe0fe877e880bacc5397404839
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/VanillaCommandWrapper.java b/src/main/java/org/bukkit/craftbukkit/command/VanillaCommandWrapper.java
-index 4aa1dc543950b5de64345b3403a6d0bc41c521df..1c19a64da230268ceb9124bb7e1a141d78ac3393 100644
+index 4525fb3bc9b137bce3b59310a8aecca96d6ad5ba..75aeceb76b15a4c9cc7cffc35d15d76509c5620a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/VanillaCommandWrapper.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/VanillaCommandWrapper.java
-@@ -89,6 +89,7 @@ public final class VanillaCommandWrapper extends BukkitCommand {
+@@ -94,6 +94,7 @@ public final class VanillaCommandWrapper extends BukkitCommand {
      }
  
      public static String getPermission(CommandNode<CommandSourceStack> vanillaCommand) {

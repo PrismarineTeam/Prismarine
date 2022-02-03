@@ -489,7 +489,7 @@ index df05153397b42930cd53d37b30824c7e5f008f7e..ebf70fea04a9d37aa5f2ad8e7d6cef73
      FULL_MOON(0L),
      WANING_GIBBOUS(1L),
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b161b4f2d9 100644
+index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a22203c9ceb41 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -413,7 +413,7 @@ public final class Bukkit {
@@ -510,7 +510,7 @@ index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b1
      public static int broadcast(@NotNull String message, @NotNull String permission) {
          return server.broadcast(message, permission);
      }
-@@ -1421,7 +1421,7 @@ public final class Bukkit {
+@@ -1435,7 +1435,7 @@ public final class Bukkit {
       *
       * @see InventoryType#isCreatable()
       */
@@ -519,7 +519,7 @@ index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b1
      @NotNull
      public static Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title) {
          return server.createInventory(owner, type, title);
-@@ -1471,7 +1471,7 @@ public final class Bukkit {
+@@ -1485,7 +1485,7 @@ public final class Bukkit {
       * @throws IllegalArgumentException if the size is not a multiple of 9
       * @deprecated in favour of {@link #createInventory(InventoryHolder, InventoryType, net.kyori.adventure.text.Component)}
       */
@@ -528,7 +528,7 @@ index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b1
      @NotNull
      public static Inventory createInventory(@Nullable InventoryHolder owner, int size, @NotNull String title) throws IllegalArgumentException {
          return server.createInventory(owner, size, title);
-@@ -1498,7 +1498,7 @@ public final class Bukkit {
+@@ -1512,7 +1512,7 @@ public final class Bukkit {
       * @deprecated in favour of {@link #createMerchant(net.kyori.adventure.text.Component)}
       */
      @NotNull
@@ -537,7 +537,7 @@ index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b1
      public static Merchant createMerchant(@Nullable String title) {
          return server.createMerchant(title);
      }
-@@ -1596,7 +1596,7 @@ public final class Bukkit {
+@@ -1610,7 +1610,7 @@ public final class Bukkit {
       * @deprecated in favour of {@link #motd()}
       */
      @NotNull
@@ -546,7 +546,7 @@ index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b1
      public static String getMotd() {
          return server.getMotd();
      }
-@@ -1618,7 +1618,7 @@ public final class Bukkit {
+@@ -1632,7 +1632,7 @@ public final class Bukkit {
       * @deprecated in favour of {@link #shutdownMessage()}
       */
      @Nullable
@@ -555,7 +555,7 @@ index 53c4e5ca208ee17c7c244e416c537c7b63edf194..91c1d04b77929438bb5c79d8829e14b1
      public static String getShutdownMessage() {
          return server.getShutdownMessage();
      }
-@@ -2181,4 +2181,43 @@ public final class Bukkit {
+@@ -2195,4 +2195,43 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -892,7 +892,7 @@ index 3afd5f5c0208a4ee93b5dbfc2aab2b9d2e8a7544..8ea59406ddb2293af66719a893e6f13d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f92d4d974a 100644
+index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc5f84e8d4 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -325,7 +325,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
@@ -913,7 +913,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      public int broadcast(@NotNull String message, @NotNull String permission);
      // Paper start
      /**
-@@ -1190,7 +1190,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1202,7 +1202,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       *
       * @see InventoryType#isCreatable()
       */
@@ -922,7 +922,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      @NotNull
      Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title);
  
-@@ -1234,7 +1234,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1246,7 +1246,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @throws IllegalArgumentException if the size is not a multiple of 9
       * @deprecated in favour of {@link #createInventory(InventoryHolder, int, net.kyori.adventure.text.Component)}
       */
@@ -931,7 +931,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      @NotNull
      Inventory createInventory(@Nullable InventoryHolder owner, int size, @NotNull String title) throws IllegalArgumentException;
  
-@@ -1257,7 +1257,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1269,7 +1269,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @deprecated in favour of {@link #createMerchant(net.kyori.adventure.text.Component)}
       */
      @NotNull
@@ -940,7 +940,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      Merchant createMerchant(@Nullable String title);
  
      /**
-@@ -1337,7 +1337,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1349,7 +1349,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @deprecated in favour of {@link #motd()}
       */
      @NotNull
@@ -949,7 +949,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      String getMotd();
  
      // Paper start
-@@ -1355,7 +1355,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1367,7 +1367,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @deprecated in favour of {@link #shutdownMessage()}
       */
      @Nullable
@@ -958,7 +958,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      String getShutdownMessage();
  
      /**
-@@ -1751,6 +1751,9 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1763,6 +1763,9 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
      UnsafeValues getUnsafe();
  
      // Spigot start
@@ -968,7 +968,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
      public class Spigot {
  
          @NotNull
-@@ -1778,6 +1781,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1790,6 +1793,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
@@ -987,7 +987,7 @@ index e48af3822e9f118399c3a1c9358c56efae12e0da..2c4dfcf909c0214d25232a14635b96f9
          /**
           * Sends the component to the player
           *
-@@ -1888,4 +1903,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1900,4 +1915,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
      @NotNull
      io.papermc.paper.datapack.DatapackManager getDatapackManager();
      // Paper end
