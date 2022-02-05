@@ -5292,7 +5292,7 @@ index 7437f01ca8f416e2c9150250e324af4725a4efb6..7ac51dbfce18a2bc52faa7a915abeccc
      int LARGE_MAX_STACK_SIZE = 64;
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 4584dcec835f97e94dcf12788b66703075dafe45..e0c91bc518168441fffa32f4c611a74800a8d2e2 100644
+index 6067ac851708fd6d30d3d295acf0e66a2ea16f13..6fbc4dcc1f150b036656be5420ad803c3b26e9f3 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -227,7 +227,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
@@ -5484,7 +5484,7 @@ index 419a7e9614af2328ed401fc954196056243a984c..9bc568a2b0df13f55ee8670839b9e6a6
      public final String id;
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 25338fe4cfdc683ca4c01487e166a1649c6f640b..11c20b409640889c0c36764e58f2d24e29374f34 100644
+index 25338fe4cfdc683ca4c01487e166a1649c6f640b..3236a1dc51c394b784d3f42b78e76bf7c2f69c37 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -139,7 +139,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -7180,7 +7180,7 @@ index e387de8adc480eac27b58b6f3f0d331ffc4382f1..6dba9d6bb7b81fe176cc0fabbb60b554
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 54e8f0f367645f3aa8af5b1cb69c39c0cec9381f..868e148e6a8cd85ef89b79ad539dd5f3bce0a7c7 100644
+index 1a1f5c8f9a049d65043f12374fe694068f7d08cf..4bfae47b8163d2737ba796827be8557166db84d1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -254,7 +254,7 @@ import javax.annotation.Nullable; // Paper
@@ -7205,10 +7205,10 @@ index 54e8f0f367645f3aa8af5b1cb69c39c0cec9381f..868e148e6a8cd85ef89b79ad539dd5f3
      }
      // Paper end
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 5fb475b3ccaa98861e2c817b37cd1740e5bfed8d..c0e1d53f41bf8ed0de8cca901ea75483bbada3bc 100644
+index f2deb875992ad2d5c9dbcfe9ee7071a773fed684..98183580ce6ded6b8b19230a85118676d82b03d2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2119,37 +2119,43 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2154,37 +2154,43 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      // Spigot start
      @Override
      public int getViewDistance() {
