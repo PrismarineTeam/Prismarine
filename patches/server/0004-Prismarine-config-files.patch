@@ -25,10 +25,10 @@ index 799955b4439ba7739dc011183aad25b39b526566..bace0733a4c9984b02c9a2ac918d6529
          io.papermc.paper.util.ObfHelper.INSTANCE.getClass(); // load mappings for stacktrace deobf and etc.
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 4451967905f4e564cd354226c79bf6df4364833a..c524cffc9809397f1269ea12b6125bcc942f6aa2 100644
+index 395dde0dd9dda63df441ebf78767ceaa90eafc23..b0d7589f3a2be9edb26993eaf21d53474095567c 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -171,6 +171,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -168,6 +168,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
  
@@ -37,7 +37,7 @@ index 4451967905f4e564cd354226c79bf6df4364833a..c524cffc9809397f1269ea12b6125bcc
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -366,6 +368,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -363,6 +365,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), this.spigotConfig); // Paper
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
@@ -359,10 +359,10 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 96e154ce987d045ecc3385cd79e726e9aaef0718..56ba9ee5b06e569e994c65f2049f7fe62693cf2f 100644
+index 08b7e7c9bef113a6ed7670c7461162e4ee1abb13..42782204de303d7b5e3275805b60d16aaed8911b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -953,6 +953,7 @@ public final class CraftServer implements Server {
+@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -370,7 +370,7 @@ index 96e154ce987d045ecc3385cd79e726e9aaef0718..56ba9ee5b06e569e994c65f2049f7fe6
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -994,6 +995,7 @@ public final class CraftServer implements Server {
+@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
              world.spigotConfig.init(); // Spigot
              world.paperConfig.init(); // Paper
              world.purpurConfig.init(); // Purpur
@@ -378,7 +378,7 @@ index 96e154ce987d045ecc3385cd79e726e9aaef0718..56ba9ee5b06e569e994c65f2049f7fe6
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2703,6 +2705,13 @@ public final class CraftServer implements Server {
+@@ -2709,6 +2711,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -393,7 +393,7 @@ index 96e154ce987d045ecc3385cd79e726e9aaef0718..56ba9ee5b06e569e994c65f2049f7fe6
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 6f14a1b26e92d0170538ed60c6a651a031e7209e..fd9ebbcedeb3c4f373fdec98f0330c96fc2bf5dc 100644
+index 6766e022f94d5604fcaf39a6ff5e70d82d764726..37066de44259f743a326c9eca41c185d8f131a17 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -161,6 +161,14 @@ public class Main {

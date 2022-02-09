@@ -3,10 +3,9 @@ From: AlphaKR93 <alphakr93@outlook.com>
 Date: Sun, 30 Jan 2022 08:41:33 +0000
 Subject: [PATCH] Purpur API Changes
 
-Purpur Commit: cef3815b3d642a172c5092d47106091a1aabb5f7
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 554f5e35954f35aecaf454853a0a2999f15d19bc..9203d7aa155319abfab0a65d4ef6804cb7e48769 100644
+index 4c2f0b881b052825019b0039be5e5981e0c5f9db..8821803dbdbe5d09c433e60fbec39e402e6e6391 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -41,6 +41,7 @@ dependencies {
@@ -489,10 +488,10 @@ index df05153397b42930cd53d37b30824c7e5f008f7e..ebf70fea04a9d37aa5f2ad8e7d6cef73
      FULL_MOON(0L),
      WANING_GIBBOUS(1L),
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a22203c9ceb41 100644
+index 795f8c0aa3929f6de4b4ea4b139bef8b672ab97a..528e0efb7ff16a1810a6de65ad7ce13223c135f4 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -413,7 +413,7 @@ public final class Bukkit {
+@@ -415,7 +415,7 @@ public final class Bukkit {
       * @return the number of players
       * @deprecated in favour of {@link Server#broadcast(net.kyori.adventure.text.Component)}
       */
@@ -501,7 +500,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      public static int broadcastMessage(@NotNull String message) {
          return server.broadcastMessage(message);
      }
-@@ -1142,7 +1142,7 @@ public final class Bukkit {
+@@ -1182,7 +1182,7 @@ public final class Bukkit {
       * @return number of message recipients
       * @deprecated in favour of {@link #broadcast(net.kyori.adventure.text.Component, String)}
       */
@@ -510,7 +509,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      public static int broadcast(@NotNull String message, @NotNull String permission) {
          return server.broadcast(message, permission);
      }
-@@ -1435,7 +1435,7 @@ public final class Bukkit {
+@@ -1517,7 +1517,7 @@ public final class Bukkit {
       *
       * @see InventoryType#isCreatable()
       */
@@ -519,7 +518,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      @NotNull
      public static Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title) {
          return server.createInventory(owner, type, title);
-@@ -1485,7 +1485,7 @@ public final class Bukkit {
+@@ -1567,7 +1567,7 @@ public final class Bukkit {
       * @throws IllegalArgumentException if the size is not a multiple of 9
       * @deprecated in favour of {@link #createInventory(InventoryHolder, InventoryType, net.kyori.adventure.text.Component)}
       */
@@ -528,7 +527,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      @NotNull
      public static Inventory createInventory(@Nullable InventoryHolder owner, int size, @NotNull String title) throws IllegalArgumentException {
          return server.createInventory(owner, size, title);
-@@ -1512,7 +1512,7 @@ public final class Bukkit {
+@@ -1594,7 +1594,7 @@ public final class Bukkit {
       * @deprecated in favour of {@link #createMerchant(net.kyori.adventure.text.Component)}
       */
      @NotNull
@@ -537,7 +536,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      public static Merchant createMerchant(@Nullable String title) {
          return server.createMerchant(title);
      }
-@@ -1610,7 +1610,7 @@ public final class Bukkit {
+@@ -1718,7 +1718,7 @@ public final class Bukkit {
       * @deprecated in favour of {@link #motd()}
       */
      @NotNull
@@ -546,7 +545,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      public static String getMotd() {
          return server.getMotd();
      }
-@@ -1632,7 +1632,7 @@ public final class Bukkit {
+@@ -1740,7 +1740,7 @@ public final class Bukkit {
       * @deprecated in favour of {@link #shutdownMessage()}
       */
      @Nullable
@@ -555,7 +554,7 @@ index 3a8326735b62521f8fb95c51a0909d8b7bac83d1..c6d9a42f02cb538ee3739cd01f0a2220
      public static String getShutdownMessage() {
          return server.getShutdownMessage();
      }
-@@ -2195,4 +2195,43 @@ public final class Bukkit {
+@@ -2303,4 +2303,43 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -763,10 +762,10 @@ index 2acdf2a6d3955923c721222b9da784f3278f6418..737c3b053060e38f6776a5a508948cc3
  
      // Paper start
 diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/bukkit/OfflinePlayer.java
-index 3afd5f5c0208a4ee93b5dbfc2aab2b9d2e8a7544..8ea59406ddb2293af66719a893e6f13d8377b81e 100644
+index 23e853bae0e051cd43deb9eb24c54e74a56d8ab0..409aa7c39ce28f275390e11b917040039f31f1d3 100644
 --- a/src/main/java/org/bukkit/OfflinePlayer.java
 +++ b/src/main/java/org/bukkit/OfflinePlayer.java
-@@ -9,6 +9,9 @@ import org.bukkit.permissions.ServerOperator;
+@@ -10,6 +10,9 @@ import org.bukkit.profile.PlayerProfile;
  import org.jetbrains.annotations.NotNull;
  import org.jetbrains.annotations.Nullable;
  
@@ -776,7 +775,7 @@ index 3afd5f5c0208a4ee93b5dbfc2aab2b9d2e8a7544..8ea59406ddb2293af66719a893e6f13d
  public interface OfflinePlayer extends ServerOperator, AnimalTamer, ConfigurationSerializable {
  
      /**
-@@ -434,4 +437,114 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
+@@ -447,4 +450,114 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
       *     for the statistic
       */
      public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int newValue);
@@ -892,10 +891,10 @@ index 3afd5f5c0208a4ee93b5dbfc2aab2b9d2e8a7544..8ea59406ddb2293af66719a893e6f13d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc5f84e8d4 100644
+index a62c27777672eff1c488517b37876e3a44a2d57d..47439c4667e6af38b3cf10da7c99d9bbc9c0700c 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -325,7 +325,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -327,7 +327,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @return the number of players
       * @deprecated use {@link #broadcast(net.kyori.adventure.text.Component)}
       */
@@ -904,7 +903,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      public int broadcastMessage(@NotNull String message);
  
      // Paper start
-@@ -926,7 +926,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -963,7 +963,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @return number of message recipients
       * @deprecated in favour of {@link #broadcast(net.kyori.adventure.text.Component, String)}
       */
@@ -913,7 +912,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      public int broadcast(@NotNull String message, @NotNull String permission);
      // Paper start
      /**
-@@ -1202,7 +1202,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1275,7 +1275,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       *
       * @see InventoryType#isCreatable()
       */
@@ -922,7 +921,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      @NotNull
      Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title);
  
-@@ -1246,7 +1246,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1319,7 +1319,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @throws IllegalArgumentException if the size is not a multiple of 9
       * @deprecated in favour of {@link #createInventory(InventoryHolder, int, net.kyori.adventure.text.Component)}
       */
@@ -931,7 +930,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      @NotNull
      Inventory createInventory(@Nullable InventoryHolder owner, int size, @NotNull String title) throws IllegalArgumentException;
  
-@@ -1269,7 +1269,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1342,7 +1342,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @deprecated in favour of {@link #createMerchant(net.kyori.adventure.text.Component)}
       */
      @NotNull
@@ -940,7 +939,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      Merchant createMerchant(@Nullable String title);
  
      /**
-@@ -1349,7 +1349,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1445,7 +1445,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @deprecated in favour of {@link #motd()}
       */
      @NotNull
@@ -949,7 +948,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      String getMotd();
  
      // Paper start
-@@ -1367,7 +1367,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1463,7 +1463,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @deprecated in favour of {@link #shutdownMessage()}
       */
      @Nullable
@@ -958,7 +957,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      String getShutdownMessage();
  
      /**
-@@ -1763,6 +1763,9 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1859,6 +1859,9 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
      UnsafeValues getUnsafe();
  
      // Spigot start
@@ -968,7 +967,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
      public class Spigot {
  
          @NotNull
-@@ -1790,6 +1793,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1886,6 +1889,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
@@ -987,7 +986,7 @@ index 73446141e8c50b71a17ff6f0c528a62d5c75751b..1a38b9e616c6096d8d64c8abaa7178bc
          /**
           * Sends the component to the player
           *
-@@ -1900,4 +1915,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1996,4 +2011,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
      @NotNull
      io.papermc.paper.datapack.DatapackManager getDatapackManager();
      // Paper end
@@ -1569,20 +1568,21 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..d71afdfa9f7eb66dffd9943d6e51314b
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index c2c45a93887f99466a8ac4275355ac75c7f901c4..f0254799088d5343ef5c0c0a2841a6b51f17d14f 100644
+index 8bc6876c82935988436597161fa0ec94c032174b..c2280647feb2f1e34dec1f5a8f5d48860288eb7c 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -688,6 +688,9 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
-     Pose getPose();
+@@ -696,6 +696,10 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+     SpawnCategory getSpawnCategory();
  
      // Spigot start
++
 +    /**
 +     * Spigot stuffs
 +     */
      public class Spigot extends CommandSender.Spigot {
  
      }
-@@ -748,36 +751,50 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -756,36 +760,50 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
  
      /**
       * Check if entity is in rain
@@ -1633,7 +1633,7 @@ index c2c45a93887f99466a8ac4275355ac75c7f901c4..f0254799088d5343ef5c0c0a2841a6b5
       */
      public boolean isTicking();
  
-@@ -822,4 +839,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -830,4 +848,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInPowderedSnow();
      // Paper end
@@ -1962,10 +1962,10 @@ index 9d065625be5931d970d7f34e1225fae1af960314..de3ebfa362ee4d8147bb68c7c115fdfb
  
          NORMAL(false),
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208dcefce3e 100644
+index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..6e95dbe19df37b67dfb497e0ac37bfeccdcbd38c 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -76,7 +76,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -71,7 +71,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return the friendly name
       * @deprecated in favour of {@link #displayName()}
       */
@@ -1974,7 +1974,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      @NotNull
      public String getDisplayName();
  
-@@ -90,7 +90,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -85,7 +85,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param name The new display name.
       * @deprecated in favour of {@link #displayName(net.kyori.adventure.text.Component)}
       */
@@ -1983,7 +1983,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void setDisplayName(@Nullable String name);
  
      // Paper start
-@@ -131,7 +131,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -126,7 +126,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @deprecated in favour of {@link #playerListName()}
       */
      @NotNull
@@ -1992,7 +1992,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public String getPlayerListName();
  
      /**
-@@ -142,7 +142,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -137,7 +137,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param name new player list name
       * @deprecated in favour of {@link #playerListName(net.kyori.adventure.text.Component)}
       */
@@ -2001,7 +2001,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void setPlayerListName(@Nullable String name);
  
      /**
-@@ -151,7 +151,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -146,7 +146,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return player list header or null
       * @deprecated in favour of {@link #playerListHeader()}
       */
@@ -2010,7 +2010,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      @Nullable
      public String getPlayerListHeader();
  
-@@ -161,7 +161,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -156,7 +156,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return player list header or null
       * @deprecated in favour of {@link #playerListFooter()}
       */
@@ -2019,7 +2019,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      @Nullable
      public String getPlayerListFooter();
  
-@@ -171,7 +171,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -166,7 +166,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param header player list header, null for empty
       * @deprecated in favour of {@link #sendPlayerListHeader(net.kyori.adventure.text.Component)}
       */
@@ -2028,7 +2028,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void setPlayerListHeader(@Nullable String header);
  
      /**
-@@ -180,7 +180,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -175,7 +175,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param footer player list footer, null for empty
       * @deprecated in favour of {@link #sendPlayerListFooter(net.kyori.adventure.text.Component)}
       */
@@ -2037,7 +2037,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void setPlayerListFooter(@Nullable String footer);
  
      /**
-@@ -191,7 +191,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -186,7 +186,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param footer player list footer, null for empty
       * @deprecated in favour of {@link #sendPlayerListHeaderAndFooter(net.kyori.adventure.text.Component, net.kyori.adventure.text.Component)}
       */
@@ -2046,7 +2046,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void setPlayerListHeaderFooter(@Nullable String header, @Nullable String footer);
  
      /**
-@@ -231,7 +231,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -226,7 +226,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param message kick message
       * @deprecated in favour of {@link #kick(net.kyori.adventure.text.Component)}
       */
@@ -2055,7 +2055,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void kickPlayer(@Nullable String message);
  
      // Paper start
-@@ -716,7 +716,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -711,7 +711,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
       * @deprecated in favour of {@link #sendSignChange(org.bukkit.Location, java.util.List)}
       */
@@ -2064,7 +2064,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines) throws IllegalArgumentException;
  
      /**
-@@ -737,7 +737,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -732,7 +732,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
       * @deprecated in favour of {@link #sendSignChange(org.bukkit.Location, java.util.List, org.bukkit.DyeColor)}
       */
@@ -2073,7 +2073,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException;
  
      /**
-@@ -2213,7 +2213,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2208,7 +2208,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @deprecated in favour of {@link #locale()}
       */
      @NotNull
@@ -2082,7 +2082,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public String getLocale();
  
      // Paper start
-@@ -2487,6 +2487,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2482,6 +2482,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      void resetCooldown();
  
      /**
@@ -2091,7 +2091,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
       * @return the client option value of the player
       */
      @NotNull
-@@ -2518,6 +2520,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2513,6 +2515,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      // Paper end
  
      // Spigot start
@@ -2101,7 +2101,7 @@ index ec1e115879c4f6608e8ba764ed87063577ee44b0..c642889243590e76a953182db4e04208
      public class Spigot extends Entity.Spigot {
  
          /**
-@@ -2657,4 +2662,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2652,4 +2657,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end

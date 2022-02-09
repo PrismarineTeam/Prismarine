@@ -5,10 +5,10 @@ Subject: [PATCH] Prismarine config files
 
 
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 1a38b9e616c6096d8d64c8abaa7178bc5f84e8d4..932351f4cb03cc9540947f11d94f6c24e16742f5 100644
+index 47439c4667e6af38b3cf10da7c99d9bbc9c0700c..38561cde38cedf2a035a63d116d594ddc6bc25fd 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1805,6 +1805,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1901,6 +1901,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Purpur end
  
