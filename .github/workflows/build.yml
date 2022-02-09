@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  release:
     strategy:
       matrix:
         jdk: [17]
@@ -33,9 +33,6 @@ jobs:
 
       - name: Apply Patches
         run: ./gradlew applyPatches --stacktrace
-
-      - name: Build
-        run: ./gradlew build --stacktrace
 
       - name: Create Reobf Jar
         run: ./gradlew createReobfPaperclipJar --stacktrace
@@ -68,3 +65,35 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
+          
+  build:
+    strategy:
+      matrix:
+        jdk: [17]
+        #         java: ['temurin', 'zulu', 'microsoft', 'liberica']
+        java: ['microsoft']
+        os: [ubuntu-20.04]
+
+    if: "!contains(github.event.commits[0].message, '[ci-skip]')"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up JDK ${{ matrix.java }} ${{ matrix.jdk }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: ${{ matrix.java }}
+          java-version: ${{ matrix.jdk }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "no-reply@github.com" && git config --global user.name "Github Actions"
+          echo "workflow=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+      - name: Apply Patches
+        run: ./gradlew applyPatches --stacktrace
+
+      - name: Build
+        run: ./gradlew build --stacktrace
