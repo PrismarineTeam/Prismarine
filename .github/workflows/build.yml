@@ -46,22 +46,22 @@ jobs:
           name: Artifacts - ${{ runner.os }}
           path: build/libs
 
-      - name: Release Artifacts
-        if: ${{ runner.os == 'Linux' }}
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          title: "Release #${{ env.workflow }}"
-          automatic_release_tag: release-${{ env.workflow }}
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: build/libs/*.jar
-          prerelease: false
-
       - name: Release Artifacts (Latest)
         if: ${{ runner.os == 'Linux' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: "Release #${{ env.workflow }}"
           automatic_release_tag: latest
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          files: build/libs/*.jar
+          prerelease: false
+
+      - name: Release Artifacts
+        if: ${{ runner.os == 'Linux' }}
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: "Release #${{ env.workflow }}"
+          automatic_release_tag: release-${{ env.workflow }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
