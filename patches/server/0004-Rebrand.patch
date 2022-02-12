@@ -35,7 +35,7 @@ index 5877d46f6db7b23f1913688b905b1a5691deb3cb..2aa19d5cdcc777d6a104f5c9dc9ce42c
              "Git-Commit" to gitHash, // Paper
          )
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index fba5dbdb7bcbb55400ef18342c9b54612972a718..a9b95f09e4a65e75c066eea53b5d5dd5f94c9277 100644
+index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa85f0917cc 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
