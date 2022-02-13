@@ -29,6 +29,11 @@ Prismarine
 
 일반 사용자일 경우, [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.18.1-R0.1-SNAPSHOT-reobf.jar) 최신 Jar 파일을 다운로드 받을 수 있습니다.
 
+## Official Minecraft Server
+```play.pmcsmp.kro.kr``` 은 저희 PrismarineTeam이 공식적으로 운영하고 있는 생존 서버입니다.
+
+[공식 Discord](https://discord.gg/kkqMSEVVxN)에 접속하여 서버가 온라인인지 확인할 수 있습니다.
+
 ## Licenses
 파일의 Header에 따로 명시되지 않은 한, 본 프로젝트는 MIT License에 따라 라이센스가 부여됩니다.
 
