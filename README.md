@@ -1,17 +1,26 @@
 # Prismarine
-Prismarine은 [Purpur](https://github.com/PurpurMC/Purpur)와 [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)의 모든 패치와 [Airplane](https://github.com/TECHNOVE/Airplane)의 일부 패치를 포함한 [Paper](https://github.com/PaperMC/Paper)의 포크 버킷 플랫폼입니다.
-Bukkit, CraftBukkit, Spigot, Paper, Tuinity, Airplane, Purpur, Pufferfish에서 지원하는 모든 플러그인을 완벽하게 지원합니다.
+[Paper](https://github.com/PaperMC/Paper) 기반의 가장 빠른 업스트림을 제공하는 Minecraft Server 플랫폼
+
+[Discord](https://discord.gg/kkqMSEVVxN) - [Naver Cafe](https://cafe.naver.com/prismarine)
+
+*우측 Sponsor를 통해 이 프로젝트/레포지토리를 지원하실 수 있습니다!*
 
 ## Features
-- 누락된 Airplane, Purpur 패치 복구
+- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur), [Airplane](https://github.com/TECHNOVE/Airplane)의 모든 패치 포함
+- 버킷중에서 가장 빠른 업스트림
+- 누락 패치 복구
+- 업스트림 버킷 Pull Request 먼저 사용 가능
 
-## Todos
-- [ ] 한글 패치 추가
+## Downloads
+고급 사용자일 경우, 본 레포지토리의 우측 [Releases](https://github.com/PrismarineTeam/Prismarine/releases) 에서 최신 Jar 파일을 다운로드 받을 수 있습니다.
 
-## [Download](https://github.com/re-logical/Prismarine/releases)
-일반 사용자일 경우, 가장 위 릴리스의 Paperclip-reobf 파일을 다운로드 받으면 됩니다.
+일반 사용자일 경우, [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.18.1-R0.1-SNAPSHOT-reobf.jar) 최신 Jar 파일을 다운로드 받을 수 있습니다.
 
-## Support
-[Discord](https://discord.gg/kkqMSEVVxN)
+## Licenses
+파일의 Header에 따로 명시되지 않은 한, 본 프로젝트는 MIT License에 따라 라이센스가 부여됩니다.
 
-우측 Sponsor로 저희 팀을 지원하실 수 있습니다.
+[PaperMC/Paper](https://github.com/PaperMC/Paper), [TECHNOVE/Airplane](https://github.com/TECHNOVE/Airplane), [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)는 GNU General Public License v3.0에 따라 라이센스가 부여됩니다.
+
+[PaperMC/paperweight](https://github.com/PaperMC/paperweight)은 GNU General Public License v2.1에 따라 라이센스가 부여됩니다.
+
+[PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)는 MIT License에 따라 라이센스가 부여됩니다.

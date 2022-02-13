@@ -3,8 +3,6 @@ From: Alpha <alphakr93@outlook.com>
 Date: Sun, 13 Feb 2022 14:29:07 +0900
 Subject: [PATCH] Purpur PR - Fire Immune API
 
- Original by Racci <90304606+DaRacci@users.noreply.github.com>
-
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
 index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b6575fd87fe 100644
