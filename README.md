@@ -1,4 +1,9 @@
-# Prismarine
+Prismarine
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.18.1/LICENSE)
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&logo=discord)](https://discord.gg/kkqMSEVVxN)
+[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine/ver/1.18.1)
+=
+
 [Paper](https://github.com/PaperMC/Paper) 기반의 가장 빠른 업스트림을 제공하는 Minecraft Server 플랫폼
 
 [Discord](https://discord.gg/kkqMSEVVxN) - [Naver Cafe](https://cafe.naver.com/prismarine)
