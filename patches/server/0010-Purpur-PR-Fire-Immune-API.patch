@@ -1,0 +1,117 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alpha <alphakr93@outlook.com>
+Date: Sun, 13 Feb 2022 14:29:07 +0900
+Subject: [PATCH] Purpur PR - Fire Immune API
+
+ Original by Racci <90304606+DaRacci@users.noreply.github.com>
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b6575fd87fe 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -92,7 +92,6 @@ import net.minecraft.world.level.block.Mirror;
+ import net.minecraft.world.level.block.RenderShape;
+ import net.minecraft.world.level.block.Rotation;
+ import net.minecraft.world.level.block.SoundType;
+-import net.minecraft.world.level.block.state.BlockBehaviour;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+ import net.minecraft.world.level.border.WorldBorder;
+@@ -335,6 +334,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+     @javax.annotation.Nullable
+     private UUID originWorld;
+     public boolean freezeLocked = false; // Paper - Freeze Tick Lock API
++    public @Nullable Boolean immuneToFire = null; // Purpur - Fire immune API // Prismarine - Purpur PR
+ 
+     public void setOrigin(@javax.annotation.Nonnull Location location) {
+         this.origin = location.toVector();
+@@ -1559,7 +1559,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+     }
+ 
+     public boolean fireImmune() {
+-        return this.getType().fireImmune();
++        return this.immuneToFire != null ? immuneToFire : this.getType().fireImmune(); // Purpur - Fire immune API // Prismarine - Purpur PR
+     }
+ 
+     public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+@@ -2193,6 +2193,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+                 nbt.putBoolean("Paper.FreezeLock", true);
+             }
+             // Paper end
++            // Prismarine start - Purpur PR
++            // Purpur start
++            if (immuneToFire != null) {
++                nbt.putBoolean("Purpur.FireImmune", immuneToFire);
++            }
++            // Purpur end
++            // Prismarine end
+             return nbt;
+         } catch (Throwable throwable) {
+             CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
+@@ -2364,6 +2371,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+                 freezeLocked = nbt.getBoolean("Paper.FreezeLock");
+             }
+             // Paper end
++            // Prismarine start - Purpur PR
++            // Purpur start
++            if (nbt.contains("Purpur.FireImmune")) {
++                immuneToFire = nbt.getBoolean("Purpur.FireImmune");
++            }
++            // Purpur end
++            // Prismarien end
+ 
+         } catch (Throwable throwable) {
+             CrashReport crashreport = CrashReport.forThrowable(throwable, "Loading entity NBT");
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+index f46ce327586781f74d8feb47e6a904d732888289..f65f6b977b13235d19b23da11491d975fee635c8 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+@@ -1342,5 +1342,17 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+     public boolean isRidableInWater() {
+         return getHandle().rideableUnderWater();
+     }
++
++    // Prismarine start - Purpur PR
++    @Override
++    public boolean isImmuneToFire() {
++        return getHandle().fireImmune();
++    }
++
++    @Override
++    public void setImmuneToFire(Boolean fireImmune) {
++        getHandle().immuneToFire = fireImmune;
++    }
++    // Prismarine end
+     // Purpur end
+ }
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
+index 0637e074dbe4a10bc19e7bf9dd79e2d966b07b1d..652f7b52eb0907b58b25df7b9530fd02ed1e8968 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
+@@ -8,6 +8,7 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
+ import org.bukkit.entity.EntityType;
+ import org.bukkit.entity.Item;
+ import org.bukkit.inventory.ItemStack;
++import org.jetbrains.annotations.Nullable; // Purpur // Prismarine
+ 
+ public class CraftItem extends CraftEntity implements Item {
+ 
+@@ -153,9 +154,16 @@ public class CraftItem extends CraftEntity implements Item {
+         return item.immuneToExplosion;
+     }
+ 
++    // Prismarine start
++    @Override
++    public void setImmuneToFire(@Nullable Boolean immuneToFire) {
++        item.immuneToFire = (immuneToFire != null && immuneToFire);
++    }
++    // Prismarine end
++
+     @Override
+     public void setImmuneToFire(boolean immuneToFire) {
+-        item.immuneToFire = immuneToFire;
++        this.setImmuneToFire((Boolean) immuneToFire); // Prismarine
+     }
+ 
+     @Override
