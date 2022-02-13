@@ -37,6 +37,3 @@ Prismarine
 [PaperMC/paperweight](https://github.com/PaperMC/paperweight)은 GNU General Public License v2.1에 따라 라이센스가 부여됩니다.
 
 [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)는 MIT License에 따라 라이센스가 부여됩니다.
-
-## Socials
-
