@@ -3785,30 +3785,6 @@ index 58629451977c89db2fa895bde946135784a0d8bc..3ce132ea28ff9fc6f7afd68bcd0fc1ae
                                      }
                                  }
                              }
-diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 9c111d479bbcc101886c12950c97f10941125ae7..90018506da9e900d448a1fc43b3213ac513686e6 100644
---- a/src/main/java/net/minecraft/Util.java
-+++ b/src/main/java/net/minecraft/Util.java
-@@ -391,6 +391,10 @@ public class Util {
-     }
- 
-     public static <V> CompletableFuture<List<V>> sequence(List<? extends CompletableFuture<? extends V>> futures) {
-+        // Pufferfish start - faster sequencing without all of.. _that_
-+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
-+                .thenApply(unused -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
-+        /*
-         return futures.stream().reduce(CompletableFuture.completedFuture(Lists.newArrayList()), (completableFuture, completableFuture2) -> {
-             return completableFuture2.thenCombine(completableFuture, (object, list) -> {
-                 List<V> list2 = Lists.newArrayListWithCapacity(list.size() + 1);
-@@ -406,6 +410,8 @@ public class Util {
-                 return list3;
-             });
-         });
-+         */
-+        // Pufferfish end
-     }
- 
-     public static <V> CompletableFuture<List<V>> sequenceFailFast(List<? extends CompletableFuture<? extends V>> futures) {
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
 index 81dde0efc1a06420c0791520b9e40b24dd1f0318..7b8f9cf06833860d0fc02399822e6aea214883ed 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
@@ -6364,7 +6340,7 @@ index 7dda99a5464816f1488fb110da587f12d751b3fb..4f8b2617adc0013035cc0ca72bf1b83e
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 11524461954d7243da1058e7c9b7ce2ea455706d..99533f91d94ba6f9185a15fdd970c6f7c6a86a44 100644
+index 515e58e3db223fbdc01ca87607aca234c7010d51..f71f8b5c95849a6fb0367d7b027300cb2559b9e8 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -408,12 +408,12 @@ public final class NaturalSpawner {
@@ -7208,7 +7184,7 @@ index e387de8adc480eac27b58b6f3f0d331ffc4382f1..6dba9d6bb7b81fe176cc0fabbb60b554
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 250ac849d01f6e8c281e3a8d62438359153f3992..192ac6c40445c6f23a09e6b7ab1523f413dbd227 100644
+index f0629cac377b29246e990a01d60601270cbd77bd..b187f42dc41838b8119b29204368a8b5a7e18de5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -251,7 +251,7 @@ import javax.annotation.Nullable; // Paper
@@ -7220,7 +7196,7 @@ index 250ac849d01f6e8c281e3a8d62438359153f3992..192ac6c40445c6f23a09e6b7ab1523f4
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -1043,6 +1043,11 @@ public final class CraftServer implements Server {
+@@ -1044,6 +1044,11 @@ public final class CraftServer implements Server {
                  plugin.getDescription().getName(),
                  "This plugin is not properly shutting down its async tasks when it is being shut down. This task may throw errors during the final shutdown logs and might not complete before process dies."
              ));
@@ -7233,10 +7209,10 @@ index 250ac849d01f6e8c281e3a8d62438359153f3992..192ac6c40445c6f23a09e6b7ab1523f4
      }
      // Paper end
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index c60e16bdbc4707084377de640db8247b12e042ba..a4655d8db8673fad1329f534a0ebb7721b194db3 100644
+index 72f395c8d88c7dd77f39c7ae29dbfcaa683ecc0a..121b6bf4099a4ea6a71664fd152a865056825f59 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2186,37 +2186,43 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2191,37 +2191,43 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      // Spigot start
      @Override
      public int getViewDistance() {

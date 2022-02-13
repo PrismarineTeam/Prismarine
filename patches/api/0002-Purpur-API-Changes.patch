@@ -5,7 +5,7 @@ Subject: [PATCH] Purpur API Changes
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4c2f0b881b052825019b0039be5e5981e0c5f9db..8821803dbdbe5d09c433e60fbec39e402e6e6391 100644
+index 4c2f0b881b052825019b0039be5e5981e0c5f9db..4c6da11069c59551df0ac62e390fc127b8845ef8 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -41,6 +41,7 @@ dependencies {
@@ -16,6 +16,14 @@ index 4c2f0b881b052825019b0039be5e5981e0c5f9db..8821803dbdbe5d09c433e60fbec39e40
  
      implementation("org.ow2.asm:asm:9.2")
      implementation("org.ow2.asm:asm-commons:9.2")
+@@ -101,6 +102,7 @@ tasks.jar {
+ }
+ 
+ tasks.withType<Javadoc> {
++    (options as StandardJavadocDocletOptions).addStringOption("-add-modules", "jdk.incubator.vector") // Purpur - our javadocs need this for pufferfish's SIMD patch
+     inputs.files(apiAndDocs)
+         .ignoreEmptyDirectories()
+         .withPropertyName(apiAndDocs.name + "-configuration")
 diff --git a/src/main/java/com/destroystokyo/paper/ClientOption.java b/src/main/java/com/destroystokyo/paper/ClientOption.java
 index cedb51f9f3a9150035c2b44970a096448c441dd9..130fab58e6d448ec08667e2a6c13fc78121f802b 100644
 --- a/src/main/java/com/destroystokyo/paper/ClientOption.java
@@ -1948,10 +1956,10 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Panda.java b/src/main/java/org/bukkit/entity/Panda.java
-index 9d065625be5931d970d7f34e1225fae1af960314..de3ebfa362ee4d8147bb68c7c115fdfb4eb55143 100644
+index 1dcc2c8f4899da029af8b1c1b2ff1b5e368e82c1..c5f49f3f82fd259a1c795b59e83c3d9f56c98344 100644
 --- a/src/main/java/org/bukkit/entity/Panda.java
 +++ b/src/main/java/org/bukkit/entity/Panda.java
-@@ -37,6 +37,9 @@ public interface Panda extends Animals {
+@@ -37,6 +37,9 @@ public interface Panda extends Animals, Sittable { // Paper
       */
      void setHiddenGene(@NotNull Gene gene);
  
