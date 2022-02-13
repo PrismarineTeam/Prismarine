@@ -2,7 +2,7 @@ Prismarine
 [![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.18.1/LICENSE)
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&logo=discord)](https://discord.gg/kkqMSEVVxN)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine/ver/1.18.1)
-[![LiberaPay](https://img.shields.io/liberapay/patrons/alphakr93?label=LiberaPay)](https://liberapay.com/alphakr93)
+[![LiberaPay](https://img.shields.io/liberapay/patrons/alphakr93?logo=liberapay)](https://liberapay.com/alphakr93)
 [![OpenCollective](https://img.shields.io/opencollective/all/Prismarine?color=7aa2df&label=OpenCollective&logo=opencollective)](https://opencollective.com/Prismarine)
 =
 
