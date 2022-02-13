@@ -5,6 +5,12 @@ Prismarine
 [![LiberaPay](https://img.shields.io/liberapay/patrons/alphakr93?logo=liberapay)](https://liberapay.com/alphakr93)
 [![OpenCollective](https://img.shields.io/opencollective/all/Prismarine?color=7aa2df&label=OpenCollective&logo=opencollective)](https://opencollective.com/Prismarine)
 =
+[![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
+[![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
+[![Disscussions](https://img.shields.io/github/discussions/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/discussions)
+[![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
+[![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
+[![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
 
 [Paper](https://github.com/PaperMC/Paper) 기반의 가장 빠른 업스트림을 제공하는 Minecraft Server 플랫폼
 
@@ -31,3 +37,6 @@ Prismarine
 [PaperMC/paperweight](https://github.com/PaperMC/paperweight)은 GNU General Public License v2.1에 따라 라이센스가 부여됩니다.
 
 [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)는 MIT License에 따라 라이센스가 부여됩니다.
+
+## Socials
+
