@@ -5046,7 +5046,7 @@ index 9a6c67b614944f841813ec2892381c3342bc365c..e80176708db486190dd527e3ade5fc69
                          this.wasOnGround = this.entity.isOnGround();
                          this.teleportDelay = 0;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a2abb8aa1a257ccd2b5dbddc037fffc6eb600758..59d57108f38f38e03cd8b69a53c3e9d40179599a 100644
+index e9de8f8ac62dab370c28b4ef6a4b61c8d3ebbb15..740e1d7b299e78668bff5b176bbe54f478c73fd3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -655,7 +655,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -7225,10 +7225,10 @@ index f0629cac377b29246e990a01d60601270cbd77bd..b187f42dc41838b8119b29204368a8b5
      }
      // Paper end
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 72f395c8d88c7dd77f39c7ae29dbfcaa683ecc0a..121b6bf4099a4ea6a71664fd152a865056825f59 100644
+index 23bd74836e8396720747540829c7b8e27cfb00bd..dfd32e1213056ed1061f647c95fd71bfbab41294 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2191,37 +2191,43 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2215,37 +2215,43 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      // Spigot start
      @Override
      public int getViewDistance() {

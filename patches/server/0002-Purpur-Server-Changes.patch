@@ -974,14 +974,14 @@ index e80176708db486190dd527e3ade5fc690ceb39f7..e3d7a80f8c4b68933875ef90006b7977
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b78266bb46878 100644
+index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e0128599fddabb3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -83,6 +83,7 @@ import net.minecraft.world.entity.MobCategory;
  import net.minecraft.world.entity.ReputationEventHandler;
  import net.minecraft.world.entity.ai.navigation.PathNavigation;
  import net.minecraft.world.entity.ai.village.ReputationEventType;
-+import net.minecraft.world.entity.ai.village.VillageSiege;
++import net.minecraft.world.entity.ai.village.VillageSiege; // Purpur
  import net.minecraft.world.entity.ai.village.poi.PoiManager;
  import net.minecraft.world.entity.ai.village.poi.PoiType;
  import net.minecraft.world.entity.animal.Animal;
@@ -989,9 +989,9 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
  import net.minecraft.world.entity.animal.horse.SkeletonHorse;
  import net.minecraft.world.entity.boss.EnderDragonPart;
  import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-+import net.minecraft.world.entity.npc.CatSpawner;
++import net.minecraft.world.entity.npc.CatSpawner; // Purpur
  import net.minecraft.world.entity.npc.Npc;
-+import net.minecraft.world.entity.npc.WanderingTraderSpawner;
++import net.minecraft.world.entity.npc.WanderingTraderSpawner; // Purpur
  import net.minecraft.world.entity.player.Player;
  import net.minecraft.world.entity.raid.Raid;
  import net.minecraft.world.entity.raid.Raids;
@@ -999,8 +999,8 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
  import net.minecraft.world.level.gameevent.GameEventListenerRegistrar;
  import net.minecraft.world.level.gameevent.vibrations.VibrationPath;
  import net.minecraft.world.level.levelgen.Heightmap;
-+import net.minecraft.world.level.levelgen.PatrolSpawner;
-+import net.minecraft.world.level.levelgen.PhantomSpawner;
++import net.minecraft.world.level.levelgen.PatrolSpawner; // Purpur
++import net.minecraft.world.level.levelgen.PhantomSpawner; // Purpur
  import net.minecraft.world.level.levelgen.feature.StructureFeature;
  import net.minecraft.world.level.levelgen.structure.BoundingBox;
  import net.minecraft.world.level.levelgen.structure.StructureCheck;
@@ -1021,11 +1021,10 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
      public static Throwable getAddToWorldStackTrace(Entity entity) {
          return new Throwable(entity + " Added to world at " + new java.util.Date());
      }
-@@ -495,7 +503,24 @@ public class ServerLevel extends Level implements WorldGenLevel {
-         this.dragonParts = new Int2ObjectOpenHashMap();
+@@ -496,6 +504,24 @@ public class ServerLevel extends Level implements WorldGenLevel {
          this.tickTime = flag1;
          this.server = minecraftserver;
--        this.customSpawners = list;
+         this.customSpawners = list;
 +        // Purpur start - enable/disable MobSpawners per world
 +        this.customSpawners = Lists.newArrayList();
 +        if (purpurConfig.phantomSpawning) {
@@ -1046,8 +1045,8 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
 +        // Purpur end
          // CraftBukkit start
          this.serverLevelData = (PrimaryLevelData) iworlddataserver;
-         serverLevelData.world = this;
-@@ -544,6 +569,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+         this.serverLevelData.setWorld(this);
+@@ -544,6 +570,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
  
          this.asyncChunkTaskManager = new com.destroystokyo.paper.io.chunk.ChunkTaskManager(this); // Paper
@@ -1055,7 +1054,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
      }
  
      public void setWeatherParameters(int clearDuration, int rainDuration, boolean raining, boolean thundering) {
-@@ -582,7 +608,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -582,7 +609,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
          long j;
  
@@ -1064,7 +1063,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
              // CraftBukkit start
              j = this.levelData.getDayTime() + 24000L;
              TimeSkipEvent event = new TimeSkipEvent(this.getWorld(), TimeSkipEvent.SkipReason.NIGHT_SKIP, (j - j % 24000L) - this.getDayTime());
-@@ -712,6 +738,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -712,6 +739,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setGameTime(i);
              this.serverLevelData.getScheduledEvents().tick(this.server, i);
              if (this.levelData.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
@@ -1078,30 +1077,29 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
                  this.setDayTime(this.levelData.getDayTime() + 1L);
              }
  
-@@ -720,8 +753,22 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -720,7 +754,21 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      public void setDayTime(long timeOfDay) {
          this.serverLevelData.setDayTime(timeOfDay);
-+        // Purpur start
++    // Purpur start
 +        this.preciseTime = timeOfDay;
 +        this.forceTime = false;
 +    }
++
 +    public void setDayTime(double i) {
 +        this.serverLevelData.setDayTime((long) i);
 +        this.forceTime = true;
-+        // Purpur end
      }
- 
-+    // Purpur start
++ 
 +    public boolean isForceTime() {
 +        return this.forceTime;
 +    }
 +    // Purpur end
 +
+ 
      public void tickCustomSpawners(boolean spawnMonsters, boolean spawnAnimals) {
          Iterator iterator = this.customSpawners.iterator();
- 
-@@ -767,9 +814,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -767,9 +815,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
                  boolean flag1 = this.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) difficultydamagescaler.getEffectiveDifficulty() * paperConfig.skeleHorseSpawnChance && !this.getBlockState(blockposition.below()).is(Blocks.LIGHTNING_ROD); // Paper
  
                  if (flag1) {
@@ -1120,7 +1118,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
                      entityhorseskeleton.setAge(0);
                      entityhorseskeleton.setPos((double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ());
                      this.addFreshEntity(entityhorseskeleton, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING); // CraftBukkit
-@@ -865,7 +918,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -865,7 +919,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return villageplacetype == PoiType.LIGHTNING_ROD;
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getLevel().getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -1129,14 +1127,16 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -914,11 +967,29 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -914,11 +968,30 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
 -                TranslatableComponent chatmessage;
-+                Component chatmessage; // Purpur
  
++                Component chatmessage; // Purpur
++ 
                  if (this.sleepStatus.areEnoughSleeping(i)) {
+-                    chatmessage = new TranslatableComponent("sleep.skipping_night");
 +                    // Purpur start
 +                    if (org.purpurmc.purpur.PurpurConfig.sleepSkippingNight.isBlank()) {
 +                        return;
@@ -1145,7 +1145,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
 +                        chatmessage = io.papermc.paper.adventure.PaperAdventure.asVanilla(net.kyori.adventure.text.minimessage.MiniMessage.get().parse(org.purpurmc.purpur.PurpurConfig.sleepSkippingNight));
 +                    } else
 +                    // Purpur end
-                     chatmessage = new TranslatableComponent("sleep.skipping_night");
++                     chatmessage = new TranslatableComponent("sleep.skipping_night");
                  } else {
 +                    // Purpur start
 +                    if (org.purpurmc.purpur.PurpurConfig.sleepingPlayersPercent.isBlank()) {
@@ -1160,7 +1160,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
                      chatmessage = new TranslatableComponent("sleep.players_sleeping", new Object[]{this.sleepStatus.amountSleeping(), this.sleepStatus.sleepersNeeded(i)});
                  }
  
-@@ -1057,6 +1128,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1057,6 +1130,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      private void resetWeatherCycle() {
          // CraftBukkit start
@@ -1168,7 +1168,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
          this.serverLevelData.setRaining(false, org.bukkit.event.weather.WeatherChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
          // Not that everyone ever manages to get the whole server to sleep at the same time....
-@@ -1064,6 +1136,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1064,6 +1138,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setRainTime(0);
          }
          // CraftBukkit end
@@ -1176,7 +1176,7 @@ index 59d57108f38f38e03cd8b69a53c3e9d40179599a..72909d206e6535a0f7f896bdf28b7826
          this.serverLevelData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2494,7 +2567,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2494,7 +2569,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Spigot Start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start
@@ -15743,7 +15743,7 @@ index 5be46c6f3db4848b9b88a5227d58705f40b9c16f..2b2ad683e5ac1210ab81c2f72ea05df2
                      if (!world.addFreshEntity(entitywither, SpawnReason.BUILD_WITHER)) {
                          return;
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-index 7b8f51853499540a86326e2c8870ea3c7c8c65c8..f11ec870135e9cccaeb209c76fd4ee0d62f465a2 100644
+index 11b2fcb783422216b45c8fcf5df37842b2b4e7b2..ac91a2e4cdbadebf53f15225ec93919a89160d5c 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 @@ -40,6 +40,7 @@ import net.minecraft.world.level.Level;
@@ -15777,7 +15777,7 @@ index 7b8f51853499540a86326e2c8870ea3c7c8c65c8..f11ec870135e9cccaeb209c76fd4ee0d
      // CraftBukkit start - add fields and methods
      private int maxStack = MAX_STACK;
      public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-@@ -318,6 +335,22 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -322,6 +339,22 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
  
          ItemStack itemstack = (ItemStack) blockEntity.items.get(1);
  
@@ -15800,7 +15800,7 @@ index 7b8f51853499540a86326e2c8870ea3c7c8c65c8..f11ec870135e9cccaeb209c76fd4ee0d
          if (!blockEntity.isLit() && (itemstack.isEmpty() || ((ItemStack) blockEntity.items.get(0)).isEmpty())) {
              if (!blockEntity.isLit() && blockEntity.cookingProgress > 0) {
                  blockEntity.cookingProgress = Mth.clamp(blockEntity.cookingProgress - 2, (int) 0, blockEntity.cookingTotalTime);
-@@ -393,6 +426,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -397,6 +430,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
              setChanged(world, pos, state);
          }
  
@@ -17556,10 +17556,10 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a001a09ea5fd0934eba81a5ee23b0c51c569d2fb
+index 0000000000000000000000000000000000000000..a4516374618a7136f1bfa63834cfe7785dadba93
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,492 @@
+@@ -0,0 +1,494 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -17738,6 +17738,7 @@ index 0000000000000000000000000000000000000000..a001a09ea5fd0934eba81a5ee23b0c51
 +    public static String creditsCommandOutput = "<green>%s has been shown the end credits";
 +    public static String demoCommandOutput = "<green>%s has been shown the demo screen";
 +    public static String pingCommandOutput = "<green>%s's ping is %sms";
++    public static String tpsbarCommandOutput = "<green>Tpsbar toggled <onoff> for <target>";
 +    public static String dontRunWithScissors = "<red><italic>Don't run with scissors!";
 +    public static String uptimeCommandOutput = "<green>Server uptime is <uptime>";
 +    public static String unverifiedUsername = "default";
@@ -17752,6 +17753,7 @@ index 0000000000000000000000000000000000000000..a001a09ea5fd0934eba81a5ee23b0c51
 +        creditsCommandOutput = getString("settings.messages.credits-command-output", creditsCommandOutput);
 +        demoCommandOutput = getString("settings.messages.demo-command-output", demoCommandOutput);
 +        pingCommandOutput = getString("settings.messages.ping-command-output", pingCommandOutput);
++        tpsbarCommandOutput = getString("settings.messages.tpsbar-command-output", tpsbarCommandOutput);
 +        dontRunWithScissors = getString("settings.messages.dont-run-with-scissors", dontRunWithScissors);
 +        uptimeCommandOutput = getString("settings.messages.uptime-command-output", uptimeCommandOutput);
 +        unverifiedUsername = getString("settings.messages.unverified-username", unverifiedUsername);
@@ -21346,29 +21348,50 @@ index 0000000000000000000000000000000000000000..2621e54879e9ab0029a875f1d09eee67
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/command/TPSBarCommand.java b/src/main/java/org/purpurmc/purpur/command/TPSBarCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2547eb09f34410ae5e6b3dcfd1706ca5f05ff896
+index 0000000000000000000000000000000000000000..3de9dfba6bc7c438c093a8dca1f647f6c3de3c08
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/command/TPSBarCommand.java
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,42 @@
 +package org.purpurmc.purpur.command;
 +
 +import com.mojang.brigadier.CommandDispatcher;
++import net.kyori.adventure.text.Component;
++import net.kyori.adventure.text.format.NamedTextColor;
++import net.kyori.adventure.text.minimessage.MiniMessage;
 +import net.minecraft.commands.CommandSourceStack;
 +import net.minecraft.commands.Commands;
++import net.minecraft.commands.arguments.EntityArgument;
 +import net.minecraft.server.level.ServerPlayer;
++import org.purpurmc.purpur.PurpurConfig;
 +import org.purpurmc.purpur.task.TPSBarTask;
++
++import java.util.Collection;
++import java.util.Collections;
 +
 +public class TPSBarCommand {
 +    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 +        dispatcher.register(Commands.literal("tpsbar")
 +                .requires(listener -> listener.hasPermission(2))
-+                .executes(context -> {
-+                    ServerPlayer player = context.getSource().getPlayerOrException();
-+                    boolean result = TPSBarTask.instance().togglePlayer(player.getBukkitEntity());
-+                    player.tpsBar(result);
-+                    return 1;
-+                })
++                .executes(context -> execute(context.getSource(), Collections.singleton(context.getSource().getPlayerOrException())))
++                .then(Commands.argument("targets", EntityArgument.players())
++                        .executes((context) -> execute(context.getSource(), EntityArgument.getPlayers(context, "targets")))
++                )
 +        ).setPermission("bukkit.command.tpsbar");
++    }
++
++    private static int execute(CommandSourceStack sender, Collection<ServerPlayer> targets) {
++        for (ServerPlayer player : targets) {
++            boolean result = TPSBarTask.instance().togglePlayer(player.getBukkitEntity());
++            player.tpsBar(result);
++
++            Component output = MiniMessage.get().parse(PurpurConfig.tpsbarCommandOutput,
++                    "onoff", Component.translatable(result ? "options.on" : "options.off")
++                            .color(result ? NamedTextColor.GREEN : NamedTextColor.RED),
++                    "target", player.getGameProfile().getName());
++
++            sender.sendSuccess(output, false);
++        }
++        return targets.size();
 +    }
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/command/UptimeCommand.java b/src/main/java/org/purpurmc/purpur/command/UptimeCommand.java
