@@ -778,7 +778,7 @@ index f7959fe8d5247504dd79a18010470d98781c7cfe..842acb66c58a1ee66c595bd56afc1f94
                      // Paper end
                  }
 diff --git a/src/main/java/net/minecraft/server/commands/EnchantCommand.java b/src/main/java/net/minecraft/server/commands/EnchantCommand.java
-index 514cc0e8805045549eacde6c280859aa2dc4a91d..4c8eeb66a9368597330957dd3c1486344b53b863 100644
+index 514cc0e8805045549eacde6c280859aa2dc4a91d..f43fe5becfdbe9973b1cfa43c71bbad2ad61daac 100644
 --- a/src/main/java/net/minecraft/server/commands/EnchantCommand.java
 +++ b/src/main/java/net/minecraft/server/commands/EnchantCommand.java
 @@ -44,7 +44,7 @@ public class EnchantCommand {
@@ -786,7 +786,7 @@ index 514cc0e8805045549eacde6c280859aa2dc4a91d..4c8eeb66a9368597330957dd3c148634
  
      private static int enchant(CommandSourceStack source, Collection<? extends Entity> targets, Enchantment enchantment, int level) throws CommandSyntaxException {
 -        if (level > enchantment.getMaxLevel()) {
-+        if (!org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants && level > enchantment.getMaxLevel()) { // Purpur
++        if (!org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchantCommand && level > enchantment.getMaxLevel()) { // Purpur
              throw ERROR_LEVEL_TOO_HIGH.create(level, enchantment.getMaxLevel());
          } else {
              int i = 0;
@@ -795,7 +795,7 @@ index 514cc0e8805045549eacde6c280859aa2dc4a91d..4c8eeb66a9368597330957dd3c148634
                      ItemStack itemStack = livingEntity.getMainHandItem();
                      if (!itemStack.isEmpty()) {
 -                        if (enchantment.canEnchant(itemStack) && EnchantmentHelper.isEnchantmentCompatible(EnchantmentHelper.getEnchantments(itemStack).keySet(), enchantment)) {
-+                        if ((enchantment.canEnchant(itemStack) && EnchantmentHelper.isEnchantmentCompatible(EnchantmentHelper.getEnchantments(itemStack).keySet(), enchantment)) || (org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants && !itemStack.hasEnchantment(enchantment))) { // Purpur
++                        if ((enchantment.canEnchant(itemStack) && EnchantmentHelper.isEnchantmentCompatible(EnchantmentHelper.getEnchantments(itemStack).keySet(), enchantment)) || (org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchantCommand && !itemStack.hasEnchantment(enchantment))) { // Purpur
                              itemStack.enchant(enchantment, level);
                              ++i;
                          } else if (targets.size() == 1) {
@@ -17557,10 +17557,10 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a4516374618a7136f1bfa63834cfe7785dadba93
+index 0000000000000000000000000000000000000000..659e93fb24124318367e5b4d0b144ca1443950e9
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,494 @@
+@@ -0,0 +1,496 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -17940,6 +17940,7 @@ index 0000000000000000000000000000000000000000..a4516374618a7136f1bfa63834cfe778
 +    public static boolean allowCrossbowInfinity = false;
 +    public static boolean allowShearsLooting = false;
 +    public static boolean allowUnsafeEnchants = false;
++    public static boolean allowUnsafeEnchantCommand = false;
 +    private static void enchantmentSettings() {
 +        if (version < 5) {
 +            boolean oldValue = getBoolean("settings.enchantment.allow-infinite-and-mending-together", false);
@@ -17950,6 +17951,7 @@ index 0000000000000000000000000000000000000000..a4516374618a7136f1bfa63834cfe778
 +        allowCrossbowInfinity = getBoolean("settings.enchantment.allow-infinity-on-crossbow", allowCrossbowInfinity);
 +        allowShearsLooting = getBoolean("settings.enchantment.allow-looting-on-shears", allowShearsLooting);
 +        allowUnsafeEnchants = getBoolean("settings.enchantment.allow-unsafe-enchants", allowUnsafeEnchants);
++        allowUnsafeEnchantCommand = getBoolean("settings.enchantment.allow-unsafe-enchant-command", allowUnsafeEnchants); // allowUnsafeEnchants as default for backwards compatability
 +    }
 +
 +    public static boolean endermanShortHeight = false;
