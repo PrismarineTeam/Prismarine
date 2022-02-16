@@ -974,7 +974,7 @@ index e80176708db486190dd527e3ade5fc690ceb39f7..e3d7a80f8c4b68933875ef90006b7977
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e0128599fddabb3 100644
+index 740e1d7b299e78668bff5b176bbe54f478c73fd3..69b065fbbdfc73a6f550e61cb689f870c2c57972 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -83,6 +83,7 @@ import net.minecraft.world.entity.MobCategory;
@@ -1021,10 +1021,11 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
      public static Throwable getAddToWorldStackTrace(Entity entity) {
          return new Throwable(entity + " Added to world at " + new java.util.Date());
      }
-@@ -496,6 +504,24 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -495,7 +503,24 @@ public class ServerLevel extends Level implements WorldGenLevel {
+         this.dragonParts = new Int2ObjectOpenHashMap();
          this.tickTime = flag1;
          this.server = minecraftserver;
-         this.customSpawners = list;
+-        this.customSpawners = list;
 +        // Purpur start - enable/disable MobSpawners per world
 +        this.customSpawners = Lists.newArrayList();
 +        if (purpurConfig.phantomSpawning) {
@@ -1046,7 +1047,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
          // CraftBukkit start
          this.serverLevelData = (PrimaryLevelData) iworlddataserver;
          this.serverLevelData.setWorld(this);
-@@ -544,6 +570,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -544,6 +569,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
  
          this.asyncChunkTaskManager = new com.destroystokyo.paper.io.chunk.ChunkTaskManager(this); // Paper
@@ -1054,7 +1055,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
      }
  
      public void setWeatherParameters(int clearDuration, int rainDuration, boolean raining, boolean thundering) {
-@@ -582,7 +609,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -582,7 +608,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
          long j;
  
@@ -1063,7 +1064,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
              // CraftBukkit start
              j = this.levelData.getDayTime() + 24000L;
              TimeSkipEvent event = new TimeSkipEvent(this.getWorld(), TimeSkipEvent.SkipReason.NIGHT_SKIP, (j - j % 24000L) - this.getDayTime());
-@@ -712,6 +739,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -712,6 +738,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setGameTime(i);
              this.serverLevelData.getScheduledEvents().tick(this.server, i);
              if (this.levelData.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
@@ -1077,7 +1078,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
                  this.setDayTime(this.levelData.getDayTime() + 1L);
              }
  
-@@ -720,7 +754,21 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -720,7 +753,21 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      public void setDayTime(long timeOfDay) {
          this.serverLevelData.setDayTime(timeOfDay);
@@ -1099,7 +1100,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
  
      public void tickCustomSpawners(boolean spawnMonsters, boolean spawnAnimals) {
          Iterator iterator = this.customSpawners.iterator();
-@@ -767,9 +815,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -767,9 +814,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
                  boolean flag1 = this.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) difficultydamagescaler.getEffectiveDifficulty() * paperConfig.skeleHorseSpawnChance && !this.getBlockState(blockposition.below()).is(Blocks.LIGHTNING_ROD); // Paper
  
                  if (flag1) {
@@ -1118,7 +1119,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
                      entityhorseskeleton.setAge(0);
                      entityhorseskeleton.setPos((double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ());
                      this.addFreshEntity(entityhorseskeleton, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING); // CraftBukkit
-@@ -865,7 +919,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -865,7 +918,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return villageplacetype == PoiType.LIGHTNING_ROD;
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getLevel().getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -1127,7 +1128,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -914,11 +968,30 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -914,11 +967,30 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
@@ -1160,7 +1161,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
                      chatmessage = new TranslatableComponent("sleep.players_sleeping", new Object[]{this.sleepStatus.amountSleeping(), this.sleepStatus.sleepersNeeded(i)});
                  }
  
-@@ -1057,6 +1130,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1057,6 +1129,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      private void resetWeatherCycle() {
          // CraftBukkit start
@@ -1168,7 +1169,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
          this.serverLevelData.setRaining(false, org.bukkit.event.weather.WeatherChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
          // Not that everyone ever manages to get the whole server to sleep at the same time....
-@@ -1064,6 +1138,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1064,6 +1137,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setRainTime(0);
          }
          // CraftBukkit end
@@ -1176,7 +1177,7 @@ index 740e1d7b299e78668bff5b176bbe54f478c73fd3..cacca059a1efbef7685d21319e012859
          this.serverLevelData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2494,7 +2569,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2494,7 +2568,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Spigot Start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start
