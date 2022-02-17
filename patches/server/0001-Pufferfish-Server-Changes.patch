@@ -678,7 +678,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +}
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c3c7c323bc1c16ddd416c2be63d21f1d46b1f033
+index 0000000000000000000000000000000000000000..a7569f611f14f6c5813499eeb6c3b09b94f4341a
 --- /dev/null
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -0,0 +1,292 @@
@@ -777,7 +777,7 @@ index 0000000000000000000000000000000000000000..c3c7c323bc1c16ddd416c2be63d21f1d
 +		try {
 +			SIMDDetection.isEnabled = SIMDDetection.canEnable();
 +			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() != 17;
-+		} catch (NoClassDefFoundError ignored) {}
++		} catch (NoClassDefFoundError | Exception ignored) {}
 +
 +		if (SIMDDetection.isEnabled) {
 +			PufferfishLogger.LOGGER.info("SIMD operations detected as functional. Will replace some operations with faster versions.");

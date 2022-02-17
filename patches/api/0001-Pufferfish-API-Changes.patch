@@ -251,10 +251,10 @@ index 0000000000000000000000000000000000000000..006cdefd4d808d735cefa8ecedc0f9e2
 \ No newline at end of file
 diff --git a/src/main/java/gg/pufferfish/pufferfish/simd/SIMDDetection.java b/src/main/java/gg/pufferfish/pufferfish/simd/SIMDDetection.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..75ad457891c40353e1c0a789c2480ee8e38e5c60
+index 0000000000000000000000000000000000000000..0651e517a544a6a21b7dc7cbb8a82882a384f590
 --- /dev/null
 +++ b/src/main/java/gg/pufferfish/pufferfish/simd/SIMDDetection.java
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,31 @@
 +package gg.pufferfish.pufferfish.simd;
 +
 +@Deprecated
@@ -281,9 +281,10 @@ index 0000000000000000000000000000000000000000..75ad457891c40353e1c0a789c2480ee8
 +        } else {
 +            int dot = version.indexOf(".");
 +            if(dot != -1) { version = version.substring(0, dot); }
-+        } return Integer.parseInt(version);
++        }
++        version = version.split("-")[0]; // Azul is stupid
++        return Integer.parseInt(version);
 +    }
-+
 +}
 \ No newline at end of file
 diff --git a/src/main/java/gg/pufferfish/pufferfish/simd/VectorMapPalette.java b/src/main/java/gg/pufferfish/pufferfish/simd/VectorMapPalette.java
