@@ -34,4 +34,5 @@ jobs:
         
       - run: |
           cd build/libs
+          echo eula=true > eula.txt
           java -jar Prismarine-paperclip-1.18.1-R0.1-SNAPSHOT-reobf.jar
