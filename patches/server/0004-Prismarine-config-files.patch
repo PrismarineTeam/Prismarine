@@ -359,7 +359,7 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 425ecb5ce752732cc48b711de92baa2bb3408fb7..65875ecc5fa1bb0e1f1f46b2efb272248d9865fb 100644
+index 7d37fdb1806dcc3557770a570699cdf2c40a9354..523303cf6ed123df5456d007e1d80543945fa503 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -958,6 +958,7 @@ public final class CraftServer implements Server {
@@ -378,7 +378,7 @@ index 425ecb5ce752732cc48b711de92baa2bb3408fb7..65875ecc5fa1bb0e1f1f46b2efb27224
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2717,6 +2719,13 @@ public final class CraftServer implements Server {
+@@ -2730,6 +2732,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  

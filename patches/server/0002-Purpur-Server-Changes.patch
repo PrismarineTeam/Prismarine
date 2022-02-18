@@ -16571,7 +16571,7 @@ index 1f2bc88d4570c6ef00e67a772b745e0b0c98e051..f505e871a9836503377f168c31c1f09f
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b187f42dc41838b8119b29204368a8b5a7e18de5..4f4d35a988e11a19ecdc4ed1215743be0737c1e0 100644
+index e62a643990929dccf1c022a3c9eca12d08d5ca7d..79d1e922db61d6bb2c42a6f5aad9291dd55f44d3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -251,7 +251,7 @@ import javax.annotation.Nullable; // Paper
@@ -16627,7 +16627,7 @@ index b187f42dc41838b8119b29204368a8b5a7e18de5..4f4d35a988e11a19ecdc4ed1215743be
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2642,6 +2658,7 @@ public final class CraftServer implements Server {
+@@ -2655,6 +2671,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16635,7 +16635,7 @@ index b187f42dc41838b8119b29204368a8b5a7e18de5..4f4d35a988e11a19ecdc4ed1215743be
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2688,6 +2705,18 @@ public final class CraftServer implements Server {
+@@ -2701,6 +2718,18 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
@@ -16654,7 +16654,7 @@ index b187f42dc41838b8119b29204368a8b5a7e18de5..4f4d35a988e11a19ecdc4ed1215743be
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2842,4 +2871,16 @@ public final class CraftServer implements Server {
+@@ -2855,4 +2884,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
