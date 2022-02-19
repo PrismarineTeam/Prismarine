@@ -1,33 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 30 Jan 2022 08:41:33 +0000
+From: Alpha <alphakr93@outlook.com>
+Date: Sat, 19 Feb 2022 17:55:10 +0900
 Subject: [PATCH] Purpur API Changes
 
-Original by PurpurMC Team
-
-Copyright (C) 2022 PurpurMC LLC
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4c2f0b881b052825019b0039be5e5981e0c5f9db..4c6da11069c59551df0ac62e390fc127b8845ef8 100644
+index 93390eaead78d229902df0f7c8f9b30cb6174de7..bac527acaa1826486a8183bcccb4d64654a0efed 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -41,6 +41,7 @@ dependencies {
@@ -1598,21 +1576,20 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..d71afdfa9f7eb66dffd9943d6e51314b
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 8bc6876c82935988436597161fa0ec94c032174b..c2280647feb2f1e34dec1f5a8f5d48860288eb7c 100644
+index 8bc6876c82935988436597161fa0ec94c032174b..26847ed7bae8ae4e0a21106a0ff09a50af6ce689 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -696,6 +696,10 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -696,6 +696,9 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
      SpawnCategory getSpawnCategory();
  
      // Spigot start
-+
 +    /**
 +     * Spigot stuffs
 +     */
      public class Spigot extends CommandSender.Spigot {
  
      }
-@@ -756,36 +760,50 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -756,36 +759,50 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
  
      /**
       * Check if entity is in rain
@@ -1663,7 +1640,7 @@ index 8bc6876c82935988436597161fa0ec94c032174b..c2280647feb2f1e34dec1f5a8f5d4886
       */
      public boolean isTicking();
  
-@@ -830,4 +848,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -830,4 +847,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInPowderedSnow();
      // Paper end
@@ -1992,7 +1969,7 @@ index 1dcc2c8f4899da029af8b1c1b2ff1b5e368e82c1..c5f49f3f82fd259a1c795b59e83c3d9f
  
          NORMAL(false),
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..6e95dbe19df37b67dfb497e0ac37bfeccdcbd38c 100644
+index 5c1b8f35f22ae10a17d78ece95c49de44f58976d..c0a2c64c6e15a5aa6e70a449b76a9fd0f2796555 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -71,7 +71,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -2112,7 +2089,7 @@ index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..6e95dbe19df37b67dfb497e0ac37bfec
      public String getLocale();
  
      // Paper start
-@@ -2482,6 +2482,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2498,6 +2498,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      void resetCooldown();
  
      /**
@@ -2121,7 +2098,7 @@ index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..6e95dbe19df37b67dfb497e0ac37bfec
       * @return the client option value of the player
       */
      @NotNull
-@@ -2513,6 +2515,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2529,6 +2531,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      // Paper end
  
      // Spigot start
@@ -2131,7 +2108,7 @@ index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..6e95dbe19df37b67dfb497e0ac37bfec
      public class Spigot extends Entity.Spigot {
  
          /**
-@@ -2652,4 +2657,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2668,4 +2673,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end

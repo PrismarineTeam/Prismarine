@@ -5,7 +5,7 @@ Subject: [PATCH] Purpur PR - Fire Immune API
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b6575fd87fe 100644
+index 33c76e6eab1e8a314caa3c68f9e19cdad197124b..239cff03e713bd38cc11bacc57461a9702819d55 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -92,7 +92,6 @@ import net.minecraft.world.level.block.Mirror;
@@ -16,7 +16,7 @@ index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b65
  import net.minecraft.world.level.block.state.BlockState;
  import net.minecraft.world.level.block.state.properties.BlockStateProperties;
  import net.minecraft.world.level.border.WorldBorder;
-@@ -335,6 +334,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+@@ -334,6 +333,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
      @javax.annotation.Nullable
      private UUID originWorld;
      public boolean freezeLocked = false; // Paper - Freeze Tick Lock API
@@ -24,7 +24,7 @@ index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b65
  
      public void setOrigin(@javax.annotation.Nonnull Location location) {
          this.origin = location.toVector();
-@@ -1559,7 +1559,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+@@ -1558,7 +1558,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
      }
  
      public boolean fireImmune() {
@@ -33,7 +33,7 @@ index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b65
      }
  
      public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-@@ -2193,6 +2193,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+@@ -2192,6 +2192,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
                  nbt.putBoolean("Paper.FreezeLock", true);
              }
              // Paper end
@@ -47,7 +47,7 @@ index 689d24a45ed8bef0355fa91f1a56f19c37699580..bd0a03a701a87c52f0ea106ce9397b65
              return nbt;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2364,6 +2371,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
+@@ -2363,6 +2370,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, i
                  freezeLocked = nbt.getBoolean("Paper.FreezeLock");
              }
              // Paper end

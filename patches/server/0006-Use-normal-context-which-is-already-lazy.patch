@@ -21,10 +21,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/src/main/java/io/papermc/paper/util/CollisionUtil.java b/src/main/java/io/papermc/paper/util/CollisionUtil.java
-index 3ce132ea28ff9fc6f7afd68bcd0fc1ae843a3cd5..13992d1cbc141954150f8bfc21381a77955a31cc 100644
+index b25018ab6cff59e43652c953421f01b6d0bb0a85..741b3e972639127e62a24d3a77a7b57bf523f5ba 100644
 --- a/src/main/java/io/papermc/paper/util/CollisionUtil.java
 +++ b/src/main/java/io/papermc/paper/util/CollisionUtil.java
-@@ -644,8 +644,12 @@ public final class CollisionUtil {
+@@ -619,8 +619,12 @@ public final class CollisionUtil {
                                  if ((edgeCount != 1 || blockData.shapeExceedsCube()) && (edgeCount != 2 || blockData.getBlock() == Blocks.MOVING_PISTON)) {
                                      mutablePos.set(blockX, blockY, blockZ);
                                      if (collisionShape == null) {
