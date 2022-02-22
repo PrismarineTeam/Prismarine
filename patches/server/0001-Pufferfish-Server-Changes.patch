@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 028f6a1795ceb99d1760c73b0980238677b4b8bc..86548210e50879504f646ef3aa46927998f2d775 100644
+index 4662952bd0a389fe77e00ede9ab4a57f33522794..a37ca23682272d5ddaf1a2246917e6c46b69da86 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -18,8 +18,12 @@ repositories {
@@ -2152,7 +2152,7 @@ index 7bddc7517356cc74104dcc5c7c55522a53f2596f..d6a57cdad2c92521a800cb18d060d9d6
  
      public static long getCoordinateKey(final ChunkPos pair) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1674deebbeab0995ed7acacf8052e1daf4d2a7bc..a31f8bf3f4183a7a02f58f2321dbeaf427017b1c 100644
+index 053dbe5eef6574cfe98ab7499181bdd83a81f2e1..86e87747d9dd6e5903c3590efcfbaedd90825626 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -310,6 +310,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -2164,7 +2164,7 @@ index 1674deebbeab0995ed7acacf8052e1daf4d2a7bc..a31f8bf3f4183a7a02f58f2321dbeaf4
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -1710,7 +1712,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1711,7 +1713,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -2173,7 +2173,7 @@ index 1674deebbeab0995ed7acacf8052e1daf4d2a7bc..a31f8bf3f4183a7a02f58f2321dbeaf4
      }
  
      public SystemReport fillSystemReport(SystemReport details) {
-@@ -2244,6 +2246,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2245,6 +2247,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public ProfilerFiller getProfiler() {
@@ -2371,7 +2371,7 @@ index 9a6c67b614944f841813ec2892381c3342bc365c..e80176708db486190dd527e3ade5fc69
                          this.wasOnGround = this.entity.isOnGround();
                          this.teleportDelay = 0;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 4ebdeca14b4b4378bb433d68d5f60da99ca95b82..740e1d7b299e78668bff5b176bbe54f478c73fd3 100644
+index 835a17cd4ec487271ba28232280dd0fbf2687c4b..58604c77d9273c866e53f8ee62c7056acc76e004 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -667,7 +667,20 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -4115,7 +4115,7 @@ index e387de8adc480eac27b58b6f3f0d331ffc4382f1..6dba9d6bb7b81fe176cc0fabbb60b554
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index dbbae437123163c60c3f60a48043967a8adbd124..e62a643990929dccf1c022a3c9eca12d08d5ca7d 100644
+index caeaf2978d7a8b7f2d1595e102f2751d837172b4..67a32bfcc95904ff4a7990e77238faa657127d0e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -251,7 +251,7 @@ import javax.annotation.Nullable; // Paper

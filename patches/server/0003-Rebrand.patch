@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 5877d46f6db7b23f1913688b905b1a5691deb3cb..2aa19d5cdcc777d6a104f5c9dc9ce42c51f7beea 100644
+index 52047b799fe241ba8501511899a7ff8e5cbe9925..04e24c9ceefaa591ab3355c138f50bbd07bddea5 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -18,7 +18,7 @@ repositories {
@@ -128,10 +128,10 @@ index 6654c5a547cb49bce98d6b0feed9a245c1a5ce7c..79bf89df427f48733059fe5aafef0e64
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 961db18299d6316069c9550dcd01399577939c82..8654d33b0b701a282899661c3ac534949d974b40 100644
+index b63509528f519c8e16a772796b362bad867099ff..ed23b45831d929dc8fb74a837aab4fc0bfe498f0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1024,7 +1024,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1025,7 +1025,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
@@ -154,7 +154,7 @@ index c6267659e8ff73e59d2a4992aa67f86c02f7dda9..6d984b51610f9851157377a384a27d3d
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 4f4d35a988e11a19ecdc4ed1215743be0737c1e0..425ecb5ce752732cc48b711de92baa2bb3408fb7 100644
+index 6ce503e8d76e37628b2824c31de32a1cf61874ea..6047932450fe28cde049092a1f1cc493a5f9f061 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -251,7 +251,7 @@ import javax.annotation.Nullable; // Paper
@@ -215,7 +215,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..9b59fe56110ee38ebab56509daec156e
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index a4516374618a7136f1bfa63834cfe7785dadba93..7a278f46ff56f51faa66accf7b255ccc57bc1354 100644
+index 659e93fb24124318367e5b4d0b144ca1443950e9..dcd57de21b9ff6b1e5f4d9764f1d10ffeb20cf42 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -235,7 +235,7 @@ public class PurpurConfig {
