@@ -3392,7 +3392,7 @@ index e7ca5d6fb8922e7e8065864f736b06056be080a0..6c9e574851b518242dbbee9bce954b44
          final String id;
          private final GameRules.Category category;
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 87c8c59b9d47b6c292a92e97471c558c03453cfb..4f8b2617adc0013035cc0ca72bf1b83eb5c18c6c 100644
+index 11e146241a01ab9ec206b9d3f39aebf5c201a16e..9f2a16d32a93a0bcbdfb2f3734cd9ee5c8d57c52 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -305,6 +305,15 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -3517,7 +3517,7 @@ index 87c8c59b9d47b6c292a92e97471c558c03453cfb..4f8b2617adc0013035cc0ca72bf1b83e
      public boolean isInWorldBounds(BlockPos pos) {
          return pos.isInsideBuildHeightAndWorldBoundsHorizontal(this); // Paper - use better/optimized check
      }
-@@ -973,13 +1074,13 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -978,13 +1079,13 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          try {
              tickConsumer.accept(entity);
              MinecraftServer.getServer().executeMidTickTasks(); // Paper - execute chunk tasks mid tick
@@ -3533,7 +3533,7 @@ index 87c8c59b9d47b6c292a92e97471c558c03453cfb..4f8b2617adc0013035cc0ca72bf1b83e
              // Paper end
          }
      }
-@@ -1441,6 +1542,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1446,6 +1547,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      }
  
      public ProfilerFiller getProfiler() {
