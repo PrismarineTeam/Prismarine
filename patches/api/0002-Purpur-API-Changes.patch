@@ -520,7 +520,7 @@ index df05153397b42930cd53d37b30824c7e5f008f7e..ebf70fea04a9d37aa5f2ad8e7d6cef73
      FULL_MOON(0L),
      WANING_GIBBOUS(1L),
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 795f8c0aa3929f6de4b4ea4b139bef8b672ab97a..528e0efb7ff16a1810a6de65ad7ce13223c135f4 100644
+index 944f9b87a11472ac6d7e328acc00bf09f899e648..dfdcbcd79e750fefa90b7a7ca58490a1fa5e92e0 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -415,7 +415,7 @@ public final class Bukkit {
@@ -586,7 +586,7 @@ index 795f8c0aa3929f6de4b4ea4b139bef8b672ab97a..528e0efb7ff16a1810a6de65ad7ce132
      public static String getShutdownMessage() {
          return server.getShutdownMessage();
      }
-@@ -2303,4 +2303,43 @@ public final class Bukkit {
+@@ -2312,4 +2312,43 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -923,7 +923,7 @@ index 23e853bae0e051cd43deb9eb24c54e74a56d8ab0..409aa7c39ce28f275390e11b91704003
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index a62c27777672eff1c488517b37876e3a44a2d57d..47439c4667e6af38b3cf10da7c99d9bbc9c0700c 100644
+index cca362e54d6ff4a5a1e60f85a7eb1b3d222d3d48..97e26767b9143e290fb232013090a91bb67bca7c 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -327,7 +327,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
@@ -1018,9 +1018,9 @@ index a62c27777672eff1c488517b37876e3a44a2d57d..47439c4667e6af38b3cf10da7c99d9bb
          /**
           * Sends the component to the player
           *
-@@ -1996,4 +2011,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-     @NotNull
-     io.papermc.paper.datapack.DatapackManager getDatapackManager();
+@@ -2003,4 +2018,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+      */
+     @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
 +
 +    // Purpur start

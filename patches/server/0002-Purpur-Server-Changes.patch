@@ -653,7 +653,7 @@ index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fe
      public ClientboundSetTimePacket(long time, long timeOfDay, boolean doDaylightCycle) {
          this.gameTime = time % 192000; // Paper - fix guardian beam
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 2c911aee1fc8fb94215ae22fd6bcdcdfee6ef3e8..7a2feaabdad6026e2f4e39e6d669383c3bfeff21 100644
+index 505e37b45c2712bb42cd834b527e8ddb0eae1236..808c1049c55acf028e3a6ed07209dea4624b215b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -294,6 +294,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -16639,7 +16639,7 @@ index 1f2bc88d4570c6ef00e67a772b745e0b0c98e051..f505e871a9836503377f168c31c1f09f
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1cf61874ea 100644
+index 206754441b98e9386bb366d5ec57cffc0142fc94..b1058eb25893f22eb535db8d8e6d82a20176e6d0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -251,7 +251,7 @@ import javax.annotation.Nullable; // Paper
@@ -16651,7 +16651,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
+@@ -958,6 +958,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
@@ -16659,7 +16659,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -973,6 +974,7 @@ public final class CraftServer implements Server {
+@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.paperConfig.init(); // Paper
@@ -16667,7 +16667,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -988,6 +990,7 @@ public final class CraftServer implements Server {
+@@ -989,6 +991,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          com.destroystokyo.paper.PaperConfig.registerCommands(); // Paper
@@ -16675,7 +16675,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1423,6 +1426,19 @@ public final class CraftServer implements Server {
+@@ -1424,6 +1427,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -16695,7 +16695,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2656,6 +2672,7 @@ public final class CraftServer implements Server {
+@@ -2657,6 +2673,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16703,7 +16703,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2702,6 +2719,18 @@ public final class CraftServer implements Server {
+@@ -2703,6 +2720,18 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
@@ -16722,7 +16722,7 @@ index 67a32bfcc95904ff4a7990e77238faa657127d0e..6ce503e8d76e37628b2824c31de32a1c
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2856,4 +2885,16 @@ public final class CraftServer implements Server {
+@@ -2862,4 +2891,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
@@ -17518,10 +17518,10 @@ index 4d325f61e9171b9e1a069ae69a87ec397735da79..056de387d0971f0b994e562c0b638442
                  }
                  this.customEffects.set(index, effect);
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftRecipe.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftRecipe.java
-index 10ace7bb17c36bfefc584a6322841ab6ea4c866f..a225ec89946cb4c9634a797c8568171cffe4410d 100644
+index 71486c08db28caf89f2366e082f6f6fab5609b71..eb893920e2520f6be1d13d9235cb0d326e4b05f8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftRecipe.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftRecipe.java
-@@ -22,6 +22,7 @@ public interface CraftRecipe extends Recipe {
+@@ -27,6 +27,7 @@ public interface CraftRecipe extends Recipe {
          } else if (bukkit instanceof RecipeChoice.ExactChoice) {
              stack = new Ingredient(((RecipeChoice.ExactChoice) bukkit).getChoices().stream().map((mat) -> new net.minecraft.world.item.crafting.Ingredient.ItemValue(CraftItemStack.asNMSCopy(mat))));
              stack.exact = true;
