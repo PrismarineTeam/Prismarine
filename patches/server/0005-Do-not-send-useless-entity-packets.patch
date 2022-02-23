@@ -5,10 +5,10 @@ Subject: [PATCH] Do not send useless entity packets
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index e3d7a80f8c4b68933875ef90006b79776b4ab000..2cd09fea929577c9a52205fe8e53532e65292604 100644
+index b48210b1075f45388b855f807db474037e88f8a8..efa88fe9d5e04ab41e64b7e9be5e45019bb8abc3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -189,6 +189,7 @@ public class ServerEntity {
+@@ -190,6 +190,7 @@ public class ServerEntity {
                          this.teleportDelay = 0;
                          packet1 = new ClientboundTeleportEntityPacket(this.entity);
                      }
@@ -16,7 +16,7 @@ index e3d7a80f8c4b68933875ef90006b79776b4ab000..2cd09fea929577c9a52205fe8e53532e
                  }
  
                  if ((this.trackDelta || this.entity.hasImpulse || this.entity instanceof LivingEntity && ((LivingEntity) this.entity).isFallFlying()) && this.tickCount > 0) {
-@@ -257,6 +258,22 @@ public class ServerEntity {
+@@ -258,6 +259,22 @@ public class ServerEntity {
  
      }
  
