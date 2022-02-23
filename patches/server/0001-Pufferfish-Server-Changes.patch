@@ -114,7 +114,7 @@ index 218f5bafeed8551b55b91c7fccaf6935c8b631ca..f2fe6ea3719ff8b2913b7a3a939d7a5b
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 153f07bac06093b43a1f5b0f8e1a46ffbe6407e5..638cffa552d804d5901e1d099691fdfa4c65a7a7 100644
+index a7ebf6d9f79ce50a90c3c903563e00a10607f9f2..0b51ae930df9009fc02f11d831cdceb984194876 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -232,6 +232,15 @@ public class PaperConfig {
@@ -2152,7 +2152,7 @@ index 7bddc7517356cc74104dcc5c7c55522a53f2596f..d6a57cdad2c92521a800cb18d060d9d6
  
      public static long getCoordinateKey(final ChunkPos pair) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 053dbe5eef6574cfe98ab7499181bdd83a81f2e1..86e87747d9dd6e5903c3590efcfbaedd90825626 100644
+index 6d1d83bc17403346cc9d3143666b927ef55fb9df..2c911aee1fc8fb94215ae22fd6bcdcdfee6ef3e8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -310,6 +310,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -2164,7 +2164,7 @@ index 053dbe5eef6574cfe98ab7499181bdd83a81f2e1..86e87747d9dd6e5903c3590efcfbaedd
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -1711,7 +1713,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1719,7 +1721,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -2173,7 +2173,7 @@ index 053dbe5eef6574cfe98ab7499181bdd83a81f2e1..86e87747d9dd6e5903c3590efcfbaedd
      }
  
      public SystemReport fillSystemReport(SystemReport details) {
-@@ -2245,6 +2247,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2253,6 +2255,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public ProfilerFiller getProfiler() {

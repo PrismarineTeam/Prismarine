@@ -128,10 +128,10 @@ index 6654c5a547cb49bce98d6b0feed9a245c1a5ce7c..79bf89df427f48733059fe5aafef0e64
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index b63509528f519c8e16a772796b362bad867099ff..ed23b45831d929dc8fb74a837aab4fc0bfe498f0 100644
+index 7a2feaabdad6026e2f4e39e6d669383c3bfeff21..9f3fb95c773de7a054ecc71d45cf5af5783dcb4a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1025,7 +1025,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1033,7 +1033,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
