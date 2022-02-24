@@ -1,32 +1,19 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Alpha <alphakr93@outlook.com>
-Date: Sat, 19 Feb 2022 17:52:52 +0900
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Thu, 24 Feb 2022 02:29:48 +0000
 Subject: [PATCH] Purpur Server Changes
 
-Purpur Commit: 52228a11c1140b4ef7c704de6d50e42e3f1edcce
+Purpur Commit: 4afe68b0057c9ecc3d6e03df14b1014e3b58fd04
 
 Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index a37ca23682272d5ddaf1a2246917e6c46b69da86..52047b799fe241ba8501511899a7ff8e5cbe9925 100644
@@ -350,30 +337,6 @@ index cc0576e8e5e1dc77c22856f0f9c4376b6bf36677..6654c5a547cb49bce98d6b0feed9a245
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
          stringbuilder.append("\n\n");
-diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 34e571b702684673b89103176838dc246ff9b24d..3bef6ecc820b57f3953b48ecbd451d457ecc46e1 100644
---- a/src/main/java/net/minecraft/Util.java
-+++ b/src/main/java/net/minecraft/Util.java
-@@ -392,6 +392,10 @@ public class Util {
- 
-     private static final CompletableFuture<?>[] EMPTY_FUTURE = new CompletableFuture[0]; // Paper
-     public static <V> CompletableFuture<List<V>> sequence(List<? extends CompletableFuture<? extends V>> futures) {
-+        // Pufferfish start - faster sequencing without all of.. _that_
-+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
-+                .thenApply(unused -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
-+        /*
-         // Paper start - optimize
-         return CompletableFuture.allOf(futures.toArray(EMPTY_FUTURE))
-             .thenApply(v -> {
-@@ -402,6 +406,8 @@ public class Util {
-                 return list;
-             });
-         // Paper end
-+         */
-+        // Pufferfish end
-     }
- 
-     public static <V> CompletableFuture<List<V>> sequenceFailFast(List<? extends CompletableFuture<? extends V>> futures) {
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
 index 098182d2426a25cef0bc285356bc346db0af8172..21b3532c29f2f1bcf1eb02a28ab107e9f6531393 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
