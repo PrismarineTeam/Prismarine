@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 24 Feb 2022 02:29:48 +0000
+Date: Mon, 28 Feb 2022 17:25:16 +0000
 Subject: [PATCH] Purpur Server Changes
 
-Purpur Commit: 4afe68b0057c9ecc3d6e03df14b1014e3b58fd04
+Purpur Commit: ea44ea199f97667e298a6d55b556fc5383c478cd
 
 Original by PurpurMC Team
 
@@ -963,7 +963,7 @@ index c37afd850654905343dd2eb33881dab7d57d9137..b48210b1075f45388b855f807db47403
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 58604c77d9273c866e53f8ee62c7056acc76e004..822308ff1fb9c0ba2137e2ef067e02e294d62480 100644
+index 641e128a5551c6aed60bcf816aa4b0f2e0aa5049..83382a339c19ef08c11a4b69507470a2b9ef6f98 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -83,6 +83,7 @@ import net.minecraft.world.entity.MobCategory;
@@ -16800,7 +16800,7 @@ index 04976616da8c85b1278dad33ff05554aa74a6b33..046e0e174119e65686e74eaf11853e68
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 989aaca1d56423729d4f5a491cd4c501342dac7c..f46ce327586781f74d8feb47e6a904d732888289 100644
+index a92755211e3d42934b5efaa3f201c6c19ab7d2b4..d575da51b4f1318734ebf26a3730871134e28102 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 @@ -199,6 +199,11 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {

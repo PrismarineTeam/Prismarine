@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 24 Feb 2022 02:21:47 +0000
+Date: Mon, 28 Feb 2022 17:17:19 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Pufferfish Commit: a786526baaf6b52a42f3c46cebb1e0c1d37dc7b8
@@ -2364,7 +2364,7 @@ index b0a79e335ac9dc24fc6f18010bf40716ecc724bf..c37afd850654905343dd2eb33881dab7
                          this.wasOnGround = this.entity.isOnGround();
                          this.teleportDelay = 0;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 835a17cd4ec487271ba28232280dd0fbf2687c4b..58604c77d9273c866e53f8ee62c7056acc76e004 100644
+index 768017ba650f1bd96e3db0aad8fda939e2ea7add..641e128a5551c6aed60bcf816aa4b0f2e0aa5049 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -667,7 +667,20 @@ public class ServerLevel extends Level implements WorldGenLevel {
