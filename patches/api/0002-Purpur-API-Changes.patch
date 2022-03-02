@@ -1,40 +1,43 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: AlphaKR93 <alphakr93@outlook.com>
-Date: Mon, 28 Feb 2022 17:25:16 +0000
+From: Alpha <alphakr93@outlook.com>
+Date: Wed, 2 Mar 2022 11:53:22 +0900
 Subject: [PATCH] Purpur API Changes
-
-Purpur Commit: ea44ea199f97667e298a6d55b556fc5383c478cd
 
 Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 93390eaead78d229902df0f7c8f9b30cb6174de7..bac527acaa1826486a8183bcccb4d64654a0efed 100644
+index 20df1ad509f2b5d6204d3ff550af0078a7268537..3004506c52b8869dd87bd722065d7d19a1c6c274 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -41,6 +41,7 @@ dependencies {
-     api("org.apache.logging.log4j:log4j-api:2.17.1")
-     api("org.slf4j:slf4j-api:1.8.0-beta4")
-     api("io.sentry:sentry:5.4.0") // Pufferfish
-+    api("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") // Purpur
- 
-     implementation("org.ow2.asm:asm:9.2")
-     implementation("org.ow2.asm:asm-commons:9.2")
-@@ -101,6 +102,7 @@ tasks.jar {
+@@ -102,6 +102,7 @@ tasks.jar {
  }
  
  tasks.withType<Javadoc> {
 +    (options as StandardJavadocDocletOptions).addStringOption("-add-modules", "jdk.incubator.vector") // Purpur - our javadocs need this for pufferfish's SIMD patch
-     inputs.files(apiAndDocs)
-         .ignoreEmptyDirectories()
-         .withPropertyName(apiAndDocs.name + "-configuration")
+     val options = options as StandardJavadocDocletOptions
+     options.overview = "src/main/javadoc/overview.html"
+     options.isDocFilesSubDirs = true
 diff --git a/src/main/java/com/destroystokyo/paper/ClientOption.java b/src/main/java/com/destroystokyo/paper/ClientOption.java
 index cedb51f9f3a9150035c2b44970a096448c441dd9..130fab58e6d448ec08667e2a6c13fc78121f802b 100644
 --- a/src/main/java/com/destroystokyo/paper/ClientOption.java
@@ -140,12 +143,12 @@ index f2e3233a3d1744e32fb76d3731b9858ef0067e30..e66e8b28c673216dd1587582f44c26f6
      /**
       * Attack the specified entity using a ranged attack.
 diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
-index 2405254739a83b2fb517da7fa4ea0721c68f9f6d..b3e4d10e54952be23ba3f4bcc374c24cff8b0ce2 100644
+index 8fd399f791b45eb7fc62693ca954eea0c68e2881..c18940f5c3b3436c19ca6ea466bc8a78579c795f 100644
 --- a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
 +++ b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
-@@ -197,6 +197,18 @@ public interface VanillaGoal<T extends Mob> extends Goal<T> {
-     GoalKey<Raider> RAIDER_MOVE_THROUGH_VILLAGE = GoalKey.of(Raider.class, NamespacedKey.minecraft("raider_move_through_village"));
-     GoalKey<Creature> PARROT_WANDER = GoalKey.of(Creature.class, NamespacedKey.minecraft("parrot_wander"));
+@@ -199,6 +199,18 @@ public interface VanillaGoal<T extends Mob> extends Goal<T> {
+     GoalKey<Mob> CLIMB_ON_TOP_OF_POWDER_SNOW = GoalKey.of(Mob.class, NamespacedKey.minecraft("climb_on_top_of_powder_snow"));
+     GoalKey<Wolf> WOLF_PANIC = GoalKey.of(Wolf.class, NamespacedKey.minecraft("wolf_panic"));
  
 +    // Purpur start
 +    GoalKey<Mob> MOB_HAS_RIDER = GoalKey.of(Mob.class, NamespacedKey.minecraft("has_rider"));
@@ -618,7 +621,7 @@ index 944f9b87a11472ac6d7e328acc00bf09f899e648..dfdcbcd79e750fefa90b7a7ca58490a1
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/ChatColor.java b/src/main/java/org/bukkit/ChatColor.java
-index 4594701d77c5d0f744bece871b98d9f6f73eb5a7..a991bfe33f695a6166be6937039098ddea892f7b 100644
+index 4594701d77c5d0f744bece871b98d9f6f73eb5a7..924af5982b1990492cafe6ef8d9f284f7933e7c4 100644
 --- a/src/main/java/org/bukkit/ChatColor.java
 +++ b/src/main/java/org/bukkit/ChatColor.java
 @@ -2,6 +2,7 @@ package org.bukkit;
@@ -675,7 +678,7 @@ index 4594701d77c5d0f744bece871b98d9f6f73eb5a7..a991bfe33f695a6166be6937039098dd
 +
 +    @NotNull
 +    public static net.kyori.adventure.text.Component parseMM(@NotNull String string, @Nullable Object... args) {
-+        return net.kyori.adventure.text.minimessage.MiniMessage.get().parse(String.format(string, args));
++        return net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(String.format(string, args));
 +    }
 +
 +    @Deprecated
@@ -1042,7 +1045,7 @@ index cca362e54d6ff4a5a1e60f85a7eb1b3d222d3d48..97e26767b9143e290fb232013090a91b
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/UnsafeValues.java b/src/main/java/org/bukkit/UnsafeValues.java
-index f59030893eba2bf653207b040a5f54fdf7b7b50f..430525a74bd727c6c831aaa86784430bf7b221a8 100644
+index 7cde8f62ca250146e79f37ca832abdd3c82c96c3..4c39e74509a2beac0a4e96df6de4965ee4838a87 100644
 --- a/src/main/java/org/bukkit/UnsafeValues.java
 +++ b/src/main/java/org/bukkit/UnsafeValues.java
 @@ -94,6 +94,8 @@ public interface UnsafeValues {

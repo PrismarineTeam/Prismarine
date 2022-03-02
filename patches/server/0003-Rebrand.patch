@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 52047b799fe241ba8501511899a7ff8e5cbe9925..04e24c9ceefaa591ab3355c138f50bbd07bddea5 100644
+index 58948319c004d89a90052d061f9c9293375b9c88..d50d699087604bdf715f2beef579b09694bf78d4 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -18,7 +18,7 @@ repositories {
@@ -106,7 +106,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa8
      // Contributed by Techcable <Techcable@outlook.com> in GH-65
      private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index 6654c5a547cb49bce98d6b0feed9a245c1a5ce7c..79bf89df427f48733059fe5aafef0e647a2b1abc 100644
+index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa21024ba7 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
 @@ -33,7 +33,7 @@ public class CrashReport {
@@ -128,10 +128,10 @@ index 6654c5a547cb49bce98d6b0feed9a245c1a5ce7c..79bf89df427f48733059fe5aafef0e64
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 7a2feaabdad6026e2f4e39e6d669383c3bfeff21..9f3fb95c773de7a054ecc71d45cf5af5783dcb4a 100644
+index 78ce57204548210da643075d908cd7fb95d1c689..5c8053bb1b8414471561aa4f46160450348eb988 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1033,7 +1033,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -963,7 +963,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
@@ -141,7 +141,7 @@ index 7a2feaabdad6026e2f4e39e6d669383c3bfeff21..9f3fb95c773de7a054ecc71d45cf5af5
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index c6267659e8ff73e59d2a4992aa67f86c02f7dda9..6d984b51610f9851157377a384a27d3d0134e9d9 100644
+index 5e9fc979daced5dad9977ab12ea019f4e6216bfb..cfc2826818d5a437ef5027b9f3dfac5dd4272cac 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {
@@ -154,10 +154,10 @@ index c6267659e8ff73e59d2a4992aa67f86c02f7dda9..6d984b51610f9851157377a384a27d3d
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 6ce503e8d76e37628b2824c31de32a1cf61874ea..6047932450fe28cde049092a1f1cc493a5f9f061 100644
+index 9eeda0574d05a8ae916de2272f62e8846201361e..b2a99115e619cd5e6e74934ad841b0986e1fa69c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -251,7 +251,7 @@ import javax.annotation.Nullable; // Paper
+@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {

@@ -227,10 +227,10 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index bace0733a4c9984b02c9a2ac918d65299efd9869..636ff4a442ef454b2b780d9c3df7b1fcb19e1b55 100644
+index 061f14d81fdd8676cf06b4208d975fe1e9aac7f2..83c99d86df97776a53f59084dccc97c95afd9137 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -210,7 +210,11 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -213,7 +213,11 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          }
          // Spigot start
          this.setPlayerList(new DedicatedPlayerList(this, this.registryHolder, this.playerDataStorage));

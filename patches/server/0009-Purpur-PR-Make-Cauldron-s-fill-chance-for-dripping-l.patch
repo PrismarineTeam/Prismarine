@@ -29,10 +29,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java b/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
-index 356b0cab78966f6b99396975c68042bff3526a9d..05165890179c0515a69e285342cbb28a06a3d47b 100644
+index 995e3bf2ee863902497ab40cb7cf3a14a22a6e19..4a56b8840a2ca0828272a55dace1df96122c4e87 100644
 --- a/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
-@@ -185,19 +185,19 @@ public class PointedDripstoneBlock extends Block implements Fallable, SimpleWate
+@@ -187,19 +187,19 @@ public class PointedDripstoneBlock extends Block implements Fallable, SimpleWate
  
      @VisibleForTesting
      public static void maybeFillCauldron(BlockState state, ServerLevel world, BlockPos pos, float dripChance) {
