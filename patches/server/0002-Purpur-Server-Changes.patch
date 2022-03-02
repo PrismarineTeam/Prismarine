@@ -1874,10 +1874,10 @@ index 4fa79d37ff4e70c61672cce7c55257c46232c026..df43d0a0f3d1e34baabae150cbf01a00
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2cd6bda08f 100644
+index 02dc93c394d37c9a84aa4a58d80615c403c54fb9..111553443a7247db92b15819e9bbd717e4ace61b 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -486,6 +486,7 @@ public abstract class PlayerList {
+@@ -493,6 +493,7 @@ public abstract class PlayerList {
              scoreboard.addPlayerToTeam(player.getScoreboardName(), collideRuleTeam);
          }
          // Paper end
@@ -1885,7 +1885,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
          // CraftBukkit - Moved from above, added world
          PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
      }
-@@ -596,6 +597,8 @@ public abstract class PlayerList {
+@@ -603,6 +604,8 @@ public abstract class PlayerList {
      }
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer, net.kyori.adventure.text.Component leaveMessage) {
          // Paper end
@@ -1894,7 +1894,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
          ServerLevel worldserver = entityplayer.getLevel();
  
          entityplayer.awardStat(Stats.LEAVE_GAME);
-@@ -763,7 +766,7 @@ public abstract class PlayerList {
+@@ -770,7 +773,7 @@ public abstract class PlayerList {
              event.disallow(PlayerLoginEvent.Result.KICK_BANNED, PaperAdventure.asAdventure(chatmessage)); // Paper - Adventure
          } else {
              // return this.players.size() >= this.maxPlayers && !this.canBypassPlayerLimit(gameprofile) ? new ChatMessage("multiplayer.disconnect.server_full") : null;
@@ -1903,7 +1903,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
                  event.disallow(PlayerLoginEvent.Result.KICK_FULL, PaperAdventure.LEGACY_SECTION_UXRC.deserialize(org.spigotmc.SpigotConfig.serverFullMessage)); // Spigot // Paper - Adventure
              }
          }
-@@ -997,6 +1000,8 @@ public abstract class PlayerList {
+@@ -1004,6 +1007,8 @@ public abstract class PlayerList {
          }
          // Paper end
  
@@ -1912,7 +1912,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
          // CraftBukkit end
          return entityplayer1;
      }
-@@ -1009,22 +1014,22 @@ public abstract class PlayerList {
+@@ -1016,22 +1021,22 @@ public abstract class PlayerList {
      }
  
      public void tick() {
@@ -1948,7 +1948,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
      }
  
      public void broadcastAll(Packet<?> packet) {
-@@ -1160,6 +1165,7 @@ public abstract class PlayerList {
+@@ -1167,6 +1172,7 @@ public abstract class PlayerList {
              } else {
                  b0 = (byte) (24 + permissionLevel);
              }
@@ -1956,7 +1956,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
  
              player.connection.send(new ClientboundEntityEventPacket(player, b0));
          }
-@@ -1168,6 +1174,27 @@ public abstract class PlayerList {
+@@ -1175,6 +1181,27 @@ public abstract class PlayerList {
          player.getBukkitEntity().recalculatePermissions(); // CraftBukkit
          this.server.getCommands().sendCommands(player);
          } // Paper
@@ -1984,7 +1984,7 @@ index f5852341161b0d632e22af9b3e625ca1e786bd63..f8976042a6a877fba7fcea8ed1cacf2c
      }
  
      // Paper start
-@@ -1377,6 +1404,62 @@ public abstract class PlayerList {
+@@ -1384,6 +1411,62 @@ public abstract class PlayerList {
      }
      // CraftBukkit end
  
@@ -8274,7 +8274,7 @@ index 359f6cf63319ad9f125cdea848852def8a1ec1c8..b5ff43e866c3c43085e91b38c31c4845
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
-index 880521f25a6c8483c79043f237866cb7a49c3a54..55b23782f477d7ce9c21089addd06f0b95c8f8fd 100644
+index 483127e9418489ad7ba1fbcb14a045d91c1c3c30..8b102fa55fe5627fed11ae6fcdd137af5aaa0356 100644
 --- a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
 @@ -120,7 +120,7 @@ public class FallingBlockEntity extends Entity {
