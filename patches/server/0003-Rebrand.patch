@@ -13,7 +13,7 @@ index bd5d784ad6fb9786e03bd614baa40954b9fe6090..1e87bf6be926b4f877ea0f3c6c4fffa7
  
  dependencies {
 -    implementation(project(":purpur-api")) // Pufferfish // Paper // Purpur
-+    implementation(project(":Prismarine-API")) // Pufferfish // Paper // Purpur
++    implementation(project(":Prismarine-API")) // Pufferfish // Paper // Purpur // Prismarine
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.18.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
@@ -30,7 +30,7 @@ index bd5d784ad6fb9786e03bd614baa40954b9fe6090..1e87bf6be926b4f877ea0f3c6c4fffa7
 +            "Specification-Title" to "Prismarine", // Prismarine
              "Specification-Version" to project.version,
 -            "Specification-Vendor" to "Bukkit Team",
-+            "Specification-Vendor" to "PrismarineMC Team", // Prismarine
++            "Specification-Vendor" to "Prismarine Team", // Prismarine
              "Git-Branch" to gitBranch, // Paper
              "Git-Commit" to gitHash, // Paper
          )
