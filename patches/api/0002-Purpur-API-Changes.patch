@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alpha <alphakr93@outlook.com>
-Date: Wed, 2 Mar 2022 11:53:22 +0900
+Date: Sat, 5 Mar 2022 12:06:25 +0900
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 20df1ad509f2b5d6204d3ff550af0078a7268537..3004506c52b8869dd87bd722065d7d19a1c6c274 100644
+index 0007c6b1d81373cb6592c8b9e02f464405050f68..629718eaf927cd64ba9989f75381dc85ef2caa0f 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -102,6 +102,7 @@ tasks.jar {
@@ -725,14 +725,13 @@ index 525ede42137cc27cf20cf713478e85292455676e..a0279fcbfc76ad97a61fc191424e876d
  
      WATER,
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 56e5ab93096801277ec5162981ddf5275d2c7669..bfcd5b17898ae97340d813bb46506234bc03e229 100644
+index ef7054fec75d91082be27fdd2a06469f37a6c174..d410cc574c941a348d7130bf1709859c2f1f4505 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -9857,4 +9857,40 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
- 
-         return Bukkit.getUnsafe().getDefaultAttributeModifiers(this, slot);
+@@ -9869,4 +9869,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
+         return Bukkit.getUnsafe().getCreativeCategory(this);
      }
-+
+ 
 +    // Purpur start
 +    public boolean isArmor() {
 +        switch (this) {
@@ -1045,10 +1044,10 @@ index cca362e54d6ff4a5a1e60f85a7eb1b3d222d3d48..97e26767b9143e290fb232013090a91b
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/UnsafeValues.java b/src/main/java/org/bukkit/UnsafeValues.java
-index 7cde8f62ca250146e79f37ca832abdd3c82c96c3..4c39e74509a2beac0a4e96df6de4965ee4838a87 100644
+index b39d1474210da1974d7e95f10daaf496a9330442..4d4c66d08d57d6a529a4589de00c7e2ac75725b5 100644
 --- a/src/main/java/org/bukkit/UnsafeValues.java
 +++ b/src/main/java/org/bukkit/UnsafeValues.java
-@@ -94,6 +94,8 @@ public interface UnsafeValues {
+@@ -97,6 +97,8 @@ public interface UnsafeValues {
  
      /**
       * Called once by the version command on first use, then cached.
@@ -1057,7 +1056,7 @@ index 7cde8f62ca250146e79f37ca832abdd3c82c96c3..4c39e74509a2beac0a4e96df6de4965e
       */
      default com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
          return new com.destroystokyo.paper.util.VersionFetcher.DummyVersionFetcher();
-@@ -120,6 +122,8 @@ public interface UnsafeValues {
+@@ -123,6 +125,8 @@ public interface UnsafeValues {
      /**
       * Return the translation key for the Material, so the client can translate it into the active
       * locale when using a {@link net.kyori.adventure.text.TranslatableComponent}.
@@ -1066,7 +1065,7 @@ index 7cde8f62ca250146e79f37ca832abdd3c82c96c3..4c39e74509a2beac0a4e96df6de4965e
       * @return the translation key
       */
      String getTranslationKey(Material mat);
-@@ -127,6 +131,8 @@ public interface UnsafeValues {
+@@ -130,6 +134,8 @@ public interface UnsafeValues {
      /**
       * Return the translation key for the Block, so the client can translate it into the active
       * locale when using a {@link net.kyori.adventure.text.TranslatableComponent}.
@@ -1075,7 +1074,7 @@ index 7cde8f62ca250146e79f37ca832abdd3c82c96c3..4c39e74509a2beac0a4e96df6de4965e
       * @return the translation key
       */
      String getTranslationKey(org.bukkit.block.Block block);
-@@ -135,6 +141,8 @@ public interface UnsafeValues {
+@@ -138,6 +144,8 @@ public interface UnsafeValues {
       * Return the translation key for the EntityType, so the client can translate it into the active
       * locale when using a {@link net.kyori.adventure.text.TranslatableComponent}.<br>
       * This is <code>null</code>, when the EntityType isn't known to NMS (custom entities)
@@ -1084,7 +1083,7 @@ index 7cde8f62ca250146e79f37ca832abdd3c82c96c3..4c39e74509a2beac0a4e96df6de4965e
       * @return the translation key
       */
      String getTranslationKey(org.bukkit.entity.EntityType type);
-@@ -150,6 +158,8 @@ public interface UnsafeValues {
+@@ -153,6 +161,8 @@ public interface UnsafeValues {
       * Creates and returns the next EntityId available.
       * <p>
       * Use this when sending custom packets, so that there are no collisions on the client or server.
