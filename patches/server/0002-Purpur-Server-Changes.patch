@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alpha <alphakr93@outlook.com>
-Date: Sat, 5 Mar 2022 12:07:02 +0900
+Date: Sun, 6 Mar 2022 12:32:45 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -1282,7 +1282,7 @@ index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fe
      public ClientboundSetTimePacket(long time, long timeOfDay, boolean doDaylightCycle) {
          this.gameTime = time % 192000; // Paper - fix guardian beam
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69d6ceb21a 100644
+index 56f437b0e1ad5b167cdcbaaaf83b49d27e37b904..bc64834c74cbcf2772713c7bf124f421d9cb35b7 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -294,6 +294,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -1336,7 +1336,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
          // CraftBukkit start
          if (this.server != null) {
              this.server.disablePlugins();
-@@ -1079,6 +1090,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1088,6 +1099,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.safeShutdown(flag, false);
      }
      public void safeShutdown(boolean flag, boolean isRestarting) {
@@ -1345,7 +1345,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
          this.isRestarting = isRestarting;
          this.hasLoggedStop = true; // Paper
          if (isDebugging()) io.papermc.paper.util.TraceUtil.dumpTraceForThread("Server stopped"); // Paper
-@@ -1105,6 +1118,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1114,6 +1127,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      private static final long MAX_CATCHUP_BUFFER = TICK_TIME * TPS * 60L;
      private long lastTick = 0;
      private long catchupTime = 0;
@@ -1353,7 +1353,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
      public final RollingAverage tps1 = new RollingAverage(60);
      public final RollingAverage tps5 = new RollingAverage(60 * 5);
      public final RollingAverage tps15 = new RollingAverage(60 * 15);
-@@ -1195,14 +1209,19 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1204,14 +1218,19 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                      {
                          final long diff = curTime - tickSection;
                          java.math.BigDecimal currentTps = TPS_BASE.divide(new java.math.BigDecimal(diff), 30, java.math.RoundingMode.HALF_UP);
@@ -1376,7 +1376,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
                          tickSection = curTime;
                      }
                      // Spigot end
-@@ -1220,7 +1239,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1229,7 +1248,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                      this.tickServer(this::haveTime);
                      this.profiler.popPush("nextTickWait");
                      this.mayHaveDelayedTasks = true;
@@ -1391,7 +1391,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
                      this.waitUntilNextTick();
                      this.profiler.pop();
                      this.endMetricsRecordingTick();
-@@ -1546,7 +1571,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1560,7 +1585,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              long worldTime = world.getGameTime();
              final ClientboundSetTimePacket worldPacket = new ClientboundSetTimePacket(worldTime, dayTime, doDaylight);
              for (Player entityhuman : world.players()) {
@@ -1400,7 +1400,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
                      continue;
                  }
                  ServerPlayer entityplayer = (ServerPlayer) entityhuman;
-@@ -1563,6 +1588,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1577,6 +1602,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              ServerLevel worldserver = (ServerLevel) iterator.next();
              worldserver.hasPhysicsEvent =  org.bukkit.event.block.BlockPhysicsEvent.getHandlerList().getRegisteredListeners().length > 0; // Paper
              worldserver.hasEntityMoveEvent =  io.papermc.paper.event.entity.EntityMoveEvent.getHandlerList().getRegisteredListeners().length > 0; // Paper
@@ -1408,7 +1408,7 @@ index d3319f194b23e0c27181828d3d5a2b8830124818..1980bee459e8b0db7800903229aead69
              net.minecraft.world.level.block.entity.HopperBlockEntity.skipHopperEvents = worldserver.paperConfig.disableHopperMoveEvents || org.bukkit.event.inventory.InventoryMoveItemEvent.getHandlerList().getRegisteredListeners().length == 0; // Paper
  
              this.profiler.push(() -> {
-@@ -1685,7 +1711,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1699,7 +1725,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -1656,7 +1656,7 @@ index 937a93d134dc986fe23e5676d58f7619524b9bf3..65f1f919a689f6f7960d731b250582bd
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 5e9ad7c828a196e6fe85bb3e32aa23b95c83b39d..bba611ee7c967bf918cdc4053e32b28a3f25b047 100644
+index 48e428ce0590c530522de56c9f9c8cf1631c6e01..4f584e1b6235f535a6023f97ae24785f0b271bcb 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -202,6 +202,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1831,7 +1831,7 @@ index 5e9ad7c828a196e6fe85bb3e32aa23b95c83b39d..bba611ee7c967bf918cdc4053e32b28a
          this.serverLevelData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2510,7 +2578,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2516,7 +2584,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Spigot Start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start
@@ -13142,7 +13142,7 @@ index 9c767096ca950d55d6002282c7a3fe2884bcd630..64b4ce3dc8b5e43125f668f5fc00b3f9
              CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) this, stack);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-index 3d3dcb47720055f550d17d1f106a2c0e59de2919..5f19571e59251a9072b29c600e075c232fb1f048 100644
+index 53d0024daf6963ac4dab575666b0d6a74a39a958..59e434c31d1929bdc1d5242ef1f117d998ca46ec 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 @@ -62,7 +62,7 @@ public abstract class AbstractArrow extends Projectile {
@@ -13154,7 +13154,7 @@ index 3d3dcb47720055f550d17d1f106a2c0e59de2919..5f19571e59251a9072b29c600e075c23
      private double baseDamage;
      public int knockback;
      private SoundEvent soundEvent;
-@@ -308,7 +308,7 @@ public abstract class AbstractArrow extends Projectile {
+@@ -321,7 +321,7 @@ public abstract class AbstractArrow extends Projectile {
          Vec3 vec3d = this.getDeltaMovement();
  
          this.setDeltaMovement(vec3d.multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
@@ -13163,7 +13163,7 @@ index 3d3dcb47720055f550d17d1f106a2c0e59de2919..5f19571e59251a9072b29c600e075c23
      }
  
      @Override
-@@ -320,12 +320,23 @@ public abstract class AbstractArrow extends Projectile {
+@@ -333,12 +333,23 @@ public abstract class AbstractArrow extends Projectile {
  
      }
  
@@ -13309,21 +13309,17 @@ index 4132c1113f5437a776e5e3c1cb306904775aed88..c7fdcfae1ba823046fdfe78aa97b4a7a
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index 4759a6b3d3cd7973744562adf97d110d359ebce3..39422e7fb1e04c007ec136ea709af22a558ff066 100644
+index 0c7d31c7ffd603e54fb19010331ad220c7b15627..90f6a355e345f409ad7702ddc2b6c81ef4e7b933 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-@@ -33,9 +33,10 @@ public abstract class Projectile extends Entity {
+@@ -33,6 +33,7 @@ public abstract class Projectile extends Entity {
      public Entity cachedOwner;
      private boolean leftOwner;
      private boolean hasBeenShot;
 +    public int life; // Purpur - moved from AbstractArrow
  
      // CraftBukkit start
--    private boolean hitCancelled = false;
-+    public boolean hitCancelled = false; // Purpur - private -> public
-     // CraftBukkit end
- 
-     Projectile(EntityType<? extends Projectile> type, Level world) {
+     protected boolean hitCancelled = false;
 @@ -72,6 +73,19 @@ public abstract class Projectile extends Entity {
      }
      // Pufferfish start

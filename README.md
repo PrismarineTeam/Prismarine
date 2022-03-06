@@ -27,7 +27,7 @@ Prismarine
 ## Downloads
 고급 사용자일 경우, 본 레포지토리의 우측 [Releases](https://github.com/PrismarineTeam/Prismarine/releases) 에서 최신 Jar 파일을 다운로드 받을 수 있습니다.
 
-일반 사용자일 경우, [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.18.1-R0.1-SNAPSHOT-reobf.jar) 최신 Jar 파일을 다운로드 받을 수 있습니다.
+일반 사용자일 경우, [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.18.2-R0.1-SNAPSHOT-reobf.jar) 최신 Jar 파일을 다운로드 받을 수 있습니다.
 
 ## Official Minecraft Server
 ```play.pmcsmp.kro.kr``` 은 저희 PrismarineTeam이 공식적으로 운영하고 있는 생존 서버입니다.
