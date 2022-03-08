@@ -4,79 +4,9 @@ Date: Sat, 5 Mar 2022 12:27:53 +0900
 Subject: [PATCH] Miscellaneous patches
 
 
-diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishCommand.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishCommand.java
-index e164237e749bcc43466d4ed7aeada5ab9fddf8a6..0fa3512c9f908f82fa0db399741e6594226028ae 100644
---- a/src/main/java/gg/pufferfish/pufferfish/PufferfishCommand.java
-+++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishCommand.java
-@@ -1,5 +1,6 @@
- package gg.pufferfish.pufferfish;
- 
-+import java.io.File;
- import java.io.IOException;
- import java.util.Collections;
- import java.util.List;
-@@ -9,10 +10,12 @@ import net.kyori.adventure.text.Component;
- import net.kyori.adventure.text.format.NamedTextColor;
- import net.md_5.bungee.api.ChatColor;
- import net.minecraft.server.MinecraftServer;
-+import net.minecraft.server.level.ServerLevel;
- import org.bukkit.Bukkit;
- import org.bukkit.Location;
- import org.bukkit.command.Command;
- import org.bukkit.command.CommandSender;
-+import org.purpurmc.purpur.PurpurConfig;
- 
- public class PufferfishCommand extends Command {
- 
-@@ -31,8 +34,8 @@ public class PufferfishCommand extends Command {
-     public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
-         if (args.length == 1) {
-             return Stream.of("reload", "version")
--              .filter(arg -> arg.startsWith(args[0].toLowerCase()))
--              .collect(Collectors.toList());
-+                    .filter(arg -> arg.startsWith(args[0].toLowerCase()))
-+                    .collect(Collectors.toList());
-         }
-         return Collections.emptyList();
-     }
-@@ -40,14 +43,16 @@ public class PufferfishCommand extends Command {
-     @Override
-     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-         if (!testPermission(sender)) return true;
--        String prefix = ChatColor.of("#12fff6") + "" + ChatColor.BOLD + "Pufferfish » " + ChatColor.of("#e8f9f9");
- 
-         if (args.length != 1) {
--            sender.sendMessage(prefix + "Usage: " + usageMessage);
--            args = new String[]{"version"};
-+            sender.sendMessage(org.bukkit.ChatColor.RED + "Usage: " + usageMessage);
-+            return false;
-         }
- 
-         if (args[0].equalsIgnoreCase("reload")) {
-+            Command.broadcastCommandMessage(sender, org.bukkit.ChatColor.RED + "Please note that this command is not supported and may cause issues.");
-+            Command.broadcastCommandMessage(sender, org.bukkit.ChatColor.RED + "If you encounter any issues please use the /stop command to restart your server.");
-+
-             MinecraftServer console = MinecraftServer.getServer();
-             try {
-                 PufferfishConfig.load();
-@@ -58,9 +63,12 @@ public class PufferfishCommand extends Command {
-             }
-             console.server.reloadCount++;
- 
--            Command.broadcastCommandMessage(sender, prefix + "Pufferfish configuration has been reloaded.");
-+            Command.broadcastCommandMessage(sender, org.bukkit.ChatColor.GREEN + "Pufferfish config reload complete.");
-         } else if (args[0].equalsIgnoreCase("version")) {
--            Command.broadcastCommandMessage(sender, prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
-+            Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
-+            if (verCmd != null) {
-+                return verCmd.execute(sender, commandLabel, new String[0]);
-+            }
-         }
- 
-         return true;
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
-index 461022af9ad85fe00329678f0f61d684d291c628..0000000000000000000000000000000000000000
+index adafc4fd661cf080b004b86c3eaed231a0133101..0000000000000000000000000000000000000000
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 +++ /dev/null
 @@ -1,136 +0,0 @@
@@ -108,46 +38,46 @@ index 461022af9ad85fe00329678f0f61d684d291c628..00000000000000000000000000000000
 -import org.jetbrains.annotations.Nullable;
 -
 -public class PufferfishVersionFetcher implements VersionFetcher {
--
+-	
 -	private static final Logger LOGGER = Logger.getLogger("PufferfishVersionFetcher");
 -	private static final HttpClient client = HttpClient.newHttpClient();
--
+-	
 -	private static final URI JENKINS_URI = URI.create("https://ci.pufferfish.host/job/Pufferfish-1.18/lastSuccessfulBuild/buildNumber");
 -	private static final String GITHUB_FORMAT = "https://api.github.com/repos/pufferfish-gg/Pufferfish/compare/ver/1.18...%s";
--
+-	
 -	private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers
 -			.mapping(
 -					HttpResponse.BodySubscribers.ofString(StandardCharsets.UTF_8),
 -					string -> new Gson().fromJson(string, JsonObject.class)
 -			);
--
+-	
 -	@Override
 -	public long getCacheTime() {
 -		return TimeUnit.MINUTES.toMillis(30);
 -	}
--
+-	
 -	@Override
 -	public @NotNull Component getVersionMessage(final @NotNull String serverVersion) {
 -		final String[] parts = CraftServer.class.getPackage().getImplementationVersion().split("-");
 -		@NotNull Component component;
--
+-		
 -		if (parts.length != 3) {
 -			component = text("Unknown server version.", RED);
 -		} else {
 -			final String versionString = parts[2];
--
+-			
 -			try {
 -				component = this.fetchJenkinsVersion(Integer.parseInt(versionString));
 -			} catch (NumberFormatException e) {
 -				component = this.fetchGithubVersion(versionString.substring(1, versionString.length() - 1));
 -			}
 -		}
--
+-		
 -		final @Nullable Component history = this.getHistory();
 -		return history != null ? Component
 -				.join(JoinConfiguration.noSeparators(), component, Component.newline(), this.getHistory()) : component;
 -	}
--
+-	
 -	private @NotNull Component fetchJenkinsVersion(final int versionNumber) {
 -		final HttpRequest request = HttpRequest.newBuilder(JENKINS_URI).build();
 -		try {
@@ -155,7 +85,7 @@ index 461022af9ad85fe00329678f0f61d684d291c628..00000000000000000000000000000000
 -			if (response.statusCode() != 200) {
 -				return text("Received invalid status code (" + response.statusCode() + ") from server.", RED);
 -			}
--
+-			
 -			int latestVersionNumber;
 -			try {
 -				latestVersionNumber = Integer.parseInt(response.body());
@@ -163,7 +93,7 @@ index 461022af9ad85fe00329678f0f61d684d291c628..00000000000000000000000000000000
 -				LOGGER.log(Level.WARNING, "Received invalid response from Jenkins \"" + response.body() + "\".");
 -				return text("Received invalid response from server.", RED);
 -			}
--
+-			
 -			final int versionDiff = latestVersionNumber - versionNumber;
 -			return this.getResponseMessage(versionDiff);
 -		} catch (IOException | InterruptedException e) {
@@ -171,7 +101,7 @@ index 461022af9ad85fe00329678f0f61d684d291c628..00000000000000000000000000000000
 -			return text("Failed to retrieve version from server.", RED);
 -		}
 -	}
--
+-	
 -	// Based off code contributed by Techcable <Techcable@outlook.com> in Paper/GH-65
 -	private @NotNull Component fetchGithubVersion(final @NotNull String hash) {
 -		final URI uri = URI.create(String.format(GITHUB_FORMAT, hash));
@@ -181,17 +111,17 @@ index 461022af9ad85fe00329678f0f61d684d291c628..00000000000000000000000000000000
 -			if (response.statusCode() != 200) {
 -				return text("Received invalid status code (" + response.statusCode() + ") from server.", RED);
 -			}
--
+-			
 -			final JsonObject obj = response.body();
 -			final int versionDiff = obj.get("behind_by").getAsInt();
--
+-			
 -			return this.getResponseMessage(versionDiff);
 -		} catch (IOException | InterruptedException e) {
 -			LOGGER.log(Level.WARNING, "Failed to look up version from GitHub", e);
 -			return text("Failed to retrieve version from server.", RED);
 -		}
 -	}
--
+-	
 -	private @NotNull Component getResponseMessage(final int versionDiff) {
 -		return switch (Math.max(-1, Math.min(1, versionDiff))) {
 -			case -1 -> text("You are running an unsupported version of Pufferfish.", RED);
@@ -201,18 +131,18 @@ index 461022af9ad85fe00329678f0f61d684d291c628..00000000000000000000000000000000
 -					RED);
 -		};
 -	}
--
+-	
 -	private @Nullable Component getHistory() {
 -		final VersionHistoryManager.VersionData data = VersionHistoryManager.INSTANCE.getVersionData();
 -		if (data == null) {
 -			return null;
 -		}
--
+-		
 -		final String oldVersion = data.getOldVersion();
 -		if (oldVersion == null) {
 -			return null;
 -		}
--
+-		
 -		return Component.text("Previous version: " + oldVersion, NamedTextColor.GRAY, TextDecoration.ITALIC);
 -	}
 -}

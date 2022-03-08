@@ -25,7 +25,7 @@ index 119989e11c2e11aceaddec507f15d0260fba648a..061f14d81fdd8676cf06b4208d975fe1
          io.papermc.paper.util.ObfHelper.INSTANCE.getClass(); // load mappings for stacktrace deobf and etc.
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 06b9b05b432809e64e41ca71516182e36248a7c7..50bf97a9bcd93c35025a185a20359cb3d3a42b35 100644
+index c29fdc40b72da7ca18a1c0bbcf02162799458063..2f7300522f9cab9b1132797cb5edf03eeea1f0bb 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -166,6 +166,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -359,7 +359,7 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b2a99115e619cd5e6e74934ad841b0986e1fa69c..35cf576e427551702f7a364355d4f6a722bf8e2f 100644
+index f280df4408df51245354f0e30f4970a8f2a5e2ca..2e902c31bb7e29a7c033167d1932a854e661dc51 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -956,6 +956,7 @@ public final class CraftServer implements Server {
@@ -378,7 +378,7 @@ index b2a99115e619cd5e6e74934ad841b0986e1fa69c..35cf576e427551702f7a364355d4f6a7
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2708,6 +2710,13 @@ public final class CraftServer implements Server {
+@@ -2728,6 +2730,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
