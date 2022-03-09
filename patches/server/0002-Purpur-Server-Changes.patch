@@ -133,7 +133,7 @@ index f2fe6ea3719ff8b2913b7a3a939d7a5b75cb8b28..ed13b7b3f9d2a0b644d17d1019d42cbc
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index b59d521a4bf81ff45a70cb386bc14f9c0be56f20..ab045c0d6c24a246b436e14dc96e441897b9c87e 100644
+index 61b68de5d9811cf99996bc7ab550f746544439d6..1c59abed8c8fadb51279c345a7586deee869cce4 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -252,6 +252,12 @@ public class PaperConfig {
@@ -3113,7 +3113,7 @@ index 6a31e29bce673e698922da3c3ba8fd4d8b0adedb..92154459fd46db7e9182952cc1f84429
                          });
                      }
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index d7a0fb4727e263932846a67c584da2c8d6d4e275..e8c3ff0319ef475bddd110346261ef91a0caabba 100644
+index d7a0fb4727e263932846a67c584da2c8d6d4e275..3b75ea276347b6efcc6e2aca6dc888f5d9a8493e 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -63,6 +63,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
@@ -3228,7 +3228,7 @@ index d7a0fb4727e263932846a67c584da2c8d6d4e275..e8c3ff0319ef475bddd110346261ef91
      public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
          this.getAttribute(Attributes.FOLLOW_RANGE).addPermanentModifier(new AttributeModifier("Random spawn bonus", this.random.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
 -        if (this.random.nextFloat() < 0.05F) {
-+        if (this.random.nextFloat() < this.level.purpurConfig.entityLeftHandedChance) { // Purpur
++        if (this.random.nextFloat() < world.getLevel().purpurConfig.entityLeftHandedChance) { // Purpur
              this.setLeftHanded(true);
          } else {
              this.setLeftHanded(false);
@@ -4491,7 +4491,7 @@ index 824e5e4fe7619ae46061c3c978c9a044db8c84ab..de70208403ef6c6c9c82ca4c1fd3b641
      public ItemStack getBucketItemStack() {
          return new ItemStack(Items.COD_BUCKET);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cow.java b/src/main/java/net/minecraft/world/entity/animal/Cow.java
-index 425c6da0de40983b0870c9fd1b53f16b6a11c34c..1c112e79a97648219022dc4586bfa5202fdcecab 100644
+index 425c6da0de40983b0870c9fd1b53f16b6a11c34c..a79b4a90274d25d427214b96649cdf8561469a83 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cow.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cow.java
 @@ -1,6 +1,7 @@
@@ -4554,7 +4554,7 @@ index 425c6da0de40983b0870c9fd1b53f16b6a11c34c..1c112e79a97648219022dc4586bfa520
 +
 +    @Override
 +    public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor world, net.minecraft.world.DifficultyInstance difficulty, net.minecraft.world.entity.MobSpawnType spawnReason, net.minecraft.world.entity.SpawnGroupData entityData, net.minecraft.nbt.CompoundTag entityNbt) {
-+        this.isNaturallyAggressiveToPlayers = level.purpurConfig.cowNaturallyAggressiveToPlayersChance > 0.0D && random.nextDouble() <= level.purpurConfig.cowNaturallyAggressiveToPlayersChance;
++        this.isNaturallyAggressiveToPlayers = world.getLevel().purpurConfig.cowNaturallyAggressiveToPlayersChance > 0.0D && random.nextDouble() <= world.getLevel().purpurConfig.cowNaturallyAggressiveToPlayersChance;
 +        return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
 +    }
 +
@@ -4685,7 +4685,7 @@ index 425c6da0de40983b0870c9fd1b53f16b6a11c34c..1c112e79a97648219022dc4586bfa520
      public Cow getBreedOffspring(ServerLevel world, AgeableMob entity) {
          return (Cow) EntityType.COW.create(world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
-index b2baf0741691c9942e0cb7c161ccba528c2f6d4e..55ea2944582ae12bfdf188a8cdc2285e4b60499e 100644
+index b2baf0741691c9942e0cb7c161ccba528c2f6d4e..58dfa26b2935315e37d74f22dffe3e54ab83061a 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
 @@ -78,19 +78,109 @@ public class Dolphin extends WaterAnimal {
@@ -4795,7 +4795,7 @@ index b2baf0741691c9942e0cb7c161ccba528c2f6d4e..55ea2944582ae12bfdf188a8cdc2285e
      public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
          this.setAirSupply(this.getMaxAirSupply());
          this.setXRot(0.0F);
-+        this.isNaturallyAggressiveToPlayers = level.purpurConfig.dolphinNaturallyAggressiveToPlayersChance > 0.0D && random.nextDouble() <= level.purpurConfig.dolphinNaturallyAggressiveToPlayersChance; // Purpur
++        this.isNaturallyAggressiveToPlayers = world.getLevel().purpurConfig.dolphinNaturallyAggressiveToPlayersChance > 0.0D && random.nextDouble() <= world.getLevel().purpurConfig.dolphinNaturallyAggressiveToPlayersChance; // Purpur
          return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
      }
  
@@ -6613,7 +6613,7 @@ index c039b896ee85543c26a8ab76640080f539deaa4c..b79045402f490373d3d83d80aa8e3b94
      }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
-index aaf7096835bab3a42d617553dd83e048e4a83766..9e47e6e546af5e5d5c8fefa885742cfbd9a64cba 100644
+index aaf7096835bab3a42d617553dd83e048e4a83766..de79fbaa5a84d5b19a29d491d28b11cb41b626bb 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 @@ -11,15 +11,19 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -6759,7 +6759,7 @@ index aaf7096835bab3a42d617553dd83e048e4a83766..9e47e6e546af5e5d5c8fefa885742cfb
 +
 +    @Override
 +    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType type, @Nullable SpawnGroupData data, @Nullable CompoundTag nbt) {
-+        this.isRabid = level.purpurConfig.wolfNaturalRabid > 0.0D && random.nextDouble() <= level.purpurConfig.wolfNaturalRabid;
++        this.isRabid = world.getLevel().purpurConfig.wolfNaturalRabid > 0.0D && random.nextDouble() <= world.getLevel().purpurConfig.wolfNaturalRabid;
 +        this.updatePathfinders(false);
 +        return super.finalizeSpawn(world, difficulty, type, data, nbt);
 +    }
@@ -8586,7 +8586,7 @@ index d980b906d9206560741576fa4153c57212f307a0..0ac5264a16c9121c0f6233e83c426199
      public boolean doHurtTarget(Entity target) {
          if (super.doHurtTarget(target)) {
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Creeper.java b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
-index f9193f8cd3b0d0e689a523c7142a897c342c2931..307634db13045413b47e2a18e614a15f325b8d3c 100644
+index f9193f8cd3b0d0e689a523c7142a897c342c2931..4e5dc1e30f981a6bc33344a18af56a09ac5d6230 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 @@ -60,21 +60,130 @@ public class Creeper extends Monster implements PowerableMob {
@@ -8679,7 +8679,7 @@ index f9193f8cd3b0d0e689a523c7142a897c342c2931..307634db13045413b47e2a18e614a15f
 +    }
 +
 +    public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor world, net.minecraft.world.DifficultyInstance difficulty, net.minecraft.world.entity.MobSpawnType spawnReason, @Nullable net.minecraft.world.entity.SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
-+        double chance = world.getMinecraftWorld().purpurConfig.creeperChargedChance;
++        double chance = world.getLevel().purpurConfig.creeperChargedChance;
 +        if (chance > 0D && random.nextDouble() <= chance) {
 +            setPowered(true);
 +        }
