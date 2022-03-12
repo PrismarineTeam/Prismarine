@@ -974,7 +974,7 @@ index 937a93d134dc986fe23e5676d58f7619524b9bf3..65f1f919a689f6f7960d731b250582bd
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 48e428ce0590c530522de56c9f9c8cf1631c6e01..4f584e1b6235f535a6023f97ae24785f0b271bcb 100644
+index 3fb44827fed550fdc3033855ca18148fb3d1e29e..587df1aa1dec2647ef4544c35ee5ad32042a3fd5 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -202,6 +202,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -8939,7 +8939,7 @@ index ee9194ffb3cc6d660d4f99a3914ede7e4a3643fe..fc2b6dc1818d439905e90dc6d738c3cf
          return Guardian.createAttributes().add(Attributes.MOVEMENT_SPEED, 0.30000001192092896D).add(Attributes.ATTACK_DAMAGE, 8.0D).add(Attributes.MAX_HEALTH, 80.0D);
      }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 987b7d1924a9caa710fc350012533e56a378646b..fee9d1eaadcee7d5bbdacceab5f6e25a30c7e5f2 100644
+index 1d9c542f3fe7da7bb9ea8b13496651a7b3dcde07..6a4214b6110119215154fee48d000bc1051ea626 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -84,12 +84,40 @@ public class EnderMan extends Monster implements NeutralMob {
@@ -9031,7 +9031,7 @@ index 987b7d1924a9caa710fc350012533e56a378646b..fee9d1eaadcee7d5bbdacceab5f6e25a
              Entity entity = source.getDirectEntity();
              boolean flag;
  
-@@ -437,7 +468,7 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -447,7 +478,7 @@ public class EnderMan extends Monster implements NeutralMob {
  
      @Override
      public boolean requiresCustomPersistence() {
@@ -9040,7 +9040,7 @@ index 987b7d1924a9caa710fc350012533e56a378646b..fee9d1eaadcee7d5bbdacceab5f6e25a
      }
  
      private static class EndermanFreezeWhenLookedAt extends Goal {
-@@ -484,7 +515,8 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -494,7 +525,8 @@ public class EnderMan extends Monster implements NeutralMob {
  
          @Override
          public boolean canUse() {
@@ -9050,7 +9050,7 @@ index 987b7d1924a9caa710fc350012533e56a378646b..fee9d1eaadcee7d5bbdacceab5f6e25a
          }
  
          @Override
-@@ -531,7 +563,8 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -541,7 +573,8 @@ public class EnderMan extends Monster implements NeutralMob {
  
          @Override
          public boolean canUse() {
@@ -12517,7 +12517,7 @@ index 6afe37e42d88701af38df5793a9ea9d7d2cda5c5..1de27407c92d496715899fcafb3794df
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index 9930f7a0681899017329bd2c599db7308310b395..df43997aef63b5afbd0b9402491652cc4555f8e5 100644
+index 5a062a19bb2fc427c9391bb4731f071719b72c52..001d252763a689351a4df2ef830b3abb85a09e16 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 @@ -358,4 +358,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
@@ -12533,10 +12533,10 @@ index 9930f7a0681899017329bd2c599db7308310b395..df43997aef63b5afbd0b9402491652cc
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-index cc288174b22f959e8ef11e43f0ea4008bae7bdc5..67e11fd3b012d74652baf5875b6bd77e6e997d9d 100644
+index a4c82bf1d8789adf255fd0fae09d90228cf81ef0..1a18c112674691a2e12eccdf5462d1d161e9eba1 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-@@ -666,4 +666,11 @@ public class FishingHook extends Projectile {
+@@ -661,4 +661,11 @@ public class FishingHook extends Projectile {
  
          private OpenWaterType() {}
      }
@@ -12844,7 +12844,7 @@ index fee09e6ff72cf1da389d5811dd005642cd50a5b4..0f387c4f6fb49c5266feeec3504a4ec7
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
-index a367f50b0e3fe9e7a1b87892a8c98e88bd678f6f..52d41fb8d0495f61346c718c8f2395bc622027af 100644
+index 1b31b32d42eeb54680b902cd7e82d10ba7daa5d0..5be708a76642d4133757c5d181b3c5412aa799ae 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
 @@ -60,7 +60,7 @@ public class ThrownTrident extends AbstractArrow {
@@ -17031,7 +17031,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 603e9234294c01f1cde4bfc0b0053e69b99861d9..f8ddae4197e924264e8cb81baaf1227e8703c117 100644
+index 6feeadad9aecb7d63e24d5daae115a93e39aeb3d..e8be878dd0893300b6834531e418705f2268c01d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -435,10 +435,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -17062,7 +17062,7 @@ index 603e9234294c01f1cde4bfc0b0053e69b99861d9..f8ddae4197e924264e8cb81baaf1227e
              return false;
          }
  
-@@ -1649,7 +1658,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1638,7 +1647,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -17077,7 +17077,7 @@ index 603e9234294c01f1cde4bfc0b0053e69b99861d9..f8ddae4197e924264e8cb81baaf1227e
      }
  
      @Override
-@@ -2013,6 +2028,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2002,6 +2017,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.getHandle().getAbilities().walkingSpeed * 2f;
      }
  
@@ -17106,7 +17106,7 @@ index 603e9234294c01f1cde4bfc0b0053e69b99861d9..f8ddae4197e924264e8cb81baaf1227e
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2714,4 +2751,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2703,4 +2740,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end
