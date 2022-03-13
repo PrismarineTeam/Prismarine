@@ -30,10 +30,10 @@ index 3fa4f583c8d38c8cb62065f7f18986c985e4c92f..fe8d50118be54e41eda99688814ad6d4
      // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Item.java b/src/main/java/org/bukkit/entity/Item.java
-index 38ebf0f60113c5eff9d83e6a22ccdade651f419a..3c44dcf1f59378a1f702bbe1d624e23603189a4f 100644
+index fd213c026fdfb3030d0c37f651a88857ca038cba..adc98dd50d6a3628cef130c2cd4c198822f0a314 100644
 --- a/src/main/java/org/bukkit/entity/Item.java
 +++ b/src/main/java/org/bukkit/entity/Item.java
-@@ -169,19 +169,25 @@ public interface Item extends Entity {
+@@ -183,19 +183,25 @@ public interface Item extends Entity {
       */
      boolean isImmuneToExplosion();
  

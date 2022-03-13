@@ -99,7 +99,7 @@ index d575da51b4f1318734ebf26a3730871134e28102..a3d3bc9da65518ac0dbd0ef30780bffa
      // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
-index 0637e074dbe4a10bc19e7bf9dd79e2d966b07b1d..652f7b52eb0907b58b25df7b9530fd02ed1e8968 100644
+index f3bf5199bc7ddf8a3d0dc67a184e7690efa659eb..84793a9ee1eaa4ab44b39a9deeddd7adbc47958a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 @@ -8,6 +8,7 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
@@ -110,7 +110,7 @@ index 0637e074dbe4a10bc19e7bf9dd79e2d966b07b1d..652f7b52eb0907b58b25df7b9530fd02
  
  public class CraftItem extends CraftEntity implements Item {
  
-@@ -153,9 +154,16 @@ public class CraftItem extends CraftEntity implements Item {
+@@ -170,9 +171,16 @@ public class CraftItem extends CraftEntity implements Item {
          return item.immuneToExplosion;
      }
  
