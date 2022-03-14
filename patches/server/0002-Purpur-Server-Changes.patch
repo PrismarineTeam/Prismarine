@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alpha <alphakr93@outlook.com>
-Date: Tue, 8 Mar 2022 16:25:32 +0900
+Date: Mon, 14 Mar 2022 11:32:30 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -317,6 +317,34 @@ index 85c9056f92711b985e251f0f06ed551d03deb562..c540694e24978e9e6119267d4f66df52
      @Deprecated
      public static final PlainComponentSerializer PLAIN_COMPONENT = PlainComponentSerializer.builder().flattener(FLATTENER).build();
      public static final PlainTextComponentSerializer PLAIN = PlainTextComponentSerializer.builder().flattener(FLATTENER).build();
+diff --git a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java b/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
+index ea83ee8762c126c449993a7497257b0bd8663452..a994fc41efc7e27f1a231b15aaf31628352fbf08 100644
+--- a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
++++ b/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
+@@ -38,6 +38,7 @@ public final class HexFormattingConverter extends LogEventPatternConverter {
+     private static final String ANSI_RESET = "\u001B[m";
+ 
+     private static final char COLOR_CHAR = 0x7f;
++    private static final char LEGACY_CHAR = 0xa7; // Purpur
+     public static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
+         .hexColors()
+         .flattener(PaperAdventure.FLATTENER)
+@@ -48,6 +49,7 @@ public final class HexFormattingConverter extends LogEventPatternConverter {
+     private static final String RGB_ANSI = "\u001B[38;2;%d;%d;%dm";
+     private static final Pattern NAMED_PATTERN = Pattern.compile(COLOR_CHAR + "[0-9a-fk-orA-FK-OR]");
+     private static final Pattern RGB_PATTERN = Pattern.compile(COLOR_CHAR + "#([0-9a-fA-F]){6}");
++    private static final Pattern LEGACY_PATTERN = Pattern.compile(LEGACY_CHAR + "([0-9a-fk-orxA-FK-ORX])"); // Purpur
+ 
+     private static final String[] RGB_ANSI_CODES = new String[]{
+         formatHexAnsi(NamedTextColor.BLACK),         // Black §0
+@@ -155,6 +157,7 @@ public final class HexFormattingConverter extends LogEventPatternConverter {
+     }
+ 
+     static void format(String content, StringBuilder result, int start, boolean ansi) {
++        content = LEGACY_PATTERN.matcher(content).replaceAll(COLOR_CHAR + "$1"); // Purpur
+         int next = content.indexOf(COLOR_CHAR);
+         int last = content.length() - 1;
+         if (next == -1 || next == last) {
 diff --git a/src/main/java/io/papermc/paper/logging/SysoutCatcher.java b/src/main/java/io/papermc/paper/logging/SysoutCatcher.java
 index 76d0d00cd6742991e3f3ec827a75ee87d856b6c9..38480793e300f9d8f3404617a9a85bae2f313df2 100644
 --- a/src/main/java/io/papermc/paper/logging/SysoutCatcher.java
@@ -627,7 +655,7 @@ index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fe
      public ClientboundSetTimePacket(long time, long timeOfDay, boolean doDaylightCycle) {
          this.gameTime = time % 192000; // Paper - fix guardian beam
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 371b0f95b23d67c9913875a3dd7888e722551f18..3766d5ac6202e7b8e81c8b75e0e19a62fae00332 100644
+index 371b0f95b23d67c9913875a3dd7888e722551f18..69917030089f29ca0b26e13b8182c966103e6cd6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -293,6 +293,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -644,9 +672,9 @@ index 371b0f95b23d67c9913875a3dd7888e722551f18..3766d5ac6202e7b8e81c8b75e0e19a62
      private static final int SAMPLE_INTERVAL = 20; // Paper
 -    public final double[] recentTps = new double[ 3 ];
 +    public final double[] recentTps = new double[ 4 ]; // Purpur
-+    public boolean lagging = false; // Purpur
      // Spigot end
      public static long currentTickLong = 0L; // Paper
++    public boolean lagging = false; // Purpur
 +    protected boolean upnp = false; // Purpur
  
      public volatile Thread shutdownThread; // Paper
@@ -839,17 +867,17 @@ index 79f6089b934124c3309c6bee2e48b36b937252e0..d1e6ac2dcff3f058dc147c8ed4d16d27
  
          for(ServerPlayer serverPlayer : targets) {
 diff --git a/src/main/java/net/minecraft/server/commands/GiveCommand.java b/src/main/java/net/minecraft/server/commands/GiveCommand.java
-index a60a84d5df0b05cf35668df8c5f08b811bc42a9f..e92ae9ca13666c2e4894689619b0df16bb1cad86 100644
+index a60a84d5df0b05cf35668df8c5f08b811bc42a9f..a2751744517634700131ccfb0a2617557b4d42f2 100644
 --- a/src/main/java/net/minecraft/server/commands/GiveCommand.java
 +++ b/src/main/java/net/minecraft/server/commands/GiveCommand.java
-@@ -56,6 +56,7 @@ public class GiveCommand {
-                     ItemStack itemstack = item.createItemStack(i1, false);
+@@ -57,6 +57,7 @@ public class GiveCommand {
                      boolean flag = entityplayer.getInventory().add(itemstack);
                      ItemEntity entityitem;
-+                    if (org.purpurmc.purpur.PurpurConfig.disableGiveCommandDrops) continue; // Purpur - add config option for toggling give command dropping
  
++                    if (org.purpurmc.purpur.PurpurConfig.disableGiveCommandDrops) continue; // Purpur - add config option for toggling give command dropping
                      if (flag && itemstack.isEmpty()) {
                          itemstack.setCount(1);
+                         entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 index 27e90ca03275a42271bbe97ee1a63a355b098ede..119989e11c2e11aceaddec507f15d0260fba648a 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
@@ -973,7 +1001,7 @@ index 937a93d134dc986fe23e5676d58f7619524b9bf3..65f1f919a689f6f7960d731b250582bd
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index af063e08d33b15892079331e8bff86a9a8108630..11cbfb9efaf53885ea9b43ed3c2eaa705ed256bd 100644
+index af063e08d33b15892079331e8bff86a9a8108630..07031278c70f1c739d9a24d60ab6c16b2cb0a061 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -202,6 +202,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1019,16 +1047,15 @@ index af063e08d33b15892079331e8bff86a9a8108630..11cbfb9efaf53885ea9b43ed3c2eaa70
          // CraftBukkit start
          this.serverLevelData = (PrimaryLevelData) iworlddataserver;
          this.serverLevelData.setWorld(this);
-@@ -546,7 +566,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
-         this.sleepStatus = new SleepStatus();
+@@ -547,6 +567,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
  
--        this.asyncChunkTaskManager = new com.destroystokyo.paper.io.chunk.ChunkTaskManager(this); // Paper
+         this.asyncChunkTaskManager = new com.destroystokyo.paper.io.chunk.ChunkTaskManager(this); // Paper
 +        this.preciseTime = this.serverLevelData.getDayTime(); // Purpur
      }
  
      public void setWeatherParameters(int clearDuration, int rainDuration, boolean raining, boolean thundering) {
-@@ -585,7 +605,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -585,7 +606,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
          long j;
  
@@ -1037,7 +1064,7 @@ index af063e08d33b15892079331e8bff86a9a8108630..11cbfb9efaf53885ea9b43ed3c2eaa70
              // CraftBukkit start
              j = this.levelData.getDayTime() + 24000L;
              TimeSkipEvent event = new TimeSkipEvent(this.getWorld(), TimeSkipEvent.SkipReason.NIGHT_SKIP, (j - j % 24000L) - this.getDayTime());
-@@ -715,6 +735,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -715,6 +736,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
              this.serverLevelData.setGameTime(i);
              this.serverLevelData.getScheduledEvents().tick(this.server, i);
              if (this.levelData.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
@@ -1051,21 +1078,20 @@ index af063e08d33b15892079331e8bff86a9a8108630..11cbfb9efaf53885ea9b43ed3c2eaa70
                  this.setDayTime(this.levelData.getDayTime() + 1L);
              }
  
-@@ -723,8 +750,23 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -723,8 +751,22 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      public void setDayTime(long timeOfDay) {
          this.serverLevelData.setDayTime(timeOfDay);
 +        // Purpur start
 +        this.preciseTime = timeOfDay;
 +        this.forceTime = false;
-     }
- 
++    }
 +    public void setDayTime(double i) {
 +        this.serverLevelData.setDayTime((long) i);
 +        this.forceTime = true;
 +        // Purpur end
-+    }
-+ 
+     }
+ 
 +    // Purpur start
 +    public boolean isForceTime() {
 +        return this.forceTime;
@@ -12534,7 +12560,7 @@ index 5a062a19bb2fc427c9391bb4731f071719b72c52..001d252763a689351a4df2ef830b3abb
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-index a4c82bf1d8789adf255fd0fae09d90228cf81ef0..1a18c112674691a2e12eccdf5462d1d161e9eba1 100644
+index 3789a0db398766f0fbc9e5ac5bf4228a0a0dac88..475ff3c62796306694c76ca5315cd27d2cbe8fbe 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
 @@ -661,4 +661,11 @@ public class FishingHook extends Projectile {
@@ -15313,6 +15339,33 @@ index 4a34a08a1d46e4d3020644a51d9e30a36a18791a..be28b5aba28383058548cfb68f982664
              this.startSignal(world, pos);
          }
  
+diff --git a/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java b/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
+index 995e3bf2ee863902497ab40cb7cf3a14a22a6e19..0499d79e7882ba521f40851ba31b2a44240f40ec 100644
+--- a/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
+@@ -187,19 +187,19 @@ public class PointedDripstoneBlock extends Block implements Fallable, SimpleWate
+ 
+     @VisibleForTesting
+     public static void maybeFillCauldron(BlockState state, ServerLevel world, BlockPos pos, float dripChance) {
+-        if (dripChance <= 0.17578125F || dripChance <= 0.05859375F) {
++        if (dripChance <= world.purpurConfig.cauldronDripstoneWaterFillChance || dripChance <= world.purpurConfig.cauldronDripstoneLavaFillChance) {
+             if (PointedDripstoneBlock.isStalactiteStartPos(state, world, pos)) {
+                 Fluid fluidtype = PointedDripstoneBlock.getCauldronFillFluidType(world, pos);
+                 float f1;
+ 
+                 if (fluidtype == Fluids.WATER) {
+-                    f1 = 0.17578125F;
++                    f1 = world.purpurConfig.cauldronDripstoneWaterFillChance;
+                 } else {
+                     if (fluidtype != Fluids.LAVA) {
+                         return;
+                     }
+ 
+-                    f1 = 0.05859375F;
++                    f1 = world.purpurConfig.cauldronDripstoneLavaFillChance;
+                 }
+ 
+                 if (dripChance < f1) {
 diff --git a/src/main/java/net/minecraft/world/level/block/PowderSnowBlock.java b/src/main/java/net/minecraft/world/level/block/PowderSnowBlock.java
 index 5e22a1cd1a0902d63f091bbfb8ae518b12c66f09..8fad9dfd25794c4f202e2104e4ae32b0c436f438 100644
 --- a/src/main/java/net/minecraft/world/level/block/PowderSnowBlock.java
@@ -18049,10 +18102,10 @@ index 0000000000000000000000000000000000000000..659e93fb24124318367e5b4d0b144ca1
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3454d2ec2c76541a943c321477e2939cd20bab69
+index 0000000000000000000000000000000000000000..72d02292a725c428d8b293907501268635668c71
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3063 @@
+@@ -0,0 +1,3067 @@
 +package org.purpurmc.purpur;
 +
 +import net.minecraft.core.Registry;
@@ -21110,9 +21163,13 @@ index 0000000000000000000000000000000000000000..3454d2ec2c76541a943c321477e2939c
 +
 +    public float cauldronRainChance = 0.05F;
 +    public float cauldronPowderSnowChance = 0.1F;
++    public float cauldronDripstoneWaterFillChance = 0.17578125F;
++    public float cauldronDripstoneLavaFillChance = 0.05859375F;
 +    private void cauldronSettings() {
 +        cauldronRainChance = (float) getDouble("blocks.cauldron.fill-chances.rain", cauldronRainChance);
 +        cauldronPowderSnowChance = (float) getDouble("blocks.cauldron.fill-chances.powder-snow", cauldronPowderSnowChance);
++        cauldronDripstoneWaterFillChance = (float) getDouble("blocks.cauldron.fill-chances.dripstone-water", cauldronDripstoneWaterFillChance);
++        cauldronDripstoneLavaFillChance = (float) getDouble("blocks.cauldron.fill-chances.dripstone-lava", cauldronDripstoneLavaFillChance);
 +    }
 +}
 +
