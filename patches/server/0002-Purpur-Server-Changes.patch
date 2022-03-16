@@ -1029,7 +1029,7 @@ index 937a93d134dc986fe23e5676d58f7619524b9bf3..65f1f919a689f6f7960d731b250582bd
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index af063e08d33b15892079331e8bff86a9a8108630..07031278c70f1c739d9a24d60ab6c16b2cb0a061 100644
+index 1b6d32d8720f66908b9f1b872115fcff081f5378..46bef68497acc6fef0625383bc78dac702cfd7c7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -202,6 +202,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -16743,7 +16743,7 @@ index f266ee28bae60cf938bf2769df71af7ffd3e5bfe..a3e01874786613874708f1cbe95893fc
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 20f97555d3bda0c1cda44a3090204946d6e3b327..46251aa9de5e0131a05262818cd2c8a2b8970365 100644
+index fbe68bd4739d9a0e7d9bc4c3d5ba8ecfd2d13954..639dc3bb56cc90b84da08dc93cea89c658ed6dc8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -153,6 +153,14 @@ public class Main {
@@ -16761,7 +16761,7 @@ index 20f97555d3bda0c1cda44a3090204946d6e3b327..46251aa9de5e0131a05262818cd2c8a2
                  // Paper start
                  acceptsAll(asList("server-name"), "Name of the server")
                          .withRequiredArg()
-@@ -261,7 +269,7 @@ public class Main {
+@@ -257,7 +265,7 @@ public class Main {
                      System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Paper
                  }
  
