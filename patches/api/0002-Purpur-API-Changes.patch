@@ -80,73 +80,10 @@ index a736d7bcdc5861a01b66ba36158db1c716339346..22fc165fd9c95f0f3ae1be7a0857e48c
  
          @Override
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 944f9b87a11472ac6d7e328acc00bf09f899e648..dfdcbcd79e750fefa90b7a7ca58490a1fa5e92e0 100644
+index c093ba024cfd951be1afc4100d899ed8f70ab003..86caafe333bc082e61d35ab77e8b7b9e27f1ae8d 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -415,7 +415,7 @@ public final class Bukkit {
-      * @return the number of players
-      * @deprecated in favour of {@link Server#broadcast(net.kyori.adventure.text.Component)}
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public static int broadcastMessage(@NotNull String message) {
-         return server.broadcastMessage(message);
-     }
-@@ -1182,7 +1182,7 @@ public final class Bukkit {
-      * @return number of message recipients
-      * @deprecated in favour of {@link #broadcast(net.kyori.adventure.text.Component, String)}
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public static int broadcast(@NotNull String message, @NotNull String permission) {
-         return server.broadcast(message, permission);
-     }
-@@ -1517,7 +1517,7 @@ public final class Bukkit {
-      *
-      * @see InventoryType#isCreatable()
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     @NotNull
-     public static Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title) {
-         return server.createInventory(owner, type, title);
-@@ -1567,7 +1567,7 @@ public final class Bukkit {
-      * @throws IllegalArgumentException if the size is not a multiple of 9
-      * @deprecated in favour of {@link #createInventory(InventoryHolder, InventoryType, net.kyori.adventure.text.Component)}
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     @NotNull
-     public static Inventory createInventory(@Nullable InventoryHolder owner, int size, @NotNull String title) throws IllegalArgumentException {
-         return server.createInventory(owner, size, title);
-@@ -1594,7 +1594,7 @@ public final class Bukkit {
-      * @deprecated in favour of {@link #createMerchant(net.kyori.adventure.text.Component)}
-      */
-     @NotNull
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public static Merchant createMerchant(@Nullable String title) {
-         return server.createMerchant(title);
-     }
-@@ -1718,7 +1718,7 @@ public final class Bukkit {
-      * @deprecated in favour of {@link #motd()}
-      */
-     @NotNull
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public static String getMotd() {
-         return server.getMotd();
-     }
-@@ -1740,7 +1740,7 @@ public final class Bukkit {
-      * @deprecated in favour of {@link #shutdownMessage()}
-      */
-     @Nullable
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public static String getShutdownMessage() {
-         return server.getShutdownMessage();
-     }
-@@ -2312,4 +2312,43 @@ public final class Bukkit {
+@@ -2322,4 +2322,43 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -444,76 +381,14 @@ index 23e853bae0e051cd43deb9eb24c54e74a56d8ab0..00ea8a17cec2b2fbc030ef1d3fc22fcb
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index f63587cfa651a3893d2efa3730dc80f271d56b1c..81fe550bee06c9a15c29f42d9bfa63a15bc51ce1 100644
+index cb511df257b389e06a4f947b6e837cb5986b28db..9e055909d2e5fbee2c7c919abc97c2397306e112 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -327,7 +327,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      * @return the number of players
-      * @deprecated use {@link #broadcast(net.kyori.adventure.text.Component)}
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public int broadcastMessage(@NotNull String message);
- 
-     // Paper start
-@@ -963,7 +963,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      * @return number of message recipients
-      * @deprecated in favour of {@link #broadcast(net.kyori.adventure.text.Component, String)}
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     public int broadcast(@NotNull String message, @NotNull String permission);
-     // Paper start
-     /**
-@@ -1275,7 +1275,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      *
-      * @see InventoryType#isCreatable()
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     @NotNull
-     Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title);
- 
-@@ -1319,7 +1319,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      * @throws IllegalArgumentException if the size is not a multiple of 9
-      * @deprecated in favour of {@link #createInventory(InventoryHolder, int, net.kyori.adventure.text.Component)}
-      */
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     @NotNull
-     Inventory createInventory(@Nullable InventoryHolder owner, int size, @NotNull String title) throws IllegalArgumentException;
- 
-@@ -1342,7 +1342,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      * @deprecated in favour of {@link #createMerchant(net.kyori.adventure.text.Component)}
-      */
-     @NotNull
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     Merchant createMerchant(@Nullable String title);
- 
-     /**
-@@ -1445,7 +1445,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      * @deprecated in favour of {@link #motd()}
-      */
-     @NotNull
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     String getMotd();
- 
-     // Paper start
-@@ -1463,7 +1463,7 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
-      * @deprecated in favour of {@link #shutdownMessage()}
-      */
-     @Nullable
--    @Deprecated // Paper
-+    @Deprecated // Paper // Purpur - conflict on change
-     String getShutdownMessage();
- 
-     /**
-@@ -1886,6 +1886,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1885,6 +1885,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+             throw new UnsupportedOperationException("Not supported yet.");
          }
          // Paper end
- 
++        
 +        // Purpur start
 +        @NotNull
 +        public org.bukkit.configuration.file.YamlConfiguration getPurpurConfig() {
@@ -525,15 +400,14 @@ index f63587cfa651a3893d2efa3730dc80f271d56b1c..81fe550bee06c9a15c29f42d9bfa63a1
 +            throw new UnsupportedOperationException("Not supported yet.");
 +        }
 +        // Purpur end
-+
+ 
          /**
           * Sends the component to the player
-          *
-@@ -2003,4 +2015,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2013,4 +2025,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
-+
++    
 +    // Purpur start
 +    /**
 +     * Get the name of this server
@@ -1353,14 +1227,14 @@ index 8c95cd6933f11076de936854f379e6fc8600b525..86907637ed0a53d4967606dbba3ea203
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Wolf.java b/src/main/java/org/bukkit/entity/Wolf.java
-index 0e5decadf31140d6cb121c298f935ccc12c7a7e7..c1fd30fe4cd4eec11eb8298f059d14584b7dd7ec 100644
+index 490395f38c4d9977d30a6f48585a4ea0e7faff0f..1cc4db46c222bfbd62ab0bb5e6f85b294f4ef419 100644
 --- a/src/main/java/org/bukkit/entity/Wolf.java
 +++ b/src/main/java/org/bukkit/entity/Wolf.java
-@@ -39,4 +39,20 @@ public interface Wolf extends Tameable, Sittable {
-      * @param color the color to apply
+@@ -57,4 +57,20 @@ public interface Wolf extends Tameable, Sittable {
       */
-     public void setCollarColor(@NotNull DyeColor color);
-+
+     boolean isInterested();
+     // Paper end
++    
 +    // Purpur start
 +    /**
 +     * Checks if this wolf is rabid
