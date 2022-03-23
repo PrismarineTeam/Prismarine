@@ -34,6 +34,21 @@ Prismarine
 
 [공식 Discord](https://discord.gg/kkqMSEVVxN)에 접속하여 서버가 온라인인지 확인할 수 있습니다.
 
+## Build
+
+#### Initial
+Clone한 Directory에서 아래의 명령어를 입력해주세요.
+```bash
+./gradlew applyPatches
+```
+
+#### Creating a patch
+*Comming Soon!*
+
+#### Compiling
+서버를 빌드하려면 디렉토리에서 `./gradlew build`를 사용하세요. 실행 가능한 Jar 파일을 얻으려면 `./gradlew createReobfPaperclipJar`를 입력하세요.
+Prismarine-API 및 하위 API를 로컬 Maven repo에 설치하려면 `./gradlew publishToMavenLocal`을 사용하세요.
+
 ## Licenses
 파일의 Header에 따로 명시되지 않은 한, 본 프로젝트는 MIT License에 따라 라이센스가 부여됩니다.
 

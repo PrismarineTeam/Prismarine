@@ -6,7 +6,7 @@ Subject: [PATCH] Miscellaneous patches
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
-index adafc4fd661cf080b004b86c3eaed231a0133101..0000000000000000000000000000000000000000
+index 461022af9ad85fe00329678f0f61d684d291c628..0000000000000000000000000000000000000000
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 +++ /dev/null
 @@ -1,136 +0,0 @@
@@ -38,46 +38,46 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -import org.jetbrains.annotations.Nullable;
 -
 -public class PufferfishVersionFetcher implements VersionFetcher {
--	
+-
 -	private static final Logger LOGGER = Logger.getLogger("PufferfishVersionFetcher");
 -	private static final HttpClient client = HttpClient.newHttpClient();
--	
+-
 -	private static final URI JENKINS_URI = URI.create("https://ci.pufferfish.host/job/Pufferfish-1.18/lastSuccessfulBuild/buildNumber");
 -	private static final String GITHUB_FORMAT = "https://api.github.com/repos/pufferfish-gg/Pufferfish/compare/ver/1.18...%s";
--	
+-
 -	private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers
 -			.mapping(
 -					HttpResponse.BodySubscribers.ofString(StandardCharsets.UTF_8),
 -					string -> new Gson().fromJson(string, JsonObject.class)
 -			);
--	
+-
 -	@Override
 -	public long getCacheTime() {
 -		return TimeUnit.MINUTES.toMillis(30);
 -	}
--	
+-
 -	@Override
 -	public @NotNull Component getVersionMessage(final @NotNull String serverVersion) {
 -		final String[] parts = CraftServer.class.getPackage().getImplementationVersion().split("-");
 -		@NotNull Component component;
--		
+-
 -		if (parts.length != 3) {
 -			component = text("Unknown server version.", RED);
 -		} else {
 -			final String versionString = parts[2];
--			
+-
 -			try {
 -				component = this.fetchJenkinsVersion(Integer.parseInt(versionString));
 -			} catch (NumberFormatException e) {
 -				component = this.fetchGithubVersion(versionString.substring(1, versionString.length() - 1));
 -			}
 -		}
--		
+-
 -		final @Nullable Component history = this.getHistory();
 -		return history != null ? Component
 -				.join(JoinConfiguration.noSeparators(), component, Component.newline(), this.getHistory()) : component;
 -	}
--	
+-
 -	private @NotNull Component fetchJenkinsVersion(final int versionNumber) {
 -		final HttpRequest request = HttpRequest.newBuilder(JENKINS_URI).build();
 -		try {
@@ -85,7 +85,7 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -			if (response.statusCode() != 200) {
 -				return text("Received invalid status code (" + response.statusCode() + ") from server.", RED);
 -			}
--			
+-
 -			int latestVersionNumber;
 -			try {
 -				latestVersionNumber = Integer.parseInt(response.body());
@@ -93,7 +93,7 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -				LOGGER.log(Level.WARNING, "Received invalid response from Jenkins \"" + response.body() + "\".");
 -				return text("Received invalid response from server.", RED);
 -			}
--			
+-
 -			final int versionDiff = latestVersionNumber - versionNumber;
 -			return this.getResponseMessage(versionDiff);
 -		} catch (IOException | InterruptedException e) {
@@ -101,7 +101,7 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -			return text("Failed to retrieve version from server.", RED);
 -		}
 -	}
--	
+-
 -	// Based off code contributed by Techcable <Techcable@outlook.com> in Paper/GH-65
 -	private @NotNull Component fetchGithubVersion(final @NotNull String hash) {
 -		final URI uri = URI.create(String.format(GITHUB_FORMAT, hash));
@@ -111,17 +111,17 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -			if (response.statusCode() != 200) {
 -				return text("Received invalid status code (" + response.statusCode() + ") from server.", RED);
 -			}
--			
+-
 -			final JsonObject obj = response.body();
 -			final int versionDiff = obj.get("behind_by").getAsInt();
--			
+-
 -			return this.getResponseMessage(versionDiff);
 -		} catch (IOException | InterruptedException e) {
 -			LOGGER.log(Level.WARNING, "Failed to look up version from GitHub", e);
 -			return text("Failed to retrieve version from server.", RED);
 -		}
 -	}
--	
+-
 -	private @NotNull Component getResponseMessage(final int versionDiff) {
 -		return switch (Math.max(-1, Math.min(1, versionDiff))) {
 -			case -1 -> text("You are running an unsupported version of Pufferfish.", RED);
@@ -131,18 +131,18 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -					RED);
 -		};
 -	}
--	
+-
 -	private @Nullable Component getHistory() {
 -		final VersionHistoryManager.VersionData data = VersionHistoryManager.INSTANCE.getVersionData();
 -		if (data == null) {
 -			return null;
 -		}
--		
+-
 -		final String oldVersion = data.getOldVersion();
 -		if (oldVersion == null) {
 -			return null;
 -		}
--		
+-
 -		return Component.text("Previous version: " + oldVersion, NamedTextColor.GRAY, TextDecoration.ITALIC);
 -	}
 -}
