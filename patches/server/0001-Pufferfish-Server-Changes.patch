@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 2 Apr 2022 12:51:16 +0900
+Date: Sat, 2 Apr 2022 19:39:49 +0900
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -3261,6 +3261,22 @@ index 8a07d5d25086d7544757bb86181fbe2b5e743d29..9be1ce7f5b956f0c82151ea02e555e7d
          if (nbt.contains("LootTable", 8)) {
              this.lootTable = new ResourceLocation(nbt.getString("LootTable"));
              this.lootTableSeed = nbt.getLong("LootTableSeed");
+diff --git a/src/main/java/net/minecraft/world/inventory/LecternMenu.java b/src/main/java/net/minecraft/world/inventory/LecternMenu.java
+index e5498a5703f282160b8171a0b81711cfc24d323a..2eb709ac7644cfd5dd2170ce85310821946e4bf0 100644
+--- a/src/main/java/net/minecraft/world/inventory/LecternMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/LecternMenu.java
+@@ -119,6 +119,11 @@ public class LecternMenu extends AbstractContainerMenu {
+             }
+         }
+     }
++    
++    @Override
++    public ItemStack quickMoveStack(net.minecraft.world.entity.player.Player player, int index) {
++        return ItemStack.EMPTY;
++    }
+ 
+     // Paper start
+     @Override
 diff --git a/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java b/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java
 index ffe5476d8ed15ee4384b679c341688787205ce59..9051559e78851257a56a998b4b882ebbcc394639 100644
 --- a/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java
