@@ -3561,13 +3561,37 @@ index 13eded53a64d0f36f8c9bce2077de4f1c1ed2d56..303ad9eab2e0a9b73597ca4ee9d70bea
          return new BlockPos(i, l, j);
      }
 diff --git a/src/main/java/net/minecraft/world/level/biome/Biome.java b/src/main/java/net/minecraft/world/level/biome/Biome.java
-index 0422d787593cc65aadcae9f7517ec67a52f1f72b..e3a917480d0fe81d9b6cb24a4cf207c5e66388b8 100644
+index 32fc9f9162aafe312ed757be2d03577b5f95841d..92cb180ac732ef84af158625338b1357195f7d2c 100644
 --- a/src/main/java/net/minecraft/world/level/biome/Biome.java
 +++ b/src/main/java/net/minecraft/world/level/biome/Biome.java
-@@ -37,6 +37,36 @@ import net.minecraft.world.level.material.Fluids;
+@@ -35,30 +35,38 @@ import net.minecraft.world.level.material.FluidState;
+ import net.minecraft.world.level.material.Fluids;
+ 
  public final class Biome {
-     public static final Codec<Biome> DIRECT_CODEC;
-     public static final Codec<Biome> NETWORK_CODEC;
+-    public static final Codec<Biome> DIRECT_CODEC = RecordCodecBuilder.create((instance) -> {
+-        return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
+-            return biome.climateSettings;
+-        }), Biome.BiomeCategory.CODEC.fieldOf("category").forGetter((biome) -> {
+-            return biome.biomeCategory;
+-        }), BiomeSpecialEffects.CODEC.fieldOf("effects").forGetter((biome) -> {
+-            return biome.specialEffects;
+-        }), BiomeGenerationSettings.CODEC.forGetter((biome) -> {
+-            return biome.generationSettings;
+-        }), MobSpawnSettings.CODEC.forGetter((biome) -> {
+-            return biome.mobSettings;
+-        })).apply(instance, Biome::new);
+-    });
+-    public static final Codec<Biome> NETWORK_CODEC = RecordCodecBuilder.create((instance) -> {
+-        return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
+-            return biome.climateSettings;
+-        }), Biome.BiomeCategory.CODEC.fieldOf("category").forGetter((biome) -> {
+-            return biome.biomeCategory;
+-        }), BiomeSpecialEffects.CODEC.fieldOf("effects").forGetter((biome) -> {
+-            return biome.specialEffects;
+-        })).apply(instance, (weather, category, effects) -> {
+-            return new Biome(weather, category, effects, BiomeGenerationSettings.EMPTY, MobSpawnSettings.EMPTY);
++    public static final Codec<Biome> DIRECT_CODEC;
++    public static final Codec<Biome> NETWORK_CODEC;
 +    
 +    // Pufferfish start - decompile fixes
 +    static {
@@ -3583,7 +3607,8 @@ index 0422d787593cc65aadcae9f7517ec67a52f1f72b..e3a917480d0fe81d9b6cb24a4cf207c5
 +            }), MobSpawnSettings.CODEC.forGetter((biome) -> {
 +                return biome.mobSettings;
 +            })).apply(instance, Biome::new);
-+        });
+         });
+-    });
 +        NETWORK_CODEC = RecordCodecBuilder.create((instance) -> {
 +            return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
 +                return biome.climateSettings;
@@ -3601,7 +3626,7 @@ index 0422d787593cc65aadcae9f7517ec67a52f1f72b..e3a917480d0fe81d9b6cb24a4cf207c5
      public static final Codec<Holder<Biome>> CODEC = RegistryFileCodec.create(Registry.BIOME_REGISTRY, DIRECT_CODEC);
      public static final Codec<HolderSet<Biome>> LIST_CODEC = RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY, DIRECT_CODEC);
      private static final PerlinSimplexNoise TEMPERATURE_NOISE = new PerlinSimplexNoise(new WorldgenRandom(new LegacyRandomSource(1234L)), ImmutableList.of(0));
-@@ -52,14 +82,20 @@ public final class Biome {
+@@ -74,14 +82,20 @@ public final class Biome {
      private final MobSpawnSettings mobSettings;
      private final Biome.BiomeCategory biomeCategory;
      private final BiomeSpecialEffects specialEffects;
@@ -3623,7 +3648,7 @@ index 0422d787593cc65aadcae9f7517ec67a52f1f72b..e3a917480d0fe81d9b6cb24a4cf207c5
          });
      });
  
-@@ -101,17 +137,15 @@ public final class Biome {
+@@ -123,17 +137,15 @@ public final class Biome {
      @Deprecated
      public float getTemperature(BlockPos blockPos) {
          long l = blockPos.asLong();
@@ -3646,24 +3671,6 @@ index 0422d787593cc65aadcae9f7517ec67a52f1f72b..e3a917480d0fe81d9b6cb24a4cf207c5
              return g;
          }
      }
-@@ -253,6 +287,8 @@ public final class Biome {
-         return biomeEntry.value().getBiomeCategory();
-     }
- 
-+    // Pufferfish - decompile fixes (what the fuck)
-+    /*
-     static {
-         DIRECT_CODEC = RecordCodecBuilder.create((instance) -> {
-             return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
-@@ -279,6 +315,8 @@ public final class Biome {
-             });
-         });
-     }
-+     */
-+    // Pufferfish end
- 
-     public static class BiomeBuilder {
-         @Nullable
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/ChestBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/ChestBlockEntity.java
 index e56f7d76b501dab7d549efd2fafd514a9625c24e..066f43deb5df6f79428eb0f325c2abfb31ea9254 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/ChestBlockEntity.java
