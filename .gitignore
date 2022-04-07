@@ -50,6 +50,10 @@ manifest.mf
 # other stuff
 run/
 
+gradle/
+!gradle/wrapper/
+!gradle/wrapper/*
+
 build-data/
-Prismarine-API
-Prismarine-Server
+Prismarine-API/
+Prismarine-Server/

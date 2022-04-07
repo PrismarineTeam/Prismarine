@@ -7770,18 +7770,18 @@ index d8c4f36ae0e65c6d0398fac80c93b78646bdf6a4..06c6addfa2a8dab1ad52a3588e9aeba5
  
                  this.onDestroyedBy(source);
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0b27f9f88 100644
+index 8c4db2f0e5158872879da52a96bc592145e52e13..fe742452cab6afd0db76072e8f5acffcf1ecce95 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -100,6 +100,7 @@ public class EnderDragon extends Mob implements Enemy {
-     private final int[] nodeAdjacency = new int[24];
-     private final BinaryHeap openSet = new BinaryHeap();
-     private Explosion explosionSource = new Explosion(null, this, null, null, Double.NaN, Double.NaN, Double.NaN, Float.NaN, true, Explosion.BlockInteraction.DESTROY); // CraftBukkit - reusable source for CraftTNTPrimed.getSource()
+@@ -104,6 +104,7 @@ public class EnderDragon extends Mob implements Enemy {
+     @Nullable
+     private BlockPos podium;
+     // Paper end
 +    private boolean hadRider; // Purpur
  
      public EnderDragon(EntityType<? extends EnderDragon> entitytypes, Level world) {
          super(EntityType.ENDER_DRAGON, world);
-@@ -114,8 +115,60 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -118,8 +119,60 @@ public class EnderDragon extends Mob implements Enemy {
          }
  
          this.phaseManager = new EnderDragonPhaseManager(this);
@@ -7842,7 +7842,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
      public static AttributeSupplier.Builder createAttributes() {
          return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200.0D);
      }
-@@ -164,6 +217,37 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -181,6 +234,37 @@ public class EnderDragon extends Mob implements Enemy {
  
      @Override
      public void aiStep() {
@@ -7880,7 +7880,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
          this.processFlappingMovement();
          if (this.level.isClientSide) {
              this.setHealth(this.getHealth());
-@@ -177,6 +261,8 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -194,6 +278,8 @@ public class EnderDragon extends Mob implements Enemy {
          float f;
  
          if (this.isDeadOrDying()) {
@@ -7889,7 +7889,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
              float f1 = (this.random.nextFloat() - 0.5F) * 8.0F;
  
              f = (this.random.nextFloat() - 0.5F) * 4.0F;
-@@ -189,9 +275,9 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -206,9 +292,9 @@ public class EnderDragon extends Mob implements Enemy {
  
              f = 0.2F / ((float) vec3d.horizontalDistance() * 10.0F + 1.0F);
              f *= (float) Math.pow(2.0D, vec3d.y);
@@ -7901,7 +7901,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
                  this.flapTime += f * 0.5F;
              } else {
                  this.flapTime += f;
-@@ -236,7 +322,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -253,7 +339,7 @@ public class EnderDragon extends Mob implements Enemy {
                      }
  
                      this.phaseManager.getCurrentPhase().doClientTick();
@@ -7910,7 +7910,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
                      DragonPhaseInstance idragoncontroller = this.phaseManager.getCurrentPhase();
  
                      idragoncontroller.doServerTick();
-@@ -305,7 +391,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -322,7 +408,7 @@ public class EnderDragon extends Mob implements Enemy {
                  this.tickPart(this.body, (double) (f11 * 0.5F), 0.0D, (double) (-f12 * 0.5F));
                  this.tickPart(this.wing1, (double) (f12 * 4.5F), 2.0D, (double) (f11 * 4.5F));
                  this.tickPart(this.wing2, (double) (f12 * -4.5F), 2.0D, (double) (f11 * -4.5F));
@@ -7919,7 +7919,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
                      this.knockBack(this.level.getEntities((Entity) this, this.wing1.getBoundingBox().inflate(4.0D, 2.0D, 4.0D).move(0.0D, -2.0D, 0.0D), EntitySelector.NO_CREATIVE_OR_SPECTATOR));
                      this.knockBack(this.level.getEntities((Entity) this, this.wing2.getBoundingBox().inflate(4.0D, 2.0D, 4.0D).move(0.0D, -2.0D, 0.0D), EntitySelector.NO_CREATIVE_OR_SPECTATOR));
                      this.hurt(this.level.getEntities((Entity) this, this.head.getBoundingBox().inflate(1.0D), EntitySelector.NO_CREATIVE_OR_SPECTATOR));
-@@ -349,7 +435,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -366,7 +452,7 @@ public class EnderDragon extends Mob implements Enemy {
                  }
  
                  if (!this.level.isClientSide) {
@@ -7928,7 +7928,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
                      if (this.dragonFight != null) {
                          this.dragonFight.updateDragon(this);
                      }
-@@ -481,7 +567,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -498,7 +584,7 @@ public class EnderDragon extends Mob implements Enemy {
                      BlockState iblockdata = this.level.getBlockState(blockposition);
  
                      if (!iblockdata.isAir() && iblockdata.getMaterial() != Material.FIRE) {
@@ -7937,7 +7937,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
                              // CraftBukkit start - Add blocks to list rather than destroying them
                              // flag1 = this.level.removeBlock(blockposition, false) || flag1;
                              flag1 = true;
-@@ -630,7 +716,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -647,7 +733,7 @@ public class EnderDragon extends Mob implements Enemy {
          boolean flag = this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT);
          short short0 = 500;
  
@@ -7946,7 +7946,7 @@ index 1eb76c456790b81b657090377dd5ea547898f9a5..f8366a7bef18ab6dc201420ac4054be0
              short0 = 12000;
          }
  
-@@ -1030,6 +1116,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -1047,6 +1133,7 @@ public class EnderDragon extends Mob implements Enemy {
  
      @Override
      protected boolean canRide(Entity entity) {
