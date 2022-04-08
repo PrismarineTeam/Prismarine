@@ -1030,7 +1030,7 @@ index d52072ab126f2fdee30bb114f3058338edd72fd5..4eb23fd9ca0cec93c66bcee120cfbb33
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 1b6d32d8720f66908b9f1b872115fcff081f5378..46bef68497acc6fef0625383bc78dac702cfd7c7 100644
+index c63ee396e990d11e2f613f3b5a478b486076ed56..8066c874098039f75017e6bebd7981fd4804bcda 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -202,6 +202,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1205,7 +1205,7 @@ index 1b6d32d8720f66908b9f1b872115fcff081f5378..46bef68497acc6fef0625383bc78dac7
          this.serverLevelData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2519,7 +2587,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2525,7 +2593,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Spigot Start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start
@@ -12831,7 +12831,7 @@ index 77941e3981e49cf5662b3e3c86a9c419080b17c8..8c6243aab556c993b43ab52e216bcb0a
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
-index 834ba402decb556a5f77809b37fa00578b67432e..1fe20aab5b0c129470c1563d5c0710f2a23895d2 100644
+index 23f77dfc6df93ef6a70e14a7e410263d39fae2cb..69dd0f6cb53b2538ae39952f53eb7fbcb69a4674 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
 @@ -69,9 +69,10 @@ public class ThrownEnderpearl extends ThrowableItemProjectile {
@@ -12855,7 +12855,7 @@ index 834ba402decb556a5f77809b37fa00578b67432e..1fe20aab5b0c129470c1563d5c0710f2
                          CraftEventFactory.entityDamage = null;
                      }
                      // CraftBukkit end
-@@ -131,4 +132,11 @@ public class ThrownEnderpearl extends ThrowableItemProjectile {
+@@ -121,4 +122,11 @@ public class ThrownEnderpearl extends ThrowableItemProjectile {
  
          return super.changeDimension(destination);
      }
