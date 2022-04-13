@@ -2369,7 +2369,7 @@ index f91e1a876ad4c46a7c92cead18947a941b4d9e68..d52072ab126f2fdee30bb114f3058338
                          this.wasOnGround = this.entity.isOnGround();
                          this.teleportDelay = 0;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 3b1a34b34979ab436ccd33f0a85bfae537cbecb4..1b6d32d8720f66908b9f1b872115fcff081f5378 100644
+index 50fd3419deb668dda64b1056f03fb66da55e6960..c63ee396e990d11e2f613f3b5a478b486076ed56 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -670,7 +670,20 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -2426,10 +2426,10 @@ index 3b1a34b34979ab436ccd33f0a85bfae537cbecb4..1b6d32d8720f66908b9f1b872115fcff
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e4d54fdc28b6161e74626f25299b1081e6605e98..70d5757d957b3d428c2d0ba9cd676a7f69011de5 100644
+index 3ab4ecb9ee3586cab04da7b500024855892faa3e..7884b7dc5edbf6056d7825853fe5c3e60cad328d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1116,6 +1116,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1117,6 +1117,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      @Override
      public void handleEditBook(ServerboundEditBookPacket packet) {
