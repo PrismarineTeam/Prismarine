@@ -2426,10 +2426,10 @@ index 50fd3419deb668dda64b1056f03fb66da55e6960..c63ee396e990d11e2f613f3b5a478b48
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 3ab4ecb9ee3586cab04da7b500024855892faa3e..7884b7dc5edbf6056d7825853fe5c3e60cad328d 100644
+index 7eeb9b5482ed7933c42cdd84936460e93585c584..0ccd1a4f90a39006de65c88416bd8c46ba7bb971 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1117,6 +1117,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1116,6 +1116,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      @Override
      public void handleEditBook(ServerboundEditBookPacket packet) {
