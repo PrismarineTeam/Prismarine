@@ -13,7 +13,7 @@ jobs:
         java: ['temurin']
         os: [ubuntu-20.04]
 
-    if: "!contains(github.event.commits[0].message, '[ci-skip]')"
+    if: "!startsWith(github.event.commits[0].message, '[CI-Skip]')"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
