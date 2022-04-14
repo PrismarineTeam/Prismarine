@@ -1,5 +1,7 @@
 import io.papermc.paperweight.util.constants.PAPERCLIP_CONFIG
 
+val paperMavenPublicUrl = "https://papermc.io/repo/repository/maven-public/"
+
 plugins {
     java
     `maven-publish`
@@ -9,7 +11,7 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven("https://papermc.io/repo/repository/maven-public/") {
+    maven(paperMavenPublicUrl) {
         content {
             onlyForConfigurations(PAPERCLIP_CONFIG)
         }
@@ -63,8 +65,8 @@ subprojects {
 paperweight {
     serverProject.set(project(":Prismarine-Server"))
 
-    remapRepo.set("https://maven.fabricmc.net/")
-    decompileRepo.set("https://files.minecraftforge.net/maven/")
+    remapRepo.set(paperMavenPublicUrl)
+    decompileRepo.set(paperMavenPublicUrl)
 
     usePaperUpstream(providers.gradleProperty("paperCommit")) {
         withPaperPatcher {
