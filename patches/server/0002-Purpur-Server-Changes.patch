@@ -27,10 +27,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 3fe815647ff89d463137aff3cb08d2276dbbf827..5dc4106efefb5400cf5504b225e1e6e5788d14f3 100644
+index 9521971e9e597834e785b36d1657064dc1621b9b..655f4d84a9522b7af5f3fd234d8797758d0171b5 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -18,7 +18,7 @@ repositories {
+@@ -9,7 +9,7 @@ plugins {
  }
  
  dependencies {
@@ -39,7 +39,7 @@ index 3fe815647ff89d463137aff3cb08d2276dbbf827..5dc4106efefb5400cf5504b225e1e6e5
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.18.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -54,6 +54,8 @@ dependencies {
+@@ -45,6 +45,8 @@ dependencies {
          isTransitive = false
      }
      // Paper end
@@ -48,7 +48,7 @@ index 3fe815647ff89d463137aff3cb08d2276dbbf827..5dc4106efefb5400cf5504b225e1e6e5
  
      // Pufferfish start
      implementation("org.yaml:snakeyaml:1.30")
-@@ -87,7 +89,7 @@ tasks.jar {
+@@ -78,7 +80,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -57,7 +57,7 @@ index 3fe815647ff89d463137aff3cb08d2276dbbf827..5dc4106efefb5400cf5504b225e1e6e5
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -175,7 +177,7 @@ fun TaskContainer.registerRunTask(
+@@ -166,7 +168,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {

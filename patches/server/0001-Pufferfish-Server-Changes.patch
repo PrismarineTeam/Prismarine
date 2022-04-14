@@ -21,10 +21,10 @@ You should have received a copy of the GNU General Public License along
 with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4beb35d1e5b013395f5df101e843f41c2ce174ad..3fe815647ff89d463137aff3cb08d2276dbbf827 100644
+index dd8f449dddbe0838835ae8f8d5033aa422db403d..9521971e9e597834e785b36d1657064dc1621b9b 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -18,8 +18,12 @@ repositories {
+@@ -9,8 +9,12 @@ plugins {
  }
  
  dependencies {
@@ -39,7 +39,7 @@ index 4beb35d1e5b013395f5df101e843f41c2ce174ad..3fe815647ff89d463137aff3cb08d227
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
      implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -51,11 +55,26 @@ dependencies {
+@@ -42,11 +46,26 @@ dependencies {
      }
      // Paper end
  
@@ -66,7 +66,7 @@ index 4beb35d1e5b013395f5df101e843f41c2ce174ad..3fe815647ff89d463137aff3cb08d227
  tasks.jar {
      archiveClassifier.set("dev")
  
-@@ -68,7 +87,7 @@ tasks.jar {
+@@ -59,7 +78,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",

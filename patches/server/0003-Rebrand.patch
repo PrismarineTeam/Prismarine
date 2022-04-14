@@ -5,10 +5,10 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index e8bbf2519a75a94002b20c31a709a41eec4716aa..91a317b06e19d68d6057aa16cb7866f4210571c6 100644
+index 655f4d84a9522b7af5f3fd234d8797758d0171b5..170d0d3e67c0ac4b5c8f99f72d39525146650fb0 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -18,7 +18,7 @@ repositories {
+@@ -9,7 +9,7 @@ plugins {
  }
  
  dependencies {
@@ -17,7 +17,7 @@ index e8bbf2519a75a94002b20c31a709a41eec4716aa..91a317b06e19d68d6057aa16cb7866f4
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.18.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -88,12 +88,12 @@ tasks.jar {
+@@ -79,12 +79,12 @@ tasks.jar {
          val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
@@ -128,7 +128,7 @@ index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3766d5ac6202e7b8e81c8b75e0e19a62fae00332..d688f69d761c3220588d4a6b9c2fd61ad2163b3d 100644
+index 69917030089f29ca0b26e13b8182c966103e6cd6..a7937e61c4eadd16b3aa7096112e4ce93a3a1423 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -959,7 +959,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -154,7 +154,7 @@ index 5e9fc979daced5dad9977ab12ea019f4e6216bfb..cfc2826818d5a437ef5027b9f3dfac5d
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a3e01874786613874708f1cbe95893fc7834ab45..f280df4408df51245354f0e30f4970a8f2a5e2ca 100644
+index 5a3323c9f21819c597a78803347f8e424ceafb22..9b549a199b7dbaf0a0c76666e38048d959d7f937 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
@@ -228,7 +228,7 @@ index 659e93fb24124318367e5b4d0b144ca1443950e9..dcd57de21b9ff6b1e5f4d9764f1d10ff
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 04e836cf07b64a99f87e016834f9e365b29f0cc2..1e8f39e7f88f5e4fa88a00cb537f172f2f505194 100644
+index fc5b64da74230b4e95b7d85b22cb21e7421c575b..e8daf3418c090bf96ec0f8390501fe1a453d7765 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -156,14 +156,14 @@ public class WatchdogThread extends Thread
