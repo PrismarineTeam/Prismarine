@@ -43,18 +43,25 @@ jobs:
       - name: Create Mojmap Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
 
+      - name: Get build number
+        run: |
+          release=$(cat release-data | grep release | sed 's/release: //')
+          version=$(cat release-data | grep version | sed 's/version: //')
+          echo "release=$(($release + 1))" > $GITHUB_ENV
+          sed -i 's/release = .*/release = '"${{ env.release }}"'/' release-data
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: Artifacts - ${{ runner.os }}
+          name: Artifacts
           path: build/libs
 
       - name: Release Artifacts
         if: ${{ runner.os == 'Linux' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: "Release #${{ env.workflow }}"
-          automatic_release_tag: release-${{ env.workflow }}
+          title: "Release #${{ env.release }}"
+          automatic_release_tag: release-${{ env.version }}-${{ env.release }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
@@ -63,7 +70,7 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: "Release #${{ env.workflow }}"
+          title: "Release #${{ env.release }}"
           automatic_release_tag: latest
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
