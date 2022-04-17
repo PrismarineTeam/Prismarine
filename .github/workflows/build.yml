@@ -46,7 +46,7 @@ jobs:
       - name: Get build number
         run: |
           release=$(cat release-data | grep release | sed 's/release: //')
-          version=$(cat release-data | grep version | sed 's/version: //')
+          version=$(cat release-data | grep version | sed 's/version: //') && echo "version=$version" > $GITHUB_ENV
           echo "release=$(($release + 1))" > $GITHUB_ENV
           sed -i 's/release = .*/release = '"${{ env.release }}"'/' release-data
 
