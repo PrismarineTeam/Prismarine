@@ -1,0 +1,690 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 17 Apr 2022 13:29:05 +0900
+Subject: [PATCH] Paper PRs
+
+Originals by:
+Don't send itemmeta for books when hide-itemmeta is enabled (By Noah van der Aa <ndvdaa@gmail.com>) (PaperMC/Paper#7734)
+Add support for Proxy Protocol (By PanSzelescik <panszelescik@gmail.com>) (PaperMC/Paper#7710)
+Prevent healing by negative amounts (bybooky10 <boooky10@gmail.com>) (PaperMC/Paper#7703)
+Fix ground pathfinding (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7683)
+Fire CauldronLevelChangeEvent on initial fill (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7678)
+Fix NPE for BlockDataMeta#getBlockData (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7670)
+Grant temporary immunity from EAR to moving entities (issue PaperMC/Paper#7637) (petersv5) (PaperMC/Paper#7644)
+Fix async entity add due to fungus trees (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7626)
+Fix duplicate world keys via createWorld (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7614)
+Fix opening inv in PlayerRecipeBookClickEvent handler (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7552)
+Ignore BaseSpawner impossible spawn tick (dannyball710 <dannyball710@gmail.com>) (PaperMC/Paper#7469)
+Trigger bee_nest_destroyed trigger in the correct place (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7436)
+Add 2 missing feature seed configs (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7398)
+Update default vanilla command perms (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7386)
+Sync offhand slot in menus (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7341)
+Don't tick markers (Noah van der Aa <ndvdaa@gmail.com>) (PaperMC/Paper#7299)
+
+Copyright (C) 2022 PaperMC Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+diff --git a/src/main/java/com/destroystokyo/paper/PaperCommand.java b/src/main/java/com/destroystokyo/paper/PaperCommand.java
+index d0c55497040158d959693ef2ddf3ff03bd6df05f..a0cd4d8de553cdafa441eddb736d3d350b729eec 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperCommand.java
++++ b/src/main/java/com/destroystokyo/paper/PaperCommand.java
+@@ -614,7 +614,7 @@ public class PaperCommand extends Command {
+                     ChunkPos chunk = e.chunkPosition();
+                     info.left++;
+                     info.right.put(chunk, info.right.getOrDefault(chunk, 0) + 1);
+-                    if (!chunkProviderServer.isPositionTicking(e)) {
++                    if (!chunkProviderServer.isPositionTicking(e) || e instanceof net.minecraft.world.entity.Marker) { // Markers aren't ticked // Prismarine - Paper PR
+                         nonEntityTicking.merge(key, Integer.valueOf(1), Integer::sum);
+                     }
+                 });
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 8066c874098039f75017e6bebd7981fd4804bcda..7cf00095e2f50590662f55adeb797814616b27e7 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -2501,6 +2501,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+         }
+ 
+         public void onTickingStart(Entity entity) {
++            if (entity instanceof net.minecraft.world.entity.Marker) return; // Paper - Don't tick markers // Prismarine - Paper PR
+             ServerLevel.this.entityTickList.add(entity);
+             ServerLevel.this.entityManager.addNavigatorsIfPathingToRegion(entity); // Paper - optimise notify
+         }
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+index f280aaa6d1ed35ffb5f746631c36467b63a7bd56..12a7b29a50fa886bff0d1d4a9dbec982adf2b18b 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+@@ -282,6 +282,15 @@ public class ServerPlayer extends Player {
+ 
+             }
+ 
++            // Prismarine start - Paper PR
++            // Paper start
++            @Override
++            public void sendOffHandSlotChange() {
++                ServerPlayer.this.connection.send(new ClientboundContainerSetSlotPacket(ServerPlayer.this.inventoryMenu.containerId, ServerPlayer.this.inventoryMenu.incrementStateId(), net.minecraft.world.inventory.InventoryMenu.SHIELD_SLOT, ServerPlayer.this.inventoryMenu.getSlot(net.minecraft.world.inventory.InventoryMenu.SHIELD_SLOT).getItem().copy()));
++            }
++            // Paper end
++            // Prismarine end
++
+             @Override
+             public void sendSlotChange(AbstractContainerMenu handler, int slot, ItemStack stack) {
+                 ServerPlayer.this.connection.send(new ClientboundContainerSetSlotPacket(handler.containerId, handler.incrementStateId(), slot, stack));
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
+index 1c4fe18c814a48997f5fd4cf07b796cde9838188..030283c5de7803198eebda3f25d23e32aeb8bff8 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
+@@ -459,12 +459,16 @@ public class ServerPlayerGameMode {
+                     block.destroy(this.level, pos, iblockdata);
+                 }
+ 
++                ItemStack mainHandCopy = null; // Paper // Prismarine - Paper PR
++                boolean isCorrectTool = false; // Paper // Prismarine - Paper PR
+                 if (this.isCreative() || (this.level.purpurConfig.shulkerBoxAllowOversizedStacks && block instanceof net.minecraft.world.level.block.ShulkerBoxBlock)) { // Purpur
+                     // return true; // CraftBukkit
+                 } else {
+                     ItemStack itemstack = this.player.getMainHandItem();
+                     ItemStack itemstack1 = itemstack.copy();
+                     boolean flag1 = this.player.hasCorrectToolForDrops(iblockdata);
++                    mainHandCopy = itemstack1; // Paper // Prismarine - Paper PR
++                    isCorrectTool = flag1; // Paper // Prismarine - Paper PR
+ 
+                     itemstack.mineBlock(this.level, iblockdata, pos, this.player);
+                     if (flag && flag1 && event.isDropItems()) { // CraftBukkit - Check if block should drop items
+@@ -486,6 +490,16 @@ public class ServerPlayerGameMode {
+                     iblockdata.getBlock().popExperience(this.level, pos, event.getExpToDrop(), this.player); // Paper
+                 }
+ 
++                // Prismarine start - Paper PR
++                // Paper start - trigger after items are dropped (check impls of block#playerDestroy)
++                if (mainHandCopy != null) {
++                    if (flag && isCorrectTool && event.isDropItems() && block instanceof net.minecraft.world.level.block.BeehiveBlock && tileentity instanceof net.minecraft.world.level.block.entity.BeehiveBlockEntity beehiveBlockEntity) { // simulates the guard on block#playerDestroy above
++                        CriteriaTriggers.BEE_NEST_DESTROYED.trigger(player, iblockdata, mainHandCopy, beehiveBlockEntity.getOccupantCount());
++                    }
++                }
++                // Paper end
++                // Prismarine end
++
+                 return true;
+                 // CraftBukkit end
+             }
+diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+index c4b2a50ad65b4ca2f8cc5903213c70cafde3e41c..6c5cfe0509c6f84064e5b37f8f945ff5f769d888 100644
+--- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
++++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+@@ -219,6 +219,7 @@ public class WorldGenRegion implements WorldGenLevel {
+         if (iblockdata.isAir()) {
+             return false;
+         } else {
++            if (drop) LOGGER.warn("Potential async entity add during worldgen", new Throwable()); // Paper - log when this happens // Prismarine - Paper PR
+             if (false) { // CraftBukkit - SPIGOT-6833: Do not drop during world generation
+                 BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
+ 
+diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+index 058fb3696c7ece4a7b6971886b1760b26add733b..2376d9da86df406298325b97b9209aebf588b457 100644
+--- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
++++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+@@ -109,6 +109,14 @@ public class ServerConnectionListener {
+             ServerConnectionListener.LOGGER.info("Paper: Using " + com.velocitypowered.natives.util.Natives.cipher.getLoadedVariant() + " cipher from Velocity.");
+             // Paper end
+ 
++            // Prismarine start - Paper PR
++            // Paper start - indicate Proxy Protocol usage
++            if (net.prismarineteam.prismarine.PrismarineConfig.useProxyProtocol) { // Prismarine (temp)
++                ServerConnectionListener.LOGGER.info("Prismarine: Using Proxy Protocol"); // Prismarine (temp)
++            }
++            // Paper end
++            // Prismarine end
++
+             this.channels.add(((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap()).channel(oclass)).childHandler(new ChannelInitializer<Channel>() {
+                 protected void initChannel(Channel channel) {
+                     try {
+@@ -122,6 +130,30 @@ public class ServerConnectionListener {
+                     int j = ServerConnectionListener.this.server.getRateLimitPacketsPerSecond();
+                     Object object = j > 0 ? new RateKickingConnection(j) : new Connection(PacketFlow.SERVERBOUND);
+ 
++                    // Prismarine start - Paper PR
++                    // Paper start - Add support for Proxy Protocol
++                    if (net.prismarineteam.prismarine.PrismarineConfig.useProxyProtocol) { // Prismarine (temp)
++                        channel.pipeline().addAfter("timeout", "haproxy-decoder", new io.netty.handler.codec.haproxy.HAProxyMessageDecoder());
++                        channel.pipeline().addAfter("haproxy-decoder", "haproxy-handler", new ChannelInboundHandlerAdapter() {
++                            @Override
++                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
++                                if (msg instanceof io.netty.handler.codec.haproxy.HAProxyMessage message) {
++                                    String realaddress = message.sourceAddress();
++                                    int realport = message.sourcePort();
++
++                                    SocketAddress socketaddr = new java.net.InetSocketAddress(realaddress, realport);
++
++                                    Connection connection = (Connection) channel.pipeline().get("packet_handler");
++                                    connection.address = socketaddr;
++                                } else {
++                                    super.channelRead(ctx, msg);
++                                }
++                            }
++                        });
++                    }
++                    // Paper end
++                    // Prismarine end
++
+                     // ServerConnectionListener.this.connections.add((Connection) object); // CraftBukkit - decompile error
+                     pending.add((Connection) object); // Paper
+                     channel.pipeline().addLast("packet_handler", (ChannelHandler) object);
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 460282a6ca0c997879a9bea97568d7146c047719..14ae52b46ead599cda44cac29c93c5088839a5c7 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -3048,9 +3048,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+             com.destroystokyo.paper.event.player.PlayerRecipeBookClickEvent event = new com.destroystokyo.paper.event.player.PlayerRecipeBookClickEvent(
+                 player.getBukkitEntity(), org.bukkit.craftbukkit.util.CraftNamespacedKey.fromMinecraft(packet.getRecipe()), packet.isShiftDown());
+             if (event.callEvent()) {
+-                this.server.getRecipeManager().byKey(org.bukkit.craftbukkit.util.CraftNamespacedKey.toMinecraft(event.getRecipe())).ifPresent((irecipe) -> {
+-                    ((RecipeBookMenu) this.player.containerMenu).handlePlacement(event.isMakeAll(), irecipe, this.player);
+-            });
++                // Prismarine start - Paper PR
++                if (this.player.containerMenu instanceof RecipeBookMenu<?> recipeBookMenu) {
++                    this.server.getRecipeManager().byKey(org.bukkit.craftbukkit.util.CraftNamespacedKey.toMinecraft(event.getRecipe())).ifPresent((irecipe) -> {
++                        recipeBookMenu.handlePlacement(event.isMakeAll(), irecipe, this.player);
++                    });
++                }
++                // Prismarine end
+             } // Paper end
+         }
+     }
+diff --git a/src/main/java/net/minecraft/world/effect/MobEffect.java b/src/main/java/net/minecraft/world/effect/MobEffect.java
+index 8d569eb2ec1b2bdbd415094ae04ae531dfdeafae..334f432fdd347dd1ea4899dfaf3c946b9a01e876 100644
+--- a/src/main/java/net/minecraft/world/effect/MobEffect.java
++++ b/src/main/java/net/minecraft/world/effect/MobEffect.java
+@@ -99,7 +99,7 @@ public class MobEffect {
+                 }
+             }
+         } else {
+-            j = (int) (proximity * (double) (4 << amplifier) + 0.5D);
++            j = Math.max((int) (proximity * (double) (4 << amplifier) + 0.5D), 0); // Paper - Prevent healing by negative amounts // Prismarine - Paper PR
+             target.heal((float) j, RegainReason.MAGIC); // CraftBukkit
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 92154459fd46db7e9182952cc1f844298c2dcb3c..07279541e1be38286c7d4933d3485755e7572433 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -3216,6 +3216,14 @@ public abstract class LivingEntity extends Entity {
+                     tag.put("Enchantments", enchantments);
+                 }
+                 tag.remove("AttributeModifiers");
++
++                // Prismarine start - Paper PR
++                // Books
++                tag.remove("author");
++                tag.remove("filtered_title");
++                tag.remove("pages");
++                tag.remove("title");
++                // Prismarine end
+             }
+         }
+         return copy;
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
+index a6f8ca71ba5d107cfbd24b8e8a225195dc233637..c78a23c5d438baa818f74de8feb74af5ced164a2 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
+@@ -39,14 +39,14 @@ public class GroundPathNavigation extends PathNavigation {
+     }
+ 
+     @Override
+-    public Path createPath(BlockPos target, int distance) {
++    public Path createPath(BlockPos target, @javax.annotation.Nullable Entity entity, int distance) { // Paper // Prismarine - Paper PR
+         if (this.level.getBlockState(target).isAir()) {
+             BlockPos blockPos;
+             for(blockPos = target.below(); blockPos.getY() > this.level.getMinBuildHeight() && this.level.getBlockState(blockPos).isAir(); blockPos = blockPos.below()) {
+             }
+ 
+             if (blockPos.getY() > this.level.getMinBuildHeight()) {
+-                return super.createPath(blockPos.above(), distance);
++                return super.createPath(blockPos.above(), entity, distance); // Paper // Prismarine - Paper PR
+             }
+ 
+             while(blockPos.getY() < this.level.getMaxBuildHeight() && this.level.getBlockState(blockPos).isAir()) {
+@@ -57,13 +57,13 @@ public class GroundPathNavigation extends PathNavigation {
+         }
+ 
+         if (!this.level.getBlockState(target).getMaterial().isSolid()) {
+-            return super.createPath(target, distance);
++            return super.createPath(target, entity, distance); // Paper // Prismarine - Paper PR
+         } else {
+             BlockPos blockPos2;
+             for(blockPos2 = target.above(); blockPos2.getY() < this.level.getMaxBuildHeight() && this.level.getBlockState(blockPos2).getMaterial().isSolid(); blockPos2 = blockPos2.above()) {
+             }
+ 
+-            return super.createPath(blockPos2, distance);
++            return super.createPath(blockPos2, entity, distance); // Paper // Prismarine - Paper PR
+         }
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
+index d35032a8d2612d555c3dad1fe496d7ae1c5a285b..eae5e25ea48335cd07ccd5227404b506b0414e75 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
+@@ -118,7 +118,7 @@ public abstract class PathNavigation {
+         return this.createPath(target, null, distance);
+     }
+     @Nullable
+-    public Path createPath(BlockPos target, Entity entity, int distance) {
++    public Path createPath(BlockPos target, @Nullable Entity entity, int distance) { // Prismarine - Paper PR
+         return this.createPath(ImmutableSet.of(target), entity, 8, false, distance);
+         // Paper end
+     }
+@@ -140,15 +140,15 @@ public abstract class PathNavigation {
+ 
+     @Nullable
+     protected Path createPath(Set<BlockPos> positions, int range, boolean useHeadPos, int distance, float followRange) {
+-        return this.createPath(positions, null, range, useHeadPos, distance, (float) this.mob.getAttributeValue(Attributes.FOLLOW_RANGE));
++        return this.createPath(positions, null, range, useHeadPos, distance, followRange); // Prismarine - Paper PR
+     }
+ 
+     @Nullable
+-    protected Path createPath(Set<BlockPos> positions, Entity target, int range, boolean useHeadPos, int distance) {
++    protected Path createPath(Set<BlockPos> positions, @Nullable Entity target, int range, boolean useHeadPos, int distance) { // Prismarine - Paper PR
+         return this.createPath(positions, target, range, useHeadPos, distance, (float) this.mob.getAttributeValue(Attributes.FOLLOW_RANGE));
+     }
+ 
+-    @Nullable protected Path createPath(Set<BlockPos> positions, Entity target, int range, boolean useHeadPos, int distance, float followRange) {
++    @Nullable protected Path createPath(Set<BlockPos> positions, @Nullable Entity target, int range, boolean useHeadPos, int distance, float followRange) { // Prismarine - Paper PR
+         // Paper end
+         if (positions.isEmpty()) {
+             return null;
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
+index a7a0df982d1f2931fbbabc13d38ed42d0e06f6f0..7820c4d64cbd0e26927698df3cbe0df432737c38 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
+@@ -16,9 +16,9 @@ public class WallClimberNavigation extends GroundPathNavigation {
+     }
+ 
+     @Override
+-    public Path createPath(BlockPos target, int distance) {
++    public Path createPath(BlockPos target, @Nullable Entity entity, int distance) { // Paper // Prismarine
+         this.pathToPosition = target;
+-        return super.createPath(target, distance);
++        return super.createPath(target, entity, distance); // Paper // Prismarine
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java b/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java
+index bc0a49d41bdbc5544f789150ac239617d03b5837..8c5c94dfd433c9d0bde0f33525fd0a1af89aba6b 100644
+--- a/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java
+@@ -200,6 +200,7 @@ public abstract class AbstractContainerMenu {
+ 
+         if (this.synchronizer != null) {
+             this.synchronizer.sendInitialData(this, this.remoteSlots, this.remoteCarried, this.remoteDataSlots.toIntArray());
++            this.synchronizer.sendOffHandSlotChange(); // Paper - update player's offhand since the offhand slot is not added to the slots for menus but can be changed by swapping from a menu slot // Prismarine - Paper PR
+         }
+ 
+     }
+diff --git a/src/main/java/net/minecraft/world/inventory/ContainerSynchronizer.java b/src/main/java/net/minecraft/world/inventory/ContainerSynchronizer.java
+index ff4fa86f9408e83e505f7e27692d3423f8570c48..4ea3d29d7c4741d260fb7fe5d5a6c61cffe1b269 100644
+--- a/src/main/java/net/minecraft/world/inventory/ContainerSynchronizer.java
++++ b/src/main/java/net/minecraft/world/inventory/ContainerSynchronizer.java
+@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
+ public interface ContainerSynchronizer {
+     void sendInitialData(AbstractContainerMenu handler, NonNullList<ItemStack> stacks, ItemStack cursorStack, int[] properties);
+ 
++    default void sendOffHandSlotChange() {} // Paper // Prismarine - Paper PR
+     void sendSlotChange(AbstractContainerMenu handler, int slot, ItemStack stack);
+ 
+     void sendCarriedChange(AbstractContainerMenu handler, ItemStack stack);
+diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+index 6bbf1618e41c81fd2064ffd5d835187a927f24b7..4c673f3c18a807586d49c1e43820e979a65d701e 100644
+--- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
++++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+@@ -77,6 +77,14 @@ public abstract class BaseSpawner {
+     }
+ 
+     public void serverTick(ServerLevel world, BlockPos pos) {
++        // Prismarine start - Paper PR
++        // Paper start - Ignore impossible spawn tick
++        if (spawnCount <= 0 || maxNearbyEntities <= 0) {
++            return;
++        }
++        // Paper end
++        // Prismarine end
++
+         // Paper start - Configurable mob spawner tick rate
+         if (spawnDelay > 0 && --tickDelay > 0) return;
+         tickDelay = world.paperConfig.mobSpawnerTickRate;
+diff --git a/src/main/java/net/minecraft/world/level/block/BeehiveBlock.java b/src/main/java/net/minecraft/world/level/block/BeehiveBlock.java
+index e9974415e8f016f50a93a5eea117afe25a6b735d..a510ec076ff91bb5e06ebfca0b00e6f82a92e8cd 100644
+--- a/src/main/java/net/minecraft/world/level/block/BeehiveBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/BeehiveBlock.java
+@@ -88,7 +88,7 @@ public class BeehiveBlock extends BaseEntityBlock {
+                 this.angerNearbyBees(world, pos);
+             }
+ 
+-            CriteriaTriggers.BEE_NEST_DESTROYED.trigger((ServerPlayer) player, state, stack, tileentitybeehive.getOccupantCount());
++            // CriteriaTriggers.BEE_NEST_DESTROYED.trigger((ServerPlayer) player, state, stack, tileentitybeehive.getOccupantCount()); // Paper - moved until after items are dropped
+         }
+ 
+     }
+diff --git a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
+index 676184c48c3abd8e2fb9a04ae3e165dc298a02be..3aafcaae3315dbb7c18aa712a3eccb3ed6ce83fb 100644
+--- a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
+@@ -36,10 +36,22 @@ public class CauldronBlock extends AbstractCauldronBlock {
+     public void handlePrecipitation(BlockState state, Level world, BlockPos pos, Biome.Precipitation precipitation) {
+         if (CauldronBlock.shouldHandlePrecipitation(world, precipitation)) {
+             if (precipitation == Biome.Precipitation.RAIN) {
+-                world.setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState());
++                // Prismarine start - Paper PR
++                // Paper start - call event for initial fill
++                if (!LayeredCauldronBlock.changeLevel(state, world, pos, Blocks.WATER_CAULDRON.defaultBlockState(), null, CauldronLevelChangeEvent.ChangeReason.NATURAL_FILL)) {
++                    return;
++                }
++                // Paper end
++                // Prismarine end
+                 world.gameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
+             } else if (precipitation == Biome.Precipitation.SNOW) {
+-                world.setBlockAndUpdate(pos, Blocks.POWDER_SNOW_CAULDRON.defaultBlockState());
++                // Prismarine start - Paper PR
++                // Paper start - call event for initial fill
++                if (!LayeredCauldronBlock.changeLevel(state, world, pos, Blocks.POWDER_SNOW_CAULDRON.defaultBlockState(), null, CauldronLevelChangeEvent.ChangeReason.NATURAL_FILL)) {
++                    return;
++                }
++                // Paper end
++                // Prismarine end
+                 world.gameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
+             }
+ 
+@@ -54,11 +66,23 @@ public class CauldronBlock extends AbstractCauldronBlock {
+     @Override
+     protected void receiveStalactiteDrip(BlockState state, Level world, BlockPos pos, Fluid fluid) {
+         if (fluid == Fluids.WATER) {
+-            LayeredCauldronBlock.changeLevel(state, world, pos, Blocks.WATER_CAULDRON.defaultBlockState(), null, CauldronLevelChangeEvent.ChangeReason.NATURAL_FILL); // CraftBukkit
++            // Prismarine start - Paper PR
++            // Paper start - don't send level event or game event if cancelled
++            if (!LayeredCauldronBlock.changeLevel(state, world, pos, Blocks.WATER_CAULDRON.defaultBlockState(), null, CauldronLevelChangeEvent.ChangeReason.NATURAL_FILL)) { // CraftBukkit
++                return;
++            }
++            // Paper end
++            // Prismarine end
+             world.levelEvent(1047, pos, 0);
+             world.gameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
+         } else if (fluid == Fluids.LAVA) {
+-            LayeredCauldronBlock.changeLevel(state, world, pos, Blocks.LAVA_CAULDRON.defaultBlockState(), null, CauldronLevelChangeEvent.ChangeReason.NATURAL_FILL); // CraftBukkit
++            // Prismarine start - Paper PR
++            // Paper start - don't send level event or game event if cancelled
++            if (!LayeredCauldronBlock.changeLevel(state, world, pos, Blocks.LAVA_CAULDRON.defaultBlockState(), null, CauldronLevelChangeEvent.ChangeReason.NATURAL_FILL)) { // CraftBukkit
++                return;
++            }
++            // Paper end
++            // Prismarine end
+             world.levelEvent(1046, pos, 0);
+             world.gameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
+         }
+diff --git a/src/main/java/net/minecraft/world/level/block/LayeredCauldronBlock.java b/src/main/java/net/minecraft/world/level/block/LayeredCauldronBlock.java
+index e6ea389350cf391a87c4c388ed9a6325bdceb90d..0489c37838519b8f815860af7004c87b652d52e1 100644
+--- a/src/main/java/net/minecraft/world/level/block/LayeredCauldronBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/LayeredCauldronBlock.java
+@@ -89,7 +89,7 @@ public class LayeredCauldronBlock extends AbstractCauldronBlock {
+     }
+ 
+     // CraftBukkit start
+-    public static boolean changeLevel(BlockState iblockdata, Level world, BlockPos blockposition, BlockState newBlock, Entity entity, CauldronLevelChangeEvent.ChangeReason reason) {
++    public static boolean changeLevel(BlockState iblockdata, Level world, BlockPos blockposition, BlockState newBlock, @javax.annotation.Nullable Entity entity, CauldronLevelChangeEvent.ChangeReason reason) { // Paper - entity is nullable // Prismarine - Paper PR
+         CraftBlockState newState = CraftBlockStates.getBlockState(world, blockposition);
+         newState.setData(newBlock);
+ 
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index 4dad7fc69bd213fcd20c24b032e1fa70cc6d0366..2cb220a6efd21b725d94219687e053606f40a954 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -155,4 +155,9 @@ public class PrismarineConfig {
+     private static void useAirplaneCollisionContext() {
+         useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
+     }
++
++    public static boolean useProxyProtocol = false;
++    private static void paperPRs() {
++        useProxyProtocol = getBoolean("settings.pull-requests.paper.use-proxy-protocol", useProxyProtocol);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
+index e231636403a70f28e7e4bf51542608872234ce94..802e5d80e53e534335844116e44e4eebc3ca4a13 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
+@@ -365,10 +365,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
+                 ((ChorusFlowerBlock) Blocks.CHORUS_FLOWER).generatePlant(access, pos, random, 8);
+                 return true;
+             case CRIMSON_FUNGUS:
+-                gen = TreeFeatures.CRIMSON_FUNGUS_PLANTED;
++                gen = this.isNormalWorld() ? TreeFeatures.CRIMSON_FUNGUS_PLANTED : TreeFeatures.CRIMSON_FUNGUS; // Paper - if world gen, don't use planted version // Prismarine - Paper PR
+                 break;
+             case WARPED_FUNGUS:
+-                gen = TreeFeatures.WARPED_FUNGUS_PLANTED;
++                gen = this.isNormalWorld() ? TreeFeatures.WARPED_FUNGUS_PLANTED : TreeFeatures.WARPED_FUNGUS; // Paper - if world gen, don't use planted version // Prismarine - Paper PR
+                 break;
+             case AZALEA:
+                 gen = TreeFeatures.AZALEA_TREE;
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 5ee8aa2c36b44c444caf13950a71f4f6c34dcd40..5c410379c69a62aa403b562074354c2a5b280b2a 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -1153,9 +1153,17 @@ public final class CraftServer implements Server {
+         File folder = new File(this.getWorldContainer(), name);
+         World world = this.getWorld(name);
+ 
+-        if (world != null) {
+-            return world;
++        // Prismarine start - Paper PR
++        // Paper start
++        World worldByKey = this.getWorld(creator.key());
++        if (world != null || worldByKey != null) {
++            if (world == worldByKey) {
++                return world;
++            }
++            throw new IllegalArgumentException("Cannot create a world with key " + creator.key() + " and name " + name + " one (or both) already match a world that exists");
+         }
++        // Paper end
++        // Prismarine end
+ 
+         if ((folder.exists()) && (!folder.isDirectory())) {
+             throw new IllegalArgumentException("File exists with the name '" + name + "' and isn't a folder");
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
+index 1fe46049cc33c24db04fbfcde36ab275c03177bf..68c2de2f4e8a621b1a59241d233d077227c3456e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
+@@ -1093,7 +1093,12 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
+ 
+     @Override
+     public BlockData getBlockData(Material material) {
+-        return CraftBlockData.fromData(BlockItem.getBlockState(CraftMagicNumbers.getBlock(material).defaultBlockState(), blockData));
++        // Prismarine start - Paper PR
++        // Paper start -fix NPE if this.blockData is null
++        final net.minecraft.world.level.block.state.BlockState defaultBlockState = CraftMagicNumbers.getBlock(material).defaultBlockState();
++        return CraftBlockData.fromData(this.blockData == null ? defaultBlockState : BlockItem.getBlockState(defaultBlockState, blockData));
++        // Paper end
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
+index 46ca899a7abddea108f6ff1b4ca14ca5cd3112ab..e12ea00cf699e8e1e5c8909e7d5e755c01b92350 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
+@@ -64,7 +64,10 @@ public final class CommandPermissions {
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "loot", "Allows the user to drop items from an inventory slot onto the ground", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "op", "Allows the user to grant operator status to a player", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "pardon", "Allows the user to remove entries from the banlist", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "pardon-ip", "Allows the user to remove entries from the ip address ban list", PermissionDefault.OP, commands); // Prismarine - Paper PR
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "particle", "Allows the user to create particles", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "perf", "Allows the user to start/stop the vanilla performance metrics capture", PermissionDefault.OP, commands); // Prismarine - Paper PR
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "placefeature", "Allows the user to place features with the command", PermissionDefault.OP, commands); // Prismarine - Paper PR
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "playsound", "Allows the user to play a sound", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "recipe", "Allows the user to give or take recipes", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "reload", "Allows the user to reload loot tables, advancements, and functions from disk", PermissionDefault.OP, commands);
+diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
+index 51357702045a87340169b6ddd6365cdc30955bc8..db94ed70382500f04951e66c5ecf931e5e65f039 100644
+--- a/src/main/java/org/spigotmc/ActivationRange.java
++++ b/src/main/java/org/spigotmc/ActivationRange.java
+@@ -217,7 +217,7 @@ public class ActivationRange
+             // Paper end
+ 
+             // Paper start
+-            java.util.List<Entity> entities = world.getEntities((Entity)null, maxBB, null);
++            java.util.List<Entity> entities = world.getEntities((Entity)null, maxBB, (e) -> !(e instanceof net.minecraft.world.entity.Marker)); // Don't tick markers // Prismarine - Paper PR
+             for (int i = 0; i < entities.size(); i++) {
+                 Entity entity = entities.get(i);
+                 ActivationRange.activateEntity(entity);
+@@ -291,6 +291,14 @@ public class ActivationRange
+         {
+             return 100; // Paper
+         }
++        // Prismarine start
++        // Paper start
++        if ( !entity.isOnGround() || entity.getDeltaMovement().horizontalDistanceSqr() > 9.999999747378752E-6D )
++        {
++            return 100;
++        }
++        // Paper end
++        // Prismarine end
+         if ( !( entity instanceof AbstractArrow ) )
+         {
+             if ( (!entity.isOnGround() && !(entity instanceof FlyingMob)) ) // Paper - remove passengers logic
+diff --git a/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..f62fd541bc321e67fd4563e6b181857b5687860d
+--- /dev/null
++++ b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
+@@ -0,0 +1,84 @@
++package io.papermc.paper.permissions;
++
++import com.mojang.brigadier.tree.CommandNode;
++import com.mojang.brigadier.tree.RootCommandNode;
++import net.minecraft.commands.CommandSourceStack;
++import net.minecraft.commands.Commands;
++import net.minecraft.server.Bootstrap;
++import org.bukkit.Bukkit;
++import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
++import org.bukkit.craftbukkit.util.permissions.CraftDefaultPermissions;
++import org.bukkit.permissions.Permission;
++import org.bukkit.support.AbstractTestingBase;
++import org.junit.AfterClass;
++import org.junit.BeforeClass;
++import org.junit.Test;
++
++import java.io.PrintStream;
++import java.util.HashSet;
++import java.util.LinkedHashSet;
++import java.util.List;
++import java.util.Set;
++import java.util.TreeSet;
++
++import static org.junit.Assert.assertTrue;
++
++public class MinecraftCommandPermissionsTest extends AbstractTestingBase {
++
++    private static PrintStream old;
++    @BeforeClass
++    public static void before() {
++        old = System.out;
++        System.setOut(Bootstrap.STDOUT);
++    }
++
++    @Test
++    public void test() {
++        CraftDefaultPermissions.registerCorePermissions();
++        Set<String> perms = collectMinecraftCommandPerms();
++
++        Commands commands = new Commands(Commands.CommandSelection.DEDICATED);
++        RootCommandNode<CommandSourceStack> root = commands.getDispatcher().getRoot();
++        Set<String> missing = new LinkedHashSet<>();
++        Set<String> foundPerms = new HashSet<>();
++        for (CommandNode<CommandSourceStack> child : root.getChildren()) {
++            final String vanillaPerm = VanillaCommandWrapper.getPermission(child);
++            if (!perms.contains(vanillaPerm)) {
++                missing.add("Missing permission for " + child.getName() + " (" + vanillaPerm + ") command");
++            } else {
++                foundPerms.add(vanillaPerm);
++            }
++        }
++        assertTrue("Commands missing permissions: \n" + String.join("\n", missing), missing.isEmpty());
++        perms.removeAll(foundPerms);
++        assertTrue("Extra permissions not associated with a command: \n" + String.join("\n", perms), perms.isEmpty());
++    }
++
++    private static final List<String> TO_SKIP = List.of(
++            "minecraft.command.selector"
++    );
++
++    private static Set<String> collectMinecraftCommandPerms() {
++        Set<String> perms = new TreeSet<>();
++        for (Permission perm : Bukkit.getPluginManager().getPermissions()) {
++            if (perm.getName().startsWith("minecraft.command.")) {
++                if (TO_SKIP.contains(perm.getName())) {
++                    continue;
++                }
++                if (perm.getName().endsWith(".xp")) {
++                    perms.add("minecraft.command.experience"); // for the "experience" command, craftbukkit perm is "minecraft.command.xp"
++                    continue;
++                }
++                perms.add(perm.getName());
++            }
++        }
++        return perms;
++    }
++
++    @AfterClass
++    public static void after() {
++        if (old != null) {
++            System.setOut(old);
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/src/test/java/org/bukkit/support/DummyServer.java b/src/test/java/org/bukkit/support/DummyServer.java
+index 2d95215657fffe77165a2fa5f6c8d31ba44a958d..0ed875a59018f04b425c21e2385058a2c386c994 100644
+--- a/src/test/java/org/bukkit/support/DummyServer.java
++++ b/src/test/java/org/bukkit/support/DummyServer.java
+@@ -97,7 +97,23 @@ public final class DummyServer implements InvocationHandler {
+                         }
+                     }
+                 );
+-            Bukkit.setServer(Proxy.getProxyClass(Server.class.getClassLoader(), Server.class).asSubclass(Server.class).getConstructor(InvocationHandler.class).newInstance(new DummyServer()));
++            // Prismarine start - Paper PR
++            // Paper start - modeled off of TestServer in the API tests module
++            methods.put(
++                    Server.class.getMethod("getPluginManager"),
++                    new MethodHandler() {
++                        @Override
++                        public Object handle(DummyServer server, Object[] args) {
++                            return server.pluginManager;
++                        }
++                    }
++            );
++            DummyServer server = new DummyServer();
++            Server instance = Proxy.getProxyClass(Server.class.getClassLoader(), Server.class).asSubclass(Server.class).getConstructor(InvocationHandler.class).newInstance(server);
++            Bukkit.setServer(instance);
++            server.pluginManager = new org.bukkit.plugin.SimplePluginManager(instance, new org.bukkit.command.SimpleCommandMap(instance));
++            // Paper end
++            // Prismarie end
+         } catch (Throwable t) {
+             throw new Error(t);
+         }
+@@ -107,6 +123,7 @@ public final class DummyServer implements InvocationHandler {
+ 
+     private DummyServer() {};
+ 
++    private org.bukkit.plugin.PluginManager pluginManager; // Paper // Prismarine
+     @Override
+     public Object invoke(Object proxy, Method method, Object[] args) {
+         MethodHandler handler = DummyServer.methods.get(method);
