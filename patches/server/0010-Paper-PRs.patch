@@ -16,8 +16,6 @@ Fix duplicate world keys via createWorld (Jake Potrebic <jake.m.potrebic@gmail.c
 Fix opening inv in PlayerRecipeBookClickEvent handler (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7552)
 Ignore BaseSpawner impossible spawn tick (dannyball710 <dannyball710@gmail.com>) (PaperMC/Paper#7469)
 Trigger bee_nest_destroyed trigger in the correct place (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7436)
-Add 2 missing feature seed configs (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7398)
-Update default vanilla command perms (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7386)
 Sync offhand slot in menus (Jake Potrebic <jake.m.potrebic@gmail.com>) (PaperMC/Paper#7341)
 Don't tick markers (Noah van der Aa <ndvdaa@gmail.com>) (PaperMC/Paper#7299)
 
@@ -518,10 +516,31 @@ index 1fe46049cc33c24db04fbfcde36ab275c03177bf..68c2de2f4e8a621b1a59241d233d0772
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
-index 46ca899a7abddea108f6ff1b4ca14ca5cd3112ab..e12ea00cf699e8e1e5c8909e7d5e755c01b92350 100644
+index 46ca899a7abddea108f6ff1b4ca14ca5cd3112ab..af4d8526007c422c1257ffca49aa3100aefde2c9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
-@@ -64,7 +64,10 @@ public final class CommandPermissions {
+@@ -39,6 +39,14 @@ public final class CommandPermissions {
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "effect", "Allows the user to add/remove effects on players", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "selector", "Allows the use of selectors", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "trigger", "Allows the use of the trigger command", PermissionDefault.TRUE, commands);
++        // Prismarine start - Purpur Commands
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "compass", "Allows the user to display the Compass Bossbar", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "credits", "Allows the user to display the Credit(Ending) screen", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "demo", "Allows the user to display the Demo alert screen", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "ping", "Allows the user to view other players or their own ping", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "tpsbar", "Allows the user to display the Tick Per Second Bossbar", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "uptime", "Allows the user to view server's uptime", PermissionDefault.OP, commands);
++        // Prismarine end
+         // Paper start
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "attribute", "Allows the user to query, add, remove or set an entity attribute", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "advancement", "Allows the user to give, remove, or check player advancements", PermissionDefault.OP, commands);
+@@ -59,12 +67,16 @@ public final class CommandPermissions {
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "forceload", "Allows the user to force chunks to be constantly loaded or not", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "function", "Allows the user to run a function", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "gamerule", "Allows a user to set or query a game rule value", PermissionDefault.OP, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "jfr", "Allows a user to use the vanilla Java FlightRecorder profiling system", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "locate", "Allows the user to locate the closest structure", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "locatebiome", "Allows the user to locate the closest biome", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "loot", "Allows the user to drop items from an inventory slot onto the ground", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "op", "Allows the user to grant operator status to a player", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "pardon", "Allows the user to remove entries from the banlist", PermissionDefault.OP, commands);
@@ -560,131 +579,3 @@ index 51357702045a87340169b6ddd6365cdc30955bc8..db94ed70382500f04951e66c5ecf931e
          if ( !( entity instanceof AbstractArrow ) )
          {
              if ( (!entity.isOnGround() && !(entity instanceof FlyingMob)) ) // Paper - remove passengers logic
-diff --git a/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
-new file mode 100644
-index 0000000000000000000000000000000000000000..f62fd541bc321e67fd4563e6b181857b5687860d
---- /dev/null
-+++ b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
-@@ -0,0 +1,84 @@
-+package io.papermc.paper.permissions;
-+
-+import com.mojang.brigadier.tree.CommandNode;
-+import com.mojang.brigadier.tree.RootCommandNode;
-+import net.minecraft.commands.CommandSourceStack;
-+import net.minecraft.commands.Commands;
-+import net.minecraft.server.Bootstrap;
-+import org.bukkit.Bukkit;
-+import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
-+import org.bukkit.craftbukkit.util.permissions.CraftDefaultPermissions;
-+import org.bukkit.permissions.Permission;
-+import org.bukkit.support.AbstractTestingBase;
-+import org.junit.AfterClass;
-+import org.junit.BeforeClass;
-+import org.junit.Test;
-+
-+import java.io.PrintStream;
-+import java.util.HashSet;
-+import java.util.LinkedHashSet;
-+import java.util.List;
-+import java.util.Set;
-+import java.util.TreeSet;
-+
-+import static org.junit.Assert.assertTrue;
-+
-+public class MinecraftCommandPermissionsTest extends AbstractTestingBase {
-+
-+    private static PrintStream old;
-+    @BeforeClass
-+    public static void before() {
-+        old = System.out;
-+        System.setOut(Bootstrap.STDOUT);
-+    }
-+
-+    @Test
-+    public void test() {
-+        CraftDefaultPermissions.registerCorePermissions();
-+        Set<String> perms = collectMinecraftCommandPerms();
-+
-+        Commands commands = new Commands(Commands.CommandSelection.DEDICATED);
-+        RootCommandNode<CommandSourceStack> root = commands.getDispatcher().getRoot();
-+        Set<String> missing = new LinkedHashSet<>();
-+        Set<String> foundPerms = new HashSet<>();
-+        for (CommandNode<CommandSourceStack> child : root.getChildren()) {
-+            final String vanillaPerm = VanillaCommandWrapper.getPermission(child);
-+            if (!perms.contains(vanillaPerm)) {
-+                missing.add("Missing permission for " + child.getName() + " (" + vanillaPerm + ") command");
-+            } else {
-+                foundPerms.add(vanillaPerm);
-+            }
-+        }
-+        assertTrue("Commands missing permissions: \n" + String.join("\n", missing), missing.isEmpty());
-+        perms.removeAll(foundPerms);
-+        assertTrue("Extra permissions not associated with a command: \n" + String.join("\n", perms), perms.isEmpty());
-+    }
-+
-+    private static final List<String> TO_SKIP = List.of(
-+            "minecraft.command.selector"
-+    );
-+
-+    private static Set<String> collectMinecraftCommandPerms() {
-+        Set<String> perms = new TreeSet<>();
-+        for (Permission perm : Bukkit.getPluginManager().getPermissions()) {
-+            if (perm.getName().startsWith("minecraft.command.")) {
-+                if (TO_SKIP.contains(perm.getName())) {
-+                    continue;
-+                }
-+                if (perm.getName().endsWith(".xp")) {
-+                    perms.add("minecraft.command.experience"); // for the "experience" command, craftbukkit perm is "minecraft.command.xp"
-+                    continue;
-+                }
-+                perms.add(perm.getName());
-+            }
-+        }
-+        return perms;
-+    }
-+
-+    @AfterClass
-+    public static void after() {
-+        if (old != null) {
-+            System.setOut(old);
-+        }
-+    }
-+}
-\ No newline at end of file
-diff --git a/src/test/java/org/bukkit/support/DummyServer.java b/src/test/java/org/bukkit/support/DummyServer.java
-index 2d95215657fffe77165a2fa5f6c8d31ba44a958d..0ed875a59018f04b425c21e2385058a2c386c994 100644
---- a/src/test/java/org/bukkit/support/DummyServer.java
-+++ b/src/test/java/org/bukkit/support/DummyServer.java
-@@ -97,7 +97,23 @@ public final class DummyServer implements InvocationHandler {
-                         }
-                     }
-                 );
--            Bukkit.setServer(Proxy.getProxyClass(Server.class.getClassLoader(), Server.class).asSubclass(Server.class).getConstructor(InvocationHandler.class).newInstance(new DummyServer()));
-+            // Prismarine start - Paper PR
-+            // Paper start - modeled off of TestServer in the API tests module
-+            methods.put(
-+                    Server.class.getMethod("getPluginManager"),
-+                    new MethodHandler() {
-+                        @Override
-+                        public Object handle(DummyServer server, Object[] args) {
-+                            return server.pluginManager;
-+                        }
-+                    }
-+            );
-+            DummyServer server = new DummyServer();
-+            Server instance = Proxy.getProxyClass(Server.class.getClassLoader(), Server.class).asSubclass(Server.class).getConstructor(InvocationHandler.class).newInstance(server);
-+            Bukkit.setServer(instance);
-+            server.pluginManager = new org.bukkit.plugin.SimplePluginManager(instance, new org.bukkit.command.SimpleCommandMap(instance));
-+            // Paper end
-+            // Prismarie end
-         } catch (Throwable t) {
-             throw new Error(t);
-         }
-@@ -107,6 +123,7 @@ public final class DummyServer implements InvocationHandler {
- 
-     private DummyServer() {};
- 
-+    private org.bukkit.plugin.PluginManager pluginManager; // Paper // Prismarine
-     @Override
-     public Object invoke(Object proxy, Method method, Object[] args) {
-         MethodHandler handler = DummyServer.methods.get(method);
