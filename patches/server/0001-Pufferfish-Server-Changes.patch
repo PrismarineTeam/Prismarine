@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 2 Apr 2022 19:39:49 +0900
+Date: Sun, 17 Apr 2022 03:09:01 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -2426,7 +2426,7 @@ index 50fd3419deb668dda64b1056f03fb66da55e6960..c63ee396e990d11e2f613f3b5a478b48
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 7eeb9b5482ed7933c42cdd84936460e93585c584..0ccd1a4f90a39006de65c88416bd8c46ba7bb971 100644
+index ca876d0916b7b888e8df58fb6b115fa0ab5b79d3..93eb94fc3b1dd35efecc4615bd4f1b0b8361be2d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1116,6 +1116,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -3561,72 +3561,10 @@ index 13eded53a64d0f36f8c9bce2077de4f1c1ed2d56..303ad9eab2e0a9b73597ca4ee9d70bea
          return new BlockPos(i, l, j);
      }
 diff --git a/src/main/java/net/minecraft/world/level/biome/Biome.java b/src/main/java/net/minecraft/world/level/biome/Biome.java
-index 32fc9f9162aafe312ed757be2d03577b5f95841d..92cb180ac732ef84af158625338b1357195f7d2c 100644
+index 32fc9f9162aafe312ed757be2d03577b5f95841d..da7e940f7a0cf96a81372e920412c7d09bab8a3c 100644
 --- a/src/main/java/net/minecraft/world/level/biome/Biome.java
 +++ b/src/main/java/net/minecraft/world/level/biome/Biome.java
-@@ -35,30 +35,38 @@ import net.minecraft.world.level.material.FluidState;
- import net.minecraft.world.level.material.Fluids;
- 
- public final class Biome {
--    public static final Codec<Biome> DIRECT_CODEC = RecordCodecBuilder.create((instance) -> {
--        return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
--            return biome.climateSettings;
--        }), Biome.BiomeCategory.CODEC.fieldOf("category").forGetter((biome) -> {
--            return biome.biomeCategory;
--        }), BiomeSpecialEffects.CODEC.fieldOf("effects").forGetter((biome) -> {
--            return biome.specialEffects;
--        }), BiomeGenerationSettings.CODEC.forGetter((biome) -> {
--            return biome.generationSettings;
--        }), MobSpawnSettings.CODEC.forGetter((biome) -> {
--            return biome.mobSettings;
--        })).apply(instance, Biome::new);
--    });
--    public static final Codec<Biome> NETWORK_CODEC = RecordCodecBuilder.create((instance) -> {
--        return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
--            return biome.climateSettings;
--        }), Biome.BiomeCategory.CODEC.fieldOf("category").forGetter((biome) -> {
--            return biome.biomeCategory;
--        }), BiomeSpecialEffects.CODEC.fieldOf("effects").forGetter((biome) -> {
--            return biome.specialEffects;
--        })).apply(instance, (weather, category, effects) -> {
--            return new Biome(weather, category, effects, BiomeGenerationSettings.EMPTY, MobSpawnSettings.EMPTY);
-+    public static final Codec<Biome> DIRECT_CODEC;
-+    public static final Codec<Biome> NETWORK_CODEC;
-+    
-+    // Pufferfish start - decompile fixes
-+    static {
-+        DIRECT_CODEC = RecordCodecBuilder.create((instance) -> {
-+            return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
-+                return biome.climateSettings;
-+            }), Biome.BiomeCategory.CODEC.fieldOf("category").forGetter((biome) -> {
-+                return biome.biomeCategory;
-+            }), BiomeSpecialEffects.CODEC.fieldOf("effects").forGetter((biome) -> {
-+                return biome.specialEffects;
-+            }), BiomeGenerationSettings.CODEC.forGetter((biome) -> {
-+                return biome.generationSettings;
-+            }), MobSpawnSettings.CODEC.forGetter((biome) -> {
-+                return biome.mobSettings;
-+            })).apply(instance, Biome::new);
-         });
--    });
-+        NETWORK_CODEC = RecordCodecBuilder.create((instance) -> {
-+            return instance.group(Biome.ClimateSettings.CODEC.forGetter((biome) -> {
-+                return biome.climateSettings;
-+            }), Biome.BiomeCategory.CODEC.fieldOf("category").forGetter((biome) -> {
-+                return biome.biomeCategory;
-+            }), BiomeSpecialEffects.CODEC.fieldOf("effects").forGetter((biome) -> {
-+                return biome.specialEffects;
-+            })).apply(instance, (weather, category, effects) -> {
-+                return new Biome(weather, category, effects, BiomeGenerationSettings.EMPTY, MobSpawnSettings.EMPTY);
-+            });
-+        });
-+    }
-+    // Pufferfish end
-+    
-     public static final Codec<Holder<Biome>> CODEC = RegistryFileCodec.create(Registry.BIOME_REGISTRY, DIRECT_CODEC);
-     public static final Codec<HolderSet<Biome>> LIST_CODEC = RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY, DIRECT_CODEC);
-     private static final PerlinSimplexNoise TEMPERATURE_NOISE = new PerlinSimplexNoise(new WorldgenRandom(new LegacyRandomSource(1234L)), ImmutableList.of(0));
-@@ -74,14 +82,20 @@ public final class Biome {
+@@ -74,14 +74,20 @@ public final class Biome {
      private final MobSpawnSettings mobSettings;
      private final Biome.BiomeCategory biomeCategory;
      private final BiomeSpecialEffects specialEffects;
@@ -3648,7 +3586,7 @@ index 32fc9f9162aafe312ed757be2d03577b5f95841d..92cb180ac732ef84af158625338b1357
          });
      });
  
-@@ -123,17 +137,15 @@ public final class Biome {
+@@ -123,17 +129,15 @@ public final class Biome {
      @Deprecated
      public float getTemperature(BlockPos blockPos) {
          long l = blockPos.asLong();
@@ -4182,10 +4120,10 @@ index b1992ed5136cc7dcf04219868b94b3c37ae36b4b..5b5339cba819368f4d6b7eaf404fa59b
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5be9e73dc0314831bbaa6301fc704295dd8ed2bc..22dc604b42b068ca7b5cbf7d3920a4696c96ad34 100644
+index 16d3f2dce44fc374ec3ab5882135d06113681fb6..cca4ae47f80c45e64b4e0915d938e6e394a39b8e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
+@@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -4194,7 +4132,7 @@ index 5be9e73dc0314831bbaa6301fc704295dd8ed2bc..22dc604b42b068ca7b5cbf7d3920a469
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -1042,6 +1042,11 @@ public final class CraftServer implements Server {
+@@ -1043,6 +1043,11 @@ public final class CraftServer implements Server {
                  plugin.getDescription().getName(),
                  "This plugin is not properly shutting down its async tasks when it is being shut down. This task may throw errors during the final shutdown logs and might not complete before process dies."
              ));
