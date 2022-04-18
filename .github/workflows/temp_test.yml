@@ -1,6 +1,5 @@
 name: Build Testing
 on:
-  push:
   pull_request:
   workflow_dispatch:
 
@@ -13,7 +12,6 @@ jobs:
         java: ['temurin']
         os: [ubuntu-20.04]
 
-    if: contains(github.event.commits[0].message, '[CI_ TEMPORARY_TESTING]')
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
