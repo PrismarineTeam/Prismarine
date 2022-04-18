@@ -46,12 +46,9 @@ jobs:
       - name: Get build number
         run: |
           git clone --recursive -b meta https://github.com/PrismarineTeam/PrismarineManager
-          release=$(cat PrismarineManager/release-data | grep release | sed 's/release: //')
-          version=$(cat PrismarineManager/release-data | grep version | sed 's/version: //')
-          echo "version=$version" > $GITHUB_ENV
-          echo "release=$(($release + 1))" > $GITHUB_ENV
-          echo $version && echo $release
-          sed -i 's/release: .*/release: '"${{ env.release }}"'/' PrismarineManager/release-data
+          release=$(cat PrismarineManager/release-data | grep release | sed 's/release: //') && echo "release=$(($release + 1))" > $GITHUB_ENV
+          version=$(cat PrismarineManager/release-data | grep version | sed 's/version: //') && echo "version=$version" > $GITHUB_ENV
+          sed -i 's/release: .*/release: '"$(($release + 1))"'/' PrismarineManager/release-data
           cd PrismarineManager && git add . && git commit -m "Update build number"
 
       - name: Push build number changes
@@ -72,7 +69,7 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: "Release #${{ env.release }}"
+          title: "Prismarine ${{ env.version }} Release #${{ env.release }}"
           automatic_release_tag: release-${{ env.version }}-${{ env.release }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
