@@ -45,10 +45,19 @@ jobs:
 
       - name: Get build number
         run: |
-          release=$(cat release-data | grep release | sed 's/release: //')
-          version=$(cat release-data | grep version | sed 's/version: //') && echo "version=$version" > $GITHUB_ENV
+          git clone --recursive -b meta https://github.com/PrismarineTeam/PrismarineManager
+          release=$(cat PrismarineManager/release-data | grep release | sed 's/release: //')
+          version=$(cat PrismarineManager/release-data | grep version | sed 's/version: //') && echo "version=$version" > $GITHUB_ENV
           echo "release=$(($release + 1))" > $GITHUB_ENV
-          sed -i 's/release = .*/release = '"${{ env.release }}"'/' release-data
+          sed -i 's/release = .*/release = '"${{ env.release }}"'/' PrismarineManager/release-data
+          cd PrismarineManager && git commit -m "Update build number"
+
+      - name: Push build number changes
+        uses: ad-m/github-push-action@master
+        with: 
+          github_token: ${{ secrets.PUSH_TOKEN }}
+          directory: PrismarineManager
+          repository: PrismarineTeam/PrismarineManager
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
