@@ -13,7 +13,7 @@ jobs:
         java: ['temurin']
         os: [ubuntu-20.04]
 
-    if: !startsWith(github.event.commits[0].message, '[CI-Skip]') && !contains(github.event.commits[0].message, '[CI_TEMPORARY_TESTING]')
+    if: "!startsWith(github.event.commits[0].message, '[CI-Skip]') && !contains(github.event.commits[0].message, '[CI_TEMPORARY_TESTING]')"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
