@@ -69,8 +69,8 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: "Prismarine ${{ env.version }} Release #${{ env.release }}"
-          automatic_release_tag: release-${{ env.version }}-${{ env.release }}
+          title: "${{ env.version }} Release #${{ env.release }}"
+          automatic_release_tag: ${{ env.version }}-${{ env.release }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
@@ -79,7 +79,7 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          title: "Release #${{ env.release }}"
+          title: "${{ env.version }} Release #${{ env.release }}"
           automatic_release_tag: latest
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
