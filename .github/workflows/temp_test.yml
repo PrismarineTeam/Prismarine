@@ -42,7 +42,7 @@ jobs:
 
       - name: Test
         run: |
-           echo ${{ env.release }}
+           echo ${{ env.branch }}
 
 #      - name: Push build number changes
 #        uses: ad-m/github-push-action@master
