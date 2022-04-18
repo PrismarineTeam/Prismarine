@@ -31,10 +31,8 @@ jobs:
       - name: Get build number
         run: |
           git clone --recursive -b meta https://github.com/PrismarineTeam/PrismarineManager
-          release=$(cat PrismarineManager/release-data | grep release | sed 's/release: //')
-          version=$(cat PrismarineManager/release-data | grep version | sed 's/version: //')
-          echo "version=$version" > $GITHUB_ENV
-          echo "release=$(($release + 1))" > $GITHUB_ENV
+          release=$(cat PrismarineManager/release-data | grep release | sed 's/release: //') && echo "release=$(($release + 1))" >> $GITHUB_ENV
+          version=$(cat PrismarineManager/release-data | grep version | sed 's/version: //') && echo "version=$version" >> $GITHUB_ENV
           echo ${{ env.release }} && echo ${{ env.version }}
           sed -i 's/release: .*/release: '"${{ env.release }}"'/' PrismarineManager/release-data
           cd PrismarineManager && git add . && git commit -m "Update build number"
