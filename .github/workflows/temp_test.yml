@@ -28,7 +28,6 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.email "no-reply@github.com" && git config --global user.name "Github Actions"
-
       - name: Get build number
         run: |
           git clone --recursive -b meta https://github.com/PrismarineTeam/PrismarineManager
@@ -39,6 +38,10 @@ jobs:
           echo ${{ env.build }} && echo ${{ env.branch }}
           sed -i 's/release: .*/release: '"${{ env.build }}"'/' PrismarineManager/release-data
           cd PrismarineManager && git add . && git commit -m "Update build number"
+
+      - name: Test
+         run: |
+           echo ${{ env.release }}
 
 #      - name: Push build number changes
 #        uses: ad-m/github-push-action@master
