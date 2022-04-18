@@ -35,12 +35,10 @@ jobs:
           build=$(cat PrismarineManager/release-data | grep release | sed 's/release: //')
           echo "build=$(($build + 1))" > $GITHUB_ENV
           branch=$(cat PrismarineManager/release-data | grep version | sed 's/version: //')
-          echo "branch=$branch" > $GITHUB_ENV
-          echo ${{ env.build }} && echo ${{ env.branch }}
           sed -i 's/release: .*/release: '"${{ env.build }}"'/' PrismarineManager/release-data
           cd PrismarineManager && git add . && git commit -m "Update build number"
 
-      - name: Test
+      - name: Test ${{ env.branch }}
         run: |
            echo ${{ env.branch }}
 
