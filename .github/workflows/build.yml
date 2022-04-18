@@ -50,7 +50,7 @@ jobs:
           version=$(cat PrismarineManager/release-data | grep version | sed 's/version: //') && echo "version=$version" > $GITHUB_ENV
           echo "release=$(($release + 1))" > $GITHUB_ENV
           echo $version && echo $release
-          sed -i 's/release = .*/release = '"${{ env.release }}"'/' PrismarineManager/release-data
+          sed -i 's/release: .*/release: '"${{ env.release }}"'/' PrismarineManager/release-data
           cd PrismarineManager && git add . && git commit -m "Update build number"
 
       - name: Push build number changes
