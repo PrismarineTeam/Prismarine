@@ -59,6 +59,7 @@ jobs:
           github_token: ${{ secrets.PUSH_TOKEN }}
           directory: PrismarineManager
           repository: PrismarineTeam/PrismarineManager
+          branch: meta
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
