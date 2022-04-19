@@ -20,9 +20,6 @@ Steps to reproduce the behavior:
 **Expected behavior**
 <!-- A clear and concise description of what you expected to happen. -->
 
-**Screenshots**
-<!-- If applicable, add screenshots to help explain your problem. -->
-
 **Server environment information (please complete the following information):**
  - OS: <!-- [e.g. Ubuntu] -->
  - Minecraft Version: <!-- [e.g. 1.18.2] -->
@@ -30,4 +27,4 @@ Steps to reproduce the behavior:
  - Plugins: <!-- [e.g. WorldEdit 7.3.0, WorldGuard 7.0.8, LuckPerms 5.4.18] -->
 
 **Additional context**
-<!-- Add any other context about the problem here. -->
+<!-- Add any other context or screenshots about the problem here. -->
