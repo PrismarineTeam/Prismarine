@@ -9,16 +9,17 @@ jobs:
     strategy:
       matrix:
         jdk: [17.0.2]
-        #         java: ['temurin', 'zulu', 'microsoft', 'liberica']
         java: ['temurin']
         os: [ubuntu-20.04]
 
     if: "!startsWith(github.event.commits[0].message, '[CI-Skip]')"
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@main
+      - name: Checkout action
+        uses: actions/checkout@main
 
-      - uses: gradle/wrapper-validation-action@master
+      - name: Validation Gradle Wrapper
+        uses: gradle/wrapper-validation-action@master
 
       - name: Set up JDK ${{ matrix.java }} ${{ matrix.jdk }}
         uses: actions/setup-java@main
