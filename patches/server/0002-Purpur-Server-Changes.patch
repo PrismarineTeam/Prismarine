@@ -908,7 +908,7 @@ index a60a84d5df0b05cf35668df8c5f08b811bc42a9f..a2751744517634700131ccfb0a261755
                          itemstack.setCount(1);
                          entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 27e90ca03275a42271bbe97ee1a63a355b098ede..119989e11c2e11aceaddec507f15d0260fba648a 100644
+index 6afd7c8b3a0db90dbab14b4405ae4c750e5b0ef1..20f016e24b679af2651dc84819b1c62d2937b77b 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -231,6 +231,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -1579,7 +1579,7 @@ index 1e656438d9ee89b97c660f3b3ec671be6546c6b7..c4b2a50ad65b4ca2f8cc5903213c70ca
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 93eb94fc3b1dd35efecc4615bd4f1b0b8361be2d..460282a6ca0c997879a9bea97568d7146c047719 100644
+index 350a64a1864780c192436c7819991881a94d281c..e095e635f0eb01ae20d6b09eebd2a56b9de1f273 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -227,6 +227,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -2807,7 +2807,7 @@ index e82a9d41a0710c0bd8a3fa2f8ee1704f7e1e56df..5e5eaf7c20c3329f2e576c8672a6be91
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 6a31e29bce673e698922da3c3ba8fd4d8b0adedb..92154459fd46db7e9182952cc1f844298c2dcb3c 100644
+index bf896f821b88415691312d5c725ed21bb2e3f024..8bef96dd28ffb2de00a8d3c50f158d5e537516e6 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -45,6 +45,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -3088,7 +3088,7 @@ index 6a31e29bce673e698922da3c3ba8fd4d8b0adedb..92154459fd46db7e9182952cc1f84429
          double d0 = this.getX() - this.xo;
          double d1 = this.getZ() - this.zo;
          float f = (float) (d0 * d0 + d1 * d1);
-@@ -3358,8 +3421,10 @@ public abstract class LivingEntity extends Entity {
+@@ -3366,8 +3429,10 @@ public abstract class LivingEntity extends Entity {
          this.pushEntities();
          this.level.getProfiler().pop();
          // Paper start
@@ -3101,7 +3101,7 @@ index 6a31e29bce673e698922da3c3ba8fd4d8b0adedb..92154459fd46db7e9182952cc1f84429
                  Location from = new Location(this.level.getWorld(), this.xo, this.yo, this.zo, this.yRotO, this.xRotO);
                  Location to = new Location (this.level.getWorld(), this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
                  io.papermc.paper.event.entity.EntityMoveEvent event = new io.papermc.paper.event.entity.EntityMoveEvent(this.getBukkitLivingEntity(), from, to.clone());
-@@ -3369,12 +3434,48 @@ public abstract class LivingEntity extends Entity {
+@@ -3377,12 +3442,48 @@ public abstract class LivingEntity extends Entity {
                      absMoveTo(event.getTo().getX(), event.getTo().getY(), event.getTo().getZ(), event.getTo().getYaw(), event.getTo().getPitch());
                  }
              }
@@ -3150,7 +3150,7 @@ index 6a31e29bce673e698922da3c3ba8fd4d8b0adedb..92154459fd46db7e9182952cc1f84429
      }
  
      public boolean isSensitiveToWater() {
-@@ -3395,7 +3496,16 @@ public abstract class LivingEntity extends Entity {
+@@ -3403,7 +3504,16 @@ public abstract class LivingEntity extends Entity {
                      int j = i / 10;
  
                      if (j % 2 == 0) {
@@ -13894,7 +13894,7 @@ index a5c2d6f0c0850a99224a1a8d622fe6b341cee88b..d8777ab86465e25236e7abbafd7ff668
                  return InteractionResult.PASS;
              }
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index dc4639f905fb71435daf29c61f64621a3e2cc533..5017b30b5714a47b54a00bc9da28bf57f06a6b3f 100644
+index 6837c965592d4584cfc958a1008b98791a0fc780..a999e4c82d7fe0ecf127f9132c29886d56c444e5 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
 @@ -392,6 +392,7 @@ public final class ItemStack {
@@ -13939,7 +13939,7 @@ index dc4639f905fb71435daf29c61f64621a3e2cc533..5017b30b5714a47b54a00bc9da28bf57
                  int k = 0;
  
                  for (int l = 0; j > 0 && l < amount; ++l) {
-@@ -596,6 +608,12 @@ public final class ItemStack {
+@@ -597,6 +609,12 @@ public final class ItemStack {
                  if (this.hurt(amount, entity.getRandom(), entity /*instanceof ServerPlayer ? (ServerPlayer) entity : null*/)) { // Paper - pass LivingEntity for EntityItemDamageEvent
                      breakCallback.accept(entity);
                      Item item = this.getItem();
@@ -13952,7 +13952,7 @@ index dc4639f905fb71435daf29c61f64621a3e2cc533..5017b30b5714a47b54a00bc9da28bf57
                      // CraftBukkit start - Check for item breaking
                      if (this.count == 1 && entity instanceof net.minecraft.world.entity.player.Player) {
                          org.bukkit.craftbukkit.event.CraftEventFactory.callPlayerItemBreakEvent((net.minecraft.world.entity.player.Player) entity, this);
-@@ -1140,6 +1158,12 @@ public final class ItemStack {
+@@ -1141,6 +1159,12 @@ public final class ItemStack {
          return this.tag != null && this.tag.contains("Enchantments", 9) ? !this.tag.getList("Enchantments", 10).isEmpty() : false;
      }
  

@@ -315,7 +315,7 @@ index 058fb3696c7ece4a7b6971886b1760b26add733b..2376d9da86df406298325b97b9209aeb
                      pending.add((Connection) object); // Paper
                      channel.pipeline().addLast("packet_handler", (ChannelHandler) object);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 460282a6ca0c997879a9bea97568d7146c047719..14ae52b46ead599cda44cac29c93c5088839a5c7 100644
+index e095e635f0eb01ae20d6b09eebd2a56b9de1f273..ea7f09c17fe15479db17e353488403deaadb152a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -3048,9 +3048,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -348,25 +348,6 @@ index 8d569eb2ec1b2bdbd415094ae04ae531dfdeafae..334f432fdd347dd1ea4899dfaf3c946b
              target.heal((float) j, RegainReason.MAGIC); // CraftBukkit
          }
  
-diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 92154459fd46db7e9182952cc1f844298c2dcb3c..07279541e1be38286c7d4933d3485755e7572433 100644
---- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
-+++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3216,6 +3216,14 @@ public abstract class LivingEntity extends Entity {
-                     tag.put("Enchantments", enchantments);
-                 }
-                 tag.remove("AttributeModifiers");
-+
-+                // Prismarine start - Paper PR
-+                // Books
-+                tag.remove("author");
-+                tag.remove("filtered_title");
-+                tag.remove("pages");
-+                tag.remove("title");
-+                // Prismarine end
-             }
-         }
-         return copy;
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
 index a6f8ca71ba5d107cfbd24b8e8a225195dc233637..c78a23c5d438baa818f74de8feb74af5ced164a2 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
