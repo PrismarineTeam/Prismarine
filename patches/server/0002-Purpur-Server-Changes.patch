@@ -16635,7 +16635,7 @@ index 1f2bc88d4570c6ef00e67a772b745e0b0c98e051..f505e871a9836503377f168c31c1f09f
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5f4ab630864f51c03fee82d6630800a50298bb8d..3e2de366e29f0b8e1ca90bba0b730d2a429b48e4 100644
+index f4a82b1f2dc26f938d3dcb23ec32f135a1bfd163..4e77c53b488e4e82454df66a852f7271e80526ab 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
@@ -16718,7 +16718,7 @@ index 5f4ab630864f51c03fee82d6630800a50298bb8d..3e2de366e29f0b8e1ca90bba0b730d2a
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2870,4 +2899,16 @@ public final class CraftServer implements Server {
+@@ -2878,4 +2907,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
