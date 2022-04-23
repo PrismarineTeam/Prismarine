@@ -4320,7 +4320,7 @@ index 79a9fa2a2257925685e45329365d2828ccd4c48c..83cc526935895d8a54155c60b2c8462d
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-index e4eac546836b73b5e9c8fd68ca0d32c01148313e..f1799236c7d18c9b8d367fb89887836dee066c17 100644
+index 9f5180271ca8a790aa52763ac46d31b905c9d477..94d830e6b5dca78a56547872811a85328e3f2fff 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
 @@ -124,6 +124,51 @@ public class Cat extends TamableAnimal {
@@ -4414,7 +4414,7 @@ index e4eac546836b73b5e9c8fd68ca0d32c01148313e..f1799236c7d18c9b8d367fb89887836d
          ItemStack itemstack = player.getItemInHand(hand);
          Item item = itemstack.getItem();
  
-@@ -443,7 +499,7 @@ public class Cat extends TamableAnimal {
+@@ -450,7 +506,7 @@ public class Cat extends TamableAnimal {
                  }
              } else if (this.isFood(itemstack)) {
                  this.usePlayerItem(player, hand, itemstack);
@@ -6669,7 +6669,7 @@ index c039b896ee85543c26a8ab76640080f539deaa4c..b79045402f490373d3d83d80aa8e3b94
      }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
-index aaf7096835bab3a42d617553dd83e048e4a83766..de79fbaa5a84d5b19a29d491d28b11cb41b626bb 100644
+index 249ef89342d2811614507090b79250adf78e33ce..b5313e1c4a4be37bb7d129987a887b4697c75aa1 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 @@ -11,15 +11,19 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -6893,7 +6893,7 @@ index aaf7096835bab3a42d617553dd83e048e4a83766..de79fbaa5a84d5b19a29d491d28b11cb
              this.interestedAngleO = this.interestedAngle;
              if (this.isInterested()) {
                  this.interestedAngle += (1.0F - this.interestedAngle) * 0.4F;
-@@ -406,7 +536,7 @@ public class Wolf extends TamableAnimal implements NeutralMob {
+@@ -413,7 +543,7 @@ public class Wolf extends TamableAnimal implements NeutralMob {
                  }
  
                  // CraftBukkit - added event call and isCancelled check.
@@ -6902,7 +6902,7 @@ index aaf7096835bab3a42d617553dd83e048e4a83766..de79fbaa5a84d5b19a29d491d28b11cb
                      this.tame(player);
                      this.navigation.stop();
                      this.setTarget((LivingEntity) null);
-@@ -418,6 +548,20 @@ public class Wolf extends TamableAnimal implements NeutralMob {
+@@ -425,6 +555,20 @@ public class Wolf extends TamableAnimal implements NeutralMob {
  
                  return InteractionResult.SUCCESS;
              }
