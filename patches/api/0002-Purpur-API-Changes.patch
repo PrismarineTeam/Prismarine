@@ -1095,7 +1095,7 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 8ca135d2e3682581855399e7c6d07a2d13244600..f2d260146f8ca9297d8ef257ffa1fdb3652a00e2 100644
+index e65dc831974ca501f69d2cc43858b838e8866676..094b3622db6d5744eb6831f070eaff603be30d8d 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -73,7 +73,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -1206,7 +1206,7 @@ index 8ca135d2e3682581855399e7c6d07a2d13244600..f2d260146f8ca9297d8ef257ffa1fdb3
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException;
  
      /**
-@@ -2236,7 +2236,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2233,7 +2233,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @deprecated in favour of {@link #locale()}
       */
      @NotNull
@@ -1215,7 +1215,7 @@ index 8ca135d2e3682581855399e7c6d07a2d13244600..f2d260146f8ca9297d8ef257ffa1fdb3
      public String getLocale();
  
      // Paper start
-@@ -2696,4 +2696,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2693,4 +2693,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
