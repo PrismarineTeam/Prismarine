@@ -2858,10 +2858,10 @@ index fc3456bb79f2fe1504359455b937c162780110c2..c39ca39190c8eacff9e68ef2edd54d81
  
      /**
 diff --git a/src/main/java/org/bukkit/scoreboard/Team.java b/src/main/java/org/bukkit/scoreboard/Team.java
-index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9c43898d4 100644
+index 0f5c49d41c9460da0ba913b4ca8bef375f2c23df..7056cbce8405a4849694f2a8a7bef88c264c3da2 100644
 --- a/src/main/java/org/bukkit/scoreboard/Team.java
 +++ b/src/main/java/org/bukkit/scoreboard/Team.java
-@@ -108,7 +108,7 @@ public interface Team {
+@@ -117,7 +117,7 @@ public interface Team {
       * @deprecated in favour of {@link #displayName()}
       */
      @NotNull
@@ -2870,7 +2870,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      String getDisplayName() throws IllegalStateException;
  
      /**
-@@ -120,7 +120,7 @@ public interface Team {
+@@ -129,7 +129,7 @@ public interface Team {
       * @throws IllegalStateException if this team has been unregistered
       * @deprecated in favour of {@link #displayName(net.kyori.adventure.text.Component)}
       */
@@ -2879,7 +2879,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      void setDisplayName(@NotNull String displayName) throws IllegalStateException, IllegalArgumentException;
  
      /**
-@@ -131,7 +131,7 @@ public interface Team {
+@@ -140,7 +140,7 @@ public interface Team {
       * @deprecated in favour of {@link #prefix()}
       */
      @NotNull
@@ -2888,7 +2888,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      String getPrefix() throws IllegalStateException;
  
      /**
-@@ -144,7 +144,7 @@ public interface Team {
+@@ -153,7 +153,7 @@ public interface Team {
       * @throws IllegalStateException if this team has been unregistered
       * @deprecated in favour of {@link #prefix(net.kyori.adventure.text.Component)}
       */
@@ -2897,7 +2897,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      void setPrefix(@NotNull String prefix) throws IllegalStateException, IllegalArgumentException;
  
      /**
-@@ -155,7 +155,7 @@ public interface Team {
+@@ -164,7 +164,7 @@ public interface Team {
       * @deprecated in favour of {@link #suffix()}
       */
      @NotNull
@@ -2906,7 +2906,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      String getSuffix() throws IllegalStateException;
  
      /**
-@@ -168,7 +168,7 @@ public interface Team {
+@@ -177,7 +177,7 @@ public interface Team {
       * @throws IllegalStateException if this team has been unregistered
       * @deprecated in favour of {@link #suffix(net.kyori.adventure.text.Component)}
       */
@@ -2915,7 +2915,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      void setSuffix(@NotNull String suffix) throws IllegalStateException, IllegalArgumentException;
  
      /**
-@@ -182,7 +182,7 @@ public interface Team {
+@@ -191,7 +191,7 @@ public interface Team {
       * @deprecated in favour of {@link #color()}
       */
      @NotNull
@@ -2924,7 +2924,7 @@ index 04c8cc55a2fe19c888aba842775cc66648dddb0c..de53b5fced3b825ab4b3626330b981b9
      ChatColor getColor() throws IllegalStateException;
  
      /**
-@@ -195,7 +195,7 @@ public interface Team {
+@@ -204,7 +204,7 @@ public interface Team {
       * no color
       * @deprecated in favour of {@link #color(net.kyori.adventure.text.format.NamedTextColor)}
       */
