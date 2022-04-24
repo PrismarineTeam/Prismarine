@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 24 Apr 2022 18:25:04 +0900
+Subject: [PATCH] EntityBreedPrepareEvent
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java
+index 9fc62b6dd5c06ea3b4e2c9ea1d0810b495a67b30..dc2e37005eb0dbce43630d1c9f5d4b40e6d1ec7a 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java
++++ b/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java
+@@ -7,6 +7,9 @@ import net.minecraft.server.level.ServerLevel;
+ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+ import net.minecraft.world.entity.animal.Animal;
+ import net.minecraft.world.level.Level;
++import org.bukkit.craftbukkit.inventory.CraftItemStack;
++import org.bukkit.entity.LivingEntity;
++import org.bukkit.inventory.ItemStack;
+ 
+ public class BreedGoal extends Goal {
+     private static final TargetingConditions PARTNER_TARGETING = TargetingConditions.forNonCombat().range(8.0D).ignoreLineOfSight();
+@@ -53,6 +56,7 @@ public class BreedGoal extends Goal {
+ 
+     @Override
+     public void tick() {
++        if (!new net.prismarineteam.prismarine.event.entity.EntityBreedPrepareEvent((LivingEntity) this.animal.getBukkitEntity(), (LivingEntity) this.partner.getBukkitEntity(), (LivingEntity) (this.animal.getLoveCause() == null ? null : this.animal.getLoveCause().getBukkitEntity()), (ItemStack) (this.animal.breedItem == null ? null : CraftItemStack.asCraftMirror(this.animal.breedItem).clone())).callEvent()) return; // Prismarine - EntityBreedPrepareEvent
+         this.animal.getLookControl().setLookAt(this.partner, 10.0F, (float)this.animal.getMaxHeadXRot());
+         this.animal.getNavigation().moveTo(this.partner, this.speedModifier);
+         ++this.loveTime;
