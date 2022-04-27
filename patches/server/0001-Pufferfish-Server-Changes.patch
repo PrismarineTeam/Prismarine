@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Mon, 25 Apr 2022 09:00:31 +0000
+Date: Wed, 27 Apr 2022 04:58:38 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -630,7 +630,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +}
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bd01a39767f65d959060b890afe7f9d8d426d70a
+index 0000000000000000000000000000000000000000..a820bfe38cb5765ee74c4fd7084d949477f83692
 --- /dev/null
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -0,0 +1,293 @@
@@ -922,8 +922,8 @@ index 0000000000000000000000000000000000000000..bd01a39767f65d959060b890afe7f9d8
 +
 +    public static boolean disableMethodProfiler;
 +    private static void miscSettings() {
-+        disableMethodProfiler = config.getBoolean("misc.disable-method-profiler", true);
-+        config.setComment("misc", "Settings for things that don't belong elsewhere");
++        disableMethodProfiler = getBoolean("misc.disable-method-profiler", true);
++        setComment("misc", "Settings for things that don't belong elsewhere");
 +    }
 +
 +}
