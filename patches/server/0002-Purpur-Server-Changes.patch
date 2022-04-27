@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 17 Apr 2022 03:10:42 +0000
+Date: Wed, 27 Apr 2022 11:57:10 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -1579,7 +1579,7 @@ index 1e656438d9ee89b97c660f3b3ec671be6546c6b7..c4b2a50ad65b4ca2f8cc5903213c70ca
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 350a64a1864780c192436c7819991881a94d281c..e095e635f0eb01ae20d6b09eebd2a56b9de1f273 100644
+index cc6ba95f01b82c42b4e5a0a70721ef00dd335e57..b7a941c0663f233e63f3cce0a048112bd56b0abb 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -227,6 +227,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -14750,7 +14750,7 @@ index 7a700892a997aa595ac9c9f28d6b39a35c225053..872507fe50e50429bbaa3af16f8f9d94
                  if (!world.addFreshEntity(entityirongolem, SpawnReason.BUILD_IRONGOLEM)) {
                      return;
 diff --git a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
-index dbae4f3b56d0290c6d28b9beaaa3b459754d43e3..676184c48c3abd8e2fb9a04ae3e165dc298a02be 100644
+index 18f4c422e8277b2f673202a598d81eabf5eea712..549258e6192d835520e9cd402835654add5a5a4d 100644
 --- a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
 @@ -29,7 +29,7 @@ public class CauldronBlock extends AbstractCauldronBlock {
@@ -15427,7 +15427,7 @@ index 07e893f1859abe3c2a765694c21309d60346ca82..0fabe3ec1e9d7dae952db1f1e3dd3af8
  
      public static boolean canSetSpawn(Level world) {
 diff --git a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
-index 7f1230d915c98b6f30b13a06c2788bc2f7b7e912..9439119a70a411b1a7d9cd6a0090e4133ac744a3 100644
+index 7f1230d915c98b6f30b13a06c2788bc2f7b7e912..d363d79a62c99371e03640814912f86d23108d18 100644
 --- a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
 @@ -123,7 +123,7 @@ public class ShulkerBoxBlock extends BaseEntityBlock {
@@ -15435,7 +15435,7 @@ index 7f1230d915c98b6f30b13a06c2788bc2f7b7e912..9439119a70a411b1a7d9cd6a0090e413
          if (blockEntity instanceof ShulkerBoxBlockEntity) {
              ShulkerBoxBlockEntity shulkerBoxBlockEntity = (ShulkerBoxBlockEntity)blockEntity;
 -            if (!world.isClientSide && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
-+            if (world.purpurConfig.shulkerBoxAllowOversizedStacks || (player.isCreative() && !shulkerBoxBlockEntity.isEmpty())) { // Purpur
++            if (world.purpurConfig.shulkerBoxAllowOversizedStacks || (!world.isClientSide && player.isCreative() && !shulkerBoxBlockEntity.isEmpty())) { // Purpur
                  ItemStack itemStack = getColoredItemStack(this.getColor());
                  blockEntity.saveToItem(itemStack);
                  if (shulkerBoxBlockEntity.hasCustomName()) {
