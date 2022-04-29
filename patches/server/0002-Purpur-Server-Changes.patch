@@ -17106,7 +17106,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 1a1fa6595c5adf074ac6caed831bf885a5345937..db1d1ab8382cd4c2e4c1969b1e7d8faf422b7925 100644
+index 7e7b3692b5b7168f6122ae10fbb1772369f922fd..eb5b230aef06e4df57bf92d5a1f771725f6d3a08 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -445,10 +445,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -17126,7 +17126,7 @@ index 1a1fa6595c5adf074ac6caed831bf885a5345937..db1d1ab8382cd4c2e4c1969b1e7d8faf
          for (ServerPlayer player : (List<ServerPlayer>) server.getHandle().players) {
              if (player.getBukkitEntity().canSee(this)) {
                  player.connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME, this.getHandle()));
-@@ -1141,6 +1146,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1143,6 +1148,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
  
          if (entity.isVehicle()) {
@@ -17137,7 +17137,7 @@ index 1a1fa6595c5adf074ac6caed831bf885a5345937..db1d1ab8382cd4c2e4c1969b1e7d8faf
              return false;
          }
  
-@@ -1724,7 +1733,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1726,7 +1735,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -17152,7 +17152,7 @@ index 1a1fa6595c5adf074ac6caed831bf885a5345937..db1d1ab8382cd4c2e4c1969b1e7d8faf
      }
  
      @Override
-@@ -2088,6 +2103,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2090,6 +2105,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.getHandle().getAbilities().walkingSpeed * 2f;
      }
  
@@ -17181,7 +17181,7 @@ index 1a1fa6595c5adf074ac6caed831bf885a5345937..db1d1ab8382cd4c2e4c1969b1e7d8faf
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2789,4 +2826,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2791,4 +2828,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end
