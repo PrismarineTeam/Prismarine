@@ -294,7 +294,7 @@ index fa56cd09102a89692b42f1d14257990508c5c720..f9251183df72ddc56662fd3f02acf216
          setListData(vector);
      }
 diff --git a/src/main/java/com/mojang/brigadier/tree/CommandNode.java b/src/main/java/com/mojang/brigadier/tree/CommandNode.java
-index f64aa22ed6fcb4af67317b99f459ee5296392548..36c91793e0aa4895193623cf8cba7820d31f4eca 100644
+index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e2cc6abc4 100644
 --- a/src/main/java/com/mojang/brigadier/tree/CommandNode.java
 +++ b/src/main/java/com/mojang/brigadier/tree/CommandNode.java
 @@ -34,6 +34,7 @@ public abstract class CommandNode<S> implements Comparable<CommandNode<S>> {
@@ -8329,10 +8329,10 @@ index 359f6cf63319ad9f125cdea848852def8a1ec1c8..b5ff43e866c3c43085e91b38c31c4845
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
-index e234373432f34f237f884f7054c0d80829228522..22916618d5b5096802410a174c9a593d6a3a1121 100644
+index 46102c28d10b11ecbafd3dda2de66982eaed8a00..fa88207befcee5e95c86479af1f8923eeeb0bce9 100644
 --- a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
-@@ -121,7 +121,7 @@ public class FallingBlockEntity extends Entity {
+@@ -127,7 +127,7 @@ public class FallingBlockEntity extends Entity {
      @Override
      public void tick() {
          // Paper start - fix sand duping
@@ -8341,7 +8341,7 @@ index e234373432f34f237f884f7054c0d80829228522..22916618d5b5096802410a174c9a593d
              return;
          }
          // Paper end - fix sand duping
-@@ -138,7 +138,7 @@ public class FallingBlockEntity extends Entity {
+@@ -144,7 +144,7 @@ public class FallingBlockEntity extends Entity {
              this.move(MoverType.SELF, this.getDeltaMovement());
  
              // Paper start - fix sand duping
@@ -11016,7 +11016,7 @@ index 0676f452280a9148546c35d1113932b5adc1fc3d..a7669b3daa4a58a3a6a931de3d86a4fb
                  if (flag && !this.isSilent()) {
                      this.level.playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.STRIDER_EAT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Vex.java b/src/main/java/net/minecraft/world/entity/monster/Vex.java
-index b830858cc68c7c9c8b32ffd3c46b98158c165793..397515d07324b7db930ca93f98497a6e91408ae5 100644
+index 1271b6d6a5aa4d9f46aba30d2cc912b942e71176..9fefedaa35d8ee63318b8c668f37f57a4ceb20c8 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Vex.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Vex.java
 @@ -58,6 +58,65 @@ public class Vex extends Monster {
@@ -11391,7 +11391,7 @@ index 056e4c2f7f632dadc0015710c032a0b718d46ff9..b99419b712b9af385988f1a1271b28f4
          this.level.getProfiler().pop();
          this.updateActivity();
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
-index a6e8f0ddbf17711a10f9853ec4a01291f96f6f06..227b710f55187e44b1eafe21f18d1c36a4261345 100644
+index 9614fd6191587fc34e5d9d572afc8c6996ec557f..8749d250947b087407e65a4ef01b7f12f46414eb 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 @@ -93,22 +93,69 @@ public class Zombie extends Monster {
@@ -17255,10 +17255,10 @@ index 659e2959c5330e4764ea1edc7f8de9f464f9ff52..c2bac8ae958630acaaa8d758e31428d2
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
-index 6de6553e79c9729ef49e2a544730b1ac1020dff2..1c9f3b42cbd0aa423e2f7b96ea9c68e2a3260ec6 100644
+index f0b910df1ee471b4d72d97c6197ab14f2854976e..6ce32a52d621a0c2629568ea07e445f50160d97d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
-@@ -193,4 +193,11 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
+@@ -194,4 +194,11 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
          getHandle().getGossips().getReputations().clear();
      }
      // Paper end
