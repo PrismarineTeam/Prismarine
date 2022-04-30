@@ -1215,7 +1215,7 @@ index c63ee396e990d11e2f613f3b5a478b486076ed56..8066c874098039f75017e6bebd7981fd
                  }
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 22452aa7eefa350c3b0d0d19a23c76c8ec811de3..f280aaa6d1ed35ffb5f746631c36467b63a7bd56 100644
+index 2f5e40437d1865a874c352999edd084226d4e47b..67590108d9f9e889ef9483722bdae0efa10de1ce 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -253,6 +253,10 @@ public class ServerPlayer extends Player {
@@ -1438,7 +1438,7 @@ index 22452aa7eefa350c3b0d0d19a23c76c8ec811de3..f280aaa6d1ed35ffb5f746631c36467b
      public ServerStatsCounter getStats() {
          return this.stats;
      }
-@@ -2393,9 +2502,17 @@ public class ServerPlayer extends Player {
+@@ -2394,9 +2503,17 @@ public class ServerPlayer extends Player {
  
      @Override
      public boolean isImmobile() {
@@ -1457,7 +1457,7 @@ index 22452aa7eefa350c3b0d0d19a23c76c8ec811de3..f280aaa6d1ed35ffb5f746631c36467b
      @Override
      public Scoreboard getScoreboard() {
          return this.getBukkitEntity().getScoreboard().getHandle();
-@@ -2444,4 +2561,42 @@ public class ServerPlayer extends Player {
+@@ -2445,4 +2562,42 @@ public class ServerPlayer extends Player {
      // CraftBukkit end
  
      public final int getViewDistance() { throw new UnsupportedOperationException("Use PlayerChunkLoader"); } // Paper - placeholder
@@ -1929,7 +1929,7 @@ index 4fa79d37ff4e70c61672cce7c55257c46232c026..df43d0a0f3d1e34baabae150cbf01a00
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 188c68d4ae46bc05c6d9c901b5c6ab883fa05ea4..1b58f87c75c581089ffd0710a2566eda7c644324 100644
+index 95fe4240f3e1174ec36598f24d63f0073c13b376..5531c672a84a9a9cd2bb43684f48fe1e977b7d44 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -493,6 +493,7 @@ public abstract class PlayerList {
@@ -15414,10 +15414,10 @@ index 7fddb6fa8fd30ef88346a59f7867aae792f13772..40893e71fe8447b695350273bef9623b
          } else {
              int j = pos.getX();
 diff --git a/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java b/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java
-index 07e893f1859abe3c2a765694c21309d60346ca82..0fabe3ec1e9d7dae952db1f1e3dd3af879f0bc54 100644
+index 3770313892b6e9b9ab6f9fcc200dfc0b4972e516..c763b9eb6ca981f89f0868408273d78146a42748 100644
 --- a/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java
-@@ -120,7 +120,7 @@ public class RespawnAnchorBlock extends Block {
+@@ -125,7 +125,7 @@ public class RespawnAnchorBlock extends Block {
                  return pos.equals(explodedPos) && bl2 ? Optional.of(Blocks.WATER.getExplosionResistance()) : super.getBlockExplosionResistance(explosion, world, pos, blockState, fluidState);
              }
          };
@@ -17106,7 +17106,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 7e7b3692b5b7168f6122ae10fbb1772369f922fd..eb5b230aef06e4df57bf92d5a1f771725f6d3a08 100644
+index f12efe51b14ed3637a8ba45def9c94634a6f5e8f..9d44e3d32324d8e8878401156ff0d95d6fad6491 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -445,10 +445,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
