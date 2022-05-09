@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index d58de23619321fadad3755f6110954ac462bbba1..75098a53808126dd6a68ab321e6e07f9bf6863c3 100644
+index 9a083373dd81d97213bf81ffb076fe5d03dd992f..6d107aeb3cbe09beaedebdd85a92fd5e524f4347 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -337,6 +337,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -61,7 +61,7 @@ index d58de23619321fadad3755f6110954ac462bbba1..75098a53808126dd6a68ab321e6e07f9
              return nbt;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2368,6 +2376,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2362,6 +2370,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  freezeLocked = nbt.getBoolean("Paper.FreezeLock");
              }
              // Paper end
