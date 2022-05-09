@@ -76,10 +76,10 @@ index 000918fe0cc3fde07145e027b25f148afcb0de62..13fe5e1e56638486a732ff406860b069
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 6d107aeb3cbe09beaedebdd85a92fd5e524f4347..5ad6f6e41e6fe65a4461c0f3149b15fcb8be7437 100644
+index 9a083373dd81d97213bf81ffb076fe5d03dd992f..44538ce0028edc7e2c17e19da591791cb739a072 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -1865,38 +1865,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1864,38 +1864,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      public void playerTouch(Player player) {}
  
      public void push(Entity entity) {
