@@ -188,3 +188,25 @@ index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55
      public static Predicate<Player> notAfk = (player) -> !player.isAfk(); // Purpur
  
      private EntitySelector() {}
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java b/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java
+index 61dc7d594c4ee15f99fd531d1b2cbaffc63c372d..997b1aa9ff6af6016404c6120c73beea0c024a6f 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java
+@@ -85,7 +85,7 @@ public class WorldGenSettings {
+     }
+ 
+     public static WorldGenSettings makeDefault(RegistryAccess registryManager) {
+-        long i = (new Random()).nextLong();
++        long i = java.util.concurrent.ThreadLocalRandom.current().nextLong();
+ 
+         return new WorldGenSettings(i, true, false, WorldGenSettings.withOverworld(registryManager.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY), DimensionType.defaultDimensions(registryManager, i), WorldGenSettings.makeDefaultOverworld(registryManager, i)));
+     }
+@@ -199,7 +199,7 @@ public class WorldGenSettings {
+     }
+ 
+     public static WorldGenSettings create(RegistryAccess registryManager, DedicatedServerProperties.WorldGenProperties worldGenProperties) {
+-        long i = WorldGenSettings.parseSeed(worldGenProperties.levelSeed()).orElse((new Random()).nextLong());
++        long i = WorldGenSettings.parseSeed(worldGenProperties.levelSeed()).orElse(java.util.concurrent.ThreadLocalRandom.current().nextLong());
+         Registry<DimensionType> iregistry = registryManager.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY);
+         Registry<Biome> iregistry1 = registryManager.registryOrThrow(Registry.BIOME_REGISTRY);
+         Registry<StructureSet> iregistry2 = registryManager.registryOrThrow(Registry.STRUCTURE_SET_REGISTRY);
