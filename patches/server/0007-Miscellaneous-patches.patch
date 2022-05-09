@@ -4,6 +4,21 @@ Date: Sat, 5 Mar 2022 12:27:53 +0900
 Subject: [PATCH] Miscellaneous patches
 
 
+diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
+index abbfb819e327186ff2c05d8dbdf00ff2c18dc0ab..64256a6fc48b8bf24607fb372b063b4778b0c45d 100644
+--- a/src/main/java/co/aikar/timings/TimingsExport.java
++++ b/src/main/java/co/aikar/timings/TimingsExport.java
+@@ -242,8 +242,9 @@ public class TimingsExport extends Thread {
+             pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
+             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
+             pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish
+-            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null))
++            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null)), // Prismarine - Add timings
+             // Purpur end
++            pair("prismarine", mapAsJSON(Bukkit.spigot().getPrismarineConfig(), null)) // Prismarine - Add timings
+         ));
+ 
+         new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
 index adafc4fd661cf080b004b86c3eaed231a0133101..0000000000000000000000000000000000000000
