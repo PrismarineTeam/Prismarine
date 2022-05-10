@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Mon, 9 May 2022 21:19:59 +0900
+Date: Tue, 10 May 2022 16:15:54 +0900
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -3079,7 +3079,7 @@ index 411eb4d495907aa1d646673bf07d56ff01e52eee..1d9c542f3fe7da7bb9ea8b13496651a7
          boolean flag1 = iblockdata.getFluidState().is(FluidTags.WATER);
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/hoglin/Hoglin.java b/src/main/java/net/minecraft/world/entity/monster/hoglin/Hoglin.java
-index 373ec915412899e4893aa182abd6fb63f3dff0aa..fc43b1d5dcb53456bb24ae46ea08b97b14403c86 100644
+index 49ca4f6a9e33fdb5295dae2b059d071551353c24..127c839c4f9b0ade39065588e275984ea639380b 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/hoglin/Hoglin.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/hoglin/Hoglin.java
 @@ -126,9 +126,11 @@ public class Hoglin extends Animal implements Enemy, HoglinBase {
