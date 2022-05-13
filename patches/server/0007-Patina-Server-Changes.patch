@@ -27,6 +27,36 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
+index e0a77a776533e48a3f8e2165eb77d4765213b79e..9c1b54d6d1654c2d8462fc95ed3151df76de6300 100644
+--- a/src/main/java/net/minecraft/Util.java
++++ b/src/main/java/net/minecraft/Util.java
+@@ -68,7 +68,7 @@ public class Util {
+     private static final int DEFAULT_MAX_THREADS = 255;
+     private static final String MAX_THREADS_SYSTEM_PROPERTY = "max.bg.threads";
+     private static final AtomicInteger WORKER_COUNT = new AtomicInteger(1);
+-    private static final ExecutorService BOOTSTRAP_EXECUTOR = makeExecutor("Bootstrap", -2); // Paper - add -2 priority
++    // private static final ExecutorService BOOTSTRAP_EXECUTOR = makeExecutor("Bootstrap", -2); // Paper - add -2 priority // Patina // Prismarine - Patina patches
+     private static final ExecutorService BACKGROUND_EXECUTOR = makeExecutor("Main", -1); // Paper - add -1 priority
+     // Paper start - don't submit BLOCKING PROFILE LOOKUPS to the world gen thread
+     public static final ExecutorService PROFILE_EXECUTOR = Executors.newFixedThreadPool(2, new java.util.concurrent.ThreadFactory() {
+@@ -190,9 +190,13 @@ public class Util {
+         return 255;
+     }
+ 
+-    public static ExecutorService bootstrapExecutor() {
+-        return BOOTSTRAP_EXECUTOR;
+-    }
++    // Prismarine start - Patina patches
++    // Patina start
++    // public static ExecutorService bootstrapExecutor() {
++    //     return BOOTSTRAP_EXECUTOR;
++    // }
++    // Patina end
++    // Prismarine end
+ 
+     public static ExecutorService backgroundExecutor() {
+         return BACKGROUND_EXECUTOR;
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
 index a7937e61c4eadd16b3aa7096112e4ce93a3a1423..45c40f9694f29583375942fd0134bbab2115cbc5 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
@@ -75,8 +105,31 @@ index 000918fe0cc3fde07145e027b25f148afcb0de62..13fe5e1e56638486a732ff406860b069
              this.challengeBytes = String.format("\t%s%d\u0000", this.ident, this.challenge).getBytes(StandardCharsets.UTF_8);
          }
  
+diff --git a/src/main/java/net/minecraft/util/datafix/DataFixers.java b/src/main/java/net/minecraft/util/datafix/DataFixers.java
+index e4090fa0f01078277d70b1a88e870a56f6b1cb0f..6fd5d81615751ae0227a9919014a6972e0449ab1 100644
+--- a/src/main/java/net/minecraft/util/datafix/DataFixers.java
++++ b/src/main/java/net/minecraft/util/datafix/DataFixers.java
+@@ -78,15 +78,15 @@ public class DataFixers {
+ 
+     private static final BiFunction<Integer, Schema, Schema> SAME = Schema::new;
+     private static final BiFunction<Integer, Schema, Schema> SAME_NAMESPACED = NamespacedSchema::new;
+-    private static final DataFixer DATA_FIXER = DataFixers.createFixerUpper();
++    private static final DataFixer DATA_FIXER; // Patina // Prismarine - Patina patches
+ 
+     public DataFixers() {}
+ 
+-    private static DataFixer createFixerUpper() {
++    static { // Patina // Prismarine - Patina patches
+         DataFixerBuilder datafixerbuilder = new DataFixerBuilder(SharedConstants.getCurrentVersion().getWorldVersion());
+ 
+         DataFixers.addFixers(datafixerbuilder);
+-        return datafixerbuilder.build(Util.bootstrapExecutor());
++        DATA_FIXER = datafixerbuilder.build(Util.backgroundExecutor()); // Patina // Prismarine - Patina patches
+     }
+ 
+     public static DataFixer getDataFixer() {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 9a083373dd81d97213bf81ffb076fe5d03dd992f..44538ce0028edc7e2c17e19da591791cb739a072 100644
+index 9f1650dc63b246e1e6a84060208a84fecf3ed512..1088f9bda91b43db9f3c61200d5dbd32f544f447 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -1864,38 +1864,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
