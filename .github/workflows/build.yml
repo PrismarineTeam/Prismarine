@@ -3,6 +3,9 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  
+env:
+  branch: ver/1.18.2
 
 jobs:
   release:
@@ -52,7 +55,7 @@ jobs:
           path: build/libs
 
       - name: Release Artifacts
-        if: github.ref == 'refs/heads/${{ matrix.master }}'
+        if: github.ref_name == env.branch
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: "Release #${{ env.workflow }}"
@@ -62,6 +65,7 @@ jobs:
           prerelease: false
           
       - name: Release Artifacts (Latest)
+        if: github.ref_name == env.branch
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: "Release #${{ env.workflow }}"
