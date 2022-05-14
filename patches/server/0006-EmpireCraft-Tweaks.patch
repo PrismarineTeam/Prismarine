@@ -1,0 +1,115 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 14 May 2022 17:29:53 +0900
+Subject: [PATCH] EmpireCraft Tweaks
+
+Original by EmpireCraft
+
+Copyright (C) EmpireCraft
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+Software), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index bbdfd821221bf776aa9305d2e313940d70b2af6b..25695f2f9afc0c5ecc7de716c44a9a58b9066585 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -2188,6 +2188,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+     private void handleChat(TextFilter.FilteredText message) {
+         if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
+             this.send(new ClientboundChatPacket((new TranslatableComponent("chat.disabled.options")).withStyle(ChatFormatting.RED), ChatType.SYSTEM, Util.NIL_UUID));
++        } else if (!player.didPlayerJoinEvent) { return; // EMC - do not handle chat messages before they joined // Prismarine - EMC tweaks
+         } else {
+             this.player.resetLastActionTime();
+             String s = message.getRaw();
+diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
+index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..b605b3d4adfa34b80bee3e4b08559fe2a84cad59 100644
+--- a/src/main/java/net/minecraft/world/item/ItemStack.java
++++ b/src/main/java/net/minecraft/world/item/ItemStack.java
+@@ -228,6 +228,7 @@ public final class ItemStack {
+         this.count = count;
+         if (this.item != null && this.item.canBeDepleted()) {
+             this.setDamageValue(this.getDamageValue());
++            if (this.tag != null && this.tag.contains("RepairCost") && net.prismarineteam.prismarine.PrismarineConfig.disableAnvilRepairCost) this.tag.remove("RepairCost"); // Prismarine - EMC tweaks
+         }
+ 
+         this.updateEmptyCacheFlag();
+@@ -1188,10 +1189,12 @@ public final class ItemStack {
+     }
+ 
+     public int getBaseRepairCost() {
++        if (net.prismarineteam.prismarine.PrismarineConfig.disableAnvilRepairCost) return 0; // Prismarine - EMC tweaks
+         return this.hasTag() && this.tag.contains("RepairCost", 3) ? this.tag.getInt("RepairCost") : 0;
+     }
+ 
+     public void setRepairCost(int repairCost) {
++        if (net.prismarineteam.prismarine.PrismarineConfig.disableAnvilRepairCost) return; // Prismarine - EMC tweaks
+         // CraftBukkit start - remove RepairCost tag when 0 (SPIGOT-3945)
+         if (repairCost == 0) {
+             this.removeTagKey("RepairCost");
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index 40e5718ed69146cbf1aef7819bda1b8822e2499d..921dd5ba0d9e52ce698bf14bb8602270535666c7 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -115,6 +115,11 @@ public class PrismarineConfig {
+         return config.getDouble(path, config.getDouble(path));
+     }
+ 
++    private static float getFloat(String path, float def) {
++        config.addDefault(path, def);
++        return config.getFloat(path, config.getFloat(path));
++    }
++
+     private static int getInt(String path, int def) {
+         config.addDefault(path, def);
+         return config.getInt(path, config.getInt(path));
+@@ -145,4 +150,19 @@ public class PrismarineConfig {
+         }
+         return builder.build();
+     }
++
++    public static boolean doNotProcessChatCommandsBeforePlayerHasJoined = true;
++    private static void doNotProcessChatCommandsBeforePlayerHasJoined() {
++        doNotProcessChatCommandsBeforePlayerHasJoined = getBoolean("settings.do-not-process-chat-commands-before-player-has-joined", doNotProcessChatCommandsBeforePlayerHasJoined);
++    }
++
++    public static boolean disableAnvilRepairCost = false;
++    private static void disableAnvilRepairCost() {
++        disableAnvilRepairCost = getBoolean("settings.disable-anvil-repair-cost", disableAnvilRepairCost);
++    }
++
++    public static float shieldDamageAmount = 3.0F;
++    private static void shieldDamageAmount() {
++        shieldDamageAmount = getFloat("settings.shield-damage-amount", shieldDamageAmount);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
+index 5607dc10dc1c9d2dbf4e3007890e5e89a175605e..2f5c6032384a7103577292a81c55cad257f7694b 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
+@@ -384,7 +384,7 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
+         this.enchantments = CraftMetaItem.buildEnchantments(tag, CraftMetaItem.ENCHANTMENTS);
+         this.attributeModifiers = CraftMetaItem.buildModifiers(tag, CraftMetaItem.ATTRIBUTES);
+ 
+-        if (tag.contains(REPAIR.NBT)) {
++        if (!net.prismarineteam.prismarine.PrismarineConfig.disableAnvilRepairCost && tag.contains(REPAIR.NBT)) { // Prismarine - EMC tweaks
+             this.repairCost = tag.getInt(REPAIR.NBT);
+         }
+ 

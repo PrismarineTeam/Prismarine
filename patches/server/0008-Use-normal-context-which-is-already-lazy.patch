@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/src/main/java/io/papermc/paper/util/CollisionUtil.java b/src/main/java/io/papermc/paper/util/CollisionUtil.java
-index b25018ab6cff59e43652c953421f01b6d0bb0a85..cadc69669b790c95f8894a6afcd5e55948f4b3f0 100644
+index a87f6380b2c387fb0cdd40d5087b5c93492e3c88..70009f417eb39a6c10b895b372309117b360eaeb 100644
 --- a/src/main/java/io/papermc/paper/util/CollisionUtil.java
 +++ b/src/main/java/io/papermc/paper/util/CollisionUtil.java
 @@ -619,7 +619,11 @@ public final class CollisionUtil {
@@ -38,14 +38,13 @@ index b25018ab6cff59e43652c953421f01b6d0bb0a85..cadc69669b790c95f8894a6afcd5e559
                                      VoxelShape voxelshape2 = blockData.getCollisionShape(getter, mutablePos, collisionShape);
                                      if (voxelshape2 != Shapes.empty()) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 29f18e26258c2d6b23bc8e601167da7dbe13f34b..4dad7fc69bd213fcd20c24b032e1fa70cc6d0366 100644
+index 0f7e0317bdeb527fa2212006243f825e0f5bbe05..d127a145e832382d1661f0cfe1a6c9bd9e213d2e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -150,4 +150,9 @@ public class PrismarineConfig {
-     private static void doNotSendUselessEntityPackets() {
+@@ -171,4 +171,8 @@ public class PrismarineConfig {
          doNotSendUselessEntityPackets = getBoolean("settings.do-not-send-useless-entity-packets", doNotSendUselessEntityPackets);
      }
-+
+ 
 +    public static boolean useNormalCollisionContext = true;
 +    private static void useAirplaneCollisionContext() {
 +        useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);

@@ -1,0 +1,90 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 14 May 2022 17:36:33 +0900
+Subject: [PATCH] Miscellaneous patches
+
+
+diff --git a/src/main/java/org/bukkit/configuration/ConfigurationSection.java b/src/main/java/org/bukkit/configuration/ConfigurationSection.java
+index b6b00af08f12f838411845e4f4e29e62826dfc7f..4b5267576390515dbbdeed7a5752c80b6f951b34 100644
+--- a/src/main/java/org/bukkit/configuration/ConfigurationSection.java
++++ b/src/main/java/org/bukkit/configuration/ConfigurationSection.java
+@@ -432,6 +432,48 @@ public interface ConfigurationSection {
+      */
+     public boolean isLong(@NotNull String path);
+ 
++    // Prismarine start - Float
++    /**
++     * Gets the requested float by path.
++     * <p>
++     * If the float does not exist but a default value has been specified,
++     * this will return the default value. If the float does not exist and no
++     * default value was specified, this will return 0.
++     *
++     * @param path Path of the float to get.
++     * @return Requested float.
++     */
++    public float getFloat(@NotNull String path);
++
++    /**
++     * Gets the requested float by path, returning a default value if not
++     * found.
++     * <p>
++     * If the float does not exist then the specified default value will
++     * returned regardless of if a default has been identified in the root
++     * {@link Configuration}.
++     *
++     * @param path Path of the float to get.
++     * @param def The default value to return if the path is not found or is
++     *     not a float.
++     * @return Requested float.
++     */
++    public float getFloat(@NotNull String path, float def);
++
++    /**
++     * Checks if the specified path is a float.
++     * <p>
++     * If the path exists but is not a float, this will return false. If the
++     * path does not exist, this will return false. If the path does not exist
++     * but a default value has been specified, this will check if that default
++     * value is a float and return appropriately.
++     *
++     * @param path Path of the float to check.
++     * @return Whether or not the specified path is a float.
++     */
++    public boolean isFloat(@NotNull String path);
++    // Prismarine end
++
+     // Java
+     /**
+      * Gets the requested List by path.
+diff --git a/src/main/java/org/bukkit/configuration/MemorySection.java b/src/main/java/org/bukkit/configuration/MemorySection.java
+index 28b171984ef88000b0d7106f54d58b487d30dd9c..a109e3d1c23de9b7b5423055b585943f919a5827 100644
+--- a/src/main/java/org/bukkit/configuration/MemorySection.java
++++ b/src/main/java/org/bukkit/configuration/MemorySection.java
+@@ -418,6 +418,26 @@ public class MemorySection implements ConfigurationSection {
+         return val instanceof Long;
+     }
+ 
++    // Prismarine start - getFloat
++    @Override
++    public float getFloat(@NotNull String path) {
++        Object def = getDefault(path);
++        return getFloat(path, (def instanceof Number) ? toFloat(def) : 0);
++    }
++
++    @Override
++    public float getFloat(@NotNull String path, float def) {
++        Object val = get(path, def);
++        return (val instanceof Number) ? toFloat(val) : def;
++    }
++
++    @Override
++    public boolean isFloat(@NotNull String path) {
++        Object val = get(path);
++        return val instanceof Float;
++    }
++    // Prismarine end
++
+     // Java
+     @Override
+     @Nullable
