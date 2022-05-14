@@ -309,9 +309,20 @@ index 954e141e5617d6d52e2f3008c25fe9e2fe2f0f9a..5c86c295ec1cc386159eff9f0868a8a6
              }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 40e5718ed69146cbf1aef7819bda1b8822e2499d..b052e9f578dd25cb6856227098a74132ef890bb2 100644
+index 40e5718ed69146cbf1aef7819bda1b8822e2499d..357a998cfe0917386ec9623e345bc7902c40a9c5 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -50,8 +50,8 @@ public class PrismarineConfig {
+         commands = new HashMap<>();
+         commands.put("prismarine", new PrismarineCommand("prismarine"));
+ 
+-        version = getInt("config-version", 1);
+-        set("config-version", 1);
++        version = getInt("config-version", 2);
++        set("config-version", 2);
+ 
+         readConfig(PrismarineConfig.class, null);
+     }
 @@ -115,6 +115,11 @@ public class PrismarineConfig {
          return config.getDouble(path, config.getDouble(path));
      }
@@ -324,7 +335,7 @@ index 40e5718ed69146cbf1aef7819bda1b8822e2499d..b052e9f578dd25cb6856227098a74132
      private static int getInt(String path, int def) {
          config.addDefault(path, def);
          return config.getInt(path, config.getInt(path));
-@@ -145,4 +150,41 @@ public class PrismarineConfig {
+@@ -145,4 +150,45 @@ public class PrismarineConfig {
          }
          return builder.build();
      }
@@ -349,14 +360,18 @@ index 40e5718ed69146cbf1aef7819bda1b8822e2499d..b052e9f578dd25cb6856227098a74132
 +        blockWrittenBooksCopy = getBoolean("settings.block-written-books-copy", blockWrittenBooksCopy);
 +    }
 +
++    public static boolean useLenientJson = false;
++    private static void useLenientJson() {
++        if (version < 2) {
++            set("settings.use-lenient-json", getBoolean("use-lenient-json", false));
++            set("use-lenient-json", null);
++        }
++        useLenientJson = getBoolean("use-lenient-json", useLenientJson);
++    }
++
 +    public static float shieldDamageAmount = 3.0F;
 +    private static void shieldDamageAmount() {
 +        shieldDamageAmount = getFloat("settings.shield-damage-amount", shieldDamageAmount);
-+    }
-+
-+    public static boolean useLenientJson = false;
-+    private static void useLenientJson() {
-+        useLenientJson = getBoolean("use-lenient-json", useLenientJson);
 +    }
 +
 +    public static boolean enableMaxVillagerTradeLimit = false;
