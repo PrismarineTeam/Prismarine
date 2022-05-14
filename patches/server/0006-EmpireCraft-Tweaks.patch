@@ -7,9 +7,12 @@ Original by EmpireCraft
 
 Copyright (C) EmpireCraft
 
-[ADDED PATCHES]
+[REFERENCE PATCHES]
+0038 - Remove "Copy of" from Written Books
 0039 - Disable Repair Cost
 0053 - Allow damage to shields for all damage
+0086 - bound villager trade maxUses by 16
+0088 - Limit worlds structures can generate
 0099 - Do not process chat/commands before player has joined
 
 Permission is hereby granted, free of charge, to any person obtaining a
