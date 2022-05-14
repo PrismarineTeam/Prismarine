@@ -38,13 +38,14 @@ index a87f6380b2c387fb0cdd40d5087b5c93492e3c88..70009f417eb39a6c10b895b372309117
                                      VoxelShape voxelshape2 = blockData.getCollisionShape(getter, mutablePos, collisionShape);
                                      if (voxelshape2 != Shapes.empty()) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 0f7e0317bdeb527fa2212006243f825e0f5bbe05..d127a145e832382d1661f0cfe1a6c9bd9e213d2e 100644
+index e810a5e60584b7a3cb39bf7a814cc6f4c33b2363..e2ab8d4a26c78bd98eafda2b34727a9a512840e5 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -171,4 +171,8 @@ public class PrismarineConfig {
+@@ -187,4 +187,9 @@ public class PrismarineConfig {
+     private static void doNotSendUselessEntityPackets() {
          doNotSendUselessEntityPackets = getBoolean("settings.do-not-send-useless-entity-packets", doNotSendUselessEntityPackets);
      }
- 
++
 +    public static boolean useNormalCollisionContext = true;
 +    private static void useAirplaneCollisionContext() {
 +        useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);

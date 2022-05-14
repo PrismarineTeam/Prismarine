@@ -31,6 +31,18 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 72df9c6d1ac2fef090b0532da079c607f79bce89..b5e7fd32b5ba70cc61cb2e939f1df875e3903aa0 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -1890,6 +1890,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+     }
+     public @Nullable BlockPos findNearestMapFeature(HolderSet<ConfiguredStructureFeature<?, ?>> holderSet, BlockPos pos, int radius, boolean skipExistingChunks) {
+         {
++            if (!prismarineConfig.generateStructures) return null; // Prismarine - EMC tweaks
+             {
+                 Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> pair = this.getChunkSource().getGenerator().findNearestMapFeature(this, holderSet, pos, radius, skipExistingChunks);
+                 // Paper end
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 index bbdfd821221bf776aa9305d2e313940d70b2af6b..25695f2f9afc0c5ecc7de716c44a9a58b9066585 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
@@ -43,8 +55,27 @@ index bbdfd821221bf776aa9305d2e313940d70b2af6b..25695f2f9afc0c5ecc7de716c44a9a58
          } else {
              this.player.resetLastActionTime();
              String s = message.getRaw();
+diff --git a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
+index 390a70b9d9aa40a2511ab6588df2833a34682e5a..abde2c8de399d2e057d5cf255d0ce9ce3dcfa47c 100644
+--- a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
++++ b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
+@@ -307,7 +307,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+             mobEffectInstance = loadSpecifiedEffect(type, nbt.getCompound("HiddenEffect"));
+         }
+ 
+-        return new MobEffectInstance(type, j, i < 0 ? 0 : i, bl, bl2, bl3, key, mobEffectInstance); // Purpur - add key
++        // Prismarine start - EMC tweaks
++        if (net.prismarineteam.prismarine.PrismarineConfig.allowNegativeAmplifierValues) {
++            return new MobEffectInstance(type, j, i, bl, bl2, bl3, key, mobEffectInstance);
++        } else {
++            return new MobEffectInstance(type, j, i < 0 ? 0 : i, bl, bl2, bl3, key, mobEffectInstance); // Purpur - add key
++        }
++        // Prismarine end
+     }
+ 
+     public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..b605b3d4adfa34b80bee3e4b08559fe2a84cad59 100644
+index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..cc6fff639bd1a6d574213f5a53e213ab253918fb 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
 @@ -228,6 +228,7 @@ public final class ItemStack {
@@ -55,7 +86,15 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..b605b3d4adfa34b80bee3e4b08559fe2
          }
  
          this.updateEmptyCacheFlag();
-@@ -1188,10 +1189,12 @@ public final class ItemStack {
+@@ -259,6 +260,7 @@ public final class ItemStack {
+             // CraftBukkit end
+             this.processEnchantOrder(this.tag); // Paper
+             this.processText(); // Paper
++            if (item == Items.WRITTEN_BOOK && tag.contains("generation") && net.prismarineteam.prismarine.PrismarineConfig.blockWrittenBooksCopy) tag.remove("generation");
+             this.getItem().verifyTagAfterLoad(this.tag);
+         }
+ 
+@@ -1188,10 +1190,12 @@ public final class ItemStack {
      }
  
      public int getBaseRepairCost() {
@@ -68,8 +107,47 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..b605b3d4adfa34b80bee3e4b08559fe2
          // CraftBukkit start - remove RepairCost tag when 0 (SPIGOT-3945)
          if (repairCost == 0) {
              this.removeTagKey("RepairCost");
+diff --git a/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java b/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java
+index 9a402505375af2051673245ec0a1daf9f3a66dc7..68f043207b7a3f239f5cd1147350239e9bd87669 100644
+--- a/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java
++++ b/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java
+@@ -53,7 +53,7 @@ public class MerchantOffer {
+         this.result = ItemStack.of(nbt.getCompound("sell"));
+         this.uses = nbt.getInt("uses");
+         if (nbt.contains("maxUses", 99)) {
+-            this.maxUses = nbt.getInt("maxUses");
++            this.maxUses = Math.min(net.prismarineteam.prismarine.PrismarineConfig.maxVillagerTradeLimit, nbt.getInt("maxUses"));
+         } else {
+             this.maxUses = 4;
+         }
+diff --git a/src/main/java/net/minecraft/world/level/StructureFeatureManager.java b/src/main/java/net/minecraft/world/level/StructureFeatureManager.java
+index fa6eaf7041b6a8b17c64322307839dbd358ad3ab..d211dcda932e6a82f07c6bb9b2a664ff7a2aff29 100644
+--- a/src/main/java/net/minecraft/world/level/StructureFeatureManager.java
++++ b/src/main/java/net/minecraft/world/level/StructureFeatureManager.java
+@@ -94,7 +94,7 @@ public class StructureFeatureManager {
+     }
+ 
+     public boolean shouldGenerateFeatures() {
+-        return this.worldGenSettings.generateFeatures();
++        return this.worldGenSettings.generateFeatures() && this.level.getMinecraftWorld().prismarineConfig.generateStructures; // Prismarine - EMC tweaks
+     }
+ 
+     public StructureStart getStructureAt(BlockPos pos, ConfiguredStructureFeature<?, ?> configuredStructureFeature) {
+diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
+index 954e141e5617d6d52e2f3008c25fe9e2fe2f0f9a..5c86c295ec1cc386159eff9f0868a8a6a289fbe5 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
++++ b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
+@@ -47,7 +47,7 @@ public class ChunkStatus {
+     });
+     public static final ChunkStatus STRUCTURE_STARTS = ChunkStatus.register("structure_starts", ChunkStatus.EMPTY, 0, ChunkStatus.PRE_FEATURES, ChunkStatus.ChunkType.PROTOCHUNK, (chunkstatus, executor, worldserver, chunkgenerator, definedstructuremanager, lightenginethreaded, function, list, ichunkaccess, flag) -> {
+         if (!ichunkaccess.getStatus().isOrAfter(chunkstatus)) {
+-            if (worldserver.serverLevelData.worldGenSettings().generateFeatures()) { // CraftBukkit
++            if (worldserver.serverLevelData.worldGenSettings().generateFeatures() && worldserver.prismarineConfig.generateStructures) { // CraftBukkit // Prismarine - EMC tweaks
+                 chunkgenerator.createStructures(worldserver.registryAccess(), worldserver.structureFeatureManager(), ichunkaccess, definedstructuremanager, worldserver.getSeed());
+             }
+ 
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 40e5718ed69146cbf1aef7819bda1b8822e2499d..921dd5ba0d9e52ce698bf14bb8602270535666c7 100644
+index 40e5718ed69146cbf1aef7819bda1b8822e2499d..dfa4d00dabd928188c9dd405ec50d49564c88f17 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 @@ -115,6 +115,11 @@ public class PrismarineConfig {
@@ -84,7 +162,7 @@ index 40e5718ed69146cbf1aef7819bda1b8822e2499d..921dd5ba0d9e52ce698bf14bb8602270
      private static int getInt(String path, int def) {
          config.addDefault(path, def);
          return config.getInt(path, config.getInt(path));
-@@ -145,4 +150,19 @@ public class PrismarineConfig {
+@@ -145,4 +150,36 @@ public class PrismarineConfig {
          }
          return builder.build();
      }
@@ -99,9 +177,41 @@ index 40e5718ed69146cbf1aef7819bda1b8822e2499d..921dd5ba0d9e52ce698bf14bb8602270
 +        disableAnvilRepairCost = getBoolean("settings.disable-anvil-repair-cost", disableAnvilRepairCost);
 +    }
 +
++    public static boolean allowNegativeAmplifierValues = false;
++    private static void allowNegativeAmplifierValues() {
++        allowNegativeAmplifierValues = getBoolean("settings.allow-negative-amplifier-values", allowNegativeAmplifierValues);
++    }
++
++    public static boolean blockWrittenBooksCopy = false;
++    private static void blockWrittenBooksCopy() {
++        blockWrittenBooksCopy = getBoolean("settings.block-written-books-copy", blockWrittenBooksCopy);
++    }
++
 +    public static float shieldDamageAmount = 3.0F;
 +    private static void shieldDamageAmount() {
 +        shieldDamageAmount = getFloat("settings.shield-damage-amount", shieldDamageAmount);
++    }
++
++    public static boolean enableMaxVillagerTradeLimit = false;
++    public static int maxVillagerTradeLimit = 16;
++    private static void maxVillagerTradeLimit() {
++        enableMaxVillagerTradeLimit = getBoolean("settings.max-villager-trade-limit.enabled", enableMaxVillagerTradeLimit);
++        maxVillagerTradeLimit = getInt("settings.max-villager-trade-limit.limit", maxVillagerTradeLimit);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 74020515e2ec917b7d921aa8501a71ff433a6abb..8672de04bd2f03ee8f68d53b288c94c742a85df3 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -75,4 +75,9 @@ public class PrismarineWorldConfig {
+         final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
+         return value.isEmpty() ? fallback : value;
+     }
++
++    public boolean generateStructures = true;
++    private void generateStructures() {
++        generateStructures = getBoolean("generate-structures", generateStructures);
 +    }
  }
 \ No newline at end of file
