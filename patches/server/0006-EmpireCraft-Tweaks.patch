@@ -8,9 +8,20 @@ Original by EmpireCraft
 Copyright (C) EmpireCraft
 
 [REFERENCE PATCHES]
+0013 - Allow force spawns
+0031 - Mark Withers as Persistent
 0038 - Remove "Copy of" from Written Books
 0039 - Disable Repair Cost
 0053 - Allow damage to shields for all damage
+0054 - Don't use force unload for keep spawn setting change
+0055 - Don't trigger Lootable Refresh for non player interaction
+0056 - Do not return item to player on cancel drop item event
+0062 - Don't use snapshots for TileEntity::getOwner
+0066 - Allow negative Amplifier values
+0071 - Default don't use blockstate snapshots
+0080 - Use lenient json to component to resolve old WE schematic issue
+0083 - dont load chunks for physics
+0085 - Do not require nether fortress structure for mob spawning
 0086 - bound villager trade maxUses by 16
 0088 - Limit worlds structures can generate
 0099 - Do not process chat/commands before player has joined
