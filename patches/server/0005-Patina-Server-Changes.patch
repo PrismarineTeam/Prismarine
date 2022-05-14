@@ -8,6 +8,10 @@ Original by foss-mc <69294560+foss-mc@users.noreply.github.com>
 
 Copyright (C) 2022 PatinaMC LLC
 
+[ADDED PATCHES]
+0006 - (Akarin) Swaps the predicate order of collision
+0013 - don't create new random instance
+
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
 Software), to deal in the Software without restriction, including

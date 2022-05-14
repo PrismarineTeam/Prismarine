@@ -7,6 +7,11 @@ Original by EmpireCraft
 
 Copyright (C) EmpireCraft
 
+[ADDED PATCHES]
+0039 - Disable Repair Cost
+0053 - Allow damage to shields for all damage
+0099 - Do not process chat/commands before player has joined
+
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
 Software), to deal in the Software without restriction, including
