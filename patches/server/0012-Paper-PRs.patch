@@ -1,0 +1,293 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 15 May 2022 20:47:19 +0900
+Subject: [PATCH] Paper PRs
+
+Copyright (C) 2022 PaperMC Team
+
+[GNU GPL v3]
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+[MIT (for Jake Potrebic (Machine_Maker))]
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+Software), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[ADDED PULL REQUESTS]
+Jake Potrebic <jake.m.potrebic@gmail.com> - Use DataConverter for itemstack/entity deserialization PaperMC/Paper#7068
+Jake Potrebic <jake.m.potrebic@gmail.com> - Use team display name for quit message PaperMC/Paper#7127
+dannyball710 <dannyball710@gmail.com> - Ignore BaseSpawner impossible spawn tick PaperMC/Paper#7469
+Jake Potrebic <jake.m.potrebic@gmail.com> - Fix async entity add due to fungus trees PaperMC/Paper#7626
+booky10 <boooky10@gmail.com> - Prevent healing by negative amounts PaperMC/Paper#7703 // Edited by AlphaKR93 <alphakr93@outlook.com>
+Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#7709
+PanSzelescik <panszelescik@gmail.com> - Add support for Proxy Protocol PaperMC/Paper#7710
+Jake Potrebic <jake.m.potrebic@gmail.com> - Fix addPassenger for Marker PaperMC/Paper#7762
+
+diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+index 6c85c29dd73625805bfcb6e1701e98216428eaaf..5e85eef6aecdd95b49e824409c539d72fccbfcb1 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
++++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+@@ -703,4 +703,11 @@ public class PaperConfig {
+     private static void useDimensionTypeForCustomSpawners() {
+         useDimensionTypeForCustomSpawners = getBoolean("settings.use-dimension-type-for-custom-spawners", false);
+     }
++
++    // Prismarine start - Paper PRs
++    public static boolean useProxyProtocol;
++    private static void useProxyProtocol() {
++        useProxyProtocol = getBoolean("settings.proxy-protocol", false);
++    }
++    // Prismarine end
+ }
+diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+index c4b2a50ad65b4ca2f8cc5903213c70cafde3e41c..6c5cfe0509c6f84064e5b37f8f945ff5f769d888 100644
+--- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
++++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+@@ -219,6 +219,7 @@ public class WorldGenRegion implements WorldGenLevel {
+         if (iblockdata.isAir()) {
+             return false;
+         } else {
++            if (drop) LOGGER.warn("Potential async entity add during worldgen", new Throwable()); // Paper - log when this happens // Prismarine - Paper PR
+             if (false) { // CraftBukkit - SPIGOT-6833: Do not drop during world generation
+                 BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
+ 
+diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+index 058fb3696c7ece4a7b6971886b1760b26add733b..2bbf8113a51d0583e89eae441b5b80db16f5e4ff 100644
+--- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
++++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+@@ -109,6 +109,14 @@ public class ServerConnectionListener {
+             ServerConnectionListener.LOGGER.info("Paper: Using " + com.velocitypowered.natives.util.Natives.cipher.getLoadedVariant() + " cipher from Velocity.");
+             // Paper end
+ 
++            // Prismarine start - Paper PR
++            // Paper start - indicate Proxy Protocol usage
++            if (com.destroystokyo.paper.PaperConfig.useProxyProtocol) {
++                ServerConnectionListener.LOGGER.info("Paper: Using Proxy Protocol");
++            }
++            // Paper end
++            // Prismarine end
++
+             this.channels.add(((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap()).channel(oclass)).childHandler(new ChannelInitializer<Channel>() {
+                 protected void initChannel(Channel channel) {
+                     try {
+@@ -122,6 +130,30 @@ public class ServerConnectionListener {
+                     int j = ServerConnectionListener.this.server.getRateLimitPacketsPerSecond();
+                     Object object = j > 0 ? new RateKickingConnection(j) : new Connection(PacketFlow.SERVERBOUND);
+ 
++                    // Prismarine start - Paper PR
++                    // Paper start - Add support for Proxy Protocol
++                    if (com.destroystokyo.paper.PaperConfig.useProxyProtocol) {
++                        channel.pipeline().addAfter("timeout", "haproxy-decoder", new io.netty.handler.codec.haproxy.HAProxyMessageDecoder());
++                        channel.pipeline().addAfter("haproxy-decoder", "haproxy-handler", new ChannelInboundHandlerAdapter() {
++                            @Override
++                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
++                                if (msg instanceof io.netty.handler.codec.haproxy.HAProxyMessage message) {
++                                    String realaddress = message.sourceAddress();
++                                    int realport = message.sourcePort();
++
++                                    SocketAddress socketaddr = new java.net.InetSocketAddress(realaddress, realport);
++
++                                    Connection connection = (Connection) channel.pipeline().get("packet_handler");
++                                    connection.address = socketaddr;
++                                } else {
++                                    super.channelRead(ctx, msg);
++                                }
++                            }
++                        });
++                    }
++                    // Paper end
++                    // Prismarine end
++
+                     // ServerConnectionListener.this.connections.add((Connection) object); // CraftBukkit - decompile error
+                     pending.add((Connection) object); // Paper
+                     channel.pipeline().addLast("packet_handler", (ChannelHandler) object);
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index 5531c672a84a9a9cd2bb43684f48fe1e977b7d44..b7327a48a40e0d10fd57621584c53972f6bd54a3 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -600,7 +600,7 @@ public abstract class PlayerList {
+ 
+     public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer) { // Paper - return Component
+         // Paper start
+-        return this.remove(entityplayer, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, com.destroystokyo.paper.PaperConfig.useDisplayNameInQuit ? entityplayer.getBukkitEntity().displayName() : net.kyori.adventure.text.Component.text(entityplayer.getScoreboardName())));
++        return this.remove(entityplayer, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, com.destroystokyo.paper.PaperConfig.useDisplayNameInQuit ? entityplayer.getBukkitEntity().displayName() : PaperAdventure.asAdventure(entityplayer.getDisplayName()))); // Prismairne - Paper PR
+     }
+     public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer, net.kyori.adventure.text.Component leaveMessage) {
+         // Paper end
+diff --git a/src/main/java/net/minecraft/world/effect/MobEffect.java b/src/main/java/net/minecraft/world/effect/MobEffect.java
+index 8d569eb2ec1b2bdbd415094ae04ae531dfdeafae..5e68b5e2baa4f47136625bf8be3a4741550fa2df 100644
+--- a/src/main/java/net/minecraft/world/effect/MobEffect.java
++++ b/src/main/java/net/minecraft/world/effect/MobEffect.java
+@@ -99,7 +99,13 @@ public class MobEffect {
+                 }
+             }
+         } else {
+-            j = (int) (proximity * (double) (4 << amplifier) + 0.5D);
++            // Prismarine start - Paper PR
++            if (net.prismarineteam.prismarine.PrismarineConfig.preventHealingByNegative) {
++                j = Math.max((int) (proximity * (double) (4 << amplifier) + 0.5D), 0); // Paper - Prevent healing by negative amounts
++            } else {
++                j = (int) (proximity * (double) (4 << amplifier) + 0.5D);
++            }
++            // Prismarine end
+             target.heal((float) j, RegainReason.MAGIC); // CraftBukkit
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/Marker.java b/src/main/java/net/minecraft/world/entity/Marker.java
+index aef33a96cf8df9400cc60285ef1f7c5ded03b495..7271190f1f053c1ac4d5ad41d7ed721d2251de06 100644
+--- a/src/main/java/net/minecraft/world/entity/Marker.java
++++ b/src/main/java/net/minecraft/world/entity/Marker.java
+@@ -38,8 +38,9 @@ public class Marker extends Entity {
+     }
+ 
+     @Override
+-    protected void addPassenger(Entity passenger) {
++    protected boolean addPassenger(Entity passenger) { // Paper - fix upstream // Prismarine - Paper PR
+         passenger.stopRiding();
++        return false; // Paper - fix upstream // Prismarine - Paper PR
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
+index 6a4214b6110119215154fee48d000bc1051ea626..8cc762aa146f0e5c280b10be13567aed710e3557 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
++++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
+@@ -128,8 +128,13 @@ public class EnderMan extends Monster implements NeutralMob {
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(1, new EnderMan.EndermanLookForPlayerGoal(this, this::isAngryAt));
+         this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
+-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Endermite.class, 10, true, false, (entityliving) -> entityliving.level.purpurConfig.endermanAggroEndermites && entityliving instanceof Endermite endermite && (!entityliving.level.purpurConfig.endermanAggroEndermitesOnlyIfPlayerSpawned || endermite.isPlayerSpawned()))); // Purpur
+-        this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
++        // Prismarine start - Paper PR
++        // Paper start - fix enderman universal anger
++        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
++        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Endermite.class, 10, true, false, (entityliving) -> entityliving.level.purpurConfig.endermanAggroEndermites && entityliving instanceof Endermite endermite && (!entityliving.level.purpurConfig.endermanAggroEndermitesOnlyIfPlayerSpawned || endermite.isPlayerSpawned()))); // Purpur
++        this.targetSelector.addGoal(5, new ResetUniversalAngerTargetGoal<>(this, false));
++        // Paper end
++        // Prismarine end
+     }
+ 
+     public static AttributeSupplier.Builder createAttributes() {
+diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+index 6bbf1618e41c81fd2064ffd5d835187a927f24b7..afa182b76999c95586755cf22a4e4de1243ef8af 100644
+--- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
++++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+@@ -77,6 +77,8 @@ public abstract class BaseSpawner {
+     }
+ 
+     public void serverTick(ServerLevel world, BlockPos pos) {
++        if (spawnCount <= 0 || maxNearbyEntities <= 0) return; // Paper - Ignore impossible spawn tick // Prismarine - Paper PR
++
+         // Paper start - Configurable mob spawner tick rate
+         if (spawnDelay > 0 && --tickDelay > 0) return;
+         tickDelay = world.paperConfig.mobSpawnerTickRate;
+diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
+index 74882f89f32b14ff8cd44f0e4eb1f350f52d636d..762addcfc237aa3fd89ed4a56119a444f698bfdd 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -735,7 +735,8 @@ public class LevelChunk extends ChunkAccess {
+                 "Attempted to place a tile entity (" + blockEntity + ") at " + blockEntity.getBlockPos().getX() + ","
+                     + blockEntity.getBlockPos().getY() + "," + blockEntity.getBlockPos().getZ()
+                     + " (" + getBlockState(blockposition) + ") where there was no entity tile!\n" +
+-                    "Chunk coordinates: " + (this.chunkPos.x * 16) + "," + (this.chunkPos.z * 16));
++                    "Chunk coordinates: " + (this.chunkPos.x * 16) + "," + (this.chunkPos.z * 16) + // Prismarine - Paper PR
++                    "\nWorld: " + level.getLevel().dimension().location()); // Prismarine - Paper PR
+             e.printStackTrace();
+             ServerInternalException.reportInternalException(e);
+             // Paper end
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index cd82048efeee0ca64f52793111bf957660e8befd..cabb58b8ac4139fe928430886f735b1fa153acf6 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -213,4 +213,9 @@ public class PrismarineConfig {
+     private static void useAirplaneCollisionContext() {
+         useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
+     }
++
++    public static boolean preventHealingByNegative = true;
++    private static void bugFixes() {
++        preventHealingByNegative = getBoolean("settings.pull-requests.paper.prevent-healing-by-negative-amounts", preventHealingByNegative);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
+index e231636403a70f28e7e4bf51542608872234ce94..802e5d80e53e534335844116e44e4eebc3ca4a13 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
+@@ -365,10 +365,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
+                 ((ChorusFlowerBlock) Blocks.CHORUS_FLOWER).generatePlant(access, pos, random, 8);
+                 return true;
+             case CRIMSON_FUNGUS:
+-                gen = TreeFeatures.CRIMSON_FUNGUS_PLANTED;
++                gen = this.isNormalWorld() ? TreeFeatures.CRIMSON_FUNGUS_PLANTED : TreeFeatures.CRIMSON_FUNGUS; // Paper - if world gen, don't use planted version // Prismarine - Paper PR
+                 break;
+             case WARPED_FUNGUS:
+-                gen = TreeFeatures.WARPED_FUNGUS_PLANTED;
++                gen = this.isNormalWorld() ? TreeFeatures.WARPED_FUNGUS_PLANTED : TreeFeatures.WARPED_FUNGUS; // Paper - if world gen, don't use planted version // Prismarine - Paper PR
+                 break;
+             case AZALEA:
+                 gen = TreeFeatures.AZALEA_TREE;
+diff --git a/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java b/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java
+index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407e3678c7e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java
++++ b/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java
+@@ -92,7 +92,7 @@ public final class CraftPersistentDataTypeRegistry {
+         }
+     }
+ 
+-    private final Map<Class, TagAdapter> adapters = new HashMap<>();
++    private final Map<Class, TagAdapter> adapters = new java.util.concurrent.ConcurrentHashMap<>(); // Paper - Replace HashMap with ConcurrentHashMap to avoid CME // Prismarine - Paper PR
+ 
+     /**
+      * Creates a suitable adapter instance for the primitive class type
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+index 9d974b535c03ff06f7f01cdd17dc700e3a3f150e..1650bf8f46abb9ce4bc5c26911cc199ba76ef2c2 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+@@ -453,8 +453,8 @@ public final class CraftMagicNumbers implements UnsafeValues {
+ 
+         CompoundTag compound = deserializeNbtFromBytes(data);
+         int dataVersion = compound.getInt("DataVersion");
+-        Dynamic<Tag> converted = DataFixers.getDataFixer().update(References.ITEM_STACK, new Dynamic<Tag>(NbtOps.INSTANCE, compound), dataVersion, getDataVersion());
+-        return CraftItemStack.asCraftMirror(net.minecraft.world.item.ItemStack.of((CompoundTag) converted.getValue()));
++        compound = ca.spottedleaf.dataconverter.minecraft.MCDataConverter.convertTag(ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry.ITEM_STACK, compound, dataVersion, getDataVersion()); // Paper - rewrite dataconverter // Prismarine - Paper PR
++        return CraftItemStack.asCraftMirror(net.minecraft.world.item.ItemStack.of(compound));
+     }
+ 
+     @Override
+@@ -474,8 +474,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+ 
+         CompoundTag compound = deserializeNbtFromBytes(data);
+         int dataVersion = compound.getInt("DataVersion");
+-        Dynamic<Tag> converted = DataFixers.getDataFixer().update(References.ENTITY_TREE, new Dynamic<>(NbtOps.INSTANCE, compound), dataVersion, getDataVersion());
+-        compound = (CompoundTag) converted.getValue();
++        compound = ca.spottedleaf.dataconverter.minecraft.MCDataConverter.convertTag(ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry.ENTITY, compound, dataVersion, getDataVersion()); // Paper - rewrite dataconverter // Prismarine - Paper PR
+         if (!preserveUUID) compound.remove("UUID"); // Generate a new UUID so we don't have to worry about deserializing the same entity twice
+         return net.minecraft.world.entity.EntityType.create(compound, ((org.bukkit.craftbukkit.CraftWorld) world).getHandle())
+             .orElseThrow(() -> new IllegalArgumentException("An ID was not found for the data. Did you downgrade?")).getBukkitEntity();
