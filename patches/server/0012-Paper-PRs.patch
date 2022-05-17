@@ -207,20 +207,6 @@ index 6bbf1618e41c81fd2064ffd5d835187a927f24b7..afa182b76999c95586755cf22a4e4de1
          // Paper start - Configurable mob spawner tick rate
          if (spawnDelay > 0 && --tickDelay > 0) return;
          tickDelay = world.paperConfig.mobSpawnerTickRate;
-diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 74882f89f32b14ff8cd44f0e4eb1f350f52d636d..762addcfc237aa3fd89ed4a56119a444f698bfdd 100644
---- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-+++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -735,7 +735,8 @@ public class LevelChunk extends ChunkAccess {
-                 "Attempted to place a tile entity (" + blockEntity + ") at " + blockEntity.getBlockPos().getX() + ","
-                     + blockEntity.getBlockPos().getY() + "," + blockEntity.getBlockPos().getZ()
-                     + " (" + getBlockState(blockposition) + ") where there was no entity tile!\n" +
--                    "Chunk coordinates: " + (this.chunkPos.x * 16) + "," + (this.chunkPos.z * 16));
-+                    "Chunk coordinates: " + (this.chunkPos.x * 16) + "," + (this.chunkPos.z * 16) + // Prismarine - Paper PR
-+                    "\nWorld: " + level.getLevel().dimension().location()); // Prismarine - Paper PR
-             e.printStackTrace();
-             ServerInternalException.reportInternalException(e);
-             // Paper end
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index cd82048efeee0ca64f52793111bf957660e8befd..cabb58b8ac4139fe928430886f735b1fa153acf6 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
