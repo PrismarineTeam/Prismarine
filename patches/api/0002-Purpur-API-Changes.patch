@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 10 May 2022 16:17:34 +0900
+Date: Wed, 18 May 2022 16:47:50 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -565,35 +565,6 @@ index 743a4091e06015b303d1eebc3b6bd393f98e4b9f..ccb8909d3da0bb6ccc6d35e8497c3b4b
 +    public void removeFuel(@NotNull Material material);
 +    // Purpur end
  }
-diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index d4c60cf8404641fa8580cb0653e6f7a10baed865..17ae3e7763a33845bd1121c2df04a180819cee6c 100644
---- a/src/main/java/org/bukkit/World.java
-+++ b/src/main/java/org/bukkit/World.java
-@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
- /**
-  * Represents a world, which may contain entities, chunks and blocks
-  */
--public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient, Metadatable, PersistentDataHolder, Keyed, net.kyori.adventure.audience.ForwardingAudience { // Paper
-+public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient, Metadatable, PersistentDataHolder, net.kyori.adventure.audience.ForwardingAudience, Keyed { // Paper
- 
-     // Paper start
-     /**
-@@ -1567,6 +1567,15 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
- 
-     @NotNull
-     java.util.concurrent.CompletableFuture<Chunk> getChunkAtAsync(int x, int z, boolean gen, boolean urgent);
-+
-+    /**
-+     * Get the world's key
-+     *
-+     * @return the world's key
-+     */
-+    @NotNull
-+    @Override
-+    NamespacedKey getKey();
-     // Paper end
- 
-     /**
 diff --git a/src/main/java/org/bukkit/block/Sign.java b/src/main/java/org/bukkit/block/Sign.java
 index c8d37184d8e882a4084a1bfef85faa330588600b..46bae5c13ce2b973b114682f6a338981eb8d95bf 100644
 --- a/src/main/java/org/bukkit/block/Sign.java

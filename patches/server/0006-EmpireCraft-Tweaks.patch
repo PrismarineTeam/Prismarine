@@ -3134,10 +3134,10 @@ index 1d72f0e63c5a64a82439d828a7182465fe7238ef..fefd4f11c0b3c31502425d2378915b82
          if (iblockdata.isAir()) {
              return false;
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 303ad9eab2e0a9b73597ca4ee9d70bea1979c5dd..c31ed963e80744d4dc86ceef3085bc6a05d94eef 100644
+index 6e24b86ce315510133b6294f5d348e5c4e7f547f..0383623dc5ff8c246ad784e162f2bd0f146ebd2e 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-@@ -406,6 +406,7 @@ public final class NaturalSpawner {
+@@ -405,6 +405,7 @@ public final class NaturalSpawner {
  
      public static boolean isInNetherFortressBounds(BlockPos pos, ServerLevel world, MobCategory spawnGroup, StructureFeatureManager structureAccessor) {
          if (spawnGroup == MobCategory.MONSTER && world.getBlockState(pos.below()).is(Blocks.NETHER_BRICKS)) {
@@ -3370,10 +3370,10 @@ index 74020515e2ec917b7d921aa8501a71ff433a6abb..c6beb55dd7d66e7f7b40753106667a25
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index bb999dc7683c3dda078efea3b6f3a095f49f5ec8..071d75189ca146e1ac5693c867e582757b9de3e7 100644
+index b6770f6dbd88990151513c44259d926381983cff..89d78e4a7c43c8abdb2a3ee7ea0ae38c51ae68f9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -408,7 +408,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -409,7 +409,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean unloadChunk(int x, int z) {
@@ -3408,7 +3408,7 @@ index bfe9dc935c87e01fb435d8b46ce413b84ca74856..3accc7d7f1be03ba748678c568d76705
  
      // Paper start
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 361bd8edcc6e6d0fbac958e3ec91d74a622d630a..d63105ee77933e78e2b9b8ebaa2c1deca923267c 100644
+index 5ab4a37fcdd74924e70f8de1ffafdb231e1ab317..68b865ee537aae9d8246fbce1af5cfe47cee5668 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -711,7 +711,7 @@ public class CraftEventFactory {
