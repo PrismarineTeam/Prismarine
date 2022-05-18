@@ -281,10 +281,10 @@ index 4594701d77c5d0f744bece871b98d9f6f73eb5a7..924af5982b1990492cafe6ef8d9f284f
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 75d6eb5d91fbaa4e32ac81dc4e2cdaac4777c4ad..7c025503f32b3a95c2661cec8d980ba33ecb903f 100644
+index a39e7af2529fb8e65641d76f78e2d8eb12900853..8418eecabcb5319ef4db0785f4350920fa433278 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -9869,4 +9869,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
+@@ -9871,4 +9871,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
          return Bukkit.getUnsafe().getCreativeCategory(this);
      }
  
@@ -566,7 +566,7 @@ index 743a4091e06015b303d1eebc3b6bd393f98e4b9f..ccb8909d3da0bb6ccc6d35e8497c3b4b
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index 340f3e569a411e7603fba8d38b79446da0ab4a93..ba57e09e66b044fb3a99acde8e0a851e3d125d01 100644
+index d4c60cf8404641fa8580cb0653e6f7a10baed865..17ae3e7763a33845bd1121c2df04a180819cee6c 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
 @@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
@@ -1357,10 +1357,10 @@ index d61855b83da0776fe910dee8cde184c720571a71..b7b7963c07f9859df980017d0515ab43
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Wither.java b/src/main/java/org/bukkit/entity/Wither.java
-index 8c95cd6933f11076de936854f379e6fc8600b525..86907637ed0a53d4967606dbba3ea20320b528f8 100644
+index a1b42ae35dda2da90ba00a2d6666514f7c5b11dd..3ccd61bf91d7746393589b0b35674361c2f1d133 100644
 --- a/src/main/java/org/bukkit/entity/Wither.java
 +++ b/src/main/java/org/bukkit/entity/Wither.java
-@@ -36,4 +36,20 @@ public interface Wither extends Monster, Boss, RangedEntity { // Paper
+@@ -79,4 +79,20 @@ public interface Wither extends Monster, Boss, com.destroystokyo.paper.entity.Ra
       */
      void setCanTravelThroughPortals(boolean value);
      // Paper end
@@ -1798,7 +1798,7 @@ index b06995aa57aa9cba0bb59f1d26d81015619a08e6..5e33fe46ab9bb034acc6a38a3c00c33c
      public abstract String getTitle();
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index 56897cfb96b53e43fec343568e514ee636ddd5c5..c6d2dfd7ec22c168b8bf348174ed25ee30a5c5cf 100644
+index 62841846ec3e14daa46564509671cab146984cc6..6ebfa971cf5bd8dac84eb29402b764feb5e6b974 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
 @@ -17,6 +17,18 @@ import org.bukkit.inventory.meta.ItemMeta;
@@ -1820,7 +1820,7 @@ index 56897cfb96b53e43fec343568e514ee636ddd5c5..c6d2dfd7ec22c168b8bf348174ed25ee
  
  /**
   * Represents a stack of items.
-@@ -975,4 +987,626 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
+@@ -979,4 +991,626 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
          return Bukkit.getUnsafe().isValidRepairItemStack(toBeRepaired, this);
      }
      // Paper end

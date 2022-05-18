@@ -3370,10 +3370,10 @@ index 74020515e2ec917b7d921aa8501a71ff433a6abb..c6beb55dd7d66e7f7b40753106667a25
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index d637bb8d52ee8e6ba8c7e48f1155e845841a5e97..afcfd65e9f84ae7da0364324fa022583b28865cc 100644
+index bb999dc7683c3dda078efea3b6f3a095f49f5ec8..071d75189ca146e1ac5693c867e582757b9de3e7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -407,7 +407,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -408,7 +408,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean unloadChunk(int x, int z) {

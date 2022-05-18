@@ -1215,7 +1215,7 @@ index 93c1f9e3e9d62cc993fedb93fe43cbeed7d39542..72df9c6d1ac2fef090b0532da079c607
                  }
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 2f5e40437d1865a874c352999edd084226d4e47b..67590108d9f9e889ef9483722bdae0efa10de1ce 100644
+index a6edf5117d4ae03d8294e7bb74dd2d77048895a5..b717dad7145eeb7b4d1f6870779c1df9dea3261a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -253,6 +253,10 @@ public class ServerPlayer extends Player {
@@ -1457,7 +1457,7 @@ index 2f5e40437d1865a874c352999edd084226d4e47b..67590108d9f9e889ef9483722bdae0ef
      @Override
      public Scoreboard getScoreboard() {
          return this.getBukkitEntity().getScoreboard().getHandle();
-@@ -2445,4 +2562,42 @@ public class ServerPlayer extends Player {
+@@ -2446,4 +2563,42 @@ public class ServerPlayer extends Player {
      // CraftBukkit end
  
      public final int getViewDistance() { throw new UnsupportedOperationException("Use PlayerChunkLoader"); } // Paper - placeholder
@@ -17027,7 +17027,7 @@ index f4a82b1f2dc26f938d3dcb23ec32f135a1bfd163..4e77c53b488e4e82454df66a852f7271
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 48825eaba9677a8b1e4fff80738e17d08e3307f8..d637bb8d52ee8e6ba8c7e48f1155e845841a5e97 100644
+index b6770f6dbd88990151513c44259d926381983cff..bb999dc7683c3dda078efea3b6f3a095f49f5ec8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -71,7 +71,6 @@ import org.bukkit.Effect;
@@ -17038,7 +17038,7 @@ index 48825eaba9677a8b1e4fff80738e17d08e3307f8..d637bb8d52ee8e6ba8c7e48f1155e845
  import org.bukkit.Particle;
  import org.bukkit.Raid;
  import org.bukkit.Sound;
-@@ -829,11 +828,6 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -830,11 +829,6 @@ public class CraftWorld extends CraftRegionAccessor implements World {
          return world.uuid;
      }
  
@@ -17050,7 +17050,7 @@ index 48825eaba9677a8b1e4fff80738e17d08e3307f8..d637bb8d52ee8e6ba8c7e48f1155e845
      @Override
      public String toString() {
          return "CraftWorld{name=" + this.getName() + '}';
-@@ -2213,6 +2207,11 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2214,6 +2208,11 @@ public class CraftWorld extends CraftRegionAccessor implements World {
              return java.util.concurrent.CompletableFuture.completedFuture(chunk == null ? null : chunk.getBukkitChunk());
          }, net.minecraft.server.MinecraftServer.getServer());
      }
@@ -17627,10 +17627,10 @@ index 8a0a905f6701c6e94cbbf15793788350958fb728..38c692228920179ee6f4991fae4e3ebf
              this.getHandle().removeEffect(MobEffects.DAMAGE_BOOST, org.bukkit.event.entity.EntityPotionEffectEvent.Cause.CONVERSION);
          } else {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java
-index 299d5e47489cfe489ac130a33a08cdb29ba76d72..6b4a9b706142866d5e712d1ed49ae7220e471c91 100644
+index 4cf3a374c9ee7c7bcf82e778aa094eb4f8463595..5c1bfd37d4494525d7890f6530a68ae47353e157 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftWither.java
-@@ -65,4 +65,17 @@ public class CraftWither extends CraftMonster implements Wither, com.destroystok
+@@ -88,4 +88,17 @@ public class CraftWither extends CraftMonster implements Wither, com.destroystok
          getHandle().setCanTravelThroughPortals(value);
      }
      // Paper end
