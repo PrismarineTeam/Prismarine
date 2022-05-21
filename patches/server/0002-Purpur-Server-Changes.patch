@@ -150,7 +150,7 @@ index 5ffc636329029ae070e7a79ab9c822c17c0c5fa6..6c85c29dd73625805bfcb6e1701e9821
              TimingsManager.url += "/";
          }
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index ece77f5ea4b14bbed7c070131b3251ea86764538..fba5dbdb7bcbb55400ef18342c9b54612972a718 100644
+index bf42969859545a8a520923ef1836ffa4a5cc24a0..fba5dbdb7bcbb55400ef18342c9b54612972a718 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -19,8 +19,10 @@ import java.util.stream.StreamSupport;
@@ -221,7 +221,7 @@ index ece77f5ea4b14bbed7c070131b3251ea86764538..fba5dbdb7bcbb55400ef18342c9b5461
          if (siteApiVersion == null) { return -1; }
          try {
              try (BufferedReader reader = Resources.asCharSource(
--                new URL("https://papermc.io/api/v2/projects/paper/versions/" + siteApiVersion),
+-                new URL("https://api.papermc.io/v2/projects/paper/versions/" + siteApiVersion),
 +                new URL("https://api.purpurmc.org/v2/purpur/" + siteApiVersion), // Purpur
                  Charsets.UTF_8
              ).openBufferedStream()) {
