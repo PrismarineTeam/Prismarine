@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 21 May 2022 11:01:38 +0000
+Date: Thu, 26 May 2022 20:06:27 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -133,7 +133,7 @@ index f2fe6ea3719ff8b2913b7a3a939d7a5b75cb8b28..ed13b7b3f9d2a0b644d17d1019d42cbc
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 5ffc636329029ae070e7a79ab9c822c17c0c5fa6..6c85c29dd73625805bfcb6e1701e98216428eaaf 100644
+index 560e83f1e70cc2712e9c08ffd5e2cab8a6de687b..ce6fa0878ddd86d69e05ed64649e7105d25ce944 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -252,6 +252,12 @@ public class PaperConfig {
@@ -1579,7 +1579,7 @@ index 1e656438d9ee89b97c660f3b3ec671be6546c6b7..c4b2a50ad65b4ca2f8cc5903213c70ca
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f115aabaf67976a503a76f5213dd52b7b7dfab4e..bbdfd821221bf776aa9305d2e313940d70b2af6b 100644
+index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d3347f1685f4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -227,6 +227,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -8354,7 +8354,7 @@ index 318ea6ebf4c13a984b3815f00bf6cb3856ff6fe0..ae35add70d25c6c202e24237d6626665
              }
              // Paper end - fix sand duping
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 820ddcbc1547e2b9da3475a13d039e0cd8bc2c2a..008f92b9898f282a0c0b7e84f7965afe89da5bb4 100644
+index dae989bf664b9ab29d13825d5fce32e19852259e..04f7f2faea8b9749d74819c2e3bba10ff081c5e7 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -55,6 +55,12 @@ public class ItemEntity extends Entity {
@@ -12502,7 +12502,7 @@ index 2483d7df7f1bf94344afd38b37602c645a4a2dff..5b221b9026ed0a357669a0422bdff252
              CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) this, stack);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-index 53d0024daf6963ac4dab575666b0d6a74a39a958..59e434c31d1929bdc1d5242ef1f117d998ca46ec 100644
+index 53d0024daf6963ac4dab575666b0d6a74a39a958..50b531cdaa26af8e06007552fc18cabddbd5f0de 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 @@ -62,7 +62,7 @@ public abstract class AbstractArrow extends Projectile {
@@ -12519,11 +12519,11 @@ index 53d0024daf6963ac4dab575666b0d6a74a39a958..59e434c31d1929bdc1d5242ef1f117d9
  
          this.setDeltaMovement(vec3d.multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
 -        this.life = 0;
-+        // this.life = 0; // PUrpur - do not reset despawn counter
++        // this.life = 0; // Purpur - do not reset despawn counter
      }
  
      @Override
-@@ -333,12 +333,23 @@ public abstract class AbstractArrow extends Projectile {
+@@ -333,12 +333,28 @@ public abstract class AbstractArrow extends Projectile {
  
      }
  
@@ -12538,12 +12538,17 @@ index 53d0024daf6963ac4dab575666b0d6a74a39a958..59e434c31d1929bdc1d5242ef1f117d9
 +        }
 +        if (pickup == Pickup.DISALLOWED) {
 +            return level.paperConfig.nonPlayerArrowDespawnRate;
-         }
++        }
 +        if (this instanceof ThrownTrident) {
 +            return level.spigotConfig.tridentDespawnRate;
-+        }
+         }
 +        return level.spigotConfig.arrowDespawnRate;
 +    }
++
++    // Arrow despawn ticking is handled differently
++    protected boolean shouldAlwaysTickDespawn() {
++        return false;
++    };
 +    // Purpur end
  
 +    protected void tickDespawn() {
@@ -12669,7 +12674,7 @@ index 4132c1113f5437a776e5e3c1cb306904775aed88..c7fdcfae1ba823046fdfe78aa97b4a7a
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index 0c7d31c7ffd603e54fb19010331ad220c7b15627..90f6a355e345f409ad7702ddc2b6c81ef4e7b933 100644
+index 0c7d31c7ffd603e54fb19010331ad220c7b15627..17a9ac588490232e8883d5df1619e1290e260a9b 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 @@ -33,6 +33,7 @@ public abstract class Projectile extends Entity {
@@ -12680,7 +12685,7 @@ index 0c7d31c7ffd603e54fb19010331ad220c7b15627..90f6a355e345f409ad7702ddc2b6c81e
  
      // CraftBukkit start
      protected boolean hitCancelled = false;
-@@ -72,6 +73,19 @@ public abstract class Projectile extends Entity {
+@@ -72,6 +73,23 @@ public abstract class Projectile extends Entity {
      }
      // Pufferfish start
  
@@ -12695,12 +12700,25 @@ index 0c7d31c7ffd603e54fb19010331ad220c7b15627..90f6a355e345f409ad7702ddc2b6c81e
 +    }
 +
 +    protected abstract int getPurpurDespawnRate();
++
++    protected boolean shouldAlwaysTickDespawn() {
++        return true;
++    };
 +    // Purpur end
 +
      public void setOwner(@Nullable Entity entity) {
          if (entity != null) {
              this.ownerUUID = entity.getUUID();
-@@ -306,6 +320,6 @@ public abstract class Projectile extends Entity {
+@@ -148,6 +166,8 @@ public abstract class Projectile extends Entity {
+             this.leftOwner = this.checkLeftOwner();
+         }
+ 
++        if (this.shouldAlwaysTickDespawn()) tickDespawnCounter(); // Purpur
++
+         super.tick();
+     }
+ 
+@@ -306,6 +326,6 @@ public abstract class Projectile extends Entity {
      public boolean mayInteract(Level world, BlockPos pos) {
          Entity entity = this.getOwner();
  
