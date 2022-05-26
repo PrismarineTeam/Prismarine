@@ -48,7 +48,7 @@ index a7937e61c4eadd16b3aa7096112e4ce93a3a1423..45c40f9694f29583375942fd0134bbab
                  holder = worlddimension.typeHolder();
                  chunkgenerator = worlddimension.generator();
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 67590108d9f9e889ef9483722bdae0efa10de1ce..a1ea7d93235ecb336c5eb876446f2c9c09f93149 100644
+index b717dad7145eeb7b4d1f6870779c1df9dea3261a..3699a422d56872dc50627668b12d1e655f67690d 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -372,7 +372,7 @@ public class ServerPlayer extends Player {
@@ -83,7 +83,7 @@ index 000918fe0cc3fde07145e027b25f148afcb0de62..13fe5e1e56638486a732ff406860b069
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 9f1650dc63b246e1e6a84060208a84fecf3ed512..1088f9bda91b43db9f3c61200d5dbd32f544f447 100644
+index 9a083373dd81d97213bf81ffb076fe5d03dd992f..44538ce0028edc7e2c17e19da591791cb739a072 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -1864,38 +1864,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -152,10 +152,10 @@ index 9f1650dc63b246e1e6a84060208a84fecf3ed512..1088f9bda91b43db9f3c61200d5dbd32
  
      public void push(double deltaX, double deltaY, double deltaZ) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index c01b14158a10dd406f85d2de270a90da818bce74..47ce39af68db27afd81a60e0d4a96b124abb4beb 100644
+index 62254fea3d723138f4ec51fad073b667c38ee628..891e7d7fd63d6c373f262aa1b075b8b3839395c8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1217,7 +1217,7 @@ public final class CraftServer implements Server {
+@@ -1223,7 +1223,7 @@ public final class CraftServer implements Server {
  
          if (worlddimension == null) {
              holder = console.registryHolder.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getOrCreateHolder(DimensionType.OVERWORLD_LOCATION);
