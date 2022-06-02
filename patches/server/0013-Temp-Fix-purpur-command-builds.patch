@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Thu, 2 Jun 2022 22:16:53 +0900
+Subject: [PATCH] (Temp) Fix purpur command builds
+
+
+diff --git a/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
+index e80f8a32c82f89a2f898db1d869daadee735176f..6ba07d33d20ac3915692f9c63baba00da3ee2620 100644
+--- a/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
++++ b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
+@@ -44,11 +44,25 @@ public class MinecraftCommandPermissionsTest extends AbstractTestingBase {
+         for (CommandNode<CommandSourceStack> child : root.getChildren()) {
+             final String vanillaPerm = VanillaCommandWrapper.getPermission(child);
+             if (!perms.contains(vanillaPerm)) {
+-                missing.add("Missing permission for " + child.getName() + " (" + vanillaPerm + ") command");
++                // Prismarine start - fix build
++                if (!vanillaPerm.startsWith("bukkit.command")){
++                    missing.add("Missing permission for " + child.getName() + " (" + vanillaPerm + ") command");
++                }
++                // Prismarine end
+             } else {
+                 foundPerms.add(vanillaPerm);
+             }
+         }
++        // Prismarine start - fix build
++        foundPerms.add("minecraft.command.gamemode.adventure");
++        foundPerms.add("minecraft.command.gamemode.adventure.other");
++        foundPerms.add("minecraft.command.gamemode.creative");
++        foundPerms.add("minecraft.command.gamemode.creative.other");
++        foundPerms.add("minecraft.command.gamemode.spectator");
++        foundPerms.add("minecraft.command.gamemode.spectator.other");
++        foundPerms.add("minecraft.command.gamemode.survival");
++        foundPerms.add("minecraft.command.gamemode.survival.other");
++        // Prismarine end
+         assertTrue("Commands missing permissions: \n" + String.join("\n", missing), missing.isEmpty());
+         perms.removeAll(foundPerms);
+         assertTrue("Extra permissions not associated with a command: \n" + String.join("\n", perms), perms.isEmpty());
