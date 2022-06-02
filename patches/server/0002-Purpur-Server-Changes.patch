@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 2 Jun 2022 19:21:50 +0900
+Date: Thu, 2 Jun 2022 14:33:58 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -394,14 +394,13 @@ index 1a859fef0848cf23a672012e9764965ae1c07ec5..14ed740609b14242c2a8d377a78b2f71
          stringbuilder.append(CrashReport.getErrorComment());
          stringbuilder.append("\n\n");
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-index 00bbf33aa44e2d5a4e755a2d7c1a60de9e36674f..c8fd09dd2b18e48f3597f82001040455b17849e3 100644
+index 00bbf33aa44e2d5a4e755a2d7c1a60de9e36674f..cfceccc35ba1cc161f47b462504027d74a23b000 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
 +++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-@@ -194,6 +194,21 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
-         return ((this.getLevel() == null || !this.getLevel().getCraftServer().ignoreVanillaPermissions) && this.permissionLevel >= i) || this.getBukkitSender().hasPermission(bukkitPermission);
+@@ -195,6 +195,21 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
      }
      // CraftBukkit end
-+ 
+ 
 +    // Purpur start
 +    public boolean testPermission(int i, String bukkitPermission) {
 +        if (hasPermission(i, bukkitPermission)) {
@@ -416,9 +415,10 @@ index 00bbf33aa44e2d5a4e755a2d7c1a60de9e36674f..c8fd09dd2b18e48f3597f82001040455
 +        return false;
 +    }
 +    // Purpur end
- 
++
      public Vec3 getPosition() {
          return this.worldPosition;
+     }
 @@ -236,6 +251,30 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
          return this.anchor;
      }
@@ -14243,7 +14243,7 @@ index 6f6106ca4d74d50a7b74b086adc96c58c7906cb6..a19dd0946f853193ff32b2b560db2753
  
      public abstract boolean canEnchant(Item item);
 diff --git a/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java b/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java
-index 7b39eaf66eb74cab7caf9588947e9d5860a0ffd8..4cc00b924df3e39a1b56a291f919ef554ad6a4be 100644
+index 7b39eaf66eb74cab7caf9588947e9d5860a0ffd8..77ccd9e38d916d6ae08e230958134e1cc4443f9e 100644
 --- a/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java
 +++ b/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java
 @@ -45,7 +45,7 @@ public class EnchantmentHelper {
@@ -14255,11 +14255,10 @@ index 7b39eaf66eb74cab7caf9588947e9d5860a0ffd8..4cc00b924df3e39a1b56a291f919ef55
      }
  
      @Nullable
-@@ -268,6 +268,29 @@ public class EnchantmentHelper {
-     public static boolean hasChanneling(ItemStack stack) {
+@@ -269,6 +269,29 @@ public class EnchantmentHelper {
          return getItemEnchantmentLevel(Enchantments.CHANNELING, stack) > 0;
      }
-+ 
+ 
 +    // Purpur start
 +    @Nullable
 +    public static Map.Entry<EquipmentSlot, ItemStack> getMostDamagedEquipment(Enchantment enchantment, LivingEntity entity) {
@@ -14282,9 +14281,10 @@ index 7b39eaf66eb74cab7caf9588947e9d5860a0ffd8..4cc00b924df3e39a1b56a291f919ef55
 +        return item;
 +    }
 +    // Purpur end
- 
++
      @Nullable
      public static Map.Entry<EquipmentSlot, ItemStack> getRandomItemWith(Enchantment enchantment, LivingEntity entity) {
+         return getRandomItemWith(enchantment, entity, (stack) -> {
 diff --git a/src/main/java/net/minecraft/world/item/enchantment/LootBonusEnchantment.java b/src/main/java/net/minecraft/world/item/enchantment/LootBonusEnchantment.java
 index 6b8a1535086aae7e4e3229d05615fb903188f507..60af917083de1b790b1d93d61835a669143068fb 100644
 --- a/src/main/java/net/minecraft/world/item/enchantment/LootBonusEnchantment.java
@@ -16794,7 +16794,7 @@ index fbe68bd4739d9a0e7d9bc4c3d5ba8ecfd2d13954..639dc3bb56cc90b84da08dc93cea89c6
  
                      Calendar deadline = Calendar.getInstance();
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
-index db77cdee224d14ec91e8d530dd65da51f3661a9c..dcc0e943aef0d73a23436496fadccd58d2ca056d 100644
+index db77cdee224d14ec91e8d530dd65da51f3661a9c..4b9039dc6e9a1da3f65ccbb36e6e86b09341a8b3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
 @@ -21,7 +21,12 @@ public class CraftConsoleCommandSender extends ServerCommandSender implements Co
@@ -16816,7 +16816,7 @@ index db77cdee224d14ec91e8d530dd65da51f3661a9c..dcc0e943aef0d73a23436496fadccd58
      @Override
      public void sendMessage(final net.kyori.adventure.identity.Identity identity, final net.kyori.adventure.text.Component message, final net.kyori.adventure.audience.MessageType type) {
 -        this.sendRawMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message));
-+        this.sendMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message)); // Purpur // Prismarine - Upstream
++        this.sendMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message)); // Purpur
      }
  
      @Override
