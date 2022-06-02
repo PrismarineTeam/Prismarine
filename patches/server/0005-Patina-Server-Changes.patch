@@ -70,7 +70,7 @@ index b717dad7145eeb7b4d1f6870779c1df9dea3261a..3699a422d56872dc50627668b12d1e65
              for (int l1 = 0; l1 < i1; ++l1) {
                  int i2 = (k1 + j1 * l1) % i1;
 diff --git a/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java b/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
-index 000918fe0cc3fde07145e027b25f148afcb0de62..13fe5e1e56638486a732ff406860b0696e0ab1d9 100644
+index 61e4fe91ac8648edafd39a952939c667c2838207..56316d9c8e250505725d90861ab884b897602406 100644
 --- a/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
 +++ b/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
 @@ -348,7 +348,7 @@ public class QueryThreadGs4 extends GenericThread {
@@ -83,10 +83,10 @@ index 000918fe0cc3fde07145e027b25f148afcb0de62..13fe5e1e56638486a732ff406860b069
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 9a083373dd81d97213bf81ffb076fe5d03dd992f..44538ce0028edc7e2c17e19da591791cb739a072 100644
+index 2908d2882cd6bd97d777a2831995ea7a445843ee..1e288da7437c62104e28afb9da062643ac28a096 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -1864,38 +1864,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1865,38 +1865,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      public void playerTouch(Player player) {}
  
      public void push(Entity entity) {
@@ -152,7 +152,7 @@ index 9a083373dd81d97213bf81ffb076fe5d03dd992f..44538ce0028edc7e2c17e19da591791c
  
      public void push(double deltaX, double deltaY, double deltaZ) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 62254fea3d723138f4ec51fad073b667c38ee628..891e7d7fd63d6c373f262aa1b075b8b3839395c8 100644
+index 5258777b756ea2b06264984f1243b86f478bc5d0..74b769105cc196c33f16716dc30bb50fc4456535 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1223,7 +1223,7 @@ public final class CraftServer implements Server {

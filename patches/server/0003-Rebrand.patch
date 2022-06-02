@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 655f4d84a9522b7af5f3fd234d8797758d0171b5..170d0d3e67c0ac4b5c8f99f72d39525146650fb0 100644
+index 50112767dff03bc3d9b3cc527e20f1b0d8df7155..3d9365b322db77213b42c7735cb4d1d816756b15 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -17,23 +17,15 @@ index 655f4d84a9522b7af5f3fd234d8797758d0171b5..170d0d3e67c0ac4b5c8f99f72d395251
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.18.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -79,12 +79,12 @@ tasks.jar {
-         val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
+@@ -82,7 +82,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
--            "Implementation-Title" to "CraftBukkit",
+             "Implementation-Title" to "CraftBukkit",
 -            "Implementation-Version" to "git-Purpur-$implementationVersion", // Pufferfish // Purpur
-+            "Implementation-Title" to "Prismarine", // Prismarine
 +            "Implementation-Version" to "git-Prismarine-$implementationVersion", // Pufferfish // Purpur // Prismarine
              "Implementation-Vendor" to date, // Paper
--            "Specification-Title" to "Bukkit",
-+            "Specification-Title" to "Prismarine", // Prismarine
+             "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
--            "Specification-Vendor" to "Bukkit Team",
-+            "Specification-Vendor" to "Prismarine Team", // Prismarine
-             "Git-Branch" to gitBranch, // Paper
-             "Git-Commit" to gitHash, // Paper
-         )
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa85f0917cc 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
@@ -154,7 +146,7 @@ index 5e9fc979daced5dad9977ab12ea019f4e6216bfb..cfc2826818d5a437ef5027b9f3dfac5d
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b76c09b3472d2ac213973a3d6b3fcd5a494204a6..6b5b35e3ee8c6a9685f4379fb1e389171285ccf0 100644
+index 52c40bb83bae0f781432f4348c58a927cf366c9f..967ead131061f779f3f0f2dc4ea017a829de996e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
@@ -162,7 +154,7 @@ index b76c09b3472d2ac213973a3d6b3fcd5a494204a6..6b5b35e3ee8c6a9685f4379fb1e38917
  
  public final class CraftServer implements Server {
 -    private final String serverName = "Purpur"; // Paper // Pufferfish // Purpur
-+    private final String serverName = "Prismarine"; // Paper // Pufferfish // Purpur // Prismarine
++    private final String serverName = "Prismarine"; // Paper // Pufferfish // Purpur
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
@@ -215,7 +207,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..9b59fe56110ee38ebab56509daec156e
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 659e93fb24124318367e5b4d0b144ca1443950e9..dcd57de21b9ff6b1e5f4d9764f1d10ffeb20cf42 100644
+index c5b18b8d4ad74764fdeb5a1e21231e212e808b99..62a1a6bc23bc064ba7b0b3156c47a3a5a78c6718 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -235,7 +235,7 @@ public class PurpurConfig {

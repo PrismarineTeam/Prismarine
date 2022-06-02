@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 26 May 2022 20:06:27 +0900
+Date: Thu, 2 Jun 2022 19:21:50 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 9521971e9e597834e785b36d1657064dc1621b9b..655f4d84a9522b7af5f3fd234d8797758d0171b5 100644
+index b04e9ab317fbce9c090b61076eb07c40f069dc59..50112767dff03bc3d9b3cc527e20f1b0d8df7155 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -48,7 +48,7 @@ index 9521971e9e597834e785b36d1657064dc1621b9b..655f4d84a9522b7af5f3fd234d879775
  
      // Pufferfish start
      implementation("org.yaml:snakeyaml:1.30")
-@@ -78,7 +80,7 @@ tasks.jar {
+@@ -80,7 +82,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -57,7 +57,7 @@ index 9521971e9e597834e785b36d1657064dc1621b9b..655f4d84a9522b7af5f3fd234d879775
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -166,7 +168,7 @@ fun TaskContainer.registerRunTask(
+@@ -168,7 +170,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -305,18 +305,6 @@ index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e
      // CraftBukkit start
      public void removeCommand(String name) {
          this.children.remove(name);
-diff --git a/src/main/java/io/papermc/paper/adventure/PaperAdventure.java b/src/main/java/io/papermc/paper/adventure/PaperAdventure.java
-index 85c9056f92711b985e251f0f06ed551d03deb562..c540694e24978e9e6119267d4f66df52bde02fd2 100644
---- a/src/main/java/io/papermc/paper/adventure/PaperAdventure.java
-+++ b/src/main/java/io/papermc/paper/adventure/PaperAdventure.java
-@@ -92,6 +92,7 @@ public final class PaperAdventure {
-         })
-         .build();
-     public static final LegacyComponentSerializer LEGACY_SECTION_UXRC = LegacyComponentSerializer.builder().flattener(FLATTENER).hexColors().useUnusualXRepeatedCharacterHexFormat().build();
-+    public static final LegacyComponentSerializer LEGACY_AMPERSAND = LegacyComponentSerializer.builder().character(LegacyComponentSerializer.AMPERSAND_CHAR).hexColors().build(); // Purpur
-     @Deprecated
-     public static final PlainComponentSerializer PLAIN_COMPONENT = PlainComponentSerializer.builder().flattener(FLATTENER).build();
-     public static final PlainTextComponentSerializer PLAIN = PlainTextComponentSerializer.builder().flattener(FLATTENER).build();
 diff --git a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java b/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
 index ea83ee8762c126c449993a7497257b0bd8663452..ecd3da582fe9f77f39f920029f5121c6d8099525 100644
 --- a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
@@ -406,13 +394,14 @@ index 1a859fef0848cf23a672012e9764965ae1c07ec5..14ed740609b14242c2a8d377a78b2f71
          stringbuilder.append(CrashReport.getErrorComment());
          stringbuilder.append("\n\n");
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-index 00bbf33aa44e2d5a4e755a2d7c1a60de9e36674f..cfceccc35ba1cc161f47b462504027d74a23b000 100644
+index 00bbf33aa44e2d5a4e755a2d7c1a60de9e36674f..c8fd09dd2b18e48f3597f82001040455b17849e3 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
 +++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-@@ -195,6 +195,21 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
+@@ -194,6 +194,21 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
+         return ((this.getLevel() == null || !this.getLevel().getCraftServer().ignoreVanillaPermissions) && this.permissionLevel >= i) || this.getBukkitSender().hasPermission(bukkitPermission);
      }
      // CraftBukkit end
- 
++ 
 +    // Purpur start
 +    public boolean testPermission(int i, String bukkitPermission) {
 +        if (hasPermission(i, bukkitPermission)) {
@@ -427,10 +416,9 @@ index 00bbf33aa44e2d5a4e755a2d7c1a60de9e36674f..cfceccc35ba1cc161f47b462504027d7
 +        return false;
 +    }
 +    // Purpur end
-+
+ 
      public Vec3 getPosition() {
          return this.worldPosition;
-     }
 @@ -236,6 +251,30 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
          return this.anchor;
      }
@@ -550,7 +538,7 @@ index 35cc3bba20afd4a47160cc674415ba6a3a0ec0ec..2cba35dcc479ed9ad3e698aa2e02b4aa
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/core/BlockPos.java b/src/main/java/net/minecraft/core/BlockPos.java
-index 8c79f66abd42e9c9875e8877c6dd82b5e3cfa184..2841469748bc308f690aaeb34fe05cb25f36a33d 100644
+index 2808acafaa0e3b448e75c40c04ba932ef9723da9..fda35ae6da0b4afbff90a9356ef63dd38c8a0d95 100644
 --- a/src/main/java/net/minecraft/core/BlockPos.java
 +++ b/src/main/java/net/minecraft/core/BlockPos.java
 @@ -41,6 +41,12 @@ public class BlockPos extends Vec3i {
@@ -567,34 +555,34 @@ index 8c79f66abd42e9c9875e8877c6dd82b5e3cfa184..2841469748bc308f690aaeb34fe05cb2
          super(x, y, z);
      }
 diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
-index 6d883db5c04cbcf454952c0f361029ecbfe4f037..8aeec2132138bf4b19a9042340c8784df4afda65 100644
+index 6b71d9433846eb4464177f09d7bfdea82200b189..050a2e157b61a9ae86fa86f231d16ee3f2634db0 100644
 --- a/src/main/java/net/minecraft/core/Direction.java
 +++ b/src/main/java/net/minecraft/core/Direction.java
 @@ -247,6 +247,12 @@ public enum Direction implements StringRepresentable {
-         case EAST:
-             var10000 = SOUTH;
-             break;
+             case EAST:
+                 var10000 = SOUTH;
+                 break;
 +        // Purpur start
 +        case UP:
 +            return UP;
 +        case DOWN:
 +            return DOWN;
 +        // Purpur end
-         default:
-             throw new IllegalStateException("Unable to get Y-rotated facing of " + this);
+             default:
+                 throw new IllegalStateException("Unable to get Y-rotated facing of " + this);
          }
 @@ -359,6 +365,12 @@ public enum Direction implements StringRepresentable {
-         case EAST:
-             var10000 = NORTH;
-             break;
+             case EAST:
+                 var10000 = NORTH;
+                 break;
 +        // Purpur start
 +        case UP:
 +            return UP;
 +        case DOWN:
 +            return DOWN;
 +        // Purpur end
-         default:
-             throw new IllegalStateException("Unable to get CCW facing of " + this);
+             default:
+                 throw new IllegalStateException("Unable to get CCW facing of " + this);
          }
 diff --git a/src/main/java/net/minecraft/core/dispenser/DispenseItemBehavior.java b/src/main/java/net/minecraft/core/dispenser/DispenseItemBehavior.java
 index 4b151444f8d7ed26dc87c9ae55fa8a14a8d84ed7..93f7c056085bbc269ebc764c99fef1a3d2d96d49 100644
@@ -1579,7 +1567,7 @@ index 1e656438d9ee89b97c660f3b3ec671be6546c6b7..c4b2a50ad65b4ca2f8cc5903213c70ca
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d3347f1685f4 100644
+index 676f2cd4b152984aa76903fcf4377c745775bfc8..5d930933dd3fdca91374eba8991275faebd86935 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -227,6 +227,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -1655,7 +1643,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                      // Skip the first time we do this
                      if (true) { // Spigot - don't skip any move events
                          Location oldTo = to.clone();
-@@ -1124,10 +1162,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1125,10 +1163,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              int maxBookPageSize = com.destroystokyo.paper.PaperConfig.maxBookPageSize;
              double multiplier = Math.max(0.3D, Math.min(1D, com.destroystokyo.paper.PaperConfig.maxBookTotalSizeMultiplier));
              long byteAllowed = maxBookPageSize;
@@ -1668,7 +1656,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                      server.scheduleOnMain(() -> this.disconnect("Book too large!", org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION)); // Paper - kick event cause
                      return;
                  }
-@@ -1151,6 +1191,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1152,6 +1192,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              if (byteTotal > byteAllowed) {
                  ServerGamePacketListenerImpl.LOGGER.warn(this.player.getScoreboardName() + " tried to send too large of a book. Book Size: " + byteTotal + " - Allowed:  "+ byteAllowed + " - Pages: " + pageList.size());
@@ -1676,7 +1664,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                  server.scheduleOnMain(() -> this.disconnect("Book too large!", org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION)); // Paper - kick event cause
                  return;
              }
-@@ -1202,13 +1243,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1203,13 +1244,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  itemstack1.setTag(nbttagcompound.copy());
              }
  
@@ -1696,7 +1684,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
  
              this.updateBookPages(pages, (s) -> {
                  return Component.Serializer.toJson(new TextComponent(s));
-@@ -1220,10 +1264,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1221,10 +1265,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      private void updateBookPages(List<TextFilter.FilteredText> list, UnaryOperator<String> unaryoperator, ItemStack itemstack, int slot, ItemStack handItem) { // CraftBukkit
          ListTag nbttaglist = new ListTag();
  
@@ -1712,7 +1700,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
  
              Objects.requireNonNull(nbttaglist);
              stream.forEach(nbttaglist::add);
-@@ -1233,10 +1280,10 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1234,10 +1281,10 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              for (int j = list.size(); i < j; ++i) {
                  TextFilter.FilteredText itextfilter_a = (TextFilter.FilteredText) list.get(i);
@@ -1725,7 +1713,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
  
                  if (!s.equals(s1)) {
                      nbttagcompound.putString(String.valueOf(i), (String) unaryoperator.apply(s1));
-@@ -1252,6 +1299,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1253,6 +1300,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
          this.player.getInventory().setItem(slot, CraftEventFactory.handleEditBookEvent(player, slot, handItem, itemstack)); // CraftBukkit // Paper - Don't ignore result (see other callsite for handleEditBookEvent)
      }
  
@@ -1742,7 +1730,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
      @Override
      public void handleEntityTagQuery(ServerboundEntityTagQuery packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -1448,7 +1505,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1449,7 +1506,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
                              if (!this.player.isChangingDimension() && d11 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.gameMode.isCreative() && this.player.gameMode.getGameModeForPlayer() != GameType.SPECTATOR) { // Spigot
                                  flag2 = true; // Paper - diff on change, this should be moved wrongly
@@ -1751,7 +1739,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                              }
  
                              this.player.absMoveTo(d0, d1, d2, f, f1);
-@@ -1498,6 +1555,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1499,6 +1556,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                                      this.lastYaw = to.getYaw();
                                      this.lastPitch = to.getPitch();
  
@@ -1760,7 +1748,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                                      // Skip the first time we do this
                                      if (from.getX() != Double.MAX_VALUE) {
                                          Location oldTo = to.clone();
-@@ -1537,6 +1596,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1538,6 +1597,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                                      this.player.resetFallDistance();
                                  }
  
@@ -1774,7 +1762,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                                  this.player.checkMovementStatistics(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
                                  this.lastGoodX = this.player.getX();
                                  this.lastGoodY = this.player.getY();
-@@ -1570,6 +1636,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1571,6 +1637,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      }
      // Paper end - optimise out extra getCubes
  
@@ -1787,7 +1775,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
      private boolean isPlayerCollidingWithAnythingNew(LevelReader world, AABB box) {
          Iterable<VoxelShape> iterable = world.getCollisions(this.player, this.player.getBoundingBox().deflate(9.999999747378752E-6D));
          VoxelShape voxelshape = Shapes.create(box.deflate(9.999999747378752E-6D));
-@@ -1907,6 +1979,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1908,6 +1980,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              boolean cancelled;
              if (movingobjectposition == null || movingobjectposition.getType() != HitResult.Type.BLOCK) {
@@ -1795,7 +1783,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                  org.bukkit.event.player.PlayerInteractEvent event = CraftEventFactory.callPlayerInteractEvent(this.player, Action.RIGHT_CLICK_AIR, itemstack, enumhand);
                  cancelled = event.useItemInHand() == Event.Result.DENY;
              } else {
-@@ -1959,12 +2032,21 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -1960,12 +2033,21 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      @Override
      public void handleResourcePackResponse(ServerboundResourcePackPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
@@ -1817,7 +1805,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
          player.getBukkitEntity().setResourcePackStatus(packStatus);
          this.cserver.getPluginManager().callEvent(new PlayerResourcePackStatusEvent(this.getCraftPlayer(), packStatus)); // CraftBukkit
          // Paper end
-@@ -2465,6 +2547,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2466,6 +2548,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              double d0 = 36.0D;
  
              if (this.player.distanceToSqr(entity) < 36.0D) {
@@ -1825,7 +1813,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                  packet.dispatch(new ServerboundInteractPacket.Handler() {
                      private void performInteraction(InteractionHand enumhand, ServerGamePacketListenerImpl.EntityInteraction playerconnection_a, PlayerInteractEntityEvent event) { // CraftBukkit
                          ItemStack itemstack = ServerGamePacketListenerImpl.this.player.getItemInHand(enumhand).copy();
-@@ -2475,6 +2558,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2476,6 +2559,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
                          ServerGamePacketListenerImpl.this.cserver.getPluginManager().callEvent(event);
  
@@ -1834,7 +1822,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
                          // Entity in bucket - SPIGOT-4048 and SPIGOT-6859
                          if ((entity instanceof Bucketable && entity instanceof LivingEntity && origItem != null && origItem.asItem() == Items.WATER_BUCKET) && (event.isCancelled() || ServerGamePacketListenerImpl.this.player.getInventory().getSelected() == null || ServerGamePacketListenerImpl.this.player.getInventory().getSelected().getItem() != origItem)) {
                              ServerGamePacketListenerImpl.this.send(new ClientboundAddMobPacket((LivingEntity) entity));
-@@ -3109,11 +3194,15 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3110,11 +3195,15 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  }
                  // Paper end
  
@@ -1855,7 +1843,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
              }
              SignChangeEvent event = new SignChangeEvent((org.bukkit.craftbukkit.block.CraftBlock) player.getWorld().getBlockAt(x, y, z), this.player.getBukkitEntity(), lines);
              this.cserver.getPluginManager().callEvent(event);
-@@ -3135,6 +3224,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3136,6 +3225,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      @Override
      public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
@@ -1872,7 +1860,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
          //PlayerConnectionUtils.ensureMainThread(packetplayinkeepalive, this, this.player.getWorldServer()); // CraftBukkit // Paper - This shouldn't be on the main thread
          if (this.keepAlivePending && packet.getId() == this.keepAliveChallenge) {
              int i = (int) (Util.getMillis() - this.keepAliveTime);
-@@ -3185,6 +3284,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3186,6 +3285,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
      private static final ResourceLocation CUSTOM_UNREGISTER = new ResourceLocation("unregister");
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
@@ -1880,7 +1868,7 @@ index 607c3a0a96403484f837945b84536b45e62f608a..9ede83e742d1f62b6828598a63f1d334
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3209,6 +3309,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3210,6 +3310,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
@@ -1929,7 +1917,7 @@ index 4fa79d37ff4e70c61672cce7c55257c46232c026..df43d0a0f3d1e34baabae150cbf01a00
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 95fe4240f3e1174ec36598f24d63f0073c13b376..5531c672a84a9a9cd2bb43684f48fe1e977b7d44 100644
+index 624946f48f0811c94d05174f28d0b1fc6d5e6a00..7574f8c60b69f5a9281a8c888b8e131e73bb1676 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -493,6 +493,7 @@ public abstract class PlayerList {
@@ -1955,7 +1943,7 @@ index 95fe4240f3e1174ec36598f24d63f0073c13b376..5531c672a84a9a9cd2bb43684f48fe1e
              // return this.players.size() >= this.maxPlayers && !this.canBypassPlayerLimit(gameprofile) ? new ChatMessage("multiplayer.disconnect.server_full") : null;
 -            if (this.players.size() >= this.maxPlayers && !this.canBypassPlayerLimit(gameprofile)) {
 +            if (this.players.size() >= this.maxPlayers && !(player.hasPermission("purpur.joinfullserver") || this.canBypassPlayerLimit(gameprofile))) { // Purpur
-                 event.disallow(PlayerLoginEvent.Result.KICK_FULL, PaperAdventure.LEGACY_SECTION_UXRC.deserialize(org.spigotmc.SpigotConfig.serverFullMessage)); // Spigot // Paper - Adventure
+                 event.disallow(PlayerLoginEvent.Result.KICK_FULL, net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().deserialize(org.spigotmc.SpigotConfig.serverFullMessage)); // Spigot // Paper - Adventure
              }
          }
 @@ -1004,6 +1007,8 @@ public abstract class PlayerList {
@@ -2356,7 +2344,7 @@ index b84610d00f710c656d9eaf85b80e796f8be4bca3..390a70b9d9aa40a2511ab6588df2833a
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d03dd992f 100644
+index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a445843ee 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -152,7 +152,7 @@ import org.bukkit.plugin.PluginManager;
@@ -2385,7 +2373,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
      private float eyeHeight;
      public boolean isInPowderSnow;
      public boolean wasInPowderSnow;
-@@ -820,7 +821,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -821,7 +822,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkOutOfWorld() {
          // Paper start - Configurable nether ceiling damage
@@ -2394,7 +2382,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
              && level.paperConfig.doNetherTopVoidDamage()
              && this.getY() >= this.level.paperConfig.netherVoidTopDamageHeight)) {
              // Paper end
-@@ -1071,7 +1072,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1072,7 +1073,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
                  // CraftBukkit end
  
@@ -2403,7 +2391,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
                      block.stepOn(this.level, blockposition, iblockdata, this);
                  }
  
-@@ -1334,7 +1335,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1335,7 +1336,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, true,
                  false, false, null, null);
  
@@ -2412,7 +2400,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
                  io.papermc.paper.util.CollisionUtil.addBoxesToIfIntersects(world.getWorldBorder().getCollisionShape(), collisionBox, potentialCollisions);
              }
  
-@@ -1635,7 +1636,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1636,7 +1637,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return this.isInWater() || flag;
      }
  
@@ -2421,7 +2409,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
          if (this.getVehicle() instanceof Boat) {
              this.wasTouchingWater = false;
          } else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
-@@ -1775,6 +1776,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1776,6 +1777,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
          this.xRotO = this.getXRot();
          this.setYHeadRot(yaw); // Paper - Update head rotation
@@ -2429,7 +2417,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
      }
  
      public void absMoveTo(double x, double y, double z) {
-@@ -2666,6 +2668,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2667,6 +2669,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.passengers = ImmutableList.copyOf(list);
              }
  
@@ -2442,7 +2430,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
          }
          return true; // CraftBukkit
      }
-@@ -2706,6 +2714,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2707,6 +2715,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  return false;
              }
              // Spigot end
@@ -2457,7 +2445,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
              if (this.passengers.size() == 1 && this.passengers.get(0) == entity) {
                  this.passengers = ImmutableList.of();
              } else {
-@@ -2760,12 +2776,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2761,12 +2777,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return Vec3.directionFromRotation(this.getRotationVector());
      }
  
@@ -2474,7 +2462,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
              }
  
              this.isInsidePortal = true;
-@@ -2808,7 +2827,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2809,7 +2828,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -2483,7 +2471,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
          }
      }
  
-@@ -2991,7 +3010,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2992,7 +3011,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public int getMaxAirSupply() {
@@ -2492,7 +2480,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
      }
  
      public int getAirSupply() {
-@@ -3429,7 +3448,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3430,7 +3449,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -2501,7 +2489,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3676,6 +3695,34 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3677,6 +3696,34 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -2536,7 +2524,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
      @Override
      public void sendMessage(Component message, UUID sender) {}
  
-@@ -3912,6 +3959,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3913,6 +3960,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -2549,7 +2537,7 @@ index 3f032a510e741d52c4c7fc701df65c77c30362ed..9a083373dd81d97213bf81ffb076fe5d
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4406,4 +4459,62 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4407,4 +4460,62 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
@@ -13235,7 +13223,7 @@ index 4adfc26062b322443828e94e6b0943884a18846b..0d9ecca25bff63f3428ccf93e2789fca
                  } else if (this.isFuel(itemstack1)) {
                      if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index ec89526f1eabef4681fed57b74fc1bef5be4c0c1..605489718d38b0888c6d1954ab4ed2d67af51664 100644
+index ec89526f1eabef4681fed57b74fc1bef5be4c0c1..c65e341f72eee5438407bdfbcfad4dcca6b44f9e 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -3,7 +3,14 @@ package net.minecraft.world.inventory;
@@ -13317,9 +13305,9 @@ index ec89526f1eabef4681fed57b74fc1bef5be4c0c1..605489718d38b0888c6d1954ab4ed2d6
 +                if (player != null && player.level.purpurConfig.anvilAllowColors && player.getBukkitEntity().hasPermission("purpur.anvil.color")) {
 +                    final net.kyori.adventure.text.Component renameTextComponent;
 +                    if (itemName.startsWith("&r") && player.getBukkitEntity().hasPermission("purpur.anvil.remove_italics")) {
-+                        renameTextComponent = PaperAdventure.LEGACY_AMPERSAND.deserialize(itemName.substring(2)).decoration(TextDecoration.ITALIC, false);
++                        renameTextComponent = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacyAmpersand().deserialize(itemName.substring(2)).decoration(TextDecoration.ITALIC, false);
 +                    } else {
-+                        renameTextComponent = PaperAdventure.LEGACY_AMPERSAND.deserialize(itemName);
++                        renameTextComponent = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacyAmpersand().deserialize(itemName);
 +                    }
 +                    itemstack1.setHoverName(PaperAdventure.asVanilla(renameTextComponent));
 +                } else
@@ -13552,7 +13540,7 @@ index 3344e3f8ed0fe56217aae7ad9ed32ed4cc19bd07..623627e411ec4ca8168748bfa42e4321
                      world.playSound((Player) null, entityarmorstand.getX(), entityarmorstand.getY(), entityarmorstand.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
                      world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, (Entity) entityarmorstand);
 diff --git a/src/main/java/net/minecraft/world/item/AxeItem.java b/src/main/java/net/minecraft/world/item/AxeItem.java
-index 734276a74ad11f117a816b214c62415818c27dcc..a8984ee74b82477e9f4fd70d31c5c622b32fface 100644
+index e2c0b7ee7188d1f802f3acbf37687bde184d16c4..cf36053fe7df0cac11ac6006592453457ab7666e 100644
 --- a/src/main/java/net/minecraft/world/item/AxeItem.java
 +++ b/src/main/java/net/minecraft/world/item/AxeItem.java
 @@ -32,22 +32,22 @@ public class AxeItem extends DiggerItem {
@@ -14091,7 +14079,7 @@ index 623f78c078fb3aa2665d7e8a37672438227bce6b..500c69e555c7247e20ef8cc59d834155
                      ((Mob) newEntityLiving).setPersistenceRequired();
                  // Paper end
 diff --git a/src/main/java/net/minecraft/world/item/ShovelItem.java b/src/main/java/net/minecraft/world/item/ShovelItem.java
-index e5562b407bba35ab93bf8bc3c22ac9d45e8353cb..c688bb73cd062f36524cfc231cb691f29f7998c2 100644
+index b97cbdb900d28760a870afbb919c1197acdd6bfd..334cdb0835bd717b79b3bea217b691d2f5956cd1 100644
 --- a/src/main/java/net/minecraft/world/item/ShovelItem.java
 +++ b/src/main/java/net/minecraft/world/item/ShovelItem.java
 @@ -33,7 +33,7 @@ public class ShovelItem extends DiggerItem {
@@ -14255,10 +14243,10 @@ index 6f6106ca4d74d50a7b74b086adc96c58c7906cb6..a19dd0946f853193ff32b2b560db2753
  
      public abstract boolean canEnchant(Item item);
 diff --git a/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java b/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java
-index 3a09ce6d0ea51436adcae4719d3f28d1868c283c..12daef6ab5b6d639dead667a6d53451821c13ed2 100644
+index 7b39eaf66eb74cab7caf9588947e9d5860a0ffd8..4cc00b924df3e39a1b56a291f919ef554ad6a4be 100644
 --- a/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java
 +++ b/src/main/java/net/minecraft/world/item/enchantment/EnchantmentHelper.java
-@@ -46,7 +46,7 @@ public class EnchantmentHelper {
+@@ -45,7 +45,7 @@ public class EnchantmentHelper {
      }
  
      public static int getEnchantmentLevel(CompoundTag nbt) {
@@ -14267,20 +14255,21 @@ index 3a09ce6d0ea51436adcae4719d3f28d1868c283c..12daef6ab5b6d639dead667a6d534518
      }
  
      @Nullable
-@@ -270,6 +270,29 @@ public class EnchantmentHelper {
+@@ -268,6 +268,29 @@ public class EnchantmentHelper {
+     public static boolean hasChanneling(ItemStack stack) {
          return getItemEnchantmentLevel(Enchantments.CHANNELING, stack) > 0;
      }
- 
++ 
 +    // Purpur start
 +    @Nullable
-+    public static Entry<EquipmentSlot, ItemStack> getMostDamagedEquipment(Enchantment enchantment, LivingEntity entity) {
++    public static Map.Entry<EquipmentSlot, ItemStack> getMostDamagedEquipment(Enchantment enchantment, LivingEntity entity) {
 +        Map<EquipmentSlot, ItemStack> map = enchantment.getSlotItems(entity);
 +        if (map.isEmpty()) {
 +            return null;
 +        }
-+        Entry<EquipmentSlot, ItemStack> item = null;
++        Map.Entry<EquipmentSlot, ItemStack> item = null;
 +        float maxPercent = 0F;
-+        for (Entry<EquipmentSlot, ItemStack> entry : map.entrySet()) {
++        for (Map.Entry<EquipmentSlot, ItemStack> entry : map.entrySet()) {
 +            ItemStack itemstack = entry.getValue();
 +            if (!itemstack.isEmpty() && itemstack.isDamaged() && getItemEnchantmentLevel(enchantment, itemstack) > 0) {
 +                float percent = itemstack.getDamagePercent();
@@ -14293,10 +14282,9 @@ index 3a09ce6d0ea51436adcae4719d3f28d1868c283c..12daef6ab5b6d639dead667a6d534518
 +        return item;
 +    }
 +    // Purpur end
-+
+ 
      @Nullable
-     public static Entry<EquipmentSlot, ItemStack> getRandomItemWith(Enchantment enchantment, LivingEntity entity) {
-         return getRandomItemWith(enchantment, entity, (stack) -> {
+     public static Map.Entry<EquipmentSlot, ItemStack> getRandomItemWith(Enchantment enchantment, LivingEntity entity) {
 diff --git a/src/main/java/net/minecraft/world/item/enchantment/LootBonusEnchantment.java b/src/main/java/net/minecraft/world/item/enchantment/LootBonusEnchantment.java
 index 6b8a1535086aae7e4e3229d05615fb903188f507..60af917083de1b790b1d93d61835a669143068fb 100644
 --- a/src/main/java/net/minecraft/world/item/enchantment/LootBonusEnchantment.java
@@ -14347,10 +14335,10 @@ index 4bfebbb2e87464cd47a38a5da6275b2c662fa052..6bbf1618e41c81fd2064ffd5d835187a
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/EntityGetter.java b/src/main/java/net/minecraft/world/level/EntityGetter.java
-index 1f4b72a0aca200b2e0860449c718e6e607d2fc47..e1dd8932594780b07db13f68efa117eb34b6563f 100644
+index 3f458ddd4dc04ed28510a212be76bb19e7f6a61e..a36469186f72eccf8c4428d920d0583bf57b087e 100644
 --- a/src/main/java/net/minecraft/world/level/EntityGetter.java
 +++ b/src/main/java/net/minecraft/world/level/EntityGetter.java
-@@ -157,7 +157,7 @@ public interface EntityGetter {
+@@ -156,7 +156,7 @@ public interface EntityGetter {
  
      default boolean hasNearbyAlivePlayer(double x, double y, double z, double range) {
          for(Player player : this.players()) {
@@ -14680,7 +14668,7 @@ index a80f4dc0a642c744223a155232291ace6e007636..10fa3a544d01ce3cdb72e72952073d86
      public boolean isPossibleToRespawnInThis() {
          return !this.material.isSolid() && !this.material.isLiquid();
 diff --git a/src/main/java/net/minecraft/world/level/block/Blocks.java b/src/main/java/net/minecraft/world/level/block/Blocks.java
-index 71e494b949541284b0642dae4b20a6b3ec459828..625ad12e43cc651c986a3b45ce9a7c5be6b715ab 100644
+index 638f094a401fb644c0ad5fda02263b6d4698546f..42b7890349e0f885bb76e600bec1b6cbce36bd70 100644
 --- a/src/main/java/net/minecraft/world/level/block/Blocks.java
 +++ b/src/main/java/net/minecraft/world/level/block/Blocks.java
 @@ -996,8 +996,8 @@ public class Blocks {
@@ -15453,10 +15441,10 @@ index 7fddb6fa8fd30ef88346a59f7867aae792f13772..40893e71fe8447b695350273bef9623b
          } else {
              int j = pos.getX();
 diff --git a/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java b/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java
-index 3770313892b6e9b9ab6f9fcc200dfc0b4972e516..c763b9eb6ca981f89f0868408273d78146a42748 100644
+index 491ad2098e982f3c947fcae6f258f0b1aa44a562..39b3d9ce9fbaa7854d81b304f22ee1935c62d3f3 100644
 --- a/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/RespawnAnchorBlock.java
-@@ -125,7 +125,7 @@ public class RespawnAnchorBlock extends Block {
+@@ -124,7 +124,7 @@ public class RespawnAnchorBlock extends Block {
                  return pos.equals(explodedPos) && bl2 ? Optional.of(Blocks.WATER.getExplosionResistance()) : super.getBlockExplosionResistance(explosion, world, pos, blockState, fluidState);
              }
          };
@@ -15466,13 +15454,13 @@ index 3770313892b6e9b9ab6f9fcc200dfc0b4972e516..c763b9eb6ca981f89f0868408273d781
  
      public static boolean canSetSpawn(Level world) {
 diff --git a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
-index 7f1230d915c98b6f30b13a06c2788bc2f7b7e912..d363d79a62c99371e03640814912f86d23108d18 100644
+index ca5fb9d69ced45bbbdc1d5580b1aec4cf9f6e999..a9ad97f15c1a40cc20b08b7db955f81add70bf94 100644
 --- a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
-@@ -123,7 +123,7 @@ public class ShulkerBoxBlock extends BaseEntityBlock {
+@@ -122,7 +122,7 @@ public class ShulkerBoxBlock extends BaseEntityBlock {
+     public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
          BlockEntity blockEntity = world.getBlockEntity(pos);
-         if (blockEntity instanceof ShulkerBoxBlockEntity) {
-             ShulkerBoxBlockEntity shulkerBoxBlockEntity = (ShulkerBoxBlockEntity)blockEntity;
+         if (blockEntity instanceof ShulkerBoxBlockEntity shulkerBoxBlockEntity) {
 -            if (!world.isClientSide && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
 +            if (world.purpurConfig.shulkerBoxAllowOversizedStacks || (!world.isClientSide && player.isCreative() && !shulkerBoxBlockEntity.isEmpty())) { // Purpur
                  ItemStack itemStack = getColoredItemStack(this.getColor());
@@ -15509,11 +15497,11 @@ index ed3d78494735ceda14ad0ea23adeadc374f3b35e..a0d23b7e244e7df8a462b801dee18fd4
                  } else {
                      return InteractionResult.PASS;
 diff --git a/src/main/java/net/minecraft/world/level/block/SlabBlock.java b/src/main/java/net/minecraft/world/level/block/SlabBlock.java
-index 54df5c2987822a727a31be2b3769d39fabb6159a..70b6a65a7d321fc71c98289f09f21ccaf4d5f6b7 100644
+index 18b603d646081926343dea108b55d641df1c2c34..fdbbd2e5d4fd970a4593b55f16bd0f82248e06b8 100644
 --- a/src/main/java/net/minecraft/world/level/block/SlabBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/SlabBlock.java
 @@ -130,4 +130,25 @@ public class SlabBlock extends Block implements SimpleWaterloggedBlock {
-             return false;
+                 return false;
          }
      }
 +
@@ -16018,7 +16006,7 @@ index 483dc52c793d9f90a35b1d091dd8ce71115e4640..9eee0366ab790e3bd183eacdc3940ab5
              return false;
          } else {
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
-index d62181bd8bccfcfdd7da8f635bdf7ebc36294705..0fa91bd87dfec9cf8311bcbd5125caf6e308e90e 100644
+index b96d57b0bcf21508f8e03e96b7553eb486fdf212..d3de829a4ab5f5a127fb026a8cb4ef4ed6b9c394 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
 @@ -6,6 +6,8 @@ import net.minecraft.CrashReportCategory;
@@ -16059,11 +16047,10 @@ index d62181bd8bccfcfdd7da8f635bdf7ebc36294705..0fa91bd87dfec9cf8311bcbd5125caf6
  
      public final CompoundTag saveWithFullMetadata() {
          CompoundTag nbttagcompound = this.saveWithoutMetadata();
-@@ -256,4 +275,25 @@ public abstract class BlockEntity {
-         return null;
+@@ -264,4 +283,24 @@ public abstract class BlockEntity {
      }
-     // CraftBukkit end
-+
+     // Paper end
+ 
 +    // Purpur start
 +    private String persistentDisplayName = null;
 +    private ListTag persistentLore = null;
@@ -16125,7 +16112,7 @@ index b7ec481bb9159bb203ff1688dd7f6b9f9199bccc..5d23659fd7b2507525f315d5cc808aa0
              }
              CraftEventFactory.blockDamage = null;
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
-index d5bcc81a809e3c733c6fc11309bcf0913860edf6..96b70ae604695fbe651f8640be5c6d0e1a3109df 100644
+index d5bcc81a809e3c733c6fc11309bcf0913860edf6..1846aeffc9ad24405ddce0e727552fa6df6e3997 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
 @@ -186,6 +186,23 @@ public class SignBlockEntity extends BlockEntity implements CommandSource { // C
@@ -16139,7 +16126,7 @@ index d5bcc81a809e3c733c6fc11309bcf0913860edf6..96b70ae604695fbe651f8640be5c6d0e
 +        final Component[] lines = getMessages(filtered);
 +        for (int i = 0; i < 4; i++) {
 +            final var component = io.papermc.paper.adventure.PaperAdventure.asAdventure(lines[i]);
-+            final String line = io.papermc.paper.adventure.PaperAdventure.LEGACY_AMPERSAND.serialize(component);
++            final String line = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacyAmpersand().serialize(component);
 +            final var text = net.kyori.adventure.text.Component.text(line);
 +            final String json = net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().serialize(text);
 +            nbt.putString("Text" + (i + 1), json);
@@ -16460,10 +16447,10 @@ index 68cc6f2a78a06293a29317fda72ab3ee79b3533a..cfb2e46b34b2982d6724f18214557fc8
 +    // Purpur
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java b/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
-index 1f2bc88d4570c6ef00e67a772b745e0b0c98e051..f505e871a9836503377f168c31c1f09f8ed591f0 100644
+index 50927403d07954f3b930b39046866899a1b289e6..c544e411934832cabb230047632454fff0460eef 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftOfflinePlayer.java
-@@ -528,4 +528,213 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
+@@ -538,4 +538,213 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
              manager.save();
          }
      }
@@ -16678,7 +16665,7 @@ index 1f2bc88d4570c6ef00e67a772b745e0b0c98e051..f505e871a9836503377f168c31c1f09f
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 122dd19e6dd59e36c930a209d3b3f330186201ee..1812b8df5f708a57a1094721d658ce8c1dd4d0a4 100644
+index ce1ca033b351785fb67304b8933990d7f2f22d29..52c40bb83bae0f781432f4348c58a927cf366c9f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
@@ -16807,7 +16794,7 @@ index fbe68bd4739d9a0e7d9bc4c3d5ba8ecfd2d13954..639dc3bb56cc90b84da08dc93cea89c6
  
                      Calendar deadline = Calendar.getInstance();
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
-index dbff1eda25b02b16ec123515338d470489f3b3c4..e8323ebe0fe877e880bacc5397404839a237052b 100644
+index db77cdee224d14ec91e8d530dd65da51f3661a9c..dcc0e943aef0d73a23436496fadccd58d2ca056d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/CraftConsoleCommandSender.java
 @@ -21,7 +21,12 @@ public class CraftConsoleCommandSender extends ServerCommandSender implements Co
@@ -16828,8 +16815,8 @@ index dbff1eda25b02b16ec123515338d470489f3b3c4..e8323ebe0fe877e880bacc5397404839
      // Paper start
      @Override
      public void sendMessage(final net.kyori.adventure.identity.Identity identity, final net.kyori.adventure.text.Component message, final net.kyori.adventure.audience.MessageType type) {
--        this.sendRawMessage(io.papermc.paper.adventure.PaperAdventure.LEGACY_SECTION_UXRC.serialize(message));
-+        this.sendMessage(io.papermc.paper.adventure.PaperAdventure.LEGACY_SECTION_UXRC.serialize(message)); // Purpur
+-        this.sendRawMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message));
++        this.sendMessage(net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(message)); // Purpur // Prismarine - Upstream
      }
  
      @Override
@@ -16931,7 +16918,7 @@ index a92755211e3d42934b5efaa3f201c6c19ab7d2b4..d575da51b4f1318734ebf26a37308711
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
-index e7108dd70f1eb91f38e04ad71e595bc679560f75..9f326161e13155283acfc9d73b2d568fdc135168 100644
+index 83c5314ed3a3f09162bca47902c4e749fab940a0..baec08d7d23bb71e0978f790b2e07ffab93d1c79 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 @@ -245,6 +245,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
@@ -17149,7 +17136,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index f12efe51b14ed3637a8ba45def9c94634a6f5e8f..9d44e3d32324d8e8878401156ff0d95d6fad6491 100644
+index ce78e024244c14530270b8276e5b0fd853f0a110..e339c0109c38fde307573af50cb3746b5c7f5848 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -445,10 +445,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -17169,7 +17156,7 @@ index f12efe51b14ed3637a8ba45def9c94634a6f5e8f..9d44e3d32324d8e8878401156ff0d95d
          for (ServerPlayer player : (List<ServerPlayer>) server.getHandle().players) {
              if (player.getBukkitEntity().canSee(this)) {
                  player.connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME, this.getHandle()));
-@@ -1143,6 +1148,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1149,6 +1154,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
  
          if (entity.isVehicle()) {
@@ -17180,7 +17167,7 @@ index f12efe51b14ed3637a8ba45def9c94634a6f5e8f..9d44e3d32324d8e8878401156ff0d95d
              return false;
          }
  
-@@ -1726,7 +1735,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1732,7 +1741,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -17195,7 +17182,7 @@ index f12efe51b14ed3637a8ba45def9c94634a6f5e8f..9d44e3d32324d8e8878401156ff0d95d
      }
  
      @Override
-@@ -2090,6 +2105,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2096,6 +2111,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.getHandle().getAbilities().walkingSpeed * 2f;
      }
  
@@ -17224,7 +17211,7 @@ index f12efe51b14ed3637a8ba45def9c94634a6f5e8f..9d44e3d32324d8e8878401156ff0d95d
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2791,4 +2828,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2797,4 +2834,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end
@@ -17616,7 +17603,7 @@ index cdefb2025eedea7e204d70d568adaf1c1ec4c03c..d1526ed7197b883e1d1f07baf285bf5e
                  // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 7e06f263cf618b82f77101ef86d819d5dc37a24e..9d974b535c03ff06f7f01cdd17dc700e3a3f150e 100644
+index f71af7ecad4b6b0328da8cf8c4e5a8e163866e19..f5a490814268949894581b6caeedb53d7588a621 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -430,7 +430,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -17642,7 +17629,7 @@ index 80553face9c70c2a3d897681e7761df85b22d464..99597258e8e88cd9e2c901c4ac3ff7fa
  
          if (stream != null) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
-index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5cd3112ab 100644
+index 045ebc5533de7486d1975efe9d51ab368969178a..bfd82778acd2849a9f75b20b78a9a3f37c32402d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
 @@ -23,7 +23,15 @@ public final class CommandPermissions {
@@ -17660,8 +17647,8 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..46ca899a7abddea108f6ff1b4ca14ca5
 +        }
 +        // Purpur end
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "xp", "Allows the user to give themselves or others arbitrary values of experience", PermissionDefault.OP, commands);
-         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "toggledownfall", "Allows the user to toggle rain on/off for a given world", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "defaultgamemode", "Allows the user to change the default gamemode of the server", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..c5b18b8d4ad74764fdeb5a1e21231e212e808b99
