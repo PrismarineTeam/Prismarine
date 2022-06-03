@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 2 Jun 2022 14:33:58 +0000
+Date: Fri, 3 Jun 2022 15:14:04 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -305,6 +305,45 @@ index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e
      // CraftBukkit start
      public void removeCommand(String name) {
          this.children.remove(name);
+diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+index a125abc75ed2bbd905c8fdec442416a45264f531..56a5a31b41d00ba73259a7eda5c57d08570d3e6e 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
++++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+@@ -4,10 +4,7 @@ import gg.pufferfish.pufferfish.simd.SIMDDetection;
+ import java.io.File;
+ import java.io.IOException;
+ import java.util.Collections;
+-import java.util.Locale;
+-import java.util.Map;
+ import net.minecraft.server.MinecraftServer;
+-import net.minecraft.tags.TagKey;
+ import org.apache.logging.log4j.Level;
+ import org.bukkit.configuration.ConfigurationSection;
+ import net.minecraft.core.Registry;
+@@ -254,23 +251,6 @@ public class PufferfishConfig {
+ 
+         setComment("dab", "Optimizes entity brains when", "they're far away from the player");
+     }
+-	
+-	public static Map<String, Integer> projectileTimeouts;
+-	private static void projectileTimeouts() {
+-		// Set some defaults
+-		getInt("entity_timeouts.SNOWBALL", -1);
+-		getInt("entity_timeouts.LLAMA_SPIT", -1);
+-		setComment("entity_timeouts",
+-				"These values define a entity's maximum lifespan. If an",
+-				"entity is in this list and it has survived for longer than",
+-				"that number of ticks, then it will be removed. Setting a value to",
+-				"-1 disables this feature.");
+-		
+-		for (EntityType<?> entityType : Registry.ENTITY_TYPE) {
+-			String type = EntityType.getKey(entityType).getPath().toUpperCase(Locale.ROOT);
+-			entityType.ttl = config.getInt("entity_timeouts." + type, -1);
+-		}
+-	}
+     
+     public static boolean throttleInactiveGoalSelectorTick;
+ 	private static void inactiveGoalSelectorThrottle() {
 diff --git a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java b/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
 index ea83ee8762c126c449993a7497257b0bd8663452..ecd3da582fe9f77f39f920029f5121c6d8099525 100644
 --- a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
@@ -2344,7 +2383,7 @@ index b84610d00f710c656d9eaf85b80e796f8be4bca3..390a70b9d9aa40a2511ab6588df2833a
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a445843ee 100644
+index c9e23c09bc9db25a813e703817d51e1763b0b3b6..2908d2882cd6bd97d777a2831995ea7a445843ee 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -152,7 +152,7 @@ import org.bukkit.plugin.PluginManager;
@@ -2373,7 +2412,20 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
      private float eyeHeight;
      public boolean isInPowderSnow;
      public boolean wasInPowderSnow;
-@@ -821,7 +822,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -751,12 +752,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     // CraftBukkit end
+ 
+     public void baseTick() {
+-        // Pufferfish start - entity TTL
+-        if (type != EntityType.PLAYER && type.ttl >= 0 && this.tickCount >= type.ttl) {
+-            remove(RemovalReason.DISCARDED);
+-            return;
+-        }
+-        // Pufferfish end - entity TTL
+         this.level.getProfiler().push("entityBaseTick");
+         if (firstTick && this instanceof net.minecraft.world.entity.NeutralMob neutralMob) neutralMob.tickInitialPersistentAnger(level); // Paper - Update last hurt when ticking
+         this.feetBlockState = null;
+@@ -827,7 +822,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkOutOfWorld() {
          // Paper start - Configurable nether ceiling damage
@@ -2382,7 +2434,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
              && level.paperConfig.doNetherTopVoidDamage()
              && this.getY() >= this.level.paperConfig.netherVoidTopDamageHeight)) {
              // Paper end
-@@ -1072,7 +1073,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1078,7 +1073,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
                  // CraftBukkit end
  
@@ -2391,7 +2443,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
                      block.stepOn(this.level, blockposition, iblockdata, this);
                  }
  
-@@ -1335,7 +1336,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1341,7 +1336,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, true,
                  false, false, null, null);
  
@@ -2400,7 +2452,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
                  io.papermc.paper.util.CollisionUtil.addBoxesToIfIntersects(world.getWorldBorder().getCollisionShape(), collisionBox, potentialCollisions);
              }
  
-@@ -1636,7 +1637,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1642,7 +1637,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return this.isInWater() || flag;
      }
  
@@ -2409,7 +2461,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
          if (this.getVehicle() instanceof Boat) {
              this.wasTouchingWater = false;
          } else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
-@@ -1776,6 +1777,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1782,6 +1777,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
          this.xRotO = this.getXRot();
          this.setYHeadRot(yaw); // Paper - Update head rotation
@@ -2417,7 +2469,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
      }
  
      public void absMoveTo(double x, double y, double z) {
-@@ -2667,6 +2669,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2673,6 +2669,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.passengers = ImmutableList.copyOf(list);
              }
  
@@ -2430,7 +2482,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
          }
          return true; // CraftBukkit
      }
-@@ -2707,6 +2715,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2713,6 +2715,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  return false;
              }
              // Spigot end
@@ -2445,7 +2497,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
              if (this.passengers.size() == 1 && this.passengers.get(0) == entity) {
                  this.passengers = ImmutableList.of();
              } else {
-@@ -2761,12 +2777,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2767,12 +2777,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return Vec3.directionFromRotation(this.getRotationVector());
      }
  
@@ -2462,7 +2514,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
              }
  
              this.isInsidePortal = true;
-@@ -2809,7 +2828,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2815,7 +2828,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -2471,7 +2523,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
          }
      }
  
-@@ -2992,7 +3011,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2998,7 +3011,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public int getMaxAirSupply() {
@@ -2480,7 +2532,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
      }
  
      public int getAirSupply() {
-@@ -3430,7 +3449,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3436,7 +3449,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -2489,7 +2541,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3677,6 +3696,34 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3683,6 +3696,34 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -2524,7 +2576,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
      @Override
      public void sendMessage(Component message, UUID sender) {}
  
-@@ -3913,6 +3960,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3919,6 +3960,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -2537,7 +2589,7 @@ index 971e743cc99400681439de89252a29ee9de46188..2908d2882cd6bd97d777a2831995ea7a
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4407,4 +4460,62 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4413,4 +4460,62 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
@@ -2613,7 +2665,7 @@ index e39965c2e50bc8ee424ea07819346e0611398e28..212ea98eeaaf4b20ba0896dab03cd092
      private EntitySelector() {}
      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/EntityType.java b/src/main/java/net/minecraft/world/entity/EntityType.java
-index 29169f9819ebbe0b90d87ed1e5833a3a57e39f06..262ed82130b3ee8b110698e31f3a4bc78dac1ec1 100644
+index 5ec5e8a30c75b36412bacb0b60b560dfab7eeb22..262ed82130b3ee8b110698e31f3a4bc78dac1ec1 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityType.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityType.java
 @@ -282,12 +282,23 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
@@ -2641,7 +2693,15 @@ index 29169f9819ebbe0b90d87ed1e5833a3a57e39f06..262ed82130b3ee8b110698e31f3a4bc7
      public static ResourceLocation getKey(EntityType<?> type) {
          return Registry.ENTITY_TYPE.getKey(type);
      }
-@@ -328,22 +339,40 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
+@@ -297,7 +308,6 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
+     }
+ 
+     public boolean dabEnabled = false; // Pufferfish
+-    public int ttl = -1; // Pufferfish
+     // Paper start - add id
+     public final String id;
+ 
+@@ -329,22 +339,40 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
  
      @Nullable
      public Entity spawn(ServerLevel world, @Nullable ItemStack stack, @Nullable Player player, BlockPos pos, MobSpawnType spawnReason, boolean alignPosition, boolean invertY) {
@@ -2685,7 +2745,7 @@ index 29169f9819ebbe0b90d87ed1e5833a3a57e39f06..262ed82130b3ee8b110698e31f3a4bc7
          // Paper end
          // Paper start - Call PreCreatureSpawnEvent
          org.bukkit.entity.EntityType type = org.bukkit.entity.EntityType.fromName(EntityType.getKey(this).getPath());
-@@ -362,6 +391,19 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
+@@ -363,6 +391,19 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
          T t0 = this.create(worldserver, nbttagcompound, ichatbasecomponent, entityhuman, blockposition, enummobspawn, flag, flag1);
          if (t0 != null && op != null) op.accept(t0); // Paper
  
@@ -2705,7 +2765,7 @@ index 29169f9819ebbe0b90d87ed1e5833a3a57e39f06..262ed82130b3ee8b110698e31f3a4bc7
          if (t0 != null) {
              worldserver.addFreshEntityWithPassengers(t0, spawnReason);
              return !t0.isRemoved() ? t0 : null; // Don't return an entity when CreatureSpawnEvent is canceled
-@@ -455,6 +497,16 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
+@@ -456,6 +497,16 @@ public class EntityType<T extends Entity> implements EntityTypeTest<Entity, T> {
          return this.category;
      }
  
@@ -23704,6 +23764,96 @@ index b2d510459bcf90a3611f3d91dae4ccc3d29b4079..7a052f6deaa30f8a177a2aaf172f9da6
              classes = scanResult.getSubclasses(net.minecraft.world.entity.ai.goal.Goal.class.getName()).loadClasses();
          }
  
+diff --git a/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java b/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
+deleted file mode 100644
+index e80f8a32c82f89a2f898db1d869daadee735176f..0000000000000000000000000000000000000000
+--- a/src/test/java/io/papermc/paper/permissions/MinecraftCommandPermissionsTest.java
++++ /dev/null
+@@ -1,84 +0,0 @@
+-package io.papermc.paper.permissions;
+-
+-import com.mojang.brigadier.tree.CommandNode;
+-import com.mojang.brigadier.tree.RootCommandNode;
+-import net.minecraft.commands.CommandSourceStack;
+-import net.minecraft.commands.Commands;
+-import net.minecraft.server.Bootstrap;
+-import org.bukkit.Bukkit;
+-import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
+-import org.bukkit.craftbukkit.util.permissions.CraftDefaultPermissions;
+-import org.bukkit.permissions.Permission;
+-import org.bukkit.support.AbstractTestingBase;
+-import org.junit.AfterClass;
+-import org.junit.BeforeClass;
+-import org.junit.Test;
+-
+-import java.io.PrintStream;
+-import java.util.HashSet;
+-import java.util.LinkedHashSet;
+-import java.util.List;
+-import java.util.Set;
+-import java.util.TreeSet;
+-
+-import static org.junit.Assert.assertTrue;
+-
+-public class MinecraftCommandPermissionsTest extends AbstractTestingBase {
+-
+-    private static PrintStream old;
+-    @BeforeClass
+-    public static void before() {
+-        old = System.out;
+-        System.setOut(Bootstrap.STDOUT);
+-    }
+-
+-    @Test
+-    public void test() {
+-        CraftDefaultPermissions.registerCorePermissions();
+-        Set<String> perms = collectMinecraftCommandPerms();
+-
+-        Commands commands = new Commands(Commands.CommandSelection.DEDICATED);
+-        RootCommandNode<CommandSourceStack> root = commands.getDispatcher().getRoot();
+-        Set<String> missing = new LinkedHashSet<>();
+-        Set<String> foundPerms = new HashSet<>();
+-        for (CommandNode<CommandSourceStack> child : root.getChildren()) {
+-            final String vanillaPerm = VanillaCommandWrapper.getPermission(child);
+-            if (!perms.contains(vanillaPerm)) {
+-                missing.add("Missing permission for " + child.getName() + " (" + vanillaPerm + ") command");
+-            } else {
+-                foundPerms.add(vanillaPerm);
+-            }
+-        }
+-        assertTrue("Commands missing permissions: \n" + String.join("\n", missing), missing.isEmpty());
+-        perms.removeAll(foundPerms);
+-        assertTrue("Extra permissions not associated with a command: \n" + String.join("\n", perms), perms.isEmpty());
+-    }
+-
+-    private static final List<String> TO_SKIP = List.of(
+-        "minecraft.command.selector"
+-    );
+-
+-    private static Set<String> collectMinecraftCommandPerms() {
+-        Set<String> perms = new TreeSet<>();
+-        for (Permission perm : Bukkit.getPluginManager().getPermissions()) {
+-            if (perm.getName().startsWith("minecraft.command.")) {
+-                if (TO_SKIP.contains(perm.getName())) {
+-                    continue;
+-                }
+-                if (perm.getName().endsWith(".xp")) {
+-                    perms.add("minecraft.command.experience"); // for the "experience" command, craftbukkit perm is "minecraft.command.xp"
+-                    continue;
+-                }
+-                perms.add(perm.getName());
+-            }
+-        }
+-        return perms;
+-    }
+-
+-    @AfterClass
+-    public static void after() {
+-        if (old != null) {
+-            System.setOut(old);
+-        }
+-    }
+-}
 diff --git a/src/test/java/org/bukkit/potion/PotionTest.java b/src/test/java/org/bukkit/potion/PotionTest.java
 index 7ea3cc4f8e35b61b3eba717ed58ee98cf835168c..48aa077ab2e2b708fb3d3287e636b4dc1c969925 100644
 --- a/src/test/java/org/bukkit/potion/PotionTest.java
