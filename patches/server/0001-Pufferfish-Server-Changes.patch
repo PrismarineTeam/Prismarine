@@ -78,10 +78,10 @@ index 0282e3b75470e1a68ea1fc228082483514ba432e..b04e9ab317fbce9c090b61076eb07c40
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 5ba64e1083b7cb1eec64d1925095c6ca5865ff07..a5e4467382422df6cff2b9f61f44feabfe7084f3 100644
+index f3bf9df8c0bd56cad461210ce8551ade3a220b6b..088585a1075cd8790e2599eb6a8372adcff050e3 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -238,7 +238,8 @@ public class TimingsExport extends Thread {
+@@ -240,7 +240,8 @@ public class TimingsExport extends Thread {
          parent.put("config", createObject(
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
              pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
@@ -114,7 +114,7 @@ index 218f5bafeed8551b55b91c7fccaf6935c8b631ca..f2fe6ea3719ff8b2913b7a3a939d7a5b
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index fafbebbb5e8c1a381b673f97f1fa210687b52823..560e83f1e70cc2712e9c08ffd5e2cab8a6de687b 100644
+index 8379c6313f06ab3eeaf02bad41d8b835d50e093f..7a7d0566611aafafba30b7b25c2f1f3e78b054fa 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -241,6 +241,15 @@ public class PaperConfig {
@@ -2780,7 +2780,7 @@ index 79abd84696ef099f6b12ddeaa6e398f18c53316a..5ec5e8a30c75b36412bacb0b60b560df
      public final String id;
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index bd5825c5b5c81e0694a3635b981588f0d2ba83cb..2fe2307a10cb2e4e2b055cbe615b3750bf8fd310 100644
+index d6ef140bcc35b10f78f2ec2f10c8a153395fc9df..33fbb85228f1570e40f2a825489362626bea3912 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -141,7 +141,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -4158,7 +4158,7 @@ index b1992ed5136cc7dcf04219868b94b3c37ae36b4b..5b5339cba819368f4d6b7eaf404fa59b
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ab843069ac0653d03cf3f925f49555016cad84fa..ce1ca033b351785fb67304b8933990d7f2f22d29 100644
+index c3f15ee7505e82418d9659ba3cee4f807546e0db..853ff863ff15ed28057b44140ceeeedf44e2a5ef 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper

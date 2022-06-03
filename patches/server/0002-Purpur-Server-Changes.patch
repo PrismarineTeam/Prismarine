@@ -67,10 +67,10 @@ index b04e9ab317fbce9c090b61076eb07c40f069dc59..50112767dff03bc3d9b3cc527e20f1b0
      standardInput = System.`in`
      workingDir = rootProject.layout.projectDirectory
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index a5e4467382422df6cff2b9f61f44feabfe7084f3..abbfb819e327186ff2c05d8dbdf00ff2c18dc0ab 100644
+index 088585a1075cd8790e2599eb6a8372adcff050e3..a2c90fb0bb297fb2faaa306dd0c032211a6e1121 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -236,10 +236,14 @@ public class TimingsExport extends Thread {
+@@ -238,10 +238,14 @@ public class TimingsExport extends Thread {
          // Information on the users Config
  
          parent.put("config", createObject(
@@ -88,7 +88,7 @@ index a5e4467382422df6cff2b9f61f44feabfe7084f3..abbfb819e327186ff2c05d8dbdf00ff2
          ));
  
          new TimingsExport(listeners, parent, history).start();
-@@ -280,6 +284,19 @@ public class TimingsExport extends Thread {
+@@ -282,6 +286,19 @@ public class TimingsExport extends Thread {
          return timingsCost;
      }
  
@@ -133,7 +133,7 @@ index f2fe6ea3719ff8b2913b7a3a939d7a5b75cb8b28..ed13b7b3f9d2a0b644d17d1019d42cbc
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 560e83f1e70cc2712e9c08ffd5e2cab8a6de687b..ce6fa0878ddd86d69e05ed64649e7105d25ce944 100644
+index 7a7d0566611aafafba30b7b25c2f1f3e78b054fa..820f87f8ab226c68d7ad7e125178f323e0327594 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -252,6 +252,12 @@ public class PaperConfig {
@@ -2855,7 +2855,7 @@ index e82a9d41a0710c0bd8a3fa2f8ee1704f7e1e56df..5e5eaf7c20c3329f2e576c8672a6be91
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 2fe2307a10cb2e4e2b055cbe615b3750bf8fd310..e74a06e61d4c396122688c2da8bbfa5e576b67ce 100644
+index 33fbb85228f1570e40f2a825489362626bea3912..8a09cda8b3c17b197f68997d0a6fe34b46af9c6e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -45,6 +45,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16725,7 +16725,7 @@ index 50927403d07954f3b930b39046866899a1b289e6..c544e411934832cabb230047632454ff
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ce1ca033b351785fb67304b8933990d7f2f22d29..52c40bb83bae0f781432f4348c58a927cf366c9f 100644
+index 853ff863ff15ed28057b44140ceeeedf44e2a5ef..d5d350dc972e842359bad65d5905df1de55e574f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
@@ -16781,7 +16781,7 @@ index ce1ca033b351785fb67304b8933990d7f2f22d29..52c40bb83bae0f781432f4348c58a927
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2666,6 +2682,7 @@ public final class CraftServer implements Server {
+@@ -2672,6 +2688,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16789,7 +16789,7 @@ index ce1ca033b351785fb67304b8933990d7f2f22d29..52c40bb83bae0f781432f4348c58a927
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2712,6 +2729,18 @@ public final class CraftServer implements Server {
+@@ -2718,6 +2735,18 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
@@ -16808,7 +16808,7 @@ index ce1ca033b351785fb67304b8933990d7f2f22d29..52c40bb83bae0f781432f4348c58a927
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2884,4 +2913,16 @@ public final class CraftServer implements Server {
+@@ -2890,4 +2919,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
