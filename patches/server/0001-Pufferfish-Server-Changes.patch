@@ -2174,19 +2174,19 @@ index 6aec679e75aa6655b47a552db011924ea3a6c922..e8e49e1bdf1ff4ea60a4feb6ec52d999
  
      public static long getCoordinateKey(final ChunkPos pair) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c8d56947305c981a3268ce4ae3e975db350ceff2..371b0f95b23d67c9913875a3dd7888e722551f18 100644
+index da15a224b8b974e78b9d8d5f514229b3b2a5a63e..bcaa260af741c00b1fd762c9dca3d3c06d4a1b86 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -308,6 +308,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
- 
+@@ -309,6 +309,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      public volatile Thread shutdownThread; // Paper
      public volatile boolean abnormalExit = false; // Paper
+     public boolean isIteratingOverLevels = false; // Paper
 +    
 +    public gg.pufferfish.pufferfish.util.AsyncExecutor mobSpawnExecutor = new gg.pufferfish.pufferfish.util.AsyncExecutor("MobSpawning", () -> true); // Pufferfish - optimize mob spawning
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -1693,7 +1695,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1696,7 +1698,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -2195,7 +2195,7 @@ index c8d56947305c981a3268ce4ae3e975db350ceff2..371b0f95b23d67c9913875a3dd7888e7
      }
  
      public SystemReport fillSystemReport(SystemReport details) {
-@@ -2252,6 +2254,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2255,6 +2257,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public ProfilerFiller getProfiler() {
@@ -2450,7 +2450,7 @@ index 98209532ad3e692d7e459640123f78bbd9a65889..93c1f9e3e9d62cc993fedb93fe43cbee
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 901fa17d0f0a3f66923f68f13f183bc4c17f7748..676f2cd4b152984aa76903fcf4377c745775bfc8 100644
+index 0b7923f67d27549f41c0d398d1b99737f0c8a746..f98c6804ef8ec33551857606800295712f2e9057 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1117,6 +1117,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -4158,7 +4158,7 @@ index b1992ed5136cc7dcf04219868b94b3c37ae36b4b..5b5339cba819368f4d6b7eaf404fa59b
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index c3f15ee7505e82418d9659ba3cee4f807546e0db..853ff863ff15ed28057b44140ceeeedf44e2a5ef 100644
+index 8a248e34fce1e04de4460f98b7627df495c66af1..04a1c7b37e44de50a1a201df3d61255b3bcd9b3e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper

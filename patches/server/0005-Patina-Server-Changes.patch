@@ -35,10 +35,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index a7937e61c4eadd16b3aa7096112e4ce93a3a1423..45c40f9694f29583375942fd0134bbab2115cbc5 100644
+index c551bb14458eebd7241c9624c1af37cb322c7710..8ef60aa7f06c2a1acea46f2b62964886ccc192f6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -581,7 +581,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -582,7 +582,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
              if (worlddimension == null) {
                  holder = this.registryAccess().registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getOrCreateHolder(DimensionType.OVERWORLD_LOCATION);
@@ -152,10 +152,10 @@ index 2908d2882cd6bd97d777a2831995ea7a445843ee..1e288da7437c62104e28afb9da062643
  
      public void push(double deltaX, double deltaY, double deltaZ) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5258777b756ea2b06264984f1243b86f478bc5d0..74b769105cc196c33f16716dc30bb50fc4456535 100644
+index 5a3d20925306cd43d71f157c0a1eca669c4e8ccb..55ecdaee8c88c11e83b0c22966a9c25cb1c3418c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1223,7 +1223,7 @@ public final class CraftServer implements Server {
+@@ -1224,7 +1224,7 @@ public final class CraftServer implements Server {
  
          if (worlddimension == null) {
              holder = console.registryHolder.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getOrCreateHolder(DimensionType.OVERWORLD_LOCATION);
