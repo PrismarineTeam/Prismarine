@@ -2893,7 +2893,7 @@ index 72df9c6d1ac2fef090b0532da079c607f79bce89..8278fe18a774ac2a0fac49bf21082aa8
                  Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> pair = this.getChunkSource().getGenerator().findNearestMapFeature(this, holderSet, pos, radius, skipExistingChunks);
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 5d930933dd3fdca91374eba8991275faebd86935..9e512ad7c6745deb8eaa0f396af4726db85e1b3c 100644
+index 35a8f0ebe3ab0595c2613d6f37b21336fde72203..f54c1884e3af328bc71176f16dae7b449c369886 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2189,6 +2189,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -3370,10 +3370,10 @@ index 74020515e2ec917b7d921aa8501a71ff433a6abb..c6beb55dd7d66e7f7b40753106667a25
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 15d740a605c7257bcc7117c7dfb3612b472ba664..154c0ba3e8a7af73a83e7899abac81c985ced577 100644
+index 43244a479a112786539a905a22cb12e3cf55b2dd..55eb5d5ff9ffe37a1b487981d20b4c18e2624103 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -409,7 +409,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -392,7 +392,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean unloadChunk(int x, int z) {
