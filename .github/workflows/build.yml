@@ -22,13 +22,14 @@ jobs:
       - name: Checkout action
         uses: actions/checkout@main
 
-      - name: Validation Gradle Wrapper
+      - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@master
 
       - name: Set up JDK ${{ matrix.java }} ${{ matrix.jdk }}
         uses: actions/setup-java@main
         with:
           distribution: ${{ matrix.java }}
+          cache: 'gradle'
           java-version: ${{ matrix.jdk }}
 
       - name: Configure Git
@@ -47,12 +48,6 @@ jobs:
 
       - name: Create Mojmap Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@main
-        with:
-          name: Artifacts
-          path: build/libs
 
       - name: Release Artifacts
         if: github.ref_name == env.branch
