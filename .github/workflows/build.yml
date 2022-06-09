@@ -11,7 +11,7 @@ jobs:
   release:
     strategy:
       matrix:
-        jdk: [17.0.2]
+        jdk: [17.0.3]
         java: ['temurin']
         os: [ubuntu-20.04]
         master: ['ver/1.18.2']
@@ -29,8 +29,8 @@ jobs:
         uses: actions/setup-java@main
         with:
           distribution: ${{ matrix.java }}
-          cache: 'gradle'
           java-version: ${{ matrix.jdk }}
+          cache: 'gradle'
 
       - name: Configure Git
         run: |
