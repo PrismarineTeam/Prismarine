@@ -31,13 +31,13 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index ed07f5820281b139739f673fa4e25171de81b894..7475684ed057f08a24b2a7a0d0275a835b86a365 100644
+index aed2209b66f11a0d03473cf19437f3da0e9e573a..6c58466a6667d61b37ea1bc77652e78c4feb00db 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -617,7 +617,13 @@ public final class SimplePluginManager implements PluginManager {
- 
+@@ -618,7 +618,13 @@ public final class SimplePluginManager implements PluginManager {
      // Paper start
      private void handlePluginException(String msg, Throwable ex, Plugin plugin) {
+         gg.pufferfish.pufferfish.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
 -        server.getLogger().log(Level.SEVERE, msg, ex);
 +        // Prismarine start - Patina patches
 +        // Yatopia start - detailed report
@@ -46,11 +46,11 @@ index ed07f5820281b139739f673fa4e25171de81b894..7475684ed057f08a24b2a7a0d0275a83
 +        server.getLogger().log(Level.SEVERE, org.yatopiamc.yatopia.api.internal.StackTraceUtils.EXCEPTION_DETAILS_BELOW, ex);
 +        // Yatopia end
 +        // Prismarine end
+         gg.pufferfish.pufferfish.sentry.SentryContext.removePluginContext(); // Pufferfish
          callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerPluginEnableDisableException(msg, ex, plugin)));
      }
-     // Paper end
-@@ -678,7 +684,13 @@ public final class SimplePluginManager implements PluginManager {
-             } catch (Throwable ex) {
+@@ -681,7 +687,13 @@ public final class SimplePluginManager implements PluginManager {
+                 gg.pufferfish.pufferfish.sentry.SentryContext.setEventContext(event, registration); // Pufferfish
                  // Paper start - error reporting
                  String msg = "Could not pass event " + event.getEventName() + " to " + registration.getPlugin().getDescription().getFullName();
 -                server.getLogger().log(Level.SEVERE, msg, ex);
@@ -61,10 +61,10 @@ index ed07f5820281b139739f673fa4e25171de81b894..7475684ed057f08a24b2a7a0d0275a83
 +                server.getLogger().log(Level.SEVERE, org.yatopiamc.yatopia.api.internal.StackTraceUtils.EXCEPTION_DETAILS_BELOW, ex);
 +                // Yatopia end
 +                // Prismarine end
+                 gg.pufferfish.pufferfish.sentry.SentryContext.removeEventContext(); // Pufferfish
                  if (!(event instanceof com.destroystokyo.paper.event.server.ServerExceptionEvent)) { // We don't want to cause an endless event loop
                      callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerEventException(msg, ex, registration.getPlugin(), registration.getListener(), event)));
-                 }
-@@ -963,4 +975,12 @@ public final class SimplePluginManager implements PluginManager {
+@@ -967,4 +979,12 @@ public final class SimplePluginManager implements PluginManager {
      }
      // Paper end
  
@@ -91,13 +91,13 @@ index 3bea5dd67ad0393160ccede4ac99a3c7baa1803b..08ed2f80677ac3dfd2a82afdee83ae41
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 8ff78fad47f6086aa289e32590f4fbec24b3d500..744c031ce1cb34e36cb66bedc4a4ab84cb7e7336 100644
+index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752eeee4081e3 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -369,7 +369,13 @@ public final class JavaPluginLoader implements PluginLoader {
-             try {
+@@ -370,7 +370,13 @@ public final class JavaPluginLoader implements PluginLoader {
                  jPlugin.setEnabled(true);
              } catch (Throwable ex) {
+                 gg.pufferfish.pufferfish.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
 -                server.getLogger().log(Level.SEVERE, "Error occurred while enabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
 +                // Prismarine start - Patina patches
 +                // Yatopia start - detailed report
@@ -106,13 +106,13 @@ index 8ff78fad47f6086aa289e32590f4fbec24b3d500..744c031ce1cb34e36cb66bedc4a4ab84
 +                server.getLogger().log(Level.SEVERE, org.yatopiamc.yatopia.api.internal.StackTraceUtils.EXCEPTION_DETAILS_BELOW);
 +                // Yatopia end
 +                // Prismarine end
+                 gg.pufferfish.pufferfish.sentry.SentryContext.removePluginContext(); // Pufferfish
                  // Paper start - Disable plugins that fail to load
                  this.server.getPluginManager().disablePlugin(jPlugin);
-                 return;
-@@ -398,7 +404,13 @@ public final class JavaPluginLoader implements PluginLoader {
-             try {
+@@ -401,7 +407,13 @@ public final class JavaPluginLoader implements PluginLoader {
                  jPlugin.setEnabled(false);
              } catch (Throwable ex) {
+                 gg.pufferfish.pufferfish.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
 -                server.getLogger().log(Level.SEVERE, "Error occurred while disabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
 +                // Prismarine start - Patina patches
 +                // Yatopia start - detailed report
@@ -121,10 +121,10 @@ index 8ff78fad47f6086aa289e32590f4fbec24b3d500..744c031ce1cb34e36cb66bedc4a4ab84
 +                server.getLogger().log(Level.SEVERE, org.yatopiamc.yatopia.api.internal.StackTraceUtils.EXCEPTION_DETAILS_BELOW, ex);
 +                // Yatopia end
 +                // Prismarine end
+                 gg.pufferfish.pufferfish.sentry.SentryContext.removePluginContext(); // Pufferfish
              }
  
-             if (cloader instanceof PluginClassLoader) {
-@@ -414,10 +426,22 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -418,10 +430,22 @@ public final class JavaPluginLoader implements PluginLoader {
                  try {
                      loader.close();
                  } catch (IOException ex) {
@@ -149,10 +149,10 @@ index 8ff78fad47f6086aa289e32590f4fbec24b3d500..744c031ce1cb34e36cb66bedc4a4ab84
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 345394132df70593800127d34a38f8f8a4dafe00..f8ba3dfcb48055de6dd39a535c60142eed7af071 100644
+index 4f736a267eb4c8a3bedb2d02fb30468484b991d5..75ddfb49218213de278b4772ba314ed2381fd6c0 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-@@ -247,4 +247,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+@@ -251,4 +251,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
                     '}';
      }
      // Paper end
@@ -272,10 +272,10 @@ index 0000000000000000000000000000000000000000..6299e45ee89218566634431771a4c661
 +}
 \ No newline at end of file
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index bbe81f7a420f913ffdcad913a3c43ff41ead41f5..7ef997d800d88f96faa13772ee90c30ca6eae806 100644
+index 49de298146814fdf238929e10270ac6717dd73bd..e29c57344e95fcc48b3c68b08d25a810cfa51864 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
-@@ -57,8 +57,9 @@ public class AnnotationTest {
+@@ -61,8 +61,9 @@ public class AnnotationTest {
          "co/aikar/timings/TimingHistory$2$1$2",
          "co/aikar/timings/TimingHistory$3",
          "co/aikar/timings/TimingHistory$4",

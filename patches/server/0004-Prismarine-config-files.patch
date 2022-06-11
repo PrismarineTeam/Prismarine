@@ -5,10 +5,10 @@ Subject: [PATCH] Prismarine config files
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 20f016e24b679af2651dc84819b1c62d2937b77b..4905f27d4ff7ed292538df023ae6e8839cebfab9 100644
+index 7ce14e04d..821d8ddd1 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -240,6 +240,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -232,6 +232,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          }
          org.purpurmc.purpur.PurpurConfig.registerCommands();
          // Purpur end
@@ -22,24 +22,24 @@ index 20f016e24b679af2651dc84819b1c62d2937b77b..4905f27d4ff7ed292538df023ae6e883
 +        net.prismarineteam.prismarine.PrismarineConfig.registerCommands();
 +        // Prismarine end
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
-         io.papermc.paper.util.ObfHelper.INSTANCE.getClass(); // load mappings for stacktrace deobf and etc.
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
+         // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 40e01ed99a129a6a14f9c5cc29f046bd23d198cb..1d72f0e63c5a64a82439d828a7182465fe7238ef 100644
+index 6d35d9802..09e3c8152 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -166,6 +166,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -176,6 +176,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
  
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
- 
++    
 +    public final net.prismarineteam.prismarine.PrismarineWorldConfig prismarineConfig; // Prismarine
-+
+ 
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
-     private org.spigotmc.TickLimiter entityLimiter;
-@@ -319,6 +321,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -321,6 +323,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
-         this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), this.spigotConfig); // Paper
+         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
 +        this.prismarineConfig = new net.prismarineteam.prismarine.PrismarineWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Prismarine
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
@@ -359,39 +359,39 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 6295af961bb182d0043c650852f3ef11f9fb5d35..5a3d20925306cd43d71f157c0a1eca669c4e8ccb 100644
+index b635c1317..397dc78fd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
+@@ -951,6 +951,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
-         com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
+         this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
 +        net.prismarineteam.prismarine.PrismarineConfig.init((File) console.options.valueOf("prismarine-settings")); // Prismarine
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
+@@ -967,6 +968,7 @@ public final class CraftServer implements Server {
+             }
              world.spigotConfig.init(); // Spigot
-             world.paperConfig.init(); // Paper
              world.purpurConfig.init(); // Purpur
 +            world.prismarineConfig.init(); // Prismarine
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2748,6 +2750,13 @@ public final class CraftServer implements Server {
+@@ -2722,6 +2724,13 @@ public final class CraftServer implements Server {
+             return getProperties().properties;
          }
          // Purpur end
- 
++        
 +        // Prismarine start
 +        @Override
 +        public YamlConfiguration getPrismarineConfig() {
 +            return net.prismarineteam.prismarine.PrismarineConfig.config;
 +        }
 +        // Prismarine end
-+
+ 
          @Override
          public void restart() {
-             org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
 index 639dc3bb56cc90b84da08dc93cea89c658ed6dc8..74a21580a3c450b8bf09f11dc4e8a6fb4c044425 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
