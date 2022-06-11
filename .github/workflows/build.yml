@@ -3,9 +3,9 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-  
+
 env:
-  branch: ver/1.18.2
+  version: 1.19
 
 jobs:
   release:
@@ -14,7 +14,6 @@ jobs:
         jdk: [17.0.3]
         java: ['temurin']
         os: [ubuntu-20.04]
-        master: ['ver/1.18.2']
 
     if: "!startsWith(github.event.commits[0].message, '[CI-Skip]')"
     runs-on: ${{ matrix.os }}
@@ -46,9 +45,6 @@ jobs:
       - name: Create Reobf Jar
         run: ./gradlew createReobfPaperclipJar --stacktrace
 
-      - name: Create Mojmap Jar
-        run: ./gradlew createMojmapPaperclipJar --stacktrace
-
       - name: Release Artifacts
         if: github.ref_name == env.branch
         uses: marvinpinto/action-automatic-releases@latest
@@ -64,7 +60,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           title: "Release #${{ env.workflow }}"
-          automatic_release_tag: latest
+          automatic_release_tag: latest-${{ env.version }}
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: build/libs/*.jar
           prerelease: false
