@@ -58,10 +58,10 @@ index b6b00af08f12f838411845e4f4e29e62826dfc7f..4b5267576390515dbbdeed7a5752c80b
      /**
       * Gets the requested List by path.
 diff --git a/src/main/java/org/bukkit/configuration/MemorySection.java b/src/main/java/org/bukkit/configuration/MemorySection.java
-index 28b171984ef88000b0d7106f54d58b487d30dd9c..a109e3d1c23de9b7b5423055b585943f919a5827 100644
+index 90751edd742d9b8d2171c4b16891aa009e4b8dfe..fd37d3437e4b75e7337019f3f7b40759548bccdb 100644
 --- a/src/main/java/org/bukkit/configuration/MemorySection.java
 +++ b/src/main/java/org/bukkit/configuration/MemorySection.java
-@@ -418,6 +418,26 @@ public class MemorySection implements ConfigurationSection {
+@@ -419,6 +419,26 @@ public class MemorySection implements ConfigurationSection {
          return val instanceof Long;
      }
  
