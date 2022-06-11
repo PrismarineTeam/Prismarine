@@ -2802,10 +2802,10 @@ index 0000000000000000000000000000000000000000..11985471253dbff8719ea223356e103a
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 76d177d27735e93bbac5f9cf0b3556e929d72317..03e10fbd122f6967143599b38426a21daf9e59df 100644
+index fd23bb941..cd7f76a14 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -86,6 +86,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -85,6 +85,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      public com.mojang.authlib.properties.Property[] spoofedProfile;
      public boolean preparing = true;
      // Spigot End
@@ -2814,27 +2814,19 @@ index 76d177d27735e93bbac5f9cf0b3556e929d72317..03e10fbd122f6967143599b38426a21d
      private Component disconnectedReason;
      private boolean encrypted;
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 896a4237f871d46cf39b0721e909c2cc3b5fc728..702e6b3b27582e1cf41010b2d23ce310be83a9da 100644
+index 35377576e..835403ce4 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-@@ -499,6 +499,7 @@ public class FriendlyByteBuf extends ByteBuf {
-                 // CraftItemStack.setItemMeta(stack, CraftItemStack.getItemMeta(stack)); // Paper - This is no longer needed due to NBT being supported
+@@ -582,6 +582,7 @@ public class FriendlyByteBuf extends ByteBuf {
+                 // CraftItemStack.setItemMeta(stack, CraftItemStack.getItemMeta(stack)); // Paper - This is no longer with raw NBT being handled in metadata
                  // Spigot end
                  nbttagcompound = stack.getTag();
 +                nbttagcompound = com.empireminecraft.api.HiddenItemMeta.filterItemLore(nbttagcompound, true); // EMC // Prismarine - EMC patches
-                 // Paper start
-                 if (nbttagcompound != null && nbttagcompound.contains("SkullOwner", 10)) {
-                     CompoundTag owner = nbttagcompound.getCompound("SkullOwner");
-@@ -527,6 +528,7 @@ public class FriendlyByteBuf extends ByteBuf {
-             itemstack.setTag(this.readNbt());
-             // CraftBukkit start
-             if (itemstack.getTag() != null) {
-+                com.empireminecraft.api.HiddenItemMeta.restoreItemLore(itemstack.tag); // EMC - get around creative menu having ultimate control of the NBT... // Prismarine - EMC patches
-                 // Paper start - Fix skulls of same owner - restore orig ID since we changed it on send to client
-                 if (itemstack.tag.contains("SkullOwnerOrig")) {
-                     CompoundTag owner = itemstack.tag.getCompound("SkullOwner");
+             }
+ 
+             this.writeNbt(nbttagcompound);
 diff --git a/src/main/java/net/minecraft/network/chat/HoverEvent.java b/src/main/java/net/minecraft/network/chat/HoverEvent.java
-index b31ff9d237f593e58b42b453632aa2c2af74f986..fa5b6d181a167a5ad4615a3747b87aab62d74225 100644
+index 587db9a70..9342b5e2e 100644
 --- a/src/main/java/net/minecraft/network/chat/HoverEvent.java
 +++ b/src/main/java/net/minecraft/network/chat/HoverEvent.java
 @@ -246,7 +246,7 @@ public class HoverEvent {
@@ -2846,7 +2838,7 @@ index b31ff9d237f593e58b42b453632aa2c2af74f986..fa5b6d181a167a5ad4615a3747b87aab
              this.item = item;
              this.count = count;
              this.tag = nbt;
-diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
+diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java # TODO: Fixup patch
 index e8e49e1bdf1ff4ea60a4feb6ec52d999cbced256..65e9d8789b946ffc8e41d61200463ab194d9ad0a 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
@@ -2866,10 +2858,10 @@ index e8e49e1bdf1ff4ea60a4feb6ec52d999cbced256..65e9d8789b946ffc8e41d61200463ab1
              org.bukkit.Bukkit.getLogger().warning("Unable to parse " + key + " from " + compound +": " + e.getMessage());
          }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 72df9c6d1ac2fef090b0532da079c607f79bce89..8278fe18a774ac2a0fac49bf21082aa8a83357da 100644
+index 6d61c3685..d62d55f31 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1431,7 +1431,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1449,7 +1449,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
          // SPIGOT-6415: Don't call spawn event for entities which travel trough worlds,
          // since it is only an implementation detail, that a new entity is created when
          // they are traveling between worlds.
@@ -2884,31 +2876,31 @@ index 72df9c6d1ac2fef090b0532da079c607f79bce89..8278fe18a774ac2a0fac49bf21082aa8
      }
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
-@@ -1890,6 +1896,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1982,6 +1988,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
      }
-     public @Nullable BlockPos findNearestMapFeature(HolderSet<ConfiguredStructureFeature<?, ?>> holderSet, BlockPos pos, int radius, boolean skipExistingChunks) {
+     public @Nullable BlockPos findNearestMapFeature(HolderSet<Structure> holderSet, BlockPos pos, int radius, boolean skipReferencedStructures) {
          {
 +            if (!prismarineConfig.generateStructures) return null; // Prismarine - EMC tweaks
              {
-                 Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> pair = this.getChunkSource().getGenerator().findNearestMapFeature(this, holderSet, pos, radius, skipExistingChunks);
+                 Pair<BlockPos, Holder<Structure>> pair = this.getChunkSource().getGenerator().findNearestMapStructure(this, holderSet, pos, radius, skipReferencedStructures);
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 35a8f0ebe3ab0595c2613d6f37b21336fde72203..f54c1884e3af328bc71176f16dae7b449c369886 100644
+index 1cd2d3859..8af948902 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2189,6 +2189,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
-     private void handleChat(TextFilter.FilteredText message) {
-         if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
-             this.send(new ClientboundChatPacket((new TranslatableComponent("chat.disabled.options")).withStyle(ChatFormatting.RED), ChatType.SYSTEM, Util.NIL_UUID));
-+        } else if (!player.didPlayerJoinEvent) { return; // EMC - do not handle chat messages before they joined // Prismarine - EMC tweaks
+@@ -2290,6 +2290,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+ 
+             this.send(new ClientboundSystemChatPacket(Component.translatable("chat.disabled.options").withStyle(ChatFormatting.RED), i));
+             return false;
++        } else if (!player.didPlayerJoinEvent) { return false; // EMC - do not handle chat messages before they joined // Prismarine - EMC Patches
          } else {
              this.player.resetLastActionTime();
-             String s = message.getRaw();
+             return true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
-index e8a79277f3e57bc82d67ada6543c7f8665311bd3..08421abfedeedda61d58c4bf6495f3eb9818be19 100644
+index 08b21f5a7..08199b88d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
-@@ -92,7 +92,8 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
+@@ -91,7 +91,8 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
                  } else {
                      this.connection.setListener(new ServerLoginPacketListenerImpl(this.server, this.connection));
                  // Paper start - handshake event
@@ -2918,7 +2910,7 @@ index e8a79277f3e57bc82d67ada6543c7f8665311bd3..08421abfedeedda61d58c4bf6495f3eb
                  boolean handledByEvent = false;
                  // Try and handle the handshake through the event
                  if (com.destroystokyo.paper.event.player.PlayerHandshakeEvent.getHandlerList().getRegisteredListeners().length != 0) { // Hello? Can you hear me?
-@@ -121,6 +122,7 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
+@@ -120,6 +121,7 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
                      if (!handledByEvent && proxyLogicEnabled) {
                          // Paper end
                      // if (org.spigotmc.SpigotConfig.bungee) { // Paper - comment out, we check above!
@@ -2926,28 +2918,28 @@ index e8a79277f3e57bc82d67ada6543c7f8665311bd3..08421abfedeedda61d58c4bf6495f3eb
                          if ( ( split.length == 3 || split.length == 4 ) && ( ServerHandshakePacketListenerImpl.BYPASS_HOSTCHECK || ServerHandshakePacketListenerImpl.HOST_PATTERN.matcher( split[1] ).matches() ) ) { // Paper
                              // Paper start - Unix domain socket support
                              java.net.SocketAddress socketAddress = connection.getRemoteAddress();
-@@ -128,7 +130,7 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
+@@ -127,7 +129,7 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
                              connection.address = new java.net.InetSocketAddress(split[1], socketAddress instanceof java.net.InetSocketAddress ? ((java.net.InetSocketAddress) socketAddress).getPort() : 0);
                              // Paper end
                              connection.spoofedUUID = com.mojang.util.UUIDTypeAdapter.fromString( split[2] );
 -                        } else
 +                        } else if (!net.prismarineteam.prismarine.PrismarineConfig.useBungeecordAddressLimit) // EMC // Prismarine - EMC patches
                          {
-                             TranslatableComponent chatmessage = new TranslatableComponent("If you wish to use IP forwarding, please enable it in your BungeeCord config as well!");
+                             Component chatmessage = Component.literal("If you wish to use IP forwarding, please enable it in your BungeeCord config as well!");
                              this.connection.send(new ClientboundLoginDisconnectPacket(chatmessage));
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 00a5731e7b1e2b84453e6d1416dce8bd9e1b1b10..e3d63bcbb84f31f14681de59936d73bb25b039e5 100644
+index 59647ca64..e2621fd06 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -262,7 +262,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
-             }
-         }
-         // Paper end - validate usernames
--        if (this.server.usesAuthentication() && !this.connection.isMemoryConnection()) {
-+        if (!this.connection.isProxied && this.server.usesAuthentication() && !this.connection.isMemoryConnection()) { // EMC - add !isProxied // Prismarine - EMC patches
-             this.state = ServerLoginPacketListenerImpl.State.KEY;
-             this.connection.send(new ClientboundHelloPacket("", this.server.getKeyPair().getPublic().getEncoded(), this.nonce));
+@@ -315,7 +315,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+             this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
          } else {
+             this.gameProfile = new GameProfile((UUID) null, packet.name());
+-            if (this.server.usesAuthentication() && !this.connection.isMemoryConnection()) {
++            if (!this.connection.isProxied && this.server.usesAuthentication() && !this.connection.isMemoryConnection()) { // EMC - add !isProxied // Prismarine - EMC patches
+                 this.state = ServerLoginPacketListenerImpl.State.KEY;
+                 this.connection.send(new ClientboundHelloPacket("", this.server.getKeyPair().getPublic().getEncoded(), this.nonce));
+             } else {
 diff --git a/src/main/java/net/minecraft/util/datafix/DataFixers.java b/src/main/java/net/minecraft/util/datafix/DataFixers.java
 index e4090fa0f01078277d70b1a88e870a56f6b1cb0f..acc31c253063cbb6ee20a1ce0e7f727e20f0a897 100644
 --- a/src/main/java/net/minecraft/util/datafix/DataFixers.java
