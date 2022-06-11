@@ -45,6 +45,9 @@ jobs:
       - name: Create Reobf Jar
         run: ./gradlew createReobfPaperclipJar --stacktrace
 
+      - name: Create Mojmap Jar
+        run: ./gradlew createMojmapPaperclipJar --stacktrace
+
       - name: Release Artifacts
         if: github.ref_name == env.branch
         uses: marvinpinto/action-automatic-releases@latest
