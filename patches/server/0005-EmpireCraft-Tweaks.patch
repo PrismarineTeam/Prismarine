@@ -52,10 +52,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/com/empireminecraft/DataConverters.java b/src/main/java/com/empireminecraft/DataConverters.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3fe63a7da
+index 0000000000000000000000000000000000000000..353d3c03a1693f6468e886e4d7acac902ba78d20
 --- /dev/null
 +++ b/src/main/java/com/empireminecraft/DataConverters.java
-@@ -0,0 +1,2639 @@
+@@ -0,0 +1,2638 @@
 +package com.empireminecraft;
 +
 +import com.google.common.collect.Lists;
@@ -93,7 +93,6 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +import net.minecraft.nbt.NbtOps;
 +import net.minecraft.nbt.StringTag;
 +import net.minecraft.network.chat.Component;
-+import net.minecraft.network.chat.TextComponent;
 +import net.minecraft.resources.ResourceLocation;
 +import net.minecraft.util.GsonHelper;
 +import net.minecraft.util.StringUtil;
@@ -164,7 +163,7 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +
 +    // Called after fixers are built and ready for FIXING
 +    public DataFixer build(final Executor executor) {
-+        return this.fixer = new WrappedDataFixer(super.build(executor));
++        return this.fixer = new WrappedDataFixer(super.build());
 +    }
 +
 +    private class WrappedDataFixer implements DataFixer {
@@ -1554,7 +1553,7 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +    private static class DataConverterMinecart implements DataConverter {
 +
 +        private static final List<String> a = Lists.newArrayList("MinecartRideable", "MinecartChest", "MinecartFurnace", "MinecartTNT", "MinecartSpawner",
-+                "MinecartHopper", "MinecartCommandBlock");
++            "MinecartHopper", "MinecartCommandBlock");
 +
 +        DataConverterMinecart() {}
 +
@@ -1640,8 +1639,8 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +    private static class DataConverterHealth implements DataConverter {
 +
 +        private static final Set<String> a = Sets.newHashSet("ArmorStand", "Bat", "Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderDragon", "Enderman",
-+                "Endermite", "EntityHorse", "Ghast", "Giant", "Guardian", "LavaSlime", "MushroomCow", "Ozelot", "Pig", "PigZombie", "Rabbit", "Sheep", "Shulker",
-+                "Silverfish", "Skeleton", "Slime", "SnowMan", "Spider", "Squid", "Villager", "VillagerGolem", "Witch", "WitherBoss", "Wolf", "Zombie");
++            "Endermite", "EntityHorse", "Ghast", "Giant", "Guardian", "LavaSlime", "MushroomCow", "Ozelot", "Pig", "PigZombie", "Rabbit", "Sheep", "Shulker",
++            "Silverfish", "Skeleton", "Slime", "SnowMan", "Spider", "Squid", "Villager", "VillagerGolem", "Witch", "WitherBoss", "Wolf", "Zombie");
 +
 +        DataConverterHealth() {}
 +
@@ -1815,12 +1814,12 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +
 +                        if (!"null".equals(s) && !StringUtil.isNullOrEmpty(s)) {
 +                            if ((s.charAt(0) != 34 || s.charAt(s.length() - 1) != 34) && (s.charAt(0) != 123 || s.charAt(s.length() - 1) != 125)) {
-+                                object = new TextComponent(s);
++                                object = Component.literal(s);
 +                            } else {
 +                                try {
 +                                    object = GsonHelper.fromJson(DataConverterSignText.a, s, Component.class, true);
 +                                    if (object == null) {
-+                                        object = new TextComponent("");
++                                        object = Component.literal("");
 +                                    }
 +                                } catch (JsonParseException ignored) {
 +                                }
@@ -1840,11 +1839,11 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +                                }
 +
 +                                if (object == null) {
-+                                    object = new TextComponent(s);
++                                    object = Component.literal(s);
 +                                }
 +                            }
 +                        } else {
-+                            object = new TextComponent("");
++                            object = Component.literal("");
 +                        }
 +
 +                        nbttaglist.set(i, StringTag.valueOf(Component.Serializer.toJson(object)));
@@ -2252,7 +2251,7 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +    private static class DataConverterShulkerBoxItem implements DataConverter {
 +
 +        public static final String[] a =
-+                { "minecraft:white_shulker_box", "minecraft:orange_shulker_box", "minecraft:magenta_shulker_box", "minecraft:light_blue_shulker_box", "minecraft:yellow_shulker_box", "minecraft:lime_shulker_box", "minecraft:pink_shulker_box", "minecraft:gray_shulker_box", "minecraft:silver_shulker_box", "minecraft:cyan_shulker_box", "minecraft:purple_shulker_box", "minecraft:blue_shulker_box", "minecraft:brown_shulker_box", "minecraft:green_shulker_box", "minecraft:red_shulker_box", "minecraft:black_shulker_box"};
++            { "minecraft:white_shulker_box", "minecraft:orange_shulker_box", "minecraft:magenta_shulker_box", "minecraft:light_blue_shulker_box", "minecraft:yellow_shulker_box", "minecraft:lime_shulker_box", "minecraft:pink_shulker_box", "minecraft:gray_shulker_box", "minecraft:silver_shulker_box", "minecraft:cyan_shulker_box", "minecraft:purple_shulker_box", "minecraft:blue_shulker_box", "minecraft:brown_shulker_box", "minecraft:green_shulker_box", "minecraft:red_shulker_box", "minecraft:black_shulker_box"};
 +
 +        DataConverterShulkerBoxItem() {}
 +
@@ -2409,7 +2408,7 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +        public static final Gson a = new GsonBuilder().registerTypeAdapter(Component.class, new JsonDeserializer() {
 +            Component a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
 +                if (jsonelement.isJsonPrimitive()) {
-+                    return new TextComponent(jsonelement.getAsString());
++                    return Component.literal(jsonelement.getAsString());
 +                } else if (jsonelement.isJsonArray()) {
 +                    JsonArray jsonarray = jsonelement.getAsJsonArray();
 +                    Component ichatbasecomponent = null;
@@ -2458,12 +2457,12 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +
 +            if (!"null".equals(s1) && !StringUtil.isNullOrEmpty(s1)) {
 +                if ((s1.charAt(0) != 34 || s1.charAt(s1.length() - 1) != 34) && (s1.charAt(0) != 123 || s1.charAt(s1.length() - 1) != 125)) {
-+                    object = new TextComponent(s1);
++                    object = Component.literal(s1);
 +                } else {
 +                    try {
 +                        object = GsonHelper.fromJson(DataConverterSignText.a, s1, Component.class, true);
 +                        if (object == null) {
-+                            object = new TextComponent("");
++                            object = Component.literal("");
 +                        }
 +                    } catch (JsonParseException ignored) {
 +                    }
@@ -2483,11 +2482,11 @@ index 0000000000000000000000000000000000000000..6cd4871a1930a0413b5625c49758e2e3
 +                    }
 +
 +                    if (object == null) {
-+                        object = new TextComponent(s1);
++                        object = Component.literal(s1);
 +                    }
 +                }
 +            } else {
-+                object = new TextComponent("");
++                object = Component.literal("");
 +            }
 +
 +            nbttagcompound.putString(s, Component.Serializer.toJson(object));
@@ -2801,6 +2800,19 @@ index 0000000000000000000000000000000000000000..11985471253dbff8719ea223356e103a
 +    }
 +}
 \ No newline at end of file
+diff --git a/src/main/java/com/mojang/datafixers/DataFixerBuilder.java b/src/main/java/com/mojang/datafixers/DataFixerBuilder.java
+index 3d5e52d997a8e7d7f3b000e3737d30762aae2ca1..e9c478c32c77e8eb0c7f39d9aae11a3f65f5b6f4 100644
+--- a/src/main/java/com/mojang/datafixers/DataFixerBuilder.java
++++ b/src/main/java/com/mojang/datafixers/DataFixerBuilder.java
+@@ -99,7 +99,7 @@ public class DataFixerBuilder {
+         return fixerUpper;
+     }
+ 
+-    private DataFixerUpper build() {
++    public DataFixerUpper build() { // EMC - make public // Prismarine - EMC patches
+         return new DataFixerUpper(new Int2ObjectAVLTreeMap<>(schemas), new ArrayList<>(globalList), new IntAVLTreeSet(fixerVersions));
+     }
+ }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
 index fd23bb94194b94a203de8aa165096ebce11c2a63..cd7f76a14012fbabd02175f2587452a3c1759c91 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
@@ -2961,7 +2973,7 @@ index 05946c6ab0bfb0a24d23fc336817f1ea0e19d115..da2c4f857712dda0dcfd5bf2469151d6
          DataFixers.addFixers(datafixerbuilder);
          boolean flag;
 diff --git a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
-index aa34db072f496e53abef7541156ddf8d2ef0c1c8..85a93e54a5cb05f39d060f1decd50aa386201131 100644
+index aa34db072f496e53abef7541156ddf8d2ef0c1c8..78d0eb97b00ce09d15984d33d0ee07b16af90d26 100644
 --- a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
 +++ b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
 @@ -344,7 +344,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
@@ -2970,7 +2982,7 @@ index aa34db072f496e53abef7541156ddf8d2ef0c1c8..85a93e54a5cb05f39d060f1decd50aa3
  
 +        // Prismarine start - EMC tweaks
 +        if (net.prismarineteam.prismarine.PrismarineConfig.allowNegativeAmplifierValues) {
-+            return new MobEffectInstance(type, j, i, bl, bl2, bl3, key, mobEffectInstance);
++            return new MobEffectInstance(type, j, i, bl, bl2, bl3, key, mobEffectInstance, optional);
 +        } else {
 +        // Prismarine end
          return new MobEffectInstance(type, j, Math.max(i, 0), bl, bl2, bl3, key, mobEffectInstance, optional); // Purpur - add key
@@ -3096,27 +3108,6 @@ index 17cc3237c7fc8ceda136b2371fabf6f004a991aa..00aee1b6de3963290aac422642b5f3f5
          } else {
              this.maxUses = 4;
          }
-diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 5a91e1b1cb39c0922f651f676bebb2961f873312..f0b3fadd7181072377a68e7262ae86692b85ed88 100644
---- a/src/main/java/net/minecraft/world/level/Level.java
-+++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -832,7 +832,15 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
- 
-     @Override
-     public boolean destroyBlock(BlockPos pos, boolean drop, @Nullable Entity breakingEntity, int maxUpdateDepth) {
--        BlockState iblockdata = this.getBlockState(pos);
-+        // Prismarine start - EMC tweaks
-+        BlockState iblockdata;
-+        if (this.prismarineConfig.doNotLoadChunksForPhysics) {
-+            iblockdata = this.getBlockStateIfLoaded(pos);
-+        } else {
-+            iblockdata = this.getBlockState(pos);
-+        }
-+        if (iblockdata == null) return;
-+        // Prismarine end
- 
-         if (iblockdata.isAir()) {
-             return false;
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 index 1f4acc1a2605f1e9051126fc811a5479351fc61a..26841e43896e836e84869f8f05054dcf392ac565 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java

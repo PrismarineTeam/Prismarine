@@ -6,13 +6,12 @@ Subject: [PATCH] EntityBreedPrepareEvent
 
 diff --git a/src/main/java/net/prismarineteam/prismarine/event/entity/EntityBreedPrepareEvent.java b/src/main/java/net/prismarineteam/prismarine/event/entity/EntityBreedPrepareEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..76f88964d85137d68abffa7e022016de73640496
+index 0000000000000000000000000000000000000000..0d1cc7a64f1a0778d39045fe771c501b298a9a30
 --- /dev/null
 +++ b/src/main/java/net/prismarineteam/prismarine/event/entity/EntityBreedPrepareEvent.java
-@@ -0,0 +1,73 @@
+@@ -0,0 +1,68 @@
 +package net.prismarineteam.prismarine.event.entity;
 +
-+import org.apache.commons.lang.Validate;
 +import org.bukkit.entity.LivingEntity;
 +import org.bukkit.event.Cancellable;
 +import org.bukkit.event.HandlerList;
@@ -32,10 +31,6 @@ index 0000000000000000000000000000000000000000..76f88964d85137d68abffa7e022016de
 +    
 +    public EntityBreedPrepareEvent(@NotNull LivingEntity entity, @NotNull LivingEntity target, @Nullable LivingEntity breeder, @Nullable ItemStack bredWith) {
 +        super(entity);
-+
-+        Validate.notNull(entity, "Cannot have null entity");
-+        Validate.notNull(target, "Cannot have null target");
-+        
 +        this.entity = entity;
 +        this.target = target;
 +        this.breeder = breeder;
