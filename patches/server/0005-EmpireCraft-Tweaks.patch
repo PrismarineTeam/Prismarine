@@ -2802,7 +2802,7 @@ index 0000000000000000000000000000000000000000..11985471253dbff8719ea223356e103a
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index fd23bb941..cd7f76a14 100644
+index fd23bb94194b94a203de8aa165096ebce11c2a63..cd7f76a14012fbabd02175f2587452a3c1759c91 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -85,6 +85,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -2814,7 +2814,7 @@ index fd23bb941..cd7f76a14 100644
      private Component disconnectedReason;
      private boolean encrypted;
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 35377576e..835403ce4 100644
+index 35377576ed182814051c11f902e02e8e921e84e3..835403ce42df05092685ef38a4546e409f8a1eab 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 @@ -582,6 +582,7 @@ public class FriendlyByteBuf extends ByteBuf {
@@ -2826,7 +2826,7 @@ index 35377576e..835403ce4 100644
  
              this.writeNbt(nbttagcompound);
 diff --git a/src/main/java/net/minecraft/network/chat/HoverEvent.java b/src/main/java/net/minecraft/network/chat/HoverEvent.java
-index 587db9a70..9342b5e2e 100644
+index 587db9a70f8f930412d34c4a412c19a30faa2a4e..9342b5e2ee92380e7122cfb1e7c2395366294ba1 100644
 --- a/src/main/java/net/minecraft/network/chat/HoverEvent.java
 +++ b/src/main/java/net/minecraft/network/chat/HoverEvent.java
 @@ -246,7 +246,7 @@ public class HoverEvent {
@@ -2838,8 +2838,8 @@ index 587db9a70..9342b5e2e 100644
              this.item = item;
              this.count = count;
              this.tag = nbt;
-diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java # TODO: Fixup patch
-index e8e49e1bdf1ff4ea60a4feb6ec52d999cbced256..65e9d8789b946ffc8e41d61200463ab194d9ad0a 100644
+diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
+index c0fdc5a79107f8694a514a12d5526bd431fc45e9..d21530eb6bc150e431769b02fe50040fa5190b02 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
 @@ -550,7 +550,13 @@ public final class MCUtil {
@@ -2858,10 +2858,10 @@ index e8e49e1bdf1ff4ea60a4feb6ec52d999cbced256..65e9d8789b946ffc8e41d61200463ab1
              org.bukkit.Bukkit.getLogger().warning("Unable to parse " + key + " from " + compound +": " + e.getMessage());
          }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 6d61c3685..d62d55f31 100644
+index c803574e6af57c4c63aae7f1378a5abe3b9ee968..02e1c91bfd2f6ff32ccac4d3857e29cdd5c63c95 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1449,7 +1449,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1450,7 +1450,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
          // SPIGOT-6415: Don't call spawn event for entities which travel trough worlds,
          // since it is only an implementation detail, that a new entity is created when
          // they are traveling between worlds.
@@ -2876,7 +2876,7 @@ index 6d61c3685..d62d55f31 100644
      }
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
-@@ -1982,6 +1988,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1983,6 +1989,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
      }
      public @Nullable BlockPos findNearestMapFeature(HolderSet<Structure> holderSet, BlockPos pos, int radius, boolean skipReferencedStructures) {
          {
@@ -2885,10 +2885,10 @@ index 6d61c3685..d62d55f31 100644
                  Pair<BlockPos, Holder<Structure>> pair = this.getChunkSource().getGenerator().findNearestMapStructure(this, holderSet, pos, radius, skipReferencedStructures);
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 1cd2d3859..8af948902 100644
+index 35836fb12fd67d7a321265a68c390b95a339ff1f..e4c92d908d9d3d9866692905e71b0cd14427350e 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2290,6 +2290,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2292,6 +2292,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              this.send(new ClientboundSystemChatPacket(Component.translatable("chat.disabled.options").withStyle(ChatFormatting.RED), i));
              return false;
@@ -2897,7 +2897,7 @@ index 1cd2d3859..8af948902 100644
              this.player.resetLastActionTime();
              return true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
-index 08b21f5a7..08199b88d 100644
+index 08b21f5a7a07f44f8044f56991fb6723cd8f3eea..08199b88dde12d3a74ce7e9d6e987e3f69123190 100644
 --- a/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
 @@ -91,7 +91,8 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
@@ -2928,7 +2928,7 @@ index 08b21f5a7..08199b88d 100644
                              Component chatmessage = Component.literal("If you wish to use IP forwarding, please enable it in your BungeeCord config as well!");
                              this.connection.send(new ClientboundLoginDisconnectPacket(chatmessage));
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 59647ca64..e2621fd06 100644
+index 0a0f1da57fd85c521c84b127316a4816241c751f..eea58ef165e3e7078aed50a3e40f9b6217104171 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -315,7 +315,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
@@ -2941,13 +2941,13 @@ index 59647ca64..e2621fd06 100644
                  this.connection.send(new ClientboundHelloPacket("", this.server.getKeyPair().getPublic().getEncoded(), this.nonce));
              } else {
 diff --git a/src/main/java/net/minecraft/util/datafix/DataFixers.java b/src/main/java/net/minecraft/util/datafix/DataFixers.java
-index e4090fa0f01078277d70b1a88e870a56f6b1cb0f..acc31c253063cbb6ee20a1ce0e7f727e20f0a897 100644
+index 05946c6ab0bfb0a24d23fc336817f1ea0e19d115..da2c4f857712dda0dcfd5bf2469151d6fd8eb26e 100644
 --- a/src/main/java/net/minecraft/util/datafix/DataFixers.java
 +++ b/src/main/java/net/minecraft/util/datafix/DataFixers.java
-@@ -83,7 +83,14 @@ public class DataFixers {
-     public DataFixers() {}
+@@ -99,7 +99,14 @@ public class DataFixers {
+     }
  
-     private static DataFixer createFixerUpper() {
+     private static synchronized DataFixer createFixerUpper() {
 -        DataFixerBuilder datafixerbuilder = new DataFixerBuilder(SharedConstants.getCurrentVersion().getWorldVersion());
 +        // Prismarine start - EMC patches
 +        DataFixerBuilder datafixerbuilder;
@@ -2959,49 +2959,48 @@ index e4090fa0f01078277d70b1a88e870a56f6b1cb0f..acc31c253063cbb6ee20a1ce0e7f727e
 +        // Prismarine end
  
          DataFixers.addFixers(datafixerbuilder);
-         return datafixerbuilder.build(Util.bootstrapExecutor());
+         boolean flag;
 diff --git a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
-index 390a70b9d9aa40a2511ab6588df2833a34682e5a..abde2c8de399d2e057d5cf255d0ce9ce3dcfa47c 100644
+index aa34db072f496e53abef7541156ddf8d2ef0c1c8..85a93e54a5cb05f39d060f1decd50aa386201131 100644
 --- a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
 +++ b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
-@@ -307,7 +307,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
-             mobEffectInstance = loadSpecifiedEffect(type, nbt.getCompound("HiddenEffect"));
+@@ -344,7 +344,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+             optional = Optional.empty();
          }
  
--        return new MobEffectInstance(type, j, i < 0 ? 0 : i, bl, bl2, bl3, key, mobEffectInstance); // Purpur - add key
 +        // Prismarine start - EMC tweaks
 +        if (net.prismarineteam.prismarine.PrismarineConfig.allowNegativeAmplifierValues) {
 +            return new MobEffectInstance(type, j, i, bl, bl2, bl3, key, mobEffectInstance);
 +        } else {
-+            return new MobEffectInstance(type, j, i < 0 ? 0 : i, bl, bl2, bl3, key, mobEffectInstance); // Purpur - add key
-+        }
 +        // Prismarine end
+         return new MobEffectInstance(type, j, Math.max(i, 0), bl, bl2, bl3, key, mobEffectInstance, optional); // Purpur - add key
++        } // Prismarine
      }
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-index 75f4749c35a4cc35bc8617b1ba5c74ef198a423c..1158164a5debe060904d30f486083280ba3a231d 100644
+index b5116c5450cc06492aceffa011b17246d8fc6cab..d900f5a5f96a04dee0bedf82efba42125c0485c9 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -747,6 +747,13 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -746,6 +746,13 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+     public boolean isPowered() {
          return this.getHealth() <= this.getMaxHealth() / 2.0F;
      }
- 
++ 
 +    // Prismarine start - EMC tweaks
 +    @Override
 +    public boolean removeWhenFarAway(double distanceSquared) {
 +        return this.level.prismarineConfig.witherCanDespawn;
 +    }
 +    // Prismarine end
-+
+ 
      @Override
      public MobType getMobType() {
-         return MobType.UNDEAD;
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 5b221b9026ed0a357669a0422bdff2524b5e372a..31005d800319e701d3358bd6200082ac7e5e8a53 100644
+index 7344324517fb10ee6ab3467b40fcb9cd798961cb..cb538ff4b5e8da7914361d012060fedf1d22acf2 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -801,6 +801,7 @@ public abstract class Player extends LivingEntity {
+@@ -810,6 +810,7 @@ public abstract class Player extends LivingEntity {
              this.level.getCraftServer().getPluginManager().callEvent(event);
  
              if (event.isCancelled()) {
@@ -3010,18 +3009,10 @@ index 5b221b9026ed0a357669a0422bdff2524b5e372a..31005d800319e701d3358bd6200082ac
                  if (flag1 && (cur == null || cur.getAmount() == 0)) {
                      // The complete stack was dropped
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..75163ef6ddf1b4da8a4d97522228e674c26aa1d6 100644
+index 4ec80c52cbee9b484e47a93551df4dbf62f6d83e..10991707a98160d52087723d3625723993141d5a 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
-@@ -14,7 +14,6 @@ import java.text.DecimalFormatSymbols;
- import java.util.Collection;
- import java.util.Iterator;
- import java.util.List;
--import java.util.Collections;
- import java.util.Comparator;
- import java.util.Locale;
- import java.util.Map.Entry;
-@@ -32,10 +31,7 @@ import net.minecraft.core.BlockPos;
+@@ -28,10 +28,7 @@ import net.minecraft.core.BlockPos;
  import net.minecraft.core.Direction;
  import net.minecraft.core.Holder;
  import net.minecraft.core.Registry;
@@ -3030,10 +3021,10 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..75163ef6ddf1b4da8a4d97522228e674
 -import net.minecraft.nbt.NbtOps;
 -import net.minecraft.nbt.Tag;
 +import net.minecraft.nbt.*; // EMC // Prismarine - EMC patches
+ import net.minecraft.network.chat.CommonComponents;
  import net.minecraft.network.chat.Component;
  import net.minecraft.network.chat.ComponentUtils;
- import net.minecraft.network.chat.HoverEvent;
-@@ -228,6 +224,7 @@ public final class ItemStack {
+@@ -228,6 +225,7 @@ public final class ItemStack {
          this.count = count;
          if (this.item != null && this.item.canBeDepleted()) {
              this.setDamageValue(this.getDamageValue());
@@ -3041,7 +3032,7 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..75163ef6ddf1b4da8a4d97522228e674
          }
  
          this.updateEmptyCacheFlag();
-@@ -259,6 +256,7 @@ public final class ItemStack {
+@@ -259,6 +257,7 @@ public final class ItemStack {
              // CraftBukkit end
              this.processEnchantOrder(this.tag); // Paper
              this.processText(); // Paper
@@ -3049,7 +3040,7 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..75163ef6ddf1b4da8a4d97522228e674
              this.getItem().verifyTagAfterLoad(this.tag);
          }
  
-@@ -1188,10 +1186,12 @@ public final class ItemStack {
+@@ -1184,10 +1183,12 @@ public final class ItemStack {
      }
  
      public int getBaseRepairCost() {
@@ -3062,7 +3053,7 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..75163ef6ddf1b4da8a4d97522228e674
          // CraftBukkit start - remove RepairCost tag when 0 (SPIGOT-3945)
          if (repairCost == 0) {
              this.removeTagKey("RepairCost");
-@@ -1265,8 +1265,28 @@ public final class ItemStack {
+@@ -1261,8 +1262,28 @@ public final class ItemStack {
          MutableComponent ichatmutablecomponent1 = ComponentUtils.wrapInSquareBrackets(ichatmutablecomponent);
  
          if (!this.emptyCacheFlag) {
@@ -3093,7 +3084,7 @@ index 7471e59ad3362bc3d0bad6555fe29a9bb9ad74a6..75163ef6ddf1b4da8a4d97522228e674
          }
  
 diff --git a/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java b/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java
-index 9a402505375af2051673245ec0a1daf9f3a66dc7..68f043207b7a3f239f5cd1147350239e9bd87669 100644
+index 17cc3237c7fc8ceda136b2371fabf6f004a991aa..00aee1b6de3963290aac422642b5f3f504249095 100644
 --- a/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java
 +++ b/src/main/java/net/minecraft/world/item/trading/MerchantOffer.java
 @@ -53,7 +53,7 @@ public class MerchantOffer {
@@ -3101,15 +3092,15 @@ index 9a402505375af2051673245ec0a1daf9f3a66dc7..68f043207b7a3f239f5cd1147350239e
          this.uses = nbt.getInt("uses");
          if (nbt.contains("maxUses", 99)) {
 -            this.maxUses = nbt.getInt("maxUses");
-+            this.maxUses = Math.min(net.prismarineteam.prismarine.PrismarineConfig.maxVillagerTradeLimit, nbt.getInt("maxUses"));
++            this.maxUses = Math.min(net.prismarineteam.prismarine.PrismarineConfig.maxVillagerTradeLimit, nbt.getInt("maxUses")); // Prismarine - EMC patches
          } else {
              this.maxUses = 4;
          }
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 1d72f0e63c5a64a82439d828a7182465fe7238ef..fefd4f11c0b3c31502425d2378915b826f355c46 100644
+index 5a91e1b1cb39c0922f651f676bebb2961f873312..f0b3fadd7181072377a68e7262ae86692b85ed88 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -816,7 +816,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -832,7 +832,15 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
      @Override
      public boolean destroyBlock(BlockPos pos, boolean drop, @Nullable Entity breakingEntity, int maxUpdateDepth) {
@@ -3121,35 +3112,36 @@ index 1d72f0e63c5a64a82439d828a7182465fe7238ef..fefd4f11c0b3c31502425d2378915b82
 +        } else {
 +            iblockdata = this.getBlockState(pos);
 +        }
++        if (iblockdata == null) return;
 +        // Prismarine end
  
          if (iblockdata.isAir()) {
              return false;
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 6e24b86ce315510133b6294f5d348e5c4e7f547f..0383623dc5ff8c246ad784e162f2bd0f146ebd2e 100644
+index 1f4acc1a2605f1e9051126fc811a5479351fc61a..26841e43896e836e84869f8f05054dcf392ac565 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-@@ -405,6 +405,7 @@ public final class NaturalSpawner {
+@@ -406,6 +406,7 @@ public final class NaturalSpawner {
  
-     public static boolean isInNetherFortressBounds(BlockPos pos, ServerLevel world, MobCategory spawnGroup, StructureFeatureManager structureAccessor) {
+     public static boolean isInNetherFortressBounds(BlockPos pos, ServerLevel world, MobCategory spawnGroup, StructureManager structureAccessor) {
          if (spawnGroup == MobCategory.MONSTER && world.getBlockState(pos.below()).is(Blocks.NETHER_BRICKS)) {
 +            if (world.getMinecraftWorld().prismarineConfig.doNotRequireNetherFortressForMobSpawning && world.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER) return true; // Prismarine - EMC tweaks
-             ConfiguredStructureFeature<?, ?> structurefeature = (ConfiguredStructureFeature) structureAccessor.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY).get(BuiltinStructures.FORTRESS);
+             Structure structure = (Structure) structureAccessor.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).get(BuiltinStructures.FORTRESS);
  
-             return structurefeature == null ? false : structureAccessor.getStructureAt(pos, structurefeature).isValid();
-diff --git a/src/main/java/net/minecraft/world/level/StructureFeatureManager.java b/src/main/java/net/minecraft/world/level/StructureFeatureManager.java
-index 56c4f849d92b38537602fd77e481ee60a25bc84b..944c09bc7ed69c96db1ca7ba9972c872246883e5 100644
---- a/src/main/java/net/minecraft/world/level/StructureFeatureManager.java
-+++ b/src/main/java/net/minecraft/world/level/StructureFeatureManager.java
-@@ -92,7 +92,7 @@ public class StructureFeatureManager {
+             return structure == null ? false : structureAccessor.getStructureAt(pos, structure).isValid();
+diff --git a/src/main/java/net/minecraft/world/level/StructureManager.java b/src/main/java/net/minecraft/world/level/StructureManager.java
+index bca1e39da66a889caf92c28b6348623a440e1c7f..b2f7982bfcafcf39cf5c7d53401d4b9263f4ac52 100644
+--- a/src/main/java/net/minecraft/world/level/StructureManager.java
++++ b/src/main/java/net/minecraft/world/level/StructureManager.java
+@@ -93,7 +93,7 @@ public class StructureManager {
      }
  
-     public boolean shouldGenerateFeatures() {
--        return this.worldGenSettings.generateFeatures();
-+        return this.worldGenSettings.generateFeatures() && this.level.getMinecraftWorld().prismarineConfig.generateStructures; // Prismarine - EMC tweaks
+     public boolean shouldGenerateStructures() {
+-        return this.worldGenSettings.generateStructures();
++        return this.worldGenSettings.generateStructures() && this.level.getMinecraftWorld().prismarineConfig.generateStructures; // Prismarine - EMC tweaks
      }
  
-     public StructureStart getStructureAt(BlockPos pos, ConfiguredStructureFeature<?, ?> configuredStructureFeature) {
+     public StructureStart getStructureAt(BlockPos pos, Structure structure) {
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
 index d3de829a4ab5f5a127fb026a8cb4ef4ed6b9c394..574ba9ba1ea4cafdb31fd354fcff7b1d0d541ab6 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
@@ -3170,7 +3162,7 @@ index d3de829a4ab5f5a127fb026a8cb4ef4ed6b9c394..574ba9ba1ea4cafdb31fd354fcff7b1d
      public InventoryHolder getOwner(boolean useSnapshot) {
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java
-index da00f75ccc9f8c2e2174d4450479202a50844245..1553ff187b2489c2893d7483040705fc71b561f9 100644
+index 13e749a3c40f0b2cc002f13675a9a56eedbefdac..c4395abd24292852bc4948cebac2a1ea0c7ed56c 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java
 @@ -69,6 +69,7 @@ public abstract class RandomizableContainerBlockEntity extends BaseContainerBloc
@@ -3181,38 +3173,17 @@ index da00f75ccc9f8c2e2174d4450479202a50844245..1553ff187b2489c2893d7483040705fc
          if (this.lootableData.shouldReplenish(player) && this.level.getServer() != null) { // Paper
              LootTable lootTable = this.level.getServer().getLootTables().get(this.lootTable);
              if (player instanceof ServerPlayer) {
-diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-index e837091037402e990f763903d851c2f70888ada7..6f2c3b30e7ce7ec91605bc6207069b348ea6e477 100644
---- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-+++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-@@ -987,7 +987,15 @@ public abstract class BlockBehaviour {
-                 Direction enumdirection = aenumdirection[l];
- 
-                 blockposition_mutableblockposition.setWithOffset(pos, enumdirection);
--                BlockState iblockdata = world.getBlockState(blockposition_mutableblockposition);
-+                // Prismarine start - EMC tweaks
-+                BlockState iblockdata;
-+                if (world.getMinecraftWorld().prismarineConfig.doNotLoadChunksForPhysics) {
-+                    iblockdata = world.getBlockState(blockposition_mutableblockposition);
-+                } else {
-+                    iblockdata = world.getBlockStateIfLoaded(blockposition_mutableblockposition);
-+                }
-+                if (iblockdata == null) { continue; }
-+                // Prismarine end
-                 BlockState iblockdata1 = iblockdata.updateShape(enumdirection.getOpposite(), this.asState(), world, blockposition_mutableblockposition, pos);
- 
-                 Block.updateOrDestroy(iblockdata, iblockdata1, world, blockposition_mutableblockposition, flags, maxUpdateDepth);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
-index 954e141e5617d6d52e2f3008c25fe9e2fe2f0f9a..5c86c295ec1cc386159eff9f0868a8a6a289fbe5 100644
+index e6240f891e396d91e31b02fdf3084be77e9d6697..d77d6d9073d232208f7b4aa77e04a00c3690d0e6 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
 @@ -47,7 +47,7 @@ public class ChunkStatus {
      });
-     public static final ChunkStatus STRUCTURE_STARTS = ChunkStatus.register("structure_starts", ChunkStatus.EMPTY, 0, ChunkStatus.PRE_FEATURES, ChunkStatus.ChunkType.PROTOCHUNK, (chunkstatus, executor, worldserver, chunkgenerator, definedstructuremanager, lightenginethreaded, function, list, ichunkaccess, flag) -> {
+     public static final ChunkStatus STRUCTURE_STARTS = ChunkStatus.register("structure_starts", ChunkStatus.EMPTY, 0, ChunkStatus.PRE_FEATURES, ChunkStatus.ChunkType.PROTOCHUNK, (chunkstatus, executor, worldserver, chunkgenerator, structuretemplatemanager, lightenginethreaded, function, list, ichunkaccess, flag) -> {
          if (!ichunkaccess.getStatus().isOrAfter(chunkstatus)) {
--            if (worldserver.serverLevelData.worldGenSettings().generateFeatures()) { // CraftBukkit
-+            if (worldserver.serverLevelData.worldGenSettings().generateFeatures() && worldserver.prismarineConfig.generateStructures) { // CraftBukkit // Prismarine - EMC tweaks
-                 chunkgenerator.createStructures(worldserver.registryAccess(), worldserver.structureFeatureManager(), ichunkaccess, definedstructuremanager, worldserver.getSeed());
+-            if (worldserver.serverLevelData.worldGenSettings().generateStructures()) { // CraftBukkit
++            if (worldserver.serverLevelData.worldGenSettings().generateStructures() && worldserver.prismarineConfig.generateStructures) { // CraftBukkit // Prismarine - EMC tweaks
+                 chunkgenerator.createStructures(worldserver.registryAccess(), worldserver.getChunkSource().randomState(), worldserver.structureManager(), ichunkaccess, structuretemplatemanager, worldserver.getSeed());
              }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
@@ -3362,10 +3333,10 @@ index 74020515e2ec917b7d921aa8501a71ff433a6abb..c6beb55dd7d66e7f7b40753106667a25
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 43244a479a112786539a905a22cb12e3cf55b2dd..55eb5d5ff9ffe37a1b487981d20b4c18e2624103 100644
+index 25e56be9055c5c432e1180d45341f4e9d9fcb7ca..4d5283866d1e8e9971cab0a313a9588279d23f7a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -392,7 +392,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -391,7 +391,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean unloadChunk(int x, int z) {
@@ -3400,7 +3371,7 @@ index bfe9dc935c87e01fb435d8b46ce413b84ca74856..3accc7d7f1be03ba748678c568d76705
  
      // Paper start
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 5ab4a37fcdd74924e70f8de1ffafdb231e1ab317..68b865ee537aae9d8246fbce1af5cfe47cee5668 100644
+index 13a5d4338ca2a9ea9a9c520687bc1d5bfac91dea..95c71fd33b8d98e6c55e03db8526beaf25da375c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -711,7 +711,7 @@ public class CraftEventFactory {
@@ -3413,7 +3384,7 @@ index 5ab4a37fcdd74924e70f8de1ffafdb231e1ab317..68b865ee537aae9d8246fbce1af5cfe4
              if (vehicle != null) {
                  vehicle.discard();
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
-index 5607dc10dc1c9d2dbf4e3007890e5e89a175605e..2f5c6032384a7103577292a81c55cad257f7694b 100644
+index 3c4dadd0012c11191c873fe25a7625193563915d..8885b7333d3a1b02255652cb8b238d4bb390f69f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
 @@ -384,7 +384,7 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {

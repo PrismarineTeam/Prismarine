@@ -4,21 +4,6 @@ Date: Sat, 5 Mar 2022 12:27:53 +0900
 Subject: [PATCH] Miscellaneous patches
 
 
-diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index a2c90fb0bb297fb2faaa306dd0c032211a6e1121..7ea84a07a2414005a622e8480ab8ecac239dcc58 100644
---- a/src/main/java/co/aikar/timings/TimingsExport.java
-+++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -244,8 +244,9 @@ public class TimingsExport extends Thread {
-             pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
-             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
-             pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish
--            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null))
-+            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null)), // Prismarine - Add timings
-             // Purpur end
-+            pair("prismarine", mapAsJSON(Bukkit.spigot().getPrismarineConfig(), null)) // Prismarine - Add timings
-         ));
- 
-         new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
 index adafc4fd661cf080b004b86c3eaed231a0133101..0000000000000000000000000000000000000000
@@ -188,25 +173,3 @@ index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55
      public static Predicate<Player> notAfk = (player) -> !player.isAfk(); // Purpur
  
      private EntitySelector() {}
-diff --git a/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java b/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java
-index 61dc7d594c4ee15f99fd531d1b2cbaffc63c372d..997b1aa9ff6af6016404c6120c73beea0c024a6f 100644
---- a/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java
-+++ b/src/main/java/net/minecraft/world/level/levelgen/WorldGenSettings.java
-@@ -85,7 +85,7 @@ public class WorldGenSettings {
-     }
- 
-     public static WorldGenSettings makeDefault(RegistryAccess registryManager) {
--        long i = (new Random()).nextLong();
-+        long i = java.util.concurrent.ThreadLocalRandom.current().nextLong();
- 
-         return new WorldGenSettings(i, true, false, WorldGenSettings.withOverworld(registryManager.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY), DimensionType.defaultDimensions(registryManager, i), WorldGenSettings.makeDefaultOverworld(registryManager, i)));
-     }
-@@ -199,7 +199,7 @@ public class WorldGenSettings {
-     }
- 
-     public static WorldGenSettings create(RegistryAccess registryManager, DedicatedServerProperties.WorldGenProperties worldGenProperties) {
--        long i = WorldGenSettings.parseSeed(worldGenProperties.levelSeed()).orElse((new Random()).nextLong());
-+        long i = WorldGenSettings.parseSeed(worldGenProperties.levelSeed()).orElse(java.util.concurrent.ThreadLocalRandom.current().nextLong());
-         Registry<DimensionType> iregistry = registryManager.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY);
-         Registry<Biome> iregistry1 = registryManager.registryOrThrow(Registry.BIOME_REGISTRY);
-         Registry<StructureSet> iregistry2 = registryManager.registryOrThrow(Registry.STRUCTURE_SET_REGISTRY);

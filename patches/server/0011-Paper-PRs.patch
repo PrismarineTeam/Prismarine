@@ -48,10 +48,10 @@ booky10 <boooky10@gmail.com> - Prevent healing by negative amounts PaperMC/Paper
 Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#7709
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-index c4b2a50ad65b4ca2f8cc5903213c70cafde3e41c..6c5cfe0509c6f84064e5b37f8f945ff5f769d888 100644
+index f000c822ed4563b5b840936852bc7d8e030763e3..fe7641755316b258c65c67f54a832b4dd3ff8c6b 100644
 --- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 +++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-@@ -219,6 +219,7 @@ public class WorldGenRegion implements WorldGenLevel {
+@@ -226,6 +226,7 @@ public class WorldGenRegion implements WorldGenLevel {
          if (iblockdata.isAir()) {
              return false;
          } else {
@@ -60,23 +60,23 @@ index c4b2a50ad65b4ca2f8cc5903213c70cafde3e41c..6c5cfe0509c6f84064e5b37f8f945ff5
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 5531c672a84a9a9cd2bb43684f48fe1e977b7d44..b7327a48a40e0d10fd57621584c53972f6bd54a3 100644
+index fecd65dc87a99a5692c59dd590b20327b1eb31c2..2a3444e72c0118e5d2278a83db5136e308d2fa0c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -600,7 +600,7 @@ public abstract class PlayerList {
+@@ -603,7 +603,7 @@ public abstract class PlayerList {
  
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer) { // Paper - return Component
          // Paper start
--        return this.remove(entityplayer, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, com.destroystokyo.paper.PaperConfig.useDisplayNameInQuit ? entityplayer.getBukkitEntity().displayName() : net.kyori.adventure.text.Component.text(entityplayer.getScoreboardName())));
-+        return this.remove(entityplayer, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, com.destroystokyo.paper.PaperConfig.useDisplayNameInQuit ? entityplayer.getBukkitEntity().displayName() : PaperAdventure.asAdventure(entityplayer.getDisplayName()))); // Prismairne - Paper PR
+-        return this.remove(entityplayer, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, io.papermc.paper.configuration.GlobalConfiguration.get().messages.useDisplayNameInQuitMessage ? entityplayer.getBukkitEntity().displayName() : net.kyori.adventure.text.Component.text(entityplayer.getScoreboardName())));
++        return this.remove(entityplayer, net.kyori.adventure.text.Component.translatable("multiplayer.player.left", net.kyori.adventure.text.format.NamedTextColor.YELLOW, io.papermc.paper.configuration.GlobalConfiguration.get().messages.useDisplayNameInQuitMessage ? entityplayer.getBukkitEntity().displayName() : PaperAdventure.asAdventure(entityplayer.getDisplayName()))); // Prismairne - Paper PR
      }
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer, net.kyori.adventure.text.Component leaveMessage) {
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/effect/MobEffect.java b/src/main/java/net/minecraft/world/effect/MobEffect.java
-index 8d569eb2ec1b2bdbd415094ae04ae531dfdeafae..5e68b5e2baa4f47136625bf8be3a4741550fa2df 100644
+index bb15cf2aa35ce8754bba56f5b312d92b1a50c9f8..82c1e4f79210e10031a7555be03e294d53e06fa0 100644
 --- a/src/main/java/net/minecraft/world/effect/MobEffect.java
 +++ b/src/main/java/net/minecraft/world/effect/MobEffect.java
-@@ -99,7 +99,13 @@ public class MobEffect {
+@@ -111,7 +111,13 @@ public class MobEffect {
                  }
              }
          } else {
@@ -92,7 +92,7 @@ index 8d569eb2ec1b2bdbd415094ae04ae531dfdeafae..5e68b5e2baa4f47136625bf8be3a4741
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 6a4214b6110119215154fee48d000bc1051ea626..8cc762aa146f0e5c280b10be13567aed710e3557 100644
+index 6fc891e78b7a3839755a719ebc23f2ed2d714870..2cc1dbbca9e290492b82fcc75b7adc92796cf8ad 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -128,8 +128,13 @@ public class EnderMan extends Monster implements NeutralMob {
@@ -112,18 +112,17 @@ index 6a4214b6110119215154fee48d000bc1051ea626..8cc762aa146f0e5c280b10be13567aed
  
      public static AttributeSupplier.Builder createAttributes() {
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 6bbf1618e41c81fd2064ffd5d835187a927f24b7..afa182b76999c95586755cf22a4e4de1243ef8af 100644
+index deffa277272c34adb39d7c3e69e91502780a090e..66c65df229acc4041ed2027df07d4ab0dd8e7454 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-@@ -77,6 +77,8 @@ public abstract class BaseSpawner {
+@@ -78,6 +78,7 @@ public abstract class BaseSpawner {
      }
  
      public void serverTick(ServerLevel world, BlockPos pos) {
 +        if (spawnCount <= 0 || maxNearbyEntities <= 0) return; // Paper - Ignore impossible spawn tick // Prismarine - Paper PR
-+
          // Paper start - Configurable mob spawner tick rate
          if (spawnDelay > 0 && --tickDelay > 0) return;
-         tickDelay = world.paperConfig.mobSpawnerTickRate;
+         tickDelay = world.paperConfig().tickRates.mobSpawner;
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index cd82048efeee0ca64f52793111bf957660e8befd..cabb58b8ac4139fe928430886f735b1fa153acf6 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
@@ -140,10 +139,10 @@ index cd82048efeee0ca64f52793111bf957660e8befd..cabb58b8ac4139fe928430886f735b1f
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-index e231636403a70f28e7e4bf51542608872234ce94..802e5d80e53e534335844116e44e4eebc3ca4a13 100644
+index 6445c2e4c97860e1c98f5263188d309cf55936f0..019fcb36e8ad22a05448cc483f78a54e514b1ff0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-@@ -365,10 +365,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
+@@ -372,10 +372,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
                  ((ChorusFlowerBlock) Blocks.CHORUS_FLOWER).generatePlant(access, pos, random, 8);
                  return true;
              case CRIMSON_FUNGUS:
@@ -170,7 +169,7 @@ index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407
      /**
       * Creates a suitable adapter instance for the primitive class type
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 9d974b535c03ff06f7f01cdd17dc700e3a3f150e..1650bf8f46abb9ce4bc5c26911cc199ba76ef2c2 100644
+index f736cc6b3dc5242a30eefd344af65f6958ece3a4..c0674980c7ac06dbc5d01ac21d41cae37ee0784c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -453,8 +453,8 @@ public final class CraftMagicNumbers implements UnsafeValues {
