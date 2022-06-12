@@ -393,10 +393,10 @@ index 8cef93f34f90827c7cfcfc21b9c0a10e239d162f..3b9d40acbdbb1f715f06c0eaf9e4b9d7
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index baf79d7a2210fc8359ca6625a6973a398c9200d4..5ed991c87fbd0bc9aee7e4ba960e84810849bac0 100644
+index 1f3c4adf3aeb28bcb91cb6913459ea2923ad95a4..cbadea23454ce27c8fb3ab32247d7e0aa8dd375a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -161,6 +161,14 @@ public class Main {
+@@ -166,6 +166,14 @@ public class Main {
                      .describedAs("Yml file");
                  // Purpur end
  

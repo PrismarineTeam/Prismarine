@@ -2870,10 +2870,10 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..d21530eb6bc150e431769b02fe50040f
              org.bukkit.Bukkit.getLogger().warning("Unable to parse " + key + " from " + compound +": " + e.getMessage());
          }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c803574e6af57c4c63aae7f1378a5abe3b9ee968..02e1c91bfd2f6ff32ccac4d3857e29cdd5c63c95 100644
+index 6d61c3685030705fab277e271473db018e0a7292..d62d55f3176d944ce479ef8514edb5cb165c1c8f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1450,7 +1450,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1449,7 +1449,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
          // SPIGOT-6415: Don't call spawn event for entities which travel trough worlds,
          // since it is only an implementation detail, that a new entity is created when
          // they are traveling between worlds.
@@ -2888,7 +2888,7 @@ index c803574e6af57c4c63aae7f1378a5abe3b9ee968..02e1c91bfd2f6ff32ccac4d3857e29cd
      }
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
-@@ -1983,6 +1989,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1982,6 +1988,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
      }
      public @Nullable BlockPos findNearestMapFeature(HolderSet<Structure> holderSet, BlockPos pos, int radius, boolean skipReferencedStructures) {
          {
@@ -2897,7 +2897,7 @@ index c803574e6af57c4c63aae7f1378a5abe3b9ee968..02e1c91bfd2f6ff32ccac4d3857e29cd
                  Pair<BlockPos, Holder<Structure>> pair = this.getChunkSource().getGenerator().findNearestMapStructure(this, holderSet, pos, radius, skipReferencedStructures);
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 35836fb12fd67d7a321265a68c390b95a339ff1f..e4c92d908d9d3d9866692905e71b0cd14427350e 100644
+index 99c8b4957194868c36f9ea214c7f77a23ce8002a..40d2cf324c621a0314892c322b8802941b364361 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2292,6 +2292,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
