@@ -7,7 +7,7 @@ on:
 env:
   version: 1.19
   branch: dev/1.19
-  debug: true
+  debug: 'true'
 
 jobs:
   release:
@@ -51,7 +51,7 @@ jobs:
         run: ./gradlew createMojmapPaperclipJar --stacktrace
         
       - name: Upload Artifacts
-        if: env.debug == true
+        if: env.debug == 'true'
         uses: actions/upload-artifact@main
         with:
           name: Artifacts
