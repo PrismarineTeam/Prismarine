@@ -6,6 +6,8 @@ on:
 
 env:
   version: 1.19
+  branch: dev/1.19
+  debug: true
 
 jobs:
   release:
@@ -47,6 +49,13 @@ jobs:
 
       - name: Create Mojmap Jar
         run: ./gradlew createMojmapPaperclipJar --stacktrace
+        
+      - name: Upload Artifacts
+        if: env.debug == true
+        uses: actions/upload-artifact@main
+        with:
+          name: Artifacts
+          path: build/libs
 
       - name: Release Artifacts
         if: github.ref_name == env.branch
