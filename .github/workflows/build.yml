@@ -7,7 +7,7 @@ on:
 env:
   version: 1.19
   branch: dev/1.19
-  debug: 'true'
+  debug: 'false'
 
 jobs:
   release:
