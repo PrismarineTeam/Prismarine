@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a9e3d314581b7ce5110266bdd53af1978b66e336..1a86bb6ae0fdbf59c7343b80ebec21477a46e399 100644
+index 00d128eba3e778927bc33b71c1145051a0c142f5..fab38b2aca388241e311f8654620daed566a31eb 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -14,10 +14,10 @@ index a9e3d314581b7ce5110266bdd53af1978b66e336..1a86bb6ae0fdbf59c7343b80ebec2147
  dependencies {
 -    implementation(project(":purpur-api")) // Purpur
 +    implementation(project(":Prismarine-API")) // Purpur // Prismarine
-     implementation("io.papermc.paper:paper-mojangapi:1.18.2-R0.1-SNAPSHOT") { exclude("io.papermc.paper", "paper-api") } // Purpur // todo: 1.19
-     // Paper start
-     implementation("org.jline:jline-terminal-jansi:3.21.0")
-@@ -81,7 +81,7 @@ tasks.jar {
+     // Pufferfish start
+     implementation("io.papermc.paper:paper-mojangapi:1.19-R0.1-SNAPSHOT") {
+         exclude("io.papermc.paper", "paper-api")
+@@ -87,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -221,7 +221,7 @@ index fb87620c742ff7912f5e8ccd2a7930dd605576d9..2d90a7cf5d5de95005724fabcf7362bf
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 6dd8cc13d32138c5cb7aa9c950f80c8881861fe1..8c5da9f7cfb71f9068ba9859ae353d5242d0b9a9 100644
+index fecfe935e09ff52a6ec582e6f2e09611adb1106f..78aa95a91e5965353d66f0ea381767815f4ed99e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -235,7 +235,7 @@ public class PurpurConfig {

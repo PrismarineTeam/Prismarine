@@ -2814,7 +2814,7 @@ index 3d5e52d997a8e7d7f3b000e3737d30762aae2ca1..e9c478c32c77e8eb0c7f39d9aae11a3f
      }
  }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index fd23bb94194b94a203de8aa165096ebce11c2a63..cd7f76a14012fbabd02175f2587452a3c1759c91 100644
+index 4b704fcce0951ffd3a8e29377f7b6893ed5bed87..7fd2ae35619b7e0552cd37175c7acf8f99809edb 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -85,6 +85,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -2870,7 +2870,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..d21530eb6bc150e431769b02fe50040f
              org.bukkit.Bukkit.getLogger().warning("Unable to parse " + key + " from " + compound +": " + e.getMessage());
          }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 6d61c3685030705fab277e271473db018e0a7292..d62d55f3176d944ce479ef8514edb5cb165c1c8f 100644
+index e352904cb790b3253ec30753e66a70507c0d748c..55555cbc39c6bedf69672fc2d0218b56337347bc 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1449,7 +1449,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -2991,10 +2991,10 @@ index aa34db072f496e53abef7541156ddf8d2ef0c1c8..78d0eb97b00ce09d15984d33d0ee07b1
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-index b5116c5450cc06492aceffa011b17246d8fc6cab..d900f5a5f96a04dee0bedf82efba42125c0485c9 100644
+index f2dde5fadb829207bcd6167cb5da9b22a3917978..b36036443f110dc480cc59bfe3ccb98726a86793 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -746,6 +746,13 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -758,6 +758,13 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
      public boolean isPowered() {
          return this.getHealth() <= this.getMaxHealth() / 2.0F;
      }

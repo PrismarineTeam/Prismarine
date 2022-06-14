@@ -1,51 +1,23 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 12 Jun 2022 18:02:34 +0900
+Date: Tue, 14 Jun 2022 17:41:52 +0900
 Subject: [PATCH] Purpur Server Changes
 
-Original by PurpurMC Team
-
-Copyright (C) 2022 PurpurMC LLC
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-Software), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4f01bbc22b2e94d5415c36c8cd828e0551e929aa..a9e3d314581b7ce5110266bdd53af1978b66e336 100644
+index a4a146d9c3e07bdf941d81147ca31daf4689a687..00d128eba3e778927bc33b71c1145051a0c142f5 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -9,12 +9,8 @@ plugins {
+@@ -9,7 +9,7 @@ plugins {
  }
  
  dependencies {
 -    implementation(project(":pufferfish-api")) // Pufferfish // Paper
--    // Pufferfish start
--    implementation("io.papermc.paper:paper-mojangapi:1.19-R0.1-SNAPSHOT") {
--        exclude("io.papermc.paper", "paper-api")
--    }
--    // Pufferfish end
 +    implementation(project(":purpur-api")) // Purpur
-+    implementation("io.papermc.paper:paper-mojangapi:1.18.2-R0.1-SNAPSHOT") { exclude("io.papermc.paper", "paper-api") } // Purpur // todo: 1.19
-     // Paper start
-     implementation("org.jline:jline-terminal-jansi:3.21.0")
-     implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -44,6 +40,9 @@ dependencies {
+     // Pufferfish start
+     implementation("io.papermc.paper:paper-mojangapi:1.19-R0.1-SNAPSHOT") {
+         exclude("io.papermc.paper", "paper-api")
+@@ -44,6 +44,9 @@ dependencies {
      runtimeOnly("mysql:mysql-connector-java:8.0.29")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
  
@@ -55,7 +27,7 @@ index 4f01bbc22b2e94d5415c36c8cd828e0551e929aa..a9e3d314581b7ce5110266bdd53af197
      runtimeOnly("org.apache.maven:maven-resolver-provider:3.8.5")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
-@@ -82,7 +81,7 @@ tasks.jar {
+@@ -84,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -64,7 +36,7 @@ index 4f01bbc22b2e94d5415c36c8cd828e0551e929aa..a9e3d314581b7ce5110266bdd53af197
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -170,7 +169,7 @@ fun TaskContainer.registerRunTask(
+@@ -172,7 +175,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -295,6 +267,33 @@ index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e
      // CraftBukkit start
      public void removeCommand(String name) {
          this.children.remove(name);
+diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+index a125abc75ed2bbd905c8fdec442416a45264f531..e76c7e04274d8e94a3e5d6576e42364b2320a9ee 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
++++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+@@ -121,6 +121,22 @@ public class PufferfishConfig {
+ 			config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
+ 		}
+ 	}
++
++	// Purpur start
++	public static int getInt(String key, int def) {
++		return config.getInt(key, def);
++	}
++	public static void setInt(String key, int value) {
++		config.set(key, value);
++	}
++	public static void save() {
++		try {
++			config.save(new File("pufferfish.yml"));
++		} catch (IOException e) {
++			e.printStackTrace();
++		}
++	}
++	// Purpur end
+ 	
+ 	private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
+ 		return getBoolean(key, null, defaultValue, comment);
 diff --git a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java b/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
 index f39ae450e316255d315aeb362bf967eadef6ba23..be741daa4df009375d9d6e8ed51abb36722bb5ae 100644
 --- a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
@@ -642,7 +641,7 @@ index 2366d411bf64f88c7296e888cd3bf584825ae4a9..c119aae5b5f0d0717a883f3df5566185
                      return true;
                  }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index c1e8d8674738eebaaf7bd918eacb5227a1331b67..fd23bb94194b94a203de8aa165096ebce11c2a63 100644
+index b65a3626d2e0817cd1e223ec3b10e82fa0339663..4b704fcce0951ffd3a8e29377f7b6893ed5bed87 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -545,11 +545,20 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -1033,7 +1032,7 @@ index 1eb912ad97f9663bf6bd336ad739f2552b0a5c9b..3441339e1ba5efb0e25c16fa13cb65d2
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index b0cd9d5ec1a36af1710ebffb420e29a898e27bc8..6d61c3685030705fab277e271473db018e0a7292 100644
+index 8043a1aa9d785c78e220ea54a6ffa7388f2d501e..e352904cb790b3253ec30753e66a70507c0d748c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -210,6 +210,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1133,6 +1132,15 @@ index b0cd9d5ec1a36af1710ebffb420e29a898e27bc8..6d61c3685030705fab277e271473db01
      public void tickCustomSpawners(boolean spawnMonsters, boolean spawnAnimals) {
          Iterator iterator = this.customSpawners.iterator();
  
+@@ -769,7 +811,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+     }
+     // Paper start - optimise random block ticking
+     private final BlockPos.MutableBlockPos chunkTickMutablePosition = new BlockPos.MutableBlockPos();
+-    // private final io.papermc.paper.util.math.ThreadUnsafeRandom randomTickRandom = new io.papermc.paper.util.math.ThreadUnsafeRandom(); // Pufferfish - moved to super
++    private final io.papermc.paper.util.math.ThreadUnsafeRandom randomTickRandom = new io.papermc.paper.util.math.ThreadUnsafeRandom(); public net.minecraft.util.RandomSource getThreadUnsafeRandom() { return this.randomTickRandom; } // Pufferfish - moved to super // Purpur - dont break ABI
+     // Paper end
+ 
+     private int currentIceAndSnowTick = 0; protected void resetIceAndSnowTick() { this.currentIceAndSnowTick = this.randomTickRandom.nextInt(16); } // Pufferfish
 @@ -791,9 +833,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
                  boolean flag1 = this.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) difficultydamagescaler.getEffectiveDifficulty() * this.paperConfig().entities.spawning.skeletonHorseThunderSpawnChance.or(0.01D) && !this.getBlockState(blockposition.below()).is(Blocks.LIGHTNING_ROD); // Paper
  
@@ -4115,7 +4123,7 @@ index 6216513805add7c8f52e1ed6c77e2d26786b3ab5..a0c3a27a90e0788b573f0776c25cfc6e
              other.resetLove();
              world.addFreshEntityWithPassengers(entityageable, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - added SpawnReason
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index bd048cc30046f19f9eee89c6ba45d0816a160e67..3cf1f1094c4444797bd615e57a3f885df1a94144 100644
+index bd048cc30046f19f9eee89c6ba45d0816a160e67..a6378e6db70ba80aaa18954766f029cd6e97419e 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 @@ -43,6 +43,7 @@ import net.minecraft.world.entity.EntityType;
@@ -4130,7 +4138,7 @@ index bd048cc30046f19f9eee89c6ba45d0816a160e67..3cf1f1094c4444797bd615e57a3f885d
      public Bee(EntityType<? extends Bee> type, Level world) {
          super(type, world);
          this.remainingCooldownBeforeLocatingNewFlower = Mth.nextInt(this.random, 20, 60);
-+        final org.purpurmc.purpur.controller.FlyingMoveControllerWASD flyingController = new org.purpurmc.purpur.controller.FlyingMoveControllerWASD(this, 0.25F, false); // Purpur
++        final org.purpurmc.purpur.controller.FlyingMoveControllerWASD flyingController = new org.purpurmc.purpur.controller.FlyingMoveControllerWASD(this, 0.25F, 1.0F, false); // Purpur
          // Paper start - apply gravity to bees when they get stuck in the void, fixes MC-167279
          class BeeFlyingMoveControl extends FlyingMoveControl {
              public BeeFlyingMoveControl(final Mob entity, final int maxPitchChange, final boolean noGravity) {
@@ -6883,6 +6891,80 @@ index 45c3cec839a7c23903dedf6e3e004305da2adceb..22a66e59687ca889965536464b628f45
  
              return super.mobInteract(player, hand);
          }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+index b6fc1b495e9173e625a7b2c856e79146734c4a9e..1fbdf53691670414564171521583b00d719040e4 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
++++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+@@ -72,14 +72,49 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationL
+     private final SimpleContainer inventory = new SimpleContainer(1);
+     private float holdingItemAnimationTicks;
+     private float holdingItemAnimationTicks0;
++    private org.purpurmc.purpur.controller.FlyingMoveControllerWASD purpurController; // Purpur
+ 
+     public Allay(EntityType<? extends Allay> type, Level world) {
+         super(type, world);
+-        this.moveControl = new FlyingMoveControl(this, 20, true);
++        // Purpur start
++        this.purpurController = new org.purpurmc.purpur.controller.FlyingMoveControllerWASD(this, 0.1F, 0.5F);
++        this.moveControl = new FlyingMoveControl(this, 20, true) {
++            @Override
++            public void tick() {
++                if (mob.getRider() != null && mob.isControllable()) {
++                    purpurController.purpurTick(mob.getRider());
++                } else {
++                    super.tick();
++                }
++            }
++        };
++        // Purpur end
+         this.setCanPickUpLoot(this.canPickUpLoot());
+         this.dynamicGameEventListener = new DynamicGameEventListener<>(new VibrationListener(new EntityPositionSource(this, this.getEyeHeight()), 16, this, (VibrationListener.ReceivingEvent)null, 0.0F, 0));
+     }
+ 
++    // Purpur start
++    @Override
++    public boolean isRidable() {
++        return level.purpurConfig.allayRidable;
++    }
++
++    @Override
++    public boolean rideableUnderWater() {
++        return level.purpurConfig.allayRidableInWater;
++    }
++
++    @Override
++    public boolean isControllable() {
++        return level.purpurConfig.allayControllable;
++    }
++
++    @Override
++    protected void registerGoals() {
++        this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
++    }
++    // Purpur end
++
+     @Override
+     protected Brain.Provider<Allay> brainProvider() {
+         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+@@ -92,7 +127,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationL
+ 
+     @Override
+     public Brain<Allay> getBrain() {
+-        return super.getBrain();
++        return (Brain<Allay>) super.getBrain(); // Purpur - decompile error
+     }
+ 
+     public static AttributeSupplier.Builder createAttributes() {
+@@ -141,8 +176,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationL
+ 
+     @Override
+     public boolean hurt(DamageSource source, float amount) {
+-        Entity optional = source.getEntity();
+-        if (optional instanceof Player player) {
++        if (source.getEntity() instanceof Player player) { // Purpur - decompile error
+             Optional<UUID> optional = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+             if (optional.isPresent() && player.getUUID().equals(optional.get())) {
+                 return false;
 diff --git a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 index fdd2c63ff0017bafa544a3cff2ee6d2d62c92cb3..32870e6727d09fbf1c4913ffdf321a278b5b6f64 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
@@ -6971,6 +7053,155 @@ index fdd2c63ff0017bafa544a3cff2ee6d2d62c92cb3..32870e6727d09fbf1c4913ffdf321a27
              }
  
          }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+index 01f8d11ee4441a1c4d87427e3f9bcd7155259a5b..0a559e061b332508cba2d97c55d9f309c118f473 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+@@ -83,16 +83,69 @@ public class Frog extends Animal {
+     public final AnimationState walkAnimationState = new AnimationState();
+     public final AnimationState swimAnimationState = new AnimationState();
+     public final AnimationState swimIdleAnimationState = new AnimationState();
++    private org.purpurmc.purpur.controller.MoveControllerWASD purpurLandController; // Purpur
++    private org.purpurmc.purpur.controller.WaterMoveControllerWASD purpurWaterController; // Purpur
+ 
+     public Frog(EntityType<? extends Animal> type, Level world) {
+         super(type, world);
+         this.lookControl = new Frog.FrogLookControl(this);
+         this.setPathfindingMalus(BlockPathTypes.WATER, 4.0F);
+         this.setPathfindingMalus(BlockPathTypes.TRAPDOOR, -1.0F);
+-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
++        // Purpur start
++        this.purpurLandController = new org.purpurmc.purpur.controller.MoveControllerWASD(this, 0.2F);
++        this.purpurWaterController = new org.purpurmc.purpur.controller.WaterMoveControllerWASD(this, 0.5F);
++        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true) {
++            @Override
++            public void tick() {
++                net.minecraft.world.entity.player.Player rider = mob.getRider();
++                if (rider != null && mob.isControllable()) {
++                    if (mob.isInWater()) {
++                        purpurWaterController.purpurTick(rider);
++                        mob.setDeltaMovement(mob.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
++                    } else {
++                        purpurLandController.purpurTick(rider);
++                    }
++                } else {
++                    super.tick();
++                }
++            }
++        };
++        // Purpur end
+         this.maxUpStep = 1.0F;
+     }
+ 
++    // Purpur start
++    @Override
++    public boolean isRidable() {
++        return level.purpurConfig.frogRidable;
++    }
++
++    @Override
++    public boolean rideableUnderWater() {
++        return level.purpurConfig.frogRidableInWater;
++    }
++
++    @Override
++    public boolean isControllable() {
++        return level.purpurConfig.frogControllable;
++    }
++
++    @Override
++    protected void registerGoals() {
++        this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
++        this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
++    }
++
++    @Override
++    public float getJumpPower() {
++        return (getRider() != null && isControllable()) ? level.purpurConfig.frogRidableJumpHeight * this.getBlockJumpFactor() : super.getJumpPower();
++    }
++
++    public int getPurpurBreedTime() {
++        return this.level.purpurConfig.frogBreedingTicks;
++    }
++    // Purpur end
++
+     @Override
+     protected Brain.Provider<Frog> brainProvider() {
+         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+@@ -105,7 +158,7 @@ public class Frog extends Animal {
+ 
+     @Override
+     public Brain<Frog> getBrain() {
+-        return super.getBrain();
++        return (Brain<Frog>) super.getBrain(); // Purpur - decompile error
+     }
+ 
+     @Override
+@@ -378,7 +431,7 @@ public class Frog extends Animal {
+         return world.getBlockState(pos.below()).is(BlockTags.FROGS_SPAWNABLE_ON) && isBrightEnoughToSpawn(world, pos);
+     }
+ 
+-    class FrogLookControl extends LookControl {
++    class FrogLookControl extends org.purpurmc.purpur.controller.LookControllerWASD { // Purpur
+         FrogLookControl(Mob entity) {
+             super(entity);
+         }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
+index 3dd4e6d622a6daafa00ae971edd88a147e34beef..4dca3788a8fa335dc5969bd61cd0658f21e3bff3 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
+@@ -44,13 +44,50 @@ public class Tadpole extends AbstractFish {
+     public int age;
+     protected static final ImmutableList<SensorType<? extends Sensor<? super Tadpole>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.FROG_TEMPTATIONS);
+     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.PATH, MemoryModuleType.NEAREST_VISIBLE_ADULT, MemoryModuleType.TEMPTATION_COOLDOWN_TICKS, MemoryModuleType.IS_TEMPTED, MemoryModuleType.TEMPTING_PLAYER, MemoryModuleType.BREED_TARGET, MemoryModuleType.IS_PANICKING);
++    private org.purpurmc.purpur.controller.WaterMoveControllerWASD purpurController; // Purpur
+ 
+     public Tadpole(EntityType<? extends AbstractFish> type, Level world) {
+         super(type, world);
+-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
++        // Purpur start
++        this.purpurController = new org.purpurmc.purpur.controller.WaterMoveControllerWASD(this, 0.5F);
++        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true) {
++            @Override
++            public void tick() {
++                Player rider = mob.getRider();
++                if (rider != null && mob.isControllable()) {
++                    purpurController.purpurTick(rider);
++                    mob.setDeltaMovement(mob.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
++                } else {
++                    super.tick();
++                }
++            }
++        };
++        // Purpur end
+         this.lookControl = new SmoothSwimmingLookControl(this, 10);
+     }
+ 
++    // Purpur start
++    @Override
++    public boolean isRidable() {
++        return level.purpurConfig.tadpoleRidable;
++    }
++
++    @Override
++    public boolean rideableUnderWater() {
++        return level.purpurConfig.tadpoleRidableInWater;
++    }
++
++    @Override
++    public boolean isControllable() {
++        return level.purpurConfig.tadpoleControllable;
++    }
++
++    @Override
++    protected void registerGoals() {
++        this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
++    }
++    // Purpur end
++
+     @Override
+     protected PathNavigation createNavigation(Level world) {
+         return new WaterBoundPathNavigation(this, world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 index f489301701f8abfb8f509d91089c1433db2346f8..52608eb55f0a191313fbf5a1ace8eafa3eb1bfcb 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
@@ -7923,10 +8154,10 @@ index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a79
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246d8fc6cab 100644
+index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..f2dde5fadb829207bcd6167cb5da9b22a3917978 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -84,6 +84,8 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -84,16 +84,31 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
          return entityliving.getMobType() != MobType.UNDEAD && entityliving.attackable();
      };
      private static final TargetingConditions TARGETING_CONDITIONS = TargetingConditions.forCombat().range(20.0D).selector(WitherBoss.LIVING_ENTITY_SELECTOR);
@@ -7935,11 +8166,31 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
      // Paper start
      private boolean canPortal = false;
  
-@@ -105,16 +107,152 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
-         navigationflying.setCanOpenDoors(false);
-         navigationflying.setCanFloat(true);
-         navigationflying.setCanPassDoors(true);
-+        this.moveControl = new org.purpurmc.purpur.controller.FlyingWithSpacebarMoveControllerWASD(this, 0.1F); // Purpur
+     public void setCanTravelThroughPortals(boolean canPortal) { this.canPortal = canPortal; }
+     // Paper end
++    private org.purpurmc.purpur.controller.FlyingWithSpacebarMoveControllerWASD purpurController; // Purpur
+ 
+     public WitherBoss(EntityType<? extends WitherBoss> type, Level world) {
+         super(type, world);
+         this.bossEvent = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
+-        this.moveControl = new FlyingMoveControl(this, 10, false);
++        // Purpur start
++        this.purpurController = new org.purpurmc.purpur.controller.FlyingWithSpacebarMoveControllerWASD(this, 0.1F);
++        this.moveControl = new FlyingMoveControl(this, 10, false) {
++            @Override
++            public void tick() {
++                if (mob.getRider() != null && mob.isControllable()) {
++                    purpurController.purpurTick(mob.getRider());
++                } else {
++                    super.tick();
++                }
++            }
++        };
++        // Purpur end
+         this.setHealth(this.getMaxHealth());
+         this.xpReward = 50;
+     }
+@@ -108,13 +123,148 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
          return navigationflying;
      }
  
@@ -8088,7 +8339,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
          this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
          this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, false, false, WitherBoss.LIVING_ENTITY_SELECTOR));
      }
-@@ -132,6 +270,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -132,6 +282,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
          nbt.putInt("Invul", this.getInvulnerableTicks());
@@ -8096,7 +8347,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
      }
  
      @Override
-@@ -141,6 +280,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -141,6 +292,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
          if (this.hasCustomName()) {
              this.bossEvent.setName(this.getDisplayName());
          }
@@ -8104,7 +8355,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
  
      }
  
-@@ -256,13 +396,23 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -256,13 +408,23 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
  
      @Override
      protected void customServerAiStep() {
@@ -8129,7 +8380,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
                  // CraftBukkit start
                  // this.level.explode(this, this.getX(), this.getEyeY(), this.getZ(), 7.0F, false, explosion_effect);
                  ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.getBukkitEntity(), 7.0F, false);
-@@ -273,7 +423,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -273,7 +435,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
                  }
                  // CraftBukkit end
  
@@ -8138,7 +8389,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
                      // CraftBukkit start - Use relative location for far away sounds
                      // this.world.globalLevelEvent(1023, new BlockPosition(this), 0);
                      //int viewDistance = ((ServerLevel) this.level).getCraftServer().getViewDistance() * 16; // Paper - updated to use worlds actual view distance incase we have to uncomment this due to removal of player view distance API
-@@ -298,7 +448,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -298,7 +460,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
  
              this.setInvulnerableTicks(i);
              if (this.tickCount % 10 == 0) {
@@ -8147,7 +8398,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
              }
  
          } else {
-@@ -358,7 +508,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -358,7 +520,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
  
              if (this.destroyBlocksTick > 0) {
                  --this.destroyBlocksTick;
@@ -8156,7 +8407,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
                      i = Mth.floor(this.getY());
                      j = Mth.floor(this.getX());
                      int i1 = Mth.floor(this.getZ());
-@@ -391,8 +541,10 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -391,8 +553,10 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
                  }
              }
  
@@ -8169,7 +8420,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
              }
  
              this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
-@@ -583,11 +735,11 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -583,11 +747,11 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
      }
  
      public int getAlternativeTarget(int headIndex) {
@@ -8183,7 +8434,7 @@ index 4fb40aa91e0961f1974c74c88fa68359e4ad6b16..b5116c5450cc06492aceffa011b17246
      }
  
      @Override
-@@ -602,6 +754,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -602,6 +766,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
  
      @Override
      protected boolean canRide(Entity entity) {
@@ -11267,7 +11518,7 @@ index 6449213d717271bcc516e393a78dfe1e5c762d68..56f1c52afe32ce71edd44c7bc3ff1ac1
      protected void registerGoals() {
          this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractPiglin.class, true));
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Zoglin.java b/src/main/java/net/minecraft/world/entity/monster/Zoglin.java
-index 056e4c2f7f632dadc0015710c032a0b718d46ff9..b99419b712b9af385988f1a1271b28f41e5a05a0 100644
+index 056e4c2f7f632dadc0015710c032a0b718d46ff9..66b824ac3c24c46014d615b355a8a04e59f45e1b 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Zoglin.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Zoglin.java
 @@ -68,6 +68,38 @@ public class Zoglin extends Monster implements Enemy, HoglinBase {
@@ -11314,12 +11565,12 @@ index 056e4c2f7f632dadc0015710c032a0b718d46ff9..b99419b712b9af385988f1a1271b28f4
  
      private static void initIdleActivity(Brain<Zoglin> brain) {
 -        brain.addActivity(Activity.IDLE, 10, ImmutableList.of(new StartAttacking<>(Zoglin::findNearestValidAttackTarget), new RunSometimes(new SetEntityLookTarget(8.0F), UniformInt.of(30, 60)), new RunOne(ImmutableList.of(Pair.of(new RandomStroll(0.4F), 2), Pair.of(new SetWalkTargetFromLookTarget(0.4F, 3), 2), Pair.of(new DoNothing(30, 60), 1)))));
-+        brain.addActivity(Activity.IDLE, 10, ImmutableList.of(new StartAttacking<>(Zoglin::findNearestValidAttackTarget), new RunSometimes<>(new SetEntityLookTarget(8.0F), UniformInt.of(30, 60)), new RunOne<>(ImmutableList.of(Pair.of(new RandomStroll(0.4F), 2), Pair.of(new SetWalkTargetFromLookTarget(0.4F, 3), 2), Pair.of(new DoNothing(30, 60), 1))))); // Purpur - decompile fix
++        brain.addActivity(Activity.IDLE, 10, ImmutableList.of(new StartAttacking<>(Zoglin::findNearestValidAttackTarget), new RunSometimes<>(new SetEntityLookTarget(8.0F), UniformInt.of(30, 60)), new RunOne<>(ImmutableList.of(Pair.of(new RandomStroll(0.4F), 2), Pair.of(new SetWalkTargetFromLookTarget(0.4F, 3), 2), Pair.of(new DoNothing(30, 60), 1))))); // Purpur - decompile error
      }
  
      private static void initFightActivity(Brain<Zoglin> brain) {
 -        brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new RunIf<>(Zoglin::isAdult, new MeleeAttack(40)), new RunIf<>(Zoglin::isBaby, new MeleeAttack(15)), new StopAttackingIfTargetInvalid()), MemoryModuleType.ATTACK_TARGET);
-+        brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new RunIf<>(Zoglin::isAdult, new MeleeAttack(40)), new RunIf<>(Zoglin::isBaby, new MeleeAttack(15)), new StopAttackingIfTargetInvalid<>()), MemoryModuleType.ATTACK_TARGET); // Purpur - decompile fix
++        brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new RunIf<>(Zoglin::isAdult, new MeleeAttack(40)), new RunIf<>(Zoglin::isBaby, new MeleeAttack(15)), new StopAttackingIfTargetInvalid<>()), MemoryModuleType.ATTACK_TARGET); // Purpur - decompile error
      }
  
      private Optional<? extends LivingEntity> findNearestValidAttackTarget() {
@@ -11893,6 +12144,60 @@ index ac75c54e897565e340b66823caeed92ba1d1641a..760015f7a98e70b735707c77472c084d
          this.getBrain().tick((ServerLevel)this.level, this);
          this.level.getProfiler().pop();
          PiglinBruteAi.updateActivity(this);
+diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
+index 60410fd12e0fcfbaad3b4dc431452f8b2e6276c7..5918c35ebdba83dc93414d05b19a9d2b55b1bb7c 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
++++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
+@@ -118,8 +118,32 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
+         this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
+         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
+         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
++        this.moveControl = new org.purpurmc.purpur.controller.MoveControllerWASD(this, 0.5F); // Purpur
+     }
+ 
++    // Purpur start
++    @Override
++    public boolean isRidable() {
++        return level.purpurConfig.wardenRidable;
++    }
++
++    @Override
++    public boolean rideableUnderWater() {
++        return level.purpurConfig.wardenRidableInWater;
++    }
++
++    @Override
++    public boolean isControllable() {
++        return level.purpurConfig.wardenControllable;
++    }
++
++    @Override
++    protected void registerGoals() {
++        this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
++        this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
++    }
++    // Purpur end
++
+     @Override
+     public Packet<?> getAddEntityPacket() {
+         return new ClientboundAddEntityPacket((LivingEntity)this, this.hasPose(Pose.EMERGING) ? 1 : 0);
+@@ -361,7 +385,7 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
+ 
+     @Override
+     public Brain<Warden> getBrain() {
+-        return super.getBrain();
++        return (Brain<Warden>) super.getBrain(); // Purpur - decompile error
+     }
+ 
+     @Override
+@@ -391,6 +415,7 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
+ 
+     @Contract("null->false")
+     public boolean canTargetEntity(@Nullable Entity entity) {
++        if (getRider() != null && isControllable()) return false; // Purpur
+         if (entity instanceof LivingEntity livingEntity) {
+             if (this.level == entity.level && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && !this.isAlliedTo(entity) && livingEntity.getType() != EntityType.ARMOR_STAND && livingEntity.getType() != EntityType.WARDEN && !livingEntity.isInvulnerable() && !livingEntity.isDeadOrDying() && this.level.getWorldBorder().isWithinBounds(livingEntity.getBoundingBox())) {
+                 return true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/AbstractVillager.java b/src/main/java/net/minecraft/world/entity/npc/AbstractVillager.java
 index 5eab7d50734551d96128dfebee126a1da4c51375..860b938335966cdd872404dc12b097b7a1cc3b00 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/AbstractVillager.java
@@ -12451,18 +12756,9 @@ index cd9cbfa5ef94994b3f7f2ecdde843620e7e6c071..7344324517fb10ee6ab3467b40fcb9cd
              CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) this, stack);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-index bc01e5014e1355a225bdf5c47f2965290b45e2d2..8d0b4bf233b228f424cc8493c691b1dfe5c37ce9 100644
+index bc01e5014e1355a225bdf5c47f2965290b45e2d2..49f093b21aa1268d40aa54ebfce06976bd79ae81 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -63,7 +63,7 @@ public abstract class AbstractArrow extends Projectile {
-     protected int inGroundTime;
-     public AbstractArrow.Pickup pickup;
-     public int shakeTime;
--    public int life;
-+    // public int life; // Purpur - moved to Projectile
-     private double baseDamage;
-     public int knockback;
-     private SoundEvent soundEvent;
 @@ -322,7 +322,7 @@ public abstract class AbstractArrow extends Projectile {
          Vec3 vec3d = this.getDeltaMovement();
  
@@ -12472,89 +12768,8 @@ index bc01e5014e1355a225bdf5c47f2965290b45e2d2..8d0b4bf233b228f424cc8493c691b1df
      }
  
      @Override
-@@ -334,12 +334,28 @@ public abstract class AbstractArrow extends Projectile {
- 
-     }
- 
--    protected void tickDespawn() {
--        ++this.life;
--        if (this.life >= (pickup == Pickup.CREATIVE_ONLY ? level.paperConfig().entities.spawning.creativeArrowDespawnRate.value() : (pickup == Pickup.DISALLOWED ? level.paperConfig().entities.spawning.nonPlayerArrowDespawnRate.value() : ((this instanceof ThrownTrident) ? level.spigotConfig.tridentDespawnRate : level.spigotConfig.arrowDespawnRate)))) { // Spigot // Paper - TODO: Extract this to init?
--            this.discard();
-+    // Purpur start
-+    protected int getPurpurDespawnRate() {
-+        if (pickup == Pickup.CREATIVE_ONLY) {
-+            return level.paperConfig().entities.spawning.creativeArrowDespawnRate.value();
-+        }
-+        if (pickup == Pickup.DISALLOWED) {
-+            return level.paperConfig().entities.spawning.nonPlayerArrowDespawnRate.value();
-+        }
-+        if (this instanceof ThrownTrident) {
-+            return level.spigotConfig.tridentDespawnRate;
-         }
-+        return level.spigotConfig.arrowDespawnRate;
-+    }
-+
-+    // Arrow despawn ticking is handled differently
-+    protected boolean shouldAlwaysTickDespawn() {
-+        return false;
-+    };
-+    // Purpur end
- 
-+    protected void tickDespawn() {
-+        tickDespawnCounter(); // Purpur
-     }
- 
-     private void resetPiercedEntities() {
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java b/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java
-index 6afe37e42d88701af38df5793a9ea9d7d2cda5c5..1de27407c92d496715899fcafb3794df9f5ef6cd 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/DragonFireball.java
-@@ -81,4 +81,11 @@ public class DragonFireball extends AbstractHurtingProjectile {
-     protected boolean shouldBurn() {
-         return false;
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.dragonFireballDespawnRate;
-+    }
-+    // Purpur end
- }
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index 5406925cd66f46ab8744123c670d72cea7bfc3a1..2bd14d74fa2fed39dad27b4417794f00eb068328 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -358,4 +358,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
-     public boolean isAttackable() {
-         return false;
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.fireworkDespawnRate;
-+    }
-+    // Purpur end
- }
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-index f5886a88fd98ede5e85a91eccccb05ac33eb40e2..f8378da592ecf22d8c7d5e07794a13992fd95f35 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-@@ -661,4 +661,11 @@ public class FishingHook extends Projectile {
- 
-         private OpenWaterType() {}
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.fishingHookDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java b/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
-index 5237b699e000b4fed99be39b0a7e2daab9c8bf42..f51ea103238b4a50439f5162a248cd9aa7f1a19b 100644
+index 5237b699e000b4fed99be39b0a7e2daab9c8bf42..efa9424f8e2716f073e89b03f3d85e1b7774af9f 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
 @@ -18,20 +18,20 @@ public class LargeFireball extends Fireball {
@@ -12581,20 +12796,8 @@ index 5237b699e000b4fed99be39b0a7e2daab9c8bf42..f51ea103238b4a50439f5162a248cd9a
  
              // CraftBukkit start - fire ExplosionPrimeEvent
              ExplosionPrimeEvent event = new ExplosionPrimeEvent((org.bukkit.entity.Explosive) this.getBukkitEntity());
-@@ -77,4 +77,11 @@ public class LargeFireball extends Fireball {
-         }
- 
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.largeFireballDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/LlamaSpit.java b/src/main/java/net/minecraft/world/entity/projectile/LlamaSpit.java
-index 4132c1113f5437a776e5e3c1cb306904775aed88..c7fdcfae1ba823046fdfe78aa97b4a7ab20c086d 100644
+index 4132c1113f5437a776e5e3c1cb306904775aed88..1a945a32c3d3705a318ebca72a365931a8c001b7 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/LlamaSpit.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/LlamaSpit.java
 @@ -27,6 +27,12 @@ public class LlamaSpit extends Projectile {
@@ -12610,64 +12813,11 @@ index 4132c1113f5437a776e5e3c1cb306904775aed88..c7fdcfae1ba823046fdfe78aa97b4a7a
      @Override
      public void tick() {
          super.tick();
-@@ -94,4 +100,11 @@ public class LlamaSpit extends Projectile {
- 
-         this.setDeltaMovement(d0, d1, d2);
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.llamaSpitDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index 39ba6ca32b827daee300e1240bd76fd8f680ea02..d576943e4f0f0e416d59cebcd475d231ebb1ae07 100644
+index 39ba6ca32b827daee300e1240bd76fd8f680ea02..41adf8762919dffbac6adc4e9a6c120e48c3dd43 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-@@ -33,6 +33,7 @@ public abstract class Projectile extends Entity {
-     public Entity cachedOwner;
-     private boolean leftOwner;
-     private boolean hasBeenShot;
-+    public int life; // Purpur - moved from AbstractArrow
- 
-     // CraftBukkit start
-     protected boolean hitCancelled = false;
-@@ -72,6 +73,23 @@ public abstract class Projectile extends Entity {
-     }
-     // Pufferfish start
- 
-+    // Purpur start
-+    protected final void tickDespawnCounter() {
-+        if (this.getPurpurDespawnRate() != -1) {
-+            ++this.life;
-+            if (this.life >= this.getPurpurDespawnRate()) {
-+                this.discard();
-+            }
-+        }
-+    }
-+
-+    protected abstract int getPurpurDespawnRate();
-+
-+    protected boolean shouldAlwaysTickDespawn() {
-+        return true;
-+    };
-+    // Purpur end
-+
-     public void setOwner(@Nullable Entity entity) {
-         if (entity != null) {
-             this.ownerUUID = entity.getUUID();
-@@ -148,6 +166,8 @@ public abstract class Projectile extends Entity {
-             this.leftOwner = this.checkLeftOwner();
-         }
- 
-+        if (this.shouldAlwaysTickDespawn()) tickDespawnCounter(); // Purpur
-+
-         super.tick();
-     }
- 
-@@ -308,6 +328,6 @@ public abstract class Projectile extends Entity {
+@@ -308,6 +308,6 @@ public abstract class Projectile extends Entity {
      public boolean mayInteract(Level world, BlockPos pos) {
          Entity entity = this.getOwner();
  
@@ -12675,26 +12825,8 @@ index 39ba6ca32b827daee300e1240bd76fd8f680ea02..d576943e4f0f0e416d59cebcd475d231
 +        return entity instanceof Player ? entity.mayInteract(world, pos) : entity == null || world.purpurConfig.projectilesBypassMobGriefing || world.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
      }
  }
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-index 0e66418720ca833e676295edc7e28473ce9d9f23..b9ac126103c496c9b23a9f96d5ed1a058aebf667 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/ShulkerBullet.java
-@@ -62,6 +62,13 @@ public class ShulkerBullet extends Projectile {
-         projectileSource = (org.bukkit.entity.LivingEntity) owner.getBukkitEntity(); // CraftBukkit
-     }
- 
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.shulkerBulletDespawnRate;
-+    }
-+    // Purpur end
-+
-     // CraftBukkit start
-     public Entity getTarget() {
-         return this.finalTarget;
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java b/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java
-index 00ac1cdc4734cc57f15433c5c6e7a3a545739d33..d2932bf496b0eff90e2f0738b23864cd6db5a495 100644
+index 00ac1cdc4734cc57f15433c5c6e7a3a545739d33..f1601114647b62b0b10064ed43058cb867740a63 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java
 @@ -24,7 +24,7 @@ public class SmallFireball extends Fireball {
@@ -12706,20 +12838,8 @@ index 00ac1cdc4734cc57f15433c5c6e7a3a545739d33..d2932bf496b0eff90e2f0738b23864cd
          }
          // CraftBukkit end
      }
-@@ -93,4 +93,11 @@ public class SmallFireball extends Fireball {
-     public boolean hurt(DamageSource source, float amount) {
-         return false;
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.smallFireballDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
-index a725851060f13e734dbd2fbf8c83c9e1af57a8b7..ef265cec066ef3b84c2b3a4929af518308a409c3 100644
+index a725851060f13e734dbd2fbf8c83c9e1af57a8b7..c7c10c89871a3ee6d21da4bb19407a68759b3ade 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Snowball.java
 @@ -54,10 +54,40 @@ public class Snowball extends ThrowableItemProjectile {
@@ -12764,36 +12884,8 @@ index a725851060f13e734dbd2fbf8c83c9e1af57a8b7..ef265cec066ef3b84c2b3a4929af5183
      @Override
      protected void onHit(HitResult hitResult) {
          super.onHit(hitResult);
-@@ -67,4 +97,11 @@ public class Snowball extends ThrowableItemProjectile {
-         }
- 
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.snowballDespawnRate;
-+    }
-+    // Purpur end
- }
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-index 77941e3981e49cf5662b3e3c86a9c419080b17c8..8c6243aab556c993b43ab52e216bcb0a70d1a686 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEgg.java
-@@ -107,4 +107,11 @@ public class ThrownEgg extends ThrowableItemProjectile {
-     protected Item getDefaultItem() {
-         return Items.EGG;
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.eggDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
-index 23f77dfc6df93ef6a70e14a7e410263d39fae2cb..69dd0f6cb53b2538ae39952f53eb7fbcb69a4674 100644
+index 23f77dfc6df93ef6a70e14a7e410263d39fae2cb..332e12bdb686532333bb95682f420dab56ac7930 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownEnderpearl.java
 @@ -69,9 +69,10 @@ public class ThrownEnderpearl extends ThrowableItemProjectile {
@@ -12817,50 +12909,6 @@ index 23f77dfc6df93ef6a70e14a7e410263d39fae2cb..69dd0f6cb53b2538ae39952f53eb7fbc
                          CraftEventFactory.entityDamage = null;
                      }
                      // CraftBukkit end
-@@ -121,4 +122,11 @@ public class ThrownEnderpearl extends ThrowableItemProjectile {
- 
-         return super.changeDimension(destination);
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.enderPearlDespawnRate;
-+    }
-+    // Purpur end
- }
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownExperienceBottle.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownExperienceBottle.java
-index dcbbff3a8dfcac869f07025e0e8e3d9c47956093..d6b522aa7c7ce87caf55f91ee9d661e055506c01 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/ThrownExperienceBottle.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownExperienceBottle.java
-@@ -56,4 +56,11 @@ public class ThrownExperienceBottle extends ThrowableItemProjectile {
-         }
- 
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.expBottleDespawnRate;
-+    }
-+    // Purpur end
- }
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownPotion.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownPotion.java
-index fee09e6ff72cf1da389d5811dd005642cd50a5b4..0f387c4f6fb49c5266feeec3504a4ec7c870ba37 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/ThrownPotion.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/ThrownPotion.java
-@@ -305,4 +305,11 @@ public class ThrownPotion extends ThrowableItemProjectile implements ItemSupplie
-         }
- 
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.potionDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java b/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
 index 1b31b32d42eeb54680b902cd7e82d10ba7daa5d0..5be708a76642d4133757c5d181b3c5412aa799ae 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/ThrownTrident.java
@@ -12875,7 +12923,7 @@ index 1b31b32d42eeb54680b902cd7e82d10ba7daa5d0..5be708a76642d4133757c5d181b3c541
                  if (!this.level.isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                      this.spawnAtLocation(this.getPickupItem(), 0.1F);
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/WitherSkull.java b/src/main/java/net/minecraft/world/entity/projectile/WitherSkull.java
-index 2867e841e73a3edfdeb83af9d96e0d0cd4116a68..6cf8b12e94c17a8111eef5cc0157e4df594f15dc 100644
+index 2867e841e73a3edfdeb83af9d96e0d0cd4116a68..7938a81fea35ef79fb1054e7b11175738063c896 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/WitherSkull.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/WitherSkull.java
 @@ -93,11 +93,11 @@ public class WitherSkull extends AbstractHurtingProjectile {
@@ -12892,18 +12940,6 @@ index 2867e841e73a3edfdeb83af9d96e0d0cd4116a68..6cf8b12e94c17a8111eef5cc0157e4df
              this.level.getCraftServer().getPluginManager().callEvent(event);
  
              if (!event.isCancelled()) {
-@@ -136,4 +136,11 @@ public class WitherSkull extends AbstractHurtingProjectile {
-     protected boolean shouldBurn() {
-         return false;
-     }
-+
-+    // Purpur start
-+    @Override
-+    protected int getPurpurDespawnRate() {
-+        return this.level.purpurConfig.witherSkullDespawnRate;
-+    }
-+    // Purpur end
- }
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
 index 4bb9730b6a42702e91467f980b9f045585039db3..a1b9a11c3026a6fdd0f47ed27b99539ed18f0aaa 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raider.java
@@ -14310,7 +14346,7 @@ index 3f458ddd4dc04ed28510a212be76bb19e7f6a61e..a36469186f72eccf8c4428d920d0583b
                  if (range < 0.0D || d < range * range) {
                      return true;
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 683ab88e76b53331e5d9fbcb0e1ee65365008693..a2c0a980b09cb15c28ff417ba8e1b02838951ac5 100644
+index e845d4af797b8eeb75ab094e1cb1062c7ab2d8b9..924b66511f81ee7b448dadf81b78a0e50e91f5d0 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -175,6 +175,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -14372,7 +14408,16 @@ index 683ab88e76b53331e5d9fbcb0e1ee65365008693..a2c0a980b09cb15c28ff417ba8e1b028
      public CraftWorld getWorld() {
          return this.world;
      }
-@@ -284,6 +329,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -272,7 +317,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+ 
+     public abstract ResourceKey<LevelStem> getTypeKey();
+ 
+-    protected final io.papermc.paper.util.math.ThreadUnsafeRandom randomTickRandom = new io.papermc.paper.util.math.ThreadUnsafeRandom(); public net.minecraft.util.RandomSource getThreadUnsafeRandom() { return this.randomTickRandom; } // Pufferfish - move thread unsafe random initialization // Pufferfish - getter
++    //protected final io.papermc.paper.util.math.ThreadUnsafeRandom randomTickRandom = new io.papermc.paper.util.math.ThreadUnsafeRandom(); public net.minecraft.util.RandomSource getThreadUnsafeRandom() { return this.randomTickRandom; } // Pufferfish - move thread unsafe random initialization // Pufferfish - getter // Purpur - dont break ABI
+ 
+     // Pufferfish start - ensure these get inlined
+     private final int minBuildHeight, minSection, height, maxBuildHeight, maxSection;
+@@ -286,6 +331,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
@@ -14381,7 +14426,7 @@ index 683ab88e76b53331e5d9fbcb0e1ee65365008693..a2c0a980b09cb15c28ff417ba8e1b028
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
-@@ -1566,4 +1613,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1568,4 +1615,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          return null;
      }
      // Paper end
@@ -14626,7 +14671,7 @@ index 224ce424b9a22548212ac157ec273c6dd80d6cfb..c45d394ed568122ad21a955c335b2744
      public boolean isPossibleToRespawnInThis() {
          return !this.material.isSolid() && !this.material.isLiquid();
 diff --git a/src/main/java/net/minecraft/world/level/block/Blocks.java b/src/main/java/net/minecraft/world/level/block/Blocks.java
-index 5dc3605fed7fb2ff8cc6c965d1bf99c462e0b14a..da2f4c561c9539e3f6f9433a6ffb0841923df8a1 100644
+index 5dc3605fed7fb2ff8cc6c965d1bf99c462e0b14a..ad0ee0d333ffd862fe74ac3a097c51d5550803df 100644
 --- a/src/main/java/net/minecraft/world/level/block/Blocks.java
 +++ b/src/main/java/net/minecraft/world/level/block/Blocks.java
 @@ -1027,8 +1027,8 @@ public class Blocks {
@@ -14645,7 +14690,7 @@ index 5dc3605fed7fb2ff8cc6c965d1bf99c462e0b14a..da2f4c561c9539e3f6f9433a6ffb0841
  
      private static Boolean ocelotOrParrot(BlockState state, BlockGetter world, BlockPos pos, EntityType<?> type) {
 -        return (boolean)type == EntityType.OCELOT || type == EntityType.PARROT;
-+        return type == EntityType.OCELOT || type == EntityType.PARROT; // Purpur - decompile fix
++        return type == EntityType.OCELOT || type == EntityType.PARROT; // Purpur - decompile error
      }
  
      private static BedBlock bed(DyeColor color) {
@@ -16164,6 +16209,19 @@ index 939aca929038b90738c9b78c2fc3611088b18e72..2fe9daf2a1a4a007c983115503915981
      public final boolean hasCollision;
      protected final float explosionResistance;
      protected final boolean isRandomlyTicking;
+diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
+index ec23064d5a6d70508fad7cffc6126cfd6f7a62cb..b4e70dd36b426b9ca95e0a9953f1d7c89203db31 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -136,7 +136,7 @@ public class LevelChunk extends ChunkAccess {
+         this.fluidTicks = fluidTickScheduler;
+         // CraftBukkit start
+         this.bukkitChunk = new org.bukkit.craftbukkit.CraftChunk(this);
+-        this.lightningTick = this.level.getThreadUnsafeRandom().nextInt(100000) << 1; // Pufferfish - initialize lightning tick
++        this.lightningTick = java.util.concurrent.ThreadLocalRandom.current().nextInt(100000) << 1; // Pufferfish - initialize lightning tick // Purpur - any random will do
+     }
+ 
+     public org.bukkit.Chunk bukkitChunk;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
 index 2bc0384728f89b7c64a8beec78a1b77dc063d37b..e4af49d85c8f6265b550c0a7cbea7d495f47150a 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
@@ -17581,7 +17639,7 @@ index 0467419fc8a06c241a46216c8f8c32abeb9fbc26..bc178d7305f38b77393b827d7b71412d
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6dd8cc13d32138c5cb7aa9c950f80c8881861fe1
+index 0000000000000000000000000000000000000000..fecfe935e09ff52a6ec582e6f2e09611adb1106f
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -0,0 +1,500 @@
@@ -17659,8 +17717,8 @@ index 0000000000000000000000000000000000000000..6dd8cc13d32138c5cb7aa9c950f80c88
 +        commands = new HashMap<>();
 +        commands.put("purpur", new PurpurCommand("purpur"));
 +
-+        version = getInt("config-version", 27);
-+        set("config-version", 27);
++        version = getInt("config-version", 29);
++        set("config-version", 29);
 +
 +        readConfig(PurpurConfig.class, null);
 +    }
@@ -18087,15 +18145,17 @@ index 0000000000000000000000000000000000000000..6dd8cc13d32138c5cb7aa9c950f80c88
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad8519278fafd
+index 0000000000000000000000000000000000000000..80b827eb45092a9069a9dced5b04eebce7b82b58
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3069 @@
+@@ -0,0 +1,3122 @@
 +package org.purpurmc.purpur;
 +
++import gg.pufferfish.pufferfish.PufferfishConfig;
 +import net.minecraft.core.Registry;
 +import net.minecraft.resources.ResourceLocation;
 +import net.minecraft.util.Mth;
++import net.minecraft.world.entity.EntityType;
 +import net.minecraft.world.item.DyeColor;
 +import net.minecraft.world.item.Item;
 +import net.minecraft.world.item.Items;
@@ -18115,6 +18175,7 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +import java.util.ArrayList;
 +import java.util.HashMap;
 +import java.util.List;
++import java.util.Locale;
 +import java.util.Map;
 +import java.util.function.Predicate;
 +import java.util.logging.Level;
@@ -18542,38 +18603,37 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +        playerVoidTrading = getBoolean("gameplay-mechanics.player.allow-void-trading", playerVoidTrading);
 +    }
 +
-+    public int snowballDamage = -1;
-+    private void snowballSettings() {
-+        snowballDamage = getInt("gameplay-mechanics.projectile-damage.snowball", snowballDamage);
-+    }
-+
-+    public int dragonFireballDespawnRate = -1;
-+    public int eggDespawnRate = -1;
-+    public int enderPearlDespawnRate = -1;
-+    public int expBottleDespawnRate = -1;
-+    public int fireworkDespawnRate = -1;
-+    public int fishingHookDespawnRate = -1;
-+    public int largeFireballDespawnRate = -1;
-+    public int llamaSpitDespawnRate = -1;
-+    public int potionDespawnRate = -1;
-+    public int shulkerBulletDespawnRate = -1;
-+    public int smallFireballDespawnRate = -1;
-+    public int snowballDespawnRate = -1;
-+    public int witherSkullDespawnRate = -1;
++    private static boolean projectileDespawnRateSettingsMigrated = false;
 +    private void projectileDespawnRateSettings() {
-+        dragonFireballDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.dragon_fireball", dragonFireballDespawnRate);
-+        eggDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.egg", eggDespawnRate);
-+        enderPearlDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.ender_pearl", enderPearlDespawnRate);
-+        expBottleDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.experience_bottle", expBottleDespawnRate);
-+        fireworkDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.firework_rocket", fireworkDespawnRate);
-+        fishingHookDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.fishing_bobber", fishingHookDespawnRate);
-+        largeFireballDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.fireball", largeFireballDespawnRate);
-+        llamaSpitDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.llama_spit", llamaSpitDespawnRate);
-+        potionDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.potion", potionDespawnRate);
-+        shulkerBulletDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.shulker_bullet", shulkerBulletDespawnRate);
-+        smallFireballDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.small_fireball", smallFireballDespawnRate);
-+        snowballDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.snowball", snowballDespawnRate);
-+        witherSkullDespawnRate = getInt("gameplay-mechanics.projectile-despawn-rates.wither_skull", witherSkullDespawnRate);
++        if (PurpurConfig.version < 28 && !projectileDespawnRateSettingsMigrated) {
++            migrateProjectileDespawnRateSettings(EntityType.DRAGON_FIREBALL);
++            migrateProjectileDespawnRateSettings(EntityType.EGG);
++            migrateProjectileDespawnRateSettings(EntityType.ENDER_PEARL);
++            migrateProjectileDespawnRateSettings(EntityType.EXPERIENCE_BOTTLE);
++            migrateProjectileDespawnRateSettings(EntityType.FIREWORK_ROCKET);
++            migrateProjectileDespawnRateSettings(EntityType.FISHING_BOBBER);
++            migrateProjectileDespawnRateSettings(EntityType.FIREBALL);
++            migrateProjectileDespawnRateSettings(EntityType.LLAMA_SPIT);
++            migrateProjectileDespawnRateSettings(EntityType.POTION);
++            migrateProjectileDespawnRateSettings(EntityType.SHULKER_BULLET);
++            migrateProjectileDespawnRateSettings(EntityType.SMALL_FIREBALL);
++            migrateProjectileDespawnRateSettings(EntityType.SNOWBALL);
++            migrateProjectileDespawnRateSettings(EntityType.WITHER_SKULL);
++            PufferfishConfig.save();
++            set("gameplay-mechanics.projectile-despawn-rates", null);
++            // pufferfish's entity_timeout is a global config
++            // we only want to migrate values from the
++            // default world (first world loaded)
++            projectileDespawnRateSettingsMigrated = true;
++        }
++    }
++    private void migrateProjectileDespawnRateSettings(EntityType<?> type) {
++        String pufferName = "entity_timeouts." + type.id.toUpperCase(Locale.ROOT);
++        int value = getInt("gameplay-mechanics.projectile-despawn-rates." + type.id, -1);
++        if (value != -1 && PufferfishConfig.getInt(pufferName, -1) == -1) {
++            PufferfishConfig.setInt(pufferName, value);
++            type.ttl = value;
++        }
 +    }
 +
 +    public double bowProjectileOffset = 1.0D;
@@ -18591,6 +18651,11 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +        throwablePotionProjectileOffset = getDouble("gameplay-mechanics.projectile-offset.throwable-potion", throwablePotionProjectileOffset);
 +        tridentProjectileOffset = getDouble("gameplay-mechanics.projectile-offset.trident", tridentProjectileOffset);
 +        snowballProjectileOffset = getDouble("gameplay-mechanics.projectile-offset.snowball", snowballProjectileOffset);
++    }
++
++    public int snowballDamage = -1;
++    private void snowballSettings() {
++        snowballDamage = getInt("gameplay-mechanics.projectile-damage.snowball", snowballDamage);
 +    }
 +
 +    public List<Block> shovelTurnsBlockToGrassPath = new ArrayList<>();
@@ -18663,6 +18728,10 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +                PurpurConfig.config.set("world-settings.default.tools.hoe.tilling", null);
 +            }
 +        }
++        if (PurpurConfig.version < 29) {
++            PurpurConfig.config.set("world-settings.default.tools.axe.strippables.minecraft:mangrove_log", Map.of("into", "minecraft:stripped_mangrove_log", "drops", new HashMap<String, Double>()));
++            PurpurConfig.config.set("world-settings.default.tools.axe.strippables.minecraft:mangrove_wood", Map.of("into", "minecraft:stripped_mangrove_wood", "drops", new HashMap<String, Double>()));
++        }
 +        getMap("tools.axe.strippables", Map.ofEntries(
 +                Map.entry("minecraft:oak_wood", Map.of("into", "minecraft:stripped_oak_wood", "drops", new HashMap<String, Double>())),
 +                Map.entry("minecraft:oak_log", Map.of("into", "minecraft:stripped_oak_log", "drops", new HashMap<String, Double>())),
@@ -18676,6 +18745,8 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +                Map.entry("minecraft:jungle_log", Map.of("into", "minecraft:stripped_jungle_log", "drops", new HashMap<String, Double>())),
 +                Map.entry("minecraft:spruce_wood", Map.of("into", "minecraft:stripped_spruce_wood", "drops", new HashMap<String, Double>())),
 +                Map.entry("minecraft:spruce_log", Map.of("into", "minecraft:stripped_spruce_log", "drops", new HashMap<String, Double>())),
++                Map.entry("minecraft:mangrove_wood", Map.of("into", "minecraft:stripped_mangrove_wood", "drops", new HashMap<String, Double>())),
++                Map.entry("minecraft:mangrove_log", Map.of("into", "minecraft:stripped_mangrove_log", "drops", new HashMap<String, Double>())),
 +                Map.entry("minecraft:warped_stem", Map.of("into", "minecraft:stripped_warped_stem", "drops", new HashMap<String, Double>())),
 +                Map.entry("minecraft:warped_hyphae", Map.of("into", "minecraft:stripped_warped_hyphae", "drops", new HashMap<String, Double>())),
 +                Map.entry("minecraft:crimson_stem", Map.of("into", "minecraft:stripped_crimson_stem", "drops", new HashMap<String, Double>())),
@@ -19131,11 +19202,20 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +        useNightVisionWhenRiding = getBoolean("ridable-settings.use-night-vision", useNightVisionWhenRiding);
 +    }
 +
-+    public boolean axolotlTakeDamageFromWater = false;
++    public boolean allayRidable = false;
++    public boolean allayRidableInWater = false;
++    public boolean allayControllable = true;
++    private void allaySettings() {
++        allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
++        allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
++        allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
++    }
++
 +    public boolean axolotlRidable = false;
 +    public boolean axolotlControllable = true;
 +    public double axolotlMaxHealth = 14.0D;
 +    public int axolotlBreedingTicks = 6000;
++    public boolean axolotlTakeDamageFromWater = false;
 +    public boolean axolotlAlwaysDropExp = false;
 +    private void axolotlSettings() {
 +        axolotlRidable = getBoolean("mobs.axolotl.ridable", axolotlRidable);
@@ -19630,6 +19710,19 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +        foxBypassMobGriefing = getBoolean("mobs.fox.bypass-mob-griefing", foxBypassMobGriefing);
 +        foxTakeDamageFromWater = getBoolean("mobs.fox.takes-damage-from-water", foxTakeDamageFromWater);
 +        foxAlwaysDropExp = getBoolean("mobs.fox.always-drop-exp", foxAlwaysDropExp);
++    }
++
++    public boolean frogRidable = false;
++    public boolean frogRidableInWater = false;
++    public boolean frogControllable = true;
++    public float frogRidableJumpHeight = 0.65F;
++    public int frogBreedingTicks = 6000;
++    private void frogSettings() {
++        frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
++        frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
++        frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
++        frogRidableJumpHeight = (float) getDouble("mobs.frog.ridable-jump-height", frogRidableJumpHeight);
++        frogBreedingTicks = getInt("mobs.frog.breeding-delay-ticks", frogBreedingTicks);
 +    }
 +
 +    public boolean ghastRidable = false;
@@ -20656,6 +20749,15 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +        striderAlwaysDropExp = getBoolean("mobs.strider.always-drop-exp", striderAlwaysDropExp);
 +    }
 +
++    public boolean tadpoleRidable = false;
++    public boolean tadpoleRidableInWater = false;
++    public boolean tadpoleControllable = true;
++    private void tadpoleSettings() {
++        tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
++        tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
++        tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
++    }
++
 +    public boolean traderLlamaRidable = false;
 +    public boolean traderLlamaRidableInWater = false;
 +    public boolean traderLlamaControllable = true;
@@ -20859,6 +20961,15 @@ index 0000000000000000000000000000000000000000..e4dd5b270441276c18d8d7578f8ad851
 +        wanderingTraderTakeDamageFromWater = getBoolean("mobs.wandering_trader.takes-damage-from-water", wanderingTraderTakeDamageFromWater);
 +        wanderingTraderAllowTrading = getBoolean("mobs.wandering_trader.allow-trading", wanderingTraderAllowTrading);
 +        wanderingTraderAlwaysDropExp = getBoolean("mobs.wandering_trader.always-drop-exp", wanderingTraderAlwaysDropExp);
++    }
++
++    public boolean wardenRidable = false;
++    public boolean wardenRidableInWater = false;
++    public boolean wardenControllable = true;
++    private void wardenSettings() {
++        wardenRidable = getBoolean("mobs.warden.ridable", wardenRidable);
++        wardenRidableInWater = getBoolean("mobs.warden.ridable-in-water", wardenRidableInWater);
++        wardenControllable = getBoolean("mobs.warden.controllable", wardenControllable);
 +    }
 +
 +    public boolean witchRidable = false;
@@ -21495,10 +21606,10 @@ index 0000000000000000000000000000000000000000..2a6685b016cca5a8be554b3b8a928ced
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/controller/FlyingMoveControllerWASD.java b/src/main/java/org/purpurmc/purpur/controller/FlyingMoveControllerWASD.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..315d76526a1a9e95d29384e4598d8d77a27466c7
+index 0000000000000000000000000000000000000000..ed494e0ad278813a0eb261101447b84cca3ad7aa
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/controller/FlyingMoveControllerWASD.java
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,71 @@
 +package org.purpurmc.purpur.controller;
 +
 +import net.minecraft.world.entity.Mob;
@@ -21507,21 +21618,27 @@ index 0000000000000000000000000000000000000000..315d76526a1a9e95d29384e4598d8d77
 +
 +public class FlyingMoveControllerWASD extends MoveControllerWASD {
 +    protected final float groundSpeedModifier;
++    protected final float flyingSpeedModifier;
 +    protected int tooHighCooldown = 0;
-+    protected boolean setGravityFlag = true;
++    protected boolean setNoGravityFlag;
 +
 +    public FlyingMoveControllerWASD(Mob entity) {
 +        this(entity, 1.0F);
 +    }
 +
 +    public FlyingMoveControllerWASD(Mob entity, float groundSpeedModifier) {
-+        this(entity, groundSpeedModifier, true);
++        this(entity, groundSpeedModifier, 1.0F, true);
 +    }
 +
-+    public FlyingMoveControllerWASD(Mob entity, float groundSpeedModifier, boolean setGravityFlag) {
++    public FlyingMoveControllerWASD(Mob entity, float groundSpeedModifier, float flyingSpeedModifier) {
++        this(entity, groundSpeedModifier, flyingSpeedModifier, true);
++    }
++
++    public FlyingMoveControllerWASD(Mob entity, float groundSpeedModifier, float flyingSpeedModifier, boolean setNoGravityFlag) {
 +        super(entity);
 +        this.groundSpeedModifier = groundSpeedModifier;
-+        this.setGravityFlag = setGravityFlag;
++        this.flyingSpeedModifier = flyingSpeedModifier;
++        this.setNoGravityFlag = setNoGravityFlag;
 +    }
 +
 +    @Override
@@ -21547,9 +21664,11 @@ index 0000000000000000000000000000000000000000..315d76526a1a9e95d29384e4598d8d77
 +
 +        if (entity.onGround) {
 +            speed *= groundSpeedModifier; // TODO = fix this!
++        } else {
++            speed *= flyingSpeedModifier;
 +        }
 +
-+        if (setGravityFlag) {
++        if (setNoGravityFlag) {
 +            entity.setNoGravity(forward > 0);
 +        }
 +
