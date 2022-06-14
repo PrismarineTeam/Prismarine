@@ -1246,7 +1246,7 @@ index 8043a1aa9d785c78e220ea54a6ffa7388f2d501e..e352904cb790b3253ec30753e66a7050
                  }
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7ad785d45 100644
+index 353463084d90eb684717e65c56da52cd25a1e375..9c09e46aeea0527880e935c1e3cf1046036d5764 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -260,6 +260,10 @@ public class ServerPlayer extends Player {
@@ -1358,7 +1358,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
              return this;
          }
      }
-@@ -1302,7 +1339,7 @@ public class ServerPlayer extends Player {
+@@ -1308,7 +1345,7 @@ public class ServerPlayer extends Player {
                              return entitymonster.isPreventingPlayerRest(this);
                          });
  
@@ -1367,7 +1367,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
                              return Either.left(Player.BedSleepingProblem.NOT_SAFE);
                          }
                      }
-@@ -1473,6 +1510,7 @@ public class ServerPlayer extends Player {
+@@ -1479,6 +1516,7 @@ public class ServerPlayer extends Player {
  
      @Override
      public void openTextEdit(SignBlockEntity sign) {
@@ -1375,7 +1375,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
          sign.setAllowedPlayerEditor(this.getUUID());
          this.connection.send(new ClientboundBlockUpdatePacket(this.level, sign.getBlockPos()));
          this.connection.send(new ClientboundOpenSignEditorPacket(sign.getBlockPos()));
-@@ -1698,6 +1736,26 @@ public class ServerPlayer extends Player {
+@@ -1704,6 +1742,26 @@ public class ServerPlayer extends Player {
          this.lastSentExp = -1; // CraftBukkit - Added to reset
      }
  
@@ -1402,7 +1402,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
      @Override
      public void displayClientMessage(Component message, boolean actionBar) {
          this.sendSystemMessage(message, actionBar ? ChatType.GAME_INFO : ChatType.SYSTEM);
-@@ -1956,6 +2014,7 @@ public class ServerPlayer extends Player {
+@@ -1962,6 +2020,7 @@ public class ServerPlayer extends Player {
      }
  
      public void sendTexturePack(String url, String hash, boolean required, @Nullable Component resourcePackPrompt) {
@@ -1410,7 +1410,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
          this.connection.send(new ClientboundResourcePackPacket(url, hash, required, resourcePackPrompt));
      }
  
-@@ -1970,8 +2029,58 @@ public class ServerPlayer extends Player {
+@@ -1976,8 +2035,58 @@ public class ServerPlayer extends Player {
  
      public void resetLastActionTime() {
          this.lastActionTime = Util.getMillis();
@@ -1469,7 +1469,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
      public ServerStatsCounter getStats() {
          return this.stats;
      }
-@@ -2431,9 +2540,17 @@ public class ServerPlayer extends Player {
+@@ -2437,9 +2546,17 @@ public class ServerPlayer extends Player {
  
      @Override
      public boolean isImmobile() {
@@ -1488,7 +1488,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..a5b03184ba1199d68bf2c9125c05d4b7
      @Override
      public Scoreboard getScoreboard() {
          return this.getBukkitEntity().getScoreboard().getHandle();
-@@ -2483,4 +2600,42 @@ public class ServerPlayer extends Player {
+@@ -2489,4 +2606,42 @@ public class ServerPlayer extends Player {
      // CraftBukkit end
  
      public final int getViewDistance() { throw new UnsupportedOperationException("Use PlayerChunkLoader"); } // Paper - placeholder
