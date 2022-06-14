@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 14 Jun 2022 09:28:46 +0000
+Date: Tue, 14 Jun 2022 12:41:23 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -290,7 +290,7 @@ index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e
      public void removeCommand(String name) {
          this.children.remove(name);
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index a125abc75ed2bbd905c8fdec442416a45264f531..e76c7e04274d8e94a3e5d6576e42364b2320a9ee 100644
+index a125abc75ed2bbd905c8fdec442416a45264f531..09f826a9d46b6474ef0ab26611e9a305fe19ed9b 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -121,6 +121,22 @@ public class PufferfishConfig {
@@ -299,7 +299,7 @@ index a125abc75ed2bbd905c8fdec442416a45264f531..e76c7e04274d8e94a3e5d6576e42364b
  	}
 +
 +	// Purpur start
-+	public static int getInt(String key, int def) {
++	public static int getRawInt(String key, int def) {
 +		return config.getInt(key, def);
 +	}
 +	public static void setInt(String key, int value) {
@@ -12167,7 +12167,7 @@ index ac75c54e897565e340b66823caeed92ba1d1641a..760015f7a98e70b735707c77472c084d
          this.level.getProfiler().pop();
          PiglinBruteAi.updateActivity(this);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index 60410fd12e0fcfbaad3b4dc431452f8b2e6276c7..5918c35ebdba83dc93414d05b19a9d2b55b1bb7c 100644
+index cd6fb81d14706217c92fccc7853afce4010dfd1b..d41a559531b024f8c873b2b3e56fed1336f4bb2f 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 @@ -118,8 +118,32 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
@@ -12203,15 +12203,6 @@ index 60410fd12e0fcfbaad3b4dc431452f8b2e6276c7..5918c35ebdba83dc93414d05b19a9d2b
      @Override
      public Packet<?> getAddEntityPacket() {
          return new ClientboundAddEntityPacket((LivingEntity)this, this.hasPose(Pose.EMERGING) ? 1 : 0);
-@@ -361,7 +385,7 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
- 
-     @Override
-     public Brain<Warden> getBrain() {
--        return super.getBrain();
-+        return (Brain<Warden>) super.getBrain(); // Purpur - decompile error
-     }
- 
-     @Override
 @@ -391,6 +415,7 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
  
      @Contract("null->false")
@@ -18167,7 +18158,7 @@ index 0000000000000000000000000000000000000000..fecfe935e09ff52a6ec582e6f2e09611
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..80b827eb45092a9069a9dced5b04eebce7b82b58
+index 0000000000000000000000000000000000000000..c4b43f805bc82d5e087728cda23183f990806b54
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -0,0 +1,3122 @@
@@ -18652,7 +18643,7 @@ index 0000000000000000000000000000000000000000..80b827eb45092a9069a9dced5b04eebc
 +    private void migrateProjectileDespawnRateSettings(EntityType<?> type) {
 +        String pufferName = "entity_timeouts." + type.id.toUpperCase(Locale.ROOT);
 +        int value = getInt("gameplay-mechanics.projectile-despawn-rates." + type.id, -1);
-+        if (value != -1 && PufferfishConfig.getInt(pufferName, -1) == -1) {
++        if (value != -1 && PufferfishConfig.getRawInt(pufferName, -1) == -1) {
 +            PufferfishConfig.setInt(pufferName, value);
 +            type.ttl = value;
 +        }
