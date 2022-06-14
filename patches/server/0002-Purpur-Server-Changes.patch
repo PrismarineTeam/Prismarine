@@ -67,10 +67,10 @@ index b04e9ab317fbce9c090b61076eb07c40f069dc59..50112767dff03bc3d9b3cc527e20f1b0
      standardInput = System.`in`
      workingDir = rootProject.layout.projectDirectory
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 088585a1075cd8790e2599eb6a8372adcff050e3..a2c90fb0bb297fb2faaa306dd0c032211a6e1121 100644
+index 2cc44fbf8e5bd436b6d4e19f6c06b351e750cb31..fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -238,10 +238,14 @@ public class TimingsExport extends Thread {
+@@ -239,10 +239,14 @@ public class TimingsExport extends Thread {
          // Information on the users Config
  
          parent.put("config", createObject(
@@ -88,7 +88,7 @@ index 088585a1075cd8790e2599eb6a8372adcff050e3..a2c90fb0bb297fb2faaa306dd0c03221
          ));
  
          new TimingsExport(listeners, parent, history).start();
-@@ -282,6 +286,19 @@ public class TimingsExport extends Thread {
+@@ -283,6 +287,19 @@ public class TimingsExport extends Thread {
          return timingsCost;
      }
  

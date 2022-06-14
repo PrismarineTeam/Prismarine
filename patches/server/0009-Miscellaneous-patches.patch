@@ -5,10 +5,10 @@ Subject: [PATCH] Miscellaneous patches
 
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index a2c90fb0bb297fb2faaa306dd0c032211a6e1121..7ea84a07a2414005a622e8480ab8ecac239dcc58 100644
+index fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57..d9d320797eefb1eeced3d162897b60a98adb5697 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -244,8 +244,9 @@ public class TimingsExport extends Thread {
+@@ -245,8 +245,9 @@ public class TimingsExport extends Thread {
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
              pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
              pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish

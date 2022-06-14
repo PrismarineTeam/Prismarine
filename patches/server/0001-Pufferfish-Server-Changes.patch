@@ -78,10 +78,10 @@ index 0282e3b75470e1a68ea1fc228082483514ba432e..b04e9ab317fbce9c090b61076eb07c40
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index f3bf9df8c0bd56cad461210ce8551ade3a220b6b..088585a1075cd8790e2599eb6a8372adcff050e3 100644
+index 06bff37e4c1fddd3be6343049a66787c63fb420c..2cc44fbf8e5bd436b6d4e19f6c06b351e750cb31 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -240,7 +240,8 @@ public class TimingsExport extends Thread {
+@@ -241,7 +241,8 @@ public class TimingsExport extends Thread {
          parent.put("config", createObject(
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
              pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
@@ -4245,7 +4245,7 @@ index 88abd2d3a9626501b1800ee754b98c6c29c75fb9..f71af7ecad4b6b0328da8cf8c4e5a8e1
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
-index d752720f2f234b9dbd2117333fee1bfad663ec02..f1be8a98c49a63d09c838a85eb58041733f71776 100644
+index e948ec5a573b22645664eb53bc3e9932246544e4..e3845dc3357bbb74885ae3a1a08525adde581235 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
 @@ -11,6 +11,7 @@ public class ServerShutdownThread extends Thread {
