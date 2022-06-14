@@ -1,8 +1,30 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 14 Jun 2022 17:41:52 +0900
+Date: Tue, 14 Jun 2022 09:28:46 +0000
 Subject: [PATCH] Purpur Server Changes
 
+Original by PurpurMC Team
+
+Copyright (C) 2022 PurpurMC LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+Software), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index a4a146d9c3e07bdf941d81147ca31daf4689a687..00d128eba3e778927bc33b71c1145051a0c142f5 100644
@@ -16118,7 +16140,7 @@ index 05eab04e4aec4151018f25b59f92ddbbb4c09f87..8db906e021ca57c7f2a1e7002647e5c5
              }
              CraftEventFactory.blockDamage = null;
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
-index 6c96c3dde4e1b1b1b6952841edb41006e73737e9..c02cf76cce353aff189b3e0a967e88f7b15d1b1f 100644
+index def4fdd2c7e4f925fa128692a744e5d10ae0203a..73382580cc23cbc868a6003e74826a5557c8afc5 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/SignBlockEntity.java
 @@ -184,6 +184,23 @@ public class SignBlockEntity extends BlockEntity implements CommandSource { // C
