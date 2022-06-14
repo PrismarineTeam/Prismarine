@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 14 Jun 2022 12:41:23 +0000
+Date: Tue, 14 Jun 2022 23:25:43 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -14815,7 +14815,7 @@ index 46846ac9981e447fc6886aecf82563378a4f5548..9122485755ce8aa6e6f4773a5fb1315c
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java b/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java
-index 6659a96b3638265f128a352cc9f12629874bfb4b..5019fd602a913b01ea6b6278c73164c50a154476 100644
+index 4940e101250874111e9c55aeb5b87b28602246f0..1963831ccef0ea1e2ee519c8b3a53d245c80aa63 100644
 --- a/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java
 @@ -88,4 +88,11 @@ public class CaveVinesBlock extends GrowingPlantHeadBlock implements Bonemealabl
