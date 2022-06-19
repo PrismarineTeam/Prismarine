@@ -19,7 +19,7 @@ Prismarine
 *우측 Sponsor를 통해 이 프로젝트/레포지토리를 지원하실 수 있습니다!*
 
 ## Features
-- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur), [Airplane](https://github.com/TECHNOVE/Airplane)의 모든 패치 포함
+- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur), [Airplane](https://github.com/TECHNOVE/Airplane), [Patina](https://github.com/PatinaMC/Patina), [Empirecraft](https://github.com/starlis/empirecraft)의 모든 패치 포함
 - 버킷중에서 가장 빠른 업스트림
 - 누락 패치 복구
 - 업스트림 버킷 Pull Request 먼저 사용 가능
