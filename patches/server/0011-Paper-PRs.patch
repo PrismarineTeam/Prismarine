@@ -48,7 +48,7 @@ booky10 <boooky10@gmail.com> - Prevent healing by negative amounts PaperMC/Paper
 Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#7709
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-index f000c822ed4563b5b840936852bc7d8e030763e3..fe7641755316b258c65c67f54a832b4dd3ff8c6b 100644
+index 0c48e877a0dba9fba3295d1740527fa418b5e26c..89d02602cd30637f7395abc775bb0599889127ca 100644
 --- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 +++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 @@ -226,6 +226,7 @@ public class WorldGenRegion implements WorldGenLevel {
@@ -91,6 +91,32 @@ index bb15cf2aa35ce8754bba56f5b312d92b1a50c9f8..82c1e4f79210e10031a7555be03e294d
              target.heal((float) j, RegainReason.MAGIC); // CraftBukkit
          }
  
+diff --git a/src/main/java/net/minecraft/world/entity/EntitySelector.java b/src/main/java/net/minecraft/world/entity/EntitySelector.java
+index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55078ab757 100644
+--- a/src/main/java/net/minecraft/world/entity/EntitySelector.java
++++ b/src/main/java/net/minecraft/world/entity/EntitySelector.java
+@@ -27,7 +27,20 @@ public final class EntitySelector {
+         return !entity.isSpectator();
+     };
+     public static final Predicate<Entity> CAN_BE_COLLIDED_WITH = EntitySelector.NO_SPECTATORS.and(Entity::canBeCollidedWith);
+-    public static Predicate<Player> isInsomniac = (player) -> net.minecraft.util.Mth.clamp(((net.minecraft.server.level.ServerPlayer) player).getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.TIME_SINCE_REST)), 1, Integer.MAX_VALUE) >= 72000; // Paper
++    // Prismarine start - Paper PR
++    // Paper start
++    public static Predicate<Player> isInsomniac = (player) -> {
++        net.minecraft.server.level.ServerPlayer serverPlayer = (net.minecraft.server.level.ServerPlayer) player;
++        int playerInsomniaTicks = serverPlayer.getLevel().purpurConfig.phantomSpawnMinTimeSinceSlept; // Prismarine
++
++        if (playerInsomniaTicks <= 0) {
++            return false;
++        }
++
++        return net.minecraft.util.Mth.clamp(serverPlayer.getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.TIME_SINCE_REST)), 1, Integer.MAX_VALUE) >= playerInsomniaTicks;
++    };
++    // Paper end
++    // Prismarine end
+     public static Predicate<Player> notAfk = (player) -> !player.isAfk(); // Purpur
+ 
+     private EntitySelector() {}
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 index 6fc891e78b7a3839755a719ebc23f2ed2d714870..2cc1dbbca9e290492b82fcc75b7adc92796cf8ad 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java

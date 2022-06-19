@@ -6,7 +6,7 @@ Subject: [PATCH] Miscellaneous patches
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
-index adafc4fd661cf080b004b86c3eaed231a0133101..0000000000000000000000000000000000000000
+index e877921370f6009a4bd204d9b17d2d58834b8822..0000000000000000000000000000000000000000
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 +++ /dev/null
 @@ -1,136 +0,0 @@
@@ -42,8 +42,8 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -	private static final Logger LOGGER = Logger.getLogger("PufferfishVersionFetcher");
 -	private static final HttpClient client = HttpClient.newHttpClient();
 -	
--	private static final URI JENKINS_URI = URI.create("https://ci.pufferfish.host/job/Pufferfish-1.18/lastSuccessfulBuild/buildNumber");
--	private static final String GITHUB_FORMAT = "https://api.github.com/repos/pufferfish-gg/Pufferfish/compare/ver/1.18...%s";
+-	private static final URI JENKINS_URI = URI.create("https://ci.pufferfish.host/job/Pufferfish-1.19/lastSuccessfulBuild/buildNumber");
+-	private static final String GITHUB_FORMAT = "https://api.github.com/repos/pufferfish-gg/Pufferfish/compare/ver/1.19...%s";
 -	
 -	private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers
 -			.mapping(
@@ -147,29 +147,3 @@ index adafc4fd661cf080b004b86c3eaed231a0133101..00000000000000000000000000000000
 -	}
 -}
 \ No newline at end of file
-diff --git a/src/main/java/net/minecraft/world/entity/EntitySelector.java b/src/main/java/net/minecraft/world/entity/EntitySelector.java
-index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55078ab757 100644
---- a/src/main/java/net/minecraft/world/entity/EntitySelector.java
-+++ b/src/main/java/net/minecraft/world/entity/EntitySelector.java
-@@ -27,7 +27,20 @@ public final class EntitySelector {
-         return !entity.isSpectator();
-     };
-     public static final Predicate<Entity> CAN_BE_COLLIDED_WITH = EntitySelector.NO_SPECTATORS.and(Entity::canBeCollidedWith);
--    public static Predicate<Player> isInsomniac = (player) -> net.minecraft.util.Mth.clamp(((net.minecraft.server.level.ServerPlayer) player).getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.TIME_SINCE_REST)), 1, Integer.MAX_VALUE) >= 72000; // Paper
-+    // Prismarine start - Paper PR
-+    // Paper start
-+    public static Predicate<Player> isInsomniac = (player) -> {
-+        net.minecraft.server.level.ServerPlayer serverPlayer = (net.minecraft.server.level.ServerPlayer) player;
-+        int playerInsomniaTicks = serverPlayer.getLevel().purpurConfig.phantomSpawnMinTimeSinceSlept; // Prismarine
-+
-+        if (playerInsomniaTicks <= 0) {
-+            return false;
-+        }
-+
-+        return net.minecraft.util.Mth.clamp(serverPlayer.getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.TIME_SINCE_REST)), 1, Integer.MAX_VALUE) >= playerInsomniaTicks;
-+    };
-+    // Paper end
-+    // Prismarine end
-     public static Predicate<Player> notAfk = (player) -> !player.isAfk(); // Purpur
- 
-     private EntitySelector() {}
