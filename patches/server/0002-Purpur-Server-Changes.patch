@@ -16254,13 +16254,13 @@ index 744d91546d1a810f60a43c15ed74b4158f341a4a..354538daefa603f6df5a139b6bff87db
                      }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-index 7f83c9390823b42fc30d04e1d3222e2825eaad50..e837091037402e990f763903d851c2f70888ada7 100644
+index da7b4783da35bc08f48f2fe31c4d06f9fb5e160f..3e4d5862672a8445fae53519ff21c56971e2d403 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 @@ -71,7 +71,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  public abstract class BlockBehaviour {
  
-     public static final Direction[] UPDATE_SHAPE_ORDER = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.DOWN, Direction.UP}; // Paper - public
+     protected static final Direction[] UPDATE_SHAPE_ORDER = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.DOWN, Direction.UP};
 -    protected final Material material;
 +    public final Material material; // Purpur - protected -> public
      public final boolean hasCollision;
