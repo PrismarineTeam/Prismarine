@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 19 Jun 2022 05:43:24 +0000
+Date: Tue, 21 Jun 2022 04:26:43 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -1036,7 +1036,7 @@ index 1eb912ad97f9663bf6bd336ad739f2552b0a5c9b..3441339e1ba5efb0e25c16fa13cb65d2
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 9e3c82e5c35ee6df68942ba505d098d7a6ae59de..0192e1f5bb07095015a682ce47c27bab1cdf9a1f 100644
+index d0cfbaf3fd5573f33ad3afc47a35157c0da5233a..fde6077593de75c114fb6949f1210be1e93c0409 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -210,6 +210,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1940,10 +1940,10 @@ index 039b47e19d672ec9066c41fcc6342523992bf7b6..0a0f1da57fd85c521c84b127316a4816
                      }
                  } catch (AuthenticationUnavailableException authenticationunavailableexception) {
 diff --git a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-index d21549bb272e4848c5ce7c29862f0303aea7f9b7..12b20ef9d74c2a63a9f0465ae84adbfb260cb182 100644
+index 29a22da1b94d51300481c071aa16bfd8cd02178f..f67cbb1badc007987e62872bb0160ad6d05e3d97 100644
 --- a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-@@ -152,6 +152,7 @@ public class ServerStatusPacketListenerImpl implements ServerStatusPacketListene
+@@ -153,6 +153,7 @@ public class ServerStatusPacketListenerImpl implements ServerStatusPacketListene
              this.connection.send(new ClientboundStatusResponsePacket(ping));
              // CraftBukkit end
              */
@@ -2769,7 +2769,7 @@ index c1e9b40a4a0f9cdc650caa88b5ea132e06ee2496..b7abcaa32341c292f9f884fa6319fd65
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 39fab6a5195e32ae6ffc9988e6fcecfe96be2f76..ebc92079fa9434689c30782000950842929d6102 100644
+index 8a9b6cacfb87d4ba825f3386894c25631ecbb1f7..411593b1b105d62440d76b7bd1b8c74b701e3e75 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -44,6 +44,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -7973,7 +7973,7 @@ index 6a08ab40e60b80f8f5c4d3f02da121be9da05111..59d7f4ef118b2a87d1fe9cc1dd2fea89
  
                  this.onDestroyedBy(source);
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a797d23aa3c 100644
+index 47d6236daca806878399890a8d08e55233f19fd9..6c0bcbf1a2a0ccd3efa4827cd04289eb3e1f41e8 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 @@ -103,6 +103,7 @@ public class EnderDragon extends Mob implements Enemy {
@@ -7984,7 +7984,7 @@ index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a79
  
      public EnderDragon(EntityType<? extends EnderDragon> entitytypes, Level world) {
          super(EntityType.ENDER_DRAGON, world);
-@@ -117,8 +118,60 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -117,7 +118,59 @@ public class EnderDragon extends Mob implements Enemy {
          }
  
          this.phaseManager = new EnderDragonPhaseManager(this);
@@ -8014,8 +8014,8 @@ index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a79
 +    @Override
 +    public boolean isRidable() {
 +        return level.purpurConfig.enderDragonRidable;
-     }
- 
++    }
++
 +    @Override
 +    public boolean rideableUnderWater() {
 +        return level.purpurConfig.enderDragonRidableInWater;
@@ -8039,12 +8039,11 @@ index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a79
 +    @Override
 +    public boolean isSensitiveToWater() {
 +        return this.level.purpurConfig.enderDragonTakeDamageFromWater;
-+    }
+     }
 +    // Purpur end
-+
+ 
      public static AttributeSupplier.Builder createAttributes() {
          return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200.0D);
-     }
 @@ -180,6 +233,37 @@ public class EnderDragon extends Mob implements Enemy {
  
      @Override
@@ -8140,7 +8139,7 @@ index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a79
                              // CraftBukkit start - Add blocks to list rather than destroying them
                              // flag1 = this.level.removeBlock(blockposition, false) || flag1;
                              flag1 = true;
-@@ -643,7 +729,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -632,7 +718,7 @@ public class EnderDragon extends Mob implements Enemy {
          boolean flag = this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT);
          short short0 = 500;
  
@@ -8149,7 +8148,7 @@ index 219877901fb5fc6401646253d6e5d7bd8416ffe1..41a0dfd14b970b3f36ac7cc134226a79
              short0 = 12000;
          }
  
-@@ -1044,6 +1130,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -1070,6 +1156,7 @@ public class EnderDragon extends Mob implements Enemy {
  
      @Override
      protected boolean canRide(Entity entity) {
@@ -16648,10 +16647,10 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117246312be 100644
+index ba0412e8462372f5743e9282de6a50a45ee25add..73981c17b2581513f1de4682d75a1fe10b79a3af 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -243,7 +243,7 @@ import javax.annotation.Nullable; // Paper
+@@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -16660,7 +16659,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -950,6 +950,7 @@ public final class CraftServer implements Server {
+@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -16668,7 +16667,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -965,6 +966,7 @@ public final class CraftServer implements Server {
+@@ -972,6 +973,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -16676,7 +16675,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -980,6 +982,7 @@ public final class CraftServer implements Server {
+@@ -987,6 +989,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -16684,7 +16683,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1406,6 +1409,19 @@ public final class CraftServer implements Server {
+@@ -1413,6 +1416,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -16704,7 +16703,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2653,6 +2669,7 @@ public final class CraftServer implements Server {
+@@ -2675,6 +2691,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16712,7 +16711,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2699,6 +2716,18 @@ public final class CraftServer implements Server {
+@@ -2721,6 +2738,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -16731,7 +16730,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2874,4 +2903,16 @@ public final class CraftServer implements Server {
+@@ -2896,4 +2925,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
@@ -16749,7 +16748,7 @@ index 8fea63ed3e9e036f1371645c5fae183677ca7970..1740067b8c7a1259ab8c96573114a117
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index fbd604602024522bdd73aa1bde6fe2ccec63e442..1f3c4adf3aeb28bcb91cb6913459ea2923ad95a4 100644
+index 1b9e91b20dd9a9375a0a2a6a4d7a0bcdce9e7b1a..164ad4d292c69380eb1e06b648875d9d9548c8c0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -158,6 +158,14 @@ public class Main {
@@ -17327,7 +17326,7 @@ index a3bec00368aef0f8cc6aa21cce1389938d15f91b..704667760ab1593647e3f03bdd17ad32
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 1d8ec0f85ec42f2dcd9405df83b526ae1c59de6f..13a5d4338ca2a9ea9a9c520687bc1d5bfac91dea 100644
+index 03d389f3458cd77166a0319fa38c7207e8714e6f..902e420d19288df124da2292a60f95e97afb9fee 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -543,6 +543,15 @@ public class CraftEventFactory {
@@ -17346,7 +17345,7 @@ index 1d8ec0f85ec42f2dcd9405df83b526ae1c59de6f..13a5d4338ca2a9ea9a9c520687bc1d5b
          return event;
      }
  
-@@ -979,6 +988,7 @@ public class CraftEventFactory {
+@@ -980,6 +989,7 @@ public class CraftEventFactory {
                      damageCause = DamageCause.ENTITY_EXPLOSION;
                  }
                  event = new EntityDamageByEntityEvent(damager.getBukkitEntity(), entity.getBukkitEntity(), damageCause, modifiers, modifierFunctions, source.isCritical()); // Paper - add critical damage API
@@ -17354,7 +17353,7 @@ index 1d8ec0f85ec42f2dcd9405df83b526ae1c59de6f..13a5d4338ca2a9ea9a9c520687bc1d5b
              }
              event.setCancelled(cancelled);
  
-@@ -1044,6 +1054,10 @@ public class CraftEventFactory {
+@@ -1045,6 +1055,10 @@ public class CraftEventFactory {
                  cause = DamageCause.MAGIC;
              } else if (source == DamageSource.IN_FIRE) {
                  cause = DamageCause.FIRE;
@@ -17365,7 +17364,7 @@ index 1d8ec0f85ec42f2dcd9405df83b526ae1c59de6f..13a5d4338ca2a9ea9a9c520687bc1d5b
              } else {
                  throw new IllegalStateException(String.format("Unhandled damage of %s by %s from %s", entity, damager, source.msgId));
              }
-@@ -1085,6 +1099,7 @@ public class CraftEventFactory {
+@@ -1086,6 +1100,7 @@ public class CraftEventFactory {
              } else {
                  entity.lastDamageCancelled = true; // SPIGOT-5339, SPIGOT-6252, SPIGOT-6777: Keep track if the event was canceled
              }
@@ -17373,7 +17372,7 @@ index 1d8ec0f85ec42f2dcd9405df83b526ae1c59de6f..13a5d4338ca2a9ea9a9c520687bc1d5b
              return event;
          }
  
-@@ -1119,6 +1134,10 @@ public class CraftEventFactory {
+@@ -1120,6 +1135,10 @@ public class CraftEventFactory {
              cause = DamageCause.FREEZE;
          } else if (source == DamageSource.GENERIC) {
              cause = DamageCause.CUSTOM;
@@ -17384,7 +17383,7 @@ index 1d8ec0f85ec42f2dcd9405df83b526ae1c59de6f..13a5d4338ca2a9ea9a9c520687bc1d5b
          }
  
          if (cause != null) {
-@@ -1144,6 +1163,7 @@ public class CraftEventFactory {
+@@ -1145,6 +1164,7 @@ public class CraftEventFactory {
          EntityDamageEvent event;
          if (damager != null) {
              event = new EntityDamageByEntityEvent(damager.getBukkitEntity(), damagee.getBukkitEntity(), cause, modifiers, modifierFunctions, critical); // Paper - add critical damage API

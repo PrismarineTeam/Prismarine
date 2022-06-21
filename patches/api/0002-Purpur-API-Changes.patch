@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 19 Jun 2022 05:43:24 +0000
+Date: Tue, 21 Jun 2022 04:26:43 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -80,10 +80,10 @@ index a736d7bcdc5861a01b66ba36158db1c716339346..22fc165fd9c95f0f3ae1be7a0857e48c
  
          @Override
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index fc16e897f4ebaf9d79e49774e15a1cded33ef725..44673fcec96a075bd02800b51318832d82b63c7e 100644
+index 3506a7fa07ee6e53704b1df8d8d2bb08704bfc37..9222adc75b68b9a899b4eca2a1803844b9cdbe26 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2381,4 +2381,43 @@ public final class Bukkit {
+@@ -2412,4 +2412,43 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -381,10 +381,10 @@ index a7d1f1e701f23e851f735584a30bedadb0d8b9bd..7da38adede5b752583b94f6a14b3e45d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 30b49aed62fa67276e8964922ea3f84458d854bb..72adbee17a6c5cb7f067fb4875ff39e4da3f8ef1 100644
+index e756edf56995f4552387c2e1082307eb3dd48bb3..1ba84f8db9d279f5fb2b4be10c02919bb27de30a 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1897,6 +1897,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1922,6 +1922,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
@@ -403,7 +403,7 @@ index 30b49aed62fa67276e8964922ea3f84458d854bb..72adbee17a6c5cb7f067fb4875ff39e4
          /**
           * Sends the component to the player
           *
-@@ -2065,4 +2077,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2090,4 +2102,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end

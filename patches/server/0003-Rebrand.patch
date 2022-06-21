@@ -147,7 +147,7 @@ index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index ee32920e59908c8808bae7bc29a4789d6a3810d3..61edd7ca0055f267926ddbe3119f0f0628cd7084 100644
+index 92aed6ab9fc108835783f5314032103cbd2a6b5f..2013f265645445058aabc0353acd0ecf01ded468 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -913,7 +913,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -173,10 +173,10 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 58d5fd4b65ca281691dbef63c03f4881d7aa2656..8cef93f34f90827c7cfcfc21b9c0a10e239d162f 100644
+index 73981c17b2581513f1de4682d75a1fe10b79a3af..7bc2382842347360f57b86c934fca9b7e3b065d9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -243,7 +243,7 @@ import javax.annotation.Nullable; // Paper
+@@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
