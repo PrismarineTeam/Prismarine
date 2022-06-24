@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 21 Jun 2022 04:25:06 +0000
+Date: Fri, 24 Jun 2022 17:43:14 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -4183,7 +4183,7 @@ index b1992ed5136cc7dcf04219868b94b3c37ae36b4b..5b5339cba819368f4d6b7eaf404fa59b
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 61c2f864bb23e75f6c377f7ccbf2ec44a670348c..ba0412e8462372f5743e9282de6a50a45ee25add 100644
+index 947bf593325cc00d9dc53ab0bf2b1b3ee578aef3..33218552405c526955d30031469d3044c724dde3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
