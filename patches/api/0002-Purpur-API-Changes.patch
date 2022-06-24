@@ -814,10 +814,10 @@ index d0bef15785493b512ff0f7414c1d58d38fead581..fd213c026fdfb3030d0c37f651a88857
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 31353bd20404a8c2acf6bf0df524dc3cae324272..bbae010cedf30d0e3336a8f03ee00a0a824cb08d 100644
+index 8fa8922ad2fb0ea8f770368faff61e56e9761df9..6c46107e13a5fd648d64844ffa5b326d4909d702 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
-@@ -910,4 +910,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
+@@ -909,4 +909,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
       */
      void setHurtDirection(float hurtDirection);
      // Paper end
@@ -938,7 +938,7 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 6cd0b10d1dc4506cfb1e4db5e1260cb705566cec..0fbc571e2990cf79216359454972b80863d2f803 100644
+index 2fd63c2db30060f20dd979d061894c875eda0c4d..c4d99556536431e7f5ad35f5777975f4f3c896fa 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2698,4 +2698,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
