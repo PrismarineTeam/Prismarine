@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 24 Jun 2022 17:45:05 +0000
+Date: Sat, 25 Jun 2022 04:54:52 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -10804,10 +10804,27 @@ index 2dcda3b03796655da443e1b3dd68c6f6bca20d21..7f8d1a048cbe42782be78b60d7cc5f22
                      BlockPos blockposition = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.selectedDirection);
                      BlockState iblockdata = this.mob.level.getBlockState(blockposition);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Skeleton.java b/src/main/java/net/minecraft/world/entity/monster/Skeleton.java
-index 3a3f3358c4bbd16bdcadc56c6a865ecfb942ad54..51c548cd84bd83624fbff3f853a8050dc1e71ecd 100644
+index 3a3f3358c4bbd16bdcadc56c6a865ecfb942ad54..a5ab36fdd0751cb3b96525d53bbaec33878b2af7 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Skeleton.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Skeleton.java
-@@ -25,6 +25,38 @@ public class Skeleton extends AbstractSkeleton {
+@@ -14,6 +14,16 @@ import net.minecraft.world.item.Items;
+ import net.minecraft.world.level.ItemLike;
+ import net.minecraft.world.level.Level;
+ 
++// Purpur start
++import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.level.block.Blocks;
++import org.bukkit.craftbukkit.event.CraftEventFactory;
++import net.minecraft.world.InteractionHand;
++import net.minecraft.world.InteractionResult;
++import net.minecraft.server.level.ServerLevel;
++import net.minecraft.core.particles.ParticleTypes;
++// Purpur end
++
+ public class Skeleton extends AbstractSkeleton {
+ 
+     public static final EntityDataAccessor<Boolean> DATA_STRAY_CONVERSION_ID = SynchedEntityData.defineId(Skeleton.class, EntityDataSerializers.BOOLEAN);
+@@ -25,6 +35,38 @@ public class Skeleton extends AbstractSkeleton {
          super(type, world);
      }
  
@@ -10846,6 +10863,74 @@ index 3a3f3358c4bbd16bdcadc56c6a865ecfb942ad54..51c548cd84bd83624fbff3f853a8050d
      @Override
      protected void defineSynchedData() {
          super.defineSynchedData();
+@@ -138,4 +180,67 @@ public class Skeleton extends AbstractSkeleton {
+         }
+ 
+     }
++
++    // Purpur start
++    private int witherRosesFed = 0;
++
++    @Override
++    public InteractionResult mobInteract(Player player, InteractionHand hand) {
++        ItemStack stack = player.getItemInHand(hand);
++
++        if (level.purpurConfig.skeletonFeedWitherRoses > 0 && this.getType() != EntityType.WITHER_SKELETON && stack.getItem() == Blocks.WITHER_ROSE.asItem()) {
++            return this.feedWitherRose(player, stack);
++        }
++
++        return super.mobInteract(player, hand);
++    }
++
++    private InteractionResult feedWitherRose(Player player, ItemStack stack) {
++        if (++witherRosesFed < level.purpurConfig.skeletonFeedWitherRoses) {
++            if (!player.getAbilities().instabuild) {
++                stack.shrink(1);
++            }
++            return InteractionResult.CONSUME;
++        }
++
++        WitherSkeleton skeleton = EntityType.WITHER_SKELETON.create(level);
++        if (skeleton == null) {
++            return InteractionResult.PASS;
++        }
++
++        skeleton.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
++        skeleton.setHealth(this.getHealth());
++        skeleton.setAggressive(this.isAggressive());
++        skeleton.copyPosition(this);
++        skeleton.setYBodyRot(this.yBodyRot);
++        skeleton.setYHeadRot(this.getYHeadRot());
++        skeleton.yRotO = this.yRotO;
++        skeleton.xRotO = this.xRotO;
++
++        if (this.hasCustomName()) {
++            skeleton.setCustomName(this.getCustomName());
++        }
++
++        if (CraftEventFactory.callEntityTransformEvent(this, skeleton, org.bukkit.event.entity.EntityTransformEvent.TransformReason.INFECTION).isCancelled()) {
++            return InteractionResult.PASS;
++        }
++
++        if (!new com.destroystokyo.paper.event.entity.EntityTransformedEvent(this.getBukkitEntity(), skeleton.getBukkitEntity(), com.destroystokyo.paper.event.entity.EntityTransformedEvent.TransformedReason.INFECTED).callEvent()) {
++            return InteractionResult.PASS;
++        }
++
++        this.level.addFreshEntity(skeleton);
++        this.remove(RemovalReason.DISCARDED);
++        if (!player.getAbilities().instabuild) {
++            stack.shrink(1);
++        }
++
++        for (int i = 0; i < 15; ++i) {
++            ((ServerLevel) level).sendParticles(((ServerLevel) level).players, null, ParticleTypes.HAPPY_VILLAGER,
++                    getX() + random.nextFloat(), getY() + (random.nextFloat() * 2), getZ() + random.nextFloat(), 1,
++                    random.nextGaussian() * 0.05D, random.nextGaussian() * 0.05D, random.nextGaussian() * 0.05D, 0, true);
++        }
++        return InteractionResult.SUCCESS;
++    }
++    // Purpur end
+ }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
 index 7e85ad7ba31bbb32ea1e1dff5d1c83e7ce68b4b3..523f82f994fe4bfbd015281389d96a8bb8a0cefc 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
@@ -18139,10 +18224,10 @@ index 0000000000000000000000000000000000000000..fecfe935e09ff52a6ec582e6f2e09611
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c4b43f805bc82d5e087728cda23183f990806b54
+index 0000000000000000000000000000000000000000..e8cc15345734ee1f0d7e452f2a90ddd9e57951ba
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3122 @@
+@@ -0,0 +1,3124 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -20547,6 +20632,7 @@ index 0000000000000000000000000000000000000000..c4b43f805bc82d5e087728cda23183f9
 +    public boolean skeletonTakeDamageFromWater = false;
 +    public boolean skeletonAlwaysDropExp = false;
 +    public double skeletonHeadVisibilityPercent = 0.5D;
++    public int skeletonFeedWitherRoses = 0;
 +    private void skeletonSettings() {
 +        skeletonRidable = getBoolean("mobs.skeleton.ridable", skeletonRidable);
 +        skeletonRidableInWater = getBoolean("mobs.skeleton.ridable-in-water", skeletonRidableInWater);
@@ -20560,6 +20646,7 @@ index 0000000000000000000000000000000000000000..c4b43f805bc82d5e087728cda23183f9
 +        skeletonTakeDamageFromWater = getBoolean("mobs.skeleton.takes-damage-from-water", skeletonTakeDamageFromWater);
 +        skeletonAlwaysDropExp = getBoolean("mobs.skeleton.always-drop-exp", skeletonAlwaysDropExp);
 +        skeletonHeadVisibilityPercent = getDouble("mobs.skeleton.head-visibility-percent", skeletonHeadVisibilityPercent);
++        skeletonFeedWitherRoses = getInt("mobs.skeleton.feed-wither-roses", skeletonFeedWitherRoses);
 +    }
 +
 +    public boolean skeletonHorseRidableInWater = true;
