@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 25 Jun 2022 12:35:26 +0000
+Date: Sun, 26 Jun 2022 01:54:20 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a4a146d9c3e07bdf941d81147ca31daf4689a687..00d128eba3e778927bc33b71c1145051a0c142f5 100644
+index a4a146d9c3e07bdf941d81147ca31daf4689a687..da7264bb973303970cc4f04089b2715b7c5435bd 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -49,7 +49,26 @@ index a4a146d9c3e07bdf941d81147ca31daf4689a687..00d128eba3e778927bc33b71c1145051
      runtimeOnly("org.apache.maven:maven-resolver-provider:3.8.5")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
-@@ -84,7 +87,7 @@ tasks.jar {
+@@ -72,6 +75,18 @@ tasks.withType<JavaCompile> {
+ }
+ // Pufferfish End
+ 
++// Purpur start
++tasks.processResources {
++    doLast {
++        val dir = destinationDir.resolve("plugins").toPath()
++        Files.createDirectories(dir)
++
++        val target = dir.resolve("spark.jar")
++        download.get().download(uri(providers.gradleProperty("sparkUrl")), target)
++    }
++}
++// Purpur end
++
+ tasks.jar {
+     archiveClassifier.set("dev")
+ 
+@@ -84,7 +99,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -58,7 +77,7 @@ index a4a146d9c3e07bdf941d81147ca31daf4689a687..00d128eba3e778927bc33b71c1145051
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -172,7 +175,7 @@ fun TaskContainer.registerRunTask(
+@@ -172,7 +187,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -12233,10 +12252,10 @@ index ac75c54e897565e340b66823caeed92ba1d1641a..760015f7a98e70b735707c77472c084d
          this.level.getProfiler().pop();
          PiglinBruteAi.updateActivity(this);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-index cd6fb81d14706217c92fccc7853afce4010dfd1b..d41a559531b024f8c873b2b3e56fed1336f4bb2f 100644
+index 27bd70dc30c8472e5a80f3273f9233a0392f831d..54959365ffc81d305d07562fc5677cbb9fb97d2b 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -118,8 +118,32 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
+@@ -120,8 +120,32 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
          this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
          this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
          this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
@@ -12268,15 +12287,30 @@ index cd6fb81d14706217c92fccc7853afce4010dfd1b..d41a559531b024f8c873b2b3e56fed13
 +
      @Override
      public Packet<?> getAddEntityPacket() {
-         return new ClientboundAddEntityPacket((LivingEntity)this, this.hasPose(Pose.EMERGING) ? 1 : 0);
-@@ -391,6 +415,7 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
+         return new ClientboundAddEntityPacket(this, this.hasPose(Pose.EMERGING) ? 1 : 0);
+@@ -403,19 +427,16 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
  
      @Contract("null->false")
      public boolean canTargetEntity(@Nullable Entity entity) {
+-        boolean flag;
+-
 +        if (getRider() != null && isControllable()) return false; // Purpur
-         if (entity instanceof LivingEntity livingEntity) {
-             if (this.level == entity.level && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && !this.isAlliedTo(entity) && livingEntity.getType() != EntityType.ARMOR_STAND && livingEntity.getType() != EntityType.WARDEN && !livingEntity.isInvulnerable() && !livingEntity.isDeadOrDying() && this.level.getWorldBorder().isWithinBounds(livingEntity.getBoundingBox())) {
-                 return true;
+         if (entity instanceof LivingEntity) {
+             LivingEntity entityliving = (LivingEntity) entity;
+ 
+             if (this.level == entity.level && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && !this.isAlliedTo(entity) && entityliving.getType() != EntityType.ARMOR_STAND && entityliving.getType() != EntityType.WARDEN && !entityliving.isInvulnerable() && !entityliving.isDeadOrDying() && this.level.getWorldBorder().isWithinBounds(entityliving.getBoundingBox())) {
+-                flag = true;
+-                return flag;
++                return true; // Purpur - wtf
+             }
+         }
+ 
+-        flag = false;
+-        return flag;
++        return false; // Purpur - wtf
+     }
+ 
+     public static void applyDarknessAround(ServerLevel world, Vec3 pos, @Nullable Entity entity, int range) {
 diff --git a/src/main/java/net/minecraft/world/entity/npc/AbstractVillager.java b/src/main/java/net/minecraft/world/entity/npc/AbstractVillager.java
 index 5eab7d50734551d96128dfebee126a1da4c51375..860b938335966cdd872404dc12b097b7a1cc3b00 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/AbstractVillager.java
@@ -16873,10 +16907,26 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2740a7c13 100644
+index 33218552405c526955d30031469d3044c724dde3..d75db7d4a57e605f9f58b650ad2baeb866ede715 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
+@@ -23,6 +23,7 @@ import java.io.FileInputStream;
+ import java.io.FileNotFoundException;
+ import java.io.IOException;
+ import java.io.InputStreamReader;
++import java.net.URISyntaxException;
+ import java.nio.ByteBuffer;
+ import java.nio.charset.StandardCharsets;
+ import java.util.ArrayList;
+@@ -219,6 +220,7 @@ import org.bukkit.map.MapPalette;
+ import org.bukkit.map.MapView;
+ import org.bukkit.permissions.Permissible;
+ import org.bukkit.permissions.Permission;
++import org.bukkit.plugin.InvalidPluginException;
+ import org.bukkit.plugin.Plugin;
+ import org.bukkit.plugin.PluginLoadOrder;
+ import org.bukkit.plugin.PluginManager;
+@@ -245,7 +247,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -16885,7 +16935,46 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
+@@ -410,6 +412,7 @@ public final class CraftServer implements Server {
+         this.pluginManager.registerInterface(JavaPluginLoader.class);
+ 
+         File pluginFolder = this.getPluginsFolder(); // Paper
++        boolean sparkLoaded = false; // Purpur
+ 
+         // Paper start
+         if (true || pluginFolder.exists()) {
+@@ -423,6 +426,8 @@ public final class CraftServer implements Server {
+                     String message = String.format("Loading %s", plugin.getDescription().getFullName());
+                     plugin.getLogger().info(message);
+                     plugin.onLoad();
++
++                    sparkLoaded = plugin.getDescription().getName().equalsIgnoreCase("spark"); // Purpur
+                 } catch (Throwable ex) {
+                     Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
+                 }
+@@ -430,6 +435,21 @@ public final class CraftServer implements Server {
+         } else {
+             pluginFolder.mkdir();
+         }
++
++        // Purpur start
++        if (!sparkLoaded) {
++            try {
++                File file = new File(getClass().getClassLoader().getResource("plugins/spark.jar").toURI());
++                Plugin spark = this.pluginManager.loadPlugin(file);
++
++                String message = String.format("Loading %s", spark.getDescription().getFullName());
++                spark.getLogger().info(message);
++                spark.onLoad();
++            } catch (URISyntaxException | InvalidPluginException e) {
++                getLogger().severe("Failed to load spark plugin from jar");
++            }
++        }
++        // Purpur end
+     }
+ 
+     // Paper start
+@@ -957,6 +977,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -16893,7 +16982,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -972,6 +973,7 @@ public final class CraftServer implements Server {
+@@ -972,6 +993,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -16901,7 +16990,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -987,6 +989,7 @@ public final class CraftServer implements Server {
+@@ -987,6 +1009,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -16909,7 +16998,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1413,6 +1416,19 @@ public final class CraftServer implements Server {
+@@ -1413,6 +1436,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -16929,7 +17018,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2675,6 +2691,7 @@ public final class CraftServer implements Server {
+@@ -2675,6 +2711,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16937,7 +17026,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2721,6 +2738,18 @@ public final class CraftServer implements Server {
+@@ -2721,6 +2758,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -16956,7 +17045,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2896,4 +2925,16 @@ public final class CraftServer implements Server {
+@@ -2896,4 +2945,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end

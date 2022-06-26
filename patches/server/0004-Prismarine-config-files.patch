@@ -359,10 +359,10 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7bc2382842347360f57b86c934fca9b7e3b065d9..bae39bfbcdee24e4703a1222a05ce32cb8aa87cf 100644
+index dea3411a73b8f607fcaee33b23b10cb581a6a0cf..3257520ae61656bae28ca1ca6b1180b30155dda6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -958,6 +958,7 @@ public final class CraftServer implements Server {
+@@ -978,6 +978,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -370,7 +370,7 @@ index 7bc2382842347360f57b86c934fca9b7e3b065d9..bae39bfbcdee24e4703a1222a05ce32c
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
+@@ -994,6 +995,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -378,7 +378,7 @@ index 7bc2382842347360f57b86c934fca9b7e3b065d9..bae39bfbcdee24e4703a1222a05ce32c
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2749,6 +2751,13 @@ public final class CraftServer implements Server {
+@@ -2769,6 +2771,13 @@ public final class CraftServer implements Server {
              return getProperties().properties;
          }
          // Purpur end

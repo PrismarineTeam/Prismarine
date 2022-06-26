@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 25 Jun 2022 12:35:26 +0000
+Date: Sun, 26 Jun 2022 01:54:20 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -1104,7 +1104,7 @@ index 297b65a6cf7d25f02bbd824ea507c5c083e0abec..f5f751678f3d14d2dcb8727c7e9d9db1
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java b/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java
-index b915c3cab168a2bbdca740e662baaa708d425e41..476b33dd26af55f787f64c37d9a8cd2d0dc2a7f7 100644
+index 01c5e8b71338fbb4b1605e45bf2a2e705188f6b5..118d53ec9d1dc9c01cedfbedaf0b8edcbda7b3a5 100644
 --- a/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java
 +++ b/src/main/java/org/bukkit/event/entity/EntityPotionEffectEvent.java
 @@ -217,6 +217,12 @@ public class EntityPotionEffectEvent extends EntityEvent implements Cancellable
