@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 26 Jun 2022 11:22:05 +0000
+Date: Sun, 26 Jun 2022 11:54:13 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -16888,7 +16888,7 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd78685ab7f 100644
+index 33218552405c526955d30031469d3044c724dde3..3048fe320912d805394c472661ab20c00994116b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
@@ -16916,7 +16916,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
                  } catch (Throwable ex) {
                      Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
                  }
-@@ -430,6 +432,31 @@ public final class CraftServer implements Server {
+@@ -430,6 +432,43 @@ public final class CraftServer implements Server {
          } else {
              pluginFolder.mkdir();
          }
@@ -16925,16 +16925,28 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
 +        if (!sparkLoaded) {
 +            try {
 +                File file = new File("cache", "spark.jar");
-+                try (java.io.BufferedInputStream in = new java.io.BufferedInputStream(new java.net.URL("https://sparkapi.lucko.me/download/bukkit").openStream()); java.io.FileOutputStream out = new java.io.FileOutputStream(file)) {
-+                    byte[] dataBuffer = new byte[1024];
-+                    int bytesRead;
-+                    while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-+                        out.write(dataBuffer, 0, bytesRead);
++                file.getParentFile().mkdirs();
++
++                boolean shouldDownload = true;
++                if (file.exists()) {
++                    String fileSha1 = String.format("%040x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-1").digest(java.nio.file.Files.readAllBytes(file.toPath()))));
++                    String sparkSha1;
++                    try (java.io.BufferedReader reader = new java.io.BufferedReader(new InputStreamReader(new java.net.URL("https://sparkapi.lucko.me/download/bukkit/sha1").openStream()))) {
++                        sparkSha1 = reader.lines().collect(Collectors.joining(""));
 +                    }
-+                    out.flush();
-+                } catch (IOException e) {
-+                    e.printStackTrace();
++
++                    System.out.println("File SHA1: " + fileSha1);
++                    System.out.println("Spark SHA1: " + sparkSha1);
++
++                    if (fileSha1.equals(sparkSha1)) {
++                        shouldDownload = false;
++                    }
 +                }
++
++                if (shouldDownload) {
++                    java.nio.file.Files.copy(new java.net.URL("https://sparkapi.lucko.me/download/bukkit").openStream(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
++                }
++
 +                Plugin spark = this.pluginManager.loadPlugin(file);
 +                String message = String.format("Loading %s", spark.getDescription().getFullName());
 +                spark.getLogger().info(message);
@@ -16948,7 +16960,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
      }
  
      // Paper start
-@@ -957,6 +984,7 @@ public final class CraftServer implements Server {
+@@ -957,6 +996,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -16956,7 +16968,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -972,6 +1000,7 @@ public final class CraftServer implements Server {
+@@ -972,6 +1012,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -16964,7 +16976,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -987,6 +1016,7 @@ public final class CraftServer implements Server {
+@@ -987,6 +1028,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -16972,7 +16984,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1413,6 +1443,19 @@ public final class CraftServer implements Server {
+@@ -1413,6 +1455,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -16992,7 +17004,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2675,6 +2718,7 @@ public final class CraftServer implements Server {
+@@ -2675,6 +2730,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -17000,7 +17012,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2721,6 +2765,18 @@ public final class CraftServer implements Server {
+@@ -2721,6 +2777,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -17019,7 +17031,7 @@ index 33218552405c526955d30031469d3044c724dde3..c6303baeefcbe85cde815fef02d1fcd7
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2896,4 +2952,16 @@ public final class CraftServer implements Server {
+@@ -2896,4 +2964,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
