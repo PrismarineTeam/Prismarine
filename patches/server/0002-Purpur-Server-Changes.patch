@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 26 Jun 2022 05:24:02 +0000
+Date: Sun, 26 Jun 2022 06:28:20 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -16888,7 +16888,7 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2740a7c13 100644
+index 33218552405c526955d30031469d3044c724dde3..a36462ce16822395a098c5f9569a7ceec350eba9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
@@ -16900,7 +16900,55 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
+@@ -410,6 +410,7 @@ public final class CraftServer implements Server {
+         this.pluginManager.registerInterface(JavaPluginLoader.class);
+ 
+         File pluginFolder = this.getPluginsFolder(); // Paper
++        boolean sparkLoaded = false; // Purpur
+ 
+         // Paper start
+         if (true || pluginFolder.exists()) {
+@@ -423,6 +424,7 @@ public final class CraftServer implements Server {
+                     String message = String.format("Loading %s", plugin.getDescription().getFullName());
+                     plugin.getLogger().info(message);
+                     plugin.onLoad();
++                    sparkLoaded = sparkLoaded || plugin.getDescription().getName().equalsIgnoreCase("spark"); // Purpur
+                 } catch (Throwable ex) {
+                     Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
+                 }
+@@ -430,6 +432,31 @@ public final class CraftServer implements Server {
+         } else {
+             pluginFolder.mkdir();
+         }
++
++        // Purpur start
++        if (!sparkLoaded) {
++            try {
++                File file = new File("cache", "spark.jar");
++                try (java.io.BufferedInputStream in = new java.io.BufferedInputStream(new java.net.URL("https://ci.lucko.me/job/spark/317/artifact/spark-bukkit/build/libs/spark-1.9.15-bukkit.jar").openStream()); java.io.FileOutputStream out = new java.io.FileOutputStream(file)) {
++                    byte[] dataBuffer = new byte[1024];
++                    int bytesRead;
++                    while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
++                        out.write(dataBuffer, 0, bytesRead);
++                    }
++                    out.flush();
++                } catch (IOException e) {
++                    e.printStackTrace();
++                }
++                Plugin spark = this.pluginManager.loadPlugin(file);
++                String message = String.format("Loading %s", spark.getDescription().getFullName());
++                spark.getLogger().info(message);
++                spark.onLoad();
++            } catch (Exception e) {
++                getLogger().severe("Failed to download and load spark plugin");
++                e.printStackTrace();
++            }
++        }
++        // Purpur end
+     }
+ 
+     // Paper start
+@@ -957,6 +984,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -16908,7 +16956,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -972,6 +973,7 @@ public final class CraftServer implements Server {
+@@ -972,6 +1000,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -16916,7 +16964,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -987,6 +989,7 @@ public final class CraftServer implements Server {
+@@ -987,6 +1016,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -16924,7 +16972,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1413,6 +1416,19 @@ public final class CraftServer implements Server {
+@@ -1413,6 +1443,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -16944,7 +16992,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2675,6 +2691,7 @@ public final class CraftServer implements Server {
+@@ -2675,6 +2718,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -16952,7 +17000,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2721,6 +2738,18 @@ public final class CraftServer implements Server {
+@@ -2721,6 +2765,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -16971,7 +17019,7 @@ index 33218552405c526955d30031469d3044c724dde3..7960433f8278e3bd0ec43db3d3820ff2
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2896,4 +2925,16 @@ public final class CraftServer implements Server {
+@@ -2896,4 +2952,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
