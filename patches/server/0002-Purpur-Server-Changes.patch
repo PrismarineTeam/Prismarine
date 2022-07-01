@@ -16897,7 +16897,7 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 33218552405c526955d30031469d3044c724dde3..a376045e94d1811645f84b3e4963726fe12545a4 100644
+index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b65f7cae0b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
@@ -16990,7 +16990,7 @@ index 33218552405c526955d30031469d3044c724dde3..a376045e94d1811645f84b3e4963726f
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1413,6 +1452,19 @@ public final class CraftServer implements Server {
+@@ -1414,6 +1453,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -17010,7 +17010,7 @@ index 33218552405c526955d30031469d3044c724dde3..a376045e94d1811645f84b3e4963726f
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2675,6 +2727,7 @@ public final class CraftServer implements Server {
+@@ -2676,6 +2728,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -17018,7 +17018,7 @@ index 33218552405c526955d30031469d3044c724dde3..a376045e94d1811645f84b3e4963726f
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2721,6 +2774,18 @@ public final class CraftServer implements Server {
+@@ -2722,6 +2775,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -17037,7 +17037,7 @@ index 33218552405c526955d30031469d3044c724dde3..a376045e94d1811645f84b3e4963726f
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2896,4 +2961,16 @@ public final class CraftServer implements Server {
+@@ -2897,4 +2962,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
