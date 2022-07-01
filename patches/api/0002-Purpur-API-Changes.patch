@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 26 Jun 2022 11:54:13 +0000
+Date: Fri, 1 Jul 2022 13:31:40 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b8fa29c4e39c4587855e6c8be3f5b373bd841ba3..e16706bc30fc3c851485fe0c68be4abdcc70e6e2 100644
+index fa06125f095bd099d595ddb3cb5871d90ae1ccf7..b950096a71ba6a3b059cb5385ae39e5f7f2728d8 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -103,6 +103,8 @@ tasks.jar {
@@ -40,7 +40,7 @@ index b8fa29c4e39c4587855e6c8be3f5b373bd841ba3..e16706bc30fc3c851485fe0c68be4abd
      options.overview = "src/main/javadoc/overview.html"
      options.isDocFilesSubDirs = true
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
-index 3132dc98d26c54c5e46162e53aaed195d7335c8d..d4d608091f8f912af234b594bbdf0b60e29c4353 100644
+index 3132dc98d26c54c5e46162e53aaed195d7335c8d..a2357b323bcfd23c8c45a81ef749d88dd64cb8d5 100644
 --- a/src/main/java/co/aikar/timings/TimingsCommand.java
 +++ b/src/main/java/co/aikar/timings/TimingsCommand.java
 @@ -53,6 +53,13 @@ public class TimingsCommand extends BukkitCommand {
@@ -51,7 +51,7 @@ index 3132dc98d26c54c5e46162e53aaed195d7335c8d..d4d608091f8f912af234b594bbdf0b60
 +            net.kyori.adventure.text.minimessage.MiniMessage mm = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage();
 +            sender.sendMessage(mm.deserialize("<gold>Purpur is removing timings soon. Try using <grey>/spark</grey> instead"));
 +            sender.sendMessage(mm.deserialize("<gold>For more information, view its documentation at"));
-+            sender.sendMessage(mm.deserialize("<gold>https://spark.lucko.me/docs/Command-Usage"));
++            sender.sendMessage(mm.deserialize("<gold><click:open_url:'url'>https://spark.lucko.me/docs/Command-Usage</click>"));
 +            return true;
 +        }
          if (args.length < 1) {

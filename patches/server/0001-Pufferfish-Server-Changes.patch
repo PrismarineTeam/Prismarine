@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 26 Jun 2022 11:52:25 +0000
+Date: Fri, 1 Jul 2022 13:29:59 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License along
 with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 68b8f275f9c9e77a949ca29749a05b469bcdb910..a4a146d9c3e07bdf941d81147ca31daf4689a687 100644
+index 2374cc9bab5039d0a0dc11d4b2ec573ab75778a7..74c91f79576e85618fefb79be8d313ba871701c7 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,8 +9,12 @@ plugins {
