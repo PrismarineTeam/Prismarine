@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 1 Jul 2022 13:29:59 +0000
+Date: Fri, 1 Jul 2022 21:21:41 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -1097,7 +1097,7 @@ index 0000000000000000000000000000000000000000..e877921370f6009a4bd204d9b17d2d58
 \ No newline at end of file
 diff --git a/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java b/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f0ec1f3944c00d38537f6f3b3f13236b22562458
+index 0000000000000000000000000000000000000000..4ad189d52b27560424ddb311d0817a334637dc95
 --- /dev/null
 +++ b/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
 @@ -0,0 +1,78 @@
@@ -1126,7 +1126,7 @@ index 0000000000000000000000000000000000000000..f0ec1f3944c00d38537f6f3b3f13236b
 +      "server.properties",
 +      "bukkit.yml",
 +      "spigot.yml",
-+      "paper.yml",
++      // "paper.yml", // TODO: Figure out what to do with this.
 +      "pufferfish.yml"
 +    };
 +
@@ -4183,7 +4183,7 @@ index b1992ed5136cc7dcf04219868b94b3c37ae36b4b..5b5339cba819368f4d6b7eaf404fa59b
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 947bf593325cc00d9dc53ab0bf2b1b3ee578aef3..33218552405c526955d30031469d3044c724dde3 100644
+index f6f4e7f393cdd03f0ec699ff461e1ac20ddef789..3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
