@@ -19,7 +19,7 @@ Prismarine
 *우측 Sponsor를 통해 이 프로젝트/레포지토리를 지원하실 수 있습니다!*
 
 ## Features
-- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur), [Airplane](https://github.com/TECHNOVE/Airplane)의 모든 패치 포함
+- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur)의 모든 패치 포함
 - 버킷중에서 가장 빠른 업스트림
 - 누락 패치 복구
 - 업스트림 버킷 Pull Request 먼저 사용 가능
@@ -52,7 +52,7 @@ Prismarine-API 및 하위 API를 로컬 Maven repo에 설치하려면 `./gradlew
 ## Licenses
 파일의 Header에 따로 명시되지 않은 한, 본 프로젝트는 MIT License에 따라 라이센스가 부여됩니다.
 
-[PaperMC/Paper](https://github.com/PaperMC/Paper), [TECHNOVE/Airplane](https://github.com/TECHNOVE/Airplane), [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)는 GNU General Public License v3.0에 따라 라이센스가 부여됩니다.
+[PaperMC/Paper](https://github.com/PaperMC/Paper), [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)는 GNU General Public License v3.0에 따라 라이센스가 부여됩니다.
 
 [PaperMC/paperweight](https://github.com/PaperMC/paperweight)은 GNU General Public License v2.1에 따라 라이센스가 부여됩니다.
 
