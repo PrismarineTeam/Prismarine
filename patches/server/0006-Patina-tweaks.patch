@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 2 Jul 2022 18:02:41 +0900
+Subject: [PATCH] Patina tweaks
+
+
+diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
+index c540b695282e2cca97cc4e3320d641befa19c1c6..7d3fd2ca2683d335bc27883078f24b57be29e9cb 100644
+--- a/src/main/java/net/minecraft/Util.java
++++ b/src/main/java/net/minecraft/Util.java
+@@ -77,7 +77,6 @@ public class Util {
+     private static final int DEFAULT_MAX_THREADS = 255;
+     private static final String MAX_THREADS_SYSTEM_PROPERTY = "max.bg.threads";
+     private static final AtomicInteger WORKER_COUNT = new AtomicInteger(1);
+-    private static final ExecutorService BOOTSTRAP_EXECUTOR = makeExecutor("Bootstrap", -2); // Paper - add -2 priority
+     private static final ExecutorService BACKGROUND_EXECUTOR = makeExecutor("Main", -1); // Paper - add -1 priority
+     // Paper start - don't submit BLOCKING PROFILE LOOKUPS to the world gen thread
+     public static final ExecutorService PROFILE_EXECUTOR = Executors.newFixedThreadPool(2, new java.util.concurrent.ThreadFactory() {
+@@ -200,7 +199,7 @@ public class Util {
+     }
+ 
+     public static ExecutorService bootstrapExecutor() {
+-        return BOOTSTRAP_EXECUTOR;
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableBootstrapExecutor ? BACKGROUND_EXECUTOR : makeExecutor("Bootstrap", -2)); // Prismarine - Patina patches // Patina
+     }
+ 
+     public static ExecutorService backgroundExecutor() {
+diff --git a/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java b/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
+index 29e2bc3fa3091df3c2fa908a2632c3b592c4a872..9d9df1027fdd815f366c3a95a631749ab531135e 100644
+--- a/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
++++ b/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
+@@ -348,7 +348,7 @@ public class QueryThreadGs4 extends GenericThread {
+             this.identBytes[2] = bs[5];
+             this.identBytes[3] = bs[6];
+             this.ident = new String(this.identBytes, StandardCharsets.UTF_8);
+-            this.challenge = RandomSource.create().nextInt(16777216);
++            this.challenge = java.util.concurrent.ThreadLocalRandom.current().nextInt(16777216);
+             this.challengeBytes = String.format("\t%s%d\u0000", this.ident, this.challenge).getBytes(StandardCharsets.UTF_8);
+         }
+ 
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index e543014d55a5e96a74b4278680003c703248fe73..badc80b509fb8985251f574dc5e16e9cb5165ec1 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -203,4 +203,9 @@ public class PrismarineConfig {
+         enableMaxVillagerTradeLimit = getBoolean("settings.max-villager-trade-limit.enabled", enableMaxVillagerTradeLimit);
+         maxVillagerTradeLimit = getInt("settings.max-villager-trade-limit.limit", maxVillagerTradeLimit);
+     }
++
++    public static boolean disableBootstrapExecutor = false;
++    private static void disableBootstrapExecutor() {
++        disableBootstrapExecutor = getBoolean("settings.patina-settings.disable-bootstrap-executor", disableBootstrapExecutor);
++    }
+ }
+\ No newline at end of file

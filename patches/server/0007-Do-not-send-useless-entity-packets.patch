@@ -63,12 +63,12 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..b5fc0315a43d17857845e0d0e91d3f4a
          this.entity.stopSeenByPlayer(player);
          player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index e543014d55a5e96a74b4278680003c703248fe73..29cc274e7f39c3702127891d1f19da32050ea35f 100644
+index badc80b509fb8985251f574dc5e16e9cb5165ec1..0b0de92c48da14e816169db8cdbcb6c0f9874b87 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -203,4 +203,9 @@ public class PrismarineConfig {
-         enableMaxVillagerTradeLimit = getBoolean("settings.max-villager-trade-limit.enabled", enableMaxVillagerTradeLimit);
-         maxVillagerTradeLimit = getInt("settings.max-villager-trade-limit.limit", maxVillagerTradeLimit);
+@@ -208,4 +208,9 @@ public class PrismarineConfig {
+     private static void disableBootstrapExecutor() {
+         disableBootstrapExecutor = getBoolean("settings.patina-settings.disable-bootstrap-executor", disableBootstrapExecutor);
      }
 +
 +    public static boolean doNotSendUselessEntityPackets = true;
