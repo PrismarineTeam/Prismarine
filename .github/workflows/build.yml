@@ -6,6 +6,10 @@ on:
   
 env:
   branch: ver/1.18.2
+  debug: true
+  reobf: true
+  mojmap: false
+  build: false
 
 jobs:
   release:
@@ -41,13 +45,23 @@ jobs:
         run: ./gradlew applyPatches --stacktrace
 
       - name: Build
+        if: env.debug != 'true' || env.build == 'true'
         run: ./gradlew build --stacktrace
 
       - name: Create Reobf Jar
+        if: env.debug != 'true' || env.reobf == 'true'
         run: ./gradlew createReobfPaperclipJar --stacktrace
 
       - name: Create Mojmap Jar
+        if: env.debug != 'true' || env.mojmap == 'true'
         run: ./gradlew createMojmapPaperclipJar --stacktrace
+
+      - name: Upload Artifacts
+        if: env.debug == 'true'
+        uses: actions/upload-artifact@main
+        with:
+          name: 'Prismarine-Debug'
+          path: 'build/libs'
 
       - name: Release Artifacts
         if: github.ref_name == env.branch
