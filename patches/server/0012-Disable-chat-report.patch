@@ -1,0 +1,200 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 2 Jul 2022 16:28:13 +0900
+Subject: [PATCH] Disable chat report
+
+
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
+index 4e9832d5753b98621e68246ffc5d80c86a3b5ed3..37dccea51b0157ecfb32d10a17b417b885626353 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundChatPacket.java
+@@ -57,7 +57,7 @@ public class ServerboundChatPacket implements Packet<ServerGamePacketListener> {
+     }
+ 
+     public MessageSignature getSignature(UUID sender) {
+-        return new MessageSignature(sender, this.timeStamp, this.saltSignature);
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? MessageSignature.unsigned() : new MessageSignature(sender, this.timeStamp, this.saltSignature));
+     }
+ 
+     public Instant getTimeStamp() {
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index a43ad076dc8341b9f5e45b34134326cccc5ac13c..3092fcf5fa8283b4b7c6e4f8bd9b9c8ffad7c04b 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -338,6 +338,11 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+             DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
+         }
+ 
++        // Prismarine start
++        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && this.getProperties().enforceSecureProfile) {
++            DedicatedServer.LOGGER.warn("Disabling chat reporting and enabling enforce-secure-profile option cannot work together. Disabling enforce-secure-profile option...");
++        }
++        // Prismarine end
+ 
+         if (!OldUsersConverter.serverReadyAfterUserconversion(this)) {
+             return false;
+@@ -662,7 +667,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+ 
+     @Override
+     public boolean enforceSecureProfile() {
+-        return this.getProperties().enforceSecureProfile;
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? false : this.getProperties().enforceSecureProfile);
+     }
+ 
+     protected boolean convertOldUsers() {
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 169eb8e089768900c197a80c423049071569a1aa..7a027a0334fee3399c7bae5edca3a149eb5951e6 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -47,80 +47,10 @@ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
+ import net.minecraft.nbt.StringTag;
+ import net.minecraft.network.Connection;
+-import net.minecraft.network.chat.ChatDecorator;
+-import net.minecraft.network.chat.ChatPreviewThrottler;
+-import net.minecraft.network.chat.ChatType;
+-import net.minecraft.network.chat.CommonComponents;
+-import net.minecraft.network.chat.Component;
+-import net.minecraft.network.chat.MessageSignature;
+-import net.minecraft.network.chat.MutableComponent;
+-import net.minecraft.network.chat.PlayerChatMessage;
++import net.minecraft.network.chat.*; // Prismarine
+ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.network.protocol.PacketUtils;
+-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+-import net.minecraft.network.protocol.game.ClientboundBlockChangedAckPacket;
+-import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+-import net.minecraft.network.protocol.game.ClientboundChatPreviewPacket;
+-import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
+-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+-import net.minecraft.network.protocol.game.ClientboundDisconnectPacket;
+-import net.minecraft.network.protocol.game.ClientboundKeepAlivePacket;
+-import net.minecraft.network.protocol.game.ClientboundMoveVehiclePacket;
+-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+-import net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket;
+-import net.minecraft.network.protocol.game.ClientboundSetDefaultSpawnPositionPacket;
+-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+-import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;
+-import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+-import net.minecraft.network.protocol.game.ClientboundTagQueryPacket;
+-import net.minecraft.network.protocol.game.ServerGamePacketListener;
+-import net.minecraft.network.protocol.game.ServerboundAcceptTeleportationPacket;
+-import net.minecraft.network.protocol.game.ServerboundBlockEntityTagQuery;
+-import net.minecraft.network.protocol.game.ServerboundChangeDifficultyPacket;
+-import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
+-import net.minecraft.network.protocol.game.ServerboundChatPacket;
+-import net.minecraft.network.protocol.game.ServerboundChatPreviewPacket;
+-import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
+-import net.minecraft.network.protocol.game.ServerboundClientInformationPacket;
+-import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
+-import net.minecraft.network.protocol.game.ServerboundContainerButtonClickPacket;
+-import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
+-import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
+-import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
+-import net.minecraft.network.protocol.game.ServerboundEditBookPacket;
+-import net.minecraft.network.protocol.game.ServerboundEntityTagQuery;
+-import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+-import net.minecraft.network.protocol.game.ServerboundJigsawGeneratePacket;
+-import net.minecraft.network.protocol.game.ServerboundKeepAlivePacket;
+-import net.minecraft.network.protocol.game.ServerboundLockDifficultyPacket;
+-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+-import net.minecraft.network.protocol.game.ServerboundMoveVehiclePacket;
+-import net.minecraft.network.protocol.game.ServerboundPaddleBoatPacket;
+-import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
+-import net.minecraft.network.protocol.game.ServerboundPlaceRecipePacket;
+-import net.minecraft.network.protocol.game.ServerboundPlayerAbilitiesPacket;
+-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+-import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+-import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+-import net.minecraft.network.protocol.game.ServerboundPongPacket;
+-import net.minecraft.network.protocol.game.ServerboundRecipeBookChangeSettingsPacket;
+-import net.minecraft.network.protocol.game.ServerboundRecipeBookSeenRecipePacket;
+-import net.minecraft.network.protocol.game.ServerboundRenameItemPacket;
+-import net.minecraft.network.protocol.game.ServerboundResourcePackPacket;
+-import net.minecraft.network.protocol.game.ServerboundSeenAdvancementsPacket;
+-import net.minecraft.network.protocol.game.ServerboundSelectTradePacket;
+-import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
+-import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
+-import net.minecraft.network.protocol.game.ServerboundSetCommandBlockPacket;
+-import net.minecraft.network.protocol.game.ServerboundSetCommandMinecartPacket;
+-import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
+-import net.minecraft.network.protocol.game.ServerboundSetJigsawBlockPacket;
+-import net.minecraft.network.protocol.game.ServerboundSetStructureBlockPacket;
+-import net.minecraft.network.protocol.game.ServerboundSignUpdatePacket;
+-import net.minecraft.network.protocol.game.ServerboundSwingPacket;
+-import net.minecraft.network.protocol.game.ServerboundTeleportToEntityPacket;
+-import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
+-import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
++import net.minecraft.network.protocol.game.*; // Prismarine
+ import net.minecraft.resources.ResourceKey;
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.MinecraftServer;
+@@ -2130,6 +2060,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+         }
+     }
+ 
++    // Prismarine start
++    private int resolveChatTypeID(ResourceKey<ChatType> resourceKey) {
++        var self = (ServerGamePacketListenerImpl) (Object) this;
++        Registry<ChatType> registry = self.player.level.registryAccess().registryOrThrow(Registry.CHAT_TYPE_REGISTRY);
++        return registry.getId(registry.get(resourceKey));
++    }
++    // Prismarine end
++
+     @Override
+     public void send(Packet<?> packet) {
+         this.send(packet, (GenericFutureListener) null);
+@@ -2144,6 +2082,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+             this.player.compassTarget = new Location(this.getCraftPlayer().getWorld(), packet6.pos.getX(), packet6.pos.getY(), packet6.pos.getZ());
+         }
+         // CraftBukkit end
++        // Prismarine start
++        else if (packet instanceof ClientboundPlayerChatPacket chat) {
++            Component component = ChatDecoration.withSender("chat.type.text").decorate(chat.unsignedContent().orElse(chat.signedContent()), chat.sender());
++            packet = new ClientboundSystemChatPacket(component, this.resolveChatTypeID(ChatType.SYSTEM));
++        }
++        // Prismarine end
+ 
+         try {
+             this.connection.send(packet, listener);
+@@ -2151,8 +2095,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+             CrashReport crashreport = CrashReport.forThrowable(throwable, "Sending packet");
+             CrashReportCategory crashreportsystemdetails = crashreport.addCategory("Packet being sent");
+ 
++            Packet<?> finalPacket = packet;
+             crashreportsystemdetails.setDetail("Packet class", () -> {
+-                return packet.getClass().getCanonicalName();
++                return finalPacket.getClass().getCanonicalName();
+             });
+             throw new ReportedException(crashreport);
+         }
+diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
+index cb538ff4b5e8da7914361d012060fedf1d22acf2..db33603ebf0b8b68fd1845e0e658f72977be22f4 100644
+--- a/src/main/java/net/minecraft/world/entity/player/Player.java
++++ b/src/main/java/net/minecraft/world/entity/player/Player.java
+@@ -1555,7 +1555,7 @@ public abstract class Player extends LivingEntity {
+ 
+     @Nullable
+     public ProfilePublicKey getProfilePublicKey() {
+-        return this.profilePublicKey;
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? null : this.profilePublicKey);
+     }
+ 
+     public Inventory getInventory() {
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index cabb58b8ac4139fe928430886f735b1fa153acf6..31fb76cebdc4e74eeca045646006b0822d21adf0 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -218,4 +218,11 @@ public class PrismarineConfig {
+     private static void bugFixes() {
+         preventHealingByNegative = getBoolean("settings.pull-requests.paper.prevent-healing-by-negative-amounts", preventHealingByNegative);
+     }
++
++    public static boolean disableChatReport = false;
++    public static boolean convertToGameMessage = false;
++    private static void disableChatReport() {
++        disableChatReport = getBoolean("settings.disable-chat-report.enabled", disableChatReport);
++        convertToGameMessage = getBoolean("settings.disable-chat-report.convert-to-game-message", convertToGameMessage);
++    }
+ }
+\ No newline at end of file
