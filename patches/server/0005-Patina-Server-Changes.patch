@@ -33,7 +33,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c551bb14458eebd7241c9624c1af37cb322c7710..8ef60aa7f06c2a1acea46f2b62964886ccc192f6 100644
+index 03e2ad309a22df20a267e48e56b5217d788daaa7..0e3ef8871bee6b8cfe9793ccf6555a2e71b7c749 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -582,7 +582,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -81,10 +81,10 @@ index 61e4fe91ac8648edafd39a952939c667c2838207..56316d9c8e250505725d90861ab884b8
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 2908d2882cd6bd97d777a2831995ea7a445843ee..1e288da7437c62104e28afb9da062643ac28a096 100644
+index 45e820d926e588262f3d1b176c0bf592dcc627f5..bfbd7f82cf8dd5aaf3f7274c0e0d180f7fdd71ef 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -1865,38 +1865,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1871,38 +1871,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      public void playerTouch(Player player) {}
  
      public void push(Entity entity) {
