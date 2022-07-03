@@ -3,6 +3,27 @@ From: AlphaKR93 <alphakr93@outlook.com>
 Date: Sun, 3 Jul 2022 21:33:10 +0900
 Subject: [PATCH] Experimental Akarin tweaks
 
+Original by
+=?UTF-8?q?=E3=84=97=E3=84=A0=CB=8B=20=E3=84=91=E3=84=A7=CB=8A?=
+<tsao-chi@the-lingo.org>
+
+Copyright (C) 2022 Akarin Project
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program. If not, see <http://www.gnu.org/licenses/>.
+
+[ADDED PATCHES]
+0010 - Save Json list asynchronously
 
 diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
 index 4fd709a550bf8da1e996894a1ca6b91206c31e9e..bd328d4d09f6fb885e343a039f5817f0ea7f33a7 100644

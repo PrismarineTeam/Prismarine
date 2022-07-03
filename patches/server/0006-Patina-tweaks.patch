@@ -6,6 +6,11 @@ Subject: [PATCH] Patina tweaks
 Original by foss-mc <69294560+foss-mc@users.noreply.github.com>
 Copyright (C) 2022 PatinaMC LLC
 
+[ADDED PATCHES]
+0010 - remove TickTask
+0012 - don't create new random instance
+0013 - completely remove bootstrapExecutor
+
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
 index c540b695282e2cca97cc4e3320d641befa19c1c6..7d3fd2ca2683d335bc27883078f24b57be29e9cb 100644
 --- a/src/main/java/net/minecraft/Util.java
