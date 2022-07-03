@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 1 Jul 2022 13:31:40 +0000
+Date: Sun, 3 Jul 2022 09:24:25 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -1592,7 +1592,7 @@ index f000c822ed4563b5b840936852bc7d8e030763e3..0c48e877a0dba9fba3295d1740527fa4
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 60373551c49386652de286127636b61f31e88527..99c8b4957194868c36f9ea214c7f77a23ce8002a 100644
+index d42e220347cb39d7f0e04f9f47403bb1914e164d..91dadd78069d5e2a850d1aa6dd59149c3a527c2a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -245,6 +245,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -1821,7 +1821,7 @@ index 60373551c49386652de286127636b61f31e88527..99c8b4957194868c36f9ea214c7f77a2
 +        }
 +        // Purpur end
          if (packet.getAction() == ServerboundResourcePackPacket.Action.DECLINED && this.server.isResourcePackRequired()) {
-             ServerGamePacketListenerImpl.LOGGER.info("Disconnecting {} due to resource pack rejection", this.player.getName());
+             ServerGamePacketListenerImpl.LOGGER.info("Disconnecting {} due to resource pack rejection", this.player.getGameProfile().getName()); // Paper - Don't print component in resource pack rejection message
              this.disconnect(Component.translatable("multiplayer.requiredTexturePrompt.disconnect"), org.bukkit.event.player.PlayerKickEvent.Cause.RESOURCE_PACK_REJECTION); // Paper - add cause
          }
          // Paper start
@@ -1839,6 +1839,15 @@ index 60373551c49386652de286127636b61f31e88527..99c8b4957194868c36f9ea214c7f77a2
 +            if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSentExpiredChat && this.isChatExpired(instant)) { // Purpur
                  ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized?", this.player.getName().getString(), s);
              }
+ 
+@@ -2186,7 +2268,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+         do {
+             instant1 = (Instant) this.lastChatTimeStamp.get();
+             if (timestamp.isBefore(instant1)) {
+-                return false;
++                return !org.purpurmc.purpur.PurpurConfig.kickForOutOfOrderChat; // Purpur
+             }
+         } while (!this.lastChatTimeStamp.compareAndSet(instant1, timestamp));
  
 @@ -2652,6 +2734,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              }
@@ -17940,10 +17949,10 @@ index 0467419fc8a06c241a46216c8f8c32abeb9fbc26..bc178d7305f38b77393b827d7b71412d
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..fecfe935e09ff52a6ec582e6f2e09611adb1106f
+index 0000000000000000000000000000000000000000..3bed3b7d7f35833b4d2d58ffb6900c707deb7c9b
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,500 @@
+@@ -0,0 +1,501 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -18379,9 +18388,11 @@ index 0000000000000000000000000000000000000000..fecfe935e09ff52a6ec582e6f2e09611
 +
 +    public static boolean useUPnP = false;
 +    public static boolean maxJoinsPerSecond = false;
++    public static boolean kickForOutOfOrderChat = true;
 +    private static void networkSettings() {
 +        useUPnP = getBoolean("settings.network.upnp-port-forwarding", useUPnP);
 +        maxJoinsPerSecond = getBoolean("settings.network.max-joins-per-second", maxJoinsPerSecond);
++        kickForOutOfOrderChat = getBoolean("settings.network.kick-for-out-of-order-chat", kickForOutOfOrderChat);
 +    }
 +
 +    public static java.util.regex.Pattern usernameValidCharactersPattern;
@@ -18394,7 +18405,6 @@ index 0000000000000000000000000000000000000000..fecfe935e09ff52a6ec582e6f2e09611
 +    private static void foodSettings() {
 +        ConfigurationSection properties = config.getConfigurationSection("settings.food-properties");
 +        if (properties == null) {
-+            PurpurConfig.log(Level.SEVERE, "missing food properties...");
 +            config.addDefault("settings.food-properties", new HashMap<>());
 +            return;
 +        }
