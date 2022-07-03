@@ -43,7 +43,7 @@ index a43ad076dc8341b9f5e45b34134326cccc5ac13c..3092fcf5fa8283b4b7c6e4f8bd9b9c8f
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 169eb8e089768900c197a80c423049071569a1aa..7a027a0334fee3399c7bae5edca3a149eb5951e6 100644
+index 11dcc0e524320f8329985ea6c3ebdf27b603f626..c473ea693c2fb8ad550343371b0a82823eda7dc4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -47,80 +47,10 @@ import net.minecraft.nbt.CompoundTag;
