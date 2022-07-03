@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 1e288da7437c62104e28afb9da062643ac28a096..dce1e4006053e89b89fb9db5ffc439df1136fab8 100644
+index bfbd7f82cf8dd5aaf3f7274c0e0d180f7fdd71ef..87a812352cc7d896fb8a32e2d9f2c5598c53e2d5 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -337,6 +337,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -38,7 +38,7 @@ index 1e288da7437c62104e28afb9da062643ac28a096..dce1e4006053e89b89fb9db5ffc439df
  
      public void setOrigin(@javax.annotation.Nonnull Location location) {
          this.origin = location.toVector();
-@@ -1572,7 +1573,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1578,7 +1579,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean fireImmune() {
@@ -47,7 +47,7 @@ index 1e288da7437c62104e28afb9da062643ac28a096..dce1e4006053e89b89fb9db5ffc439df
      }
  
      public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-@@ -2197,6 +2198,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2203,6 +2204,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  nbt.putBoolean("Paper.FreezeLock", true);
              }
              // Paper end
@@ -61,7 +61,7 @@ index 1e288da7437c62104e28afb9da062643ac28a096..dce1e4006053e89b89fb9db5ffc439df
              return nbt;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2362,6 +2370,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2368,6 +2376,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  freezeLocked = nbt.getBoolean("Paper.FreezeLock");
              }
              // Paper end
