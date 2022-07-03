@@ -10,8 +10,6 @@ Copyright (C) 2022 PatinaMC LLC
 
 [ADDED PATCHES]
 0006 - (Akarin) Swaps the predicate order of collision
-0010 - remove TickTask
-0011 - completely remove Metrics
 0013 - don't create new random instance
 0014 - completely remove bootstrapExecutor
 
