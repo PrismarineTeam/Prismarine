@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 00d128eba3e778927bc33b71c1145051a0c142f5..fab38b2aca388241e311f8654620daed566a31eb 100644
+index fd3805da1f276c76a2e814f755f6755245ec2ff4..782ed5d2edf550f5e4d1052eeb0e64c126cc765e 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -40,6 +40,19 @@ index fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57..a7d6029ae0ede33a560579149e3b9488
              // Purpur end
          ));
  
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index acd95cf1dc7f009b63e44e4404e1736283fd458e..15c195900d720e5bdf089feece2d2dbaf53deb6b 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("Purpur", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur
++                Metrics metrics = new Metrics("Prismarine", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur // Prismarine
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa85f0917cc 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
@@ -173,7 +186,7 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7960433f8278e3bd0ec43db3d3820ff2740a7c13..42013d657890920d5065204e77e4c536c133026c 100644
+index 1f734e64d9dcc006c4a3b6c0d06862b65f7cae0b..f76b55d208f360b170c141ddf12ed57ea976f035 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
@@ -234,7 +247,7 @@ index fb87620c742ff7912f5e8ccd2a7930dd605576d9..2d90a7cf5d5de95005724fabcf7362bf
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index fecfe935e09ff52a6ec582e6f2e09611adb1106f..78aa95a91e5965353d66f0ea381767815f4ed99e 100644
+index 3bed3b7d7f35833b4d2d58ffb6900c707deb7c9b..41399cc435068c7507cbca77493f0dc5cb588422 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -235,7 +235,7 @@ public class PurpurConfig {
