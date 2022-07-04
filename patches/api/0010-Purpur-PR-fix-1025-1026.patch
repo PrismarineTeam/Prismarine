@@ -5,7 +5,7 @@ Subject: [PATCH] Purpur PR - fix #1025 (#1026)
 
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 6c58466a6667d61b37ea1bc77652e78c4feb00db..e9b1c7a0df09b3224e356d1d0a81e3794e0ccee0 100644
+index 4332e1fa97270527588d164a59a334332715634d..cb7d81d388355450357ed2d1e85c7288d0b5d571 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -165,6 +165,15 @@ public final class SimplePluginManager implements PluginManager {

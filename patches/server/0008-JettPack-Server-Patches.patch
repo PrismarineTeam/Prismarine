@@ -1,0 +1,109 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Mon, 4 Jul 2022 13:08:16 +0900
+Subject: [PATCH] JettPack Server Patches
+
+Original by Simon Gardling <titaniumtown@gmail.com>
+
+Copyright (C) JettPackMC LLC
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program. If not, see <http://www.gnu.org/licenses/>.
+
+diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
+index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..9f9a287f4b2d511a588c839ac6070f20906aa3c6 100644
+--- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
++++ b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
+@@ -1,13 +1,12 @@
+ package net.minecraft.util.thread;
+ 
+ import com.google.common.collect.ImmutableList;
+-import com.google.common.collect.Queues;
+ import com.mojang.logging.LogUtils;
+ import java.util.List;
+-import java.util.Queue;
+ import java.util.concurrent.CompletableFuture;
+ import java.util.concurrent.Executor;
+-import java.util.concurrent.locks.LockSupport;
++import java.util.concurrent.LinkedBlockingQueue; // JettPack // Prismarine - JettPack patches
++import java.util.concurrent.TimeUnit; // JettPack // Prismarine - JettPack patches
+ import java.util.function.BooleanSupplier;
+ import java.util.function.Supplier;
+ import net.minecraft.util.profiling.metrics.MetricCategory;
+@@ -19,8 +18,9 @@ import org.slf4j.Logger;
+ public abstract class BlockableEventLoop<R extends Runnable> implements ProfilerMeasured, ProcessorHandle<R>, Executor {
+     private final String name;
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    private final Queue<R> pendingRunnables = Queues.newConcurrentLinkedQueue();
++    private final LinkedBlockingQueue<R> pendingRunnables = new LinkedBlockingQueue(); // JettPack // Prismarine - JettPack patches
+     private int blockingCount;
++    private R next; // JettPack // Prismarine - JettPack patches
+ 
+     protected BlockableEventLoop(String name) {
+         this.name = name;
+@@ -89,7 +89,7 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+     @Override
+     public void tell(R runnable) {
+         this.pendingRunnables.add(runnable);
+-        LockSupport.unpark(this.getRunningThread());
++        // LockSupport.unpark(this.getRunningThread()); // JettPack // Prismarine - JettPack patches
+     }
+ 
+     @Override
+@@ -117,13 +117,20 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+     }
+ 
+     public boolean pollTask() {
+-        R runnable = this.pendingRunnables.peek();
+-        if (runnable == null) {
+-            return false;
+-        } else if (this.blockingCount == 0 && !this.shouldRun(runnable)) {
++        // Prismarine start - JettPack patches
++        if (this.next == null && !this.pendingRunnables.isEmpty()) {
++            this.waitForTasks();
++        }
++
++        if (this.next == null) {
++        // Prismarine end
+             return false;
+         } else {
+-            this.doRunTask(this.pendingRunnables.remove());
++            // Prismarine start - JettPack patches
++            R r2 = this.next;
++            this.next = null;
++            this.doRunTask(r2);
++            // Prismarine end
+             return true;
+         }
+     }
+@@ -144,8 +151,18 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+     }
+ 
+     protected void waitForTasks() {
+-        Thread.yield();
+-        LockSupport.parkNanos("waiting for tasks", 100000L);
++        // Jettpack start
++        if (this.next != null) {
++            throw new IllegalStateException("next != null");
++        }
++        try {
++            this.next = this.pendingRunnables.poll(100L, TimeUnit.MICROSECONDS);
++            return;
++        }
++        catch (InterruptedException interruptedException) {
++            return;
++        }
++        // Jettpack end
+     }
+ 
+     protected void doRunTask(R task) {
