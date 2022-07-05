@@ -2870,7 +2870,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..d21530eb6bc150e431769b02fe50040f
              org.bukkit.Bukkit.getLogger().warning("Unable to parse " + key + " from " + compound +": " + e.getMessage());
          }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 0192e1f5bb07095015a682ce47c27bab1cdf9a1f..7cc43425a4c3e58c7665cbffe749dcf21dc7e96b 100644
+index 0d82ca8ba9f2b11213cfe1ab01dc6ef3f2f510c9..46d717c39e964ea87f9c6380e82cdeac8fa4e941 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1449,7 +1449,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -2888,16 +2888,17 @@ index 0192e1f5bb07095015a682ce47c27bab1cdf9a1f..7cc43425a4c3e58c7665cbffe749dcf2
      }
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
-@@ -1983,6 +1989,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
-     }
-     public @Nullable BlockPos findNearestMapFeature(HolderSet<Structure> holderSet, BlockPos pos, int radius, boolean skipReferencedStructures) {
-         {
-+            if (!prismarineConfig.generateStructures) return null; // Prismarine - EMC tweaks
-             {
-                 Pair<BlockPos, Holder<Structure>> pair = this.getChunkSource().getGenerator().findNearestMapStructure(this, holderSet, pos, radius, skipReferencedStructures);
-                 // Paper end
+@@ -1968,7 +1974,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+ 
+     @Nullable
+     public BlockPos findNearestMapStructure(TagKey<Structure> structureTag, BlockPos pos, int radius, boolean skipReferencedStructures) {
+-        if (!this.serverLevelData.worldGenSettings().generateStructures()) { // CraftBukkit
++        if (!this.serverLevelData.worldGenSettings().generateStructures() || !prismarineConfig.generateStructures) { // CraftBukkit // Prismarine - EMC tweaks
+             return null;
+         } else {
+             Optional<HolderSet.Named<Structure>> optional = this.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).getTag(structureTag);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 99c8b4957194868c36f9ea214c7f77a23ce8002a..40d2cf324c621a0314892c322b8802941b364361 100644
+index 91dadd78069d5e2a850d1aa6dd59149c3a527c2a..3ba2d25ce6e4b28f32fc715ba061e8caa81dec89 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2292,6 +2292,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -3324,10 +3325,10 @@ index 74020515e2ec917b7d921aa8501a71ff433a6abb..c6beb55dd7d66e7f7b40753106667a25
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 25e56be9055c5c432e1180d45341f4e9d9fcb7ca..4d5283866d1e8e9971cab0a313a9588279d23f7a 100644
+index 00fbf9ffdfa1c0d821ff86108c33e8b62a3d1268..bd4f60fcbd1036e1d88d5b85b97c784de9b49f12 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -391,7 +391,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -397,7 +397,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean unloadChunk(int x, int z) {
@@ -3362,7 +3363,7 @@ index bfe9dc935c87e01fb435d8b46ce413b84ca74856..3accc7d7f1be03ba748678c568d76705
  
      // Paper start
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 13a5d4338ca2a9ea9a9c520687bc1d5bfac91dea..95c71fd33b8d98e6c55e03db8526beaf25da375c 100644
+index 902e420d19288df124da2292a60f95e97afb9fee..2e314c8f151ea62a6b504e0d7576e73cb57e3c72 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -711,7 +711,7 @@ public class CraftEventFactory {

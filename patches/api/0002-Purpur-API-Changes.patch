@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 3 Jul 2022 09:24:25 +0000
+Date: Tue, 5 Jul 2022 13:28:04 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -98,10 +98,10 @@ index a736d7bcdc5861a01b66ba36158db1c716339346..22fc165fd9c95f0f3ae1be7a0857e48c
  
          @Override
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 3506a7fa07ee6e53704b1df8d8d2bb08704bfc37..9222adc75b68b9a899b4eca2a1803844b9cdbe26 100644
+index 92a1462261029e804da73da2743bbd68e57841e9..9b9af189b3865055570ba533b97c92c105cc5a37 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2412,4 +2412,43 @@ public final class Bukkit {
+@@ -2429,4 +2429,43 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -399,10 +399,10 @@ index a7d1f1e701f23e851f735584a30bedadb0d8b9bd..7da38adede5b752583b94f6a14b3e45d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index e756edf56995f4552387c2e1082307eb3dd48bb3..1ba84f8db9d279f5fb2b4be10c02919bb27de30a 100644
+index 56e261efa654e4a6872ccea28f0461df13845d13..d73b7d72d00fa0edd6542226348af14c5203cf8d 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1922,6 +1922,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1937,6 +1937,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
@@ -421,7 +421,7 @@ index e756edf56995f4552387c2e1082307eb3dd48bb3..1ba84f8db9d279f5fb2b4be10c02919b
          /**
           * Sends the component to the player
           *
-@@ -2090,4 +2102,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2105,4 +2117,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
@@ -956,10 +956,10 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 2fd63c2db30060f20dd979d061894c875eda0c4d..c4d99556536431e7f5ad35f5777975f4f3c896fa 100644
+index c0fc38cacf441273e8430dda31958c15a48fc9b6..2436ece75493dc05352dfa0027b98aaeaab0d5f7 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2698,4 +2698,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2705,4 +2705,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -1901,6 +1901,23 @@ index cd3296fea01648592d2af89b3d80135acb6d0958..45797a6fbae1d8edc4211cb30def24ad
              String lname = name.toLowerCase(java.util.Locale.ENGLISH);
  
              permissions.put(lname, new PermissionAttachmentInfo(parent, lname, attachment, value));
+diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+index aed2209b66f11a0d03473cf19437f3da0e9e573a..e46c3cb737d644d167b4426b29bb4ade0c24e74e 100644
+--- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
++++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+@@ -164,6 +164,12 @@ public final class SimplePluginManager implements PluginManager {
+                 server.getLogger().log(Level.SEVERE, "Could not load '" + file.getPath() + "' in folder '" + file.getParentFile().getPath() + "'", ex); // Paper
+                 continue;
+             }
++            // Purpur start
++            if (!Boolean.getBoolean("Purpur.IReallyDontWantSpark") && plugins.containsKey(description.getName()) && description.getName().equalsIgnoreCase("spark")) {
++                server.getLogger().log(Level.INFO, "Purpur: Using user-provided spark plugin instead of our own.");
++                continue;
++            }
++            // Purpur end
+ 
+             File replacedFile = plugins.put(description.getName(), file);
+             if (replacedFile != null) {
 diff --git a/src/main/java/org/bukkit/potion/PotionEffect.java b/src/main/java/org/bukkit/potion/PotionEffect.java
 index 24e36cdf580da885ac64002673a786b9c5a3f787..d20cc4d4f5b37a3de9cb3cf47af7a908e9dbc2fc 100644
 --- a/src/main/java/org/bukkit/potion/PotionEffect.java

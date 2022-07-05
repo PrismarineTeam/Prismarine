@@ -359,10 +359,10 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index f76b55d208f360b170c141ddf12ed57ea976f035..232d26e903b12574121fa4f66e414e72b3d0150a 100644
+index 7997bedf80dba17d1d26ccef79cc8c9afcdc8ffb..8be6e85c0ce872694ad4a97621cb417850dffa56 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -994,6 +994,7 @@ public final class CraftServer implements Server {
+@@ -991,6 +991,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -370,7 +370,7 @@ index f76b55d208f360b170c141ddf12ed57ea976f035..232d26e903b12574121fa4f66e414e72
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1010,6 +1011,7 @@ public final class CraftServer implements Server {
+@@ -1007,6 +1008,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -378,7 +378,7 @@ index f76b55d208f360b170c141ddf12ed57ea976f035..232d26e903b12574121fa4f66e414e72
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2786,6 +2788,13 @@ public final class CraftServer implements Server {
+@@ -2788,6 +2790,13 @@ public final class CraftServer implements Server {
              return getProperties().properties;
          }
          // Purpur end
@@ -393,7 +393,7 @@ index f76b55d208f360b170c141ddf12ed57ea976f035..232d26e903b12574121fa4f66e414e72
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 164ad4d292c69380eb1e06b648875d9d9548c8c0..d5518cad9c752e695dcd00e3349b3fa4123c6c52 100644
+index 1d2d36cf9befba024b82a0fe181811efd528ba2f..cde3a7146193c4fdb0cdd427a6a3dbbd3b01a2f7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -166,6 +166,14 @@ public class Main {

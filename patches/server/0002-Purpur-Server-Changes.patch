@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 3 Jul 2022 09:24:25 +0000
+Date: Tue, 5 Jul 2022 13:28:04 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -683,7 +683,7 @@ index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fe
      public ClientboundSetTimePacket(long time, long timeOfDay, boolean doDaylightCycle) {
          this.gameTime = time % 192000; // Paper - fix guardian beam
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e96ff8b13b1237d7c70359b78e4d72938877191f..92aed6ab9fc108835783f5314032103cbd2a6b5f 100644
+index 7fd7c3be306d93201a61bb616f8c09cb066d4204..2ece154b5e7daaa3e0b128145fc5e1d452125f72 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -278,6 +278,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -1036,7 +1036,7 @@ index 1eb912ad97f9663bf6bd336ad739f2552b0a5c9b..3441339e1ba5efb0e25c16fa13cb65d2
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index d0cfbaf3fd5573f33ad3afc47a35157c0da5233a..fde6077593de75c114fb6949f1210be1e93c0409 100644
+index 32a39a150a3d2bbae95a726901f3f46363e34ecf..0d82ca8ba9f2b11213cfe1ab01dc6ef3f2f510c9 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -210,6 +210,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1218,7 +1218,7 @@ index d0cfbaf3fd5573f33ad3afc47a35157c0da5233a..fde6077593de75c114fb6949f1210be1
          this.serverLevelData.setThundering(false, org.bukkit.event.weather.ThunderChangeEvent.Cause.SLEEP); // Paper - when passing the night
          // CraftBukkit start
          // If we stop due to everyone sleeping we should reset the weather duration to some other random value.
-@@ -2616,7 +2682,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2607,7 +2673,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Spigot Start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start
@@ -2348,10 +2348,10 @@ index 2faf634994f355ef1bf07fc70f1a0f4451db5fcc..aa34db072f496e53abef7541156ddf8d
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4b637f683 100644
+index beab9f74ba3c3ef294485ee74daf165475d29566..3d4d3ec099a37458d43a0500724eec7594097a41 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -155,7 +155,7 @@ import org.bukkit.plugin.PluginManager;
+@@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
  // CraftBukkit end
  
  public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -2360,7 +2360,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      // CraftBukkit start
      private static final int CURRENT_LEVEL = 2;
      public boolean preserveMotion = true; // Paper - keep initial motion on first setPositionRotation
-@@ -304,6 +304,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -305,6 +305,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      public boolean verticalCollision;
      public boolean verticalCollisionBelow;
      public boolean minorHorizontalCollision;
@@ -2368,7 +2368,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      public boolean hurtMarked;
      protected Vec3 stuckSpeedMultiplier;
      @Nullable
-@@ -361,7 +362,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -362,7 +363,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      private final Set<String> tags;
      private final double[] pistonDeltas;
      private long pistonDeltasGameTime;
@@ -2377,7 +2377,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      private float eyeHeight;
      public boolean isInPowderSnow;
      public boolean wasInPowderSnow;
-@@ -889,7 +890,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -890,7 +891,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkOutOfWorld() {
          // Paper start - Configurable nether ceiling damage
@@ -2386,7 +2386,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
              && level.paperConfig().environment.netherCeilingVoidDamageHeight > 0
              && this.getY() >= this.level.paperConfig().environment.netherCeilingVoidDamageHeight)) {
              // Paper end
-@@ -1415,7 +1416,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1416,7 +1417,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, true,
                  false, false, null, null);
  
@@ -2395,7 +2395,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
                  io.papermc.paper.util.CollisionUtil.addBoxesToIfIntersects(world.getWorldBorder().getCollisionShape(), collisionBox, potentialCollisions);
              }
  
-@@ -1722,7 +1723,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1723,7 +1724,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return this.isInWater() || flag;
      }
  
@@ -2404,7 +2404,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
          if (this.getVehicle() instanceof Boat) {
              this.wasTouchingWater = false;
          } else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
-@@ -1870,6 +1871,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1871,6 +1872,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
          this.xRotO = this.getXRot();
          this.setYHeadRot(yaw); // Paper - Update head rotation
@@ -2412,7 +2412,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      }
  
      public void absMoveTo(double x, double y, double z) {
-@@ -2761,6 +2763,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2770,6 +2772,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.passengers = ImmutableList.copyOf(list);
              }
  
@@ -2425,7 +2425,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
          }
          return true; // CraftBukkit
      }
-@@ -2801,6 +2809,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2810,6 +2818,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  return false;
              }
              // Spigot end
@@ -2440,7 +2440,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
              if (this.passengers.size() == 1 && this.passengers.get(0) == entity) {
                  this.passengers = ImmutableList.of();
              } else {
-@@ -2855,12 +2871,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2864,12 +2880,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return Vec3.directionFromRotation(this.getRotationVector());
      }
  
@@ -2457,7 +2457,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
              }
  
              this.isInsidePortal = true;
-@@ -2903,7 +2922,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2912,7 +2931,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -2466,7 +2466,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
          }
      }
  
-@@ -3083,7 +3102,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3092,7 +3111,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public int getMaxAirSupply() {
@@ -2475,7 +2475,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      }
  
      public int getAirSupply() {
-@@ -3523,7 +3542,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3531,7 +3550,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -2484,7 +2484,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3770,6 +3789,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3778,6 +3797,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -2505,7 +2505,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      @Override
      public void sendSystemMessage(Component message) {}
  
-@@ -4010,6 +4043,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4018,6 +4051,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -2518,7 +2518,7 @@ index e6d25ab2e7e19d9fb993fdad6f650212f560cc1d..d3438154fb7d7f05e83fa7e94ad8c8f4
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4503,4 +4542,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4511,4 +4550,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
@@ -4721,7 +4721,7 @@ index 425c6da0de40983b0870c9fd1b53f16b6a11c34c..a79b4a90274d25d427214b96649cdf85
      public Cow getBreedOffspring(ServerLevel world, AgeableMob entity) {
          return (Cow) EntityType.COW.create(world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
-index 7c53dddb598de85abf1eb8b8ee183a6e8e6f9c74..e3ae85877110a6eb8017efe3be730f4394cd9ce1 100644
+index 3f100d847fbce6db5b625e99c4f3694576237372..284c1342695aeb652f39c236d14538647465846e 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
 @@ -78,19 +78,109 @@ public class Dolphin extends WaterAnimal {
@@ -4888,7 +4888,7 @@ index 7c53dddb598de85abf1eb8b8ee183a6e8e6f9c74..e3ae85877110a6eb8017efe3be730f43
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Fox.java b/src/main/java/net/minecraft/world/entity/animal/Fox.java
-index 8f294f10aca2df007830b12da0506f7614206a89..66749befa2e6d766d80224b507e1acef733e5b49 100644
+index 6a66b5d1a3d8615dcc15057f03476e9ccbf4b4f2..21d755f228fbb49ded0e78322c6d29fc2622bb79 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Fox.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Fox.java
 @@ -35,6 +35,7 @@ import net.minecraft.util.Mth;
@@ -7216,7 +7216,7 @@ index 3dd4e6d622a6daafa00ae971edd88a147e34beef..4dca3788a8fa335dc5969bd61cd0658f
      protected PathNavigation createNavigation(Level world) {
          return new WaterBoundPathNavigation(this, world);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
-index f489301701f8abfb8f509d91089c1433db2346f8..52608eb55f0a191313fbf5a1ace8eafa3eb1bfcb 100644
+index 362f952888f63a453a4352a9f1dc7df799244a3c..4688e567dff250437335cbde34db4483f535b79a 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -89,6 +89,43 @@ public class Goat extends Animal {
@@ -14703,6 +14703,18 @@ index b04d224c23ed0039b86aa4169ce38c4f57cc1a7a..1daffadecee2b830b28377e2549d4229
          TREE_GROWER.growTree(world, world.getChunkSource().getGenerator(), pos, state, random);
      }
  }
+diff --git a/src/main/java/net/minecraft/world/level/block/BaseCoralPlantTypeBlock.java b/src/main/java/net/minecraft/world/level/block/BaseCoralPlantTypeBlock.java
+index 3d2b34c5a7c9b00c1164b4f89c2cbff81fc460eb..74dc016c3a6f6dbb96aba913117807fbcf955346 100644
+--- a/src/main/java/net/minecraft/world/level/block/BaseCoralPlantTypeBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/BaseCoralPlantTypeBlock.java
+@@ -35,6 +35,7 @@ public class BaseCoralPlantTypeBlock extends Block implements SimpleWaterloggedB
+     }
+ 
+     protected static boolean scanForWater(BlockState state, BlockGetter world, BlockPos pos) {
++        if (!((net.minecraft.world.level.Level) world).purpurConfig.coralDieOutsideWater) return true; // Purpur
+         if (state.getValue(WATERLOGGED)) {
+             return true;
+         } else {
 diff --git a/src/main/java/net/minecraft/world/level/block/BedBlock.java b/src/main/java/net/minecraft/world/level/block/BedBlock.java
 index 654a859a37bf991c7a7fa8a44a3d20f8feb223db..e1d274a9be856f6fa5be00958c35b7d7c58357a7 100644
 --- a/src/main/java/net/minecraft/world/level/block/BedBlock.java
@@ -15083,6 +15095,18 @@ index 2b1983d61fd3ed856770146de5cdfd33b4f63a46..9315c819a0c113313a8e6f97e02b4d13
 +
      public static BlockState insertItem(BlockState iblockdata, ServerLevel worldserver, ItemStack itemstack, BlockPos blockposition, Entity entity) { // CraftBukkit
          int i = (Integer) iblockdata.getValue(ComposterBlock.LEVEL);
+ 
+diff --git a/src/main/java/net/minecraft/world/level/block/CoralBlock.java b/src/main/java/net/minecraft/world/level/block/CoralBlock.java
+index 88faea00be60a519f56f975a5311df5e1eb3e6b8..c0284626963711ee42a8d395bcf8a147d14de7a3 100644
+--- a/src/main/java/net/minecraft/world/level/block/CoralBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/CoralBlock.java
+@@ -45,6 +45,7 @@ public class CoralBlock extends Block {
+     }
+ 
+     protected boolean scanForWater(BlockGetter world, BlockPos pos) {
++        if (!((net.minecraft.world.level.Level) world).purpurConfig.coralDieOutsideWater) return true; // Purpur
+         Direction[] aenumdirection = Direction.values();
+         int i = aenumdirection.length;
  
 diff --git a/src/main/java/net/minecraft/world/level/block/CropBlock.java b/src/main/java/net/minecraft/world/level/block/CropBlock.java
 index 275e5334b1206a2dcafc3772c7e2ad0ebe3693f9..bf6db3182c1f021aacd55c42daad6fc2137622ca 100644
@@ -15677,6 +15701,19 @@ index c2f3d3a09327e7cb7d3167609eb3ce68eadf6443..12b25aec1167620ed7048c0c8631b0b5
      }
  
      public static boolean canSetSpawn(Level world) {
+diff --git a/src/main/java/net/minecraft/world/level/block/SculkShriekerBlock.java b/src/main/java/net/minecraft/world/level/block/SculkShriekerBlock.java
+index e0998215841e500e5982a242e9f4e646402e1521..11038ba560439dab04c54c31a32d63bed2b4698a 100644
+--- a/src/main/java/net/minecraft/world/level/block/SculkShriekerBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/SculkShriekerBlock.java
+@@ -130,7 +130,7 @@ public class SculkShriekerBlock extends BaseEntityBlock implements SimpleWaterlo
+     @Nullable
+     @Override
+     public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+-        return (BlockState) this.defaultBlockState().setValue(SculkShriekerBlock.WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER);
++        return (BlockState) this.defaultBlockState().setValue(SculkShriekerBlock.WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER).setValue(SculkShriekerBlock.CAN_SUMMON, ctx.getLevel().purpurConfig.sculkShriekerCanSummonDefault); // Purpur
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
 index 0ca6d495005bded447c3f940dfd571a003301cb0..f4c47f7a7f2572dedbaee4890c98e1f3589a40c2 100644
 --- a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
@@ -16906,10 +16943,10 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b65f7cae0b 100644
+index b5de069683a615be9b9b33c3d8e61e46bbbec8e3..7208236ee3c604620fd0d0afe49215320e45e24b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
+@@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -16918,64 +16955,47 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -410,6 +410,7 @@ public final class CraftServer implements Server {
-         this.pluginManager.registerInterface(JavaPluginLoader.class);
- 
-         File pluginFolder = this.getPluginsFolder(); // Paper
-+        boolean sparkLoaded = false; // Purpur
- 
-         // Paper start
-         if (true || pluginFolder.exists()) {
-@@ -423,6 +424,7 @@ public final class CraftServer implements Server {
-                     String message = String.format("Loading %s", plugin.getDescription().getFullName());
-                     plugin.getLogger().info(message);
-                     plugin.onLoad();
-+                    sparkLoaded = sparkLoaded || plugin.getDescription().getName().equalsIgnoreCase("spark"); // Purpur
-                 } catch (Throwable ex) {
-                     Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
-                 }
-@@ -430,6 +432,40 @@ public final class CraftServer implements Server {
-         } else {
-             pluginFolder.mkdir();
-         }
+@@ -418,7 +418,38 @@ public final class CraftServer implements Server {
+             if (!pluginFolder.exists()) {
+                 pluginFolder.mkdirs();
+             }
+-            Plugin[] plugins = this.pluginManager.loadPlugins(pluginFolder, this.extraPluginJars());
++            // Purpur start
++            List<File> extraJars = this.extraPluginJars();
++            if (!Boolean.getBoolean("Purpur.IReallyDontWantSpark")) {
++                try {
++                    File file = new File("cache", "spark.jar");
++                    file.getParentFile().mkdirs();
 +
-+        // Purpur start
-+        if (!sparkLoaded) {
-+            try {
-+                File file = new File("cache", "spark.jar");
-+                file.getParentFile().mkdirs();
++                    boolean shouldDownload = true;
++                    if (file.exists()) {
++                        String fileSha1 = String.format("%040x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-1").digest(java.nio.file.Files.readAllBytes(file.toPath()))));
++                        String sparkSha1;
++                        try (java.io.BufferedReader reader = new java.io.BufferedReader(new InputStreamReader(new java.net.URL("https://sparkapi.lucko.me/download/bukkit/sha1").openStream()))) {
++                            sparkSha1 = reader.lines().collect(Collectors.joining(""));
++                        }
 +
-+                boolean shouldDownload = true;
-+                if (file.exists()) {
-+                    String fileSha1 = String.format("%040x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-1").digest(java.nio.file.Files.readAllBytes(file.toPath()))));
-+                    String sparkSha1;
-+                    try (java.io.BufferedReader reader = new java.io.BufferedReader(new InputStreamReader(new java.net.URL("https://sparkapi.lucko.me/download/bukkit/sha1").openStream()))) {
-+                        sparkSha1 = reader.lines().collect(Collectors.joining(""));
++                        if (fileSha1.equals(sparkSha1)) {
++                            shouldDownload = false;
++                        }
 +                    }
 +
-+                    if (fileSha1.equals(sparkSha1)) {
-+                        shouldDownload = false;
++                    if (shouldDownload) {
++                        java.nio.file.Files.copy(new java.net.URL("https://sparkapi.lucko.me/download/bukkit").openStream(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 +                    }
-+                }
 +
-+                if (shouldDownload) {
-+                    java.nio.file.Files.copy(new java.net.URL("https://sparkapi.lucko.me/download/bukkit").openStream(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
++                    extraJars.add(file);
++                } catch (Exception e) {
++                    getLogger().severe("Purpur: Failed to download and install spark plugin");
++                    e.printStackTrace();
 +                }
-+
-+                Plugin spark = this.pluginManager.loadPlugin(file);
-+                String message = String.format("Loading %s", spark.getDescription().getFullName());
-+                spark.getLogger().info(message);
-+                spark.onLoad();
-+            } catch (Exception e) {
-+                getLogger().severe("Failed to download and load spark plugin");
-+                e.printStackTrace();
 +            }
-+        }
-+        // Purpur end
-     }
- 
-     // Paper start
-@@ -957,6 +993,7 @@ public final class CraftServer implements Server {
++            Plugin[] plugins = this.pluginManager.loadPlugins(pluginFolder, extraJars);
++            // Purpur end
+             // Paper end
+             for (Plugin plugin : plugins) {
+                 try {
+@@ -959,6 +990,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -16983,7 +17003,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -972,6 +1009,7 @@ public final class CraftServer implements Server {
+@@ -974,6 +1006,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -16991,7 +17011,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -987,6 +1025,7 @@ public final class CraftServer implements Server {
+@@ -989,6 +1022,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -16999,7 +17019,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1414,6 +1453,19 @@ public final class CraftServer implements Server {
+@@ -1416,6 +1450,19 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -17019,7 +17039,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2676,6 +2728,7 @@ public final class CraftServer implements Server {
+@@ -2683,6 +2730,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -17027,7 +17047,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2722,6 +2775,18 @@ public final class CraftServer implements Server {
+@@ -2729,6 +2777,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -17046,7 +17066,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2897,4 +2962,16 @@ public final class CraftServer implements Server {
+@@ -2904,4 +2964,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
@@ -17064,7 +17084,7 @@ index 3630ce02c1e6d084f6eba20f7d45bf2b08fd95c9..1f734e64d9dcc006c4a3b6c0d06862b6
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 1b9e91b20dd9a9375a0a2a6a4d7a0bcdce9e7b1a..164ad4d292c69380eb1e06b648875d9d9548c8c0 100644
+index c55ae77807e0ec3698f0d0443caaf18928b41017..1d2d36cf9befba024b82a0fe181811efd528ba2f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -158,6 +158,14 @@ public class Main {
@@ -17086,8 +17106,8 @@ index 1b9e91b20dd9a9375a0a2a6a4d7a0bcdce9e7b1a..164ad4d292c69380eb1e06b648875d9d
                      System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Paper
                  }
  
--                if (Main.class.getPackage().getImplementationVendor() != null && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) {
-+                if (false && Main.class.getPackage().getImplementationVendor() != null && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) {  // Purpur
+-                if (false && Main.class.getPackage().getImplementationVendor() != null && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) {
++                if (false && Main.class.getPackage().getImplementationVendor() != null && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) { // Purpur
                      Date buildDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(Main.class.getPackage().getImplementationVendor()); // Paper
  
                      Calendar deadline = Calendar.getInstance();
@@ -17161,7 +17181,7 @@ index 04976616da8c85b1278dad33ff05554aa74a6b33..046e0e174119e65686e74eaf11853e68
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 5b92c2ca03baed38f7d41a73fae7dd23ce541d43..e24261f2ddc3de614feb9ae38e7e04c57ea7364b 100644
+index 2a6c67634c31c332102d24bef293da1bacd0c000..df3ea1aa8c4cfc9ed575e264d4eb851ae9f5b615 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 @@ -203,6 +203,11 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
@@ -17216,10 +17236,10 @@ index 5b92c2ca03baed38f7d41a73fae7dd23ce541d43..e24261f2ddc3de614feb9ae38e7e04c5
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
-index 6149e74262ca6c4c00686a89c273c59bfaac3e05..c0c94f76f44cf541bbaaec8bf9cc0a4c1267c19a 100644
+index c0a7b7bb9757de55424188629087d2ec82479e3c..dabbb41c9a7b0a825a241143ae7c196fceff3d60 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
-@@ -246,6 +246,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
+@@ -255,6 +255,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
      @Override
      public void recalculatePermissions() {
          this.perm.recalculatePermissions();
@@ -17434,7 +17454,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index abcce6bd0b32d0188751393a6f56f2e82530912c..a43aad1317b50b5ef42a84721f82318beccd66ea 100644
+index 287520f91e22309e1268be1940e0fafb628980a9..065724763100f69ab5edfd0e11ae7c8e05dfa4c9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -442,10 +442,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -17454,7 +17474,7 @@ index abcce6bd0b32d0188751393a6f56f2e82530912c..a43aad1317b50b5ef42a84721f82318b
          for (ServerPlayer player : (List<ServerPlayer>) server.getHandle().players) {
              if (player.getBukkitEntity().canSee(this)) {
                  player.connection.send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.UPDATE_DISPLAY_NAME, this.getHandle()));
-@@ -1146,6 +1151,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1153,6 +1158,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
  
          if (entity.isVehicle()) {
@@ -17465,7 +17485,7 @@ index abcce6bd0b32d0188751393a6f56f2e82530912c..a43aad1317b50b5ef42a84721f82318b
              return false;
          }
  
-@@ -1729,7 +1738,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1736,7 +1745,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public boolean canSee(org.bukkit.entity.Entity entity) {
@@ -17480,7 +17500,7 @@ index abcce6bd0b32d0188751393a6f56f2e82530912c..a43aad1317b50b5ef42a84721f82318b
      }
  
      @Override
-@@ -2093,6 +2108,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2100,6 +2115,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.getHandle().getAbilities().walkingSpeed * 2f;
      }
  
@@ -17509,7 +17529,7 @@ index abcce6bd0b32d0188751393a6f56f2e82530912c..a43aad1317b50b5ef42a84721f82318b
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2789,4 +2826,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2796,4 +2833,50 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end
@@ -18456,10 +18476,10 @@ index 0000000000000000000000000000000000000000..3bed3b7d7f35833b4d2d58ffb6900c70
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6a5572714916937eff21c1b984a2a2f00c561cbe
+index 0000000000000000000000000000000000000000..fad04b8c56d6183bc72f78915847e56c77228106
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3129 @@
+@@ -0,0 +1,3139 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -19262,6 +19282,11 @@ index 0000000000000000000000000000000000000000..6a5572714916937eff21c1b984a2a2f0
 +        caveVinesMaxGrowthAge = getInt("blocks.cave_vines.max-growth-age", caveVinesMaxGrowthAge);
 +    }
 +
++    public boolean coralDieOutsideWater = true;
++    private void coralSettings() {
++        coralDieOutsideWater = getBoolean("blocks.coral.die-outside-water", coralDieOutsideWater);
++    }
++
 +    public boolean dispenserApplyCursedArmor = true;
 +    public boolean dispenserPlaceAnvils = false;
 +    private void dispenserSettings() {
@@ -19422,6 +19447,11 @@ index 0000000000000000000000000000000000000000..6a5572714916937eff21c1b984a2a2f0
 +    public boolean fixSandDuping = true;
 +    private void sandSettings() {
 +        fixSandDuping = getBoolean("blocks.sand.fix-duping", fixSandDuping);
++    }
++
++    public boolean sculkShriekerCanSummonDefault = false;
++    private void sculkShriekerSettings() {
++        sculkShriekerCanSummonDefault = getBoolean("blocks.sculk_shrieker.can-summon-default", sculkShriekerCanSummonDefault);
 +    }
 +
 +    public boolean shulkerBoxAllowOversizedStacks = false;
