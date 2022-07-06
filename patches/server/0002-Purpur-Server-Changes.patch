@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 5 Jul 2022 17:48:59 +0000
+Date: Wed, 6 Jul 2022 12:54:48 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -1592,7 +1592,7 @@ index f000c822ed4563b5b840936852bc7d8e030763e3..0c48e877a0dba9fba3295d1740527fa4
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index d42e220347cb39d7f0e04f9f47403bb1914e164d..91dadd78069d5e2a850d1aa6dd59149c3a527c2a 100644
+index e6213b6924f611bfb85e43fe5a4c4582639b7abc..3bb51f34be4341c991487a78d8793f074ffdcba4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -245,6 +245,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -1837,7 +1837,7 @@ index d42e220347cb39d7f0e04f9f47403bb1914e164d..91dadd78069d5e2a850d1aa6dd59149c
          } else {
 -            if (this.isChatExpired(instant)) {
 +            if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSentExpiredChat && this.isChatExpired(instant)) { // Purpur
-                 ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized?", this.player.getName().getString(), s);
+                 ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized? c: {} s: {}", this.player.getName().getString(), s, instant.getEpochSecond(), Instant.now().getEpochSecond()); // Paper
              }
  
 @@ -2186,7 +2268,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
