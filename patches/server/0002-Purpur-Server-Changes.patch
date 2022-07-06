@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 6 Jul 2022 12:54:48 +0000
+Date: Wed, 6 Jul 2022 19:24:23 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -13303,6 +13303,18 @@ index b16d9e2eaa589f19c563ee70b1a56d67dbcdecb0..71beab673f04cd051c46ea37f8c84731
      public static final FoodProperties APPLE = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F).build();
      public static final FoodProperties BAKED_POTATO = (new FoodProperties.Builder()).nutrition(5).saturationMod(0.6F).build();
      public static final FoodProperties BEEF = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.3F).meat().build();
+diff --git a/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java b/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java
+index 79d8bcf3f9b0fe4a65ad7899f858efefac6feaa7..79770da8a1e4ca3f5c531fd040626b90124aeb66 100644
+--- a/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/AbstractContainerMenu.java
+@@ -75,6 +75,7 @@ public abstract class AbstractContainerMenu {
+     @Nullable
+     private ContainerSynchronizer synchronizer;
+     private boolean suppressRemoteUpdates;
++    @javax.annotation.Nullable protected ItemStack activeQuickItem = null; // Purpur
+ 
+     // CraftBukkit start
+     public boolean checkReachable = true;
 diff --git a/src/main/java/net/minecraft/world/inventory/AbstractFurnaceMenu.java b/src/main/java/net/minecraft/world/inventory/AbstractFurnaceMenu.java
 index 4adfc26062b322443828e94e6b0943884a18846b..0d9ecca25bff63f3428ccf93e2789fca0bcef7cc 100644
 --- a/src/main/java/net/minecraft/world/inventory/AbstractFurnaceMenu.java
@@ -13323,7 +13335,7 @@ index 4adfc26062b322443828e94e6b0943884a18846b..0d9ecca25bff63f3428ccf93e2789fca
                  } else if (this.isFuel(itemstack1)) {
                      if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150046e5343 100644
+index 506d758efbf16da9467f120321d2359a8832e477..0587d845531376676e38d43eadb016f5931a7fd0 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -21,6 +21,13 @@ import org.slf4j.Logger;
@@ -13349,7 +13361,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
  
      public AnvilMenu(int syncId, Inventory inventory) {
          this(syncId, inventory, ContainerLevelAccess.NULL);
-@@ -59,12 +68,14 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -59,12 +68,15 @@ public class AnvilMenu extends ItemCombinerMenu {
  
      @Override
      protected boolean mayPickup(Player player, boolean present) {
@@ -13359,13 +13371,14 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
  
      @Override
      protected void onTake(Player player, ItemStack stack) {
-+        if (org.purpurmc.purpur.event.inventory.AnvilTakeResultEvent.getHandlerList().getRegisteredListeners().length > 0) new org.purpurmc.purpur.event.inventory.AnvilTakeResultEvent(player.getBukkitEntity(), getBukkitView(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(stack)).callEvent(); // Purpur
++        ItemStack itemstack = activeQuickItem == null ? stack : activeQuickItem; // Purpur
++        if (org.purpurmc.purpur.event.inventory.AnvilTakeResultEvent.getHandlerList().getRegisteredListeners().length > 0) new org.purpurmc.purpur.event.inventory.AnvilTakeResultEvent(player.getBukkitEntity(), getBukkitView(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(itemstack)).callEvent(); // Purpur
          if (!player.getAbilities().instabuild) {
 +            if (bypassCost) ((ServerPlayer) player).lastSentExp = -1; else // Purpur
              player.giveExperienceLevels(-this.cost.get());
          }
  
-@@ -115,6 +126,12 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -115,6 +127,12 @@ public class AnvilMenu extends ItemCombinerMenu {
  
      @Override
      public void createResult() {
@@ -13378,7 +13391,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
          ItemStack itemstack = this.inputSlots.getItem(0);
  
          this.cost.set(1);
-@@ -191,7 +208,7 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -191,7 +209,7 @@ public class AnvilMenu extends ItemCombinerMenu {
                              int i2 = (Integer) map1.get(enchantment);
  
                              i2 = l1 == i2 ? i2 + 1 : Math.max(i2, l1);
@@ -13387,7 +13400,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
  
                              if (this.player.getAbilities().instabuild || itemstack.is(Items.ENCHANTED_BOOK)) {
                                  flag3 = true;
-@@ -203,7 +220,7 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -203,7 +221,7 @@ public class AnvilMenu extends ItemCombinerMenu {
                                  Enchantment enchantment1 = (Enchantment) iterator1.next();
  
                                  if (enchantment1 != enchantment && !enchantment.isCompatibleWith(enchantment1)) {
@@ -13396,7 +13409,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
                                      ++i;
                                  }
                              }
-@@ -212,7 +229,7 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -212,7 +230,7 @@ public class AnvilMenu extends ItemCombinerMenu {
                                  flag2 = true;
                              } else {
                                  flag1 = true;
@@ -13405,7 +13418,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
                                      i2 = enchantment.getMaxLevel();
                                  }
  
-@@ -262,6 +279,17 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -262,6 +280,17 @@ public class AnvilMenu extends ItemCombinerMenu {
              } else if (!this.itemName.equals(itemstack.getHoverName().getString())) {
                  b1 = 1;
                  i += b1;
@@ -13423,7 +13436,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
                  itemstack1.setHoverName(Component.literal(this.itemName));
              }
  
-@@ -274,6 +302,13 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -274,6 +303,13 @@ public class AnvilMenu extends ItemCombinerMenu {
                  this.cost.set(this.maximumRepairCost - 1); // CraftBukkit
              }
  
@@ -13437,7 +13450,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..54960816cc98b5a836425df69c9fe150
              if (this.cost.get() >= this.maximumRepairCost && !this.player.getAbilities().instabuild) { // CraftBukkit
                  itemstack1 = ItemStack.EMPTY;
              }
-@@ -296,11 +331,17 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -296,11 +332,17 @@ public class AnvilMenu extends ItemCombinerMenu {
              org.bukkit.craftbukkit.event.CraftEventFactory.callPrepareAnvilEvent(this.getBukkitView(), itemstack1); // CraftBukkit
              sendAllDataToRemote(); // CraftBukkit - SPIGOT-6686: Always send completed inventory to stay in sync with client
              this.broadcastChanges();
@@ -13558,21 +13571,23 @@ index f7404f41c2df202a428711e7e09a9a6eb11bf527..d0baf170d0b535b4b1a8c48944a91de3
          });
      }
 diff --git a/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java b/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java
-index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..f22dadd89a5f0e4171e3c6b9d9b87d1ca958b0df 100644
+index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..43d7ca6ceb89d65149314e56a846081d6c3a048a 100644
 --- a/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java
-@@ -96,8 +96,9 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+@@ -95,9 +95,11 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+ 
              @Override
              public void onTake(net.minecraft.world.entity.player.Player player, ItemStack stack) {
++                ItemStack itemstack = activeQuickItem == null ? stack : activeQuickItem; // Purpur
                  context.execute((world, blockposition) -> {
-+                    org.purpurmc.purpur.event.inventory.GrindstoneTakeResultEvent grindstoneTakeResultEvent = new org.purpurmc.purpur.event.inventory.GrindstoneTakeResultEvent(player.getBukkitEntity(), getBukkitView(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(stack), this.getExperienceAmount(world)); grindstoneTakeResultEvent.callEvent(); // Purpur
++                    org.purpurmc.purpur.event.inventory.GrindstoneTakeResultEvent grindstoneTakeResultEvent = new org.purpurmc.purpur.event.inventory.GrindstoneTakeResultEvent(player.getBukkitEntity(), getBukkitView(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(itemstack), this.getExperienceAmount(world)); grindstoneTakeResultEvent.callEvent(); // Purpur
                      if (world instanceof ServerLevel) {
 -                        ExperienceOrb.award((ServerLevel) world, Vec3.atCenterOf(blockposition), this.getExperienceAmount(world), org.bukkit.entity.ExperienceOrb.SpawnReason.GRINDSTONE, player); // Paper
 +                        ExperienceOrb.award((ServerLevel) world, Vec3.atCenterOf(blockposition), grindstoneTakeResultEvent.getExperienceAmount(), org.bukkit.entity.ExperienceOrb.SpawnReason.GRINDSTONE, player); // Paper // Purpur
                      }
  
                      world.levelEvent(1042, blockposition, 0);
-@@ -130,7 +131,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+@@ -130,7 +132,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
                      Enchantment enchantment = (Enchantment) entry.getKey();
                      Integer integer = (Integer) entry.getValue();
  
@@ -13581,7 +13596,7 @@ index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..f22dadd89a5f0e4171e3c6b9d9b87d1c
                          j += enchantment.getMinCost(integer);
                      }
                  }
-@@ -230,7 +231,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+@@ -230,7 +232,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
              Entry<Enchantment, Integer> entry = (Entry) iterator.next();
              Enchantment enchantment = (Enchantment) entry.getKey();
  
@@ -13590,7 +13605,7 @@ index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..f22dadd89a5f0e4171e3c6b9d9b87d1c
                  itemstack2.enchant(enchantment, (Integer) entry.getValue());
              }
          }
-@@ -251,7 +252,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+@@ -251,7 +253,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
  
          itemstack1.setCount(amount);
          Map<Enchantment, Integer> map = (Map) EnchantmentHelper.getEnchantments(item).entrySet().stream().filter((entry) -> {
@@ -13599,7 +13614,7 @@ index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..f22dadd89a5f0e4171e3c6b9d9b87d1c
          }).collect(Collectors.toMap(Entry::getKey, Entry::getValue));
  
          EnchantmentHelper.setEnchantments(map, itemstack1);
-@@ -267,6 +268,20 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+@@ -267,6 +269,20 @@ public class GrindstoneMenu extends AbstractContainerMenu {
              itemstack1.setRepairCost(AnvilMenu.calculateIncreasedRepairCost(itemstack1.getBaseRepairCost()));
          }
  
@@ -13620,6 +13635,16 @@ index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..f22dadd89a5f0e4171e3c6b9d9b87d1c
          return itemstack1;
      }
  
+@@ -328,7 +344,9 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+                 return ItemStack.EMPTY;
+             }
+ 
++            this.activeQuickItem = itemstack; // Purpur
+             slot.onTake(player, itemstack1);
++            this.activeQuickItem = null; // Purpur
+         }
+ 
+         return itemstack;
 diff --git a/src/main/java/net/minecraft/world/inventory/InventoryMenu.java b/src/main/java/net/minecraft/world/inventory/InventoryMenu.java
 index 12643d60f4bfa8e07901aa0a556a1a245b0a7fb4..96a4a9f9b673a07630493290f5d5315e461b6166 100644
 --- a/src/main/java/net/minecraft/world/inventory/InventoryMenu.java
@@ -13641,6 +13666,20 @@ index 12643d60f4bfa8e07901aa0a556a1a245b0a7fb4..96a4a9f9b673a07630493290f5d5315e
                  }
  
                  @Override
+diff --git a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
+index 35575434f3c90f1bd23df6584ee8a5a991f93f9f..297f829275a0cdfdd8e9214dfa78a91a7471cc9f 100644
+--- a/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/ItemCombinerMenu.java
+@@ -140,7 +140,9 @@ public abstract class ItemCombinerMenu extends AbstractContainerMenu {
+                 return ItemStack.EMPTY;
+             }
+ 
++            this.activeQuickItem = itemstack; // Purpur
+             slot.onTake(player, itemstack1);
++            this.activeQuickItem = null; // Purpur
+         }
+ 
+         return itemstack;
 diff --git a/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java b/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java
 index 59acb1aab21e2dce0f046942f124b50ac1cb8d0f..5058b30994fe38d8db2336267121476eaf4f1ff6 100644
 --- a/src/main/java/net/minecraft/world/inventory/PlayerEnderChestContainer.java
