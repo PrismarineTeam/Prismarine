@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 6 Jul 2022 19:24:23 +0000
+Date: Thu, 7 Jul 2022 04:54:32 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -4136,7 +4136,7 @@ index 6216513805add7c8f52e1ed6c77e2d26786b3ab5..a0c3a27a90e0788b573f0776c25cfc6e
              other.resetLove();
              world.addFreshEntityWithPassengers(entityageable, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - added SpawnReason
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index bd048cc30046f19f9eee89c6ba45d0816a160e67..a6378e6db70ba80aaa18954766f029cd6e97419e 100644
+index e5de2c1d11e5de88420caba35bf75c8bbd799db5..a7c0c2a8b9b5c1336ce33418e24e0bfd77cec5b0 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 @@ -43,6 +43,7 @@ import net.minecraft.world.entity.EntityType;
