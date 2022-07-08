@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 7 Jul 2022 04:54:32 +0000
+Date: Fri, 8 Jul 2022 05:20:18 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -2706,10 +2706,10 @@ index ec0319dd4b115e18b368027cc5dbe4d4d9c64840..86fa3f03e72b0c656ed86cae9ee64feb
          if (this.descriptionId == null) {
              this.descriptionId = Util.makeDescriptionId("entity", Registry.ENTITY_TYPE.getKey(this));
 diff --git a/src/main/java/net/minecraft/world/entity/ExperienceOrb.java b/src/main/java/net/minecraft/world/entity/ExperienceOrb.java
-index 4848f26a006f4d4df620ded526134b3b39e90d29..d6ee7b9d2fafbe76d4705a182ae1a0e98ce91eef 100644
+index d6527396939d9a1dd2f1cfb6cb66dc64fa0e5332..b10c792a4f743bdb8a10fe1693def562d161a879 100644
 --- a/src/main/java/net/minecraft/world/entity/ExperienceOrb.java
 +++ b/src/main/java/net/minecraft/world/entity/ExperienceOrb.java
-@@ -301,8 +301,8 @@ public class ExperienceOrb extends Entity {
+@@ -303,8 +303,8 @@ public class ExperienceOrb extends Entity {
      @Override
      public void playerTouch(Player player) {
          if (!this.level.isClientSide) {
@@ -2720,7 +2720,7 @@ index 4848f26a006f4d4df620ded526134b3b39e90d29..d6ee7b9d2fafbe76d4705a182ae1a0e9
                  player.take(this, 1);
                  int i = this.repairPlayerItems(player, this.value);
  
-@@ -320,7 +320,7 @@ public class ExperienceOrb extends Entity {
+@@ -322,7 +322,7 @@ public class ExperienceOrb extends Entity {
      }
  
      private int repairPlayerItems(Player player, int amount) {
@@ -7067,7 +7067,7 @@ index fdd2c63ff0017bafa544a3cff2ee6d2d62c92cb3..32870e6727d09fbf1c4913ffdf321a27
  
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 01f8d11ee4441a1c4d87427e3f9bcd7155259a5b..0a559e061b332508cba2d97c55d9f309c118f473 100644
+index bb6063ae7f4438916306ce876057f7488537b444..8210aa958b8bc7d36f2959d261a750c444017fec 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 @@ -83,16 +83,69 @@ public class Frog extends Animal {
@@ -7141,15 +7141,6 @@ index 01f8d11ee4441a1c4d87427e3f9bcd7155259a5b..0a559e061b332508cba2d97c55d9f309
      @Override
      protected Brain.Provider<Frog> brainProvider() {
          return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
-@@ -105,7 +158,7 @@ public class Frog extends Animal {
- 
-     @Override
-     public Brain<Frog> getBrain() {
--        return super.getBrain();
-+        return (Brain<Frog>) super.getBrain(); // Purpur - decompile error
-     }
- 
-     @Override
 @@ -378,7 +431,7 @@ public class Frog extends Animal {
          return world.getBlockState(pos.below()).is(BlockTags.FROGS_SPAWNABLE_ON) && isBrightEnoughToSpawn(world, pos);
      }
@@ -11900,7 +11891,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..177bc2b03d2f103add8e8d8ff862c8fe
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
-index 7fe5908020c4577c1e4d6c00af382cf536351d96..6975435684a2d3c812213e6039954d4bcd137dce 100644
+index cff0ed9ae6e79f84870343e43574f384dd73ea88..1f845c00c3e184fd982bccc6951115c131e779d0 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
 @@ -78,6 +78,58 @@ public class ZombieVillager extends Zombie implements VillagerDataHolder {
