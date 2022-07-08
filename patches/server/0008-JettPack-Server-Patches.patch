@@ -24,6 +24,8 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0003
 0005
 0008
+0009
+0011
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -312,6 +314,177 @@ index 0000000000000000000000000000000000000000..593f429a230b5056169be4e552791f77
 +    }
 +}
 \ No newline at end of file
+diff --git a/src/main/java/me/titaniumtown/cache/NBTCache.java b/src/main/java/me/titaniumtown/cache/NBTCache.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..6b416b201c370f497e2fd4368ffa0cdbb064a53e
+--- /dev/null
++++ b/src/main/java/me/titaniumtown/cache/NBTCache.java
+@@ -0,0 +1,32 @@
++package me.titaniumtown.cache;
++
++import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenCustomHashMap;
++import net.minecraft.server.MinecraftServer;
++import net.minecraft.nbt.CompoundTag;
++
++import java.io.File;
++
++public class NBTCache extends Object2ObjectLinkedOpenCustomHashMap<File, CompoundTag> {
++
++    public NBTCache() {
++        super(100, 0.75F, new Strategy<File>() {
++            @Override
++            public int hashCode(File k) {
++                return k.hashCode();
++            }
++
++            @Override
++            public boolean equals(File k, File k1) {
++                return k.equals(k1);
++            }
++        });
++    }
++
++    @Override
++    public CompoundTag put(File k, CompoundTag v) {
++        if (this.size() > MinecraftServer.getServer().getPlayerCount()) {
++            this.removeLast();
++        }
++        return super.putAndMoveToFirst(k, v);
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/me/titaniumtown/util/ServerWorkerWrapper.java b/src/main/java/me/titaniumtown/util/ServerWorkerWrapper.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..b45371f7a776451d5a15da03d130a32ff3d49e28
+--- /dev/null
++++ b/src/main/java/me/titaniumtown/util/ServerWorkerWrapper.java
+@@ -0,0 +1,24 @@
++package me.titaniumtown.util;
++
++import com.google.common.base.Preconditions;
++import net.minecraft.Util;
++
++public final class ServerWorkerWrapper implements Runnable {
++    private final Runnable internalRunnable;
++
++    public ServerWorkerWrapper(Runnable runnable) {
++        this.internalRunnable = Preconditions.checkNotNull(runnable, "internalRunnable");
++    }
++
++    @Override
++    public final void run() {
++        try {
++            this.internalRunnable.run();
++            return;
++        }
++        catch (Throwable throwable) {
++            Util.onThreadException(Thread.currentThread(), throwable);
++            return;
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
+index 1854a298cc63b09ca547cde599089ee1670c92e9..4e95a02e7c05f4eeb0792012a7253058e359b8f7 100644
+--- a/src/main/java/net/minecraft/Util.java
++++ b/src/main/java/net/minecraft/Util.java
+@@ -27,27 +27,10 @@ import java.net.URL;
+ import java.nio.file.Files;
+ import java.nio.file.Path;
+ import java.nio.file.spi.FileSystemProvider;
+-import java.security.PrivilegedActionException;
+-import java.security.PrivilegedExceptionAction;
+ import java.time.Duration;
+ import java.time.Instant;
+-import java.util.Arrays;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Locale;
+-import java.util.Map;
+-import java.util.Optional;
+-import java.util.UUID;
+-import java.util.concurrent.BlockingQueue;
+-import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.CompletionException;
+-import java.util.concurrent.Executor;
+-import java.util.concurrent.ExecutorService;
+-import java.util.concurrent.Executors;
+-import java.util.concurrent.ForkJoinPool;
+-import java.util.concurrent.ForkJoinWorkerThread;
+-import java.util.concurrent.LinkedBlockingQueue;
+-import java.util.concurrent.TimeUnit;
++import java.util.*; // Prismarine - JettPack patches
++import java.util.concurrent.*; // Prismarine - JettPack patches
+ import java.util.concurrent.atomic.AtomicInteger;
+ import java.util.function.BiFunction;
+ import java.util.function.BooleanSupplier;
+@@ -63,13 +46,13 @@ import java.util.stream.Collectors;
+ import java.util.stream.IntStream;
+ import java.util.stream.Stream;
+ import javax.annotation.Nullable;
++import me.titaniumtown.util.ServerWorkerWrapper; // Prismarine - JettPack patches
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.Bootstrap;
+-import net.minecraft.util.Mth;
++import net.minecraft.server.MCUtil; // Prismarine - JettPack patches
+ import net.minecraft.util.RandomSource;
+ import net.minecraft.util.datafix.DataFixers;
+ import net.minecraft.world.level.block.state.properties.Property;
+-import org.apache.commons.io.IOUtils;
+ import org.slf4j.Logger;
+ 
+ public class Util {
+@@ -157,7 +140,49 @@ public class Util {
+         if (i <= 0) {
+             executorService = MoreExecutors.newDirectExecutorService();
+         } else {
+-            executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new net.minecraft.server.ServerWorkerThread(target, s, priorityModifier));
++            // Prismarine start - JettPack tweaks
++            if (net.prismarineteam.prismarine.PrismarineConfig.useJettPackAsyncExecutor) {
++                executorService = Integer.getInteger("Paper.WorkerThreadCount", i) <= 0 ? MoreExecutors.newDirectExecutorService() : new AbstractExecutorService() {
++                    private volatile boolean shutdown = false;
++
++                    @Override
++                    public final List<Runnable> shutdownNow() {
++                        this.shutdown = true;
++                        return Collections.emptyList();
++                    }
++
++                    @Override
++                    public final void shutdown() {
++                        this.shutdown = true;
++                    }
++
++                    @Override
++                    public final boolean isShutdown() {
++                        return this.shutdown;
++                    }
++
++                    @Override
++                    public final boolean isTerminated() {
++                        return this.shutdown;
++                    }
++
++                    @Override
++                    public final boolean awaitTermination(long l2, TimeUnit timeUnit) throws InterruptedException {
++                        if (!this.shutdown) {
++                            throw new UnsupportedOperationException();
++                        }
++                        return true;
++                    }
++
++                    @Override
++                    public final void execute(Runnable runnable) {
++                        MCUtil.asyncExecutor.execute(new ServerWorkerWrapper(runnable));
++                    }
++                };
++            } else {
++                executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new net.minecraft.server.ServerWorkerThread(target, s, priorityModifier));
++            }
++            // Prismarine end
+         }
+         /*
+                     @Override
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
 index d21530eb6bc150e431769b02fe50040fa5190b02..24cb4d43703b4f2b40f5e15dbbe2cf7f0f56d9f8 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
@@ -561,6 +734,111 @@ index 9621d276beef534c487aa9fc476136c2586b6c16..ede3f479d2a615e87548f1719e2ec635
      private boolean tickingBlockEntities;
      public final Thread thread;
      private final boolean isDebug;
+diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+index 2bb24bf628a37c79e337f1cba99b816465ecb723..e1c5a9acf0eb8def2ffbf11b1a78258958ad9db5 100644
+--- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
++++ b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+@@ -7,9 +7,7 @@ import javax.annotation.Nullable;
+ import net.minecraft.Util;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.NbtIo;
+-import net.minecraft.nbt.NbtUtils;
+ import net.minecraft.server.level.ServerPlayer;
+-import net.minecraft.util.datafix.DataFixTypes;
+ import net.minecraft.world.entity.player.Player;
+ import org.slf4j.Logger;
+ 
+@@ -24,6 +22,7 @@ public class PlayerDataStorage {
+     private static final Logger LOGGER = LogUtils.getLogger();
+     private final File playerDir;
+     protected final DataFixer fixerUpper;
++    private final me.titaniumtown.cache.NBTCache dataCache = new me.titaniumtown.cache.NBTCache(); // JettPack - NBT Cache system
+ 
+     public PlayerDataStorage(LevelStorageSource.LevelStorageAccess session, DataFixer dataFixer) {
+         this.fixerUpper = dataFixer;
+@@ -37,11 +36,27 @@ public class PlayerDataStorage {
+             CompoundTag nbttagcompound = player.saveWithoutId(new CompoundTag());
+             File file = File.createTempFile(player.getStringUUID() + "-", ".dat", this.playerDir);
+ 
+-            NbtIo.writeCompressed(nbttagcompound, file);
+-            File file1 = new File(this.playerDir, player.getStringUUID() + ".dat");
+-            File file2 = new File(this.playerDir, player.getStringUUID() + ".dat_old");
++            // Prismarine start - JettPack patches
++            Runnable task = () -> {
++                try {
++                    NbtIo.writeCompressed(nbttagcompound, file);
++                    File file1 = new File(this.playerDir, player.getStringUUID() + ".dat");
++                    File file2 = new File(this.playerDir, player.getStringUUID() + ".dat_old");
+ 
+-            Util.safeReplaceFile(file1, file, file2);
++                    Util.safeReplaceFile(file1, file, file2);
++                } catch (Exception exception) {
++                    LOGGER.error("Failed to save player data for {}", player.getName(), exception);
++                }
++            };
++            synchronized (this.dataCache) {
++                this.dataCache.put(file, nbttagcompound);
++            }
++            if (net.prismarineteam.prismarine.PrismarineConfig.useYatopiaAsyncNBTCache) {
++                net.minecraft.server.MCUtil.asyncExecutor.execute(task);
++            } else {
++                task.run();
++            }
++            // Prismarine end
+         } catch (Exception exception) {
+             PlayerDataStorage.LOGGER.warn("Failed to save player data for {}", player.getScoreboardName(), exception); // Paper
+         }
+@@ -57,9 +72,20 @@ public class PlayerDataStorage {
+             // Spigot Start
+             boolean usingWrongFile = false;
+             boolean normalFile = file.exists() && file.isFile(); // Akarin - ensures normal file // Prismarine - Akarin patches
+-            if ( org.bukkit.Bukkit.getOnlineMode() && !normalFile ) // Paper - Check online mode first // Akarin - ensures normal file // Prismarine - Akarin patches
++            // Prismarine start - JettPack patches
++            CompoundTag playerData;
++            synchronized (this.dataCache) {
++                playerData = this.dataCache.get(file);
++            }
++            if ( playerData == null && org.bukkit.Bukkit.getOnlineMode() && !normalFile ) // Paper - Check online mode first // Akarin - ensures normal file // Prismarine - Akarin patches
++            // Prismarine end
+             {
+                 file = new File( this.playerDir, java.util.UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + player.getScoreboardName() ).getBytes( "UTF-8" ) ).toString() + ".dat");
++                // Prismarne start - JettPack patches
++                synchronized (this.dataCache) {
++                    playerData = this.dataCache.get(file);
++                }
++                // Prismarine end
+                 if ( file.exists() )
+                 {
+                     usingWrongFile = true;
+@@ -68,6 +94,11 @@ public class PlayerDataStorage {
+             }
+             // Spigot End
+ 
++            // Prismarine start - JettPack patches
++            if (playerData != null) {
++                nbttagcompound = playerData;
++            } else
++            // Prismarine end
+             if (normalFile) { // Akarin - ensures normal file // Prismarine - Akarin patches
+                 nbttagcompound = NbtIo.readCompressed(file);
+             }
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index badc80b509fb8985251f574dc5e16e9cb5165ec1..58a6a66bf8039a5b3777e18a4c6fdac09d39617e 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -208,4 +208,11 @@ public class PrismarineConfig {
+     private static void disableBootstrapExecutor() {
+         disableBootstrapExecutor = getBoolean("settings.patina-settings.disable-bootstrap-executor", disableBootstrapExecutor);
+     }
++
++    public static boolean useJettPackAsyncExecutor = true;
++    public static boolean useYatopiaAsyncNBTCache = false;
++    private static void JettPackPatches() {
++        useJettPackAsyncExecutor = getBoolean("settings.jettpack-patches.use-jettpack-async-executor", useJettPackAsyncExecutor);
++        useYatopiaAsyncNBTCache = getBoolean("settings.jettpack-patches.use-yatopia-async-nbt-cache", useYatopiaAsyncNBTCache);
++    }
+ }
+\ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
 index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..aa98bf99df7e586143f8306de2cef076f234194f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java

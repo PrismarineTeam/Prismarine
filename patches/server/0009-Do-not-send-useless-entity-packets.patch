@@ -63,14 +63,14 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..b5fc0315a43d17857845e0d0e91d3f4a
          this.entity.stopSeenByPlayer(player);
          player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index badc80b509fb8985251f574dc5e16e9cb5165ec1..0b0de92c48da14e816169db8cdbcb6c0f9874b87 100644
+index 58a6a66bf8039a5b3777e18a4c6fdac09d39617e..7c9ac6144d058186b539cc867c91892e4a080ae5 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -208,4 +208,9 @@ public class PrismarineConfig {
-     private static void disableBootstrapExecutor() {
-         disableBootstrapExecutor = getBoolean("settings.patina-settings.disable-bootstrap-executor", disableBootstrapExecutor);
+@@ -215,4 +215,9 @@ public class PrismarineConfig {
+         useJettPackAsyncExecutor = getBoolean("settings.jettpack-patches.use-jettpack-async-executor", useJettPackAsyncExecutor);
+         useYatopiaAsyncNBTCache = getBoolean("settings.jettpack-patches.use-yatopia-async-nbt-cache", useYatopiaAsyncNBTCache);
      }
-+
++    
 +    public static boolean doNotSendUselessEntityPackets = true;
 +    private static void doNotSendUselessEntityPackets() {
 +        doNotSendUselessEntityPackets = getBoolean("settings.do-not-send-useless-entity-packets", doNotSendUselessEntityPackets);

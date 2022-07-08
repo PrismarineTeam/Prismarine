@@ -150,10 +150,10 @@ index deffa277272c34adb39d7c3e69e91502780a090e..66c65df229acc4041ed2027df07d4ab0
          if (spawnDelay > 0 && --tickDelay > 0) return;
          tickDelay = world.paperConfig().tickRates.mobSpawner;
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 6d867583d0187e204948624f59c429fd2cb51a23..77ea7bc513a31431b09f26bd501897414fd2a495 100644
+index 4e4ddeb7c681159a48084210d0b67524ba78b730..2e9d6289b3249d7c85afd72a599fc70080d148f6 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -218,4 +218,9 @@ public class PrismarineConfig {
+@@ -225,4 +225,9 @@ public class PrismarineConfig {
      private static void useAirplaneCollisionContext() {
          useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
      }

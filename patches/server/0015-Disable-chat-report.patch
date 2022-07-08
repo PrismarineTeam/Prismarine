@@ -182,10 +182,10 @@ index cb538ff4b5e8da7914361d012060fedf1d22acf2..db33603ebf0b8b68fd1845e0e658f729
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 77ea7bc513a31431b09f26bd501897414fd2a495..c75dbff6a8fa85f461a67e25ad73aad8f4199554 100644
+index 2e9d6289b3249d7c85afd72a599fc70080d148f6..835b757ff2ba14f04f93394bbf71c8fcfdb1d238 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -223,4 +223,11 @@ public class PrismarineConfig {
+@@ -230,4 +230,11 @@ public class PrismarineConfig {
      private static void bugFixes() {
          preventHealingByNegative = getBoolean("settings.pull-requests.paper.prevent-healing-by-negative-amounts", preventHealingByNegative);
      }
