@@ -385,15 +385,11 @@ index 0000000000000000000000000000000000000000..b45371f7a776451d5a15da03d130a32f
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 1854a298cc63b09ca547cde599089ee1670c92e9..4e95a02e7c05f4eeb0792012a7253058e359b8f7 100644
+index 1854a298cc63b09ca547cde599089ee1670c92e9..545437074aa2ddb62a73b71daa90a57db4c691d7 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
-@@ -27,27 +27,10 @@ import java.net.URL;
- import java.nio.file.Files;
- import java.nio.file.Path;
- import java.nio.file.spi.FileSystemProvider;
--import java.security.PrivilegedActionException;
--import java.security.PrivilegedExceptionAction;
+@@ -31,23 +31,8 @@ import java.security.PrivilegedActionException;
+ import java.security.PrivilegedExceptionAction;
  import java.time.Duration;
  import java.time.Instant;
 -import java.util.Arrays;
@@ -418,23 +414,19 @@ index 1854a298cc63b09ca547cde599089ee1670c92e9..4e95a02e7c05f4eeb0792012a7253058
  import java.util.concurrent.atomic.AtomicInteger;
  import java.util.function.BiFunction;
  import java.util.function.BooleanSupplier;
-@@ -63,13 +46,13 @@ import java.util.stream.Collectors;
+@@ -63,9 +48,11 @@ import java.util.stream.Collectors;
  import java.util.stream.IntStream;
  import java.util.stream.Stream;
  import javax.annotation.Nullable;
 +import me.titaniumtown.util.ServerWorkerWrapper; // Prismarine - JettPack patches
  import net.minecraft.resources.ResourceLocation;
  import net.minecraft.server.Bootstrap;
--import net.minecraft.util.Mth;
+ import net.minecraft.util.Mth;
 +import net.minecraft.server.MCUtil; // Prismarine - JettPack patches
  import net.minecraft.util.RandomSource;
  import net.minecraft.util.datafix.DataFixers;
  import net.minecraft.world.level.block.state.properties.Property;
--import org.apache.commons.io.IOUtils;
- import org.slf4j.Logger;
- 
- public class Util {
-@@ -157,7 +140,49 @@ public class Util {
+@@ -157,7 +144,49 @@ public class Util {
          if (i <= 0) {
              executorService = MoreExecutors.newDirectExecutorService();
          } else {
@@ -575,18 +567,9 @@ index 9e1ba6c434fcdedd9be6c95ffc12f05cdb4cf850..1db5fbf8a84ac71fc00088e7940bc7ed
          try {
              for (;;) {
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index eea58ef165e3e7078aed50a3e40f9b6217104171..6139eea01ddfd32386bbba3a66fb4228dae8ee7c 100644
+index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1eb668bda8 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -70,7 +70,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
-     private ProfilePublicKey playerProfilePublicKey;
-     public String hostname = ""; // CraftBukkit - add field
-     private int velocityLoginMessageId = -1; // Paper - Velocity support
--    public boolean iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation = false; // Paper - username validation overriding
-+    public boolean iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation = false; // Paper - username validation overriding // Prismarine - what the hell
- 
-     public ServerLoginPacketListenerImpl(MinecraftServer server, Connection connection) {
-         this.state = ServerLoginPacketListenerImpl.State.HELLO;
 @@ -132,6 +132,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
  
      }
@@ -632,26 +615,19 @@ index eea58ef165e3e7078aed50a3e40f9b6217104171..6139eea01ddfd32386bbba3a66fb4228
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
-index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..9f9a287f4b2d511a588c839ac6070f20906aa3c6 100644
+index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d553dc29d9a 100644
 --- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 +++ b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
-@@ -1,13 +1,12 @@
- package net.minecraft.util.thread;
- 
- import com.google.common.collect.ImmutableList;
--import com.google.common.collect.Queues;
- import com.mojang.logging.LogUtils;
- import java.util.List;
--import java.util.Queue;
+@@ -8,6 +8,8 @@ import java.util.Queue;
  import java.util.concurrent.CompletableFuture;
  import java.util.concurrent.Executor;
--import java.util.concurrent.locks.LockSupport;
+ import java.util.concurrent.locks.LockSupport;
 +import java.util.concurrent.LinkedBlockingQueue; // JettPack // Prismarine - JettPack patches
 +import java.util.concurrent.TimeUnit; // JettPack // Prismarine - JettPack patches
  import java.util.function.BooleanSupplier;
  import java.util.function.Supplier;
  import net.minecraft.util.profiling.metrics.MetricCategory;
-@@ -19,8 +18,9 @@ import org.slf4j.Logger;
+@@ -19,8 +21,9 @@ import org.slf4j.Logger;
  public abstract class BlockableEventLoop<R extends Runnable> implements ProfilerMeasured, ProcessorHandle<R>, Executor {
      private final String name;
      private static final Logger LOGGER = LogUtils.getLogger();
@@ -662,7 +638,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..9f9a287f4b2d511a588c839ac6070f20
  
      protected BlockableEventLoop(String name) {
          this.name = name;
-@@ -89,7 +89,7 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+@@ -89,7 +92,7 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
      @Override
      public void tell(R runnable) {
          this.pendingRunnables.add(runnable);
@@ -671,7 +647,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..9f9a287f4b2d511a588c839ac6070f20
      }
  
      @Override
-@@ -117,13 +117,20 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+@@ -117,13 +120,20 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
      }
  
      public boolean pollTask() {
@@ -697,7 +673,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..9f9a287f4b2d511a588c839ac6070f20
              return true;
          }
      }
-@@ -144,8 +151,18 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
+@@ -144,8 +154,18 @@ public abstract class BlockableEventLoop<R extends Runnable> implements Profiler
      }
  
      protected void waitForTasks() {
@@ -719,7 +695,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..9f9a287f4b2d511a588c839ac6070f20
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9621d276beef534c487aa9fc476136c2586b6c16..ede3f479d2a615e87548f1719e2ec635061b0090 100644
+index 9621d276beef534c487aa9fc476136c2586b6c16..9624ff770308e3d9dc0525896ee3797ae0c2b29b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -727,28 +703,18 @@ index 9621d276beef534c487aa9fc476136c2586b6c16..ede3f479d2a615e87548f1719e2ec635
      public static final int MAX_ENTITY_SPAWN_Y = 20000000;
      public static final int MIN_ENTITY_SPAWN_Y = -20000000;
 -    protected final List<TickingBlockEntity> blockEntityTickers = Lists.newArrayList(); public final int getTotalTileEntityTickers() { return this.blockEntityTickers.size(); } // Paper
++    protected final List<TickingBlockEntity> blockEntityTickers = me.jellysquid.mods.lithium.common.util.collections.HashedList.wrapper(Lists.newArrayList()); public final int getTotalTileEntityTickers() { return this.blockEntityTickers.size(); } // Paper // Jettpack - lithium: hashed_list // Prismarine - JettPack patches
      protected final NeighborUpdater neighborUpdater;
 -    private final List<TickingBlockEntity> pendingBlockEntityTickers = Lists.newArrayList();
-+    protected final List<TickingBlockEntity> blockEntityTickers = me.jellysquid.mods.lithium.common.util.collections.HashedList.wrapper(Lists.newArrayList()); public final int getTotalTileEntityTickers() { return this.blockEntityTickers.size(); } // Paper // Jettpack - lithium: hashed_list // Prismarine - JettPack patches
 +    private final List<TickingBlockEntity> pendingBlockEntityTickers = me.jellysquid.mods.lithium.common.util.collections.HashedList.wrapper(Lists.newArrayList()); // Jettpack - lithium: hashed_list // Prismarine - JettPack patches
      private boolean tickingBlockEntities;
      public final Thread thread;
      private final boolean isDebug;
 diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
-index 2bb24bf628a37c79e337f1cba99b816465ecb723..e1c5a9acf0eb8def2ffbf11b1a78258958ad9db5 100644
+index 2bb24bf628a37c79e337f1cba99b816465ecb723..f5a877126db1b772f44136ffc2a9740b57ef6d88 100644
 --- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
 +++ b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
-@@ -7,9 +7,7 @@ import javax.annotation.Nullable;
- import net.minecraft.Util;
- import net.minecraft.nbt.CompoundTag;
- import net.minecraft.nbt.NbtIo;
--import net.minecraft.nbt.NbtUtils;
- import net.minecraft.server.level.ServerPlayer;
--import net.minecraft.util.datafix.DataFixTypes;
- import net.minecraft.world.entity.player.Player;
- import org.slf4j.Logger;
- 
-@@ -24,6 +22,7 @@ public class PlayerDataStorage {
+@@ -24,6 +24,7 @@ public class PlayerDataStorage {
      private static final Logger LOGGER = LogUtils.getLogger();
      private final File playerDir;
      protected final DataFixer fixerUpper;
@@ -756,7 +722,7 @@ index 2bb24bf628a37c79e337f1cba99b816465ecb723..e1c5a9acf0eb8def2ffbf11b1a782589
  
      public PlayerDataStorage(LevelStorageSource.LevelStorageAccess session, DataFixer dataFixer) {
          this.fixerUpper = dataFixer;
-@@ -37,11 +36,27 @@ public class PlayerDataStorage {
+@@ -37,11 +38,27 @@ public class PlayerDataStorage {
              CompoundTag nbttagcompound = player.saveWithoutId(new CompoundTag());
              File file = File.createTempFile(player.getStringUUID() + "-", ".dat", this.playerDir);
  
@@ -788,7 +754,7 @@ index 2bb24bf628a37c79e337f1cba99b816465ecb723..e1c5a9acf0eb8def2ffbf11b1a782589
          } catch (Exception exception) {
              PlayerDataStorage.LOGGER.warn("Failed to save player data for {}", player.getScoreboardName(), exception); // Paper
          }
-@@ -57,9 +72,20 @@ public class PlayerDataStorage {
+@@ -57,9 +74,20 @@ public class PlayerDataStorage {
              // Spigot Start
              boolean usingWrongFile = false;
              boolean normalFile = file.exists() && file.isFile(); // Akarin - ensures normal file // Prismarine - Akarin patches
@@ -810,7 +776,7 @@ index 2bb24bf628a37c79e337f1cba99b816465ecb723..e1c5a9acf0eb8def2ffbf11b1a782589
                  if ( file.exists() )
                  {
                      usingWrongFile = true;
-@@ -68,6 +94,11 @@ public class PlayerDataStorage {
+@@ -68,6 +96,11 @@ public class PlayerDataStorage {
              }
              // Spigot End
  
@@ -840,18 +806,10 @@ index badc80b509fb8985251f574dc5e16e9cb5165ec1..58a6a66bf8039a5b3777e18a4c6fdac0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
-index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..aa98bf99df7e586143f8306de2cef076f234194f 100644
+index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..f8b36ea1249d3444d25ac88748437aa999171ac6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
-@@ -32,23 +32,29 @@ import java.util.Iterator;
- import java.util.List;
- import java.util.concurrent.Executor;
- import java.util.concurrent.Executors;
-+/* // Prismarine - JettPack patches
- import java.util.concurrent.SynchronousQueue;
- import java.util.concurrent.ThreadPoolExecutor;
- import java.util.concurrent.TimeUnit;
-+ */ // Prismarine - JettPack patches
+@@ -38,17 +38,21 @@ import java.util.concurrent.TimeUnit;
  
  public class CraftAsyncScheduler extends CraftScheduler {
  
@@ -873,7 +831,7 @@ index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..aa98bf99df7e586143f8306de2cef076
      }
  
      @Override
-@@ -93,7 +99,7 @@ public class CraftAsyncScheduler extends CraftScheduler {
+@@ -93,7 +97,7 @@ public class CraftAsyncScheduler extends CraftScheduler {
      private boolean executeTask(CraftTask task) {
          if (isValid(task)) {
              this.runners.put(task.getTaskId(), task);
