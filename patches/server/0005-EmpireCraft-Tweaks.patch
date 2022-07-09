@@ -2898,7 +2898,7 @@ index 0d82ca8ba9f2b11213cfe1ab01dc6ef3f2f510c9..46d717c39e964ea87f9c6380e82cdeac
          } else {
              Optional<HolderSet.Named<Structure>> optional = this.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).getTag(structureTag);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 91dadd78069d5e2a850d1aa6dd59149c3a527c2a..3ba2d25ce6e4b28f32fc715ba061e8caa81dec89 100644
+index 3bb51f34be4341c991487a78d8793f074ffdcba4..5a08543dd2e5baf48ebed99d187b953e9fd066f0 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2292,6 +2292,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -3265,10 +3265,10 @@ index 40e5718ed69146cbf1aef7819bda1b8822e2499d..e543014d55a5e96a74b4278680003c70
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 74020515e2ec917b7d921aa8501a71ff433a6abb..c6beb55dd7d66e7f7b40753106667a25de99efc6 100644
+index cf494171713b5fc12e9627774f2705b911b54bd2..ad78676f03ebc52909594d2b69e2fe17694c64dc 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -75,4 +75,54 @@ public class PrismarineWorldConfig {
+@@ -74,4 +74,54 @@ public class PrismarineWorldConfig {
          final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
          return value.isEmpty() ? fallback : value;
      }

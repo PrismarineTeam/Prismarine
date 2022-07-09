@@ -47,6 +47,69 @@ Jake Potrebic <jake.m.potrebic@gmail.com> - Fix async entity add due to fungus t
 booky10 <boooky10@gmail.com> - Prevent healing by negative amounts PaperMC/Paper#7703 // Edited by AlphaKR93 <alphakr93@outlook.com>
 Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#7709
 
+[JETTPACK RELATED]
+0017
+
+diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+index 835403ce42df05092685ef38a4546e409f8a1eab..38307a647d12c34c7d2adeb73202e6a807641944 100644
+--- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
++++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+@@ -82,19 +82,24 @@ public class FriendlyByteBuf extends ByteBuf {
+     private static final int PUBLIC_KEY_SIZE = 256;
+     private static final int MAX_PUBLIC_KEY_HEADER_SIZE = 256;
+     private static final int MAX_PUBLIC_KEY_LENGTH = 512;
++    // Prismarine start - Paper PR
++    // Paper start - Optimize VarInts
++    private static final int[] VARINT_EXACT_BYTE_LENGTHS = new int[33];
++    static {
++        for (int i = 0; i <= 32; ++i) {
++            VARINT_EXACT_BYTE_LENGTHS[i] = (int) Math.ceil((31d - (i - 1)) / 7d);
++        }
++        VARINT_EXACT_BYTE_LENGTHS[32] = 1; // Special case for the number 0.
++    }
++    // Paper end
++    // Prismarine end
+ 
+     public FriendlyByteBuf(ByteBuf parent) {
+         this.source = parent;
+     }
+ 
+     public static int getVarIntSize(int value) {
+-        for (int j = 1; j < 5; ++j) {
+-            if ((value & -1 << j * 7) == 0) {
+-                return j;
+-            }
+-        }
+-
+-        return 5;
++        return VARINT_EXACT_BYTE_LENGTHS[Integer.numberOfLeadingZeros(value)]; // Paper - Optimize VarInts
+     }
+ 
+     public static int getVarLongSize(long value) {
+@@ -504,6 +509,23 @@ public class FriendlyByteBuf extends ByteBuf {
+     }
+ 
+     public FriendlyByteBuf writeVarInt(int value) {
++        // Prismarine start - Paper PR
++        // Paper start - Optimize VarInts
++        // Peel the one and two byte count cases explicitly as they are the most common VarInt sizes
++        // that the proxy will write, to improve inlining.
++        if ((value & (0xFFFFFFFF << 7)) == 0) {
++            writeByte(value);
++        } else if ((value & (0xFFFFFFFF << 14)) == 0) {
++            writeShort((value & 0x7F | 0x80) << 8 | (value >>> 7));
++        } else {
++            writeVarInt_(value);
++        }
++        return this;
++    }
++
++    public FriendlyByteBuf writeVarInt_(int value) {
++        // Paper end
++        // Prismarine end
+         while ((value & -128) != 0) {
+             this.writeByte(value & 127 | 128);
+             value >>>= 7;
 diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 index 0c48e877a0dba9fba3295d1740527fa418b5e26c..89d02602cd30637f7395abc775bb0599889127ca 100644
 --- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
@@ -199,7 +262,7 @@ index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407
      /**
       * Creates a suitable adapter instance for the primitive class type
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index f736cc6b3dc5242a30eefd344af65f6958ece3a4..c0674980c7ac06dbc5d01ac21d41cae37ee0784c 100644
+index f736cc6b3dc5242a30eefd344af65f6958ece3a4..13c2f8c6e7bf01bb83d41774d3dbe6ac9759b0d8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -453,8 +453,8 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -209,7 +272,7 @@ index f736cc6b3dc5242a30eefd344af65f6958ece3a4..c0674980c7ac06dbc5d01ac21d41cae3
 -        Dynamic<Tag> converted = DataFixers.getDataFixer().update(References.ITEM_STACK, new Dynamic<Tag>(NbtOps.INSTANCE, compound), dataVersion, getDataVersion());
 -        return CraftItemStack.asCraftMirror(net.minecraft.world.item.ItemStack.of((CompoundTag) converted.getValue()));
 +        compound = ca.spottedleaf.dataconverter.minecraft.MCDataConverter.convertTag(ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry.ITEM_STACK, compound, dataVersion, getDataVersion()); // Paper - rewrite dataconverter // Prismarine - Paper PR
-+        return CraftItemStack.asCraftMirror(net.minecraft.world.item.ItemStack.of(compound));
++        return CraftItemStack.asCraftMirror(net.minecraft.world.item.ItemStack.of(compound)); // Prismarine - Paper PR
      }
  
      @Override

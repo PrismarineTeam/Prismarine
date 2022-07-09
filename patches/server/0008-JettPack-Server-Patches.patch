@@ -27,6 +27,10 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0009
 0011
 0012
+0013
+0014
+0020
+0021
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -478,6 +482,28 @@ index 1854a298cc63b09ca547cde599089ee1670c92e9..545437074aa2ddb62a73b71daa90a57d
          }
          /*
                      @Override
+diff --git a/src/main/java/net/minecraft/core/Direction.java b/src/main/java/net/minecraft/core/Direction.java
+index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..a2d12e3f18ac8368e2f0089f3f6f631895d58597 100644
+--- a/src/main/java/net/minecraft/core/Direction.java
++++ b/src/main/java/net/minecraft/core/Direction.java
+@@ -196,7 +196,7 @@ public enum Direction implements StringRepresentable {
+     }
+ 
+     public Direction getOpposite() {
+-        return from3DDataValue(this.oppositeIndex);
++        return VALUES[this.oppositeIndex]; // JettPack - lithium: fast_util
+     }
+ 
+     public Direction getClockWise(Direction.Axis axis) {
+@@ -458,7 +458,7 @@ public enum Direction implements StringRepresentable {
+     }
+ 
+     public static Direction getRandom(RandomSource random) {
+-        return Util.getRandom(VALUES, random);
++        return VALUES[random.nextInt(VALUES.length)]; // JettPack - lithium: fast_util
+     }
+ 
+     public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
 index d21530eb6bc150e431769b02fe50040fa5190b02..24cb4d43703b4f2b40f5e15dbbe2cf7f0f56d9f8 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
@@ -567,6 +593,19 @@ index 9e1ba6c434fcdedd9be6c95ffc12f05cdb4cf850..1db5fbf8a84ac71fc00088e7940bc7ed
          co.aikar.timings.MinecraftTimings.midTickChunkTasks.startTiming();
          try {
              for (;;) {
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+index 20d579a20e186e59975df1b35112015e183cee36..d80894a0ed1022e9abec6b0bad50e6ff0a33157a 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+@@ -137,7 +137,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+         this.maxWorldSize = this.get("max-world-size", (integer) -> {
+             return Mth.clamp(integer, (int) 1, 29999984);
+         }, 29999984);
+-        this.syncChunkWrites = this.get("sync-chunk-writes", true) && Boolean.getBoolean("Paper.enable-sync-chunk-writes"); // Paper - hide behind flag
++        this.syncChunkWrites = this.get("sync-chunk-writes", true) || Boolean.getBoolean("Paper.enable-sync-chunk-writes"); // Paper - hide behind flag // Prismarine - JettPack patches
+         this.enableJmxMonitoring = this.get("enable-jmx-monitoring", false);
+         this.enableStatus = this.get("enable-status", true);
+         this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1eb668bda8 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
@@ -714,6 +753,56 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
      }
  
      protected void doRunTask(R task) {
+diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
+index 34db1bd524bb97fbbe0f86b088a2ac343e730f5e..354766eeccb36a86eebd8a5854bc1dc89e9a8488 100644
+--- a/src/main/java/net/minecraft/world/entity/Mob.java
++++ b/src/main/java/net/minecraft/world/entity/Mob.java
+@@ -835,9 +835,6 @@ public abstract class Mob extends LivingEntity {
+         } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
+             // Paper start - optimise checkDespawn
+             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
+-            if (entityhuman == null) {
+-                entityhuman = ((ServerLevel)this.level).playersAffectingSpawning.isEmpty() ? null : ((ServerLevel)this.level).playersAffectingSpawning.get(0);
+-            }
+             // Paper end - optimise checkDespawn
+ 
+             if (entityhuman != null) {
+@@ -858,6 +855,9 @@ public abstract class Mob extends LivingEntity {
+                     this.noActionTime = 0;
+                 }
+             }
++            else {
++                this.discard(); // Paper - no entity found on hardDespawnDistance, we should discard it // Prismarine - JettPack patches
++            }
+ 
+         } else {
+             this.noActionTime = 0;
+diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
+index 0cc0d719e95e108263683b7a40f4ce3a8ca9465b..fa299fede64eaa2f69bd6592cc712e32de5507a0 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
++++ b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
+@@ -27,7 +27,7 @@ public class GoalSelector {
+         }
+     };
+     private final Map<Goal.Flag, WrappedGoal> lockedFlags = new EnumMap<>(Goal.Flag.class);
+-    public final Set<WrappedGoal> availableGoals = Sets.newLinkedHashSet();
++    public final Set<WrappedGoal> availableGoals = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>(); // JettPack - lithium: replace AI goal set with optimized collection // Prismarine - JettPack patches
+     private final Supplier<ProfilerFiller> profiler;
+     private final EnumSet<Goal.Flag> disabledFlags = EnumSet.noneOf(Goal.Flag.class); // Paper unused, but dummy to prevent plugins from crashing as hard. Theyll need to support paper in a special case if this is super important, but really doesn't seem like it would be.
+     private final com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<net.minecraft.world.entity.ai.goal.Goal.Flag> goalTypes = new com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<>(Goal.Flag.class); // Paper - remove streams from pathfindergoalselector
+diff --git a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
+index f5886a88fd98ede5e85a91eccccb05ac33eb40e2..b4403229fb9ff45410b63d2d1459f9cb5c56cd5e 100644
+--- a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
++++ b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
+@@ -264,7 +264,7 @@ public class FishingHook extends Projectile {
+         boolean flag = itemstack.is(Items.FISHING_ROD);
+         boolean flag1 = itemstack1.is(Items.FISHING_ROD);
+ 
+-        if (!player.isRemoved() && player.isAlive() && (flag || flag1) && this.distanceToSqr((Entity) player) <= 1024.0D) {
++        if (!player.isRemoved() && player.isAlive() && (flag || flag1) && this.distanceToSqr((Entity) player) <= player.getLevel().prismarineConfig.fishingRodLength) { // Prismarine - JettPack patches
+             return false;
+         } else {
+             this.discard();
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
 index 9621d276beef534c487aa9fc476136c2586b6c16..9624ff770308e3d9dc0525896ee3797ae0c2b29b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
@@ -808,6 +897,60 @@ index 2bb24bf628a37c79e337f1cba99b816465ecb723..f5a877126db1b772f44136ffc2a9740b
              if (normalFile) { // Akarin - ensures normal file // Prismarine - Akarin patches
                  nbttagcompound = NbtIo.readCompressed(file);
              }
+diff --git a/src/main/java/net/minecraft/world/phys/AABB.java b/src/main/java/net/minecraft/world/phys/AABB.java
+index cfb2e46b34b2982d6724f18214557fc80cf4adfa..07b0d7a4dcac08b68099b5e1c26675c3ad460e94 100644
+--- a/src/main/java/net/minecraft/world/phys/AABB.java
++++ b/src/main/java/net/minecraft/world/phys/AABB.java
+@@ -16,6 +16,15 @@ public class AABB {
+     public final double maxY;
+     public final double maxZ;
+ 
++    // Prismarine start - JettPack patches (lithium: fast_util)
++    static {
++        assert Direction.Axis.X.ordinal() == 0;
++        assert Direction.Axis.Y.ordinal() == 1;
++        assert Direction.Axis.Z.ordinal() == 2;
++        assert Direction.Axis.values().length == 3;
++    }
++    // Prismarine ned
++
+     public AABB(double x1, double y1, double z1, double x2, double y2, double z2) {
+         this.minX = Math.min(x1, x2);
+         this.minY = Math.min(y1, y2);
+@@ -81,11 +90,31 @@ public class AABB {
+     }
+ 
+     public double min(Direction.Axis axis) {
+-        return axis.choose(this.minX, this.minY, this.minZ);
++        // Prismarine start - JettPack patches (lithium: fast_util)
++        switch (axis.ordinal()) {
++            case 0:
++                return this.minX;
++            case 1:
++                return this.minY;
++            case 2:
++                return this.minZ;
++        }
++        throw new IllegalArgumentException();
++        // Prismarine end
+     }
+ 
+     public double max(Direction.Axis axis) {
+-        return axis.choose(this.maxX, this.maxY, this.maxZ);
++        // Prismarine start - JettPack patches (lithium: fast_util)
++        switch (axis.ordinal()) {
++            case 0:
++                return this.minX;
++            case 1:
++                return this.minY;
++            case 2:
++                return this.minZ;
++        }
++        throw new IllegalArgumentException();
++        // Prismarine end
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index 696a0a6869fbe98667458cad874443c6d8d85631..24b3aef7c621ec6f5e225f3be1717083435706cb 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
@@ -838,6 +981,21 @@ index 696a0a6869fbe98667458cad874443c6d8d85631..24b3aef7c621ec6f5e225f3be1717083
 +    public static boolean logPlayerLoginLocation = true;
 +    private static void logPlayerLoginLocation() {
 +        logPlayerLoginLocation = getBoolean("settings.log-player-login-location", logPlayerLoginLocation);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index ad78676f03ebc52909594d2b69e2fe17694c64dc..0a653c684f0e89c6605b0da0c33c19ee4d450f65 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -124,4 +124,9 @@ public class PrismarineWorldConfig {
+     private void entitySettings() {
+         witherCanDespawn = getBoolean("wither.can-despawn", witherCanDespawn);
+     }
++
++    public double fishingRodLength = 1024.0D;
++    private void fishingRodLength() {
++        fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
 +    }
  }
 \ No newline at end of file
