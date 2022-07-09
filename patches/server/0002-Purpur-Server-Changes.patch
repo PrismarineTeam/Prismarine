@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 8 Jul 2022 05:20:18 +0000
+Date: Sat, 9 Jul 2022 03:20:26 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -13048,7 +13048,7 @@ index 4bb9730b6a42702e91467f980b9f045585039db3..a1b9a11c3026a6fdd0f47ed27b99539e
  
              if (this.mob.hasActiveRaid() && !this.mob.getCurrentRaid().isOver() && this.mob.canBeLeader() && !ItemStack.matches(this.mob.getItemBySlot(EquipmentSlot.HEAD), Raid.getLeaderBannerInstance())) {
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raids.java b/src/main/java/net/minecraft/world/entity/raid/Raids.java
-index fa8fcdfea51a35e4a482d3d7b18159099da62706..38459f822e21601a167edab871b07a851b678d00 100644
+index fa8fcdfea51a35e4a482d3d7b18159099da62706..6e2373a06ea4c048e5a6eebff19f924c3b106019 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raids.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raids.java
 @@ -28,6 +28,7 @@ import net.minecraft.world.phys.Vec3;
@@ -13077,20 +13077,17 @@ index fa8fcdfea51a35e4a482d3d7b18159099da62706..38459f822e21601a167edab871b07a85
          Iterator iterator = this.raidMap.values().iterator();
  
          while (iterator.hasNext()) {
-@@ -130,10 +142,15 @@ public class Raids extends SavedData {
+@@ -129,11 +141,13 @@ public class Raids extends SavedData {
+                 }
  
                  if (flag) {
++                    if (level.purpurConfig.raidCooldownSeconds != 0 && playerCooldowns.containsKey(player.getUUID())) return null; // Purpur
                      // CraftBukkit start
--                    if (!org.bukkit.craftbukkit.event.CraftEventFactory.callRaidTriggerEvent(raid, player)) {
-+                    if ((level.purpurConfig.raidCooldownSeconds != 0 && playerCooldowns.containsKey(player.getUUID())) || !org.bukkit.craftbukkit.event.CraftEventFactory.callRaidTriggerEvent(raid, player)) { // Purpur
+                     if (!org.bukkit.craftbukkit.event.CraftEventFactory.callRaidTriggerEvent(raid, player)) {
                          player.removeEffect(MobEffects.BAD_OMEN);
                          return null;
                      }
-+                    // Purpur start
-+                    if (level.purpurConfig.raidCooldownSeconds != 0) {
-+                        playerCooldowns.put(player.getUUID(), level.purpurConfig.raidCooldownSeconds);
-+                    }
-+                    // Purpur end
++                    if (level.purpurConfig.raidCooldownSeconds != 0) playerCooldowns.put(player.getUUID(), level.purpurConfig.raidCooldownSeconds); // Purpur
  
                      if (!this.raidMap.containsKey(raid.getId())) {
                          this.raidMap.put(raid.getId(), raid);
@@ -13326,7 +13323,7 @@ index 4adfc26062b322443828e94e6b0943884a18846b..0d9ecca25bff63f3428ccf93e2789fca
                  } else if (this.isFuel(itemstack1)) {
                      if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index 506d758efbf16da9467f120321d2359a8832e477..0587d845531376676e38d43eadb016f5931a7fd0 100644
+index 506d758efbf16da9467f120321d2359a8832e477..0ecda463452a3f9205dfbd97f28ae7cff5fa7698 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -21,6 +21,13 @@ import org.slf4j.Logger;
@@ -13382,34 +13379,37 @@ index 506d758efbf16da9467f120321d2359a8832e477..0587d845531376676e38d43eadb016f5
          ItemStack itemstack = this.inputSlots.getItem(0);
  
          this.cost.set(1);
-@@ -191,7 +209,7 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -191,7 +209,8 @@ public class AnvilMenu extends ItemCombinerMenu {
                              int i2 = (Integer) map1.get(enchantment);
  
                              i2 = l1 == i2 ? i2 + 1 : Math.max(i2, l1);
 -                            boolean flag3 = enchantment.canEnchant(itemstack);
-+                            boolean flag3 = canDoUnsafeEnchants || org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants || enchantment.canEnchant(itemstack); // Purpur
++                            boolean flag3 = canDoUnsafeEnchants || (org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants && org.purpurmc.purpur.PurpurConfig.allowInapplicableEnchants) || enchantment.canEnchant(itemstack); // Purpur
++                            boolean flag4 = true; // Purpur
  
                              if (this.player.getAbilities().instabuild || itemstack.is(Items.ENCHANTED_BOOK)) {
                                  flag3 = true;
-@@ -203,7 +221,7 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -203,16 +222,16 @@ public class AnvilMenu extends ItemCombinerMenu {
                                  Enchantment enchantment1 = (Enchantment) iterator1.next();
  
                                  if (enchantment1 != enchantment && !enchantment.isCompatibleWith(enchantment1)) {
 -                                    flag3 = false;
-+                                    flag3 = canDoUnsafeEnchants || org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants; // Purpur
++                                    flag4 = canDoUnsafeEnchants || (org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants && org.purpurmc.purpur.PurpurConfig.allowIncompatibleEnchants); // Purpur flag3 -> flag4
                                      ++i;
                                  }
                              }
-@@ -212,7 +230,7 @@ public class AnvilMenu extends ItemCombinerMenu {
+ 
+-                            if (!flag3) {
++                            if (!flag3 || !flag4) { // Purpur
                                  flag2 = true;
                              } else {
                                  flag1 = true;
 -                                if (i2 > enchantment.getMaxLevel()) {
-+                                if (!org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants && i2 > enchantment.getMaxLevel()) { // Purpur
++                                if ((!org.purpurmc.purpur.PurpurConfig.allowUnsafeEnchants || !org.purpurmc.purpur.PurpurConfig.allowHigherEnchantsLevels) && i2 > enchantment.getMaxLevel()) { // Purpur
                                      i2 = enchantment.getMaxLevel();
                                  }
  
-@@ -262,6 +280,17 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -262,6 +281,17 @@ public class AnvilMenu extends ItemCombinerMenu {
              } else if (!this.itemName.equals(itemstack.getHoverName().getString())) {
                  b1 = 1;
                  i += b1;
@@ -13427,7 +13427,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..0587d845531376676e38d43eadb016f5
                  itemstack1.setHoverName(Component.literal(this.itemName));
              }
  
-@@ -274,6 +303,13 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -274,6 +304,13 @@ public class AnvilMenu extends ItemCombinerMenu {
                  this.cost.set(this.maximumRepairCost - 1); // CraftBukkit
              }
  
@@ -13441,7 +13441,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..0587d845531376676e38d43eadb016f5
              if (this.cost.get() >= this.maximumRepairCost && !this.player.getAbilities().instabuild) { // CraftBukkit
                  itemstack1 = ItemStack.EMPTY;
              }
-@@ -296,11 +332,17 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -296,11 +333,17 @@ public class AnvilMenu extends ItemCombinerMenu {
              org.bukkit.craftbukkit.event.CraftEventFactory.callPrepareAnvilEvent(this.getBukkitView(), itemstack1); // CraftBukkit
              sendAllDataToRemote(); // CraftBukkit - SPIGOT-6686: Always send completed inventory to stay in sync with client
              this.broadcastChanges();
@@ -17999,10 +17999,10 @@ index 0467419fc8a06c241a46216c8f8c32abeb9fbc26..bc178d7305f38b77393b827d7b71412d
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3bed3b7d7f35833b4d2d58ffb6900c707deb7c9b
+index 0000000000000000000000000000000000000000..d44b8ce90db7c6c27f71aa841d6fb64b159b7b42
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,501 @@
+@@ -0,0 +1,515 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -18077,8 +18077,8 @@ index 0000000000000000000000000000000000000000..3bed3b7d7f35833b4d2d58ffb6900c70
 +        commands = new HashMap<>();
 +        commands.put("purpur", new PurpurCommand("purpur"));
 +
-+        version = getInt("config-version", 29);
-+        set("config-version", 29);
++        version = getInt("config-version", 30);
++        set("config-version", 30);
 +
 +        readConfig(PurpurConfig.class, null);
 +    }
@@ -18382,6 +18382,9 @@ index 0000000000000000000000000000000000000000..3bed3b7d7f35833b4d2d58ffb6900c70
 +    public static boolean allowCrossbowInfinity = false;
 +    public static boolean allowShearsLooting = false;
 +    public static boolean allowUnsafeEnchants = false;
++    public static boolean allowInapplicableEnchants = true;
++    public static boolean allowIncompatibleEnchants = true;
++    public static boolean allowHigherEnchantsLevels = true;
 +    public static boolean allowUnsafeEnchantCommand = false;
 +    public static boolean clampEnchantLevels = true;
 +    private static void enchantmentSettings() {
@@ -18390,10 +18393,21 @@ index 0000000000000000000000000000000000000000..3bed3b7d7f35833b4d2d58ffb6900c70
 +            set("settings.enchantment.allow-infinity-and-mending-together", oldValue);
 +            set("settings.enchantment.allow-infinite-and-mending-together", null);
 +        }
++        if (version < 30) {
++            boolean oldValue = getBoolean("settings.enchantment.allow-unsafe-enchants", false);
++            set("settings.enchantment.anvil.allow-unsafe-enchants", oldValue);
++            set("settings.enchantment.anvil.allow-inapplicable-enchants", true);
++            set("settings.enchantment.anvil.allow-incompatible-enchants", true);
++            set("settings.enchantment.anvil.allow-higher-enchants-levels", true);
++            set("settings.enchantment.allow-unsafe-enchants", null);
++        }
 +        allowInfinityMending = getBoolean("settings.enchantment.allow-infinity-and-mending-together", allowInfinityMending);
 +        allowCrossbowInfinity = getBoolean("settings.enchantment.allow-infinity-on-crossbow", allowCrossbowInfinity);
 +        allowShearsLooting = getBoolean("settings.enchantment.allow-looting-on-shears", allowShearsLooting);
-+        allowUnsafeEnchants = getBoolean("settings.enchantment.allow-unsafe-enchants", allowUnsafeEnchants);
++        allowUnsafeEnchants = getBoolean("settings.enchantment.anvil.allow-unsafe-enchants", allowUnsafeEnchants);
++        allowInapplicableEnchants = getBoolean("settings.enchantment.anvil.allow-inapplicable-enchants", allowInapplicableEnchants);
++        allowIncompatibleEnchants = getBoolean("settings.enchantment.anvil.allow-incompatible-enchants", allowIncompatibleEnchants);
++        allowHigherEnchantsLevels = getBoolean("settings.enchantment.anvil.allow-higher-enchants-levels", allowHigherEnchantsLevels);
 +        allowUnsafeEnchantCommand = getBoolean("settings.enchantment.allow-unsafe-enchant-command", allowUnsafeEnchants); // allowUnsafeEnchants as default for backwards compatability
 +        clampEnchantLevels = getBoolean("settings.enchantment.clamp-levels", clampEnchantLevels);
 +    }
