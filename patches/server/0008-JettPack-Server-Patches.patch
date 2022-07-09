@@ -614,6 +614,20 @@ index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1e
                  try {
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index fecd65dc87a99a5692c59dd590b20327b1eb31c2..2dfd77a08510f1d09361537a46b8a181073e345b 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -498,7 +498,9 @@ public abstract class PlayerList {
+         // Paper end
+         org.purpurmc.purpur.task.BossBarTask.addToAll(player); // Purpur
+         // CraftBukkit - Moved from above, added world
++        // Prismarine start - JettPack patches (configurable logging of player login location)
+         PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
++        // Prismarine end
+     }
+ 
+     public void updateEntireScoreboard(ServerScoreboard scoreboard, ServerPlayer player) {
 diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d553dc29d9a 100644
 --- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
@@ -789,19 +803,35 @@ index 2bb24bf628a37c79e337f1cba99b816465ecb723..f5a877126db1b772f44136ffc2a9740b
                  nbttagcompound = NbtIo.readCompressed(file);
              }
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index badc80b509fb8985251f574dc5e16e9cb5165ec1..58a6a66bf8039a5b3777e18a4c6fdac09d39617e 100644
+index 696a0a6869fbe98667458cad874443c6d8d85631..24b3aef7c621ec6f5e225f3be1717083435706cb 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -208,4 +208,11 @@ public class PrismarineConfig {
-     private static void disableBootstrapExecutor() {
-         disableBootstrapExecutor = getBoolean("settings.patina-settings.disable-bootstrap-executor", disableBootstrapExecutor);
+@@ -212,4 +212,27 @@ public class PrismarineConfig {
+             set("settings.patina-settings.disable-bootstrap-executor", null);
+         }
      }
 +
 +    public static boolean useJettPackAsyncExecutor = true;
-+    public static boolean useYatopiaAsyncNBTCache = false;
 +    private static void JettPackPatches() {
-+        useJettPackAsyncExecutor = getBoolean("settings.jettpack-patches.use-jettpack-async-executor", useJettPackAsyncExecutor);
-+        useYatopiaAsyncNBTCache = getBoolean("settings.jettpack-patches.use-yatopia-async-nbt-cache", useYatopiaAsyncNBTCache);
++        useJettPackAsyncExecutor = getBoolean("settings.use-jettpack-async-executor", useJettPackAsyncExecutor);
++        if (version < 3) {
++            set("settings.use-jettpack-async-executor", getBoolean("settings.jettpack-patches.use-jettpack-async-executor", true));
++            set("settings.jettpack-patches.use-jettpack-async-executor", null);
++        }
++    }
++
++    public static boolean useYatopiaAsyncNBTCache = false;
++    private static void useYatopiaAsyncNBTCache() {
++        useYatopiaAsyncNBTCache = getBoolean("settings.use-yatopia-async-nbt-cache", useYatopiaAsyncNBTCache);
++        if (version < 3) {
++            set("settings.use-yatopia-async-nbt-cache", getBoolean("settings.jettpack-patches.use-yatopia-async-nbt-cache", false));
++            set("settings.jettpack-patches.use-yatopia-async-nbt-cache", null);
++        }
++    }
++
++    public static boolean logPlayerLoginLocation = true;
++    private static void logPlayerLoginLocation() {
++        logPlayerLoginLocation = getBoolean("settings.log-player-login-location", logPlayerLoginLocation);
 +    }
  }
 \ No newline at end of file

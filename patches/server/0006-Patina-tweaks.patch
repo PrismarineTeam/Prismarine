@@ -46,17 +46,32 @@ index 29e2bc3fa3091df3c2fa908a2632c3b592c4a872..7059022702b26b7c7198336d060eaec7
          }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index e543014d55a5e96a74b4278680003c703248fe73..badc80b509fb8985251f574dc5e16e9cb5165ec1 100644
+index e543014d55a5e96a74b4278680003c703248fe73..696a0a6869fbe98667458cad874443c6d8d85631 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -203,4 +203,9 @@ public class PrismarineConfig {
+@@ -50,8 +50,8 @@ public class PrismarineConfig {
+         commands = new HashMap<>();
+         commands.put("prismarine", new PrismarineCommand("prismarine"));
+ 
+-        version = getInt("config-version", 2);
+-        set("config-version", 2);
++        version = getInt("config-version", 3);
++        set("config-version", 3);
+ 
+         readConfig(PrismarineConfig.class, null);
+     }
+@@ -203,4 +203,13 @@ public class PrismarineConfig {
          enableMaxVillagerTradeLimit = getBoolean("settings.max-villager-trade-limit.enabled", enableMaxVillagerTradeLimit);
          maxVillagerTradeLimit = getInt("settings.max-villager-trade-limit.limit", maxVillagerTradeLimit);
      }
 +
 +    public static boolean disableBootstrapExecutor = false;
 +    private static void disableBootstrapExecutor() {
-+        disableBootstrapExecutor = getBoolean("settings.patina-settings.disable-bootstrap-executor", disableBootstrapExecutor);
++        disableBootstrapExecutor = getBoolean("settings.disable-bootstrap-executor", disableBootstrapExecutor);
++        if (version < 3) {
++            set("settings.disable-bootstrap-executor", getBoolean("settings.patina-settings.disable-bootstrap-executor", false));
++            set("settings.patina-settings.disable-bootstrap-executor", null);
++        }
 +    }
  }
 \ No newline at end of file

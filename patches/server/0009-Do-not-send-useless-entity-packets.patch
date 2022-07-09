@@ -63,12 +63,12 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..b5fc0315a43d17857845e0d0e91d3f4a
          this.entity.stopSeenByPlayer(player);
          player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 58a6a66bf8039a5b3777e18a4c6fdac09d39617e..7c9ac6144d058186b539cc867c91892e4a080ae5 100644
+index 24b3aef7c621ec6f5e225f3be1717083435706cb..e502374e3a7eb0d0e319601448625d41709be0b5 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -215,4 +215,9 @@ public class PrismarineConfig {
-         useJettPackAsyncExecutor = getBoolean("settings.jettpack-patches.use-jettpack-async-executor", useJettPackAsyncExecutor);
-         useYatopiaAsyncNBTCache = getBoolean("settings.jettpack-patches.use-yatopia-async-nbt-cache", useYatopiaAsyncNBTCache);
+@@ -235,4 +235,9 @@ public class PrismarineConfig {
+     private static void logPlayerLoginLocation() {
+         logPlayerLoginLocation = getBoolean("settings.log-player-login-location", logPlayerLoginLocation);
      }
 +    
 +    public static boolean doNotSendUselessEntityPackets = true;

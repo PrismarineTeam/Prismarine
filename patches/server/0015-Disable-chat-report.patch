@@ -43,7 +43,7 @@ index a43ad076dc8341b9f5e45b34134326cccc5ac13c..3092fcf5fa8283b4b7c6e4f8bd9b9c8f
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 11dcc0e524320f8329985ea6c3ebdf27b603f626..c473ea693c2fb8ad550343371b0a82823eda7dc4 100644
+index 0582f7f75b7769600bcdc5b30bcc2cc8d0e2d326..b329555f85c02da3ed4845cc33c2ee4a2a57d177 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -47,80 +47,10 @@ import net.minecraft.nbt.CompoundTag;
@@ -182,12 +182,12 @@ index cb538ff4b5e8da7914361d012060fedf1d22acf2..db33603ebf0b8b68fd1845e0e658f729
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 2e9d6289b3249d7c85afd72a599fc70080d148f6..835b757ff2ba14f04f93394bbf71c8fcfdb1d238 100644
+index 587d3ce2dc7e880aaa536683a377e01809c43bdd..fbb35eaad141a52f70e7901cf3580aa49379fe78 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -230,4 +230,11 @@ public class PrismarineConfig {
-     private static void bugFixes() {
-         preventHealingByNegative = getBoolean("settings.pull-requests.paper.prevent-healing-by-negative-amounts", preventHealingByNegative);
+@@ -254,4 +254,11 @@ public class PrismarineConfig {
+             set("settings.pull-requests.paper.prevent-healing-by-negative-amounts", null);
+         }
      }
 +
 +    public static boolean disableChatReport = false;

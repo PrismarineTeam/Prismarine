@@ -60,10 +60,10 @@ index 0c48e877a0dba9fba3295d1740527fa418b5e26c..89d02602cd30637f7395abc775bb0599
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index fecd65dc87a99a5692c59dd590b20327b1eb31c2..2a3444e72c0118e5d2278a83db5136e308d2fa0c 100644
+index 2dfd77a08510f1d09361537a46b8a181073e345b..aea9fcc03e7f7f87c8062a837ec69952c073b7bc 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -603,7 +603,7 @@ public abstract class PlayerList {
+@@ -605,7 +605,7 @@ public abstract class PlayerList {
  
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer) { // Paper - return Component
          // Paper start
@@ -150,17 +150,21 @@ index deffa277272c34adb39d7c3e69e91502780a090e..66c65df229acc4041ed2027df07d4ab0
          if (spawnDelay > 0 && --tickDelay > 0) return;
          tickDelay = world.paperConfig().tickRates.mobSpawner;
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 4e4ddeb7c681159a48084210d0b67524ba78b730..2e9d6289b3249d7c85afd72a599fc70080d148f6 100644
+index 5c163f09ce18c3310f82f8f6d9bc2c34104b622f..587d3ce2dc7e880aaa536683a377e01809c43bdd 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -225,4 +225,9 @@ public class PrismarineConfig {
+@@ -245,4 +245,13 @@ public class PrismarineConfig {
      private static void useAirplaneCollisionContext() {
          useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
      }
 +
 +    public static boolean preventHealingByNegative = true;
-+    private static void bugFixes() {
-+        preventHealingByNegative = getBoolean("settings.pull-requests.paper.prevent-healing-by-negative-amounts", preventHealingByNegative);
++    private static void preventHealingByNegative() {
++        preventHealingByNegative = getBoolean("settings.prevent-healing-by-negative-amounts", preventHealingByNegative);
++        if (version < 3) {
++            set("settings.prevent-healing-by-negative-amounts", getBoolean("settings.pull-requests.paper.prevent-healing-by-negative-amounts", true));
++            set("settings.pull-requests.paper.prevent-healing-by-negative-amounts", null);
++        }
 +    }
  }
 \ No newline at end of file
