@@ -26,6 +26,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0008
 0009
 0011
+0012
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -615,15 +616,20 @@ index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1e
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index fecd65dc87a99a5692c59dd590b20327b1eb31c2..2dfd77a08510f1d09361537a46b8a181073e345b 100644
+index fecd65dc87a99a5692c59dd590b20327b1eb31c2..6999fa23c166ad2bd98ef435d36c7b6e678976bd 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -498,7 +498,9 @@ public abstract class PlayerList {
+@@ -498,7 +498,13 @@ public abstract class PlayerList {
          // Paper end
          org.purpurmc.purpur.task.BossBarTask.addToAll(player); // Purpur
          // CraftBukkit - Moved from above, added world
+-        PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
 +        // Prismarine start - JettPack patches (configurable logging of player login location)
-         PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
++        if (net.prismarineteam.prismarine.PrismarineConfig.logPlayerLoginLocation) {
++            PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
++        } else {
++            PlayerList.LOGGER.info("{}[{}] logged in with entity id {}", player.getName().getString(), s1, player.getId());
++        }
 +        // Prismarine end
      }
  
