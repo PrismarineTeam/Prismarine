@@ -43,7 +43,7 @@ index a43ad076dc8341b9f5e45b34134326cccc5ac13c..3092fcf5fa8283b4b7c6e4f8bd9b9c8f
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 0582f7f75b7769600bcdc5b30bcc2cc8d0e2d326..b329555f85c02da3ed4845cc33c2ee4a2a57d177 100644
+index 5a08543dd2e5baf48ebed99d187b953e9fd066f0..423ca21b8b1b468b87b53115d63e432181daadec 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -47,80 +47,10 @@ import net.minecraft.nbt.CompoundTag;
@@ -129,7 +129,7 @@ index 0582f7f75b7769600bcdc5b30bcc2cc8d0e2d326..b329555f85c02da3ed4845cc33c2ee4a
  import net.minecraft.resources.ResourceKey;
  import net.minecraft.resources.ResourceLocation;
  import net.minecraft.server.MinecraftServer;
-@@ -2130,6 +2060,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2131,6 +2061,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
          }
      }
  
@@ -144,7 +144,7 @@ index 0582f7f75b7769600bcdc5b30bcc2cc8d0e2d326..b329555f85c02da3ed4845cc33c2ee4a
      @Override
      public void send(Packet<?> packet) {
          this.send(packet, (GenericFutureListener) null);
-@@ -2144,6 +2082,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2145,6 +2083,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              this.player.compassTarget = new Location(this.getCraftPlayer().getWorld(), packet6.pos.getX(), packet6.pos.getY(), packet6.pos.getZ());
          }
          // CraftBukkit end
@@ -157,7 +157,7 @@ index 0582f7f75b7769600bcdc5b30bcc2cc8d0e2d326..b329555f85c02da3ed4845cc33c2ee4a
  
          try {
              this.connection.send(packet, listener);
-@@ -2151,8 +2095,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2152,8 +2096,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Sending packet");
              CrashReportCategory crashreportsystemdetails = crashreport.addCategory("Packet being sent");
  

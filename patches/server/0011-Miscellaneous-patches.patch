@@ -208,3 +208,4 @@ index 3eee2ebaee415cde427eb72f61a3c67ed5cc0e30..97115c2c5fdbea7f73b2eb81093dfae6
 +            throw new IllegalArgumentException("Payload may not be larger than " + MAX_PAYLOAD_SIZE + " bytes"); // Prismarine - Fix MC-185901
          }
      }
+ 
