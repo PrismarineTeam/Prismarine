@@ -147,15 +147,64 @@ index e877921370f6009a4bd204d9b17d2d58834b8822..00000000000000000000000000000000
 -	}
 -}
 \ No newline at end of file
-diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 3ba2d25ce6e4b28f32fc715ba061e8caa81dec89..11dcc0e524320f8329985ea6c3ebdf27b603f626 100644
---- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-+++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -159,7 +159,6 @@ import net.minecraft.world.level.block.entity.CommandBlockEntity;
- import net.minecraft.world.level.block.entity.JigsawBlockEntity;
- import net.minecraft.world.level.block.entity.SignBlockEntity;
- import net.minecraft.world.level.block.entity.StructureBlockEntity;
--import net.minecraft.world.level.block.state.BlockBehaviour;
- import net.minecraft.world.level.block.state.BlockState;
- import net.minecraft.world.phys.AABB;
- import net.minecraft.world.phys.BlockHitResult;
+diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+index 835403ce42df05092685ef38a4546e409f8a1eab..cfac96faf51a3cfe2163a06e4a8700668d247b8b 100644
+--- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
++++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+@@ -539,7 +539,7 @@ public class FriendlyByteBuf extends ByteBuf {
+ 
+     @Nullable
+     public CompoundTag readNbt() {
+-        return this.readNbt(new NbtAccounter(2097152L));
++        return this.readNbt(new NbtAccounter(2_000_000_000L)); // Prismarine - Fix MC-185901
+     }
+ 
+     @Nullable
+diff --git a/src/main/java/net/minecraft/network/PacketEncoder.java b/src/main/java/net/minecraft/network/PacketEncoder.java
+index 5fce1177e7198d791d4ab1c64b394c5b1c145782..398efde704d0e74464ae2d390e6ddb48820f839d 100644
+--- a/src/main/java/net/minecraft/network/PacketEncoder.java
++++ b/src/main/java/net/minecraft/network/PacketEncoder.java
+@@ -66,7 +66,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
+     }
+ 
+     // Paper start
+-    private static int MAX_PACKET_SIZE = 2097152;
++    private static int MAX_PACKET_SIZE = 2000000000; // Prismarine - Fix MC-185901
+ 
+     public static class PacketTooLargeException extends RuntimeException {
+         private final Packet<?> packet;
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundCustomPayloadPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundCustomPayloadPacket.java
+index 3eee2ebaee415cde427eb72f61a3c67ed5cc0e30..97115c2c5fdbea7f73b2eb81093dfae61d84dcde 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ClientboundCustomPayloadPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundCustomPayloadPacket.java
+@@ -5,7 +5,7 @@ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.resources.ResourceLocation;
+ 
+ public class ClientboundCustomPayloadPacket implements Packet<ClientGamePacketListener> {
+-    private static final int MAX_PAYLOAD_SIZE = 1048576;
++    private static final int MAX_PAYLOAD_SIZE = 2000000000; // Prismarine - Fix MC-185901
+     public static final ResourceLocation BRAND = new ResourceLocation("brand");
+     public static final ResourceLocation DEBUG_PATHFINDING_PACKET = new ResourceLocation("debug/path");
+     public static final ResourceLocation DEBUG_NEIGHBORSUPDATE_PACKET = new ResourceLocation("debug/neighbors_update");
+@@ -30,18 +30,18 @@ public class ClientboundCustomPayloadPacket implements Packet<ClientGamePacketLi
+     public ClientboundCustomPayloadPacket(ResourceLocation channel, FriendlyByteBuf data) {
+         this.identifier = channel;
+         this.data = data;
+-        if (data.writerIndex() > 1048576) {
+-            throw new IllegalArgumentException("Payload may not be larger than 1048576 bytes");
++        if (data.writerIndex() > MAX_PAYLOAD_SIZE) { // Prismarine - Fix MC-185901
++            throw new IllegalArgumentException("Payload may not be larger than " + MAX_PAYLOAD_SIZE + " bytes"); // Prismarine - Fix MC-185901
+         }
+     }
+ 
+     public ClientboundCustomPayloadPacket(FriendlyByteBuf buf) {
+         this.identifier = buf.readResourceLocation();
+         int i = buf.readableBytes();
+-        if (i >= 0 && i <= 1048576) {
++        if (i >= 0 && i <= MAX_PAYLOAD_SIZE) { // Prismarine - Fix MC-185901
+             this.data = new FriendlyByteBuf(buf.readBytes(i));
+         } else {
+-            throw new IllegalArgumentException("Payload may not be larger than 1048576 bytes");
++            throw new IllegalArgumentException("Payload may not be larger than " + MAX_PAYLOAD_SIZE + " bytes"); // Prismarine - Fix MC-185901
+         }
+     }

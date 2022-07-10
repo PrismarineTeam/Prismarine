@@ -819,6 +819,128 @@ index 9621d276beef534c487aa9fc476136c2586b6c16..9624ff770308e3d9dc0525896ee3797a
      private boolean tickingBlockEntities;
      public final Thread thread;
      private final boolean isDebug;
+diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
+index c45d394ed568122ad21a955c335b2744844a00de..31da3873bec0b75226baa53f3ee8c86cca4744d4 100644
+--- a/src/main/java/net/minecraft/world/level/block/Block.java
++++ b/src/main/java/net/minecraft/world/level/block/Block.java
+@@ -669,11 +669,13 @@ public class Block extends BlockBehaviour implements ItemLike {
+         private final BlockState first;
+         private final BlockState second;
+         private final Direction direction;
++        private int hash; // Prismarine - JettPack patches (lithium: cached_hashcode)
+ 
+         public BlockStatePairKey(BlockState self, BlockState other, Direction facing) {
+             this.first = self;
+             this.second = other;
+             this.direction = facing;
++            this.hash = 31 * (31 * this.first.hashCode() + this.second.hashCode()) + this.direction.hashCode(); // Prismarine - JettPack patches (lithium: cached_hashcode)
+         }
+ 
+         public boolean equals(Object object) {
+@@ -689,11 +691,7 @@ public class Block extends BlockBehaviour implements ItemLike {
+         }
+ 
+         public int hashCode() {
+-            int i = this.first.hashCode();
+-
+-            i = 31 * i + this.second.hashCode();
+-            i = 31 * i + this.direction.hashCode();
+-            return i;
++            return this.hash; // Prismarine - JettPack patches (lithium: cached_hashcode)
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
+index f54ca6383298848b2ee7108c41fcea593f924881..75f9acc9e7878b8db049fdbbee869b3f83a0fe82 100644
+--- a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
++++ b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
+@@ -33,33 +33,65 @@ public class EntitySectionStorage<T extends EntityAccess> {
+     }
+ 
+     public void forEachAccessibleNonEmptySection(AABB box, Consumer<EntitySection<T>> action) {
+-        int i = 2;
+-        int j = SectionPos.posToSectionCoord(box.minX - 2.0D);
+-        int k = SectionPos.posToSectionCoord(box.minY - 4.0D);
+-        int l = SectionPos.posToSectionCoord(box.minZ - 2.0D);
+-        int m = SectionPos.posToSectionCoord(box.maxX + 2.0D);
+-        int n = SectionPos.posToSectionCoord(box.maxY + 0.0D);
+-        int o = SectionPos.posToSectionCoord(box.maxZ + 2.0D);
+-
+-        for(int p = j; p <= m; ++p) {
+-            long q = SectionPos.asLong(p, 0, 0);
+-            long r = SectionPos.asLong(p, -1, -1);
+-            LongIterator longIterator = this.sectionIds.subSet(q, r + 1L).iterator();
+-
+-            while(longIterator.hasNext()) {
+-                long s = longIterator.nextLong();
+-                int t = SectionPos.y(s);
+-                int u = SectionPos.z(s);
+-                if (t >= k && t <= n && u >= l && u <= o) {
+-                    EntitySection<T> entitySection = this.sections.get(s);
+-                    if (entitySection != null && !entitySection.isEmpty() && entitySection.getStatus().isAccessible()) {
+-                        action.accept(entitySection);
++    // Prismarine start - JettPack patches (lithium: entity.fast_retrieval)
++        int minX = SectionPos.posToSectionCoord(box.minX - 2.0D);
++        int minY = SectionPos.posToSectionCoord(box.minY - 2.0D);
++        int minZ = SectionPos.posToSectionCoord(box.minZ - 2.0D);
++        int maxX = SectionPos.posToSectionCoord(box.maxX + 2.0D);
++        int maxY = SectionPos.posToSectionCoord(box.maxY + 2.0D);
++        int maxZ = SectionPos.posToSectionCoord(box.maxZ + 2.0D);
++
++        if (maxX >= minX + 4 || maxZ >= minZ + 4) {
++            // [VanillaCopy]
++            for(int o = minX; o <= maxX; ++o) {
++                long p = SectionPos.asLong(o, 0, 0);
++                long q = SectionPos.asLong(o, -1, -1);
++                LongIterator longIterator = this.sectionIds.subSet(p, q + 1L).iterator();
++
++                while(longIterator.hasNext()) {
++                    long r = longIterator.nextLong();
++                    int s = SectionPos.y(r);
++                    int t = SectionPos.z(r);
++                    if (s >= minY && s <= maxY && t >= minZ && t <= maxZ) {
++                        EntitySection<T> entitySection = this.sections.get(r);
++                        if (entitySection != null && !entitySection.isEmpty() && entitySection.getStatus().isAccessible()) {
++                            action.accept(entitySection);
++                        }
+                     }
+                 }
+             }
++        } else {
++            for (int x = minX; x <= maxX; x++) {
++                for (int z = Math.max(minZ, 0); z <= maxZ; z++) {
++                    this.forEachInColumn(x, minY, maxY, z, action);
++                }
++
++                int bound = Math.min(-1, maxZ);
++                for (int z = minZ; z <= bound; z++) {
++                    this.forEachInColumn(x, minY, maxY, z, action);
++                }
++            }
+         }
++    }
+ 
++    private void forEachInColumn(int x, int minY, int maxY, int z, Consumer<EntitySection<T>> action) {
++        //y from negative to positive, but y is treated as unsigned
++        for (int y = Math.max(minY, 0); y <= maxY; y++) {
++            this.consumeSection(SectionPos.asLong(x, y, z), action);
++        }
++        int bound = Math.min(-1, maxY);
++        for (int y = minY; y <= bound; y++) {
++            this.consumeSection(SectionPos.asLong(x, y, z), action);
++        }
++    }
++
++    private void consumeSection(long pos, Consumer<EntitySection<T>> action) {
++        EntitySection<T> section = this.getSection(pos);
++        if (section != null && 0 != section.size() && section.getStatus().isAccessible()) {
++            action.accept(section);
++        }
+     }
++    // Prismarine end
+ 
+     public LongStream getExistingSectionPositionsInChunk(long chunkPos) {
+         int i = ChunkPos.getX(chunkPos);
 diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
 index 2bb24bf628a37c79e337f1cba99b816465ecb723..f5a877126db1b772f44136ffc2a9740b57ef6d88 100644
 --- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java

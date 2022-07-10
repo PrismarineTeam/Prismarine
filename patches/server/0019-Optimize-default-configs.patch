@@ -1,0 +1,98 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 10 Jul 2022 18:59:37 +0900
+Subject: [PATCH] Optimize default configs
+
+
+diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+index 32f0cd29d1198fe320d10ccfe0b02f8632ac12aa..151d2905d25e4588aad2d270c7d933b872e9b22d 100644
+--- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
++++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+@@ -310,7 +310,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Environment extends ConfigurationPart {
+         public boolean disableThunder = false;
+         public boolean disableIceAndSnow = false;
+-        public boolean optimizeExplosions = false;
++        public boolean optimizeExplosions = true; // Prismarine - Optimize config
+         public boolean disableExplosionKnockback = false;
+         public boolean generateFlatBedrock = false;
+         public FrostedIce frostedIce;
+@@ -389,7 +389,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Collisions extends ConfigurationPart {
+         public boolean onlyPlayersCollide = false;
+         public boolean allowVehicleCollisions = true;
+-        public boolean fixClimbingBypassingCrammingRule = false;
++        public boolean fixClimbingBypassingCrammingRule = true; // Prismarine - Optimize config
+         @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
+         public int maxEntityCollisions = 8;
+         public boolean allowPlayerCrammingDamage = false;
+@@ -401,7 +401,7 @@ public class WorldConfiguration extends ConfigurationPart {
+         public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
+         public int maxAutoSaveChunksPerTick = 24;
+         public int fixedChunkInhabitedTime = -1;
+-        public boolean preventMovingIntoUnloadedChunks = false;
++        public boolean preventMovingIntoUnloadedChunks = true; // Prismarine - Optimize config
+         public Duration delayChunkUnloadsBy = Duration.of("10s");
+         public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(Registry.ENTITY_TYPE.size()), map -> {
+             map.defaultReturnValue(-1);
+@@ -452,7 +452,7 @@ public class WorldConfiguration extends ConfigurationPart {
+         public int lightQueueSize = 20;
+         public boolean updatePathfindingOnBlockUpdate = true;
+         public boolean showSignClickCommandFailureMsgsToPlayer = false;
+-        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.VANILLA;
++        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.ALTERNATE_CURRENT; // Prismarine - Optimize config
+         public boolean disableEndCredits = false;
+         public float maxLeashDistance = 10f;
+         public boolean disableSprintInterruptionOnAttack = false;
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+index d80894a0ed1022e9abec6b0bad50e6ff0a33157a..9eb14a5b3b126478c3a59e6c6f4ca0d62ac7197f 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
+@@ -121,16 +121,16 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+         this.allowNether = this.get("allow-nether", true);
+         this.spawnMonsters = this.get("spawn-monsters", true);
+         this.useNativeTransport = this.get("use-native-transport", true);
+-        this.enableCommandBlock = this.get("enable-command-block", false);
+-        this.spawnProtection = this.get("spawn-protection", 16);
++        this.enableCommandBlock = this.get("enable-command-block", true); // Prismarine - Optimize config
++        this.spawnProtection = this.get("spawn-protection", 0); // Prismarine - Optimize config
+         this.opPermissionLevel = this.get("op-permission-level", 4);
+         this.functionPermissionLevel = this.get("function-permission-level", 2);
+         this.maxTickTime = this.get("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
+         this.maxChainedNeighborUpdates = this.get("max-chained-neighbor-updates", 1000000);
+         this.rateLimitPacketsPerSecond = this.get("rate-limit", 0);
+-        this.viewDistance = this.get("view-distance", 10);
+-        this.simulationDistance = this.get("simulation-distance", 10);
+-        this.maxPlayers = this.get("max-players", 20);
++        this.viewDistance = this.get("view-distance", 7); // Prismarine - Optimize config
++        this.simulationDistance = this.get("simulation-distance", 4); // Prismarine - Optimize config
++        this.maxPlayers = this.get("max-players", Integer.MAX_VALUE); // Prismarine - Optimize config
+         this.networkCompressionThreshold = this.get("network-compression-threshold", 256);
+         this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
+         this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index fe49723b5fec298d7a10a1f69211933974edf3e9..942b6c2effeeaf3ca860b029ec5452d51a4acd27 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -245,7 +245,7 @@ public class PurpurConfig {
+         laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
+     }
+ 
+-    public static boolean useAlternateKeepAlive = false;
++    public static boolean useAlternateKeepAlive = true; // Prismarine - Optimize config
+     private static void useAlternateKeepAlive() {
+         useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
+     }
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+index fad04b8c56d6183bc72f78915847e56c77228106..8ecaa8604599f44330e701a06cca6ea8c20068f7 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+@@ -405,7 +405,7 @@ public class PurpurWorldConfig {
+     public boolean playerInvulnerableWhileAcceptingResourcePack = false;
+     public String playerDeathExpDropEquation = "expLevel * 7";
+     public int playerDeathExpDropMax = 100;
+-    public boolean teleportIfOutsideBorder = false;
++    public boolean teleportIfOutsideBorder = true; // Prismarine - Optimize config
+     public boolean totemOfUndyingWorksInInventory = false;
+     public boolean playerFixStuckPortal = false;
+     public boolean creativeOnePunch = false;

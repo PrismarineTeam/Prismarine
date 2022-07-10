@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 10 Jul 2022 18:30:56 +0900
+Subject: [PATCH] Try to remove erroring entity
+
+Original by The Fireplace - Erroring Entity Remover
+
+Copyright (c) The_Fireplace
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index 9624ff770308e3d9dc0525896ee3797ae0c2b29b..330c26bec753e7c0716e4a7e9c1fcd686e5cee6c 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -1051,13 +1051,22 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+             tickConsumer.accept(entity);
+             MinecraftServer.getServer().executeMidTickTasks(); // Paper - execute chunk tasks mid tick
+         } catch (Throwable throwable) { // Pufferfish - diff on change ServerLevel.tick
+-            if (throwable instanceof ThreadDeath) throw throwable; // Paper
+-            // Paper start - Prevent tile entity and entity crashes
+-            final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level.getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
+-            MinecraftServer.LOGGER.error(msg, throwable);
+-            getCraftServer().getPluginManager().callEvent(new ServerExceptionEvent(new ServerInternalException(msg, throwable)));
+-            entity.discard(); // Pufferfish - diff on change ServerLevel.tick
+-            // Paper end
++            // Prismarine start - Try to remove erroring entity
++            try {
++                MinecraftServer.LOGGER.warn("Trying to remove erroring entity of type {} at {} :", Registry.ENTITY_TYPE.getKey(entity.getType()).toString(), entity.position().toString());
++                MinecraftServer.LOGGER.warn(entity.saveWithoutId(new CompoundTag()).toString());
++                entity.remove(Entity.RemovalReason.DISCARDED);
++                MinecraftServer.LOGGER.warn("Erroring Entity Stacktrace:", throwable);
++            } catch (Exception e) {
++                if (throwable instanceof ThreadDeath) throw throwable; // Paper
++                // Paper start - Prevent tile entity and entity crashes
++                final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level.getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
++                MinecraftServer.LOGGER.error(msg, throwable);
++                getCraftServer().getPluginManager().callEvent(new ServerExceptionEvent(new ServerInternalException(msg, throwable)));
++                entity.discard(); // Pufferfish - diff on change ServerLevel.tick
++                // Paper end
++            }
++            // Prismarine end
+         }
+     }
+     // Paper start - Prevent armor stands from doing entity lookups

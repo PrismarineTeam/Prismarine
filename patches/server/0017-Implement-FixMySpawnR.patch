@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 10 Jul 2022 18:24:19 +0900
+Subject: [PATCH] Implement FixMySpawnR
+
+Original by AbsolemJackdaw - FixMySpawnR
+
+CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
+LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN
+ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
+INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
+REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS
+PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM
+THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
+HEREUNDER.
+
+diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+index 66c65df229acc4041ed2027df07d4ab0dd8e7454..d26666d67292f4b5d22b4d4ee0275f557108e85e 100644
+--- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
++++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+@@ -43,6 +43,8 @@ public abstract class BaseSpawner {
+     public int requiredPlayerRange = 16;
+     public int spawnRange = 4;
+     private int tickDelay = 0; // Paper
++    private int blockExistsTick = 0; // Prismarine
++    private boolean blockLockedByTime = false; // Prismarine
+ 
+     public BaseSpawner() {}
+ 
+@@ -78,6 +80,16 @@ public abstract class BaseSpawner {
+     }
+ 
+     public void serverTick(ServerLevel world, BlockPos pos) {
++        // Prismarine start
++        if (!blockLockedByTime) {
++            if (blockExistsTick > world.prismarineConfig.timerTimeOut) {
++                blockLockedByTime = true;
++            } else {
++                blockExistsTick++;
++            }
++        }
++        if (blockLockedByTime && world.getBestNeighborSignal(pos) > 0) return;
++        // Prismarine end
+         if (spawnCount <= 0 || maxNearbyEntities <= 0) return; // Paper - Ignore impossible spawn tick // Prismarine - Paper PR
+         // Paper start - Configurable mob spawner tick rate
+         if (spawnDelay > 0 && --tickDelay > 0) return;
+@@ -301,6 +313,11 @@ public abstract class BaseSpawner {
+             this.spawnRange = nbt.getShort("SpawnRange");
+         }
+ 
++        if (nbt.contains("fixMySpawnerLocked")) {
++            this.blockLockedByTime = nbt.getBoolean("fixMySpawnerLocked");
++            this.blockExistsTick = nbt.getInt("fixMySpawnRTicks");
++        }
++
+         this.displayEntity = null;
+     }
+ 
+@@ -327,6 +344,8 @@ public abstract class BaseSpawner {
+             return new IllegalStateException("Invalid SpawnData");
+         }));
+         nbt.put("SpawnPotentials", (Tag) SpawnData.LIST_CODEC.encodeStart(NbtOps.INSTANCE, this.spawnPotentials).result().orElseThrow());
++        nbt.putBoolean("fixMySpawnerLocked", blockLockedByTime); // Prismarine
++        nbt.putInt("fixMySpawnRTicks", blockExistsTick); // Prismarine
+         return nbt;
+     }
+ 
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..4b64cc51772012344a091e95751a92a288383e61 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -129,4 +129,9 @@ public class PrismarineWorldConfig {
+     private void fishingRodLength() {
+         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
+     }
++
++    public int timerTimeOut = 0;
++    private void timerTimeOut() {
++        timerTimeOut = getInt("timer-time-out", timerTimeOut);
++    }
+ }
+\ No newline at end of file
