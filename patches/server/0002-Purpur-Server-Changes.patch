@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 12 Jul 2022 16:37:44 +0000
+Date: Tue, 12 Jul 2022 17:47:06 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -13195,7 +13195,7 @@ index 3f31a3c17ecca6e93b794478129b95ecff4e1a9c..8c6e5e98dd5f425bd9322c01bba06c90
                  Vec3 vec3d5 = this.getDeltaMovement();
                  double d21 = vec3d5.x;
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-index eb753323f67badb1bed28405c07b03078e322b44..a933a135e40097f88c22342159a13a4f500f0a8f 100644
+index 29da8a42406feccf7932097b07b1d32a38fa96b7..ed260c5f8cdf9027ad95c81cb84bb91879647836 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 @@ -220,7 +220,13 @@ public class Boat extends Entity {

@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 12 Jul 2022 16:37:44 +0000
+Date: Tue, 12 Jul 2022 17:47:06 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -236,10 +236,10 @@ index f6eb30f53dad684f156102cf7147b2f00c82c71e..f1239a2618b08fa92e0e20692d1c3d20
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 2d39ecea67cd033858eaa713e405260a87c718a3..b20b3d54342a8c81d1ff4062028c7b7d2eec4fe5 100644
+index 1d6baee05643607baa40a07022576906ea61a92f..5da8af8e11dfa741aea4c167c4cb5e63dbdf5e70 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -10219,4 +10219,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
+@@ -10221,4 +10221,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
          return Bukkit.getUnsafe().getCreativeCategory(this);
      }
  
