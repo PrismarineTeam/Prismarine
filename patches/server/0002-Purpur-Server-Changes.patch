@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 12 Jul 2022 17:47:06 +0000
+Date: Tue, 12 Jul 2022 18:34:25 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -2348,7 +2348,7 @@ index 2faf634994f355ef1bf07fc70f1a0f4451db5fcc..aa34db072f496e53abef7541156ddf8d
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index beab9f74ba3c3ef294485ee74daf165475d29566..3d4d3ec099a37458d43a0500724eec7594097a41 100644
+index beab9f74ba3c3ef294485ee74daf165475d29566..d0cfea27a287b91747585053d1ffb3f203196fd7 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -2377,6 +2377,15 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..3d4d3ec099a37458d43a0500724eec75
      private float eyeHeight;
      public boolean isInPowderSnow;
      public boolean wasInPowderSnow;
+@@ -575,7 +576,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         this.bb = Entity.INITIAL_AABB;
+         this.stuckSpeedMultiplier = Vec3.ZERO;
+         this.nextStep = 1.0F;
+-        this.random = SHARED_RANDOM; // Paper
++        this.random = world.purpurConfig.entitySharedRandom ? SHARED_RANDOM : RandomSource.create(); // Paper // Purpur
+         this.remainingFireTicks = -this.getFireImmuneTicks();
+         this.fluidHeight = new Object2DoubleArrayMap(2);
+         this.fluidOnEyes = new HashSet();
 @@ -890,7 +891,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkOutOfWorld() {
@@ -6367,10 +6376,15 @@ index 35e53663e4a6c4d56ec4577d08e7b040cc0c720f..00d86c57fabbb464a156dfaceadccd97
              this.forceDrops = false; // CraftBukkit
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Squid.java b/src/main/java/net/minecraft/world/entity/animal/Squid.java
-index a51424d29ac353cf1bec4d1484db0acb63bebba5..21f5304e01e0844f1bbf3e1b2f9d50c01f8bf8fd 100644
+index a51424d29ac353cf1bec4d1484db0acb63bebba5..8afdb5d4fecbb45bad2ed801fc0e526d15ef07c5 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Squid.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Squid.java
-@@ -50,9 +50,67 @@ public class Squid extends WaterAnimal {
+@@ -46,13 +46,71 @@ public class Squid extends WaterAnimal {
+ 
+     public Squid(EntityType<? extends Squid> type, Level world) {
+         super(type, world);
+-        //this.random.setSeed((long) this.getId()); // Paper - we set the random to shared, do not clobber the seed
++        if (!world.purpurConfig.entitySharedRandom) this.random.setSeed((long) this.getId()); // Paper - we set the random to shared, do not clobber the seed // Purpur
          this.tentacleSpeed = 1.0F / (this.random.nextFloat() + 1.0F) * 0.2F;
      }
  
@@ -18538,10 +18552,10 @@ index 0000000000000000000000000000000000000000..d44b8ce90db7c6c27f71aa841d6fb64b
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..fad04b8c56d6183bc72f78915847e56c77228106
+index 0000000000000000000000000000000000000000..c75fbe3f3f9f92535e0de92a9fa1fe1ade213192
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3139 @@
+@@ -0,0 +1,3141 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -18745,9 +18759,11 @@ index 0000000000000000000000000000000000000000..fad04b8c56d6183bc72f78915847e56c
 +
 +    public int entityLifeSpan = 0;
 +    public float entityLeftHandedChance = 0.05f;
++    public boolean entitySharedRandom = true;
 +    private void entitySettings() {
 +        entityLifeSpan = getInt("gameplay-mechanics.entity-lifespan", entityLifeSpan);
 +        entityLeftHandedChance = (float) getDouble("gameplay-mechanics.entity-left-handed-chance", entityLeftHandedChance);
++        entitySharedRandom = getBoolean("settings.entity.shared-random", entitySharedRandom);
 +    }
 +
 +    public boolean infinityWorksWithoutArrows = false;
