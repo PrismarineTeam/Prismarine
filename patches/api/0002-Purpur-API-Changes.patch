@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 9 Jul 2022 03:20:26 +0000
+Date: Tue, 12 Jul 2022 14:12:07 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -457,6 +457,27 @@ index 56e261efa654e4a6872ccea28f0461df13845d13..d73b7d72d00fa0edd6542226348af14c
 +    public void removeFuel(@NotNull Material material);
 +    // Purpur end
  }
+diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
+index e8c0c853eb52d1473c20231660355f77b1f7e016..3d053490dc87724f57893a553f1ab9cf1a3b73c0 100644
+--- a/src/main/java/org/bukkit/World.java
++++ b/src/main/java/org/bukkit/World.java
+@@ -3985,6 +3985,16 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+     @Nullable
+     public DragonBattle getEnderDragonBattle();
+ 
++    // Purpur start
++    /**
++     * Gets the local difficulty (based on inhabited time) at a location
++     *
++     * @param location Location to check
++     * @return The local difficulty
++     */
++    public float getLocalDifficultyAt(@NotNull Location location);
++    // Purpur end
++
+     /**
+      * Represents various map environment types that a world may be
+      */
 diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/java/org/bukkit/command/SimpleCommandMap.java
 index b8623575b1c1b565560c2dd6438190716845a652..0bc24d0effe9b2e44c41a1c00060b0ebf7395c4a 100644
 --- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
