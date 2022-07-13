@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 13 Jul 2022 12:42:41 +0000
+Date: Wed, 13 Jul 2022 20:45:19 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -16303,7 +16303,7 @@ index 41c9f074203915c31c1ae7a160ce509c13383f84..7b82842b97ce795745cf6ee6399f618c
              return false;
          } else {
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
-index b96d57b0bcf21508f8e03e96b7553eb486fdf212..d3de829a4ab5f5a127fb026a8cb4ef4ed6b9c394 100644
+index b96d57b0bcf21508f8e03e96b7553eb486fdf212..cb81086c8fe78321b157aa7d107f215c0d8fc410 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BlockEntity.java
 @@ -6,6 +6,8 @@ import net.minecraft.CrashReportCategory;
@@ -16344,7 +16344,32 @@ index b96d57b0bcf21508f8e03e96b7553eb486fdf212..d3de829a4ab5f5a127fb026a8cb4ef4e
  
      public final CompoundTag saveWithFullMetadata() {
          CompoundTag nbttagcompound = this.saveWithoutMetadata();
-@@ -264,4 +283,24 @@ public abstract class BlockEntity {
+@@ -187,10 +206,24 @@ public abstract class BlockEntity {
+ 
+     @Nullable
+     public Packet<ClientGamePacketListener> getUpdatePacket() {
++        // Purpur start
++        if (this instanceof net.minecraft.world.Nameable nameable && nameable.hasCustomName()) {
++            CompoundTag nbt = this.saveWithoutMetadata();
++            nbt.remove("Items");
++            return net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this, $ -> nbt);
++        }
++        // Purpur end
+         return null;
+     }
+ 
+     public CompoundTag getUpdateTag() {
++        // Purpur start
++        if (this instanceof net.minecraft.world.Nameable nameable && nameable.hasCustomName()) {
++            CompoundTag nbt = this.saveWithoutMetadata();
++            nbt.remove("Items");
++            return nbt;
++        }
++        // Purpur end
+         return new CompoundTag();
+     }
+ 
+@@ -264,4 +297,24 @@ public abstract class BlockEntity {
      }
      // Paper end
  
