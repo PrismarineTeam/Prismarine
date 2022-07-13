@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 12 Jul 2022 18:34:25 +0000
+Date: Wed, 13 Jul 2022 12:42:41 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -914,7 +914,7 @@ index 06e3a868e922f1b7a586d0ca28f64a67ae463b68..32beb045f990d4da6112da4fea295333
                          itemstack.setCount(1);
                          entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 5d6ceeecfbb55a1bfe77a1f1ac39b02993e714e3..4487138c167b7861406a626ad99b64486eae5aea 100644
+index ad166788225841927bedc5243dbe94863c270425..76e605a26ab146afc7ac10a64afa7e1fd001410b 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -223,6 +223,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface

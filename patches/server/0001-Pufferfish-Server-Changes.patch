@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 12 Jul 2022 18:32:41 +0000
+Date: Wed, 13 Jul 2022 12:40:44 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -2228,7 +2228,7 @@ index a934226dc9a273fac03c21227f7ef3d50ea080c4..7fd7c3be306d93201a61bb616f8c09cb
      }
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index aea18838a17fc52e1bf8cd84cd185565e6e2246d..5d6ceeecfbb55a1bfe77a1f1ac39b02993e714e3 100644
+index b42327dcf0cc9feaf4fdb67de949dd36cf71bbaa..ad166788225841927bedc5243dbe94863c270425 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -226,6 +226,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
