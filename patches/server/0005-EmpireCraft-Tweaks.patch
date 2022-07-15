@@ -3022,7 +3022,7 @@ index 7344324517fb10ee6ab3467b40fcb9cd798961cb..cb538ff4b5e8da7914361d012060fedf
                  if (flag1 && (cur == null || cur.getAmount() == 0)) {
                      // The complete stack was dropped
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index 4ec80c52cbee9b484e47a93551df4dbf62f6d83e..10991707a98160d52087723d3625723993141d5a 100644
+index 5c84b0f8478d20dc3c1593118addeabea28c8e73..ce9ca7939f8fe506cce39a7eb1a42b0f4bbca2f2 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
 @@ -28,10 +28,7 @@ import net.minecraft.core.BlockPos;
@@ -3037,7 +3037,7 @@ index 4ec80c52cbee9b484e47a93551df4dbf62f6d83e..10991707a98160d52087723d36257239
  import net.minecraft.network.chat.CommonComponents;
  import net.minecraft.network.chat.Component;
  import net.minecraft.network.chat.ComponentUtils;
-@@ -228,6 +225,7 @@ public final class ItemStack {
+@@ -229,6 +226,7 @@ public final class ItemStack {
          this.count = count;
          if (this.item != null && this.item.canBeDepleted()) {
              this.setDamageValue(this.getDamageValue());
@@ -3045,7 +3045,7 @@ index 4ec80c52cbee9b484e47a93551df4dbf62f6d83e..10991707a98160d52087723d36257239
          }
  
          this.updateEmptyCacheFlag();
-@@ -259,6 +257,7 @@ public final class ItemStack {
+@@ -260,6 +258,7 @@ public final class ItemStack {
              // CraftBukkit end
              this.processEnchantOrder(this.tag); // Paper
              this.processText(); // Paper
@@ -3053,7 +3053,7 @@ index 4ec80c52cbee9b484e47a93551df4dbf62f6d83e..10991707a98160d52087723d36257239
              this.getItem().verifyTagAfterLoad(this.tag);
          }
  
-@@ -1184,10 +1183,12 @@ public final class ItemStack {
+@@ -1185,10 +1184,12 @@ public final class ItemStack {
      }
  
      public int getBaseRepairCost() {
@@ -3066,7 +3066,7 @@ index 4ec80c52cbee9b484e47a93551df4dbf62f6d83e..10991707a98160d52087723d36257239
          // CraftBukkit start - remove RepairCost tag when 0 (SPIGOT-3945)
          if (repairCost == 0) {
              this.removeTagKey("RepairCost");
-@@ -1261,8 +1262,28 @@ public final class ItemStack {
+@@ -1262,8 +1263,28 @@ public final class ItemStack {
          MutableComponent ichatmutablecomponent1 = ComponentUtils.wrapInSquareBrackets(ichatmutablecomponent);
  
          if (!this.emptyCacheFlag) {

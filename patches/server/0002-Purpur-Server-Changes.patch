@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 14 Jul 2022 07:04:52 +0000
+Date: Fri, 15 Jul 2022 19:35:59 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -12863,6 +12863,86 @@ index cd9cbfa5ef94994b3f7f2ecdde843620e7e6c071..7344324517fb10ee6ab3467b40fcb9cd
          if (this instanceof ServerPlayer) {
              CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) this, stack);
          }
+diff --git a/src/main/java/net/minecraft/world/entity/player/StackedContents.java b/src/main/java/net/minecraft/world/entity/player/StackedContents.java
+index efee1a8e0e3ad566cd550e51d3e559c5a495889a..0331830815f14779e578e3fe94c400e4ab55c6a0 100644
+--- a/src/main/java/net/minecraft/world/entity/player/StackedContents.java
++++ b/src/main/java/net/minecraft/world/entity/player/StackedContents.java
+@@ -37,8 +37,62 @@ public class StackedContents {
+             int i = getStackingIndex(stack);
+             int j = Math.min(maxCount, stack.getCount());
+             this.put(i, j);
++            // PaperPR start
++            if (stack.hasTag()) {
++                this.put(getExactStackingIndex(stack), j);
++            }
++        }
++
++    }
++    private static final net.minecraft.core.IdMap<ItemStack> EXACT_MATCHES_ID_MAP = new net.minecraft.core.IdMap<>() {
++        private final java.util.concurrent.atomic.AtomicInteger idCounter = new java.util.concurrent.atomic.AtomicInteger(Registry.ITEM.size());
++        private final it.unimi.dsi.fastutil.objects.Object2IntMap<ItemStack> itemstackToId = new it.unimi.dsi.fastutil.objects.Object2IntOpenCustomHashMap<>(new it.unimi.dsi.fastutil.Hash.Strategy<>() {
++            @Override
++            public int hashCode(ItemStack o) {
++                return java.util.Objects.hash(o.getItem(), o.getTag());
++            }
++
++            @Override
++            public boolean equals(@Nullable ItemStack a, @Nullable ItemStack b) {
++                if (a == null || b == null) {
++                    return false;
++                }
++                return ItemStack.tagMatches(a, b);
++            }
++        });
++        private final it.unimi.dsi.fastutil.ints.Int2ObjectMap<net.minecraft.world.item.ItemStack> idToItemstack = new it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap<>();
++
++        @Override
++        public int getId(ItemStack value) {
++            if (!this.itemstackToId.containsKey(value)) {
++                final int id = this.idCounter.incrementAndGet();
++                final ItemStack copy = value.copy();
++                this.itemstackToId.put(copy, id);
++                this.idToItemstack.put(id, copy);
++                return id;
++            }
++            return this.itemstackToId.getInt(value);
++        }
++
++        @Override
++        public @Nullable ItemStack byId(int index) {
++            return this.idToItemstack.get(index);
++        }
++
++        @Override
++        public int size() {
++            return this.itemstackToId.size();
++        }
++
++        @Override
++        public java.util.Iterator<net.minecraft.world.item.ItemStack> iterator() {
++            return this.idToItemstack.values().iterator();
+         }
++    };
+ 
++    public static int getExactStackingIndex(ItemStack stack) {
++        return EXACT_MATCHES_ID_MAP.getId(stack);
++        // PaperPR end
+     }
+ 
+     public static int getStackingIndex(ItemStack stack) {
+@@ -80,6 +134,12 @@ public class StackedContents {
+     }
+ 
+     public static ItemStack fromStackingIndex(int itemId) {
++        // PaperPR start
++        if (itemId > Registry.ITEM.size()) {
++            final ItemStack stack = EXACT_MATCHES_ID_MAP.byId(itemId);
++            return stack == null ? ItemStack.EMPTY : stack.copy();
++        }
++        // PaperPR end
+         return itemId == 0 ? ItemStack.EMPTY : new ItemStack(Item.byId(itemId));
+     }
+ 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 index bc01e5014e1355a225bdf5c47f2965290b45e2d2..49f093b21aa1268d40aa54ebfce06976bd79ae81 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
@@ -14123,10 +14203,18 @@ index 180aec596110309aade13d2080f8824d152b07cb..bf0e1f481b4c81f0663366bbe597b066
                  return InteractionResult.PASS;
              }
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf62f6d83e 100644
+index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..5c84b0f8478d20dc3c1593118addeabea28c8e73 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
-@@ -404,6 +404,7 @@ public final class ItemStack {
+@@ -105,6 +105,7 @@ import org.bukkit.event.world.StructureGrowEvent;
+ 
+ public final class ItemStack {
+ 
++    public boolean isExactRecipeIngredient = false; // PaperPR
+     public static final Codec<ItemStack> CODEC = RecordCodecBuilder.create((instance) -> {
+         return instance.group(Registry.ITEM.byNameCodec().fieldOf("id").forGetter((itemstack) -> {
+             return itemstack.item;
+@@ -404,6 +405,7 @@ public final class ItemStack {
                      world.preventPoiUpdated = true; // CraftBukkit - SPIGOT-5710
                      for (BlockState blockstate : blocks) {
                          blockstate.update(true, false);
@@ -14134,7 +14222,7 @@ index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf
                      }
                      world.preventPoiUpdated = false;
  
-@@ -433,6 +434,7 @@ public final class ItemStack {
+@@ -433,6 +435,7 @@ public final class ItemStack {
                          if (!(block.getBlock() instanceof BaseEntityBlock)) { // Containers get placed automatically
                              block.getBlock().onPlace(block, world, newblockposition, oldBlock, true, itemactioncontext); // Paper - pass itemactioncontext
                          }
@@ -14142,7 +14230,7 @@ index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf
  
                          world.notifyAndUpdatePhysics(newblockposition, null, oldBlock, block, world.getBlockState(newblockposition), updateFlag, 512); // send null chunk as chunk.k() returns false by this point
                      }
-@@ -535,6 +537,16 @@ public final class ItemStack {
+@@ -535,6 +538,16 @@ public final class ItemStack {
          return this.isDamageableItem() && this.getDamageValue() > 0;
      }
  
@@ -14159,7 +14247,7 @@ index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf
      public int getDamageValue() {
          return this.tag == null ? 0 : this.tag.getInt("Damage");
      }
-@@ -554,7 +566,7 @@ public final class ItemStack {
+@@ -554,7 +567,7 @@ public final class ItemStack {
              int j;
  
              if (amount > 0) {
@@ -14168,7 +14256,7 @@ index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf
                  int k = 0;
  
                  for (int l = 0; j > 0 && l < amount; ++l) {
-@@ -609,6 +621,12 @@ public final class ItemStack {
+@@ -609,6 +622,12 @@ public final class ItemStack {
                  if (this.hurt(amount, entity.getRandom(), entity /*instanceof ServerPlayer ? (ServerPlayer) entity : null*/)) { // Paper - pass LivingEntity for EntityItemDamageEvent
                      breakCallback.accept(entity);
                      Item item = this.getItem();
@@ -14181,7 +14269,7 @@ index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf
                      // CraftBukkit start - Check for item breaking
                      if (this.count == 1 && entity instanceof net.minecraft.world.entity.player.Player) {
                          org.bukkit.craftbukkit.event.CraftEventFactory.callPlayerItemBreakEvent((net.minecraft.world.entity.player.Player) entity, this);
-@@ -1129,7 +1147,7 @@ public final class ItemStack {
+@@ -1129,7 +1148,7 @@ public final class ItemStack {
  
          ListTag nbttaglist = this.tag.getList("Enchantments", 10);
  
@@ -14190,7 +14278,7 @@ index 6b3cfc19c4fd1382ddf534265a1114995a4f6b55..4ec80c52cbee9b484e47a93551df4dbf
          processEnchantOrder(this.tag); // Paper
      }
  
-@@ -1137,6 +1155,12 @@ public final class ItemStack {
+@@ -1137,6 +1156,12 @@ public final class ItemStack {
          return this.tag != null && this.tag.contains("Enchantments", 9) ? !this.tag.getList("Enchantments", 10).isEmpty() : false;
      }
  
@@ -14386,7 +14474,7 @@ index 998758be827efbcb7693ed36ab1dffc0ef0369bf..086f746cc632a90c67a6c30ea9197c5b
                          entityhuman.startAutoSpinAttack(20);
                          if (entityhuman.isOnGround()) {
 diff --git a/src/main/java/net/minecraft/world/item/crafting/Ingredient.java b/src/main/java/net/minecraft/world/item/crafting/Ingredient.java
-index 895c0f1600139e340aa22a7c398978add56fa706..4f7e02c8a99ec9012a09baac52717df7504a5049 100644
+index 895c0f1600139e340aa22a7c398978add56fa706..809c6531d056cc9538e9bec9cdc5ca6e4c9f4792 100644
 --- a/src/main/java/net/minecraft/world/item/crafting/Ingredient.java
 +++ b/src/main/java/net/minecraft/world/item/crafting/Ingredient.java
 @@ -38,6 +38,7 @@ public final class Ingredient implements Predicate<ItemStack> {
@@ -14397,7 +14485,20 @@ index 895c0f1600139e340aa22a7c398978add56fa706..4f7e02c8a99ec9012a09baac52717df7
  
      public Ingredient(Stream<? extends Ingredient.Value> entries) {
          this.values = (Ingredient.Value[]) entries.toArray((i) -> {
-@@ -69,6 +70,12 @@ public final class Ingredient implements Predicate<ItemStack> {
+@@ -54,7 +55,11 @@ public final class Ingredient implements Predicate<ItemStack> {
+         if (this.itemStacks == null) {
+             this.itemStacks = (ItemStack[]) Arrays.stream(this.values).flatMap((recipeitemstack_provider) -> {
+                 return recipeitemstack_provider.getItems().stream();
+-            }).distinct().toArray((i) -> {
++                // PaperPR start
++            }).distinct().peek(stack -> {
++                stack.isExactRecipeIngredient = this.exact;
++            }).toArray((i) -> {
++                // PaperPR end
+                 return new ItemStack[i];
+             });
+         }
+@@ -69,6 +74,12 @@ public final class Ingredient implements Predicate<ItemStack> {
              if (this.itemStacks.length == 0) {
                  return itemstack.isEmpty();
              } else {
@@ -14410,6 +14511,20 @@ index 895c0f1600139e340aa22a7c398978add56fa706..4f7e02c8a99ec9012a09baac52717df7
                  ItemStack[] aitemstack = this.itemStacks;
                  int i = aitemstack.length;
  
+@@ -104,7 +115,13 @@ public final class Ingredient implements Predicate<ItemStack> {
+             for (int j = 0; j < i; ++j) {
+                 ItemStack itemstack = aitemstack[j];
+ 
++                // PaperPR start
++                if (itemstack.isExactRecipeIngredient) {
++                    this.stackingIds.add(StackedContents.getExactStackingIndex(itemstack));
++                } else {
++                // PaperPR end
+                 this.stackingIds.add(StackedContents.getStackingIndex(itemstack));
++                } // PaperPR
+             }
+ 
+             this.stackingIds.sort(IntComparators.NATURAL_COMPARATOR);
 diff --git a/src/main/java/net/minecraft/world/item/enchantment/ArrowInfiniteEnchantment.java b/src/main/java/net/minecraft/world/item/enchantment/ArrowInfiniteEnchantment.java
 index 3aece8245060dd1ba269c08d226c84247a6f0a83..38703baaef5f04a53081620ce1bf29b45e4d62d1 100644
 --- a/src/main/java/net/minecraft/world/item/enchantment/ArrowInfiniteEnchantment.java
