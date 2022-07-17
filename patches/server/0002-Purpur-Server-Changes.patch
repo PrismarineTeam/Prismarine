@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 15 Jul 2022 19:35:59 +0000
+Date: Sun, 17 Jul 2022 18:47:35 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -669,6 +669,27 @@ index b65a3626d2e0817cd1e223ec3b10e82fa0339663..4b704fcce0951ffd3a8e29377f7b6893
              joinAttemptsThisTick = 0;
          }
          // Paper end
+diff --git a/src/main/java/net/minecraft/network/chat/ChatDecorator.java b/src/main/java/net/minecraft/network/chat/ChatDecorator.java
+index d07bb2d1f365cb7c92a1252b83210fa38cbeeb1d..89bed23716b21fe6e1079fa9fc5d13688c2fee04 100644
+--- a/src/main/java/net/minecraft/network/chat/ChatDecorator.java
++++ b/src/main/java/net/minecraft/network/chat/ChatDecorator.java
+@@ -8,6 +8,16 @@ import net.minecraft.server.network.FilteredText;
+ @FunctionalInterface
+ public interface ChatDecorator {
+     ChatDecorator PLAIN = (sender, message) -> {
++        // Purpur start
++        net.kyori.adventure.text.Component adventureComponent = io.papermc.paper.adventure.PaperAdventure.asAdventure(message);
++        org.purpurmc.purpur.event.player.PlayerPreviewChatEvent previewEvent = new org.purpurmc.purpur.event.player.PlayerPreviewChatEvent(sender.getBukkitEntity(), "", adventureComponent);
++        if (!previewEvent.callEvent()) {
++            return CompletableFuture.completedFuture(null);
++        }
++        if (!previewEvent.getQuery().equals(adventureComponent)) {
++            return CompletableFuture.completedFuture(io.papermc.paper.adventure.PaperAdventure.asVanilla(previewEvent.getQuery()));
++        }
++        // Purpur end
+         return CompletableFuture.completedFuture(message);
+     };
+ 
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetTimePacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetTimePacket.java
 index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fed259f2fe 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetTimePacket.java
@@ -1592,7 +1613,7 @@ index f000c822ed4563b5b840936852bc7d8e030763e3..0c48e877a0dba9fba3295d1740527fa4
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e6213b6924f611bfb85e43fe5a4c4582639b7abc..3bb51f34be4341c991487a78d8793f074ffdcba4 100644
+index 0960025c64fe2e8c055fcbf6e695ff90c1f41cd9..ac527a253e2c238099cb3755fe5ab4855289d6f5 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -245,6 +245,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -1849,6 +1870,15 @@ index e6213b6924f611bfb85e43fe5a4c4582639b7abc..3bb51f34be4341c991487a78d8793f07
              }
          } while (!this.lastChatTimeStamp.compareAndSet(instant1, timestamp));
  
+@@ -2430,7 +2512,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+ 
+     @Override
+     public void handleChatPreview(ServerboundChatPreviewPacket packet) {
+-        if (false && this.server.previewsChat()) { // CraftBukkit - preview NYI
++        if (this.server.previewsChat()) { // CraftBukkit - preview NYI // Purpur - lets implement it already.. sheesh
+             this.chatPreviewThrottler.schedule(() -> {
+                 int i = packet.queryId();
+                 String s = packet.query();
 @@ -2652,6 +2734,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              }
  
