@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..b5fc0315a43d17857845e0d0e91d3f4a744d1c2c 100644
+index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..158843a9d0e9967e42bbfa4167d1e56eb61041a7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {
@@ -39,10 +39,11 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..b5fc0315a43d17857845e0d0e91d3f4a
                  }
  
                  if ((this.trackDelta || this.entity.hasImpulse || this.entity instanceof LivingEntity && ((LivingEntity) this.entity).isFallFlying()) && this.tickCount > 0) {
-@@ -247,6 +248,22 @@ public class ServerEntity {
+@@ -246,6 +247,22 @@ public class ServerEntity {
+         }
  
      }
- 
++    
 +    // Prismarine start
 +    private boolean isUselessEntityPacket(Packet<?> possibleUselessEntityPacket) {
 +        if (possibleUselessEntityPacket instanceof ClientboundMoveEntityPacket) {
@@ -58,10 +59,9 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..b5fc0315a43d17857845e0d0e91d3f4a
 +        return false;
 +    }
 +    // Prismarine end
-+
+ 
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
-         player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index 24b3aef7c621ec6f5e225f3be1717083435706cb..e502374e3a7eb0d0e319601448625d41709be0b5 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java

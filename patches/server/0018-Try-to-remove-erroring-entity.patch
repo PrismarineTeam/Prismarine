@@ -26,10 +26,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9624ff770308e3d9dc0525896ee3797ae0c2b29b..330c26bec753e7c0716e4a7e9c1fcd686e5cee6c 100644
+index 8cffd2557e1a42c3b0060c72089c1f84aa8049a2..8aface1da844f89e50fd14600497643af126bf89 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -1051,13 +1051,22 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1049,13 +1049,22 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
              tickConsumer.accept(entity);
              MinecraftServer.getServer().executeMidTickTasks(); // Paper - execute chunk tasks mid tick
          } catch (Throwable throwable) { // Pufferfish - diff on change ServerLevel.tick

@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 17 Jul 2022 18:47:35 +0000
+Date: Tue, 19 Jul 2022 21:38:16 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -290,7 +290,7 @@ index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e
      public void removeCommand(String name) {
          this.children.remove(name);
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index a125abc75ed2bbd905c8fdec442416a45264f531..09f826a9d46b6474ef0ab26611e9a305fe19ed9b 100644
+index 09827eaa9f6adf49385a33aa60b3a6bf4005a982..95995c7f7e035bac7a4f429d84bb44fec41e01f9 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -121,6 +121,22 @@ public class PufferfishConfig {
@@ -670,21 +670,23 @@ index b65a3626d2e0817cd1e223ec3b10e82fa0339663..4b704fcce0951ffd3a8e29377f7b6893
          }
          // Paper end
 diff --git a/src/main/java/net/minecraft/network/chat/ChatDecorator.java b/src/main/java/net/minecraft/network/chat/ChatDecorator.java
-index d07bb2d1f365cb7c92a1252b83210fa38cbeeb1d..89bed23716b21fe6e1079fa9fc5d13688c2fee04 100644
+index d07bb2d1f365cb7c92a1252b83210fa38cbeeb1d..d307fd9656c2067eb70c5031dd250dc8aabfd663 100644
 --- a/src/main/java/net/minecraft/network/chat/ChatDecorator.java
 +++ b/src/main/java/net/minecraft/network/chat/ChatDecorator.java
-@@ -8,6 +8,16 @@ import net.minecraft.server.network.FilteredText;
+@@ -8,6 +8,18 @@ import net.minecraft.server.network.FilteredText;
  @FunctionalInterface
  public interface ChatDecorator {
      ChatDecorator PLAIN = (sender, message) -> {
 +        // Purpur start
-+        net.kyori.adventure.text.Component adventureComponent = io.papermc.paper.adventure.PaperAdventure.asAdventure(message);
-+        org.purpurmc.purpur.event.player.PlayerPreviewChatEvent previewEvent = new org.purpurmc.purpur.event.player.PlayerPreviewChatEvent(sender.getBukkitEntity(), "", adventureComponent);
-+        if (!previewEvent.callEvent()) {
-+            return CompletableFuture.completedFuture(null);
-+        }
-+        if (!previewEvent.getQuery().equals(adventureComponent)) {
-+            return CompletableFuture.completedFuture(io.papermc.paper.adventure.PaperAdventure.asVanilla(previewEvent.getQuery()));
++        if (sender != null) {
++            net.kyori.adventure.text.Component adventureComponent = io.papermc.paper.adventure.PaperAdventure.asAdventure(message);
++            org.purpurmc.purpur.event.player.PlayerPreviewChatEvent previewEvent = new org.purpurmc.purpur.event.player.PlayerPreviewChatEvent(sender.getBukkitEntity(), "", adventureComponent);
++            if (!previewEvent.callEvent()) {
++                return CompletableFuture.completedFuture(null);
++            }
++            if (!previewEvent.getQuery().equals(adventureComponent)) {
++                return CompletableFuture.completedFuture(io.papermc.paper.adventure.PaperAdventure.asVanilla(previewEvent.getQuery()));
++            }
 +        }
 +        // Purpur end
          return CompletableFuture.completedFuture(message);
@@ -1022,7 +1024,7 @@ index 26345494ce190b5cd2ab58dd7d4b046796767b20..20d579a20e186e59975df1b35112015e
      public final boolean spawnNpcs = this.get("spawn-npcs", true);
      public final boolean pvp = this.get("pvp", true);
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index e134963fa97ea886c7cf4af8ab0ba53b6010fe41..2daef87d5c1de8e6f9a8c7c6a7753d980b05178f 100644
+index b7f56d1909272bb02591b6e08aed78943ab96ba1..c67c7ba95537ff39bf4a4f4c490698b49dcb0849 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1826,7 +1826,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -1034,17 +1036,8 @@ index e134963fa97ea886c7cf4af8ab0ba53b6010fe41..2daef87d5c1de8e6f9a8c7c6a7753d98
          // this function is so hot that removing the map lookup call can have an order of magnitude impact on its performance
          // tested and confirmed via System.nanoTime()
          com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInRange = reducedRange ? playerchunk.playersInMobSpawnRange : playerchunk.playersInChunkTickRange;
-@@ -2275,7 +2275,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
- 
-     public class TrackedEntity {
- 
--        final ServerEntity serverEntity;
-+        public final ServerEntity serverEntity; // Purpur -> package -> public
-         final Entity entity;
-         private final int range;
-         SectionPos lastSectionPos;
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 1eb912ad97f9663bf6bd336ad739f2552b0a5c9b..3441339e1ba5efb0e25c16fa13cb65d2fbdafc42 100644
+index 871bce7f5acc1b9a058496f41d962ec2e724f620..9bfd1cb300fe7f76e9a36167390ab1c2b468b100 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -65,7 +65,7 @@ public class ServerEntity {
@@ -1249,7 +1242,7 @@ index 32a39a150a3d2bbae95a726901f3f46363e34ecf..0d82ca8ba9f2b11213cfe1ab01dc6ef3
                  }
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 353463084d90eb684717e65c56da52cd25a1e375..9c09e46aeea0527880e935c1e3cf1046036d5764 100644
+index 353463084d90eb684717e65c56da52cd25a1e375..60873c874abbeff8f30b3536f5c4cc03e663530a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -260,6 +260,10 @@ public class ServerPlayer extends Player {
@@ -1384,7 +1377,7 @@ index 353463084d90eb684717e65c56da52cd25a1e375..9c09e46aeea0527880e935c1e3cf1046
  
 +    // Purpur start
 +    public void sendActionBarMessage(@Nullable String message) {
-+        if (message != null) {
++        if (message != null && !message.isEmpty()) {
 +            sendActionBarMessage(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message));
 +        }
 +    }
@@ -1535,7 +1528,7 @@ index 353463084d90eb684717e65c56da52cd25a1e375..9c09e46aeea0527880e935c1e3cf1046
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
-index 7572f6d03d315ab4639be211c5ffc7682b326362..4fb8ced22cb9f106fbe39ca233a844a7effb824a 100644
+index 9378e83a67a70dbb1fb4f05b33f1e553d008e62b..af8cde5c413ee1ee410c728f56b4a24e9ee72985 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 @@ -391,6 +391,7 @@ public class ServerPlayerGameMode {
@@ -1991,7 +1984,7 @@ index 29a22da1b94d51300481c071aa16bfd8cd02178f..f67cbb1badc007987e62872bb0160ad6
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 20cdfdb3b9351f74e89bc45b3ab972384165659a..fecd65dc87a99a5692c59dd590b20327b1eb31c2 100644
+index 20cdfdb3b9351f74e89bc45b3ab972384165659a..be338bfaaada839ca9fcc556e4f0608fca3216ec 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -496,6 +496,7 @@ public abstract class PlayerList {
@@ -2071,7 +2064,7 @@ index 20cdfdb3b9351f74e89bc45b3ab972384165659a..fecd65dc87a99a5692c59dd590b20327
  
 +    // Purpur Start
 +    public void broadcastMiniMessage(@Nullable String message, ResourceKey<ChatType> type) {
-+        if (message != null) {
++        if (message != null && !message.isEmpty()) {
 +            this.broadcastMessage(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message), type);
 +        }
 +    }
@@ -2378,7 +2371,7 @@ index 2faf634994f355ef1bf07fc70f1a0f4451db5fcc..aa34db072f496e53abef7541156ddf8d
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index beab9f74ba3c3ef294485ee74daf165475d29566..d0cfea27a287b91747585053d1ffb3f203196fd7 100644
+index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92915fb1a6 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -2529,7 +2522,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..d0cfea27a287b91747585053d1ffb3f2
  
 +    // Purpur Start
 +    public void sendMiniMessage(@Nullable String message) {
-+        if (message != null) {
++        if (message != null && !message.isEmpty()) {
 +            this.sendMessage(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message));
 +        }
 +    }
@@ -4175,7 +4168,7 @@ index 6216513805add7c8f52e1ed6c77e2d26786b3ab5..a0c3a27a90e0788b573f0776c25cfc6e
              other.resetLove();
              world.addFreshEntityWithPassengers(entityageable, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - added SpawnReason
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index e5de2c1d11e5de88420caba35bf75c8bbd799db5..a7c0c2a8b9b5c1336ce33418e24e0bfd77cec5b0 100644
+index 23b8c9838b860b132ea043b7507ebc2220a49640..7e0845e355d66a7b8703c971f1880e6936f5b62e 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 @@ -43,6 +43,7 @@ import net.minecraft.world.entity.EntityType;
@@ -7111,7 +7104,7 @@ index fdd2c63ff0017bafa544a3cff2ee6d2d62c92cb3..32870e6727d09fbf1c4913ffdf321a27
  
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index bb6063ae7f4438916306ce876057f7488537b444..8210aa958b8bc7d36f2959d261a750c444017fec 100644
+index 9a2d1285c207290946ae664915a77b8f9dc00ad7..04262d31dc0767500f2b22cfe5768a8e24de7af9 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 @@ -83,16 +83,69 @@ public class Frog extends Animal {
@@ -9077,7 +9070,7 @@ index 8c328d72c42ccaa6891249cc700b70bb34c09545..fb342992e6033bcd001faf7e0bf9c0fa
          }
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-index 1b1305f5eaf5710b72c57ab4c3953e703a23f1e0..68e31cf561f3d76bce6fa4324a75594c776f8964 100644
+index 30a67a1eef9238e12e54c57a0608387cc0f763ef..3c841029197eeca960f033acf7d450145e72e0bd 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 @@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
@@ -14713,19 +14706,19 @@ index 3f458ddd4dc04ed28510a212be76bb19e7f6a61e..a36469186f72eccf8c4428d920d0583b
                  if (range < 0.0D || d < range * range) {
                      return true;
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index a26799f92db1699d2d5173e2e93be29273e1a317..d9cc26b7935301dfa3a62eec7ec8009a96c32ff2 100644
+index a2a0bc4874a031c964a5cdb5bc26494cd01351eb..0dab4ef279f7e9af64290395b4af205b0d54f271 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -175,6 +175,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -174,6 +174,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     // Paper end
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
- 
 +    public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
 +
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -192,6 +194,49 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -191,6 +193,49 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      }
      // Paper end - fix and optimise world upgrading
  
@@ -14775,7 +14768,7 @@ index a26799f92db1699d2d5173e2e93be29273e1a317..d9cc26b7935301dfa3a62eec7ec8009a
      public CraftWorld getWorld() {
          return this.world;
      }
-@@ -272,7 +317,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -271,7 +316,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
      public abstract ResourceKey<LevelStem> getTypeKey();
  
@@ -14784,7 +14777,7 @@ index a26799f92db1699d2d5173e2e93be29273e1a317..d9cc26b7935301dfa3a62eec7ec8009a
  
      // Pufferfish start - ensure these get inlined
      private final int minBuildHeight, minSection, height, maxBuildHeight, maxSection;
-@@ -286,6 +331,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -285,6 +330,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
@@ -14793,7 +14786,7 @@ index a26799f92db1699d2d5173e2e93be29273e1a317..d9cc26b7935301dfa3a62eec7ec8009a
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
-@@ -1568,4 +1615,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1567,4 +1614,14 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          return null;
      }
      // Paper end
@@ -16714,7 +16707,7 @@ index 771c6cf992664b65ffbf4ae0192bc7b09f77c2e6..480f00ef2026e84b133655c5e18b1dc3
      protected final float explosionResistance;
      protected final boolean isRandomlyTicking;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index ec23064d5a6d70508fad7cffc6126cfd6f7a62cb..b4e70dd36b426b9ca95e0a9953f1d7c89203db31 100644
+index 0b08a91ae9dc73c011dbb5f517becac7d08fd1e9..6fbf26eb7da8df2f0a4158ff9f12022518ada8e3 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -136,7 +136,7 @@ public class LevelChunk extends ChunkAccess {

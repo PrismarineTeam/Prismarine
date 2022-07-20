@@ -24,10 +24,10 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0001 - skip event if no listeners
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 24576e430da8a4c74e0ed2d386ae97ed9a936b84..cfd7ac160b71a87afaa07e1b014fb214106bdda0 100644
+index bbf5ef1dd8e451d1c1e59965f051129b13c2bb6b..a2811a6852f725a39556d06ad6ecea87ba648aa0 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -659,6 +659,11 @@ public final class SimplePluginManager implements PluginManager {
+@@ -664,6 +664,11 @@ public final class SimplePluginManager implements PluginManager {
       */
      @Override
      public void callEvent(@NotNull Event event) {
@@ -39,7 +39,7 @@ index 24576e430da8a4c74e0ed2d386ae97ed9a936b84..cfd7ac160b71a87afaa07e1b014fb214
          // Paper - replace callEvent by merging to below method
          if (event.isAsynchronous() && server.isPrimaryThread()) {
              throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
-@@ -666,8 +671,8 @@ public final class SimplePluginManager implements PluginManager {
+@@ -671,8 +676,8 @@ public final class SimplePluginManager implements PluginManager {
              throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
          }
  
