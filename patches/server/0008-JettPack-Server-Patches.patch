@@ -655,7 +655,7 @@ index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1e
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index fecd65dc87a99a5692c59dd590b20327b1eb31c2..6999fa23c166ad2bd98ef435d36c7b6e678976bd 100644
+index be338bfaaada839ca9fcc556e4f0608fca3216ec..64f6c4a7808c7f4cc3b864686b0e93a2b5084abe 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -498,7 +498,13 @@ public abstract class PlayerList {
@@ -804,7 +804,7 @@ index f5886a88fd98ede5e85a91eccccb05ac33eb40e2..b4403229fb9ff45410b63d2d1459f9cb
          } else {
              this.discard();
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9621d276beef534c487aa9fc476136c2586b6c16..9624ff770308e3d9dc0525896ee3797ae0c2b29b 100644
+index 68c84f82f0572a0ce4d4d84eb38d8802fe10310f..8cffd2557e1a42c3b0060c72089c1f84aa8049a2 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -851,12 +851,14 @@ index c45d394ed568122ad21a955c335b2744844a00de..31da3873bec0b75226baa53f3ee8c86c
      }
  }
 diff --git a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
-index f54ca6383298848b2ee7108c41fcea593f924881..75f9acc9e7878b8db049fdbbee869b3f83a0fe82 100644
+index f54ca6383298848b2ee7108c41fcea593f924881..3f620efec7af845532d5562403e06971134b17f5 100644
 --- a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
 +++ b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
-@@ -33,33 +33,65 @@ public class EntitySectionStorage<T extends EntityAccess> {
+@@ -32,34 +32,66 @@ public class EntitySectionStorage<T extends EntityAccess> {
+         this.intialSectionVisibility = chunkStatusDiscriminator;
      }
  
++    // Prismarine start - JettPack patches (lithium: entity.fast_retrieval)
      public void forEachAccessibleNonEmptySection(AABB box, Consumer<EntitySection<T>> action) {
 -        int i = 2;
 -        int j = SectionPos.posToSectionCoord(box.minX - 2.0D);
@@ -879,7 +881,6 @@ index f54ca6383298848b2ee7108c41fcea593f924881..75f9acc9e7878b8db049fdbbee869b3f
 -                    EntitySection<T> entitySection = this.sections.get(s);
 -                    if (entitySection != null && !entitySection.isEmpty() && entitySection.getStatus().isAccessible()) {
 -                        action.accept(entitySection);
-+    // Prismarine start - JettPack patches (lithium: entity.fast_retrieval)
 +        int minX = SectionPos.posToSectionCoord(box.minX - 2.0D);
 +        int minY = SectionPos.posToSectionCoord(box.minY - 2.0D);
 +        int minZ = SectionPos.posToSectionCoord(box.minZ - 2.0D);
