@@ -1923,10 +1923,10 @@ index cd3296fea01648592d2af89b3d80135acb6d0958..45797a6fbae1d8edc4211cb30def24ad
  
              permissions.put(lname, new PermissionAttachmentInfo(parent, lname, attachment, value));
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 6aba652af2b2f054ad22c77e4e59f0ed3eddc685..3a7f258efbe2ac5285bac3beb113c181d1c83b59 100644
+index e42a2d631fd7eaa455132e0cf64c9be7707dadb9..cc67217ff6003c83f10c6eeb7d4a2205cb0129c4 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -164,6 +164,12 @@ public final class SimplePluginManager implements PluginManager {
+@@ -165,6 +165,12 @@ public final class SimplePluginManager implements PluginManager {
                  server.getLogger().log(Level.SEVERE, "Could not load '" + file.getPath() + "' in folder '" + file.getParentFile().getPath() + "'", ex); // Paper
                  continue;
              }
