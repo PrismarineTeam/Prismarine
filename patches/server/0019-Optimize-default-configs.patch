@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 32f0cd29d1198fe320d10ccfe0b02f8632ac12aa..151d2905d25e4588aad2d270c7d933b872e9b22d 100644
+index e2c612dd55fcb2769fb06f7878b8d0873f2be139..c06a765638d3ddd03cc641f0d78da740be67e9e2 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 @@ -310,7 +310,7 @@ public class WorldConfiguration extends ConfigurationPart {
@@ -84,10 +84,10 @@ index fe49723b5fec298d7a10a1f69211933974edf3e9..942b6c2effeeaf3ca860b029ec5452d5
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index c75fbe3f3f9f92535e0de92a9fa1fe1ade213192..22264f40abe8f5f9d78b22e93761da1860bc23f9 100644
+index 2a3ae8ba73a547d02e7a635321e4534de7daafdc..cfd847249c8bf98f824043c69eeb160a04c108bb 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -407,7 +407,7 @@ public class PurpurWorldConfig {
+@@ -412,7 +412,7 @@ public class PurpurWorldConfig {
      public boolean playerInvulnerableWhileAcceptingResourcePack = false;
      public String playerDeathExpDropEquation = "expLevel * 7";
      public int playerDeathExpDropMax = 100;

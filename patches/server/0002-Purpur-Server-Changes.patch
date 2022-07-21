@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 19 Jul 2022 21:38:16 +0900
+Date: Thu, 21 Jul 2022 13:48:06 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -10564,7 +10564,7 @@ index 682beb556bbe2b74c0a08e780fa25dcb301c281c..ce123b46723ceeadb7751f7998ac01eb
          this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
          this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Ravager.java b/src/main/java/net/minecraft/world/entity/monster/Ravager.java
-index f747aa85beab98fbecdbe15b188be6614478bac6..98daeeb7545217347522a5edeef9178dcab62acf 100644
+index a0eee7dc73bd4a96d9a1aa9555093820c5f7c49c..ccf219587461224a027b567b6f05c73711009c14 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Ravager.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Ravager.java
 @@ -69,14 +69,54 @@ public class Ravager extends Raider {
@@ -12967,7 +12967,7 @@ index efee1a8e0e3ad566cd550e51d3e559c5a495889a..0331830815f14779e578e3fe94c400e4
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-index bc01e5014e1355a225bdf5c47f2965290b45e2d2..49f093b21aa1268d40aa54ebfce06976bd79ae81 100644
+index bc01e5014e1355a225bdf5c47f2965290b45e2d2..e292589e015c6691be65285b041f5b4f0d0afeb1 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 @@ -322,7 +322,7 @@ public abstract class AbstractArrow extends Projectile {
@@ -12975,7 +12975,7 @@ index bc01e5014e1355a225bdf5c47f2965290b45e2d2..49f093b21aa1268d40aa54ebfce06976
  
          this.setDeltaMovement(vec3d.multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
 -        this.life = 0;
-+        // this.life = 0; // Purpur - do not reset despawn counter
++        if (this.level.purpurConfig.arrowMovementResetsDespawnCounter) this.life = 0; // Purpur - do not reset despawn counter
      }
  
      @Override
@@ -18715,10 +18715,10 @@ index 0000000000000000000000000000000000000000..d44b8ce90db7c6c27f71aa841d6fb64b
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c75fbe3f3f9f92535e0de92a9fa1fe1ade213192
+index 0000000000000000000000000000000000000000..2a3ae8ba73a547d02e7a635321e4534de7daafdc
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3141 @@
+@@ -0,0 +1,3146 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -18834,6 +18834,11 @@ index 0000000000000000000000000000000000000000..c75fbe3f3f9f92535e0de92a9fa1fe1a
 +        armorstandWaterMovement = getBoolean("gameplay-mechanics.armorstand.can-move-in-water", armorstandWaterMovement);
 +        armorstandWaterFence = getBoolean("gameplay-mechanics.armorstand.can-move-in-water-over-fence", armorstandWaterFence);
 +        armorstandPlaceWithArms = getBoolean("gameplay-mechanics.armorstand.place-with-arms-visible", armorstandPlaceWithArms);
++    }
++
++    public boolean arrowMovementResetsDespawnCounter = true;
++    private void arrowSettings() {
++        arrowMovementResetsDespawnCounter = getBoolean("gameplay-mechanics.arrow.movement-resets-despawn-counter", arrowMovementResetsDespawnCounter);
 +    }
 +
 +    public boolean useBetterMending = false;
