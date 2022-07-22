@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 22 Jul 2022 04:53:24 +0000
+Date: Fri, 22 Jul 2022 22:26:26 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -714,10 +714,10 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 8bc6876c82935988436597161fa0ec94c032174b..3fa4f583c8d38c8cb62065f7f18986c985e4c92f 100644
+index 03b35d3ba8ba00c0fa0272450f19355244a014ea..ffd3d7f4c0c86806bcf70bd90edf3041834d401c 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -830,4 +830,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -897,4 +897,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInPowderedSnow();
      // Paper end
@@ -977,10 +977,10 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index c0fc38cacf441273e8430dda31958c15a48fc9b6..2436ece75493dc05352dfa0027b98aaeaab0d5f7 100644
+index b39afbcd1fa88a7f00cd5f4482d52f2d089497dc..8bf04a0ad920fa580568713b243c20c448435908 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2705,4 +2705,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2770,4 +2770,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -1118,13 +1118,13 @@ index a1b42ae35dda2da90ba00a2d6666514f7c5b11dd..3ccd61bf91d7746393589b0b35674361
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Wolf.java b/src/main/java/org/bukkit/entity/Wolf.java
-index 297b65a6cf7d25f02bbd824ea507c5c083e0abec..f5f751678f3d14d2dcb8727c7e9d9db1ab1a44a7 100644
+index 84db38388bf7a58e66d6cd29620b4fe64b0a897e..82ebd99549ce9f9e6427a50cef424e9007735708 100644
 --- a/src/main/java/org/bukkit/entity/Wolf.java
 +++ b/src/main/java/org/bukkit/entity/Wolf.java
-@@ -59,4 +59,20 @@ public interface Wolf extends Tameable, Sittable, io.papermc.paper.entity.Collar
+@@ -69,4 +69,20 @@ public interface Wolf extends Tameable, Sittable, io.papermc.paper.entity.Collar
+      * @param interested Whether the wolf is interested
       */
-     boolean isInterested();
-     // Paper end
+     public void setInterested(boolean interested);
 +
 +    // Purpur start
 +    /**

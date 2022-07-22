@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 22 Jul 2022 04:51:29 +0000
+Date: Fri, 22 Jul 2022 22:24:32 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -3179,7 +3179,7 @@ index 1a918eabbaaed26d9bdf5c01e0488b5a117ba516..32a39a150a3d2bbae95a726901f3f463
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f342043f4a8aef7e757571ead0e0218fe7e5ee58..0960025c64fe2e8c055fcbf6e695ff90c1f41cd9 100644
+index 935c482be4bf3767e197a576d0e38eac51115dd4..1581215f7e8348e40d248c8e3d5ef43143e69579 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1149,6 +1149,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser

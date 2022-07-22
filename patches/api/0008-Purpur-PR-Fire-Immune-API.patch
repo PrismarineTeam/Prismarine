@@ -5,10 +5,10 @@ Subject: [PATCH] Purpur PR - Fire Immune API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 3fa4f583c8d38c8cb62065f7f18986c985e4c92f..fe8d50118be54e41eda99688814ad6d4ee0124f2 100644
+index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..3aa2eb270f8b8cd78049f0196441c5c0c5c9399f 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -867,5 +867,20 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -934,5 +934,20 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       * @return True if in daylight
       */
      boolean isInDaylight();

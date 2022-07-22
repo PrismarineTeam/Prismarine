@@ -2898,10 +2898,10 @@ index 0d82ca8ba9f2b11213cfe1ab01dc6ef3f2f510c9..46d717c39e964ea87f9c6380e82cdeac
          } else {
              Optional<HolderSet.Named<Structure>> optional = this.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).getTag(structureTag);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 3bb51f34be4341c991487a78d8793f074ffdcba4..5a08543dd2e5baf48ebed99d187b953e9fd066f0 100644
+index 38cd5aec3c54984c3c3429aa0bfb525ba170f116..f7c30be3d95aa98acd3981ccc10cdd27bfb4920f 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2292,6 +2292,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2298,6 +2298,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              this.send(new ClientboundSystemChatPacket(Component.translatable("chat.disabled.options").withStyle(ChatFormatting.RED), i));
              return false;
