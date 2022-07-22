@@ -2371,7 +2371,7 @@ index 2faf634994f355ef1bf07fc70f1a0f4451db5fcc..aa34db072f496e53abef7541156ddf8d
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92915fb1a6 100644
+index ba3997abe08e6de020841c544fbac7619e551ce6..eac0c2f39c981b65705b9bcfa0a764496e93893c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -2489,7 +2489,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92
              }
  
              this.isInsidePortal = true;
-@@ -2912,7 +2931,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2920,7 +2939,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -2498,7 +2498,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92
          }
      }
  
-@@ -3092,7 +3111,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3100,7 +3119,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public int getMaxAirSupply() {
@@ -2507,7 +2507,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92
      }
  
      public int getAirSupply() {
-@@ -3531,7 +3550,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3539,7 +3558,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -2516,7 +2516,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3778,6 +3797,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3786,6 +3805,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -2537,7 +2537,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92
      @Override
      public void sendSystemMessage(Component message) {}
  
-@@ -4018,6 +4051,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4026,6 +4059,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -2550,7 +2550,7 @@ index beab9f74ba3c3ef294485ee74daf165475d29566..c2335d3aa056d3636d22390278d1fd92
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4511,4 +4550,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4519,4 +4558,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
