@@ -4168,7 +4168,7 @@ index 6216513805add7c8f52e1ed6c77e2d26786b3ab5..a0c3a27a90e0788b573f0776c25cfc6e
              other.resetLove();
              world.addFreshEntityWithPassengers(entityageable, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - added SpawnReason
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
-index 23b8c9838b860b132ea043b7507ebc2220a49640..7e0845e355d66a7b8703c971f1880e6936f5b62e 100644
+index dbeb70913d3933164e997ce5d662b4890ffe4f36..fb14d13e2812c5a2841b43dadea782536bd3c94f 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
 @@ -43,6 +43,7 @@ import net.minecraft.world.entity.EntityType;
@@ -8610,7 +8610,7 @@ index ef07967b64180c54338b8fb2ba1780adec87f333..71e4178bf7d553141719c8a6cb7488d3
              }
              // Paper end - fix sand duping
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 64c8eefa0302b04b416cd4912c01c50feddf1301..99176a781a5e375c71197546222e2b6f85544f47 100644
+index 68c88e91ceb1fb19d2b3c168e56d7a4314232d64..8d38eac6316dedc94dc257e6dabfd704c0311caa 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -55,6 +55,12 @@ public class ItemEntity extends Entity {
@@ -8626,7 +8626,7 @@ index 64c8eefa0302b04b416cd4912c01c50feddf1301..99176a781a5e375c71197546222e2b6f
  
      public ItemEntity(EntityType<? extends ItemEntity> type, Level world) {
          super(type, world);
-@@ -334,6 +340,15 @@ public class ItemEntity extends Entity {
+@@ -339,6 +345,15 @@ public class ItemEntity extends Entity {
              return false;
          } else if (!this.getItem().getItem().canBeHurtBy(source)) {
              return false;
@@ -8642,7 +8642,7 @@ index 64c8eefa0302b04b416cd4912c01c50feddf1301..99176a781a5e375c71197546222e2b6f
          } else if (this.level.isClientSide) {
              return true;
          } else {
-@@ -519,6 +534,12 @@ public class ItemEntity extends Entity {
+@@ -524,6 +539,12 @@ public class ItemEntity extends Entity {
          this.getEntityData().set(ItemEntity.DATA_ITEM, stack);
          this.getEntityData().markDirty(ItemEntity.DATA_ITEM); // CraftBukkit - SPIGOT-4591, must mark dirty
          this.despawnRate = level.paperConfig().entities.spawning.altItemDespawnRate.enabled ? level.paperConfig().entities.spawning.altItemDespawnRate.items.getOrDefault(stack.getItem(), level.spigotConfig.itemDespawnRate) : level.spigotConfig.itemDespawnRate; // Paper
