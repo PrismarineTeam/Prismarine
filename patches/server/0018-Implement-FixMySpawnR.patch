@@ -66,12 +66,12 @@ index 66c65df229acc4041ed2027df07d4ab0dd8e7454..d26666d67292f4b5d22b4d4ee0275f55
      }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..4b64cc51772012344a091e95751a92a288383e61 100644
+index cb36a3bb0a63da10e0717b1a7302290a691f49be..026cca083f9e21cd8e170e3e8c55e2c2601212f5 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -129,4 +129,9 @@ public class PrismarineWorldConfig {
-     private void fishingRodLength() {
-         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
+@@ -141,4 +141,9 @@ public class PrismarineWorldConfig {
+         doNotSendFirePacketsIfPlayerHasFireResistance = getBoolean("do-not-send-fire-packets.if-player-has-fire-resistance", doNotSendFirePacketsIfPlayerHasFireResistance);
+         doNotSendFirePacketsIfPlayerIsCreative = getBoolean("do-not-send-fire-packets.if-player-is-creative", doNotSendFirePacketsIfPlayerHasFireResistance);
      }
 +
 +    public int timerTimeOut = 0;

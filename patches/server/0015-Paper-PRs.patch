@@ -51,7 +51,7 @@ Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#
 0017
 
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 835403ce42df05092685ef38a4546e409f8a1eab..38307a647d12c34c7d2adeb73202e6a807641944 100644
+index cfac96faf51a3cfe2163a06e4a8700668d247b8b..2a65c026ac44b14939eb7607d570bed03b76bdc3 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 @@ -82,19 +82,24 @@ public class FriendlyByteBuf extends ByteBuf {
@@ -123,7 +123,7 @@ index 0c48e877a0dba9fba3295d1740527fa418b5e26c..89d02602cd30637f7395abc775bb0599
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6999fa23c166ad2bd98ef435d36c7b6e678976bd..a968c75028188808650d3cbd696e45f04b6d2005 100644
+index 64f6c4a7808c7f4cc3b864686b0e93a2b5084abe..d4022a24205c149dd28533222a0a5bbe8f067360 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -609,7 +609,7 @@ public abstract class PlayerList {

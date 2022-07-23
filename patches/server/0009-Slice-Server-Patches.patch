@@ -1,0 +1,80 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 23 Jul 2022 23:30:08 +0900
+Subject: [PATCH] Slice Server Patches
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 0c8a23018d75802ac0cbd7367c3087e81007a953..ddd5d3c47df9ac8bb7ed61be68c3e28828648632 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -59,10 +59,7 @@ import net.minecraft.resources.ResourceKey;
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.MCUtil;
+ import net.minecraft.server.MinecraftServer;
+-import net.minecraft.server.level.ServerChunkCache;
+-import net.minecraft.server.level.ServerLevel;
+-import net.minecraft.server.level.ServerPlayer;
+-import net.minecraft.server.level.TicketType;
++import net.minecraft.server.level.*;
+ import net.minecraft.sounds.SoundEvent;
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
+@@ -126,6 +123,7 @@ import net.minecraft.world.phys.shapes.Shapes;
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ import net.minecraft.world.scores.PlayerTeam;
+ import net.minecraft.world.scores.Team;
++import org.bukkit.GameMode;
+ import org.slf4j.Logger;
+ import org.bukkit.Bukkit;
+ import org.bukkit.Location;
+@@ -878,6 +876,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+ 
+         this.checkOutOfWorld();
+         if (!this.level.isClientSide) {
++            // Prismarine start - Slice tweaks
++            if (this instanceof ServerPlayer serverPlayer) {
++                if (this.level.prismarineConfig.doNotSendFirePacketsIfPlayerHasFireResistance) this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !serverPlayer.hasEffect(net.minecraft.world.effect.MobEffects.FIRE_RESISTANCE));
++                else if (this.level.prismarineConfig.doNotSendFirePacketsIfPlayerIsCreative) this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !serverPlayer.isCreative());
++                else this.setSharedFlagOnFire(this.remainingFireTicks > 0);
++            } else this.setSharedFlagOnFire(this.remainingFireTicks > 0);
++            // Prismarine end
++
+             this.setSharedFlagOnFire(this.remainingFireTicks > 0);
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 411593b1b105d62440d76b7bd1b8c74b701e3e75..e4be548183dca8d78228a084693bce6a8621c1dd 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -3147,7 +3147,7 @@ public abstract class LivingEntity extends Entity {
+ 
+             ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
+ 
+-            if (!ItemStack.matches(itemstack1, itemstack)) {
++            if (this.level.prismarineConfig.doNotSendEquipmentUpdatesIfOnlyDurabilityChanges ? !ItemStack.isSameIgnoreDurability(itemstack1, itemstack) : !ItemStack.matches(itemstack1, itemstack)) { // Prismarine - Slice tweaks
+                 // Paper start - PlayerArmorChangeEvent
+                 if (this instanceof ServerPlayer && enumitemslot.getType() == EquipmentSlot.Type.ARMOR) {
+                     final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..cb36a3bb0a63da10e0717b1a7302290a691f49be 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -129,4 +129,16 @@ public class PrismarineWorldConfig {
+     private void fishingRodLength() {
+         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
+     }
++
++    public boolean doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = false;
++    private void doNotSendEquipmentUpdatesIfOnlyDurabilityChanged() {
++        doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = getBoolean("do-not-send-equipment-updates-if-only-durability-changes", doNotSendEquipmentUpdatesIfOnlyDurabilityChanges);
++    }
++
++    public boolean doNotSendFirePacketsIfPlayerHasFireResistance = true;
++    public boolean doNotSendFirePacketsIfPlayerIsCreative = true;
++    private void fixFireDisplay() {
++        doNotSendFirePacketsIfPlayerHasFireResistance = getBoolean("do-not-send-fire-packets.if-player-has-fire-resistance", doNotSendFirePacketsIfPlayerHasFireResistance);
++        doNotSendFirePacketsIfPlayerIsCreative = getBoolean("do-not-send-fire-packets.if-player-is-creative", doNotSendFirePacketsIfPlayerHasFireResistance);
++    }
+ }
+\ No newline at end of file
