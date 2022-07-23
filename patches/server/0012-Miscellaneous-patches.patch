@@ -209,3 +209,20 @@ index 3eee2ebaee415cde427eb72f61a3c67ed5cc0e30..97115c2c5fdbea7f73b2eb81093dfae6
          }
      }
  
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index fe49723b5fec298d7a10a1f69211933974edf3e9..719f6ff508653db989ab0199476b47100378f92c 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -46,7 +46,11 @@ public class PurpurConfig {
+             + "join us in our Discord guild.\n"
+             + "\n"
+             + "Website: https://purpurmc.org \n"
+-            + "Docs: https://purpurmc.org/docs \n";
++            // Prismarine start - Food properties information
++            + "Docs: https://purpurmc.org/docs \n"
++            + "\n"
++            + "Checks here for configuration on food properties: https://gist.github.com/BillyGalbreath/4fdfba991bd020e814eabf5143e3b225 \n";
++            // Prismarine end
+     private static File CONFIG_FILE;
+     public static YamlConfiguration config;
+ 

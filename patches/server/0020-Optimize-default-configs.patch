@@ -71,10 +71,10 @@ index d80894a0ed1022e9abec6b0bad50e6ff0a33157a..9eb14a5b3b126478c3a59e6c6f4ca0d6
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
          this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index fe49723b5fec298d7a10a1f69211933974edf3e9..942b6c2effeeaf3ca860b029ec5452d51a4acd27 100644
+index 719f6ff508653db989ab0199476b47100378f92c..99715170d000f2a45a3db932d4d4f8f6deab487f 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -245,7 +245,7 @@ public class PurpurConfig {
+@@ -249,7 +249,7 @@ public class PurpurConfig {
          laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
      }
  
