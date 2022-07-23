@@ -35,6 +35,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0023
 0027
 0028
+0029
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -1239,6 +1240,43 @@ index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..f8b36ea1249d3444d25ac88748437aa9
              return true;
          }
          return false;
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 2d90a7cf5d5de95005724fabcf7362bf7b555f6e..72ed3ff31682673c045be76bf5329894704b84d0 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -8,8 +8,11 @@ import java.util.logging.Logger;
+ import org.bukkit.Bukkit;
+ 
+ public final class Versioning {
+-    public static String getBukkitVersion() {
+-        String result = "Unknown-Version";
++    // Prismarine start - JettPack patches
++    public static String bukkitVersion;
++    static {
++        bukkitVersion = "Unknown-Version";
++    // Prismarine end
+ 
+         InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/net.prismarineteam.prismarine/Prismarine-API/pom.properties"); // Purpur // Prismarine
+         Properties properties = new Properties();
+@@ -18,12 +21,16 @@ public final class Versioning {
+             try {
+                 properties.load(stream);
+ 
+-                result = properties.getProperty("version");
++                bukkitVersion = properties.getProperty("version"); // Prismarine - JettPack patches
+             } catch (IOException ex) {
+                 Logger.getLogger(Versioning.class.getName()).log(Level.SEVERE, "Could not get Prismarine version!", ex); // Prismarine
+             }
+         }
++    }
+ 
+-        return result;
++    // Prismarine start - JettPack patches
++    public static String getBukkitVersion() {
++        return bukkitVersion;
+     }
++    // Prismarine end
+ }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
 index af61231d5b76690f32ec51feae343909ecc5b0b6..c37de3ca2bdf3b9dfb92b8585015cb94eefef843 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
