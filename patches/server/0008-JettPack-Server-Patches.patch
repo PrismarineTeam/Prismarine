@@ -33,6 +33,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0021
 0022
 0023
+0027
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -852,6 +853,19 @@ index c45d394ed568122ad21a955c335b2744844a00de..31da3873bec0b75226baa53f3ee8c86c
          }
      }
  }
+diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
+index af7c916f31926399445aeb1f76ec2bee79dd7821..63bedbfbedc688b9bd9555e811d51c555cbd6771 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
++++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
+@@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {
+ 
+     // Paper start
+     private static void printOversizedLog(String msg, Path file, int x, int z) {
+-        org.apache.logging.log4j.LogManager.getLogger().fatal(msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO PRISMARINE - You may ask for help on Discord, but do not file an issue. These error messages can not be removed."); // Purpur // Prismarine
++        net.minecraft.server.MinecraftServer.LOGGER.error(com.mojang.logging.LogUtils.FATAL_MARKER, msg + " (" + file.toString().replaceAll(".+[\\\\/]", "") + " - " + x + "," + z + ") Go clean it up to remove this message. /minecraft:tp " + (x<<4)+" 128 "+(z<<4) + " - DO NOT REPORT THIS TO PRISMARINE - You may ask for help on Discord, but do not file an issue. These error messages can not be removed."); // Purpur // Prismarine - JettPack patches (Remove unnecessary getLogger())
+     }
+ 
+     private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
 index f54ca6383298848b2ee7108c41fcea593f924881..3f620efec7af845532d5562403e06971134b17f5 100644
 --- a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
