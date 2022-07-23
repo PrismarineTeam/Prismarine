@@ -31,30 +31,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 0006 - Don't send fire packets if player has Fire Resistance
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 0c8a23018d75802ac0cbd7367c3087e81007a953..ddd5d3c47df9ac8bb7ed61be68c3e28828648632 100644
+index 0c8a23018d75802ac0cbd7367c3087e81007a953..b7021c999f6832e79ece3cae2d1f8a405a960670 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -59,10 +59,7 @@ import net.minecraft.resources.ResourceKey;
- import net.minecraft.resources.ResourceLocation;
- import net.minecraft.server.MCUtil;
- import net.minecraft.server.MinecraftServer;
--import net.minecraft.server.level.ServerChunkCache;
--import net.minecraft.server.level.ServerLevel;
--import net.minecraft.server.level.ServerPlayer;
--import net.minecraft.server.level.TicketType;
-+import net.minecraft.server.level.*;
- import net.minecraft.sounds.SoundEvent;
- import net.minecraft.sounds.SoundEvents;
- import net.minecraft.sounds.SoundSource;
-@@ -126,6 +123,7 @@ import net.minecraft.world.phys.shapes.Shapes;
- import net.minecraft.world.phys.shapes.VoxelShape;
- import net.minecraft.world.scores.PlayerTeam;
- import net.minecraft.world.scores.Team;
-+import org.bukkit.GameMode;
- import org.slf4j.Logger;
- import org.bukkit.Bukkit;
- import org.bukkit.Location;
-@@ -878,6 +876,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
          this.checkOutOfWorld();
          if (!this.level.isClientSide) {
