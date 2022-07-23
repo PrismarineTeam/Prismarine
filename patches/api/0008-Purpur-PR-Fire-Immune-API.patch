@@ -3,9 +3,31 @@ From: Alpha <alphakr93@outlook.com>
 Date: Sun, 13 Feb 2022 14:20:00 +0900
 Subject: [PATCH] Purpur PR - Fire Immune API
 
+Original by Racci <90304606+DaRacci@users.noreply.github.com> (PurpurMC/Purpur#891)
+
+Copyright (c) 2022 PurpurMC LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..3aa2eb270f8b8cd78049f0196441c5c0c5c9399f 100644
+index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..a3f6ecff6ac0540f99f95b9a2aca2071913a20e8 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
 @@ -934,5 +934,20 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
@@ -15,25 +37,25 @@ index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..3aa2eb270f8b8cd78049f0196441c5c0
 +
 +    // Prismarine start - Purpur PR
 +    /**
-+     * Sets if the entity is fire immune
-+     * Set this to null to restore the entity type default
-+     */
-+    void setImmuneToFire(@Nullable Boolean fireImmune);
-+
-+    /**
 +     * Checks if the entity is fire immune
 +     *
 +     * @return True if fire immune
 +     */
 +    boolean isImmuneToFire();
++
++    /**
++     * Sets if the entity is fire immune
++     * Set this to null to restore the entity type default
++     */
++    void setImmuneToFire(@Nullable Boolean fireImmune);
 +    // Prismarine end
      // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Item.java b/src/main/java/org/bukkit/entity/Item.java
-index fd213c026fdfb3030d0c37f651a88857ca038cba..adc98dd50d6a3628cef130c2cd4c198822f0a314 100644
+index fd213c026fdfb3030d0c37f651a88857ca038cba..022464cac058c79afed8cac1393766829fd6a777 100644
 --- a/src/main/java/org/bukkit/entity/Item.java
 +++ b/src/main/java/org/bukkit/entity/Item.java
-@@ -183,19 +183,25 @@ public interface Item extends Entity {
+@@ -183,12 +183,16 @@ public interface Item extends Entity {
       */
      boolean isImmuneToExplosion();
  
@@ -46,16 +68,7 @@ index fd213c026fdfb3030d0c37f651a88857ca038cba..adc98dd50d6a3628cef130c2cd4c1988
       */
 +    @Deprecated
      void setImmuneToFire(boolean immuneToFire);
- 
-     /**
-      * Check if item is immune to fire
-      *
-      * @return True if immune to fire
-+     * @deprecated use Entity.isImmuneToFire() instead
-      */
-+    @Deprecated
-     boolean isImmuneToFire();
 +    // Prismarine end
  
      /**
-      * Set whether or not this item is immune to lightning
+      * Check if item is immune to fire
