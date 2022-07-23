@@ -566,10 +566,10 @@ index d21530eb6bc150e431769b02fe50040fa5190b02..24cb4d43703b4f2b40f5e15dbbe2cf7f
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 9e1ba6c434fcdedd9be6c95ffc12f05cdb4cf850..1db5fbf8a84ac71fc00088e7940bc7ed2fa78c57 100644
+index dcb193c8e8d08d09dd2266118aaa6936b78f2d0e..fb164fc1f354d2b1d8521f8ae5c75f400b2b8beb 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1028,6 +1028,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1029,6 +1029,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
          LOGGER.info("Closing Thread Pool");
@@ -577,7 +577,7 @@ index 9e1ba6c434fcdedd9be6c95ffc12f05cdb4cf850..1db5fbf8a84ac71fc00088e7940bc7ed
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1486,6 +1487,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1487,6 +1488,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) {
@@ -585,7 +585,7 @@ index 9e1ba6c434fcdedd9be6c95ffc12f05cdb4cf850..1db5fbf8a84ac71fc00088e7940bc7ed
              this.runAllTasks();
          }
          // Paper end
-@@ -2734,6 +2736,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2740,6 +2742,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
