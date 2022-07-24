@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 23 Jul 2022 03:44:06 +0000
+Date: Sat, 23 Jul 2022 23:55:20 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -39,17 +39,104 @@ index 10716b2c866631badb99b1fb79b66c62b117b038..a141e5cdcec4d09b05252782e8a0ab5f
      val options = options as StandardJavadocDocletOptions
      options.overview = "src/main/javadoc/overview.html"
      options.use()
+diff --git a/src/main/java/co/aikar/timings/TimedEventExecutor.java b/src/main/java/co/aikar/timings/TimedEventExecutor.java
+index 4e6e1b8e8aeb07e34536941d2cbfc25e5cfa6c27..5f8aab2cb734fcea7e2b4d4b2803170a7beddb87 100644
+--- a/src/main/java/co/aikar/timings/TimedEventExecutor.java
++++ b/src/main/java/co/aikar/timings/TimedEventExecutor.java
+@@ -76,8 +76,8 @@ public class TimedEventExecutor implements EventExecutor {
+             executor.execute(listener, event);
+             return;
+         }
+-        try (Timing ignored = timings.startTiming()){
++        //try (Timing ignored = timings.startTiming()){ // Purpur
+             executor.execute(listener, event);
+-        }
++        //} // Purpur
+     }
+ }
+diff --git a/src/main/java/co/aikar/timings/Timing.java b/src/main/java/co/aikar/timings/Timing.java
+index a21e5ead5024fd0058c5e3302d8201dd249d32bc..505908e987a032a801ae03d7fb020dfb662bf81b 100644
+--- a/src/main/java/co/aikar/timings/Timing.java
++++ b/src/main/java/co/aikar/timings/Timing.java
+@@ -36,6 +36,7 @@ public interface Timing extends AutoCloseable {
+      * @return Timing
+      */
+     @NotNull
++    @io.papermc.paper.annotation.DoNotUse // Purpur
+     Timing startTiming();
+ 
+     /**
+@@ -43,6 +44,7 @@ public interface Timing extends AutoCloseable {
+      *
+      * Will automatically be called when this Timing is used with try-with-resources
+      */
++    @io.papermc.paper.annotation.DoNotUse // Purpur
+     void stopTiming();
+ 
+     /**
+@@ -53,6 +55,7 @@ public interface Timing extends AutoCloseable {
+      * @return Timing
+      */
+     @NotNull
++    @io.papermc.paper.annotation.DoNotUse // Purpur
+     Timing startTimingIfSync();
+ 
+     /**
+@@ -62,12 +65,14 @@ public interface Timing extends AutoCloseable {
+      *
+      * But only if we are on the primary thread.
+      */
++    @io.papermc.paper.annotation.DoNotUse // Purpur
+     void stopTimingIfSync();
+ 
+     /**
+      * @deprecated Doesn't do anything - Removed
+      */
+     @Deprecated
++    @io.papermc.paper.annotation.DoNotUse // Purpur
+     void abort();
+ 
+     /**
+@@ -79,5 +84,6 @@ public interface Timing extends AutoCloseable {
+     TimingHandler getTimingHandler();
+ 
+     @Override
++    @io.papermc.paper.annotation.DoNotUse // Purpur
+     void close();
+ }
+diff --git a/src/main/java/co/aikar/timings/Timings.java b/src/main/java/co/aikar/timings/Timings.java
+index dd72a34eaa4bedd9ea0b92eaa79091b00eb4dd09..759e9cbcedb50894821dcb6dcc602af4f0c3453e 100644
+--- a/src/main/java/co/aikar/timings/Timings.java
++++ b/src/main/java/co/aikar/timings/Timings.java
+@@ -114,7 +114,7 @@ public final class Timings {
+     @NotNull
+     public static Timing ofStart(@NotNull Plugin plugin, @NotNull String name, @Nullable Timing groupHandler) {
+         Timing timing = of(plugin, name, groupHandler);
+-        timing.startTiming();
++        //timing.startTiming(); // Purpur
+         return timing;
+     }
+ 
 diff --git a/src/main/java/co/aikar/timings/TimingsCommand.java b/src/main/java/co/aikar/timings/TimingsCommand.java
-index 3132dc98d26c54c5e46162e53aaed195d7335c8d..a2357b323bcfd23c8c45a81ef749d88dd64cb8d5 100644
+index 3132dc98d26c54c5e46162e53aaed195d7335c8d..f744ef6bb38f9fada25720862b83ce37007ce769 100644
 --- a/src/main/java/co/aikar/timings/TimingsCommand.java
 +++ b/src/main/java/co/aikar/timings/TimingsCommand.java
+@@ -44,7 +44,7 @@ public class TimingsCommand extends BukkitCommand {
+     public TimingsCommand(@NotNull String name) {
+         super(name);
+         this.description = "Manages Spigot Timings data to see performance of the server.";
+-        this.usageMessage = "/timings <reset|report|on|off|verbon|verboff>";
++        this.usageMessage = "/timings";// <reset|report|on|off|verbon|verboff>"; // Purpur
+         this.setPermission("bukkit.command.timings");
+     }
+ 
 @@ -53,6 +53,13 @@ public class TimingsCommand extends BukkitCommand {
          if (!testPermission(sender)) {
              return true;
          }
-+        if (currentAlias.equalsIgnoreCase("timings")) {
++        if (true) {
 +            net.kyori.adventure.text.minimessage.MiniMessage mm = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage();
-+            sender.sendMessage(mm.deserialize("<gold>Purpur is removing timings soon. Try using <grey>/spark</grey> instead"));
++            sender.sendMessage(mm.deserialize("<gold>Purpur has removed timings to save your performance. Please use <grey>/spark</grey> instead"));
 +            sender.sendMessage(mm.deserialize("<gold>For more information, view its documentation at"));
 +            sender.sendMessage(mm.deserialize("<gold><click:open_url:'url'>https://spark.lucko.me/docs/Command-Usage</click>"));
 +            return true;
@@ -57,6 +144,15 @@ index 3132dc98d26c54c5e46162e53aaed195d7335c8d..a2357b323bcfd23c8c45a81ef749d88d
          if (args.length < 1) {
              sender.sendMessage(text("Usage: " + this.usageMessage, NamedTextColor.RED));
              return true;
+@@ -111,7 +118,7 @@ public class TimingsCommand extends BukkitCommand {
+         Preconditions.checkNotNull(args, "Arguments cannot be null");
+         Preconditions.checkNotNull(alias, "Alias cannot be null");
+ 
+-        if (args.length == 1) {
++        if (false && args.length == 1) { // Purpur
+             return StringUtil.copyPartialMatches(args[0], TIMINGS_SUBCOMMANDS,
+                 new ArrayList<String>(TIMINGS_SUBCOMMANDS.size()));
+         }
 diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
 index 8fd399f791b45eb7fc62693ca954eea0c68e2881..c18940f5c3b3436c19ca6ea466bc8a78579c795f 100644
 --- a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
@@ -479,7 +575,7 @@ index e8c0c853eb52d1473c20231660355f77b1f7e016..3d053490dc87724f57893a553f1ab9cf
       * Represents various map environment types that a world may be
       */
 diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/java/org/bukkit/command/SimpleCommandMap.java
-index b8623575b1c1b565560c2dd6438190716845a652..0bc24d0effe9b2e44c41a1c00060b0ebf7395c4a 100644
+index b8623575b1c1b565560c2dd6438190716845a652..aad6edb02f690b875db28e8db9bcd4e36b90d766 100644
 --- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
 +++ b/src/main/java/org/bukkit/command/SimpleCommandMap.java
 @@ -143,6 +143,19 @@ public class SimpleCommandMap implements CommandMap {
@@ -502,15 +598,20 @@ index b8623575b1c1b565560c2dd6438190716845a652..0bc24d0effe9b2e44c41a1c00060b0eb
          // Paper start - Plugins do weird things to workaround normal registration
          if (target.timings == null) {
              target.timings = co.aikar.timings.TimingsManager.getCommandTiming(null, target);
-@@ -152,7 +165,7 @@ public class SimpleCommandMap implements CommandMap {
+@@ -150,10 +163,10 @@ public class SimpleCommandMap implements CommandMap {
+         // Paper end
+ 
          try {
-             try (co.aikar.timings.Timing ignored = target.timings.startTiming()) { // Paper - use try with resources
+-            try (co.aikar.timings.Timing ignored = target.timings.startTiming()) { // Paper - use try with resources
++            //try (co.aikar.timings.Timing ignored = target.timings.startTiming()) { // Paper - use try with resources // Purpur
              // Note: we don't return the result of target.execute as thats success / failure, we return handled (true) or not handled (false)
 -            target.execute(sender, sentCommandLabel, Arrays.copyOfRange(args, 1, args.length));
+-            } // target.timings.stopTiming(); // Spigot // Paper
 +            target.execute(sender, sentCommandLabel, parsedArgs); // Purpur
-             } // target.timings.stopTiming(); // Spigot // Paper
++            //} // target.timings.stopTiming(); // Spigot // Paper // Purpur
          } catch (CommandException ex) {
              server.getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerCommandException(ex, target, sender, args))); // Paper
+             //target.timings.stopTiming(); // Spigot // Paper
 diff --git a/src/main/java/org/bukkit/command/defaults/PluginsCommand.java b/src/main/java/org/bukkit/command/defaults/PluginsCommand.java
 index 1aa58c59e1e8738bbdc77752885ff3b18b29de42..0b4937dc6d003caf0f43a01a5a0801d5804082bf 100644
 --- a/src/main/java/org/bukkit/command/defaults/PluginsCommand.java
@@ -1923,7 +2024,7 @@ index cd3296fea01648592d2af89b3d80135acb6d0958..45797a6fbae1d8edc4211cb30def24ad
  
              permissions.put(lname, new PermissionAttachmentInfo(parent, lname, attachment, value));
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index e42a2d631fd7eaa455132e0cf64c9be7707dadb9..cc67217ff6003c83f10c6eeb7d4a2205cb0129c4 100644
+index 49a4611ed4891cce10fd6e01b4062740ad18ee6f..6bb115923767c4bd65b18e67eeff5408f2894ab0 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -165,6 +165,12 @@ public final class SimplePluginManager implements PluginManager {
@@ -3403,6 +3504,20 @@ index 0000000000000000000000000000000000000000..502896f69a139c9524625a2c0d9029f8
 +        return handlers;
 +    }
 +}
+diff --git a/src/main/java/org/spigotmc/CustomTimingsHandler.java b/src/main/java/org/spigotmc/CustomTimingsHandler.java
+index 123647bb10fc89508437d7a0bd3fd31d58ee7c82..ce209668dd7f11b284bd7f5688191a0b3ae86a09 100644
+--- a/src/main/java/org/spigotmc/CustomTimingsHandler.java
++++ b/src/main/java/org/spigotmc/CustomTimingsHandler.java
+@@ -61,7 +61,7 @@ public final class CustomTimingsHandler {
+         handler = timing;
+     }
+ 
+-    public void startTiming() { handler.startTiming(); }
+-    public void stopTiming() { handler.stopTiming(); }
++    public void startTiming() { /*handler.startTiming();*/ } // Purpur
++    public void stopTiming() { /*handler.stopTiming();*/ } // Purpur
+ 
+ }
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
 index bbe81f7a420f913ffdcad913a3c43ff41ead41f5..49de298146814fdf238929e10270ac6717dd73bd 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java

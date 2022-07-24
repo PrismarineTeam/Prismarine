@@ -580,7 +580,7 @@ index d21530eb6bc150e431769b02fe50040fa5190b02..24cb4d43703b4f2b40f5e15dbbe2cf7f
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index dcb193c8e8d08d09dd2266118aaa6936b78f2d0e..fb164fc1f354d2b1d8521f8ae5c75f400b2b8beb 100644
+index 1db36356bc32543fe525cc261577b27dac965a1f..1ab7f19fdbc25f4303e6507830f6560979814499 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1029,6 +1029,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -594,17 +594,18 @@ index dcb193c8e8d08d09dd2266118aaa6936b78f2d0e..fb164fc1f354d2b1d8521f8ae5c75f40
 @@ -1487,6 +1488,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
-         try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) {
+         //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
 +            MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
              this.runAllTasks();
-         }
+         //} // Purpur
          // Paper end
-@@ -2740,6 +2742,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2739,7 +2741,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             // so, backoff to prevent this
              return;
          }
- 
+-
 +        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
-         co.aikar.timings.MinecraftTimings.midTickChunkTasks.startTiming();
+         //co.aikar.timings.MinecraftTimings.midTickChunkTasks.startTiming(); // Purpur
          try {
              for (;;) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
@@ -669,7 +670,7 @@ index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1e
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index be338bfaaada839ca9fcc556e4f0608fca3216ec..64f6c4a7808c7f4cc3b864686b0e93a2b5084abe 100644
+index 048df4f7263515faefd78e60a8223136665cdf44..1b075ed41c0c7d4df0459d3ee25631f79e2f79b2 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -498,7 +498,13 @@ public abstract class PlayerList {
@@ -768,7 +769,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 34db1bd524bb97fbbe0f86b088a2ac343e730f5e..354766eeccb36a86eebd8a5854bc1dc89e9a8488 100644
+index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf1543009a8dab2b 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -835,9 +835,6 @@ public abstract class Mob extends LivingEntity {
@@ -792,7 +793,7 @@ index 34db1bd524bb97fbbe0f86b088a2ac343e730f5e..354766eeccb36a86eebd8a5854bc1dc8
          } else {
              this.noActionTime = 0;
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
-index 0cc0d719e95e108263683b7a40f4ce3a8ca9465b..fa299fede64eaa2f69bd6592cc712e32de5507a0 100644
+index 872ec431ae6beb0ef603d833f38aedb9d87e5466..59014e55a6848addfd67cfc2bc0366e313c0145d 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 @@ -27,7 +27,7 @@ public class GoalSelector {
@@ -818,7 +819,7 @@ index f5886a88fd98ede5e85a91eccccb05ac33eb40e2..b4403229fb9ff45410b63d2d1459f9cb
          } else {
              this.discard();
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 68c84f82f0572a0ce4d4d84eb38d8802fe10310f..8cffd2557e1a42c3b0060c72089c1f84aa8049a2 100644
+index 924b43be943f1ddd3458b56845ab56c4c08cc164..28474892edc43497532079ed2759fd0c1785256b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
