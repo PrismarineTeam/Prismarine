@@ -39,25 +39,28 @@ Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](LICENSE/KOR_FULL.md) 확인할 수 있습니다.
-
 ### GNU General Public License v3.0
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
+- [JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [Akarin](https://github.com/Akarin-project/Akarin)
+- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
+- [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
 
 ### MIT License
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+- [Slice](https://github.com/Cryptite/Slice)
+- [C2ME](https://github.com/RelativityMC/C2ME-fabric)
+- [Very Many Players](https://github.com/RelativityMC/VMP-fabric)
+- [Erroring Entity Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-### 분류 필요
-- Patina
-- JettPack
-- Slice
-- Lithium
-- VeryManyPlayers
-- FixMySpawnR
-- EmpireCraft
-- Spigot, Bukkit, CraftBukkit
-- Erroring Entity Remover
-- Akarin
-- Simply No Reports
-- C2ME
+### GNU Lesser General Public License v3.0
+- [Lithium](https://github.com/CaffeineMC/lithium-fabric)
+
+### Creative Commons Zero v1.0 Universal
+- [FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
+
+### Custom License
+- [No Chat Reports](https://github.com/Aizistral-Studios/No-Chat-Reports) - [Do What The F*ck You Want To Public License](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE)
+
+본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](LICENSE/KOR_FULL.md) 확인할 수 있습니다.
