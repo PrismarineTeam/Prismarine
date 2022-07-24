@@ -11,7 +11,7 @@ Prismarine
 [![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
 
-[Discord](https://discord.gg/kkqMSEVVxN) | [한국어](src/README/KOR.md) - **English**
+[Discord](https://discord.gg/kkqMSEVVxN) - [네이버 카페](https://cafe.naver.com/prismarine) | **한국어** - [English](README.md)
 
 [Paper](https://github.com/PaperMC/Paper) 기반의 여러 개선이 추가된 Minecraft: Java Edition 용 서버 플랫폼
 
@@ -19,7 +19,7 @@ Prismarine
 
 </div>
 
-## Features
+## Prismarine 만의 장점
 - Pufferfish, Purpur의 모든 패치를 포함해 더 빠른 속도와 더 넓은 API를 지원합니다.
    - 기존의 Bukkit, CraftBukkit, Spigot, Paper API 기반의 플러그인도 모두 정상 작동합니다.
 - 여러 모드를 포팅해 버그를 해결하고 여러 개선이 제공됩니다.
@@ -27,7 +27,7 @@ Prismarine
 - 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
 - GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
 
-## Downloads
+## 다운로드
 일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
 
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
@@ -81,38 +81,38 @@ repositories {
 ```
 
 ### Create patches and contribute to Prismarine
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+[CONTRIBUTING.md](src/CONTRIBUTING/KOR.md) 를 확인해주세요.
 
 ### Create your own bucket based on Prismarine
-See [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template)
+[Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19/src/README/KOR.md) 을 확인해주세요.
 
-## Licenses
-패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSE/ENG.md)에 따라 라이선스가 부여됩니다.
+## 라이선스
+패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSE/KOR.md)에 따라 라이선스가 부여됩니다.
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
 ### GNU General Public License v3.0
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
-- [JettPack](https://gitlab.com/Titaniumtown/JettPack)
-- [Akarin](https://github.com/Akarin-project/Akarin)
+- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
 
+### GNU Lesser General Public License v3.0
+- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
+
 ### MIT License
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
-- [Slice](https://github.com/Cryptite/Slice)
-- [C2ME](https://github.com/RelativityMC/C2ME-fabric)
-- [Very Many Players](https://github.com/RelativityMC/VMP-fabric)
-- [Erroring Entity Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
-
-### GNU Lesser General Public License v3.0
-- [Lithium](https://github.com/CaffeineMC/lithium-fabric)
+- [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [RelativityMC/C2ME-fabric (Concurrent Chunk Management Engine)](https://github.com/RelativityMC/C2ME-fabric)
+- [RelativityMC/VMP-fabric (Very Many Players)](https://github.com/RelativityMC/VMP-fabric)
+- [The Fireplace Minecraft Mods/Erroring Entity Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
 ### Creative Commons Zero v1.0 Universal
-- [FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
+- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
 ### Custom License
-- [No Chat Reports](https://github.com/Aizistral-Studios/No-Chat-Reports) - [Do What The F*ck You Want To Public License](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE)
+- [Aizistral Studios/No Chat Reports](https://github.com/Aizistral-Studios/No-Chat-Reports) - [Do What The F*ck You Want To Public License](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE)
 
-본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/ENG_FULL.md) 확인할 수 있습니다.
+본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/KOR_FULL.md) 확인할 수 있습니다.
