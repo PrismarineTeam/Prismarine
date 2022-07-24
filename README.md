@@ -36,7 +36,7 @@ Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github
 ## 버킷 개발자의 경우
 <WIP>
 
-## Licenses
+## Licenses (분리 필요)
 패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 MIT License에 따라 라이센스가 부여됩니다.
 
 ### 아래의 프로젝트 및 패치는 GNU General Public License v3.0에 따라 라이센스가 부여됩니다.
@@ -58,5 +58,12 @@ Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github
 - FixMySpawnR
 - EmpireCraft
 - Spigot, Bukkit, CraftBukkit
+- Erroring Entity Remover
+- Akarin
+- Simply No Reports
 - Gradle
-- 기타 이 프로젝트에 포함된 모드
+- Gradle Shadow
+- Tiny recapped
+- Forgeflower
+- Paperclip
+- 더 추가 필요
