@@ -27,3 +27,29 @@ Prismarine
 ## 다운로드
 일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
+
+## 라이선스
+패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](LICENSE)에 따라 라이선스가 부여됩니다.
+
+본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
+
+### GNU General Public License v3.0
+- [PaperMC/Paper](https://github.com/PaperMC/Paper)
+- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
+
+### MIT License
+- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+
+### 분류 필요
+- Patina
+- JettPack
+- Slice
+- Lithium
+- VeryManyPlayers
+- FixMySpawnR
+- EmpireCraft
+- Spigot, Bukkit, CraftBukkit
+- Erroring Entity Remover
+- Akarin
+- Simply No Reports
+- C2ME
