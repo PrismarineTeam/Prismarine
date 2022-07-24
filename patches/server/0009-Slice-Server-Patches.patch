@@ -29,9 +29,145 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [ADDED PATCHES]
 0004 - Don't send equipment updates if only durability changed
 0006 - Don't send fire packets if player has Fire Resistance
+0012 - Packet obfuscation and reduction
 
+diff --git a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
+index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8074bce42 100644
+--- a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
++++ b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
+@@ -136,6 +136,12 @@ public class SynchedEntityData {
+     }
+ 
+     public <T> void set(EntityDataAccessor<T> key, T value) {
++        // Prismarine start - Slice patches
++        set(key, value, null);
++    }
++
++    public <T> void set(EntityDataAccessor<T> key, T value, @Nullable T foreignValue) {
++        // Prismarine end
+         SynchedEntityData.DataItem<T> datawatcher_item = this.getItem(key);
+ 
+         if (ObjectUtils.notEqual(value, datawatcher_item.getValue())) {
+@@ -144,7 +150,11 @@ public class SynchedEntityData {
+             datawatcher_item.setDirty(true);
+             this.isDirty = true;
+         }
+-
++        // Slice start
++        if (foreignValue != null && ObjectUtils.notEqual(foreignValue, datawatcher_item.getForeignValue())) {
++            datawatcher_item.setForeignValue(foreignValue);
++        }
++        // Slice end
+     }
+ 
+     // CraftBukkit start - add method from above
+@@ -200,6 +210,28 @@ public class SynchedEntityData {
+         return list;
+     }
+ 
++    // Slice start
++    @Nullable
++    public List<SynchedEntityData.DataItem<?>> packForeignDirty(List<DataItem<?>> unpackedData) {
++        List<SynchedEntityData.DataItem<?>> list = null;
++
++        for (DataItem<?> dataItem : unpackedData) {
++            DataItem<?> item = itemsById.get(dataItem.accessor.getId());
++            if (item.isDirty(true)) {
++                item.setForeignDirty(false);
++
++                if (list == null) {
++                    list = Lists.newArrayList();
++                }
++
++                list.add(item.copy(true));
++            }
++        }
++
++        return list;
++    }
++    // Slice end`
++
+     @Nullable
+     public List<SynchedEntityData.DataItem<?>> getAll() {
+         List<SynchedEntityData.DataItem<?>> list = null;
+@@ -313,11 +345,14 @@ public class SynchedEntityData {
+         final EntityDataAccessor<T> accessor;
+         T value;
+         private boolean dirty;
++        @Nullable T foreignValue = null; // Slice
++        private boolean foreignDirty; // Slice
+ 
+         public DataItem(EntityDataAccessor<T> data, T value) {
+             this.accessor = data;
+             this.value = value;
+             this.dirty = true;
++            this.foreignDirty = true; // Slice
+         }
+ 
+         public EntityDataAccessor<T> getAccessor() {
+@@ -343,5 +378,34 @@ public class SynchedEntityData {
+         public SynchedEntityData.DataItem<T> copy() {
+             return new SynchedEntityData.DataItem<>(this.accessor, this.accessor.getSerializer().copy(this.value));
+         }
++
++        // Slice start
++        public void setForeignValue(T foreignValue) {
++            this.foreignValue = foreignValue;
++            this.foreignDirty = true;
++        }
++
++        public @Nullable T getForeignValue() {
++            return foreignValue;
++        }
++
++        public boolean isDirty(boolean foreign) {
++            if (foreign) {
++                //There must be a foreign value in order for this to be dirty, otherwise we consider this a normal
++                //value and check the normal dirty flag.
++                return foreignValue == null || this.foreignDirty;
++            }
++
++            return this.dirty;
++        }
++
++        public void setForeignDirty(boolean dirty) {
++            this.foreignDirty = dirty;
++        }
++
++        public SynchedEntityData.DataItem<T> copy(boolean foreign) {
++            return new SynchedEntityData.DataItem<>(this.accessor, this.accessor.getSerializer().copy((foreign && this.foreignValue != null ? this.foreignValue : this.value)));
++        }
++        // Slice end
+     }
+ }
+diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
+index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..fb1e403edd753975d8c1608d569fc63adefc9ba5 100644
+--- a/src/main/java/net/minecraft/server/level/ServerEntity.java
++++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
+@@ -366,6 +366,21 @@ public class ServerEntity {
+         SynchedEntityData datawatcher = this.entity.getEntityData();
+ 
+         if (datawatcher.isDirty()) {
++            // Prismarine start - Slice tweaks
++            if (this.level.prismarineConfig.useSlicePacketSystem) {
++                ClientboundSetEntityDataPacket dataPacket = new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false);
++                if (this.entity instanceof ServerPlayer serverPlayer) {
++                    serverPlayer.connection.send(dataPacket);
++                }
++
++                //Get the packedData that the original packet has, and then determine if any of those are changed in
++                //the foreign version. If null, nothing to notify foreign trackers about.
++                List<SynchedEntityData.DataItem<?>> dirtyItems = datawatcher.packForeignDirty(dataPacket.getUnpackedData());
++                if (dirtyItems != null) {
++                    this.broadcast(new ClientboundSetEntityDataPacket(this.entity.getId(), dirtyItems));
++                }
++            } else
++            // Prismarine end
+             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false));
+         }
+ 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 0c8a23018d75802ac0cbd7367c3087e81007a953..b7021c999f6832e79ece3cae2d1f8a405a960670 100644
+index c74ee3a6c65ab6cbd858a0477a896cf7bc33000b..c77354f7f14ba7d94ebeaeb8050a561420dd8652 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -49,8 +185,17 @@ index 0c8a23018d75802ac0cbd7367c3087e81007a953..b7021c999f6832e79ece3cae2d1f8a40
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
+@@ -3136,7 +3144,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
+             return;
+         }
+-        this.entityData.set(Entity.DATA_AIR_SUPPLY_ID, event.getAmount());
++        this.entityData.set(Entity.DATA_AIR_SUPPLY_ID, event.getAmount(), getMaxAirSupply()); // Prismarine - Slice patches
+         // CraftBukkit end
+     }
+ 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 411593b1b105d62440d76b7bd1b8c74b701e3e75..e4be548183dca8d78228a084693bce6a8621c1dd 100644
+index 8872a9e62619f86288bc4a4e02eb49744c315cf9..439a73670817bcbc20ee558a92e2fda788a4f439 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3147,7 +3147,7 @@ public abstract class LivingEntity extends Entity {
@@ -62,11 +207,24 @@ index 411593b1b105d62440d76b7bd1b8c74b701e3e75..e4be548183dca8d78228a084693bce6a
                  // Paper start - PlayerArmorChangeEvent
                  if (this instanceof ServerPlayer && enumitemslot.getType() == EquipmentSlot.Type.ARMOR) {
                      final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
+diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
+index cb538ff4b5e8da7914361d012060fedf1d22acf2..9f1ce0e970955de3c7704d2d70c64df0819505c7 100644
+--- a/src/main/java/net/minecraft/world/entity/player/Player.java
++++ b/src/main/java/net/minecraft/world/entity/player/Player.java
+@@ -681,7 +681,7 @@ public abstract class Player extends LivingEntity {
+     public void increaseScore(int score) {
+         int j = this.getScore();
+ 
+-        this.entityData.set(Player.DATA_SCORE_ID, j + score);
++        this.entityData.set(Player.DATA_SCORE_ID, j + score, 0);
+     }
+ 
+     public void startAutoSpinAttack(int riptideTicks) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..cb36a3bb0a63da10e0717b1a7302290a691f49be 100644
+index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..9a751acf2c844ef4a4d73861cec2acfc39988c37 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -129,4 +129,16 @@ public class PrismarineWorldConfig {
+@@ -129,4 +129,21 @@ public class PrismarineWorldConfig {
      private void fishingRodLength() {
          fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
      }
@@ -82,5 +240,41 @@ index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..cb36a3bb0a63da10e0717b1a7302290a
 +        doNotSendFirePacketsIfPlayerHasFireResistance = getBoolean("do-not-send-fire-packets.if-player-has-fire-resistance", doNotSendFirePacketsIfPlayerHasFireResistance);
 +        doNotSendFirePacketsIfPlayerIsCreative = getBoolean("do-not-send-fire-packets.if-player-is-creative", doNotSendFirePacketsIfPlayerHasFireResistance);
 +    }
++
++    public boolean useSlicePacketSystem = false;
++    private void useSlicePacketSystem() {
++        useSlicePacketSystem = getBoolean("use-slice-packet-system", useSlicePacketSystem);
++    }
  }
 \ No newline at end of file
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
+index 3e17f6131bf590d7c4a16b79c1c145cb4f565bc9..e1233fa58d068448d0accef7a7f6725fcb902848 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
+@@ -22,6 +22,13 @@ public class ClientboundSetEntityDataPacket implements Packet<ClientGamePacketLi
+ 
+     }
+ 
++    // Slice start
++    public ClientboundSetEntityDataPacket(int id, List<SynchedEntityData.DataItem<?>> packedItems) {
++        this.id = id;
++        this.packedItems = packedItems;
++    }
++    // Slice end
++
+     public ClientboundSetEntityDataPacket(FriendlyByteBuf buf) {
+         this.id = buf.readVarInt();
+         this.packedItems = SynchedEntityData.unpack(buf);
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index 619e73ff2270bbfab93c11dabdae95c601362342..307d6782eb854c74ddbea0de8528f56c8a95c4dd 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -2316,7 +2316,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+                 this.sendHealthUpdate();
+             }
+         }
+-        this.getHandle().getEntityData().set(net.minecraft.world.entity.LivingEntity.DATA_HEALTH_ID, (float) this.getScaledHealth());
++        this.getHandle().getEntityData().set(net.minecraft.world.entity.LivingEntity.DATA_HEALTH_ID, (float) this.getScaledHealth(), isDead() ? 0f : 20f); // Prismarine - Slice patches
+ 
+         this.getHandle().maxHealthCache = getMaxHealth();
+     }
