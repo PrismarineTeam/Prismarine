@@ -36,6 +36,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0027
 0028
 0029
+0031
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -818,6 +819,62 @@ index f5886a88fd98ede5e85a91eccccb05ac33eb40e2..b4403229fb9ff45410b63d2d1459f9cb
              return false;
          } else {
              this.discard();
+diff --git a/src/main/java/net/minecraft/world/item/crafting/Ingredient.java b/src/main/java/net/minecraft/world/item/crafting/Ingredient.java
+index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175e07cb13b 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/Ingredient.java
++++ b/src/main/java/net/minecraft/world/item/crafting/Ingredient.java
+@@ -14,7 +14,10 @@ import java.util.Collection;
+ import java.util.Collections;
+ import java.util.Iterator;
+ import java.util.List;
++import java.util.Set; // Prismarine - JettPack patches (VMP: ingredient matching cache)
++import java.util.HashSet; // Prismarine - JettPack patches (VMP: ingredient matching cache)
+ import java.util.function.Predicate;
++import java.util.stream.Collectors; // Prismarine - JettPack patches (VMP: ingredient matching cache)
+ import java.util.stream.Stream;
+ import java.util.stream.StreamSupport;
+ import javax.annotation.Nullable;
+@@ -38,6 +41,8 @@ public final class Ingredient implements Predicate<ItemStack> {
+     @Nullable
+     private IntList stackingIds;
+     public boolean exact; // CraftBukkit
++    private Set<Item> matchingItems = null; // Prismarine - JettPack patches (VMP: ingredient matching cache)
++    private boolean isEmptyMatch = false; // Prismarine - JettPack patches (VMP: ingredient matching cache)
+     public Predicate<org.bukkit.inventory.ItemStack> predicate;
+ 
+     public Ingredient(Stream<? extends Ingredient.Value> entries) {
+@@ -70,6 +75,7 @@ public final class Ingredient implements Predicate<ItemStack> {
+         if (itemstack == null) {
+             return false;
+         } else {
++            /* // Prismarine - JettPack patches (VMP: ingredient matching cache)
+             this.dissolve();
+             if (this.itemStacks.length == 0) {
+                 return itemstack.isEmpty();
+@@ -102,6 +108,23 @@ public final class Ingredient implements Predicate<ItemStack> {
+ 
+                 return false;
+             }
++             */ // Prismarine - JettPack patches (VMP: ingredient matching cache)
++            // Prismarine start - JettPack patches (VMP: ingredient matching cache)
++            Set<Item> matchingItems = this.matchingItems;
++            boolean isEmptyMatch = this.isEmptyMatch;
++            if (matchingItems == null) {
++                matchingItems = this.matchingItems = Arrays.stream(this.values)
++                        .flatMap(entry -> entry.getItems().stream())
++                        .filter(itemstack1 -> !itemstack1.isEmpty())
++                        .map(ItemStack::getItem)
++                        .collect(Collectors.toCollection(HashSet::new));
++                isEmptyMatch = this.isEmptyMatch = this.matchingItems.isEmpty();
++            }
++            if (itemstack.isEmpty()) {
++                return isEmptyMatch;
++            }
++            return matchingItems.contains(itemstack.getItem());
++            // Prismarine end
+         }
+     }
+ 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
 index 924b43be943f1ddd3458b56845ab56c4c08cc164..28474892edc43497532079ed2759fd0c1785256b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java

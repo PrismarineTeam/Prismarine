@@ -31,6 +31,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 0006 - Don't send fire packets if player has Fire Resistance
 0012 - Packet obfuscation and reduction
 
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
+index 3e17f6131bf590d7c4a16b79c1c145cb4f565bc9..e1233fa58d068448d0accef7a7f6725fcb902848 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
+@@ -22,6 +22,13 @@ public class ClientboundSetEntityDataPacket implements Packet<ClientGamePacketLi
+ 
+     }
+ 
++    // Slice start
++    public ClientboundSetEntityDataPacket(int id, List<SynchedEntityData.DataItem<?>> packedItems) {
++        this.id = id;
++        this.packedItems = packedItems;
++    }
++    // Slice end
++
+     public ClientboundSetEntityDataPacket(FriendlyByteBuf buf) {
+         this.id = buf.readVarInt();
+         this.packedItems = SynchedEntityData.unpack(buf);
 diff --git a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
 index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8074bce42 100644
 --- a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
@@ -247,24 +265,6 @@ index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..9a751acf2c844ef4a4d73861cec2acfc
 +    }
  }
 \ No newline at end of file
-diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
-index 3e17f6131bf590d7c4a16b79c1c145cb4f565bc9..e1233fa58d068448d0accef7a7f6725fcb902848 100644
---- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
-+++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSetEntityDataPacket.java
-@@ -22,6 +22,13 @@ public class ClientboundSetEntityDataPacket implements Packet<ClientGamePacketLi
- 
-     }
- 
-+    // Slice start
-+    public ClientboundSetEntityDataPacket(int id, List<SynchedEntityData.DataItem<?>> packedItems) {
-+        this.id = id;
-+        this.packedItems = packedItems;
-+    }
-+    // Slice end
-+
-     public ClientboundSetEntityDataPacket(FriendlyByteBuf buf) {
-         this.id = buf.readVarInt();
-         this.packedItems = SynchedEntityData.unpack(buf);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 index 619e73ff2270bbfab93c11dabdae95c601362342..307d6782eb854c74ddbea0de8528f56c8a95c4dd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
