@@ -10,6 +10,7 @@ Prismarine
 [![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
 [![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
 [Discord](https://discord.gg/kkqMSEVVxN) | [한국어](src/README/KOR.md) - **English**
 
@@ -31,6 +32,11 @@ Prismarine
 일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
 
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
+
+## Communicate
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
+
+[Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
 
 ## Configuration & Optimize
 See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)

@@ -88,11 +88,11 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
 ## Custom Licenses
 - [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
-   - [LICENSE](https://github.com/mysql/mysql-connector-j/blob/release/8.0/LICENSE)
+   - [English](../LICENSES/ENG/CST_MySQL.md)
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
-   - [LICENSE](https://github.com/SpigotMC/BungeeCord/blob/master/LICENSE)
+   - [English](../LICENSES/ENG/CST_md5.md)
 - [asm/asm](https://gitlab.ow2.org/asm/asm)
-   - [LICENSE](https://asm.ow2.io/license.html)
+   - [English](../LICENSES/ENG/CST_ASM.md)
 
 ## No License
 - [PatinaMC/Patina](https://github.com/PatinaMC/Patina)

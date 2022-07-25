@@ -10,6 +10,7 @@ Prismarine
 [![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
 [![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
 [Discord](https://discord.gg/kkqMSEVVxN) - [네이버 카페](https://cafe.naver.com/prismarine) | **한국어** - [English](README.md)
 
@@ -26,6 +27,13 @@ Prismarine
 - Patina, JettPack, EmpireCraft, Slice 등 불안정한 최적화 버킷에서 불안정한 부분은 모두 제외하고 추가하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
 - 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
 - GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
+
+## 소통하기
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
+
+[Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
+
+한국인이라면, [네이버 카페](https://cafe.naver.com/prismarine)에 가입할수도 있습니다.
 
 ## 다운로드
 일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
@@ -90,11 +98,11 @@ repositories {
 [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19/src/README/KOR.md) 을 확인해주세요.
 
 ## 라이선스
-패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
+패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](../LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-### [GNU General Public License v3.0](src/LICENSES/KOR/GNU_GPL_v3.0.md)
+### [GNU General Public License v3.0](../LICENSES/KOR/GNU_GPL_v3.0.md)
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
 - [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
@@ -103,20 +111,20 @@ repositories {
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
 - [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 
-### [GNU Lesser General Public License v3.0](src/LICENSES/KOR/GNU_LGPL_v3.0.md)
+### [GNU Lesser General Public License v3.0](../LICENSES/KOR/GNU_LGPL_v3.0.md)
 - [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
 
-### [MIT License](src/LICENSES/KOR/MIT.md)
+### [MIT License](../LICENSES/KOR/MIT.md)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
 - [Cryptite/Slice](https://github.com/Cryptite/Slice)
 - [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
 - [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
 - [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-### [Creative Commons Zero v1.0 Universal](src/LICENSES/KOR/CC0_v1.0.md)
+### [Creative Commons Zero v1.0 Universal](../LICENSES/KOR/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
-### [Do What The F\*ck You Want To Public License](src/LICENSES/KOR/WTFPL.md)
+### [Do What The F\*ck You Want To Public License](../LICENSES/KOR/WTFPL.md)
 - [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
 
-본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/KOR_FULL.md) 확인할 수 있습니다.
+본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](../LICENSE/KOR_FULL.md) 확인할 수 있습니다.
