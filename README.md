@@ -32,6 +32,9 @@ Prismarine
 
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
 
+## Configuration & Optimize
+See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)
+
 ## 개발자를 위한 섹션
 ### Requirements
 터미널에서 사용 가능한 최신 버전의 Git, 17 이상의 JDK가 필요합니다.
