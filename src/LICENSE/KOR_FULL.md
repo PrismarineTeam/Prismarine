@@ -12,7 +12,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
 - [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 - [PaperMC/Velocity](https://github.com/PaperMC/Velocity)
-- [Carleslc/Simple-YAML](https://github.comCarleslc/Simple-YAML/)
+- [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
 - [TECHNOVE/Flare](https://github.com/TECHNOVE/Flare)
 
 ## [GNU Lesser General Public License v3.0](../LICENSES/KOR/GNU_LGPL_v3.0.md)
@@ -25,6 +25,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
 ## [GNU General Public License v2.0](../LICENSES/KOR/GNU_GPL_v2.0.md)
 - [git/git](https://github.com/git/git)
+- [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
 
 ## [MIT License](../LICENSES/KOR/MIT.md)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
@@ -36,13 +37,14 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [Minecrell/TerminalConsoleAppender](https://github.com/Minecrell/TerminalConsoleAppender)
 - [classgraph/classgraph](https://github.com/classgraph/classgraph)
 - [KyoriPowered/adventure](https://github.com/KyoriPowered/adventure)
-- [gos-ch/slf4j](https://github.com/gos-ch/slf4j)
+- [qos-ch/slf4j](https://github.com/qos-ch/slf4j)
 - [actions/checkout](https://github.com/actions/checkout)
 - [gradle/wrapper-validation-action](https://github.com/gradle/wrapper-validation-action)
 - [actions/setup-java](https://github.com/actions/setup-java)
 - [actions/upload-artifact](https://github.com/actions/upload-artifact)
 - [marvinpinto/action-automatic-releases](https://github.com/marvinpinto/action-automatic-releases)
 - [PaperMC/Paperclip](https://github.com/papermc/paperclip)
+- [EmpireCraft/EmpireCraft](https://github.com/starlis/EmpireCraft)
 
 ## [Creative Commons Zero v1.0 Universal](../LICENSES/KOR/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
@@ -68,6 +70,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [vigna/fastutil](https://github.com/vigna/fastutil)
 - [apache/logging-log4j2](https://github.com/apache/logging-log4j2)
 - [apache/maven:maven-resolver-provier](https://github.com/apache/maven)
+- [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
 
 ## [Eclipse Public License 1.0](../LICENSES/KOR/EPL_v1.0md)
 - [junit-team/junit](https://github.com/junit-team/junit)
@@ -75,9 +78,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 ## [The 3-Clause BSD License](../LICENSES/KOR/BSD3.md)
 - [hamcrest/JavaHamcrest](https://github.com/hamcrest/JavaHamcrest)
 - [jline/jline3](https://github.com/jline/jline3)
-
-## [The 2-Clause BSD License](../LICENSES/KOR/BSD2.md)
-- [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
+- [asm/asm](https://gitlab.ow2.org/asm/asm)
 
 ## [Mozilla Public License v2.0](../LICENSES/KOR/MPL_v2.0.md)
 - [mozilla/rhino](https://github.com/mozilla/rhino)
@@ -87,13 +88,8 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 <!-- 2025. 07. 15. 부터 Apache License v2.0을 따름 -->
 
 ## Custom Licenses
-- [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
-   - [한국어](../LICENSES/KOR/CST_MySQL.md)
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
    - [한국어](../LICENSES/KOR/CST_md5.md)
-- [asm/asm](https://gitlab.ow2.org/asm/asm)
-   - [한국어](../LICENSES/KOR/CST_ASM.md)
 
 ## No License
 - [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
-- [EmpireCraft/EmpireCraft](https://github.com/starlis/EmpireCraft)
