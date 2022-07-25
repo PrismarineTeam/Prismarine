@@ -1,5 +1,5 @@
 # 라이선스
-### **한국어** - [English](../LICENSE/ENG_FULL.md)
+### **한국어** - [English](ENG_FULL.md)
 
 Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
@@ -19,6 +19,12 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
 - [FabricMC/tiny-remapper](https://github.com/FabricMC/tiny-remapper)
 - [theomega24/upnp4j](https://github.com/theomega24/upnp4j)
+
+## [GNU General Public License v2.1](../LICENSES/KOR/GNU_GPL_v2.1.md)
+- [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
+
+## [GNU General Public License v2.0](../LICENSES/KOR/GNU_GPL_v2.0.md)
+- [git/git](https://github.com/git/git)
 
 ## [MIT License](../LICENSES/KOR/MIT.md)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
@@ -40,12 +46,6 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
 ## [Creative Commons Zero v1.0 Universal](../LICENSES/KOR/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
-
-## [GNU General Public License v2.1](../LICENSES/KOR/GNU_GPL_v2.1.md)
-- [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
-
-## [GNU General Public License v2.0](../LICENSES/KOR/GNU_GPL_v2.0.md)
-- [git/git](https://github.com/git/git)
 
 ## [Do What The F\*ck You Want To Public License](../LICENSES/KOR/WTFPL.md)
 - [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
