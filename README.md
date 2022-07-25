@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/dev/1.19/LICENSE)
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
@@ -28,20 +28,20 @@ Prismarine
 - 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
 - GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
 
-## Downloads
-일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
-
-Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
-
 ## Communicate
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
 [Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
 
+## Downloads
+일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
+
+Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
+
 ## Configuration & Optimize
 See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)
 
-## 개발자를 위한 섹션
+## For Developers
 ### Requirements
 터미널에서 사용 가능한 최신 버전의 Git, 17 이상의 JDK가 필요합니다.
 
@@ -100,28 +100,29 @@ See [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template)
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-### GNU General Public License v3.0
+### [GNU General Public License v3.0](../LICENSES/ENG/GNU_GPL_v3.0.md)
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
-- [JettPack](https://gitlab.com/Titaniumtown/JettPack)
-- [Akarin](https://github.com/Akarin-project/Akarin)
+- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
+- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 
-### MIT License
+### [GNU Lesser General Public License v3.0](../LICENSES/ENG/GNU_LGPL_v3.0.md)
+- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
+
+### [MIT License](../LICENSES/ENG/MIT.md)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
-- [Slice](https://github.com/Cryptite/Slice)
-- [C2ME](https://github.com/RelativityMC/C2ME-fabric)
-- [Very Many Players](https://github.com/RelativityMC/VMP-fabric)
-- [Erroring Entity Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
+- [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
+- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
+- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-### GNU Lesser General Public License v3.0
-- [Lithium](https://github.com/CaffeineMC/lithium-fabric)
+### [Creative Commons Zero v1.0 Universal](../LICENSES/ENG/CC0_v1.0.md)
+- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
-### Creative Commons Zero v1.0 Universal
-- [FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
-
-### Custom License
-- [No Chat Reports](https://github.com/Aizistral-Studios/No-Chat-Reports) - [Do What The F*ck You Want To Public License](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE)
+### [Do What The F\*ck You Want To Public License](../LICENSES/ENG/WTFPL.md)
+- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
 
 본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/ENG_FULL.md) 확인할 수 있습니다.
