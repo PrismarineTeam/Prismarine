@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.18.1/LICENSE)
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
@@ -90,32 +90,33 @@ repositories {
 [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19/src/README/KOR.md) 을 확인해주세요.
 
 ## 라이선스
-패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSE/KOR.md)에 따라 라이선스가 부여됩니다.
+패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-### GNU General Public License v3.0
+### [GNU General Public License v3.0](src/LICENSES/KOR/GNU_GPL_v3.0.md)
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
 - [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
 - [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
+- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 
-### GNU Lesser General Public License v3.0
+### [GNU Lesser General Public License v3.0](src/LICENSES/KOR/GNU_LGPL_v3.0.md)
 - [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
 
-### MIT License
+### [MIT License](src/LICENSES/KOR/MIT.md)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
 - [Cryptite/Slice](https://github.com/Cryptite/Slice)
-- [RelativityMC/C2ME-fabric (Concurrent Chunk Management Engine)](https://github.com/RelativityMC/C2ME-fabric)
-- [RelativityMC/VMP-fabric (Very Many Players)](https://github.com/RelativityMC/VMP-fabric)
-- [The Fireplace Minecraft Mods/Erroring Entity Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
+- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
+- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
+- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-### Creative Commons Zero v1.0 Universal
+### [Creative Commons Zero v1.0 Universal](src/LICENSES/KOR/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
-### Custom License
-- [Aizistral Studios/No Chat Reports](https://github.com/Aizistral-Studios/No-Chat-Reports) - [Do What The F*ck You Want To Public License](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE)
+### [Do What The F\*ck You Want To Public License](src/LICENSES/KOR/WTFPL.md)
+- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
 
 본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/KOR_FULL.md) 확인할 수 있습니다.
