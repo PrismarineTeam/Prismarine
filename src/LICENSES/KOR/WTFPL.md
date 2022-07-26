@@ -1,5 +1,10 @@
-DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-Version 2, December 2004
+<div align="center">
+
+# Do What The F\*ck You Want To Public License
+
+##### [Original](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE) | **한국어** - [English](../ENG/WTFPL.md)
+
+</div>
 
 Everyone is permitted to copy and distribute verbatim or modified
 copies of this license document, and changing it is allowed as long

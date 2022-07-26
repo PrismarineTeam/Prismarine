@@ -1,8 +1,11 @@
-Simplified BSD License
-======================
+<div align="center">
 
-_Copyright © `<YEAR>`, `<OWNER>`_  
-_All rights reserved._
+# The FreeBSD Copyright (2-Clause BSD License)
+###### FreeBSD License / Simplified BSD License
+
+##### [Original](https://www.freebsd.org/copyright/freebsd-license/) | **한국어** - [English](../ENG/BSD_2-Clause.md)
+
+</div>
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met: 

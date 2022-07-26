@@ -36,9 +36,11 @@ Prismarine
 한국인이라면, [네이버 카페](https://cafe.naver.com/prismarine)에 가입할수도 있습니다.
 
 ## 다운로드
+[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
+
 일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
 
-Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/release/latest)의 가장 하단에서 다운로드 할 수 있습니다.
+Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)의 가장 하단에서 다운로드 할 수 있습니다.
 
 ## 구성 및 최적화
 [여기를](https://github.com/PrismarineTeam/Prismarine/wiki) 확인해주세요.
@@ -97,7 +99,14 @@ repositories {
 ### Create your own bucket based on Prismarine
 [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19/src/README/KOR.md) 을 확인해주세요.
 
+### Building a jar file
+API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파일된 JAR 파일은 `Prismarine-API/build/libs` 와 `Prismarine-Server/build/libs` 에 생성될 것입니다.
+
+실행 가능한 서버 파일을 만드려면, `./gradlew createReobfPaperclipJar` 를 사용하세요. Mojmap Jar 파일을 만드려면 `./gradlew createMojmapPaperclipJar` 를 사용하세요. 파일은 `build/libs` 에 생성될 것입니다.
+
 ## 라이선스
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
+
 패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](../LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.

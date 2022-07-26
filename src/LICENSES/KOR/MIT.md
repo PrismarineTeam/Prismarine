@@ -1,5 +1,12 @@
-# MIT 허가서
-### **한국어** - [English](../ENG/MIT.md)
+<div align="center">
+
+# The MIT License (MIT)
+
+##### [Original](https://opensource.org/licenses/MIT) | **한국어** - [English](../ENG/MIT.md)
+
+</div>
+
+## Terms
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

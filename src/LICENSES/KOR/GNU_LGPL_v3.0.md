@@ -1,16 +1,21 @@
-GNU Lesser General Public License
-=================================
+<div align="center">
 
-_Version 3, 29 June 2007_  
+# GNU Lesser General Public License
+
+##### [Original](https://www.gnu.org/licenses/lgpl-3.0.en.html) | **한국어** - [English](../ENG/GNU_LGPL_v3.0.md)
+
+_Version 3, 29 June 2007_
+_&lt;<http://fsf.org/>&gt;_
+
+</div>
+
 _Copyright © 2007 Free Software Foundation, Inc. &lt;<http://fsf.org/>&gt;_
 
-Everyone is permitted to copy and distribute verbatim copies
-of this license document, but changing it is not allowed.
+### Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
-
-This version of the GNU Lesser General Public License incorporates
+_This version of the GNU Lesser General Public License incorporates
 the terms and conditions of version 3 of the GNU General Public
-License, supplemented by the additional permissions listed below.
+License, supplemented by the additional permissions listed below._
 
 ### 0. Additional Definitions
 

@@ -1,11 +1,17 @@
-GNU General Public License
-==========================
+<div align="center">
 
-_Version 3, 29 June 2007_  
+# GNU General Public License
+
+##### [Original](https://www.gnu.org/licenses/gpl-3.0.en.html) | [한국어](../KOR/GNU_GPL_v3.0.md) - **English**
+
+_Version 3, 29 June 2007_
+_&lt;<http://fsf.org/>&gt;_
+
+</div>
+
 _Copyright © 2007 Free Software Foundation, Inc. &lt;<http://fsf.org/>&gt;_
 
-Everyone is permitted to copy and distribute verbatim copies of this license
-document, but changing it is not allowed.
+### Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
 ## Preamble
 

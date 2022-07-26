@@ -1,4 +1,4 @@
-Notice
+### Notice
 
 The Business Source License (this document, or the "License") is not an Open
 Source license. However, the Licensed Work will eventually be made available
@@ -9,9 +9,17 @@ License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
 
 -----------------------------------------------------------------------------
 
-Business Source License 1.1
+<div align="center">
 
-Terms
+# MariaDB Business Source License
+
+##### [Original](https://mariadb.com/bsl11/) | [한국어](../KOR/MBD_BSL_v1.1.md) - **English**
+
+_Version 1.1_
+
+</div>
+
+## Terms
 
 The Licensor hereby grants you the right to copy, modify, create derivative
 works, redistribute, and make non-production use of the Licensed Work. The
@@ -57,7 +65,7 @@ MariaDB hereby grants you permission to use this License’s text to license
 your works, and to refer to it using the trademark "Business Source License",
 as long as you comply with the Covenants of Licensor below.
 
-Covenants of Licensor
+## Covenants of Licensor
 
 In consideration of the right to use this License’s text and the "Business
 Source License" name and trademark, Licensor covenants to MariaDB, and to all

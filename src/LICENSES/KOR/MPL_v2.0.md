@@ -1,5 +1,14 @@
-Mozilla Public License Version 2.0
-==================================
+<div align="center">
+
+# Mozilla Public License
+
+##### [Original](https://www.mozilla.org/en-US/MPL/2.0/) | **한국어** - [English](../ENG/MPL_v2.0.md)
+
+_Version 2.0_
+
+</div>
+
+## Terms
 
 ### 1. Definitions
 

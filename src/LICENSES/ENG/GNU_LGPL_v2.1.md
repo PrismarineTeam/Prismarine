@@ -1,18 +1,23 @@
-GNU Lesser General Public License
-=================================
+<div align="center">
 
-_Version 2.1, February 1999_  
+# GNU Lesser General Public License
+
+##### [Original](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) | [한국어](../KOR/GNU_LGPL_v2.1.md) - **English**
+
+_Version 2.1, February 1999_
+
+</div>
+
 _Copyright © 1991, 1999 Free Software Foundation, Inc._  
-_51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA_
+_51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA_
 
-Everyone is permitted to copy and distribute verbatim copies
-of this license document, but changing it is not allowed.
+### Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
-_This is the first released version of the Lesser GPL.  It also counts
+_This is the first released version of the Lesser GPL. It also counts
 as the successor of the GNU Library Public License, version 2, hence
 the version number 2.1._
 
-### Preamble
+## Preamble
 
 The licenses for most software are designed to take away your
 freedom to share and change it.  By contrast, the GNU General Public
@@ -114,7 +119,7 @@ modification follow.  Pay close attention to the difference between a
 former contains code derived from the library, whereas the latter must
 be combined with the library in order to run.
 
-### TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+## TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
 **0.** This License Agreement applies to any software library or other
 program which contains a notice placed by the copyright holder or
@@ -424,7 +429,7 @@ decision will be guided by the two goals of preserving the free status
 of all derivatives of our free software and of promoting the sharing
 and reuse of software generally.
 
-### NO WARRANTY
+## NO WARRANTY
 
 **15.** BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
 WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
@@ -449,7 +454,7 @@ DAMAGES.
 
 _END OF TERMS AND CONDITIONS_
 
-### How to Apply These Terms to Your New Libraries
+## How to Apply These Terms to Your New Libraries
 
 If you develop a new library, and you want it to be of the greatest
 possible use to the public, we recommend making it free software that

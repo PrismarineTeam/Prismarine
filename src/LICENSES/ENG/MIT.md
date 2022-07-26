@@ -1,5 +1,12 @@
+<div align="center">
+
 # The MIT License (MIT)
-### [한국어](../KOR/MIT.md) - **English**
+
+##### [Original](https://opensource.org/licenses/MIT) | [한국어](../KOR/MIT.md) - **English**
+
+</div>
+
+## Terms
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
