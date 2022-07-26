@@ -9,7 +9,7 @@
 - [booky10](https://github.com/booky10) - Prevent healing by negative amounts (PaperMC/Paper#7703)
    - Edited by [AlphaKR93](https://github.com/AlphaKR93)
 - [Spottedleaf](https://github.com/Spottedleaf) - \[DEV-BRANCH\] Rewrite chunk system (PaperMC/Paper#8177)
-   - [Prismarine 공식 디스코드]((https://discord.gg/kkqMSEVVxN)에서만 다운로드 할 수 있습니다.
+   - [Prismarine 공식 디스코드](https://discord.gg/kkqMSEVVxN)에서만 다운로드 할 수 있습니다.
 
 ## [Purpur](https://github.com/PurpurMC/Purpur)
 - [BillyGalbreath](https://github.com/BillyGalbreath), [granny](https://github.com/granny), **[theomega24](https://github.com/theomega24)** - Make the GUI great again! (PurpurMC/Purpur#676)

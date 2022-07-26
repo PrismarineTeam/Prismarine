@@ -21,9 +21,9 @@ Prismarine
 </div>
 
 ## Prismarine 만의 장점
-- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur)의 모든 패치를 포함해 더 빠른 속도와 더 넓은 API를 지원합니다.
-   - 기존의 [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse) API, [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse) API, [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) API, [Paper](https://github.com/PaperMC/Paper) API 기반의 플러그인도 모두 정상 작동합니다.
-- 여러 모드를 포팅해 버그를 해결하고 여러 개선이 제공됩니다.
+- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse), [Paper](https://github.com/PaperMC/Paper) 기반으로 안정적이며, 대부분의 플러그인을 완벽히 지원합니다.
+- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur)의 모든 패치를 포함하여 더 빠른 속도와 더 넓은 API를 지원합니다.
+- 여러 모드를 포팅하여 버그를 해결하고 여러 개선이 제공됩니다.
 - [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice) 등 불안정하거나, 오래되었거나, 특정 사용자를 위해 최적화된 버킷에서 불안정하고 불필요한 부분은 모두 제외하고 추가하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
 - 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
    - 포팅된 패치는 [여기서](portedPatches_KOR.md) 확인할 수 있습니다.
