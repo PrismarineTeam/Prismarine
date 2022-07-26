@@ -3,56 +3,7 @@
 
 Licenses that used in Prismarine's project, code and PR.
 
-## [GNU General Public License v3.0](../LICENSES/ENG/GNU_GPL_v3.0.md)
-- [PaperMC/Paper](https://github.com/PaperMC/Paper)
-- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
-- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
-- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
-- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
-- [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
-- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
-- [PaperMC/Velocity](https://github.com/PaperMC/Velocity)
-- [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
-- [TECHNOVE/Flare](https://github.com/TECHNOVE/Flare)
-
-## [GNU Lesser General Public License v3.0](../LICENSES/ENG/GNU_LGPL_v3.0.md)
-- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
-- [FabricMC/tiny-remapper](https://github.com/FabricMC/tiny-remapper)
-- [theomega24/upnp4j](https://github.com/theomega24/upnp4j)
-
-## [GNU Lesser General Public License v2.1](../LICENSES/ENG/GNU_LGPL_v2.1.md)
-- [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
-
-## [GNU General Public License v2.0](../LICENSES/ENG/GNU_GPL_v2.0.md)
-- [git/git](https://github.com/git/git)
-- [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
-
-## [MIT License](../LICENSES/ENG/MIT.md)
-- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
-- [Cryptite/Slice](https://github.com/Cryptite/Slice)
-- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
-- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
-- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
-- [typetools/checker-framework:checker-qual](https://github.com/typetools/checker-framework/tree/master/checker-qual)
-- [Minecrell/TerminalConsoleAppender](https://github.com/Minecrell/TerminalConsoleAppender)
-- [classgraph/classgraph](https://github.com/classgraph/classgraph)
-- [KyoriPowered/adventure](https://github.com/KyoriPowered/adventure)
-- [qos-ch/slf4j](https://github.com/qos-ch/slf4j)
-- [actions/checkout](https://github.com/actions/checkout)
-- [gradle/wrapper-validation-action](https://github.com/gradle/wrapper-validation-action)
-- [actions/setup-java](https://github.com/actions/setup-java)
-- [actions/upload-artifact](https://github.com/actions/upload-artifact)
-- [marvinpinto/action-automatic-releases](https://github.com/marvinpinto/action-automatic-releases)
-- [PaperMC/Paperclip](https://github.com/papermc/paperclip)
-- [EmpireCraft/EmpireCraft](https://github.com/starlis/EmpireCraft)
-
-## [Creative Commons Zero v1.0 Universal](../LICENSES/ENG/CC0_v1.0.md)
-- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
-
-## [Do What The F\*ck You Want To Public License](../LICENSES/ENG/WTFPL.md)
-- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
-
-## [Apache License v2.0](../LICENSES/ENG/Apache_v2.0.md)
+## [Apache License Version 2.0](../LICENSES/ENG/Apache_v2.0.md)
 - [johnrengelman/shadow](https://github.com/johnrengelman/shadow)
 - [MinecraftForge/ForgeFlower](https://github.com/MinecraftForge/ForgeFlower)
 - [gradle/gradle](https://github.com/gradle/gradle)
@@ -72,20 +23,69 @@ Licenses that used in Prismarine's project, code and PR.
 - [apache/maven:maven-resolver-provier](https://github.com/apache/maven)
 - [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
 
-## [Eclipse Public License 1.0](../LICENSES/ENG/EPL_v1.0.md)
+## [Creative Commons Zero Version 1.0 Universal](../LICENSES/ENG/CC0_v1.0.md)
+- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
+
+## [Do What The F\*ck You Want To Public License](../LICENSES/ENG/WTFPL.md)
+- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
+
+## [Eclipse Public License Version 1.0](../LICENSES/ENG/EPL_v1.0.md)
 - [junit-team/junit](https://github.com/junit-team/junit)
+
+## [GNU General Public License Version 2.0](../LICENSES/ENG/GNU_GPL_v2.0.md)
+- [git/git](https://github.com/git/git)
+- [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
+
+## [GNU General Public License Version 3.0](../LICENSES/ENG/GNU_GPL_v3.0.md)
+- [PaperMC/Paper](https://github.com/PaperMC/Paper)
+- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
+- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
+- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
+- [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
+- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
+- [PaperMC/Velocity](https://github.com/PaperMC/Velocity)
+- [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
+- [TECHNOVE/Flare](https://github.com/TECHNOVE/Flare)
+
+## [GNU Lesser General Public License Version 2.1](../LICENSES/ENG/GNU_LGPL_v2.1.md)
+- [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
+
+## [GNU Lesser General Public License Version 3.0](../LICENSES/ENG/GNU_LGPL_v3.0.md)
+- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
+- [FabricMC/tiny-remapper](https://github.com/FabricMC/tiny-remapper)
+- [theomega24/upnp4j](https://github.com/theomega24/upnp4j)
+
+## [MariaDB Business Source License Version 1.1](../LICENSES/ENG/MDB_BSL_v1.1.md)
+- [getsentry/sentry](https://github.com/getsentry/sentry)
+<!-- 2025. 07. 15. 부터 Apache License v2.0을 따름 -->
 
 ## [The 3-Clause BSD License](../LICENSES/ENG/BSD_3-Clause.md)
 - [hamcrest/JavaHamcrest](https://github.com/hamcrest/JavaHamcrest)
 - [jline/jline3](https://github.com/jline/jline3)
 - [asm/asm](https://gitlab.ow2.org/asm/asm)
 
-## [Mozilla Public License v2.0](../LICENSES/ENG/MPL_v2.0.md)
+## [Mozilla Public License Version 2.0](../LICENSES/ENG/MPL_v2.0.md)
 - [mozilla/rhino](https://github.com/mozilla/rhino)
 
-## [MariaDB Business Source License v1.1](../LICENSES/ENG/MDB_BSL_v1.1.md)
-- [getsentry/sentry](https://github.com/getsentry/sentry)
-<!-- 2025. 07. 15. 부터 Apache License v2.0을 따름 -->
+## [The MIT License](../LICENSES/ENG/MIT.md)
+- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+- [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
+- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
+- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
+- [typetools/checker-framework:checker-qual](https://github.com/typetools/checker-framework/tree/master/checker-qual)
+- [Minecrell/TerminalConsoleAppender](https://github.com/Minecrell/TerminalConsoleAppender)
+- [classgraph/classgraph](https://github.com/classgraph/classgraph)
+- [KyoriPowered/adventure](https://github.com/KyoriPowered/adventure)
+- [qos-ch/slf4j](https://github.com/qos-ch/slf4j)
+- [actions/checkout](https://github.com/actions/checkout)
+- [gradle/wrapper-validation-action](https://github.com/gradle/wrapper-validation-action)
+- [actions/setup-java](https://github.com/actions/setup-java)
+- [actions/upload-artifact](https://github.com/actions/upload-artifact)
+- [marvinpinto/action-automatic-releases](https://github.com/marvinpinto/action-automatic-releases)
+- [PaperMC/Paperclip](https://github.com/papermc/paperclip)
+- [EmpireCraft/EmpireCraft](https://github.com/starlis/EmpireCraft)
 
 ## Custom Licenses
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)

@@ -3,7 +3,7 @@
 # Creative Commons Legal Code
 ### CC0 1.0 Universal
 
-##### <!-- [Original](https://opensource.org/licenses/BSD-3-Clause) | -->[한국어](../KOR/) - **English**
+##### [Original](https://creativecommons.org/publicdomain/zero/1.0/legalcode) | **한국어** - [English](../ENG/CC0_v1.0.md)
 
 </div>
 
