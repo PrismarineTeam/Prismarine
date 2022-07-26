@@ -15,10 +15,6 @@ Licenses that used in Prismarine's project, code and PR.
 - [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
 - [TECHNOVE/Flare](https://github.com/TECHNOVE/Flare)
 
-## [GNU General Public License v2.0](../LICENSES/ENG/GNU_GPL_v2.0.md)
-- [git/git](https://github.com/git/git)
-- [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
-
 ## [GNU Lesser General Public License v3.0](../LICENSES/ENG/GNU_LGPL_v3.0.md)
 - [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
 - [FabricMC/tiny-remapper](https://github.com/FabricMC/tiny-remapper)
@@ -26,6 +22,10 @@ Licenses that used in Prismarine's project, code and PR.
 
 ## [GNU Lesser General Public License v2.1](../LICENSES/ENG/GNU_LGPL_v2.1.md)
 - [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
+
+## [GNU General Public License v2.0](../LICENSES/ENG/GNU_GPL_v2.0.md)
+- [git/git](https://github.com/git/git)
+- [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
 
 ## [MIT License](../LICENSES/ENG/MIT.md)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
@@ -72,10 +72,10 @@ Licenses that used in Prismarine's project, code and PR.
 - [apache/maven:maven-resolver-provier](https://github.com/apache/maven)
 - [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
 
-## [Eclipse Public License 1.0](../LICENSES/ENG/EPL_v1.0md)
+## [Eclipse Public License 1.0](../LICENSES/ENG/EPL_v1.0.md)
 - [junit-team/junit](https://github.com/junit-team/junit)
 
-## [The 3-Clause BSD License](../LICENSES/ENG/BSD3.md)
+## [The 3-Clause BSD License](../LICENSES/ENG/BSD_3-Clause.md)
 - [hamcrest/JavaHamcrest](https://github.com/hamcrest/JavaHamcrest)
 - [jline/jline3](https://github.com/jline/jline3)
 - [asm/asm](https://gitlab.ow2.org/asm/asm)
@@ -89,7 +89,7 @@ Licenses that used in Prismarine's project, code and PR.
 
 ## Custom Licenses
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
-   - [English](../LICENSES/ENG/CST_md5.md)
+  - [English](../LICENSES/ENG/CST_md5.md)
 
 ## No License
 - [PatinaMC/Patina](https://github.com/PatinaMC/Patina)

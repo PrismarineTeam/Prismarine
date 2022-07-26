@@ -1,7 +1,7 @@
 # 라이선스
 ### **한국어** - [English](ENG_FULL.md)
 
-Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
+Prismarine에 사용된 모든 프로젝트, 코드 및 PR의 라이선스 입니다.
 
 ## [GNU General Public License v3.0](../LICENSES/KOR/GNU_GPL_v3.0.md)
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
@@ -20,7 +20,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [FabricMC/tiny-remapper](https://github.com/FabricMC/tiny-remapper)
 - [theomega24/upnp4j](https://github.com/theomega24/upnp4j)
 
-## [GNU General Public License v2.1](../LICENSES/KOR/GNU_GPL_v2.1.md)
+## [GNU Lesser General Public License v2.1](../LICENSES/KOR/GNU_LGPL_v2.1.md)
 - [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
 
 ## [GNU General Public License v2.0](../LICENSES/KOR/GNU_GPL_v2.0.md)
@@ -72,10 +72,10 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [apache/maven:maven-resolver-provier](https://github.com/apache/maven)
 - [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
 
-## [Eclipse Public License 1.0](../LICENSES/KOR/EPL_v1.0md)
+## [Eclipse Public License 1.0](../LICENSES/KOR/EPL_v1.0.md)
 - [junit-team/junit](https://github.com/junit-team/junit)
 
-## [The 3-Clause BSD License](../LICENSES/KOR/BSD3.md)
+## [The 3-Clause BSD License](../LICENSES/KOR/BSD_3-Clause.md)
 - [hamcrest/JavaHamcrest](https://github.com/hamcrest/JavaHamcrest)
 - [jline/jline3](https://github.com/jline/jline3)
 - [asm/asm](https://gitlab.ow2.org/asm/asm)
@@ -89,7 +89,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
 ## Custom Licenses
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
-   - [한국어](../LICENSES/KOR/CST_md5.md)
+  - [한국어](../LICENSES/KOR/CST_md5.md)
 
 ## No License
 - [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
