@@ -1,5 +1,5 @@
 # 라이선스
-### **한국어** - [English](ENG_FULL.md)
+### **한국어** - [English](../ENG/README.md)
 
 Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 

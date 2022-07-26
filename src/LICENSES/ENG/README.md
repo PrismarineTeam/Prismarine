@@ -1,5 +1,5 @@
 # Licenses
-### [한국어](KOR_FULL.md) - **English**
+### [한국어](../KOR/README.md) - **English**
 
 Licenses that used in Prismarine's project, code and PR.
 
