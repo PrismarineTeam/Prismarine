@@ -21,11 +21,12 @@ Prismarine
 </div>
 
 ## Prismarine 만의 장점
-- Pufferfish, Purpur의 모든 패치를 포함해 더 빠른 속도와 더 넓은 API를 지원합니다.
-   - 기존의 Bukkit, CraftBukkit, Spigot, Paper API 기반의 플러그인도 모두 정상 작동합니다.
+- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur)의 모든 패치를 포함해 더 빠른 속도와 더 넓은 API를 지원합니다.
+   - 기존의 [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse) API, [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse) API, [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) API, [Paper](https://github.com/PaperMC/Paper) API 기반의 플러그인도 모두 정상 작동합니다.
 - 여러 모드를 포팅해 버그를 해결하고 여러 개선이 제공됩니다.
-- Patina, JettPack, EmpireCraft, Slice 등 불안정한 최적화 버킷에서 불안정한 부분은 모두 제외하고 추가하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
+- [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Slice](https://github.com/Cryptite/Slice) 등 불안정하거나, 특정 서버만을 위해 최적화된 최적화 버킷에서 불안정하고 불필요한 부분은 모두 제외하고 추가하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
 - 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
+   - 포팅된 패치는 [여기서](src/README/portedPatches-KOR.md)
 - GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
 
 ## 소통하기
@@ -131,6 +132,7 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 
 ### [MIT 허가서](../LICENSES/KOR/MIT.md)
 - [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [EmpireCraft/EmpireCraft](https://github.com/starlis/EmpireCraft)
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
 - [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
 - [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)

@@ -32,6 +32,7 @@ Licenses that used in Prismarine's project, code and PR.
 - [junit-team/junit](https://github.com/junit-team/junit)
 
 ## [GNU General Public License Version 2.0](../LICENSES/ENG/GNU_GPL_v2.0.md)
+- [adoptium/jdk17](https://github.com/adoptium/jdk17)
 - [git/git](https://github.com/git/git)
 - [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
 

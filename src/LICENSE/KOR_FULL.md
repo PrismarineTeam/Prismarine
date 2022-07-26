@@ -32,6 +32,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [junit-team/junit](https://github.com/junit-team/junit)
 
 ## [GNU 일반 공중 사용 허가서 버전 2.0](../LICENSES/KOR/GNU_GPL_v2.0.md)
+- [adoptium/jdk17](https://github.com/adoptium/jdk17)
 - [git/git](https://github.com/git/git)
 - [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
 
