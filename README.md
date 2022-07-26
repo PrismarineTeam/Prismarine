@@ -109,29 +109,29 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-### [GNU General Public License v3.0](src/LICENSES/ENG/GNU_GPL_v3.0.md)
-- [PaperMC/Paper](https://github.com/PaperMC/Paper)
-- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
-- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
-- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
-- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
-- [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
-- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
-
-### [GNU Lesser General Public License v3.0](src/LICENSES/ENG/GNU_LGPL_v3.0.md)
-- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
-
-### [MIT License](src/LICENSES/ENG/MIT.md)
-- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
-- [Cryptite/Slice](https://github.com/Cryptite/Slice)
-- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
-- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
-- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
-
-### [Creative Commons Zero v1.0 Universal](src/LICENSES/ENG/CC0_v1.0.md)
+### [Creative Commons Zero Version 1.0 Universal](src/LICENSES/ENG/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
 ### [Do What The F\*ck You Want To Public License](src/LICENSES/ENG/WTFPL.md)
 - [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
+
+### [GNU General Public License Version 3.0](src/LICENSES/ENG/GNU_GPL_v3.0.md)
+- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
+- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
+- [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
+- [PaperMC/Paper](https://github.com/PaperMC/Paper)
+- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
+- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
+
+### [GNU Lesser General Public License Version 3.0](src/LICENSES/ENG/GNU_LGPL_v3.0.md)
+- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
+
+### [The MIT License](src/LICENSES/ENG/MIT.md)
+- [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
+- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
+- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
 본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/ENG_FULL.md) 확인할 수 있습니다.

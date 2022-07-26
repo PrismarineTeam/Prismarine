@@ -111,29 +111,29 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-### [GNU General Public License v3.0](../LICENSES/KOR/GNU_GPL_v3.0.md)
-- [PaperMC/Paper](https://github.com/PaperMC/Paper)
-- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
-- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+### [Creative Commons Zero 버전 1.0 보편적](../LICENSES/KOR/CC0_v1.0.md)
+- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
+
+### [Do What The F\*ck You Want To Public 허가서](../LICENSES/KOR/WTFPL.md)
+- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
+
+### [GNU 일반 공중 사용 허가서 버전 3.0](../LICENSES/KOR/GNU_GPL_v3.0.md)
 - [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
+- [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
+- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
 
-### [GNU Lesser General Public License v3.0](../LICENSES/KOR/GNU_LGPL_v3.0.md)
+### [GNU 약소 일반 공중 사용 허가서 버전 3.0](../LICENSES/KOR/GNU_LGPL_v3.0.md)
 - [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
 
-### [MIT License](../LICENSES/KOR/MIT.md)
-- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+### [MIT 허가서](../LICENSES/KOR/MIT.md)
 - [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
 - [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
 - [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
 - [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
-
-### [Creative Commons Zero v1.0 Universal](../LICENSES/KOR/CC0_v1.0.md)
-- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
-
-### [Do What The F\*ck You Want To Public License](../LICENSES/KOR/WTFPL.md)
-- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
 
 본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](../LICENSE/KOR_FULL.md) 확인할 수 있습니다.
