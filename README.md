@@ -106,7 +106,7 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 ## Licenses
 [![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
 
-패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSE/ENG.md)에 따라 라이선스가 부여됩니다.
+패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSES/ENG/MIT.md)에 따라 라이선스가 부여됩니다.
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
@@ -135,4 +135,4 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 - [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
 - [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSE/ENG_FULL.md) 확인할 수 있습니다.
+본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSES/ENG/README.md) 확인할 수 있습니다.

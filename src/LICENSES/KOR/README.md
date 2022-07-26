@@ -1,9 +1,9 @@
-# Licenses
-### [한국어](KOR_FULL.md) - **English**
+# 라이선스
+### **한국어** - [English](ENG_FULL.md)
 
-Licenses that used in Prismarine's project, code and PR.
+Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
-## [Apache License Version 2.0](../LICENSES/ENG/Apache_v2.0.md)
+## [아파치 허가서 버전 2.0](Apache_v2.0.md)
 - [FabricMC/mapping-io](https://github.com/FabricMC/mapping-io)
 - [JetBrains/java-annotations](https://github.com/JetBrains/java-annotations)
 - [LMAX-Exchange/disruptor](https://github.com/LMAX-Exchange/disruptor)
@@ -22,21 +22,21 @@ Licenses that used in Prismarine's project, code and PR.
 - [vigna/fastutil](https://github.com/vigna/fastutil)
 - [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
 
-## [Creative Commons Zero Version 1.0 Universal](../LICENSES/ENG/CC0_v1.0.md)
+## [Creative Commons Zero 버전 1.0 보편적](CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
-## [Do What The F\*ck You Want To Public License](../LICENSES/ENG/WTFPL.md)
+## [Do What The F\*ck You Want To Public 허가서](WTFPL.md)
 - [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
 
-## [Eclipse Public License Version 1.0](../LICENSES/ENG/EPL_v1.0.md)
+## [이클립스 공용 허가서 버전 1.0](EPL_v1.0.md)
 - [junit-team/junit](https://github.com/junit-team/junit)
 
-## [GNU General Public License Version 2.0](../LICENSES/ENG/GNU_GPL_v2.0.md)
+## [GNU 일반 공중 사용 허가서 버전 2.0](GNU_GPL_v2.0.md)
 - [adoptium/jdk17](https://github.com/adoptium/jdk17)
 - [git/git](https://github.com/git/git)
 - [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j)
 
-## [GNU General Public License Version 3.0](../LICENSES/ENG/GNU_GPL_v3.0.md)
+## [GNU 일반 공중 사용 허가서 버전 3.0](GNU_GPL_v3.0.md)
 - [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
@@ -48,27 +48,27 @@ Licenses that used in Prismarine's project, code and PR.
 - [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
 
-## [GNU Lesser General Public License Version 2.1](../LICENSES/ENG/GNU_LGPL_v2.1.md)
+## [GNU 약소 일반 공중 사용 허가서 버전 2.1](GNU_LGPL_v2.1.md)
 - [PaperMC/Paperweight](https://github.com/PaperMC/Paperweight)
 
-## [GNU Lesser General Public License Version 3.0](../LICENSES/ENG/GNU_LGPL_v3.0.md)
+## [GNU 약소 일반 공중 사용 허가서 버전 3.0](GNU_LGPL_v3.0.md)
 - [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
 - [FabricMC/tiny-remapper](https://github.com/FabricMC/tiny-remapper)
 - [theomega24/upnp4j](https://github.com/theomega24/upnp4j)
 
-## [MariaDB Business Source License Version 1.1](../LICENSES/ENG/MDB_BSL_v1.1.md)
+## [MariaDB Business Source 허가서 버전 1.1](MDB_BSL_v1.1.md)
 - [getsentry/sentry](https://github.com/getsentry/sentry)
 <!-- 2025. 07. 15. 부터 Apache License v2.0을 따름 -->
 
-## [The 3-Clause BSD License](../LICENSES/ENG/BSD_3-Clause.md)
+## [3조항 BSD 허가서](BSD_3-Clause.md)
 - [asm/asm](https://gitlab.ow2.org/asm/asm)
 - [hamcrest/JavaHamcrest](https://github.com/hamcrest/JavaHamcrest)
 - [jline/jline3](https://github.com/jline/jline3)
 
-## [Mozilla Public License Version 2.0](../LICENSES/ENG/MPL_v2.0.md)
+## [모질라 공용 허가서 버전 2.0](MPL_v2.0.md)
 - [mozilla/rhino](https://github.com/mozilla/rhino)
 
-## [The MIT License](../LICENSES/ENG/MIT.md)
+## [MIT 허가서](MIT.md)
 - [Cryptite/Slice](https://github.com/Cryptite/Slice)
 - [EmpireCraft/EmpireCraft](https://github.com/starlis/EmpireCraft)
 - [KyoriPowered/adventure](https://github.com/KyoriPowered/adventure)
@@ -87,9 +87,9 @@ Licenses that used in Prismarine's project, code and PR.
 - [qos-ch/slf4j](https://github.com/qos-ch/slf4j)
 - [typetools/checker-framework:checker-qual](https://github.com/typetools/checker-framework/tree/master/checker-qual)
 
-## Custom Licenses
+## 자체 라이선스
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
-  - [English](../LICENSES/ENG/CST_md5.md)
+  - [한국어](CST_md5.md)
 
-## No License
+## 라이선스 없음
 - [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
