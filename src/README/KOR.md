@@ -26,7 +26,7 @@ Prismarine
 - 여러 모드를 포팅하여 버그를 해결하고 여러 개선이 제공됩니다.
 - [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice) 등 불안정하거나, 오래되었거나, 특정 사용자를 위해 최적화된 버킷에서 불안정하고 불필요한 부분은 모두 제외하고 추가하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
 - 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
-   - 포팅된 패치는 [여기서](portedPatches_KOR.md) 확인할 수 있습니다.
+   - 포팅된 패치는 [여기서](../PORTED_PATCHES/KOR.md) 확인할 수 있습니다.
 - GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
 
 ## 소통하기
@@ -95,7 +95,7 @@ repositories {
 ```
 
 ### Create patches and contribute to Prismarine
-[CONTRIBUTING.md](src/CONTRIBUTING/KOR.md) 를 확인해주세요.
+[CONTRIBUTING.md](../CONTRIBUTING/KOR.md) 를 확인해주세요.
 
 ### Create your own bucket based on Prismarine
 [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19/src/README/KOR.md) 을 확인해주세요.
