@@ -13,7 +13,7 @@ _Copyright © 2007 자유 소프트웨어 재단 주식회사 &lt;<http://fsf.or
 
 _Copyright © 2012 공개 SW 포털 (이하, "OSS") &lt;<http://oss.kr/>&gt;_
 
-### 누구라도 본 사용 허가서를 원문 그대로 복제하고 배포할 수 있다. 그러나 본문에 대한 수정은 허용되지 않는다.
+#### 누구라도 본 사용 허가서를 원문 그대로 복제하고 배포할 수 있다. 그러나 본문에 대한 수정은 허용되지 않는다.
 
 <div align="center">
 
@@ -98,21 +98,11 @@ GPL은 개발자와 저작자를 보호하기 위해 본 자유 소프트웨어�
 **“GPL 적용 저작물”** 은 수정되지 않은 원 프로그램이나 그 프로그램에 기반한 저작물
 둘 중의 하나를 의미한다.
 
-To **“propagate”** a work means to do anything with it that, without
-permission, would make you directly or secondarily liable for infringement under
-applicable copyright law, except executing it on a computer or modifying a private
-copy. Propagation includes copying, distribution (with or without modification),
-making available to the public, and in some countries other activities as well.
-
 어떤 저작물을 **“프로퍼게이트”** 하는 것은, 허가를 받지 않고 행할 시에 해당 저작권 법을
 침해한 것으로 간주하여 직접적이거나 이차적인 처벌을 가능케 하는 모든 행위를 의미한다.
 단, 컴퓨터 상에서 이 저작물을 실행하거나 개인적으로 소유한 복제본을 수정하는 것은 제외한다.
 프로퍼게이트 행위는 복제, (원본이나 수정본의) 배포 및 일반 대중이 획득할 수 있도록 만드는
 행위를 포함하며, 국가에 따라 이외의 활동이 여기에 포함될 수도 있다.
-
-To **“convey”** a work means any kind of propagation that enables other
-parties to make or receive copies. Mere interaction with a user through a computer
-network, with no transfer of a copy, is not conveying.
 
 저작물을 **“컨베이”** 하는 것은 제3자가 복제본을 제작하거나 받을 수 있도록 가능케 해주는
 모든 종류의 프로퍼게이트 행위를 의미한다. 복제본을 양도하지 않고 컴퓨터 네트워크를 통해
