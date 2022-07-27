@@ -2,7 +2,7 @@
 
 # 모질라 공용 허가서
 
-##### [원본](https://www.mozilla.org/en-US/MPL/2.0/) | **한국어** - [English](../ENG/MPL_v2.0.md)
+##### [원본](https://www.mozilla.org/en-US/MPL/2.0/) - [한글 전문 원본](https://www.olis.or.kr/license/Detailselect.do?lId=1088) | **한국어** - [English](../ENG/MPL_v2.0.md)
 
 _버전 2.0_
 

@@ -24,23 +24,24 @@ _Copyright © 2012 공개 SW 포털 (이하, "OSS") &lt;<http://oss.kr/>&gt;_
 GNU 일반 공중 사용 허가서는 소프트웨어 및 기타 다른 저작물에 대한 자유로운 카피레프트
 사용 허가서다.
 
-대부분의 소프트웨어와 기타 실용적 저작물에 설정된 사용 허가서들은 저작물을 자유롭게 공유하거나
-수정하는 행위를 제약하기 위해 고안되었다. 반면에 GNU 일반 공중사용 허가서는 특정 프로그램의
-모든 버전을 공유하고 수정할 수 있는 자유를 보장하기 위한 것이다. 즉, 해당 프로그램이 모든
-사용자들에게 자유 소프트웨어로 유지될 수 있도록 고안된 것이다. GNU 일반 공중 사용 허가서는
-자유 소프트웨어 재단에서 제작되는 대부분의 소프트웨어와, 그 외에 저작자가 설정한 모든
-저작물에 적용된다. 또한 자신의 프로그램에 이 사용 허가서를 사용할 수 있다.
+대부분의 소프트웨어와 기타 실용적 저작물에 설정된 사용 허가서들은 저작물을 자유롭게
+공유하거나 수정하는 행위를 제약하기 위해 고안되었다. 반면에 GNU 일반 공중사용 허가서는
+특정 프로그램의 모든 버전을 공유하고 수정할 수 있는 자유를 보장하기 위한 것이다. 즉,
+해당 프로그램이 모든 사용자들에게 자유 소프트웨어로 유지될 수 있도록 고안된 것이다. GNU
+일반 공중 사용 허가서는 자유 소프트웨어 재단에서 제작되는 대부분의 소프트웨어와, 그 외에
+저작자가 설정한 모든 저작물에 적용된다. 또한 자신의 프로그램에 이 사용 허가서를 사용할
+수 있다.
 
 자유 소프트웨어를 언급할 때 사용하는 ‘자유FREE’라는 단어는 무료(無料)라는 금전적 의미가
-아니라 자유를 의미한다. 우리의 일반 공중 사용 허가서들은 자유 소프트웨어의 복제본을 (원한다면
-유료로) 배포할 수 있는 자유가 있다는 점을 보장하기 위해 고안되었다. 더불어 당신이 소스
-코드를 받거나 원하는 경우 얻을 수 있다는 점과 소프트웨어를 수정하거나 그것의 일부를 새로운
-자유 프로그램에 활용할 수 있다는 점을 보장하고, 또한 이상의 행위를 할 수 있다는 사실을
-알 수 있도록 보장하기 위해 고안되었다.
+아니라 자유를 의미한다. 우리의 일반 공중 사용 허가서들은 자유 소프트웨어의 복제본을
+(원한다면 유료로) 배포할 수 있는 자유가 있다는 점을 보장하기 위해 고안되었다. 더불어
+당신이 소스 코드를 받거나 원하는 경우 얻을 수 있다는 점과 소프트웨어를 수정하거나 그것의
+일부를 새로운 자유 프로그램에 활용할 수 있다는 점을 보장하고, 또한 이상의 행위를 할 수
+있다는 사실을 알 수 있도록 보장하기 위해 고안되었다.
 
 당신의 권리를 보호하기 위해, 우리는 다른 사람이 당신으로 하여금 이러한 권리를 거부하거나
-포기하도록 요구하는 행위를 방지할 필요가 있다. 따라서 당신은 소프트웨어의 복제본을 배포하거나
-수정할 경우에 특정한 의무를 지닌다. 바로 다른 이들의 자유를 존중할 의무이다.
+포기하도록 요구하는 행위를 방지할 필요가 있다. 따라서 당신은 소프트웨어의 복제본을
+배포하거나 수정할 경우에 특정한 의무를 지닌다. 바로 다른 이들의 자유를 존중할 의무이다.
 
 예를 들면, 그러한 프로그램의 복제본을 무상이나 유상으로 배포할 경우에는 당신이 양도받았던
 동일한 자유를 수취인에게도 전달해야 한다. 당신은 수취인 역시 소스 코드를 받거나 구할 수
@@ -65,11 +66,11 @@ GPL은 개발자와 저작자를 보호하기 위해 본 자유 소프트웨어�
 자유를 보호하기 위해 노력할 것이다.
 
 마지막으로, 모든 프로그램은 소프트웨어 특허에 의해 지속적으로 위협받고 있다. 정부는 범용
-컴퓨터에 대한 소프트웨어의 개발과 사용을 제한하기 위한 특허를 허용해서는 안 된다. 행여
-그런 일이 발생하는 경우라도, 우리는 특허가 지니는 특별한 위험성, 즉 자유 소프트웨어에
-특허가 적용됨으로써 결과적으로 사유(proprietary) 소프트웨어가 되어버리는 위험을 막을
-수 있기를 바란다. GPL은 이를 방지하기 위해 특허에 의해 프로그램의 자유성이 박탈되지
-않도록 보장하고 있다.
+컴퓨터에 대한 소프트웨어의 개발과 사용을 제한하기 위한 특허를 허용해서는 안 된다. 행여 그런
+일이 발생하는 경우라도, 우리는 특허가 지니는 특별한 위험성, 즉 자유 소프트웨어에 특허가
+적용됨으로써 결과적으로 사유(proprietary) 소프트웨어가 되어버리는 위험을 막을 수 있기를
+바란다. GPL은 이를 방지하기 위해 특허에 의해 프로그램의 자유성이 박탈되지 않도록 보장하고
+있다.
 
 복제와 배포, 수정에 관한 정확한 규정과 조건들은 다음과 같다.
 
@@ -110,499 +111,471 @@ GPL은 개발자와 저작자를 보호하기 위해 본 자유 소프트웨어�
 
 대화형 구조로 된 사용자 인터페이스는 다음과 같이 **“적절한 법적 고지”** 를 용이하고
 명백한 방식으로 표시한다. **첫째**, 적절한 저작권을 고지하고, **둘째**, 저작물에 보증을
-제공하지 않는다는 점(보증이 제공되는 경우 제외)과 사용허가를 받은 자가 본 라이선스에 의거하여
-저작물을 컨베이할 수 있다는 점, 그리고 본 라이선스의 복제본을 볼 수 있는 방법을 사용자에게
-표시한다. 만약 그 인터페이스가 사용자 명령이나 옵션의 목록을 하나의 메뉴 등으로 제시하는
-경우에는 그 목록 내에 고지를 명시하는 것도 위 기준에 부합된다.
+제공하지 않는다는 점(보증이 제공되는 경우 제외)과 사용허가를 받은 자가 본 라이선스에
+의거하여 저작물을 컨베이할 수 있다는 점, 그리고 본 라이선스의 복제본을 볼 수 있는 방법을
+사용자에게 표시한다. 만약 그 인터페이스가 사용자 명령이나 옵션의 목록을 하나의 메뉴 등으로
+제시하는 경우에는 그 목록 내에 고지를 명시하는 것도 위 기준에 부합된다.
 
-### 1. Source Code
+### 1. 소스 코드
 
-The “source code” for a work means the preferred form of the work for
-making modifications to it. “Object code” means any non-source form of a
-work.
+저작물의 **“소스 코드”** 란 저작물에 수정을 가하는 행위를 위해 선호되는 저작물의 형태를
+의미한다. **“오브젝트 코드”** 란 저작물의 비(非)소스적 형태 전부를 의미한다.
 
-A “Standard Interface” means an interface that either is an official
-standard defined by a recognized standards body, or, in the case of interfaces
-specified for a particular programming language, one that is widely used among
-developers working in that language.
+**“표준 인터페이스”** 는 인지도 있는 표준 기관이 정의한 공식적인 표준이거나, 혹은 특정
+프로그래밍 언어에 특화된 인터페이스의 경우에는 그 언어로 작업을 하는 개발자들 사이에서 널리
+사용되는 인터페이스를 의미한다.
 
-The “System Libraries” of an executable work include anything, other than
-the work as a whole, that **(a)** is included in the normal form of packaging a Major
-Component, but which is not part of that Major Component, and **(b)** serves only to
-enable use of the work with that Major Component, or to implement a Standard
-Interface for which an implementation is available to the public in source code form.
-A “Major Component”, in this context, means a major essential component
-(kernel, window system, and so on) of the specific operating system (if any) on which
-the executable work runs, or a compiler used to produce the work, or an object code
-interpreter used to run it.
+실행 가능한 저작물의 **“시스템 라이브러리”** 는 저작물 전체를 제외한 모든 것 중에서,
+**(가)** 주요 구성요소를 패키징하는 일반적 형태에 포함되어 있으면서 주요 구성요소의 일부가
+아닌 것과 **(나)** 주요 구성요소와의 작동을 가능하게끔 도와주기만 하거나 혹은 표준
+인터페이스를 구현하기만 하는 것으로서 그 구현이 대중에게 소스 코드 형태로 제공되는 것을
+포함한다. 이 맥락에서 **“주요 구성요소”** 는 실행 가능한 저작물을 구동할 수 있는 특정
+운영체계의 주요 필수 구성요소(커널, 윈도우 시스템 등)나 그 저작물을 생산하는데 사용된
+컴파일러, 또는 저작물을 실행시키기 위해 사용되는 오브젝트코드 인터프리터를 의미한다.
 
-The “Corresponding Source” for a work in object code form means all the
-source code needed to generate, install, and (for an executable work) run the object
-code and to modify the work, including scripts to control those activities. However,
-it does not include the work's System Libraries, or general-purpose tools or
-generally available free programs which are used unmodified in performing those
-activities but which are not part of the work. For example, Corresponding Source
-includes interface definition files associated with source files for the work, and
-the source code for shared libraries and dynamically linked subprograms that the work
-is specifically designed to require, such as by intimate data communication or
-control flow between those subprograms and other parts of the work.
+오브젝트 코드 형태를 띤 저작물의 **“해당 소스”** 란 오브젝트 코드를 생성, 설치, 그리고
+(실행 가능한 저작물의 경우) 구동하고, 그 저작물을 수정하는데 필요한 모든 소스 코드를
+의미하며, 이러한 활동들을 제어하는 스크립트를 포함한다. 그러나, 저작물의 시스템
+라이브러리나 범용적인 툴은 여기에 포함되지 않으며, 위의 활동들을 실행시키는데 수정 없이
+사용되면서도 저작물의 일부가 아닌 여타 자유 소프트웨어도 포함되지 않는다. 예를 들면, 해당
+소스에는 저작물의 소스 파일과 연관된 인터페이스 정의 파일이 포함되고, 또한 저작물의 서브
+프로그램과 다른 부분들 사이의 제어 흐름이나 밀접한 데이터 통신 등을 통해 저작물이 특별히
+필요로 하는, 동적 링크된 하위 프로그램과 공용 라이브러리의 소스코드가 포함된다.
 
-The Corresponding Source need not include anything that users can regenerate
-automatically from other parts of the Corresponding Source.
+해당 소스의 다른 부분으로부터 사용자가 자동적으로 재 생성시킬 수 있는 것은 해당 소스에
+포함시킬 필요가 없다.
 
-The Corresponding Source for a work in source code form is that same work.
+소스 코드 형태를 띤 저작물의 해당 소스는 저작물 그 자체이다.
 
-### 2. Basic Permissions
+### 2. 기본적인 허용사항
 
-All rights granted under this License are granted for the term of copyright on the
-Program, and are irrevocable provided the stated conditions are met. This License
-explicitly affirms your unlimited permission to run the unmodified Program. The
-output from running a covered work is covered by this License only if the output,
-given its content, constitutes a covered work. This License acknowledges your rights
-of fair use or other equivalent, as provided by copyright law.
+본 라이선스에 따라 부여되는 모든 권리는 프로그램에 대한 저작권 조항에 따라 부여되는 것이며,
+명시된 조건을 충족시키는 한 취소될 수 없다. 본 라이선스는 수정되지 않은 프로그램을 실행할
+권리를 제한 없이 허용한다는 점을 분명하게 확약한다. GPL 적용 저작물을 실행함으로써 얻는
+결과물은 그것의 내용이 GPL 적용 저작물을 구성하는 경우에 한해서만 본 라이선스의 적용을
+받는다. 본 라이선스는 저작권법이 제공하는 바에 따라, 공정 사용과 여타 동등한 사용방식을
+인정한다.
 
-You may make, run and propagate covered works that you do not convey, without
-conditions so long as your license otherwise remains in force. You may convey covered
-works to others for the sole purpose of having them make modifications exclusively
-for you, or provide you with facilities for running those works, provided that you
-comply with the terms of this License in conveying all material for which you do not
-control copyright. Those thus making or running the covered works for you must do so
-exclusively on your behalf, under your direction and control, on terms that prohibit
-them from making any copies of your copyrighted material outside their relationship
-with you.
+당신은 당신의 라이선스가 유효하게 유지되는 한, 당신이 컨베이 하지 않은 GPL 적용 저작물을
+무제한적으로 제작 및 실행, 프로퍼게이트할 수 있다. 당신은 저작권 통제권을 가지지 않는 모든
+저작물을 컨베이하는 데 있어서 본 라이선스의 조항들을 따른다는 전제하에, 타인으로 하여금
+당신을 위해 저작물에 수정을 가하게 하거나 그 저작물들을 실행시키는데 필요한 기능을
+제공하도록 하려는 목적에 한해 GPL 적용 저작물을 타인에게 컨베이할 수 있다. 이에 따라 GPL
+적용 저작물을 당신만을 위해 제작하고 실행하는 사람들은 당신의 지시와 통제 하에서, 당신을
+위한 목적으로만 일을 해야 하며, 당신과 관계된 일 이외에 당신의 저작권 해당물의 복제본을
+만들지 못하도록 하는 조항들에 따라야 한다.
 
-Conveying under any other circumstances is permitted solely under the conditions
-stated below. Sublicensing is not allowed; section 10 makes it unnecessary.
+기타 다른 상황 하에서의 컨베이 행위는 아래에 명시된 조건에 따라 전부 허용된다. 하위 사용허가
+부여는 허용되지 않는다. 이는 제 10조에 의해 불필요한 행위로 규정된다. 
 
-### 3. Protecting Users' Legal Rights From Anti-Circumvention Law
+### 3. 우회금지법으로부터 사용자의 법적 권리 보호
 
-No covered work shall be deemed part of an effective technological measure under any
-applicable law fulfilling obligations under article 11 of the WIPO copyright treaty
-adopted on 20 December 1996, or similar laws prohibiting or restricting circumvention
-of such measures.
+어떤 GPL 적용 저작물도 1996년 12월 20일에 채택된 WIPO 저작권 조약의 제11조의 의무사항을
+따르는 적용 법률, 혹은 유효한 기술수단의 우회행동을 금지하거나 제한하는 유사 법률에 의해
+유효한 기술수단의 일부로 받아들여져서는 안 된다.
 
-When you convey a covered work, you waive any legal power to forbid circumvention of
-technological measures to the extent such circumvention is effected by exercising
-rights under this License with respect to the covered work, and you disclaim any
-intention to limit operation or modification of the work as a means of enforcing,
-against the work's users, your or third parties' legal rights to forbid circumvention
-of technological measures.
+GPL 적용 저작물을 컨베이하는 것은 곧 그 저작물에 대한 기술수단의 우회행동을 금지하는 모든
+법적 권리를 포기하는 것을 의미하며, 이는 그 저작물과 관련하여 본 라이선스가 행사하는 권리가
+그러한 우회행동에 영향을 미치는 정도만큼 적용된다. 또한 저작물에 대한 조작과 수정에 제한을
+가함으로써, 사용자에 대하여 당신과 제 3자의 기술수단에 대한 우회행위 금지의 법적 권한을
+강화하고자 하는 모든 의도를 부인한다는 것을 의미한다.
 
-### 4. Conveying Verbatim Copies
+### 4. 수정되지 않은 복제본의 컨베이 행위
 
-You may convey verbatim copies of the Program's source code as you receive it, in any
-medium, provided that you conspicuously and appropriately publish on each copy an
-appropriate copyright notice; keep intact all notices stating that this License and
-any non-permissive terms added in accord with section 7 apply to the code; keep
-intact all notices of the absence of any warranty; and give all recipients a copy of
-this License along with the Program.
+당신은 다음의 사항들을 충족시킨다는 조건 하에 프로그램 소스 코드의 복제본을 수정을 가하지
+않은 양도받은 상태 그대로 어떠한 매체를 통해서도 컨베이할 수 있다. 즉, 각 복제본에 적절한
+저작권 고지를 명확하고 적절한 방식으로 공표해야 하고, 본 라이선스와 제7조에 따라 추가된
+비허락적(non-permisive) 조항들이 코드에 적용된다는 내용의 고지를 모두 있는 그대로 유지해야
+한다. 또한 어떤 보증도 제공되지 않는다는 고지들을 전부 있는 그대로 유지하고, 수취인 모두에게
+프로그램과 함께 본 라이선스의 복제본을 전달해야 한다.
 
-You may charge any price or no price for each copy that you convey, and you may offer
-support or warranty protection for a fee.
+복제본은 무상이나 유상으로 컨베이할 수 있으며, 수수료를 받고 지원이나 보증을 제공할 수 있다.
 
-### 5. Conveying Modified Source Versions
+### 5. 수정된 소스의 컨베이 행위
 
-You may convey a work based on the Program, or the modifications to produce it from
-the Program, in the form of source code under the terms of section 4, provided that
-you also meet all of these conditions:
+당신은 다음의 조건들을 모두 충족시킨다는 조건 하에, 제4조에 의거하여 프로그램에 기반한
+저작물이나, 그 저작물을 제작하기 위해 프로그램에 사용된 수정물을 소스 코드 형태로 컨베이할
+수 있다.
 
-* **a)** The work must carry prominent notices stating that you modified it, and giving a
-relevant date.
-* **b)** The work must carry prominent notices stating that it is released under this
-License and any conditions added under section 7. This requirement modifies the
-requirement in section 4 to “keep intact all notices”.
-* **c)** You must license the entire work, as a whole, under this License to anyone who
-comes into possession of a copy. This License will therefore apply, along with any
-applicable section 7 additional terms, to the whole of the work, and all its parts,
-regardless of how they are packaged. This License gives no permission to license the
-work in any other way, but it does not invalidate such permission if you have
-separately received it.
-* **d)** If the work has interactive user interfaces, each must display Appropriate Legal
-Notices; however, if the Program has interactive interfaces that do not display
-Appropriate Legal Notices, your work need not make them do so.
+* **가)** 당신이 수정을 가했다는 사실 및 수정 일시를 명시하는 눈에 띄는 고지가 저작물에
+담겨 있어야 한다.
+* **나)** 저작물이 본 라이선스 및 제7조에 추가된 모든 조건들에 의거하여 릴리스 됨을 밝히는
+눈에 띄는 고지가 담겨 있어야 한다. 본 요구사항은 “모든 고지를 있는 그대로 유지해야 한다”는
+제4조의 요구사항에 수정을 가하게 된다.
+* **다)** 당신은 저작물 전체에 대해 본 라이선스를 설정하여, 저작물의 복제본을 소유하게 되는
+모든 이에게 본 라이선스의 규정에 의거하여 사용을 허가해야 한다. 따라서 본 라이선스는 제7조의
+추가적 조항들과 함께 저작물의 패키징 방식과 관계없이 저작물 전체와 모든 부분들에 적용된다.
+본 라이선스는 그 외에 어떤 방식으로도 저작물의 사용을 허가하는 것을 금지한다. 그러나 당신이
+별도로 얻은 권한을 무효화하지는 않는다.
+* **라)** 저작물이 대화형 구조의 유저 인터페이스를 지니고 있는 경우에는 각 인터페이스가
+적절한법적 고지를 표시해야 한다. 그러나 프로그램의 대화형 구조 인터페이스가 적절한 법적
+고지를 표시하지 않는 경우에 당신의 저작물에서 고지를 표시하도록 만들 필요는 없다.
 
-A compilation of a covered work with other separate and independent works, which are
-not by their nature extensions of the covered work, and which are not combined with
-it such as to form a larger program, in or on a volume of a storage or distribution
-medium, is called an “aggregate” if the compilation and its resulting
-copyright are not used to limit the access or legal rights of the compilation's users
-beyond what the individual works permit. Inclusion of a covered work in an aggregate
-does not cause this License to apply to the other parts of the aggregate.
+GPL 적용 저작물과 기타 독립적인 저작물을 하나로 묶어 하나의 저장 장치나 배포매체에 저장한
+저작물들은, 독립적 저작물들이 그 본질상 GPL 적용 저작물의 확장형태가 아니고, 더 큰
+프로그램을 구성하기 위한 방식으로 결합된 것도 아니며, 저장된 저작물들과 해당 저작권이
+각각의 개별 저작물의 허용범위를 넘어서는 정도로 사용자들의 접근이나 법적 권한을 제한하는데
+사용되는 것이 아니라면, 그것은 집합물”로 지칭된다. 집합물에 GPL 적용 저작물이 포함된다고
+해서 본 라이선스가 그 집합물의 다른 부분들에도 적용되는 것은 아니다.
 
-### 6. Conveying Non-Source Forms
+### 6. 비(非)소스 형태의 컨베이 행위
 
-You may convey a covered work in object code form under the terms of sections 4 and
-5, provided that you also convey the machine-readable Corresponding Source under the
-terms of this License, in one of these ways:
+당신은 본 라이선스에 따라 컴퓨터가 인식할 수 있는 해당 소스도 함께 컨베이한다는 조건
+하에, 제4조와 제5조에 의거하여 다음과 같은 방법 중 하나로 GPL 적용 저작물을 오브젝트
+코드의 형태로 컨베이할 수 있다.
 
-* **a)** Convey the object code in, or embodied in, a physical product (including a
-physical distribution medium), accompanied by the Corresponding Source fixed on a
-durable physical medium customarily used for software interchange.
-* **b)** Convey the object code in, or embodied in, a physical product (including a
-physical distribution medium), accompanied by a written offer, valid for at least
-three years and valid for as long as you offer spare parts or customer support for
-that product model, to give anyone who possesses the object code either **(1)** a copy of
-the Corresponding Source for all the software in the product that is covered by this
-License, on a durable physical medium customarily used for software interchange, for
-a price no more than your reasonable cost of physically performing this conveying of
-source, or **(2)** access to copy the Corresponding Source from a network server at no
-charge.
-* **c)** Convey individual copies of the object code with a copy of the written offer to
-provide the Corresponding Source. This alternative is allowed only occasionally and
-noncommercially, and only if you received the object code with such an offer, in
-accord with subsection 6b.
-* **d)** Convey the object code by offering access from a designated place (gratis or for
-a charge), and offer equivalent access to the Corresponding Source in the same way
-through the same place at no further charge. You need not require recipients to copy
-the Corresponding Source along with the object code. If the place to copy the object
-code is a network server, the Corresponding Source may be on a different server
-(operated by you or a third party) that supports equivalent copying facilities,
-provided you maintain clear directions next to the object code saying where to find
-the Corresponding Source. Regardless of what server hosts the Corresponding Source,
-you remain obligated to ensure that it is available for as long as needed to satisfy
-these requirements.
-* **e)** Convey the object code using peer-to-peer transmission, provided you inform
-other peers where the object code and Corresponding Source of the work are being
-offered to the general public at no charge under subsection 6d.
+* **가)** 오브젝트 코드를 (물리적 배포 매체를 포함한) 물리적 제품 내에 컨베이하되,
+소프트웨어 상호교환에 통상적으로 사용되는 내구성 있는 물리적 매체에 해당 소스를 제품과
+동봉하는 방식.
+* **나)** 오브젝트 코드를 (물리적 배포 매체를 포함한) 물리적 제품 내에 컨베이하되, 적어도
+3년 이상 유효하고 당신이 그 제품 모델에 대한 고객지원이나 부품을 제공하는 기간 동안 유효한
+서면 약정서를 제품과 동봉하는 방식. 이 약정서는 오브젝트 코드를 소유하게 되는 모든 이에게
+**(1)** 소스의 컨베이 행위에 투여되는 물리적 비용에 적절하다고 여겨지는 일정 금액을 받고,
+소프트웨어 교환에 통상적으로 사용되는 내구성 있는 물리적 매체를 통해 본 라이선스가 적용된
+제품 속 모든 소프트웨어의 해당 소스 복제본을 부여하거나, **(2)** 무상으로 네트워크
+서버로부터 해당 소스를 복제할 수 있는 접근 권한을 부여하기 위한 것이다.
+* **다)** 해당 소스를 제공한다는 서면 약정서의 복제본 한 부와 오브젝트 코드의 개별적인
+복제본을 컨베이하는 방식. 이 방식은 특별한 경우에 한해 비상업적으로만 허용되며, 서면 약정서와
+함께 제 6조의 **나)** 항에 따라 오브젝트코드를 수령한 경우에만 가능하다.
+* **라)** 지정된 장소에서 (무상 또는 유상으로) 오브젝트 코드에 접근할 수 있는 권한을
+부여하면서 동시에 동일한 장소에서 추가 비용 없이 같은 방법으로 해당 소스에 대한 동등한
+접근법을 제공하여 오브젝트코드를 컨베이하는 방식. 수취인이 오브젝트코드와 함께 해당 소스까지
+복제하도록 할 필요는 없다. 오브젝트 코드를 복제할 수 있는 곳이 네트워크 서버인 경우, 해당
+소스는 동등한 복제 수단을 제공하는 (당신이나 제3자가 운영하는) 다른 서버에 둘 수 있다. 단,
+오브젝트 코드 옆에 해당 소스가 있는 곳을 알려주는 분명한 고지를 공지해야 한다. 해당 소스를
+제공하는 서버의 종류와 관계없이 당신은 이러한 요구 조건들을 충족시키는데 필요한 기간 동안
+해당 소스에 대한 접근가능성을 보장할 의무를 지닌다. 
+* **마)** 오브젝트 코드를 P2P 전송을 이용하여 컨베이하는 방식. 단, 이 경우, 다른 P2P
+사용자들에게 저작물의 오브젝트 코드와 해당 소스가 제6조 d항에 따라 무상으로 일반 공중에게
+제공되는 장소를 알려주어야 한다.
 
-A separable portion of the object code, whose source code is excluded from the
-Corresponding Source as a System Library, need not be included in conveying the
-object code work.
+오브젝트 코드의 해당 소스 중 시스템 라이브러리로 배제되어 분리 가능한 소스 코드 부분은
+오브젝트코드 저작물을 컨베이할 때 반드시 포함되지 않아도 무방하다.
 
-A “User Product” is either **(1)** a “consumer product”, which
-means any tangible personal property which is normally used for personal, family, or
-household purposes, or **(2)** anything designed or sold for incorporation into a
-dwelling. In determining whether a product is a consumer product, doubtful cases
-shall be resolved in favor of coverage. For a particular product received by a
-particular user, “normally used” refers to a typical or common use of
-that class of product, regardless of the status of the particular user or of the way
-in which the particular user actually uses, or expects or is expected to use, the
-product. A product is a consumer product regardless of whether the product has
-substantial commercial, industrial or non-consumer uses, unless such uses represent
-the only significant mode of use of the product.
+**“사용자 제품”** 은 **(1)** 개인이나 가족, 가사의 용도로 통상적으로 사용되는 개인적인
+유형 자산을 의미하는 **“소비자 제품”** 이거나, **(2)** 거주지를 구성할 목적으로
+디자인되거나 판매되는 모든 것에 해당한다. 어떤 제품이 소비자 제품인가 아닌가 여부를
+판단함에 있어서 애매한 경우에는 해당 사용 범위를 토대로 결정되어야 한다. 특정한 사용자가
+수취한 특정 제품의 경우, **“통상적인 사용 방식”** 이라 함은 그 유형의 제품이 전형적으로
+혹은 일반적으로 사용되는 방식을 뜻하는 것으로, 그 사용자의 지위 내지는 그 특정한 사용자가
+그 제품을 실제로 사용하는 방식이나 사용하리라 기대되는 방식, 혹은 그가 제품에 기대하는
+바와 무관하다. 실질적으로 상업적, 산업적 혹은 비(非) 소비재적 용도를 가진다고 할지라도
+그러한 용도가 제품의 유일하고 주요한 사용 방식이 아니라면 그 제품은 소비자 제품으로
+규정된다.
 
-“Installation Information” for a User Product means any methods,
-procedures, authorization keys, or other information required to install and execute
-modified versions of a covered work in that User Product from a modified version of
-its Corresponding Source. The information must suffice to ensure that the continued
-functioning of the modified object code is in no case prevented or interfered with
-solely because modification has been made.
+사용자 제품의 **“설치 정보”** 란 해당 소스의 수정본으로부터 발생한 사용자 제품 내의
+저작물의 수정된 버전을 설치하고 실행하기 위한 모든 방법과 절차, 인증키, 기타 필요한 정보를
+의미한다. 이러한 정보는 수정이 이루어졌다는 이유만으로 인해 수정된 오브젝트 코드의 작동이
+방해되거나 간섭 받지 않는다는 점을 보장할 정도로 충분히 제공되어야 한다.
 
-If you convey an object code work under this section in, or with, or specifically for
-use in, a User Product, and the conveying occurs as part of a transaction in which
-the right of possession and use of the User Product is transferred to the recipient
-in perpetuity or for a fixed term (regardless of how the transaction is
-characterized), the Corresponding Source conveyed under this section must be
-accompanied by the Installation Information. But this requirement does not apply if
-neither you nor any third party retains the ability to install modified object code
-on the User Product (for example, the work has been installed in ROM).
+본 조항에 따라 오브젝트 코드 저작물을 사용자 제품의 내부에 포함된 형태로 컨베이하거나 제품
+자체와 함께, 혹은 제품 내에서 사용할 특정한 목적을 위해 컨베이할 경우, 그리고 이러한 컨베이
+행위가 사용자 제품의 소유권과 사용권이 수취인에게 영구적으로 혹은 일정 기간 동안 이전되는
+거래의 일부로서 이루어지는 경우, (그 거래의 형태와 관계없이) 본 조항에 따라 컨베이되는 해당
+소스는 설치 정보를 수반해야 한다. 단, 당신이나 제3자가 수정된 오브젝트코드를 사용자 제품에
+설치할 수 없을 경우에는 (가령, 저작물이 ROM에 설치된 경우) 이 요구사항이 적용되지 않는다.
 
-The requirement to provide Installation Information does not include a requirement to
-continue to provide support service, warranty, or updates for a work that has been
-modified or installed by the recipient, or for the User Product in which it has been
-modified or installed. Access to a network may be denied when the modification itself
-materially and adversely affects the operation of the network or violates the rules
-and protocols for communication across the network.
+설치 정보를 제공해야 한다는 요구사항에는 수취인에 의해 수정되거나 설치된 저작물이나 그
+저작물이 수정되거나 설치된 사용자 제품에 대한 지원 서비스나 보증, 업데이트를 지속적으로
+제공해야 한다는 조건은 포함되지 않는다. 수정행위 자체가 네트워크의 작동에 실질적이고
+부정적인 영향을 끼치거나 네트워크를 통한 통신 규칙 밑 프로토콜을 위반하는 경우에는 네트워크에
+대한 접근을 거부할 수 있다.
 
-Corresponding Source conveyed, and Installation Information provided, in accord with
-this section must be in a format that is publicly documented (and with an
-implementation available to the public in source code form), and must require no
-special password or key for unpacking, reading or copying.
+본 조항에 따라 컨베이되는 해당 소스 및 역시 본 조항에 따라 제공되는 설치 정보는 공식적으로
+문서화된 (그리고 소스 코드의 형태로 공중이 접근할 수 있는) 형식을 갖춰야 하며, 이를
+풀어내거나 읽거나 복제하는 데 있어 특별한 암호나 키를 요구해서는 안 된다.
 
-### 7. Additional Terms
+### 7. 추가 조건들
 
-“Additional permissions” are terms that supplement the terms of this
-License by making exceptions from one or more of its conditions. Additional
-permissions that are applicable to the entire Program shall be treated as though they
-were included in this License, to the extent that they are valid under applicable
-law. If additional permissions apply only to part of the Program, that part may be
-used separately under those permissions, but the entire Program remains governed by
-this License without regard to the additional permissions.
+**“추가허용사항”** 은 본 라이선스의 조건들 내에서 하나 이상의 예외 조건들을 만듦으로써 이들을
+보완하는 조건들이다. 프로그램 전체에 적용 가능한 추가허용사항은 관련 법률의 적절한 범위 내에서
+본 라이선스에 포함되어 있는 것으로 취급되어야 한다. 추가허용사항들이 프로그램의 일부에만
+적용된다면, 해당 부분은 그 허용사항들 하에서 별도로 사용될 수 있다. 그러나 전체 프로그램은
+추가허용사항과 관계없이 본 라이선스의 적용을 받는다.
 
-When you convey a copy of a covered work, you may at your option remove any
-additional permissions from that copy, or from any part of it. (Additional
-permissions may be written to require their own removal in certain cases when you
-modify the work.) You may place additional permissions on material, added by you to a
-covered work, for which you have or can give appropriate copyright permission.
+GPL 적용 저작물의 복제본을 컨베이할 때는 임의대로 추가허용사항들을 복제본 전체나 일부로부터
+제외시킬 수 있다. (어떤 추가허용사항은 저작물을 수정하는 특정한 경우에 그 추가허용사항을 반드시
+삭제하라고 요구하는 방식으로 작성될 수도 있다.) 당신은 GPL 적용 저작물에 추가한 부분으로서,
+당신이 적절한 저작권 허가를 가지고 있거나 저작권을 부여할 수 있는 부분에 대해 추가허용사항을
+설정할 수 있다.
 
-Notwithstanding any other provision of this License, for material you add to a
-covered work, you may (if authorized by the copyright holders of that material)
-supplement the terms of this License with terms:
+본 라이선스의 다른 규정들과 관계없이 당신이 GPL 적용 저작물에 추가한 자료에 대해서 (그 부분에
+대해 저작권 소유자가 허가한 경우) 당신은 다음과 같은 조건들을 추가함으로써, 본 라이선스의
+조건들을 보완할 수 있다.
 
-* **a)** Disclaiming warranty or limiting liability differently from the terms of
-sections 15 and 16 of this License; or
-* **b)** Requiring preservation of specified reasonable legal notices or author
-attributions in that material or in the Appropriate Legal Notices displayed by works
-containing it; or
-* **c)** Prohibiting misrepresentation of the origin of that material, or requiring that
-modified versions of such material be marked in reasonable ways as different from the
-original version; or
-* **d)** Limiting the use for publicity purposes of names of licensors or authors of the
-material; or
-* **e)** Declining to grant rights under trademark law for use of some trade names,
-trademarks, or service marks; or
-* **f)** Requiring indemnification of licensors and authors of that material by anyone
-who conveys the material (or modified versions of it) with contractual assumptions of
-liability to the recipient, for any liability that these contractual assumptions
-directly impose on those licensors and authors.
+* **가)** 본 라이선스의 제15조 및 제16조의 규정과는 다른 방식으로 보증책임을 부인하거나
+면책하는 조항, 또는
+* **나)** 해당 자료나 그것을 포함하는 저작물이 표시하는 적절한 법적 고지 내에 상술된 적절한
+법적 고지나 저작자 표시를 포함하도록 요구하는 조항, 또는
+* **다)** 해당 자료의 출처의 그릇된 표현을 금지하거나 해당 자료의 수정된 버전이 원본과 다른
+적절한 방식으로 표시되도록 요구하는 조항, 또는
+* **라)** 해당 자료의 저작자나 사용허가자의 이름을 홍보의 목적으로 사용하지 못하도록 제한하는
+조항, 또는
+* **마)** 상호, 상표 또는 서비스표의 사용에 대해 상표법에 따르는 권리 부여를 거부하는 조항,
+또는
+* **바)** 계약에 의해 수취인이 책임을 인수하게 되는 프로그램 또는 그것의 수정본을 컨베이하는
+자에 대해서, 이 계약상 인수(contractual assumptions)들이 해당 프로그램의 저작자와 사용
+허가자에게 직접적으로 부과하는 모든 의무에 대하여 그 저작자나 사용 허가자들을 면책하도록
+요구하는 조항.
 
-All other non-permissive additional terms are considered “further
-restrictions” within the meaning of section 10. If the Program as you received
-it, or any part of it, contains a notice stating that it is governed by this License
-along with a term that is a further restriction, you may remove that term. If a
-license document contains a further restriction but permits relicensing or conveying
-under this License, you may add to a covered work material governed by the terms of
-that license document, provided that the further restriction does not survive such
-relicensing or conveying.
+기타 비(非)허가적 추가조건들은 제10조의 해석 하에 **“추가적 제한사항”** 으로 간주된다. 당신이
+받은 프로그램의 전부 혹은 일부가 본 라이선스와 더불어 추가적 제한사항에 해당하는 조건이
+적용된다는 고지를 포함할 경우, 그 추가적 제한조건을 삭제할 수 있다. 어떤 라이선스 문서가 추가적
+제한조건을 포함하되 본 라이선스에 의거한 재사용허가나 컨베이를 허용한다면, 당신은 그 라이선스
+문서의 조건들이 적용된 자료를 GPL 적용 저작물에 추가할 수 있다. 단, 이는 추가적 제한조건들이
+그러한 재사용허가나 컨베이 행위보다 오래 존속될 수 없다는 조건 하에 가능하다.
 
-If you add terms to a covered work in accord with this section, you must place, in
-the relevant source files, a statement of the additional terms that apply to those
-files, or a notice indicating where to find the applicable terms.
+본 조항에 따라 GPL 적용 저작물에 조건들을 추가하는 경우, 해당 파일에 적용되는 추가적 조건들에
+대한 설명, 혹은 이 조건들을 찾을 수 있는 위치를 표시한 고지를 관련된 소스 파일 내에 수록해야
+한다.
 
-Additional terms, permissive or non-permissive, may be stated in the form of a
-separately written license, or stated as exceptions; the above requirements apply
-either way.
+추가조건은, 허가적이든 제한적이든 그 성격에 관계없이 별도의 서면 라이선스의 형태로 명시되거나
+혹은 예외조항으로 제시될 수 있다. 어떤 경우에도 위의 요구사항들이 적용된다.
 
-### 8. Termination
+### 8. 종료
 
-You may not propagate or modify a covered work except as expressly provided under
-this License. Any attempt otherwise to propagate or modify it is void, and will
-automatically terminate your rights under this License (including any patent licenses
-granted under the third paragraph of section 11).
+본 라이선스에 명시된 경우를 제외하고 GPL 적용 저작물을 프로퍼게이트하거나 수정할 수 없다.
+다른 방법으로 프로퍼게이트하거나 수정하려는 시도는 전부 무효하며, 본 라이선스 (및 제11조의 세
+번째 단락에 따라 부여된 모든 특허 라이선스)가 부여하는 당신의 권리는 자동적으로 박탈된다.
 
-However, if you cease all violation of this License, then your license from a
-particular copyright holder is reinstated **(a)** provisionally, unless and until the
-copyright holder explicitly and finally terminates your license, and **(b)** permanently,
-if the copyright holder fails to notify you of the violation by some reasonable means
-prior to 60 days after the cessation.
+그러나 만약 본 라이선스에 대한 위반 행위를 모두 중단할 경우, 특정한 저작권 소유자로부터 받은
+당신의 라이선스는 **(가)** 저작권 소유자가 최종적으로 당신의 라이선스를 명백하게 종료시키지
+않는 한, 혹은 종료시킬 때까지 조건부로 회복되며, **(나)** 위반 행위를 중단한지 60일이
+지나기까지 저작권 소유자가 적절한 수단을 통해 당신에게 위반 사실을 통지하지 못할 경우에는
+영구적으로 회복된다.
 
-Moreover, your license from a particular copyright holder is reinstated permanently
-if the copyright holder notifies you of the violation by some reasonable means, this
-is the first time you have received notice of violation of this License (for any
-work) from that copyright holder, and you cure the violation prior to 30 days after
-your receipt of the notice.
+또한 저작권 소유자가 적절한 수단을 통해 당신에게 위반사실을 통지하고, 그것이 이 저작권
+소유자로부터 받은 최초의 위반 통지이며, 당신이 통지를 받은 지 30일 이내에 위반 행위를 교정하는
+경우에도 특정 저작권 소유자로부터 받은 당신의 라이선스는 영구적으로 회복된다.
 
-Termination of your rights under this section does not terminate the licenses of
-parties who have received copies or rights from you under this License. If your
-rights have been terminated and not permanently reinstated, you do not qualify to
-receive new licenses for the same material under section 10.
+본 조항에 의거하여 당신의 권리가 종료되었다고 해서 당신으로부터 본 라이선스를 통해 복제본이나
+권리를 양도받은 사람들의 라이선스까지 종료되는 것은 아니다. 당신의 권리가 종료되고 영구적으로
+회복되지 못했다면, 당신은 제 10조에 의해 동일한 자료에 대한 새로운 라이선스를 받을 자격을
+상실한다.
 
-### 9. Acceptance Not Required for Having Copies
+### 9. 복제본 소유에 대한 라이선스 수용의 조건
 
-You are not required to accept this License in order to receive or run a copy of the
-Program. Ancillary propagation of a covered work occurring solely as a consequence of
-using peer-to-peer transmission to receive a copy likewise does not require
-acceptance. However, nothing other than this License grants you permission to
-propagate or modify any covered work. These actions infringe copyright if you do not
-accept this License. Therefore, by modifying or propagating a covered work, you
-indicate your acceptance of this License to do so.
+프로그램의 복제본을 수취하거나 실행할 때는 본 라이선스를 수용할 필요가 없다. GPL 적용 저작물의
+사본을 받기 위해 P2P 전송 방식을 사용한 결과로 발생한 부수적 프로퍼게이트 행위 역시 본
+라이선스의 수용을 요구하지 않는다. 그러나 GPL 적용 저작물을 프로퍼게이트하거나 수정할 수 있는
+권한을 부여하는 것은 본 라이선스가 유일하다. 본 라이선스를 수용하지 않고 행하는 프로퍼게이트나
+수정 행위는 저작권을 침해하는 것이다. 따라서 GPL 적용 저작물에 대한 수정 혹은 프로퍼게이트
+행위는 자동적으로 본 라이선스를 수용한다는 의미가 된다.
 
 ### 10. Automatic Licensing of Downstream Recipients
 
-Each time you convey a covered work, the recipient automatically receives a license
-from the original licensors, to run, modify and propagate that work, subject to this
-License. You are not responsible for enforcing compliance by third parties with this
-License.
+GPL 적용 저작물을 컨베이할 때마다 수취인은 본 라이선스의 규정에 따라, 해당 저작물을 실행, 수정
+및 프로퍼게이트할 수 있는 라이선스를 최초의 사용 허가자로부터 자동적으로 받게 된다. 당신은
+제3자가 본 라이선스를 준수하도록 강제할 의무는 없다.
 
-An “entity transaction” is a transaction transferring control of an
-organization, or substantially all assets of one, or subdividing an organization, or
-merging organizations. If propagation of a covered work results from an entity
-transaction, each party to that transaction who receives a copy of the work also
-receives whatever licenses to the work the party's predecessor in interest had or
-could give under the previous paragraph, plus a right to possession of the
-Corresponding Source of the work from the predecessor in interest, if the predecessor
-has it or can get it with reasonable efforts.
+**“법인거래”** 란 하나의 조직 또는 그 조직의 실질적인 모든 자산에 대한 통제권을 이전하거나,
+하나의 조직을 분할 하거나 여러 개의 조직들을 합병하는 거래를 의미한다. 어떤 GPL 적용 저작물의
+프로퍼게이트 행위가 법인 거래의 결과로 이루어지는 경우, 저작물의 복제본을 양도 받는 거래의
+각 당사자는 전임자가 소유 및 양도할 수 있었던 모든 저작물에 대한 라이선스를 함께 받는다.
+이와 더불어 만약 전임자가 저작물의 해당 소스를 확보하고 있거나 적절한 노력을 통해 얻을 수
+있다면, 그 해당 소스에 대한 소유권 역시 함께 받게 된다.
 
-You may not impose any further restrictions on the exercise of the rights granted or
-affirmed under this License. For example, you may not impose a license fee, royalty,
-or other charge for exercise of rights granted under this License, and you may not
-initiate litigation (including a cross-claim or counterclaim in a lawsuit) alleging
-that any patent claim is infringed by making, using, selling, offering for sale, or
-importing the Program or any portion of it.
+본 라이선스가 부여하거나 인정한 권리의 행사에 대해 어떤 추가적 제한도 가해져서는 안 된다.
+예를 들면, 본 라이선스가 부여하는 권리의 이행에 대해 사용허가 수수료, 로열티를 비롯한 기타
+부과금을 강제할 수 없으며, 프로그램 전체나 일부를 타인이 제작, 사용, 판매, 판매를 위한 청약
+또는 수입함으로써 특허 소유가 침해되었다고 주장하는 (교차청구 및 반소를 포함한) 소송을
+제기할 수 없다.
 
-### 11. Patents
+### 11. 특허
 
-A “contributor” is a copyright holder who authorizes use under this
-License of the Program or a work on which the Program is based. The work thus
-licensed is called the contributor's “contributor version”.
+**“기여자”** 란 본 라이선스에 의거하여 프로그램 혹은 프로그램에 기반한 저작물에 대한
+사용권한을 부여해주는 저작권자이다. 이런 식으로 사용허가가 이루어진 저작물을 **“기여자 버전”**
+이라고 부른다.
 
-A contributor's “essential patent claims” are all patent claims owned or
-controlled by the contributor, whether already acquired or hereafter acquired, that
-would be infringed by some manner, permitted by this License, of making, using, or
-selling its contributor version, but do not include claims that would be infringed
-only as a consequence of further modification of the contributor version. For
-purposes of this definition, “control” includes the right to grant patent
-sublicenses in a manner consistent with the requirements of this License.
+기여자의 **“필수 특허청구범위”** 란 기여자가 소유하거나 통제하는 현존 또는 잠재적 특허
+전부에 대한 특허청부범위로서, 기여자 버전을 제작하거나 사용하거나 판매함에 있어 본 라이선스가
+허용하는 일부 방식에 의해 침해될 수 있는 특허 청구 범위이다. 그러나 기여자 버전의 수정에
+의해서만 침해되는 청구범위는 포함하지 않는다. 본 정의와 관련하여 **“통제”** 는 본 라이선스의
+요구사항들을 충족시키는 방식으로 특허 재실시권을 부여하는 권리를 포함한다.
 
-Each contributor grants you a non-exclusive, worldwide, royalty-free patent license
-under the contributor's essential patent claims, to make, use, sell, offer for sale,
-import and otherwise run, modify and propagate the contents of its contributor
-version.
+각 기여자는 필수 특허청구범위 하에 전세계적으로 사용가능하고 로열티가 없는 비독점 특허
+라이선스를 당신에게 부여한다. 이 특허를 통해 기여자 버전을 제작, 사용, 판매, 판매를 위한
+청약, 수입 및 다른 방식으로 실행, 개조 및 프로퍼게이트할 수 있다.
 
-In the following three paragraphs, a “patent license” is any express
-agreement or commitment, however denominated, not to enforce a patent (such as an
-express permission to practice a patent or covenant not to sue for patent
-infringement). To “grant” such a patent license to a party means to make
-such an agreement or commitment not to enforce a patent against the party.
+아래의 세 단락에서 “특허 라이선스”란 이름에 관계없이 특허를 집행하지 않겠다는 동의나 위임
+(특허 사용에 대한 명확한 허가나 특허 침해에 대해 고소하지 않겠다는 서약 등)을 의미한다. 특허
+라이선스를 “부여”한다는 것은 라이선스를 부여 받는 사람에 대해 특허를 집행하지 않겠다는
+계약이나 약속을 하는 것을 의미한다.
 
-If you convey a covered work, knowingly relying on a patent license, and the
-Corresponding Source of the work is not available for anyone to copy, free of charge
-and under the terms of this License, through a publicly available network server or
-other readily accessible means, then you must either **(1)** cause the Corresponding
-Source to be so available, or **(2)** arrange to deprive yourself of the benefit of the
-patent license for this particular work, or **(3)** arrange, in a manner consistent with
-the requirements of this License, to extend the patent license to downstream
-recipients. “Knowingly relying” means you have actual knowledge that, but
-for the patent license, your conveying the covered work in a country, or your
-recipient's use of the covered work in a country, would infringe one or more
-identifiable patents in that country that you have reason to believe are valid.
+만약 당신이 특허 라이선스를 인지하고 그것에 의존하여 GPL 적용 저작물을 컨베이할 때, 그
+저작물의 해당 소스가 본 라이선스의 조건하에 누구라도 공공적인 네트워크 서버나 기타 접근이
+용이한 수단을 통해 무료로 복제할 수 있도록 되어 있지 않다면, **(1)** 그런 방식으로 해당
+소스를 접근 가능하게 만들거나, 혹은 **(2)** 이 특정 저작물의 특허 라이선스가 당신에게
+부여하는 이권을 제거하거나, 혹은 **(3)** 본 라이선스가 요구하는 바에 준하는 방식으로
+후방(downstream) 수취인들에게도 특허 라이선스가 확장될 수 있도록 해야 한다. 특허 라이선스를
+**“인지하고 그것에 의존한다”** 는 것은 특허 라이선스에도 불구하고, 특정 국가에서 GPL 적용
+저작물을 컨베이하는 행위 또는 수취인이 저작물을 사용하는 행위가 해당 국가에서 유효하다고
+판단되는 특허를 한 개 이상 침해한다는 사실에 대해 실질적으로 알고 있음을 의미한다.
 
-If, pursuant to or in connection with a single transaction or arrangement, you
-convey, or propagate by procuring conveyance of, a covered work, and grant a patent
-license to some of the parties receiving the covered work authorizing them to use,
-propagate, modify or convey a specific copy of the covered work, then the patent
-license you grant is automatically extended to all recipients of the covered work and
-works based on it.
+만약 개별 거래나 협정에 의하거나 그와 관련되어 GPL 적용 저작물을 컨베이하거나, 혹은 컨베이
+행위를 알선함으로써 프로퍼게이트할 경우에, 수취인 중 일부에게 특허 라이선스를 부여함으로써
+저작물의 특정 복제본을 사용, 프로퍼게이트, 수정, 혹은 컨베이할 수 있는 권한을 주었다면,
+당신이 부여한 특허 라이선스는 해당 GPL 적용 저작물 및 이에 기반한 저작물을 양도 받는 모든
+이들에게 자동적으로 확장된다.
 
-A patent license is “discriminatory” if it does not include within the
-scope of its coverage, prohibits the exercise of, or is conditioned on the
-non-exercise of one or more of the rights that are specifically granted under this
-License. You may not convey a covered work if you are a party to an arrangement with
-a third party that is in the business of distributing software, under which you make
-payment to the third party based on the extent of your activity of conveying the
-work, and under which the third party grants, to any of the parties who would receive
-the covered work from you, a discriminatory patent license **(a)** in connection with
-copies of the covered work conveyed by you (or copies made from those copies), or **(b)**
-primarily for and in connection with specific products or compilations that contain
-the covered work, unless you entered into that arrangement, or that patent license
-was granted, prior to 28 March 2007.
+어떤 특허 라이선스가 본 라이선스가 부여하는 한 개 이상의 특정 권리를 그 적용범위 내에
+포함하지 않거나 그 권리들의 실행을 금지하는 경우, 혹은 그 권리들의 불이행을 조건으로
+내세우는 경우, 그 특허 라이선스는 **“차별적”** 인 것이다. 만약 어떤 소프트웨어 배포 사업을
+하는 제3자와 협정을 맺어, 저작물을 컨베이하는 활동 범위에 따라 제3자에게 돈을 지불하고, 그
+제3자가 당신에게서 GPL 적용 저작물을 양도 받은 사람들에게 **(가)** 당신이 컨베이한 GPL
+적용 저작물의 복제본과 관련된 방식, 혹은 **(나)** GPL 저작물을 포함하는 특정 제품이나 편집
+저작품을 주된 목적으로 하거나 이와 관련된 방식으로 차별적인 특허 라이선스를 부여한다면, GPL
+적용 저작물을 컨베이할 수 없다. 단, 본 사항은 제3자와의 협정이나 특허 라이선스의 부여가
+2007년 3월 28일 이후에 이루어졌을 경우에 한해 적용된다.
 
-Nothing in this License shall be construed as excluding or limiting any implied
-license or other defenses to infringement that may otherwise be available to you
-under applicable patent law.
+본 라이선스의 내용 중 그 무엇도 관련 특허 법률이 허용하는 묵시적 라이선스나 기타 특허침해에
+대한 방어책을 배제하거나 제한하는 것으로 해석되어서는 안 된다.
 
-### 12. No Surrender of Others' Freedom
+### 12. 타인의 자유 보장
 
-If conditions are imposed on you (whether by court order, agreement or otherwise)
-that contradict the conditions of this License, they do not excuse you from the
-conditions of this License. If you cannot convey a covered work so as to satisfy
-simultaneously your obligations under this License and any other pertinent
-obligations, then as a consequence you may not convey it at all. For example, if you
-agree to terms that obligate you to collect a royalty for further conveying from
-those to whom you convey the Program, the only way you could satisfy both those terms
-and this License would be to refrain entirely from conveying the Program.
+만약 본 라이선스의 조건들에 위배되는 조건들이 (법령이나 합의 등의 방식으로) 당신에게 부과될
+경우라도 본 라이선스의 규정들로부터 면제를 받는 것은 아니다. GPL 적용 저작물을 컨베이하는
+데 있어 본 라이선스의 의무사항과 기타 다른 관련 의무사항들을 동시에 충족시킬 수 있는 방식이
+없다면, 결과적으로 컨베이를 할 수 없다. 예를 들어 당신이 프로그램을 컨베이하는
+수취인으로부터 로열티를 받아야 한다는 조건에 동의하는 경우, 그 조건과 본 라이선스를 동시에
+충족시키는 유일한 방법은 컨베이 행위 자체를 하지 않는 것밖에 없다.
 
-### 13. Use with the GNU Affero General Public License
+### 13. GNU Affero 일반 공중 사용 허가서와의 병행사용
 
-Notwithstanding any other provision of this License, you have permission to link or
-combine any covered work with a work licensed under version 3 of the GNU Affero
-General Public License into a single combined work, and to convey the resulting work.
-The terms of this License will continue to apply to the part which is the covered
-work, but the special requirements of the GNU Affero General Public License, section
-13, concerning interaction through a network will apply to the combination as such.
+본 라이선스의 다른 어떤 조항들에도 불구하고, 당신은 GPL 적용 저작물을 GNU Affero 일반 공중
+라이선스 버전3의 적용을 받는 저작물과 결합하거나 연결하여 하나의 저작물로 만들 수 있고, 그
+결과로 생긴 저작물을 컨베이할 수 있다. GPL 적용 저작물에 해당하는 부분에는 본 라이선스의
+조건들이 지속적으로 적용되지만, GNU Affero 일반 공중 라이선스 제13조에 제시된 네트워크를
+통한 상호작용에 관한 특별 조건들은 결합된 형태의 저작물 전체에 적용된다.
 
-### 14. Revised Versions of this License
+### 14. 본 라이선스의 개정판
 
-The Free Software Foundation may publish revised and/or new versions of the GNU
-General Public License from time to time. Such new versions will be similar in spirit
-to the present version, but may differ in detail to address new problems or concerns.
+자유 소프트웨어 재단은 때때로 GNU 일반 공중 라이선스의 개정판이나 신규 버전을 공표할 수 있다.
+새롭게 공표될 신규 버전은 기본적인 취지에 있어 원판과 변함이 없을 것이지만, 새로운 문제나
+현안에 대처하기 위해 세부적인 내용에 차이가 발생할 수 있다.
 
-Each version is given a distinguishing version number. If the Program specifies that
-a certain numbered version of the GNU General Public License “or any later
-version” applies to it, you have the option of following the terms and
-conditions either of that numbered version or of any later version published by the
-Free Software Foundation. If the Program does not specify a version number of the GNU
-General Public License, you may choose any version ever published by the Free
-Software Foundation.
+각각의 판들은 버전 넘버를 사용해서 구별된다. GNU 일반 공중 라이선스의 어떤 특정한 버전 넘버
+또는 **“그 이후에 출시된 버전(any later version)”** 을 따른다는 사항이 명시된 프로그램에는
+해당 버전이나 그 이후에 자유 소프트웨어 재단에서 발행된 어떤 버전을 선택해서 적용해도 무방하다.
+GNU 일반 공중 라이선스의 버전 넘버를 명시하고 있지 않은 프로그램의 경우에는 자유 소프트웨어
+재단이 공표한 어떠한 버전의 판을 적용해도 무방하다.
 
-If the Program specifies that a proxy can decide which future versions of the GNU
-General Public License can be used, that proxy's public statement of acceptance of a
-version permanently authorizes you to choose that version for the Program.
+GNU 일반 공중 라이선스의 미래 버전의 선택을 대리인에게 위임한다고 프로그램에 명시된 경우,
+그 대리인이 특정 버전의 수용을 공표함으로써 당신이 그 프로그램에 사용하게 될 버전이
+영구적으로 결정된다.
 
-Later license versions may give you additional or different permissions. However, no
-additional obligations are imposed on any author or copyright holder as a result of
-your choosing to follow a later version.
+이후에 발표될 라이선스 버전들이 허용사항을 추가하거나 다른 허용사항을 포함할 수 있다.
+하지만 이후 버전을 따른다고 해서, 저자 또는 저작권자가 추가적인 의무를 강요 받지는 않는다.
 
-### 15. Disclaimer of Warranty
+### 15. 보증의 부인
 
-THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
-EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER
-EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE
-QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE
-DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+**관련 법률이 허용하는 한도 내에서 어떠한 형태의 보증도 제공되지 않는다. 프로그램의
+저작권자와 배포자가 공동 또는 개별적으로 별도의 보증을 서면으로 제공할 때를 제외하면,
+특정한 목적에 대한 프로그램의 적합성이나 상품성 여부에 대한 보증을 포함한 어떠한 형태의
+보증도 명시적이나 묵시적으로 설정되지 않은 “있는 그대로의” 상태로 이 프로그램을 배포한다.
+프로그램의 품질과 성능에 관련된 모든 위험은 당신에게 있다. 프로그램에 결함이 있는 것으로
+밝혀지면, 이에 따라 필요한 보수 및 복구를 위한 제반 경비는 당신이 부담해야 한다.**
 
 ### 16. Limitation of Liability
 
-IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY
-COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS THE PROGRAM AS
-PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
-INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
-PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE
-OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE
-WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGES.
+**관련 법규나 서면 동의에 의해 구속되지 않는 한, 저작권자나 제3자가 손해발생 가능성을
+사전에 알고 있었던 경우를 포함하여, 어떤 경우에도 저작권자 혹은 위에서 허가한 대로
+프로그램을 수정하거나 컨베이한 제3자는 프로그램의 사용이나 작동 불능으로 인해 발생한
+일반적이거나 특수한 손해, 우발적 또는 결과적 손해에 대해 책임지지 않는다. 이러한 조건은
+사용자나 제3자가 프로그램을 조작함으로써 발생된 손실이나 다른 소프트웨어와 프로그램을 함께
+동작시키는 것으로 인해서 발생된 데이터의 상실 및 부정확한 산출 결과에도 적용되나, 이에만
+국한되는 것은 아니다.**
 
-### 17. Interpretation of Sections 15 and 16
+### 17. 제 15조와 제 16조의 해석
 
-If the disclaimer of warranty and limitation of liability provided above cannot be
-given local legal effect according to their terms, reviewing courts shall apply local
-law that most closely approximates an absolute waiver of all civil liability in
-connection with the Program, unless a warranty or assumption of liability accompanies
-a copy of the Program in return for a fee.
+상기된 보증의 부인이나 면책이 특정 지역에서 각 조항의 내용에 상응하는 법적 효력을 갖지
+못한다면, 해당 법정은 프로그램과 관련하여 민사 책임의 완벽한 포기에 가장 근접한 지역법을
+적용해야 한다. 요금을 지불한 대가로 프로그램의 복제본과 함께 보증을 제공하거나 책임을
+인수한 경우는 예외이다.
 
-### END OF TERMS AND CONDITIONS
+### 규정과 조건의 끝
 
-## How to Apply These Terms to Your New Programs
+## 새로운 프로그램에 본 규정들을 적용시키는 방법
 
-If you develop a new program, and you want it to be of the greatest possible use to
-the public, the best way to achieve this is to make it free software which everyone
-can redistribute and change under these terms.
+새로운 프로그램을 개발하여 그것이 대중에게 가장 잘 사용될 수 있도록 하고 싶다면, 누구나
+본 규정들에 따라 그 프로그램을 재배포하고 수정할 수 있는 자유 소프트웨어로 만드는 것이
+가장 좋은 방법이다.
 
-To do so, attach the following notices to the program. It is safest to attach them
-to the start of each source file to most effectively state the exclusion of warranty;
-and each file should have at least the “copyright” line and a pointer to
-where the full notice is found.
+그러기 위해서는 아래와 같은 고지들을 프로그램에 부착하면 된다. 보증 책임이 없다는 사실을
+가장 효과적인 방식으로 명시할 수 있도록 각 소스 파일의 시작 부분에 부착하는 것이 가장
+안전하다. 각각의 파일에는 적어도 **“저작권”** 부분과 전체 고지 사항을 찾을 수 있는 곳을
+알려주는 부분이 반드시 포함되어야 한다.
 
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+#### 영어
+```LICENSE
+<프로그램의 이름과 한 줄 정도의 간단한 용도>
+Copyright (C) <연도> <저작자>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
 
-Also add information on how to contact you by electronic and paper mail.
+#### 한국어
+```LICENSE
+<프로그램의 이름과 한 줄 정도의 간단한 용도>
+Copyright (C) <연도> <저작자>
 
-If the program does terminal interaction, make it output a short notice like this
-when it starts in an interactive mode:
+이 프로그램은 자유 소프트웨어입니다. 당신은 자유 소프트웨어 재단이 공표한
+GNU 일반 공중 라이선스 버전 3 또는 그 이후 버전을 임의로 선택해서 그 규정에
+따라 프로그램을 수정하거나 재배포할 수 있습니다.
 
-    <program>  Copyright (C) <year>  <name of author>
-    This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
-    This is free software, and you are welcome to redistribute it
-    under certain conditions; type 'show c' for details.
+이 프로그램은 유용하게 사용될 수 있을 것이라는 희망에서 배포되고 있지만 어떠한
+형태의보증도 제공하지 않습니다. 상품성 또는 특정 목적 적합성에 대한 묵시적
+보증 역시 제공하지 않습니다. 보다 자세한 내용은 GNU 일반 공중 라이선스를
+참고하시기 바랍니다.
 
-The hypothetical commands `show w` and `show c` should show the appropriate parts of
-the General Public License. Of course, your program's commands might be different;
-for a GUI interface, you would use an “about box”.
+GNU 일반 공중 라이선스는 이 프로그램과 함께 제공됩니다. 만약, 라이선스를 받지
+못했다면, 다음 사이트를 참고하시기 바랍니다: http://www.gnu.org/licenses/.
+```
 
-You should also get your employer (if you work as a programmer) or school, if any, to
-sign a “copyright disclaimer” for the program, if necessary. For more
-information on this, and how to apply and follow the GNU GPL, see
-&lt;<http://www.gnu.org/licenses/>&gt;.
+또한, 당신에게 전자 메일과 서면으로 연락할 수 있는 정보를 추가해야 한다.
 
-The GNU General Public License does not permit incorporating your program into
-proprietary programs. If your program is a subroutine library, you may consider it
-more useful to permit linking proprietary applications with the library. If this is
-what you want to do, use the GNU Lesser General Public License instead of this
-License. But first, please read
-&lt;<http://www.gnu.org/philosophy/why-not-lgpl.html>&gt;.
+만약 프로그램이 단말기 간의 대화형 구조로 되어 있다면, 대화형 방식이 실행되는 순간에
+다음과 같은 주의사항이 출력되어야 한다:
+
+#### 영어
+```LICENSE
+<프로그램>  Copyright (C) <연도> <저작자>
+This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type 'show c' for details.
+```
+
+#### 한국어
+```LICENSE
+<프로그램>  Copyright (C) <연도> <저작자>
+이 프로그램에는 제품에 대한 어떠한 형태의 보증도 제공되지 않습니다. 보다 자세한
+사항을 알고 싶다면 ‘show w’ 명령어를 입력하십시오. 이 프로그램은 자유
+소프트웨어로서 배포규정을 만족시키는 조건 하에서 자유롭게 재배포할 수 있습니다.
+보다 자세한 사항은 ‘show w’ 명령어를 통해서 참고할 수 있습니다.
+```
+
+`show w`와 `show c` 는 일반 공중 라이선스의 해당 부분을 보여주는 가상의 명령어이다.
+물론 당신의 프로그램에 다른 형태의 명령어를 사용해도 무방하다: GUI 인터페이스라면
+프로그램에 대한 **"정보 박스"** 를 사용할 수 있다. 
+
+만약 당신이 학교나 기업 등에 소속되어 있다면, 필요할 경우 고용주나 해당 기관장으로부터
+프로그램에 대한 저작권 포기 각서를 받아야 된다. 이와 관련한 정보나 GNU GPL의 적용과
+관련한 보다 자세한 사항은 &lt;<http://www.gnu.org/licenses/>&gt; 를 참고하면 된다.
+
+GNU 일반 공중 라이선스는 자유 소프트웨어를 사유(proprietary) 소프트웨어와 함께 결합시키는
+것을 허용하지 않는다. 만약 당신의 프로그램이 서브루틴 라이브러리일 경우에는 사유
+소프트웨어가 해당 라이브러리를 링크할 수 있도록 허용하는 것이 보다 효과적이라고 볼 수도
+있다. 이러한 경우에는 본 라이선스 대신 GNU 라이브러리 일반 공중 사용 허가서를 사용하면
+된다. 그러나 먼저 다음 사이트의 내용을 읽어보기 바란다: 
+&lt;<http://www.gnu.org/philosophy/why-not-lgpl.html>&gt;

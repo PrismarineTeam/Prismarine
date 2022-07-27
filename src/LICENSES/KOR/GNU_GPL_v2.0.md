@@ -293,8 +293,8 @@ GPL은 GPL 안에 소프트웨어를 양도받을 사용자의 권리를 제한�
 
 #### 영어
 ```LICENSE
-<프로그램의 이름과 용도를 한 줄 정도로 설명한다.>
-Copyright (C) <년도> <저작자>
+<프로그램의 이름과 한 줄 정도의 간단한 용도>
+Copyright (C) <연도> <저작자>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -313,8 +313,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #### 한국어
 ```LICENSE
-<프로그램의 이름과 용도를 한 줄 정도로 설명한다.>
-Copyright (C) <년도> <저작자>
+<프로그램의 이름과 한 줄 정도의 간단한 용도>
+Copyright (C) <연도> <저작자>
 
 이 프로그램은 자유 소프트웨어다. 소프트웨어의 피양도자는 자유 소프트웨어
 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 그 이후 판을 임의로
@@ -339,7 +339,7 @@ GNU 일반 공중 사용 허가서는 이 프로그램과 함께 제공된다. �
 
 #### 영어
 ```LICENSE
-Gnomovision version 69, Copyright (C) <년도> <저작자>
+Gnomovision version 69, Copyright (C) <연도> <저작자>
 Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `show c' for details.
@@ -347,7 +347,7 @@ under certain conditions; type `show c' for details.
 
 #### 한국어
 ```LICENSE
-Gnomovision version 69, Copyright (C) <년도> <저작자>
+Gnomovision version 69, Copyright (C) <연도> <저작자>
 Gnomovision 프로그램에는 제품에 대한 어떠한 형태의 보증도 제공되지 않는다.
 보다 자세한 사항은 `show w' 명령어를 실행해서 참고할 수 있다. 이 프로그램은 자유
 소프트웨어다. 이 프로그램은 배포 규정을 만족시키는 조건하에서 자유롭게 재배포될 수
