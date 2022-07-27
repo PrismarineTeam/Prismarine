@@ -2,7 +2,7 @@
 
 # GNU 일반 공중 사용 허가서
 
-##### [원본](https://www.gnu.org/licenses/gpl-3.0.en.html) | **한국어** - [English](../ENG/GNU_GPL_v3.0.md)
+##### [원본](https://www.gnu.org/licenses/gpl-3.0.en.html) - [한글 전문 원본](https://www.oss.kr/oss_guide/show/adbeff29-62bb-4948-977c-4480b38af66f?page=32) | **한국어** - [English](../ENG/GNU_GPL_v3.0.md)
 
 _버전 3, 2007년 6월 29일_
 _&lt;<http://fsf.org/>&gt;_
