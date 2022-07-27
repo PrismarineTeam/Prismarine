@@ -11,9 +11,13 @@ _&lt;<http://fsf.org/>&gt;_
 
 _Copyright © 2007 Free Software Foundation, Inc. &lt;<http://fsf.org/>&gt;_
 
-### Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+#### Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+
+<div align="center">
 
 ## Preamble
+
+</div>
 
 The GNU General Public License is a free, copyleft license for software and other
 kinds of works.
@@ -69,7 +73,11 @@ GPL assures that patents cannot be used to render the program non-free.
 
 The precise terms and conditions for copying, distribution and modification follow.
 
+<div align="center">
+
 ## TERMS AND CONDITIONS
+
+</div>
 
 ### 0. Definitions
 
@@ -545,7 +553,7 @@ law that most closely approximates an absolute waiver of all civil liability in
 connection with the Program, unless a warranty or assumption of liability accompanies
 a copy of the Program in return for a fee.
 
-_END OF TERMS AND CONDITIONS_
+### END OF TERMS AND CONDITIONS
 
 ## How to Apply These Terms to Your New Programs
 

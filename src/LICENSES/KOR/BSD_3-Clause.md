@@ -3,7 +3,7 @@
 # 수정 BSD 허가서 (3조항 BSD 허가서)
 ###### 신규 BSD 허가서
 
-##### [원본](https://opensource.org/licenses/BSD-3-Clause) | **한국어** - [English](../ENG/BSD_3-Clause.md)
+##### [원본](https://opensource.org/licenses/BSD-3-Clause) - [한글 전문 원본](https://www.olis.or.kr/license/Detailselect.do?lId=1092&mapCode=010003&lType=osi) | **한국어** - [English](../ENG/BSD_3-Clause.md)
 
 </div>
 
