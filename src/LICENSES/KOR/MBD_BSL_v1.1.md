@@ -11,11 +11,11 @@ License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
 
 <div align="center">
 
-# MariaDB Business Source License
+# MariaDB Business Source 허가서
 
-##### [Original](https://mariadb.com/bsl11/) | **한국어** - [English](../ENG/MBD_BSL_v1.1.md)
+##### [원본](https://mariadb.com/bsl11/) | **한국어** - [English](../ENG/MBD_BSL_v1.1.md)
 
-_Version 1.1_
+_버전 1.1_
 
 </div>
 

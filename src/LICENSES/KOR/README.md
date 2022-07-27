@@ -22,7 +22,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [vigna/fastutil](https://github.com/vigna/fastutil)
 - [xerial/sqlite-jdbc](https://github.com/xerial/sqlite-jdbc)
 
-## [Creative Commons Zero 버전 1.0 보편적](CC0_v1.0.md)
+## [크리에이티브 커먼즈 제로 버전 1.0 보편적](CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
 ## [Do What The F\*ck You Want To Public 허가서](WTFPL.md)

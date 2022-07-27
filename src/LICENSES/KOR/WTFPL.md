@@ -1,8 +1,8 @@
 <div align="center">
 
-# Do What The F\*ck You Want To Public License
+# Do What The F\*ck You Want To Public 허가서
 
-##### [Original](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE) | **한국어** - [English](../ENG/WTFPL.md)
+##### [원본](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE) | **한국어** - [English](../ENG/WTFPL.md)
 
 </div>
 

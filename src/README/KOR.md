@@ -112,7 +112,7 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 
 본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
 
-### [Creative Commons Zero 버전 1.0 보편적](../LICENSES/KOR/CC0_v1.0.md)
+### [크리에이티브 제로 커먼즈 버전 1.0 보편적](../LICENSES/KOR/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
 
 ### [Do What The F\*ck You Want To Public 허가서](../LICENSES/KOR/WTFPL.md)

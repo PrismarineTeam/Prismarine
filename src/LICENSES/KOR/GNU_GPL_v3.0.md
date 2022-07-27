@@ -1,112 +1,129 @@
 <div align="center">
 
-# GNU General Public License
+# GNU 일반 공중 사용 허가서
 
-##### [Original](https://www.gnu.org/licenses/gpl-3.0.en.html) | **한국어** - [English](../ENG/GNU_GPL_v3.0.md)
+##### [원본](https://www.gnu.org/licenses/gpl-3.0.en.html) | **한국어** - [English](../ENG/GNU_GPL_v3.0.md)
 
-_Version 3, 29 June 2007_
+_버전 3, 2007년 6월 29일_
 _&lt;<http://fsf.org/>&gt;_
 
 </div>
 
-_Copyright © 2007 Free Software Foundation, Inc. &lt;<http://fsf.org/>&gt;_
+_Copyright © 2007 자유 소프트웨어 재단 주식회사 &lt;<http://fsf.org/>&gt;_
 
-### Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+_Copyright © 2012 공개 SW 포털 (이하, "OSS") &lt;<http://oss.kr/>&gt;_
 
-## Preamble
+### 누구라도 본 사용 허가서를 원문 그대로 복제하고 배포할 수 있다. 그러나 본문에 대한 수정은 허용되지 않는다.
 
-The GNU General Public License is a free, copyleft license for software and other
-kinds of works.
+<div align="center">
 
-The licenses for most software and other practical works are designed to take away
-your freedom to share and change the works. By contrast, the GNU General Public
-License is intended to guarantee your freedom to share and change all versions of a
-program--to make sure it remains free software for all its users. We, the Free
-Software Foundation, use the GNU General Public License for most of our software; it
-applies also to any other work released this way by its authors. You can apply it to
-your programs, too.
+## 서문
 
-When we speak of free software, we are referring to freedom, not price. Our General
-Public Licenses are designed to make sure that you have the freedom to distribute
-copies of free software (and charge for them if you wish), that you receive source
-code or can get it if you want it, that you can change the software or use pieces of
-it in new free programs, and that you know you can do these things.
+</div>
 
-To protect your rights, we need to prevent others from denying you these rights or
-asking you to surrender the rights. Therefore, you have certain responsibilities if
-you distribute copies of the software, or if you modify it: responsibilities to
-respect the freedom of others.
+GNU 일반 공중 사용 허가서는 소프트웨어 및 기타 다른 저작물에 대한 자유로운 카피레프트
+사용 허가서다.
 
-For example, if you distribute copies of such a program, whether gratis or for a fee,
-you must pass on to the recipients the same freedoms that you received. You must make
-sure that they, too, receive or can get the source code. And you must show them these
-terms so they know their rights.
+대부분의 소프트웨어와 기타 실용적 저작물에 설정된 사용 허가서들은 저작물을 자유롭게 공유하거나
+수정하는 행위를 제약하기 위해 고안되었다. 반면에 GNU 일반 공중사용 허가서는 특정 프로그램의
+모든 버전을 공유하고 수정할 수 있는 자유를 보장하기 위한 것이다. 즉, 해당 프로그램이 모든
+사용자들에게 자유 소프트웨어로 유지될 수 있도록 고안된 것이다. GNU 일반 공중 사용 허가서는
+자유 소프트웨어 재단에서 제작되는 대부분의 소프트웨어와, 그 외에 저작자가 설정한 모든
+저작물에 적용된다. 또한 자신의 프로그램에 이 사용 허가서를 사용할 수 있다.
 
-Developers that use the GNU GPL protect your rights with two steps: **(1)** assert
-copyright on the software, and **(2)** offer you this License giving you legal permission
-to copy, distribute and/or modify it.
+자유 소프트웨어를 언급할 때 사용하는 ‘자유FREE’라는 단어는 무료(無料)라는 금전적 의미가
+아니라 자유를 의미한다. 우리의 일반 공중 사용 허가서들은 자유 소프트웨어의 복제본을 (원한다면
+유료로) 배포할 수 있는 자유가 있다는 점을 보장하기 위해 고안되었다. 더불어 당신이 소스
+코드를 받거나 원하는 경우 얻을 수 있다는 점과 소프트웨어를 수정하거나 그것의 일부를 새로운
+자유 프로그램에 활용할 수 있다는 점을 보장하고, 또한 이상의 행위를 할 수 있다는 사실을
+알 수 있도록 보장하기 위해 고안되었다.
 
-For the developers' and authors' protection, the GPL clearly explains that there is
-no warranty for this free software. For both users' and authors' sake, the GPL
-requires that modified versions be marked as changed, so that their problems will not
-be attributed erroneously to authors of previous versions.
+당신의 권리를 보호하기 위해, 우리는 다른 사람이 당신으로 하여금 이러한 권리를 거부하거나
+포기하도록 요구하는 행위를 방지할 필요가 있다. 따라서 당신은 소프트웨어의 복제본을 배포하거나
+수정할 경우에 특정한 의무를 지닌다. 바로 다른 이들의 자유를 존중할 의무이다.
 
-Some devices are designed to deny users access to install or run modified versions of
-the software inside them, although the manufacturer can do so. This is fundamentally
-incompatible with the aim of protecting users' freedom to change the software. The
-systematic pattern of such abuse occurs in the area of products for individuals to
-use, which is precisely where it is most unacceptable. Therefore, we have designed
-this version of the GPL to prohibit the practice for those products. If such problems
-arise substantially in other domains, we stand ready to extend this provision to
-those domains in future versions of the GPL, as needed to protect the freedom of
-users.
+예를 들면, 그러한 프로그램의 복제본을 무상이나 유상으로 배포할 경우에는 당신이 양도받았던
+동일한 자유를 수취인에게도 전달해야 한다. 당신은 수취인 역시 소스 코드를 받거나 구할 수
+있도록 보장해야 한다. 그리고 이러한 조항들을 그들에게 보여주어 그들이 자신의 권리를 알 수
+있도록 해줘야 한다.
 
-Finally, every program is threatened constantly by software patents. States should
-not allow patents to restrict development and use of software on general-purpose
-computers, but in those that do, we wish to avoid the special danger that patents
-applied to a free program could make it effectively proprietary. To prevent this, the
-GPL assures that patents cannot be used to render the program non-free.
+GNU GPL을 사용하는 개발자들은 다음의 두 단계를 통해 당신의 권리를 보호한다: **첫째**,
+소프트웨어의 저작권을 설정하고, **둘째**, 본 사용 허가서를 당신에게 제공하여 소프트웨어를
+복제, 배포, 수정할 수 있는 법적 권한을 부여한다.
 
-The precise terms and conditions for copying, distribution and modification follow.
+GPL은 개발자와 저작자를 보호하기 위해 본 자유 소프트웨어에 대해 아무런 보증도 제공되지
+않는다는 점을 명확히 설명하고 있다. GPL은 사용자와 저작자 양측 모두를 위해 수정이 가해진
+버전들은 수정본이라는 점을 명시함으로써 수정된 버전이 야기하는 문제점들로 인해 본래 버전의
+저작자가 비난 받는 일이 없도록 하고 있다.
 
-## TERMS AND CONDITIONS
+특정 기기들은 제조자 외에 사용자가 소프트웨어의 수정된 버전을 기기 내에 설치하거나 실행할
+수 없도록 고안되어 있다. 이러한 행위는 기본적으로 소프트웨어를 수정할 수 있는 사용자의
+권리와 상충한다. 이러한 행위는 개인용 제품의 영역에서 체계적으로 일어나는데, 개인용 제품
+분야야말로 이러한 권리 남용 행위가 가장 용납될 수 없는 영역이다. 따라서 GPL 본 버전은
+이러한 제품들에 대한 사용자 권리 제한 행위를 막기 위해 고안되었다. 만약 이와 같은 문제들이
+다른 영역에서도 상당수준으로 발생한다면, GPL의 미래 버전은 그 영역들에 대해서도 사용자의
+자유를 보호하기 위해 노력할 것이다.
 
-### 0. Definitions
+마지막으로, 모든 프로그램은 소프트웨어 특허에 의해 지속적으로 위협받고 있다. 정부는 범용
+컴퓨터에 대한 소프트웨어의 개발과 사용을 제한하기 위한 특허를 허용해서는 안 된다. 행여
+그런 일이 발생하는 경우라도, 우리는 특허가 지니는 특별한 위험성, 즉 자유 소프트웨어에
+특허가 적용됨으로써 결과적으로 사유(proprietary) 소프트웨어가 되어버리는 위험을 막을
+수 있기를 바란다. GPL은 이를 방지하기 위해 특허에 의해 프로그램의 자유성이 박탈되지
+않도록 보장하고 있다.
 
-“This License” refers to version 3 of the GNU General Public License.
+복제와 배포, 수정에 관한 정확한 규정과 조건들은 다음과 같다.
 
-“Copyright” also means copyright-like laws that apply to other kinds of
-works, such as semiconductor masks.
+<div align="center">
 
-“The Program” refers to any copyrightable work licensed under this
-License. Each licensee is addressed as “you”. “Licensees” and
-“recipients” may be individuals or organizations.
+## 규정과 조건
 
-To “modify” a work means to copy from or adapt all or part of the work in
-a fashion requiring copyright permission, other than the making of an exact copy. The
-resulting work is called a “modified version” of the earlier work or a
-work “based on” the earlier work.
+</div>
 
-A “covered work” means either the unmodified Program or a work based on
-the Program.
+### 0. 정의
 
-To “propagate” a work means to do anything with it that, without
+**“본 사용 허가서”** 는 GNU 일반 공중 허가서의 3판을 지칭한다.
+
+**“저작권”** 은 반도체 마스크와 같은 다른 종류의 저작물에 적용되는 저작권 유사법률을
+포함하는 의미이다.
+
+**“프로그램”** 은 본 라이선스로 사용허가를 받은, 저작권 설정이 가능한 모든 저작물을
+지칭한다. 사용허가를 받는 사람은 **“당신”** 으로 칭한다. **“사용허가를 받은 사람”**
+과 **“수취인”** 은 개인일 수도 있고 조직일 수도 있다.
+
+작품을 **“수정”** 하는 것은 저작물을 원본 그대로 복제하는 것 외에, 저작권 허가를
+필요로 하는 방식으로 저작물의 전체나 부분을 복제하거나 차용하는 것을 의미한다. 그
+결과물은 기존 저작물의 기존 저작물의 **“수정된 버전”** 이나 기존 저작물에 **“기반한”**
+저작물로 불린다.
+
+**“GPL 적용 저작물”** 은 수정되지 않은 원 프로그램이나 그 프로그램에 기반한 저작물
+둘 중의 하나를 의미한다.
+
+To **“propagate”** a work means to do anything with it that, without
 permission, would make you directly or secondarily liable for infringement under
 applicable copyright law, except executing it on a computer or modifying a private
 copy. Propagation includes copying, distribution (with or without modification),
 making available to the public, and in some countries other activities as well.
 
-To “convey” a work means any kind of propagation that enables other
+어떤 저작물을 **“프로퍼게이트”** 하는 것은, 허가를 받지 않고 행할 시에 해당 저작권 법을
+침해한 것으로 간주하여 직접적이거나 이차적인 처벌을 가능케 하는 모든 행위를 의미한다.
+단, 컴퓨터 상에서 이 저작물을 실행하거나 개인적으로 소유한 복제본을 수정하는 것은 제외한다.
+프로퍼게이트 행위는 복제, (원본이나 수정본의) 배포 및 일반 대중이 획득할 수 있도록 만드는
+행위를 포함하며, 국가에 따라 이외의 활동이 여기에 포함될 수도 있다.
+
+To **“convey”** a work means any kind of propagation that enables other
 parties to make or receive copies. Mere interaction with a user through a computer
 network, with no transfer of a copy, is not conveying.
 
-An interactive user interface displays “Appropriate Legal Notices” to the
-extent that it includes a convenient and prominently visible feature that **(1)**
-displays an appropriate copyright notice, and **(2)** tells the user that there is no
-warranty for the work (except to the extent that warranties are provided), that
-licensees may convey the work under this License, and how to view a copy of this
-License. If the interface presents a list of user commands or options, such as a
-menu, a prominent item in the list meets this criterion.
+저작물을 **“컨베이”** 하는 것은 제3자가 복제본을 제작하거나 받을 수 있도록 가능케 해주는
+모든 종류의 프로퍼게이트 행위를 의미한다. 복제본을 양도하지 않고 컴퓨터 네트워크를 통해
+사용자와 상호작용하는 것은 컨베이에 해당하지 않는다.
+
+대화형 구조로 된 사용자 인터페이스는 다음과 같이 **“적절한 법적 고지”** 를 용이하고
+명백한 방식으로 표시한다. **첫째**, 적절한 저작권을 고지하고, **둘째**, 저작물에 보증을
+제공하지 않는다는 점(보증이 제공되는 경우 제외)과 사용허가를 받은 자가 본 라이선스에 의거하여
+저작물을 컨베이할 수 있다는 점, 그리고 본 라이선스의 복제본을 볼 수 있는 방법을 사용자에게
+표시한다. 만약 그 인터페이스가 사용자 명령이나 옵션의 목록을 하나의 메뉴 등으로 제시하는
+경우에는 그 목록 내에 고지를 명시하는 것도 위 기준에 부합된다.
 
 ### 1. Source Code
 

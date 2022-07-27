@@ -1,10 +1,10 @@
 <div align="center">
 
-# GNU Lesser General Public License
+# GNU 약소 공중 사용 허가서
 
-##### [Original](https://www.gnu.org/licenses/lgpl-3.0.en.html) | **한국어** - [English](../ENG/GNU_LGPL_v3.0.md)
+##### [원본](https://www.gnu.org/licenses/lgpl-3.0.en.html) | **한국어** - [English](../ENG/GNU_LGPL_v3.0.md)
 
-_Version 3, 29 June 2007_
+_버전 3, 2007년 6월 29일_
 _&lt;<http://fsf.org/>&gt;_
 
 </div>

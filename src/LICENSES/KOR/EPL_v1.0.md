@@ -1,10 +1,10 @@
 <div align="center">
 
-# Eclipse Public License
+# 이클립스 공용 허가서
 
-_Version 1_
+_버전 1.0_
 
-##### [Original](http://www.eclipse.org/org/documents/epl-v10.php) | **한국어** - [English](../ENG/EPL_v1.0.md)
+##### [원본](http://www.eclipse.org/org/documents/epl-v10.php) | **한국어** - [English](../ENG/EPL_v1.0.md)
 
 </div>
 

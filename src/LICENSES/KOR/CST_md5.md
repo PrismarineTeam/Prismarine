@@ -1,8 +1,8 @@
 <div align="center">
 
-# License of Bungeecord
+# Bungeecord 라이선스
 
-##### [Original](https://github.com/SpigotMC/BungeeCord) | **한국어** - [English](../ENG/CST_md5.md)
+##### [원본](https://github.com/SpigotMC/BungeeCord) | **한국어** - [English](../ENG/CST_md5.md)
 
 </div>
 

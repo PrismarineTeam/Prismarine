@@ -1,9 +1,9 @@
 <div align="center">
 
-# Creative Commons Legal Code
-### CC0 1.0 Universal
+# 크리에이티브 커먼즈 법전
+### CC0 1.0 보편적
 
-##### [Original](https://creativecommons.org/publicdomain/zero/1.0/legalcode) | **한국어** - [English](../ENG/CC0_v1.0.md)
+##### [원본](https://creativecommons.org/publicdomain/zero/1.0/legalcode) | **한국어** - [English](../ENG/CC0_v1.0.md)
 
 </div>
 

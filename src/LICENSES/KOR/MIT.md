@@ -1,8 +1,8 @@
 <div align="center">
 
-# The MIT License (MIT)
+# MIT 허가서
 
-##### [Original](https://opensource.org/licenses/MIT) | **한국어** - [English](../ENG/MIT.md)
+##### [원본](https://opensource.org/licenses/MIT) | **한국어** - [English](../ENG/MIT.md)
 
 </div>
 

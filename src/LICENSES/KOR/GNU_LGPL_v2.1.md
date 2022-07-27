@@ -1,10 +1,10 @@
 <div align="center">
 
-# GNU Lesser General Public License
+# GNU 약소 일반 공중 사용 허가서
 
-##### [Original](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) | **한국어** - [English](../ENG/GNU_LGPL_v2.1.md)
+##### [원본](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) | **한국어** - [English](../ENG/GNU_LGPL_v2.1.md)
 
-_Version 2.1, February 1999_
+_버전 2.1, 1999년 2월_
 
 </div>
 
