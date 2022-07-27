@@ -2,7 +2,7 @@
 
 # Apache License
 
-_Version 2.0, January 2004_  
+_Version 2.0, January 2004_
 _&lt;<http://www.apache.org/licenses/>&gt;_
 
 ##### [Original](https://www.apache.org/licenses/LICENSE-2.0.html) | [한국어](../KOR/Apache_v2.0.md) - **English**
@@ -177,16 +177,16 @@ accepting any such warranty or additional liability.
 ## Appendix
 ### How to apply the Apache License to your work
 
-Include a copy of the Apache License, typically in a file called LICENSE, 
-in your work, and consider also including a NOTICE file that references the 
+Include a copy of the Apache License, typically in a file called LICENSE,
+in your work, and consider also including a NOTICE file that references the
 License.
 
-To apply the Apache License to specific files in your work, attach the 
-following boilerplate declaration, replacing the fields enclosed by brackets 
-`[]` with your own identifying information. (Don't include the brackets!) 
-Enclose the text in the appropriate comment syntax for the file format. 
-We also recommend that you include a file or class name and description 
-of purpose on the same "printed page" as the copyright notice for easier 
+To apply the Apache License to specific files in your work, attach the
+following boilerplate declaration, replacing the fields enclosed by brackets
+`[]` with your own identifying information. (Don't include the brackets!)
+Enclose the text in the appropriate comment syntax for the file format.
+We also recommend that you include a file or class name and description
+of purpose on the same "printed page" as the copyright notice for easier
 identification within third-party archives.
 
 ```LICENSE
