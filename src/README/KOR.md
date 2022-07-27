@@ -12,7 +12,7 @@ Prismarine
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
-[Discord](https://discord.gg/kkqMSEVVxN) - [네이버 카페](https://cafe.naver.com/prismarine) | **한국어** - [English](README.md)
+[Discord](https://discord.gg/kkqMSEVVxN) - [네이버 카페](https://cafe.naver.com/prismarine) | **한국어** - [English](../../README.md)
 
 [Paper](https://github.com/PaperMC/Paper) 기반의 여러 개선이 추가된 Minecraft: Java Edition 용 서버 플랫폼
 

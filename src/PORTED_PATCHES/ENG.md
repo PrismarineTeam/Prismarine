@@ -1,5 +1,5 @@
 # Ported patches
-### [한국어](portedPatches_KOR.md) - **English**
+### [한국어](KOR.md) - **English**
 
 ## [Paper](https://github.com/PaperMC/Paper)
 - [Machine Maker](https://github.com/Machine-Maker) - Use DataConverter for itemstack/entity deserialization (PaperMC/Paper#7068)
