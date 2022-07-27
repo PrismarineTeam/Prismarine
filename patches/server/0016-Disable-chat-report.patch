@@ -18,7 +18,7 @@ index 4e9832d5753b98621e68246ffc5d80c86a3b5ed3..37dccea51b0157ecfb32d10a17b417b8
  
      public Instant getTimeStamp() {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 103a811de01e2e9dc7fee079e836dfb509f2ffd7..9c72fd7bf5d8b1005a95e445090f13d53ddaa59a 100644
+index 42e408519fcc2a66f2f79b0112b295ff9217d34b..b68bf482adf84e0b171e31015ebd0938f89b4e52 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -338,6 +338,11 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -43,7 +43,7 @@ index 103a811de01e2e9dc7fee079e836dfb509f2ffd7..9c72fd7bf5d8b1005a95e445090f13d5
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f7c30be3d95aa98acd3981ccc10cdd27bfb4920f..5b66bd429631d70b7806e22313a8b775b33f8619 100644
+index 70ec6e3bf5e5d7d3394730796315323e417f1789..b19529be50d81b4557bd5a1d70bb57c352f86eb2 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -47,80 +47,10 @@ import net.minecraft.nbt.CompoundTag;
@@ -129,7 +129,7 @@ index f7c30be3d95aa98acd3981ccc10cdd27bfb4920f..5b66bd429631d70b7806e22313a8b775
  import net.minecraft.resources.ResourceKey;
  import net.minecraft.resources.ResourceLocation;
  import net.minecraft.server.MinecraftServer;
-@@ -2137,6 +2067,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2146,6 +2076,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
          }
      }
  
@@ -144,7 +144,7 @@ index f7c30be3d95aa98acd3981ccc10cdd27bfb4920f..5b66bd429631d70b7806e22313a8b775
      @Override
      public void send(Packet<?> packet) {
          this.send(packet, (GenericFutureListener) null);
-@@ -2151,6 +2089,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2160,6 +2098,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              this.player.compassTarget = new Location(this.getCraftPlayer().getWorld(), packet6.pos.getX(), packet6.pos.getY(), packet6.pos.getZ());
          }
          // CraftBukkit end
@@ -157,7 +157,7 @@ index f7c30be3d95aa98acd3981ccc10cdd27bfb4920f..5b66bd429631d70b7806e22313a8b775
  
          try {
              this.connection.send(packet, listener);
-@@ -2158,8 +2102,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2167,8 +2111,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Sending packet");
              CrashReportCategory crashreportsystemdetails = crashreport.addCategory("Packet being sent");
  
@@ -169,7 +169,7 @@ index f7c30be3d95aa98acd3981ccc10cdd27bfb4920f..5b66bd429631d70b7806e22313a8b775
              throw new ReportedException(crashreport);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index cb538ff4b5e8da7914361d012060fedf1d22acf2..db33603ebf0b8b68fd1845e0e658f72977be22f4 100644
+index 9f1ce0e970955de3c7704d2d70c64df0819505c7..500b235a7d3f19d30937a8890bb116f50c84d139 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -1555,7 +1555,7 @@ public abstract class Player extends LivingEntity {

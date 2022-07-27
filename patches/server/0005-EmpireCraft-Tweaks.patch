@@ -2814,7 +2814,7 @@ index 3d5e52d997a8e7d7f3b000e3737d30762aae2ca1..e9c478c32c77e8eb0c7f39d9aae11a3f
      }
  }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 4b704fcce0951ffd3a8e29377f7b6893ed5bed87..7fd2ae35619b7e0552cd37175c7acf8f99809edb 100644
+index 94bd24d86ff48c2f3f048d5d465ca77dbb5a2b51..029ac4a3f04496a0106cf1438d08d149d8a85921 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -85,6 +85,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -2870,7 +2870,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..d21530eb6bc150e431769b02fe50040f
              org.bukkit.Bukkit.getLogger().warning("Unable to parse " + key + " from " + compound +": " + e.getMessage());
          }
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 0d82ca8ba9f2b11213cfe1ab01dc6ef3f2f510c9..46d717c39e964ea87f9c6380e82cdeac8fa4e941 100644
+index 655b9e8ffb941a0777f3895bf39c38fe488dbfa4..07cf7be7e95a94a6384c2f2b83a12ce65761bc96 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1449,7 +1449,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -2898,10 +2898,10 @@ index 0d82ca8ba9f2b11213cfe1ab01dc6ef3f2f510c9..46d717c39e964ea87f9c6380e82cdeac
          } else {
              Optional<HolderSet.Named<Structure>> optional = this.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY).getTag(structureTag);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 38cd5aec3c54984c3c3429aa0bfb525ba170f116..f7c30be3d95aa98acd3981ccc10cdd27bfb4920f 100644
+index 7f2dc4f85154a27e547aa1860eca1c0bfbb3e6ee..70ec6e3bf5e5d7d3394730796315323e417f1789 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2298,6 +2298,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2307,6 +2307,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
              this.send(new ClientboundSystemChatPacket(Component.translatable("chat.disabled.options").withStyle(ChatFormatting.RED), i));
              return false;
@@ -3110,7 +3110,7 @@ index 17cc3237c7fc8ceda136b2371fabf6f004a991aa..00aee1b6de3963290aac422642b5f3f5
              this.maxUses = 4;
          }
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 1f4acc1a2605f1e9051126fc811a5479351fc61a..26841e43896e836e84869f8f05054dcf392ac565 100644
+index 4a8998a98987985e259b0a2a29ee7c94c1f3a4b1..63c402b0d913b78e8b4a0a0369fafc7c897cbb3e 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -406,6 +406,7 @@ public final class NaturalSpawner {
@@ -3325,7 +3325,7 @@ index cf494171713b5fc12e9627774f2705b911b54bd2..ad78676f03ebc52909594d2b69e2fe17
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 295e3372d1e986549c96397c6ce26fb37e49f1ac..410d36e65f87eb750f1f2f002392016360d833ef 100644
+index 0d428a9c6c8854a99f5f1a9860fe1a57c3fab392..2e859e4bb605e4f48f244242ff6667ad3067ba08 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -397,7 +397,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
