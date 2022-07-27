@@ -43,6 +43,8 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [PaperMC/Velocity](https://github.com/PaperMC/Velocity)
+- [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
+   - 따로 명시되어 있지 않음
 - [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 - [TECHNOVE/Flare](https://github.com/TECHNOVE/Flare)
 - [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
@@ -90,6 +92,3 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 ## 자체 라이선스
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
   - [한국어](CST_md5.md)
-
-## 라이선스 없음
-- [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
