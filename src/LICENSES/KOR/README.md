@@ -89,6 +89,9 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 - [qos-ch/slf4j](https://github.com/qos-ch/slf4j)
 - [typetools/checker-framework:checker-qual](https://github.com/typetools/checker-framework/tree/master/checker-qual)
 
+## [The Unlicense](Unlicense.md)
+- [IQAndreas/markdown-licenses](https://github.com/IQAndreas/markdown-licenses)
+
 ## 자체 라이선스
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
   - [한국어](CST_md5.md)

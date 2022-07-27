@@ -89,6 +89,9 @@ Licenses that used in Prismarine's project, code and PR.
 - [qos-ch/slf4j](https://github.com/qos-ch/slf4j)
 - [typetools/checker-framework:checker-qual](https://github.com/typetools/checker-framework/tree/master/checker-qual)
 
+## [The Unlicense](Unlicense.md)
+- [IQAndreas/markdown-licenses](https://github.com/IQAndreas/markdown-licenses)
+
 ## Custom Licenses
 - [SpigotMC/BungeeCord](https://github.com/SpigotMC/BungeeCord)
   - [English](CST_md5.md)
