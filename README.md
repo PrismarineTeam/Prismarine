@@ -36,12 +36,12 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
 
 ## [#saveminecraft](https://saveminecraft.org/)
-[#saveminecraft](https://saveminecraft.org/)는 Minecraft: Java Edition의 1.19.1(1.**19.84**라고도 불림)에 Mojang Studios와 Microsoft에 의해 추가된 채팅 신고 기능에 반대하는 운동입니다. saveminecraft 운동의 목표는 Minecraft의 멀티 플레이를 위험에 빠뜨리지 않고 서버의 관리자에게 권한을 부여하는 새로운 채팅 신고 기능을 추가하거나, 채팅 신고 기능을 완전히 제거하는 것입니다. saveminecraft 운동은 이 변화를 평화적으로 항의하고 인식을 확산하고자 합니다. **자세한 내용은 [여기를](../SAVEMINECRAFT/ENG.md) 확인해주시기 바랍니다.**
+[#saveminecraft](https://saveminecraft.org/)is Minecraft: Java Edition's 1.19.1(A.K.A 1.**19.84**) movement that refuses chatting report which added by Mojang Studios and Microsoft.saveminecraft movement's goal is adding new permission for server admin, or removing chatting report without make minecraft's multiplay in danger. saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [Here](../SAVEMINECRAFT/ENG.md).**
 
-Prismarine은 이 운동을 지지하고, 채팅 신고 기능을 완전히 제거하여 Minecraft의 멀티 플레이를 위험에 빠뜨리는것이 아닌, 서버 관리자에게 권한을 부여하는 새로운 채팅 신고 기능의 추가를 목표로 하고 있습니다.
+Prismarine support this movement, not removing chatting report function which put minecraft's multiplay in danger, but make new permission for server admin.
 
-Prismarine은 서버 관리자가 채팅 신고 기능을 활성화 하거나, 비활성화 할 수 있도록 개발되었습니다.
-기본적으로 활성화 되어 있지만, 비활성화 하고 싶다면 `prismarine.yml` 에서 비활성화 할 수 있습니다. (기능 제공: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
+Prismarine is developed for server admin to enable or disable chatting report function.
+It's basically enabled, but if you want to disable, you can disable it in `prismarine.yml`. (function provide: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
 
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
