@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussion | 토론
+    url: https://github.com/orgs/community/discussions
+    about: ENG HERE | Prismarine에 관한 아이디어에 대해 토론할 수 있어요.
+  - name: Discord
+    url: https://bounty.github.com/
+    about: ENG HERE | 질문과 지원은 여기서 받을 수 있어요.
+  - name: (KOREAN ONLY) 네이버 카페
+    url: https://cafe.naver.com/
+    about: English IS NOT supported! ONLY FOR KOREANS! | Prismarine 공식 네이버 카페에서 지원을 받아보세요!
