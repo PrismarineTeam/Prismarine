@@ -24,57 +24,56 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Based on [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) and [Paper](https://github.com/PaperMC/Paper), most plugins are fully supported and stable.
 - Supports faster speeds and wider APIs, including all patches from [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) and [Purpur](https://github.com/PurpurMC/Purpur).
 - Multiple improvements and bug resolution were included by porting multiple mods.
-- [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice) 등 불안정하거나, 오래되었거나, 특정 사용자를 위해 최적화된 버킷에서 불안정하고 불필요한 부분은 모두 제외하고 추가하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
+- [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice)
 - It provides better performance than other bukkit by excluding all the unstable, old, or unnecessary parts of a bukkit optimized for a particular user.
-- 사라지거나 아직 PR로 남은 패치를 포팅하여 서버 사용을 개선합니다.
-   - 포팅된 패치는 [여기서](src/PORTED_PATCHES/ENG.md) 확인할 수 있습니다.
-- GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
+- Improve quality of server by porting patches disappeared or remained as a PR.
+   - Ported patches can be found at [HERE](src/PORTED_PATCHES/ENG.md) 
+- Provides the fastest upstream by using GitHub Action which do upstream automatically.
 
 ## Communicate
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
-[Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
+join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
 
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
-
-Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)의 가장 하단에서 다운로드 할 수 있습니다.
+In normal case, you can download latest JAR file by clicking [THIS](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 
+Mojmap or Bundler Jar can be downloaded [right side(or below))'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
 ## Configuration & Optimize
 See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)
 
 ## For Developers
 ### Requirements
-터미널에서 사용 가능한 최신 버전의 Git, 17 이상의 JDK가 필요합니다.
+You needs latest Git, JDK upper than 17.
 
-Git은 `user.email` 과 `user.name` 구성이 설정되어 있어야 합니다.
+Git should set `user.emal` and `user.name`
 
-설정하려면 다음의 명렁을 터미널에서 실행하세요.
+If you want to set, use these commands in your terminal.
 ```bash
-git config --global user.email "<내 GitHub 이메일 주소>"
-git config --global user.name "<내 GitHub 아이디>"
+git config --global user.email "<your GitHub E-mail>"
+git config --global user.name "<your GitHub ID>"
 ```
 
 ### Initial Setup
-먼저, 프로젝트를 복사할 디렉토리에서 다음 명령어를 실행하세요.
+First, launch these commands in directory which you want to copy project.
 ```bash
 git clone -b dev/1.19 https://github.com/PrismarineTeam/Prismarine
 ```
-프로젝트가 복사되었거나 이미 복사했다면, 프로젝트를 복사한 경로에서 다음 명령어를 실행하세요. (Windows 사용자의 경우 앞 `./` 를 지우고 명령을 실행하세요)
+If project is copied or you already copied, launch these commands in directory which you copied project. (If you are using Windows, launch commands removing `./` )
 ```bash
 ./gradlew applyPatches
 ```
 
 ### Use Prismarine API
-Prismarine은 아직 API를 제대로 지원하지 않습니다.
+Prismarine doesn't correctly support API yet.
 
-프로젝트가 복사된 경로에서 다음 명령어를 실행하면 Prismarine API를 로컬 Maven 레포지토리에 설치합니다. (Windows 사용자의 경우 앞 `./` 를 지우고 명령을 실행하세요)
+Launch this command in your directory which copied project, Prismarine API will be installed Local Maven repository. (If you are using Windows, launch commands removing `./`)
 ```bash
 ./gradlew publishToMavenLocal
 ```
-그리고 API의 Dependency에 다음 정보를 추가하세요.
+And add these information into your Dependency in API.
 
 #### Gradle
 ```gradle
@@ -100,16 +99,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 See [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template)
 
 ### Building a jar file
-API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파일된 JAR 파일은 `Prismarine-API/build/libs` 와 `Prismarine-Server/build/libs` 에 생성될 것입니다.
+if you want to build API and server, use `./gradlew build`. Compiled JAR file will be generated in `Prismarine-API/build/libs` and `Prismarine-Server/build/libs`.
 
-실행 가능한 서버 파일을 만드려면, `./gradlew createReobfPaperclipJar` 를 사용하세요. Mojmap Jar 파일을 만드려면 `./gradlew createMojmapPaperclipJar` 를 사용하세요. 파일은 `build/libs` 에 생성될 것입니다.
+If you want to make server file, use `./gradlew createReobfPaperclipJar`. If you want to make Mojmap Jar file, use `./gradlew createMojmapPaperclipJar`. file will be generated in `build/libs`.
 
 ## Licenses
 [![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
 
-패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](src/LICENSES/ENG/MIT.md)에 따라 라이선스가 부여됩니다.
+If It doesn't written in header of patch file, This project will be granted license following [MIT License](src/LICENSES/ENG/MIT.md).
 
-본 프로젝트에 포함된 다른 프로젝트의 라이선스는 다음과 같습니다.
+We've used these Other project's license in this project.
 
 ### [Creative Commons Zero Version 1.0 Universal](src/LICENSES/ENG/CC0_v1.0.md)
 - [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
@@ -136,4 +135,4 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 - [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
 - [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-본 프로젝트에 포함된 모든 프로젝트의 라이선스는 [여기서](src/LICENSES/ENG/README.md) 확인할 수 있습니다.
+All License included in this project can be checked in [HERE](src/LICENSES/ENG/README.md).
