@@ -33,7 +33,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 ## Communicate
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
-join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
+Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
 
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
@@ -67,7 +67,7 @@ If project is copied or you already copied, launch these commands in directory w
 ```
 
 ### Use Prismarine API
-Prismarine doesn't correctly support API yet.
+Prismarine doesn't support Maven yet.
 
 Launch this command in your directory which copied project, Prismarine API will be installed Local Maven repository. (If you are using Windows, launch commands removing `./`)
 ```bash
