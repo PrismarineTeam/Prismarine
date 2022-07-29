@@ -36,7 +36,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
 
 ## [#saveminecraft](https://saveminecraft.org/)
-[#saveminecraft](https://saveminecraft.org/)is Minecraft: Java Edition's 1.19.1(A.K.A 1.**19.84**) movement that refuses chatting report which added by Mojang Studios and Microsoft.saveminecraft movement's goal is adding new permission for server admin, or removing chatting report without make minecraft's multiplay in danger. saveminecraft movement protest peacefully and share this recognition widely. **View detail by clicking [Here](../SAVEMINECRAFT/ENG.md).**
+[#saveminecraft](https://saveminecraft.org/)is Minecraft: Java Edition's 1.19.1(A.K.A 1.**19.84**) movement that refuses chatting report which added by Mojang Studios and Microsoft.saveminecraft movement's goal is adding new permission for server admin, or removing chatting report without make minecraft's multiplay in danger. saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [Here](../SAVEMINECRAFT/ENG.md).**
 
 Prismarine support this movement, not removing chatting report function which put minecraft's multiplay in danger, but make new permission for server admin.
 
