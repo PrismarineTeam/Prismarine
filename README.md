@@ -27,7 +27,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice)
 - It provides better performance than other bukkit by excluding all the unstable, old, or unnecessary parts of a bukkit optimized for a particular user.
 - Improve quality of server by porting patches disappeared or remained as a PR.
-   - Ported patches can be found at [HERE](src/PORTED_PATCHES/ENG.md) 
+   - Ported patches can be found at [here](src/PORTED_PATCHES/ENG.md) 
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
 
 ## Communicate
@@ -36,7 +36,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
 
 ## [#saveminecraft](https://saveminecraft.org/)
-[#saveminecraft](https://saveminecraft.org/)is Minecraft: Java Edition's 1.19.1(A.K.A 1.**19.84**) movement that refuses chatting report which added by Mojang Studios and Microsoft.saveminecraft movement's goal is adding new permission for server admin, or removing chatting report without make minecraft's multiplay in danger. saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [Here](../SAVEMINECRAFT/ENG.md).**
+[#saveminecraft](https://saveminecraft.org/) is Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**) movement that refuses chatting report which added by Mojang Studios and Microsoft.saveminecraft movement's goal is adding new permission for server admin, or removing chatting report without make minecraft's multiplay in danger. saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](../SAVEMINECRAFT/ENG.md).**
 
 Prismarine support this movement, not removing chatting report function which put minecraft's multiplay in danger, but make new permission for server admin.
 
@@ -46,7 +46,8 @@ It's basically enabled, but if you want to disable, you can disable it in `prism
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-In normal case, you can download latest JAR file by clicking [THIS](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 
+In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar)
+
 Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
 ## Configuration & Optimize
@@ -143,4 +144,4 @@ We've used these Other project's license in this project.
 - [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
 - [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
 
-All License included in this project can be checked in [HERE](src/LICENSES/ENG/README.md).
+All License included in this project can be checked in [here](src/LICENSES/ENG/README.md).
