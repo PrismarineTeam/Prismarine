@@ -44,7 +44,7 @@ Licenses that used in Prismarine's project, code and PR.
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
 - [PaperMC/Velocity](https://github.com/PaperMC/Velocity)
 - [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
-   - 따로 명시되어 있지 않음
+   - Not specifically Written
 - [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 - [TECHNOVE/Flare](https://github.com/TECHNOVE/Flare)
 - [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
