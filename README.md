@@ -16,7 +16,7 @@ Prismarine
 
 A Server Platform for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
 
-*You can support this project through the right (or bottom) Sponsor*
+*You can support this project through the right (or bottom) Sponsor!*
 
 </div>
 
