@@ -130,6 +130,8 @@ We've used these Other project's license in this project.
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
 - [PaperMC/Paper](https://github.com/PaperMC/Paper)
+- [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
+   - Not specifically Written
 - [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 - [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
 - [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
