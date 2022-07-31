@@ -924,7 +924,7 @@ index 689ad22925b2561f7c8db961743eb1f821dbb25f..fa3c960992cc240161817e54659d83fe
      public ClientboundSetTimePacket(long time, long timeOfDay, boolean doDaylightCycle) {
          this.gameTime = time % 192000; // Paper - fix guardian beam
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d66c60918313b0ede41ed96aa82e11fb2230f95b..d3d0ff5a51216469c7b9c49f69d61901fd35b7ab 100644
+index d66c60918313b0ede41ed96aa82e11fb2230f95b..d678c6e0109dabe93485fb214622a0213c790f26 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -234,7 +234,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -1437,7 +1437,7 @@ index d66c60918313b0ede41ed96aa82e11fb2230f95b..d3d0ff5a51216469c7b9c49f69d61901
              // Paper end
 +            // Purpur start
 +            net.kyori.adventure.text.Component adventureComponent = io.papermc.paper.adventure.PaperAdventure.asAdventure(ichatbasecomponent);
-+            org.purpurmc.purpur.event.player.PlayerPreviewChatEvent purpurPreviewEvent = new org.purpurmc.purpur.event.player.PlayerPreviewChatEvent(entityplayer.getBukkitEntity(), "", adventureComponent);
++            org.purpurmc.purpur.event.player.PlayerPreviewChatEvent purpurPreviewEvent = new org.purpurmc.purpur.event.player.PlayerPreviewChatEvent(entityplayer.getBukkitEntity(), adventureComponent);
 +            if (!purpurPreviewEvent.callEvent()) {
 +                return CompletableFuture.completedFuture(null);
 +            }
