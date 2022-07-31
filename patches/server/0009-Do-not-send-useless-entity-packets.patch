@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..158843a9d0e9967e42bbfa4167d1e56eb61041a7 100644
+index fb1e403edd753975d8c1608d569fc63adefc9ba5..0c1d9efcb47e10d796ddb14dbacef174f415e44f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {
@@ -63,10 +63,10 @@ index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..158843a9d0e9967e42bbfa4167d1e56e
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 24b3aef7c621ec6f5e225f3be1717083435706cb..e502374e3a7eb0d0e319601448625d41709be0b5 100644
+index f059997d1d2b9b5fb9cba6e8ef8bcfef0cf24d9a..b7e07417c65d927dcc97668aee03d58eed530d84 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -235,4 +235,9 @@ public class PrismarineConfig {
+@@ -177,4 +177,9 @@ public class PrismarineConfig {
      private static void logPlayerLoginLocation() {
          logPlayerLoginLocation = getBoolean("settings.log-player-login-location", logPlayerLoginLocation);
      }

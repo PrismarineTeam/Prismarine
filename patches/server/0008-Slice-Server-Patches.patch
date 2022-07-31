@@ -50,10 +50,10 @@ index 3e17f6131bf590d7c4a16b79c1c145cb4f565bc9..e1233fa58d068448d0accef7a7f6725f
          this.id = buf.readVarInt();
          this.packedItems = SynchedEntityData.unpack(buf);
 diff --git a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
-index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8074bce42 100644
+index 1c4e812c8b3f85ac5d69b637eb43d4b9751ad150..03b6ad0064d1d201f317f1c168f07834615b746b 100644
 --- a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
 +++ b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
-@@ -136,6 +136,12 @@ public class SynchedEntityData {
+@@ -137,6 +137,12 @@ public class SynchedEntityData {
      }
  
      public <T> void set(EntityDataAccessor<T> key, T value) {
@@ -66,11 +66,10 @@ index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8
          SynchedEntityData.DataItem<T> datawatcher_item = this.getItem(key);
  
          if (ObjectUtils.notEqual(value, datawatcher_item.getValue())) {
-@@ -144,7 +150,11 @@ public class SynchedEntityData {
-             datawatcher_item.setDirty(true);
+@@ -146,6 +152,11 @@ public class SynchedEntityData {
              this.isDirty = true;
          }
--
+ 
 +        // Slice start
 +        if (foreignValue != null && ObjectUtils.notEqual(foreignValue, datawatcher_item.getForeignValue())) {
 +            datawatcher_item.setForeignValue(foreignValue);
@@ -79,7 +78,7 @@ index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8
      }
  
      // CraftBukkit start - add method from above
-@@ -200,6 +210,28 @@ public class SynchedEntityData {
+@@ -201,6 +212,28 @@ public class SynchedEntityData {
          return list;
      }
  
@@ -103,12 +102,12 @@ index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8
 +
 +        return list;
 +    }
-+    // Slice end`
++    // Slice end
 +
      @Nullable
      public List<SynchedEntityData.DataItem<?>> getAll() {
          List<SynchedEntityData.DataItem<?>> list = null;
-@@ -313,11 +345,14 @@ public class SynchedEntityData {
+@@ -314,11 +347,14 @@ public class SynchedEntityData {
          final EntityDataAccessor<T> accessor;
          T value;
          private boolean dirty;
@@ -123,7 +122,7 @@ index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8
          }
  
          public EntityDataAccessor<T> getAccessor() {
-@@ -343,5 +378,34 @@ public class SynchedEntityData {
+@@ -344,5 +380,34 @@ public class SynchedEntityData {
          public SynchedEntityData.DataItem<T> copy() {
              return new SynchedEntityData.DataItem<>(this.accessor, this.accessor.getSerializer().copy(this.value));
          }
@@ -159,7 +158,7 @@ index 1d88edfd09a909044f6e3175af652914b4d06311..c6a883384db30d65867a623a7ae334b8
      }
  }
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d2b891caa 100644
+index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..fb1e403edd753975d8c1608d569fc63adefc9ba5 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -366,6 +366,21 @@ public class ServerEntity {
@@ -181,11 +180,11 @@ index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d
 +                }
 +            } else
 +            // Prismarine end
-             ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> // Pufferfish
-             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
-             ); // Pufferfish
+             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false));
+         }
+ 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index be33da1fb3cc882e862bb1c4edab8c6a418edb5b..a2940447570a5ae7b5730b65f4a316490338d09f 100644
+index cbe7f5c1f51b1315009eb4127a3d58cb34831d1b..b3f9151e211ee52910e4e1598e193c00b1c58725 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -203,7 +202,7 @@ index be33da1fb3cc882e862bb1c4edab8c6a418edb5b..a2940447570a5ae7b5730b65f4a31649
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3136,7 +3144,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3132,7 +3140,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -213,10 +212,10 @@ index be33da1fb3cc882e862bb1c4edab8c6a418edb5b..a2940447570a5ae7b5730b65f4a31649
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8872a9e62619f86288bc4a4e02eb49744c315cf9..439a73670817bcbc20ee558a92e2fda788a4f439 100644
+index cd414a9275e6d9f8c704854763b18f4ee43b67b7..0e6895350f8d9ff2a417fa9ca12dc37dd7fae28f 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3147,7 +3147,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3150,7 +3150,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
@@ -226,10 +225,10 @@ index 8872a9e62619f86288bc4a4e02eb49744c315cf9..439a73670817bcbc20ee558a92e2fda7
                  if (this instanceof ServerPlayer && enumitemslot.getType() == EquipmentSlot.Type.ARMOR) {
                      final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index cb538ff4b5e8da7914361d012060fedf1d22acf2..9f1ce0e970955de3c7704d2d70c64df0819505c7 100644
+index 64ca2c92c4908bbb0272d1c22870af68aa9daad2..f669386d8b17f78006917869a8393173b676c448 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -681,7 +681,7 @@ public abstract class Player extends LivingEntity {
+@@ -682,7 +682,7 @@ public abstract class Player extends LivingEntity {
      public void increaseScore(int score) {
          int j = this.getScore();
  
@@ -239,10 +238,10 @@ index cb538ff4b5e8da7914361d012060fedf1d22acf2..9f1ce0e970955de3c7704d2d70c64df0
  
      public void startAutoSpinAttack(int riptideTicks) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..9a751acf2c844ef4a4d73861cec2acfc39988c37 100644
+index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c087aa498a 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -129,4 +129,21 @@ public class PrismarineWorldConfig {
+@@ -79,4 +79,21 @@ public class PrismarineWorldConfig {
      private void fishingRodLength() {
          fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
      }
@@ -266,10 +265,10 @@ index 0a653c684f0e89c6605b0da0c33c19ee4d450f65..9a751acf2c844ef4a4d73861cec2acfc
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 619e73ff2270bbfab93c11dabdae95c601362342..307d6782eb854c74ddbea0de8528f56c8a95c4dd 100644
+index f3839c16815b50dfce41c31bc6992dcbbd6759a5..95e84e7f00d2cd6ea19ff0054350ff2ab874b470 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2316,7 +2316,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2344,7 +2344,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
                  this.sendHealthUpdate();
              }
          }

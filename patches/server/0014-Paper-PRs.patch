@@ -51,7 +51,7 @@ Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#
 0017
 
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index cfac96faf51a3cfe2163a06e4a8700668d247b8b..2a65c026ac44b14939eb7607d570bed03b76bdc3 100644
+index e28e4592b24c544ea975888f2aec474da218ceba..3e668af7db351c2a9437bb7d725ec9cfa4d513ba 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 @@ -82,19 +82,24 @@ public class FriendlyByteBuf extends ByteBuf {
@@ -111,10 +111,10 @@ index cfac96faf51a3cfe2163a06e4a8700668d247b8b..2a65c026ac44b14939eb7607d570bed0
              this.writeByte(value & 127 | 128);
              value >>>= 7;
 diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-index 0c48e877a0dba9fba3295d1740527fa418b5e26c..89d02602cd30637f7395abc775bb0599889127ca 100644
+index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f2007bf4d66 100644
 --- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
 +++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-@@ -226,6 +226,7 @@ public class WorldGenRegion implements WorldGenLevel {
+@@ -227,6 +227,7 @@ public class WorldGenRegion implements WorldGenLevel {
          if (iblockdata.isAir()) {
              return false;
          } else {
@@ -123,10 +123,10 @@ index 0c48e877a0dba9fba3295d1740527fa418b5e26c..89d02602cd30637f7395abc775bb0599
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 64f6c4a7808c7f4cc3b864686b0e93a2b5084abe..d4022a24205c149dd28533222a0a5bbe8f067360 100644
+index 6f81b00a2ddd053e646f0d800220d840626ae313..efc47cc8d85df1ae09bc96dc1c93943adab2e47b 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -609,7 +609,7 @@ public abstract class PlayerList {
+@@ -610,7 +610,7 @@ public abstract class PlayerList {
  
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer) { // Paper - return Component
          // Paper start
@@ -213,10 +213,10 @@ index deffa277272c34adb39d7c3e69e91502780a090e..66c65df229acc4041ed2027df07d4ab0
          if (spawnDelay > 0 && --tickDelay > 0) return;
          tickDelay = world.paperConfig().tickRates.mobSpawner;
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 5c163f09ce18c3310f82f8f6d9bc2c34104b622f..587d3ce2dc7e880aaa536683a377e01809c43bdd 100644
+index 733ee49a31381cb4e82aa4d5d69e10af2d3e11da..28f05e224afffd7255f1e7e4bccbd372d7f9b1ac 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -245,4 +245,13 @@ public class PrismarineConfig {
+@@ -187,4 +187,13 @@ public class PrismarineConfig {
      private static void useAirplaneCollisionContext() {
          useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
      }
@@ -262,7 +262,7 @@ index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407
      /**
       * Creates a suitable adapter instance for the primitive class type
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index f736cc6b3dc5242a30eefd344af65f6958ece3a4..13c2f8c6e7bf01bb83d41774d3dbe6ac9759b0d8 100644
+index 4f37159aad0063645d0213286ca31975531b7ba2..08578ae2fff7a5da6bf4f82534bd393ca5b07bf3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -453,8 +453,8 @@ public final class CraftMagicNumbers implements UnsafeValues {

@@ -5,7 +5,7 @@ Subject: [PATCH] EntityBreedPrepareEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java
-index 9fc62b6dd5c06ea3b4e2c9ea1d0810b495a67b30..dc2e37005eb0dbce43630d1c9f5d4b40e6d1ec7a 100644
+index d037595b71511814caac0a40eb8d37ef35264cd2..6902fbf6657e41e1d784be94e9b44806bee7ca31 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/BreedGoal.java
 @@ -7,6 +7,9 @@ import net.minecraft.server.level.ServerLevel;

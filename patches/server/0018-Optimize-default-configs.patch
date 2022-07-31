@@ -45,7 +45,7 @@ index e2c612dd55fcb2769fb06f7878b8d0873f2be139..c06a765638d3ddd03cc641f0d78da740
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index d80894a0ed1022e9abec6b0bad50e6ff0a33157a..9eb14a5b3b126478c3a59e6c6f4ca0d62ac7197f 100644
+index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda874ae54a0a 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 @@ -121,16 +121,16 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie

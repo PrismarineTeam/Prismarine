@@ -138,10 +138,10 @@ index 005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea..988c39f87dd086fb8676baa9513064a8
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa21024ba7 100644
+index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb4492159bd65ac5 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
-@@ -33,7 +33,7 @@ public class CrashReport {
+@@ -35,7 +35,7 @@ public class CrashReport {
          io.papermc.paper.util.StacktraceDeobfuscator.INSTANCE.deobfuscateThrowable(cause); // Paper
          this.title = message;
          this.exception = cause;
@@ -150,7 +150,7 @@ index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa
      }
  
      public String getTitle() {
-@@ -123,7 +123,7 @@ public class CrashReport {
+@@ -125,7 +125,7 @@ public class CrashReport {
          stringbuilder.append("---- Minecraft Crash Report ----\n");
          // Purpur start
          stringbuilder.append("// ");
@@ -160,10 +160,10 @@ index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6e8055d70695841d21654b4f72643b4d0ea42867..dcb193c8e8d08d09dd2266118aaa6936b78f2d0e 100644
+index d3d0ff5a51216469c7b9c49f69d61901fd35b7ab..1b0c4aaaad2e2f6b307955bd8d4f7daff61f751f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -914,7 +914,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -916,7 +916,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
@@ -186,7 +186,7 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index f61e0c8a12f2132b307b541525df729eda1a4f51..2c92c92bcb56acbadea4ac34edcd03f10e5b754c 100644
+index 000007e77e73153d3d634a3ab5882916bd8b43a3..a7a53ece2b61993b56826e6e959f2cb535b0b10e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
@@ -212,7 +212,7 @@ index 76a4803decea19f8bed8cb11e73bd7895675a3f4..2ff05b28158feea57f44a8e7ceda7e24
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index d1526ed7197b883e1d1f07baf285bf5eef4d20d5..304c3fbd4c120546f666f89c0042d764d0f188b7 100644
+index 5402098dce0d64d3dceea51f248d7d366850a74f..490f2179b0ec4a7946c79e7b5a233a8909972752 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -504,7 +504,7 @@ public class CraftScheduler implements BukkitScheduler {

@@ -5,7 +5,7 @@ Subject: [PATCH] Prismarine config files
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 76e605a26ab146afc7ac10a64afa7e1fd001410b..103a811de01e2e9dc7fee079e836dfb509f2ffd7 100644
+index 0bfdc4247a651f6c1caf7a95114be68bc7d77d7b..7c152d899ee8cd238d7bc934e15c8b07ddbf9e45 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -232,6 +232,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -25,7 +25,7 @@ index 76e605a26ab146afc7ac10a64afa7e1fd001410b..103a811de01e2e9dc7fee079e836dfb5
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 0dab4ef279f7e9af64290395b4af205b0d54f271..68c84f82f0572a0ce4d4d84eb38d8802fe10310f 100644
+index 018a5c13d3f0321d4346e6c1845f1aed2b8de3dd..25c8294a36d2f062ca4882820e99315aabf5dde8 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -175,6 +175,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -357,7 +357,7 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7997bedf80dba17d1d26ccef79cc8c9afcdc8ffb..8be6e85c0ce872694ad4a97621cb417850dffa56 100644
+index a7a53ece2b61993b56826e6e959f2cb535b0b10e..91d36a736b5f3fc7740fee897f4e1681fc812496 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -991,6 +991,7 @@ public final class CraftServer implements Server {
@@ -376,7 +376,7 @@ index 7997bedf80dba17d1d26ccef79cc8c9afcdc8ffb..8be6e85c0ce872694ad4a97621cb4178
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2788,6 +2790,13 @@ public final class CraftServer implements Server {
+@@ -2824,6 +2826,13 @@ public final class CraftServer implements Server {
              return getProperties().properties;
          }
          // Purpur end
@@ -391,7 +391,7 @@ index 7997bedf80dba17d1d26ccef79cc8c9afcdc8ffb..8be6e85c0ce872694ad4a97621cb4178
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 1d2d36cf9befba024b82a0fe181811efd528ba2f..cde3a7146193c4fdb0cdd427a6a3dbbd3b01a2f7 100644
+index 5199e59c606833f90610f7360121e9628abafe2e..2af0587afa06638c1e15d2c1e41d41d548d9adca 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -166,6 +166,14 @@ public class Main {
