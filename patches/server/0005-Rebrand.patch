@@ -169,7 +169,7 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb449215
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d678c6e0109dabe93485fb214622a0213c790f26..1c6ea0fc42d53a576dc824feaf46a210cb66e447 100644
+index 0e575dfdad513e04a23390caef108211ecc95076..a31eb4b8cf3d586c27358d762a559d952f67b29c 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -916,7 +916,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -195,15 +195,15 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 000007e77e73153d3d634a3ab5882916bd8b43a3..a7a53ece2b61993b56826e6e959f2cb535b0b10e 100644
+index 9a1ad181628c1a9cfc5a5e91e32a763240a85767..88222a6f4b6c16ec045d82dd108dec656ac37fed 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
--    private final String serverName = "Purpur"; // Paper // Purpur
-+    private final String serverName = "Prismarine"; // Paper // Purpur // Prismarine
+-    private final String serverName = "Purpur"; // Paper // Pufferfish // Purpur // Prismarine - Where's the pufferfish?
++    private final String serverName = "Prismarine"; // Paper // Pufferfish // Purpur // Prismarine - Where's the pufferfish? // Prismarine - Rebrand
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");

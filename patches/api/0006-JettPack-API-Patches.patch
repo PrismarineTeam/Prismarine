@@ -24,7 +24,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0001 - skip event if no listeners
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 8f3227c005a4c54dd3db530b46eef8be67865afa..d4b8cd5e8fc82855a33d2f749e6ca6054f8ff388 100644
+index 321182c80bb8844df00d38da4e58db7932efe637..db69507a11ed0a63dc630506f99efcf972d6c0bb 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -665,6 +665,11 @@ public final class SimplePluginManager implements PluginManager {

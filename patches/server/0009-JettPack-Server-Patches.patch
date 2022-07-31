@@ -542,7 +542,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1c6ea0fc42d53a576dc824feaf46a210cb66e447..38d9be3013f8ce49540107875deb2ec043c5d526 100644
+index a31eb4b8cf3d586c27358d762a559d952f67b29c..1264f99d9cca96d01e9deafdf165ff9dbf2b783a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1031,6 +1031,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
