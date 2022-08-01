@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 31 Jul 2022 13:35:57 +0900
+Date: Sun, 31 Jul 2022 23:55:13 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -343,7 +343,7 @@ index d65defd5fc54086a969c568b93dfb05f40dd5a44..dad5564caa9f0211d8f8321a80dcec7e
      public void removeCommand(String name) {
          this.children.remove(name);
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 38cb29c646ff496ffaa6553f98a565b71155c464..95995c7f7e035bac7a4f429d84bb44fec41e01f9 100644
+index 38cb29c646ff496ffaa6553f98a565b71155c464..e077a43cf3f06207234cb445b58dff79eabcb9c6 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -121,6 +121,22 @@ public class PufferfishConfig {
@@ -369,140 +369,6 @@ index 38cb29c646ff496ffaa6553f98a565b71155c464..95995c7f7e035bac7a4f429d84bb44fe
  	
  	private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
  		return getBoolean(key, null, defaultValue, comment);
-@@ -327,10 +343,8 @@ public class PufferfishConfig {
- 
- 
-     public static boolean disableMethodProfiler;
--	public static boolean disableOutOfOrderChat;
-     private static void miscSettings() {
--		disableMethodProfiler = getBoolean("misc.disable-method-profiler", true);
--		disableOutOfOrderChat = getBoolean("misc.disable-out-of-order-chat", false);
-+        disableMethodProfiler = getBoolean("misc.disable-method-profiler", true);
-         setComment("misc", "Settings for things that don't belong elsewhere");
-     }
- 
-diff --git a/src/main/java/gg/pufferfish/pufferfish/path/AsyncPath.java b/src/main/java/gg/pufferfish/pufferfish/path/AsyncPath.java
-index dcfe6fa538c54417b90a138b26c451f63b408ff6..401645f9f2cccaec4b37c6a91cf930a1fc520301 100644
---- a/src/main/java/gg/pufferfish/pufferfish/path/AsyncPath.java
-+++ b/src/main/java/gg/pufferfish/pufferfish/path/AsyncPath.java
-@@ -8,9 +8,9 @@ import net.minecraft.world.phys.Vec3;
- import org.jetbrains.annotations.NotNull;
- import org.jetbrains.annotations.Nullable;
- 
--import java.util.ArrayList;
- import java.util.List;
- import java.util.Set;
-+import java.util.concurrent.CompletableFuture;
- import java.util.function.Supplier;
- 
- /**
-@@ -24,9 +24,9 @@ public class AsyncPath extends Path {
-     private volatile boolean processed = false;
- 
-     /**
--     * runnables waiting for path to be processed
-+     * a future representing the processing state of this path
-      */
--    private final @NotNull List<Runnable> postProcessing = new ArrayList<>();
-+    private final @NotNull CompletableFuture<Path> processingFuture;
- 
-     /**
-      * a list of positions that this path could path towards
-@@ -73,7 +73,7 @@ public class AsyncPath extends Path {
-         this.positions = positions;
-         this.pathSupplier = pathSupplier;
- 
--        AsyncPathProcessor.queue(this);
-+        this.processingFuture = AsyncPathProcessor.queue(this).thenApply((unused) -> this);
-     }
- 
-     @Override
-@@ -82,11 +82,11 @@ public class AsyncPath extends Path {
-     }
- 
-     /**
--     * add a post-processing action
-+     * returns the future representing the processing state of this path
-+     * @return a future
-      */
--    public synchronized void postProcessing(@NotNull Runnable runnable) {
--        if (processed) runnable.run();
--        else postProcessing.add(runnable);
-+    public @NotNull CompletableFuture<Path> getProcessingFuture() {
-+        return this.processingFuture;
-     }
- 
-     /**
-@@ -119,8 +119,6 @@ public class AsyncPath extends Path {
-         this.canReach = bestPath.canReach();
- 
-         this.processed = true;
--        
--        this.postProcessing.forEach(Runnable::run);
-     }
- 
-     /**
-diff --git a/src/main/java/gg/pufferfish/pufferfish/path/AsyncPathProcessor.java b/src/main/java/gg/pufferfish/pufferfish/path/AsyncPathProcessor.java
-index 6c8035ef7effd0ccdc887b3792ba09ef6b2a74fa..08e949d8493284667cd8f1adb710b4e9e9611e28 100644
---- a/src/main/java/gg/pufferfish/pufferfish/path/AsyncPathProcessor.java
-+++ b/src/main/java/gg/pufferfish/pufferfish/path/AsyncPathProcessor.java
-@@ -36,7 +36,7 @@ public class AsyncPathProcessor {
-      */
-     public static void awaitProcessing(@Nullable Path path, Consumer<@Nullable Path> afterProcessing) {
-         if (path != null && !path.isProcessed() && path instanceof AsyncPath asyncPath) {
--            asyncPath.postProcessing(() -> mainThreadExecutor.execute(() -> afterProcessing.accept(path)));
-+            asyncPath.getProcessingFuture().thenAcceptAsync(afterProcessing, mainThreadExecutor);
-         } else {
-             afterProcessing.accept(path);
-         }
-diff --git a/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java b/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java
-index ac541ddf1594ae865de02fd40940e39285043b1f..2dfe34a3fd0e460865393d9d8a1bdab71aa47b6b 100644
---- a/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java
-+++ b/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java
-@@ -25,6 +25,7 @@ public class MultithreadedTracker {
-     private final AtomicInteger taskIndex = new AtomicInteger();
- 
-     private final ConcurrentLinkedQueue<Runnable> mainThreadTasks;
-+    private final ConcurrentLinkedQueue<Runnable> postTrackingTasks = new ConcurrentLinkedQueue<>();
-     private final AtomicInteger finishedTasks = new AtomicInteger();
- 
-     public MultithreadedTracker(IteratorSafeOrderedReferenceSet<LevelChunk> entityTickingChunks, ConcurrentLinkedQueue<Runnable> mainThreadTasks) {
-@@ -57,6 +58,7 @@ public class MultithreadedTracker {
-             }
- 
-             this.runMainThreadTasks(); // finish any remaining tasks
-+            this.runPostTrackingTasks(); // run all post-tracking tasks
-         } finally {
-             this.entityTickingChunks.finishRawIterator();
-         }
-@@ -73,6 +75,17 @@ public class MultithreadedTracker {
-         }
-     }
- 
-+    private void runPostTrackingTasks() {
-+        try {
-+            Runnable task;
-+            while ((task = this.postTrackingTasks.poll()) != null) {
-+                task.run();
-+            }
-+        } catch (Throwable throwable) {
-+            MinecraftServer.LOGGER.warn("Post-tracking tasks failed while ticking track queue", throwable);
-+        }
-+    }
-+
-     private void run() {
-         try {
-             while (handleTasks(10));
-@@ -118,7 +131,8 @@ public class MultithreadedTracker {
-                 if (entityTracker != null) {
-                     entityTracker.updatePlayers(entityTracker.entity.getPlayersInTrackRange());
- 
--                    this.mainThreadTasks.offer(entityTracker.serverEntity::sendChanges);
-+                    // run this on the main thread. This needs to be run after all updatePlayers methods are called.
-+                    this.postTrackingTasks.offer(entityTracker.serverEntity::sendChanges);
-                 }
-             }
-         }
 diff --git a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java b/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
 index b4d0b7ecd56ab952319946854168c1299cb0b1be..8054b8da82ca455d23b26a53cc568160b14e04ce 100644
 --- a/src/main/java/io/papermc/paper/console/HexFormattingConverter.java
@@ -2162,7 +2028,7 @@ index 378cc1f9e19eb9b18037ab8af92f65897e15a405..1c49aec79581c6bbeaeb87e42f98ed22
          }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 88152988425b7b02ec5ce229ba4c24b40e030329..9bfd1cb300fe7f76e9a36167390ab1c2b468b100 100644
+index 88152988425b7b02ec5ce229ba4c24b40e030329..78c01b08ff8683960d1d227523ca6cecf56c06b1 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -65,7 +65,7 @@ public class ServerEntity {
@@ -2174,36 +2040,6 @@ index 88152988425b7b02ec5ce229ba4c24b40e030329..9bfd1cb300fe7f76e9a36167390ab1c2
  
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
-@@ -366,26 +366,19 @@ public class ServerEntity {
-         SynchedEntityData datawatcher = this.entity.getEntityData();
- 
-         if (datawatcher.isDirty()) {
--            ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> // Pufferfish
--            this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
--            ); // Pufferfish
-+            this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false));
-         }
- 
-         if (this.entity instanceof LivingEntity) {
-             Set<AttributeInstance> set = ((LivingEntity) this.entity).getAttributes().getDirtyAttributes();
- 
-             if (!set.isEmpty()) {
--                // Pufferfish start
--                List<AttributeInstance> attributesCopy = Lists.newArrayList(set);
--                ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> {
-                 // CraftBukkit start - Send scaled max health
-                 if (this.entity instanceof ServerPlayer) {
--                    ((ServerPlayer) this.entity).getBukkitEntity().injectScaledMaxHealth(attributesCopy, false); // Pufferfish
-+                    ((ServerPlayer) this.entity).getBukkitEntity().injectScaledMaxHealth(set, false);
-                 }
-                 // CraftBukkit end
--                this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), attributesCopy)); // Pufferfish
--                });
--                // Pufferfish end
-+                this.broadcastAndSend(new ClientboundUpdateAttributesPacket(this.entity.getId(), set));
-             }
- 
-             set.clear();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
 index f58873ef4362bfcc618ead099be94ba2dd4d86ed..c50dc34a731477c76315d8ef6b59b8539b76c7e3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
@@ -3089,7 +2925,7 @@ index 80c1e0e47818486a68e0114b063395290365346b..c677a55db62b4d197eeb1bf5d929e240
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c4556bd3195 100644
+index 8da76daecef969f452960df5577c7bc408ac7acb..5d9544e64c9b7e098e7e5c4390ac254f7b3facd2 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -258,6 +258,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -3370,13 +3206,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
          player.getBukkitEntity().setResourcePackStatus(packStatus);
          this.cserver.getPluginManager().callEvent(new PlayerResourcePackStatusEvent(this.getCraftPlayer(), packStatus)); // CraftBukkit
          // Paper end
-@@ -2350,13 +2441,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
-     }
- 
-     private boolean updateChatOrder(Instant timestamp) {
--        if (gg.pufferfish.pufferfish.PufferfishConfig.disableOutOfOrderChat) return true;
-         Instant instant1;
- 
+@@ -2356,7 +2447,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
          do {
              instant1 = (Instant) this.lastChatTimeStamp.get();
              if (timestamp.isBefore(instant1)) {
@@ -3385,7 +3215,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
              }
          } while (!this.lastChatTimeStamp.compareAndSet(instant1, timestamp));
  
-@@ -2506,7 +2596,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2506,7 +2597,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              }
          }
          // Paper End
@@ -3394,7 +3224,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
          if ( org.spigotmc.SpigotConfig.logCommands ) // Spigot
          this.LOGGER.info(this.player.getScoreboardName() + " issued server command: " + s);
  
-@@ -2516,7 +2606,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2516,7 +2607,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
          this.cserver.getPluginManager().callEvent(event);
  
          if (event.isCancelled()) {
@@ -3403,7 +3233,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
              return;
          }
  
-@@ -2529,7 +2619,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2529,7 +2620,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              java.util.logging.Logger.getLogger(ServerGamePacketListenerImpl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
              return;
          } finally {
@@ -3412,7 +3242,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
          }
      }
      // CraftBukkit end
-@@ -2579,7 +2669,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2579,7 +2670,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              this.disconnect(Component.translatable("multiplayer.disconnect.unsigned_chat"), org.bukkit.event.player.PlayerKickEvent.Cause.UNSIGNED_CHAT); // Paper - kick event cause
              return false;
          } else {
@@ -3421,7 +3251,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
                  ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized? c: {} s: {}", this.player.getName().getString(), message.signedContent().plain(), message.timeStamp().getEpochSecond(), Instant.now().getEpochSecond()); // Paper
              }
  
-@@ -2878,6 +2968,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2878,6 +2969,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              }
  
              if (entity.distanceToSqr(this.player.getEyePosition()) < ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE) {
@@ -3429,7 +3259,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
                  packet.dispatch(new ServerboundInteractPacket.Handler() {
                      private void performInteraction(InteractionHand enumhand, ServerGamePacketListenerImpl.EntityInteraction playerconnection_a, PlayerInteractEntityEvent event) { // CraftBukkit
                          ItemStack itemstack = ServerGamePacketListenerImpl.this.player.getItemInHand(enumhand).copy();
-@@ -2888,6 +2979,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2888,6 +2980,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
                          ServerGamePacketListenerImpl.this.cserver.getPluginManager().callEvent(event);
  
@@ -3438,7 +3268,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
                          // Entity in bucket - SPIGOT-4048 and SPIGOT-6859
                          if ((entity instanceof Bucketable && entity instanceof LivingEntity && origItem != null && origItem.asItem() == Items.WATER_BUCKET) && (event.isCancelled() || ServerGamePacketListenerImpl.this.player.getInventory().getSelected() == null || ServerGamePacketListenerImpl.this.player.getInventory().getSelected().getItem() != origItem)) {
                              ServerGamePacketListenerImpl.this.send(new ClientboundAddEntityPacket(entity));
-@@ -3539,11 +3632,17 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3539,11 +3633,17 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              for (int i = 0; i < signText.size(); ++i) {
                  FilteredText filteredtext = (FilteredText) signText.get(i);
  
@@ -3459,7 +3289,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
              }
              SignChangeEvent event = new SignChangeEvent((org.bukkit.craftbukkit.block.CraftBlock) player.getWorld().getBlockAt(x, y, z), this.player.getBukkitEntity(), lines);
              this.cserver.getPluginManager().callEvent(event);
-@@ -3565,6 +3664,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3565,6 +3665,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
@@ -3476,7 +3306,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
          //PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel()); // CraftBukkit // Paper - This shouldn't be on the main thread
          if (this.keepAlivePending && packet.getId() == this.keepAliveChallenge) {
              int i = (int) (Util.getMillis() - this.keepAliveTime);
-@@ -3615,6 +3724,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3615,6 +3725,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      private static final ResourceLocation CUSTOM_UNREGISTER = new ResourceLocation("unregister");
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
@@ -3484,7 +3314,7 @@ index 8da76daecef969f452960df5577c7bc408ac7acb..eedc75417d06eb8c5ac5ed1885847c45
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3639,6 +3749,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3639,6 +3750,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
@@ -5752,189 +5582,6 @@ index 4abfeffa72bc70fd26908252ed596e816b4b9eb2..e5c20f40a63e8db215876c03ba6de972
                              iterator.remove();
                          } else {
                              DoorBlock blockdoor = (DoorBlock) iblockdata.getBlock();
-diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
-index 72dfb58a7f4586387c2d32cf54fff137b2d26666..698c46f786689d719ecca0780e220eab594bc45e 100644
---- a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
-+++ b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
-@@ -21,7 +21,6 @@ public class MoveToTargetSink extends Behavior<Mob> {
-     private int remainingCooldown;
-     @Nullable
-     private Path path;
--    private boolean finishedProcessing; // Pufferfish
-     @Nullable
-     private BlockPos lastTargetPos;
-     private float speedModifier;
-@@ -43,10 +42,9 @@ public class MoveToTargetSink extends Behavior<Mob> {
-             Brain<?> brain = entity.getBrain();
-             WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
-             boolean bl = this.reachedTarget(entity, walkTarget);
--            if (!bl && (!gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && this.tryComputePath(entity, walkTarget, world.getGameTime()))) { // Pufferfish
-+            if (!bl && this.tryComputePath(entity, walkTarget, world.getGameTime())) {
-                 this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
-                 return true;
--            } else if (!bl) { return true; // Pufferfish
-             } else {
-                 brain.eraseMemory(MemoryModuleType.WALK_TARGET);
-                 if (bl) {
-@@ -60,7 +58,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
- 
-     @Override
-     protected boolean canStillUse(ServerLevel serverLevel, Mob mob, long l) {
--        if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && !finishedProcessing) return true; // Pufferfish - wait for path to process
-+        if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && this.path != null && !this.path.isProcessed()) return true; // Pufferfish - wait for path to process
-         if (this.path != null && this.lastTargetPos != null) {
-             Optional<WalkTarget> optional = mob.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
-             PathNavigation pathNavigation = mob.getNavigation();
-@@ -84,96 +82,36 @@ public class MoveToTargetSink extends Behavior<Mob> {
- 
-     @Override
-     protected void start(ServerLevel serverLevel, Mob mob, long l) {
--        if (!gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding) { // Pufferfish
-         mob.getBrain().setMemory(MemoryModuleType.PATH, this.path);
-         mob.getNavigation().moveTo(this.path, (double)this.speedModifier);
--        // Pufferfish start
--        } else {
--            Brain<?> brain = mob.getBrain();
--            WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
--            
--            this.finishedProcessing = false;
--            this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
--            this.path = this.computePath(mob, walkTarget);
--        }
--        // Pufferfish end
-     }
- 
-     @Override
-     protected void tick(ServerLevel world, Mob entity, long time) {
-         if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && this.path != null && !this.path.isProcessed()) return; // Pufferfish - wait for processing
- 
--        // Pufferfish start
--        if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && !finishedProcessing) {
--            this.finishedProcessing = true;
--            Brain<?> brain = entity.getBrain();
--            boolean canReach = this.path != null && this.path.canReach();
--            if (canReach) {
--                brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
--            } else if (brain.hasMemoryValue(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) {
--                brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, time);
--            }
--            
--            if (!canReach) {
--                Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
--    
--                if (walkTarget.isPresent()) {
--                    BlockPos blockPos = walkTarget.get().getTarget().currentBlockPosition();
--                    Vec3 vec3 = DefaultRandomPos.getPosTowards((PathfinderMob)entity, 10, 7, Vec3.atBottomCenterOf(blockPos), (double)((float)Math.PI / 2F));
--                    if (vec3 != null) {
--                        // try recalculating the path using a random position
--                        this.path = entity.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
--                        this.finishedProcessing = false;
--                        return;
--                    }
--                }
--                
--                brain.eraseMemory(MemoryModuleType.WALK_TARGET);
--                this.path = null;
--                
--                return;
--            }
--            
--            entity.getBrain().setMemory(MemoryModuleType.PATH, this.path);
--            entity.getNavigation().moveTo(this.path, (double)this.speedModifier);
--        }
--        // Pufferfish end
--
-         Path path = entity.getNavigation().getPath();
-         Brain<?> brain = entity.getBrain();
--        if (!gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && this.path != path) { // Pufferfish
-+        if (this.path != path) {
-             this.path = path;
-             brain.setMemory(MemoryModuleType.PATH, path);
-         }
- 
--        if (path != null && this.lastTargetPos != null && (!gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding || brain.hasMemoryValue(MemoryModuleType.WALK_TARGET))) { // Pufferfish
-+        // Pufferfish start - periodically recall moveTo to ensure we're moving towards the correct path
-+        if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding && time % 8 == 0) {
-+            entity.getNavigation().moveTo(this.path, (double)this.speedModifier);
-+        }
-+        // Pufferfish end
-+
-+        if (path != null && this.lastTargetPos != null) {
-             WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
--            if (!gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding) { // Pufferfish
-             if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D && this.tryComputePath(entity, walkTarget, world.getGameTime())) {
-                 this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
-                 this.start(world, entity, time);
-             }
--            // Pufferfish start
--            } else {
--                if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D) this.start(world, entity, time);
--            }
--            // Pufferfish end
--
--        }
--    }
- 
--    // Pufferfish start
--    private Path computePath(Mob entity, WalkTarget walkTarget) {
--        BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
--        this.speedModifier = walkTarget.getSpeedModifier();
--        Brain<?> brain = entity.getBrain();
--        if (this.reachedTarget(entity, walkTarget)) {
--            brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-         }
--    
--        return entity.getNavigation().createPath(blockPos, 0);
-     }
--    // Pufferfish end
- 
-     private boolean tryComputePath(Mob entity, WalkTarget walkTarget, long time) {
-         BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
-@@ -183,6 +121,24 @@ public class MoveToTargetSink extends Behavior<Mob> {
-         if (this.reachedTarget(entity, walkTarget)) {
-             brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-         } else {
-+            // Pufferfish start - move this out to postProcessPath
-+            if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding) {
-+                gg.pufferfish.pufferfish.path.AsyncPathProcessor.awaitProcessing(this.path, (unusedPath) -> {
-+                    this.postProcessPath(entity, walkTarget, time);
-+                });
-+                return true;
-+            } else {
-+                return postProcessPath(entity, walkTarget, time);
-+            }
-+        }
-+
-+        return false;
-+    }
-+
-+    private boolean postProcessPath(Mob entity, WalkTarget walkTarget, long time) {
-+       Brain<?> brain = entity.getBrain();
-+       BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
-+
-             boolean bl = this.path != null && this.path.canReach();
-             if (bl) {
-                 brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-@@ -199,10 +155,19 @@ public class MoveToTargetSink extends Behavior<Mob> {
-                 this.path = entity.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
-                 return this.path != null;
-             }
-+
-+        // We failed, so erase and move on
-+        if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncPathfinding) {
-+            brain.eraseMemory(MemoryModuleType.WALK_TARGET);
-+            if (bl) {
-+                brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-+            }
-+            this.path = null;
-         }
- 
-         return false;
-     }
-+    // Pufferfish end
- 
-     private boolean reachedTarget(Mob entity, WalkTarget walkTarget) {
-         return walkTarget.getTarget().currentBlockPosition().distManhattan(entity.blockPosition()) <= walkTarget.getCloseEnoughDist();
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java b/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java
 index 385f3df7044e3f03f17c3ec7484b268004a3def9..90ba6a3abf62e4b272fada96b554ca31f72921ae 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/ShowTradesToPlayer.java
@@ -11405,7 +11052,7 @@ index d980b906d9206560741576fa4153c57212f307a0..0ac5264a16c9121c0f6233e83c426199
      public boolean doHurtTarget(Entity target) {
          if (super.doHurtTarget(target)) {
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Creeper.java b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
-index 8c328d72c42ccaa6891249cc700b70bb34c09545..fb342992e6033bcd001faf7e0bf9c0faa1698034 100644
+index e0f71dc12cfc28710cacfbc372026f556dcab165..fe26858b6d2f616fa34f4073ddfc130239aa1370 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 @@ -60,21 +60,130 @@ public class Creeper extends Monster implements PowerableMob {
@@ -19588,10 +19235,10 @@ index ac33ba631f4b0ae0e08bff5748440ef5b76c2117..29068ca2df90ab0351b91cd0aa3e224c
      @Override
      protected void beforeDestroyingBlock(LevelAccessor world, BlockPos pos, BlockState state,  BlockPos source) {
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
-index e6593d081b9349d68d45b645455d28f6f00d7c00..aca4100964a1f225bd93390f521073e2bc15c04f 100644
+index 0455c8a7da880da4f0b7ae9d57e83e281a55f0ae..23cb03d28c43729d5b5d450cd975456512477353 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
 +++ b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
-@@ -78,8 +78,8 @@ public class PathFinder {
+@@ -80,8 +80,8 @@ public class PathFinder {
      // Paper start - optimize collection
      private Path findPath(ProfilerFiller profiler, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) {
          // readd the profiler code for sync
@@ -19913,7 +19560,7 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index eab7f65371bc7a4ad69b066cf94d36e8e949fafb..159582c7a27f2bed375e123aa4fcefe03f4b94f4 100644
+index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916bd8b43a3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
@@ -20053,9 +19700,9 @@ index eab7f65371bc7a4ad69b066cf94d36e8e949fafb..159582c7a27f2bed375e123aa4fcefe0
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2731,6 +2815,18 @@ public final class CraftServer implements Server {
+@@ -2729,6 +2813,18 @@ public final class CraftServer implements Server {
+             return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
-         // Paper end // Prismarine - Mark
  
 +        // Purpur start
 +        @Override
@@ -20072,7 +19719,7 @@ index eab7f65371bc7a4ad69b066cf94d36e8e949fafb..159582c7a27f2bed375e123aa4fcefe0
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2906,4 +3002,16 @@ public final class CraftServer implements Server {
+@@ -2904,4 +3000,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
@@ -20241,7 +19888,7 @@ index 04976616da8c85b1278dad33ff05554aa74a6b33..046e0e174119e65686e74eaf11853e68
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index b80cc0938b2b3928f4450f1314a9fbd7ea9c116b..061d24461782e2ab76c3406f77a33f9f508f02cb 100644
+index 6549ade8e19807c523e5a1dc68b66585aad438b1..be5cadf73ca4e2a2aa490e77ab7747ec8647a2ef 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 @@ -203,6 +203,11 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
@@ -20267,10 +19914,10 @@ index b80cc0938b2b3928f4450f1314a9fbd7ea9c116b..061d24461782e2ab76c3406f77a33f9f
              return false;
          }
  
-@@ -1340,4 +1349,27 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
-         return getHandle().isInPowderSnow || getHandle().wasInPowderSnow; // depending on the location in the entity "tick" either could be needed.
+@@ -1355,4 +1364,27 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+         return !this.getHandle().level.noCollision(this.getHandle(), aabb);
      }
-     // Paper end
+     // Paper End - Collision API
 +
 +    // Purpur start
 +    @Override

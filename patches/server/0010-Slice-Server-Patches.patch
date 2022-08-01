@@ -158,7 +158,7 @@ index 1c4e812c8b3f85ac5d69b637eb43d4b9751ad150..03b6ad0064d1d201f317f1c168f07834
      }
  }
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..fb1e403edd753975d8c1608d569fc63adefc9ba5 100644
+index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d2b891caa 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -366,6 +366,21 @@ public class ServerEntity {
@@ -180,9 +180,9 @@ index 9bfd1cb300fe7f76e9a36167390ab1c2b468b100..fb1e403edd753975d8c1608d569fc63a
 +                }
 +            } else
 +            // Prismarine end
-             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false));
-         }
- 
+             ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> // Pufferfish
+             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
+             ); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
 index cbe7f5c1f51b1315009eb4127a3d58cb34831d1b..b3f9151e211ee52910e4e1598e193c00b1c58725 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java

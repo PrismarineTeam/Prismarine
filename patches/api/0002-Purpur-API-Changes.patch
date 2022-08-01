@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 31 Jul 2022 13:35:45 +0900
+Date: Sun, 31 Jul 2022 23:55:14 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -1039,13 +1039,13 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 03b35d3ba8ba00c0fa0272450f19355244a014ea..ffd3d7f4c0c86806bcf70bd90edf3041834d401c 100644
+index 4d4a0d15876cc48c9c0456b9f11a5dda37fd56ce..1f116f33e6dbce8d8d67d799beeedecf792cd728 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -897,4 +897,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -919,4 +919,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
-     boolean isInPowderedSnow();
-     // Paper end
+     boolean wouldCollideUsing(@NotNull BoundingBox boundingBox);
+     // Paper End - Collision API
 +
 +    // Purpur start
 +    /**
