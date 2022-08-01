@@ -1,3 +1,10 @@
+# 이 버전은 더 이상 지원되지 않습니다!
+더 많은 정보를 확인하려면 [공식 Discord](https://discord.gg/kkqMSEVVxN) 에 접속해주시기 바랍니다.
+
+# This version is no longer supported!
+For more information, please join our [official Discord](https://discord.gg/kkqMSEVVxN).
+* * *
+
 Prismarine
 [![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.18.1/LICENSE)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
@@ -28,11 +35,6 @@ Prismarine
 고급 사용자일 경우, 본 레포지토리의 우측 [Releases](https://github.com/PrismarineTeam/Prismarine/releases) 에서 최신 Jar 파일을 다운로드 받을 수 있습니다.
 
 일반 사용자일 경우, [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.18.2-R0.1-SNAPSHOT-reobf.jar) 최신 Jar 파일을 다운로드 받을 수 있습니다.
-
-## Official Minecraft Server
-```play.pmcsmp.kro.kr``` 은 저희 PrismarineTeam이 공식적으로 운영하고 있는 생존 서버입니다.
-
-[공식 Discord](https://discord.gg/kkqMSEVVxN)에 접속하여 서버가 온라인인지 확인할 수 있습니다.
 
 ## Build
 
