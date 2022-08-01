@@ -58,5 +58,8 @@
    - 0006 - Don't send fire packets if player has Fire Resistance
    - 0012 - Packet obfuscation and reduction
 
+<!-- 
+## [Mirai](https://github.com/etil2jz/Mirai)
 ## [EmpireCraft](https://github.com/starlis/EmpireCraft)
-_Rebase required_
+## [Origami](https://github.com/Minebench/Origami)
+ -->

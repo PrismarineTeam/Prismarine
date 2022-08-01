@@ -24,11 +24,11 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Based on [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) and [Paper](https://github.com/PaperMC/Paper), most plugins are fully supported and stable.
 - Supports faster speeds and wider APIs, including all patches from [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) and [Purpur](https://github.com/PurpurMC/Purpur).
 - Multiple improvements and bug resolution were included by porting multiple mods.
-- [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice)
-- It provides better performance than other bukkit by excluding all the unstable, old, or unnecessary parts of a bukkit optimized for a particular user.
+- [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice) 등 불안정하거나, 오래되었거나, 특정 사용자를 위해 최적화된 버킷에서 불안정하고 불필요한 부분은 모두 제외하고 필요한 부분만 포팅하여 다른 버킷 보다 더 좋은 성능을 제공합니다.
 - Improve quality of server by porting patches disappeared or remained as a PR.
    - Ported patches can be found at [here](src/PORTED_PATCHES/ENG.md) 
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
+- 채팅 신고 기능을 비활성화 할 수 있습니다.
 
 ## Communicate
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
@@ -36,12 +36,12 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
 
 ## [#saveminecraft](https://saveminecraft.org/)
-[#saveminecraft](https://saveminecraft.org/) is Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**) movement that refuses chatting report which added by Mojang Studios and Microsoft.saveminecraft movement's goal is adding new permission for server admin, or removing chatting report without make minecraft's multiplay in danger. saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](../SAVEMINECRAFT/ENG.md).**
+[#saveminecraft](https://saveminecraft.org/) is movement that refuses chatting report which added by Mojang Studios and Microsoft in Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**). #saveminecraft movement's goal is adding new permission for server admin without make minecraft's multiplay in danger, or removing chatting report. #saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](../SAVEMINECRAFT/ENG.md).**
 
 Prismarine support this movement, not removing chatting report function which put minecraft's multiplay in danger, but make new permission for server admin.
 
 Prismarine is developed for server admin to enable or disable chatting report function.
-It's basically enabled, but if you want to disable, you can disable it in `prismarine.yml`. (function provide: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
+It's basically enabled, but if you want to disable, you can disable it in `prismarine.yml`. (Function provider: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
 
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
