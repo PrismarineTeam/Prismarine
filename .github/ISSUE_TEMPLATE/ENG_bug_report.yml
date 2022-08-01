@@ -1,76 +1,76 @@
-name: 오류 신고하기 (English)
-description: Prismarine의 패치로 인해 발생하는 오류를 신고하세요.
+name: report errors (English)
+description: please report errors caused with Prismarine's patches.
 labels: ["bug"]
 assignees: ["AlphaKR93"]
 body:
   - type: markdown
     attributes:
       value: |
-        오류를 신고하기 전, 이 오류가 Prismarine의 **최신 버전** 에서 발생한 것이 확실한지 확인해주세요.
-        또한, 이 오류가 신고되어 있지 않은지 확인해주세요.
+        before reporting an error, please make sure that this error is caused in the **latest version** of Prismarine.
+        also, please check that this error is not reported.
 
   - type: input
     attributes:
       label: Spark URL
-      description: Spark 프로필 링크가 있다면 여기에 입력해주세요.
-      placeholder: 'TIP: 프로필 링크는 서버에서 ''/spark profiler --timeout (테스트할 초, 예를 들어 300)'' 을 입력하여 얻을 수 있어요.'
+      description: If you have Spark profile link, please write it down here.
+      placeholder: 'TIP: you can get profile link by putting ''/spark profiler --timeout (second that you want to test, e.g 300)''in the server.'
     validations:
       required: false
 
   - type: textarea
     attributes:
-      label: 오류 설명
-      description: 오류에 대한 모든 정보를 서술해주세요.
+      label: error description
+      description: please write every information about errors.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: 예상 결과
-      description: 오류가 발생하지 않았더라면, Prismarine이 어떻게 동작했을지 서술해주세요.
+      label: result expectation
+      description: please write down how Prismarine worked if error did not occured.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: 실제 결과
-      description: 실제 오류가 발생한 결과를 서술해주세요.
+      label: real result
+      description: please write down the result that error occured.
       placeholder: |
-        TIP: 여기를 클릭하고 파일을 드래그하면 파일을 업로드 할 수 있습니다.
-        파일은 Prismarine 팀이 오류를 해결하는 데 도움을 줄 수 있습니다.
+        TIP: Click here and drag files to upload files.
+        File can help Prismarine team to solve the errors.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: 오류 재현 방법
-      description: 오류를 재현할 수 있는 방법을 서술해주세요.
+      label: How to reproduce errors
+      description: Please write down how to reproduce errors.
       placeholder: |
-        1. '...' 로 이동합니다.
-        2. '....' 를 입력합니다.
-        3. '....' 를 선택합니다.
-        4. '....' 플러그인을 추가합니다.
-        5. '....' 데이터팩을 추가합니다.
-        6. 이렇게 하면 오류가 발생합니다.
+        1. move to '...'.
+        2. write down '....'.
+        3. choose '....'.
+        4. add '....' plugins.
+        5. add '....' datapack.
+        6. this is how this error occured.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: 플러그인 리스트
-      description: 서버에 설치되어있는 모든 플러그인의 리스트를 적어주세요.
+      label: plugin list
+      description: write down every plugins that you installed in your server.
       placeholder: |
-        /plugins 를 입력하여 플러그인 리스트를 확인할 수 있어요.
-        적용한 플러그인이 없을 경우 "없음" 이라고 입력해주세요!
+        you can check the list by writing ''/plugins''.
+        If you didn't applied plugins, please write "N/A" !
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: 데이터팩 리스트
-      description: 서버에 설치되어있는 모든 데이터팩의 리스트를 적어주세요.
+      label: Datapack list
+      description: Please write every datapacks that you installed in your server.
       placeholder: |
-        ''/datapack list'' 를 입력하여 데이터팩 리스트를 확인할 수 있어요.
+        you can check list of datapack by writing''/datapack list''.
         적용한 플러그인이 없을 경우 "없음" 이라고 입력해주세요!
     validations:
       required: true
