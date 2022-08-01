@@ -13,7 +13,7 @@ License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
 
 # MariaDB Business Source License
 
-##### [Original](https://mariadb.com/bsl11/) | [한국어](../KOR/MBD_BSL_v1.1.md) - **English**
+##### [Original](https://mariadb.com/bsl11/) | [한국어](../KOR/MDB_BSL_v1.1.md) - **English**
 
 _Version 1.1_
 
