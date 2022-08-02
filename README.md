@@ -12,7 +12,7 @@ Prismarine
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
-[Discord](https://discord.gg/kkqMSEVVxN) | [한국어](src/README/KOR.md) - **English**
+[Discord](https://discord.gg/CQGVqeXQQC) - [Reddit](https://reddit.com/r/Prismarine) | [한국어](src/README/KOR.md) - **English**
 
 A Server Platform for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
 
