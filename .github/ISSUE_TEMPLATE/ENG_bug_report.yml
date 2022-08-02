@@ -71,37 +71,37 @@ body:
       description: Please write every datapacks that you installed in your server.
       placeholder: |
         you can check list of datapack by writing''/datapack list''.
-        적용한 플러그인이 없을 경우 "없음" 이라고 입력해주세요!
+        If you didn't applied dqatapacks, please write "N/A" !
     validations:
       required: true
 
   - type: input
     attributes:
-      label: Prismarine의 버전
-      description: Prismarine의 버전을 입력해주세요.
+      label: Version of Prismarine
+      description: write down your version of Prismarine.
       placeholder: |
-        TIP: Prismarine의 버전은 ''/version'' 을 입력하여 확인할 수 있어요.
-        예: git-Prismarine-"77f3c4a" (MC: 1.19.1)
+        TIP: You can check Prismarine's version by writing ''/version''.
+        Example: git-Prismarine-"77f3c4a" (MC: 1.19.1)
     validations:
       required: true
 
   - type: input
     attributes:
-      label: JVM 플래그
-      description: Prismarine을 작동할 때 사용한 JVM 플래그를 입력해주세요.
+      label: JVM Flag
+      description: Please write down JVM Flag that you used when you launch Prismarine.
       placeholder: |
-        TIP: java -jar 는 필요하지 않아요. 플래그가 없을 경우 "없음"을 입력해주세요!
-        예: -Xms8G -Xmx8G -Dterminal.jline=false -Dterminal.ansi=true -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -server
+        TIP: We don't need java -jar . If you don't have flag, please write down "N/A" !
+        Example: -Xms8G -Xmx8G -Dterminal.jline=false -Dterminal.ansi=true -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -server
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: JDK
-      description: JDK의 이름과 버전이 무엇인지 입력해주세요.
+      description: Please write down your JDK's name and version.
       placeholder: |
-        TIP: JDK의 버전은 터미널(또는 명령 프롬프트)에서 `java -version` 을 입력하여 확인할 수 있어요.
-        예시: openjdk version "17.0.3" 2022-04-19
+        TIP: You can check your JDK's version by writing `java -version` in your console.
+        Example: openjdk version "17.0.3" 2022-04-19
         OpenJDK Runtime Environment Temurin-17.0.3+7 (build 17.0.3+7)
         OpenJDK 64-Bit Server VM Temurin-17.0.3+7 (build 17.0.3+7, mixed mode, sharing)
     validations:
@@ -109,26 +109,26 @@ body:
 
   - type: input
     attributes:
-      label: 운영체제
-      description: 서버가 작동한 운영 체제가 무엇인지 입력해주세요.
+      label: Operating System (OS)
+      description: Please write down the os you use your server launcher.
       placeholder: |
-        예: Windows 11 Pro for Workstatin 21H2 (22000.100), Ubuntu 20.04
+        Example: Windows 11 Pro for Workstatin 21H2 (22000.100), Ubuntu 20.04
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: 추가 정보
-      description: 추가적인 정보를 입력할 수 있어요.
-      placeholder: 'TIP: 여기를 클릭하고 파일을 드래그하면 파일을 업로드 할 수 있습니다.'
+      label: additional information
+      description: You can add additional information.
+      placeholder: 'TIP: Click here and drag files to upload files.'
     validations:
       required: false
 
   - type: checkboxes
     attributes:
-      label: 신고하기 전, 다시 한번 확인해주세요.
+      label: Before you report, please check once more.
       description: 
       options:
-        - label: 저는 이 Minecraft 버전에서 최신 버전의 Prismarine을 사용하고 있습니다.
-        - label: 저는 이 오류가 신고되지 않았음을 확인했습니다.
-        - label: 이 버전은 Prismarine에서 지원하는 버전입니다.
+        - label: I'm using the latest Prismarine in this version of Minecraft.
+        - label: I checked that this error has not reported yet.
+        - label: Prismarine supports this version of Minecraft.
