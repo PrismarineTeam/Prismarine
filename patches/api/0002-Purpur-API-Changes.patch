@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 27 Jul 2022 09:00:52 +0000
+Date: Mon, 1 Aug 2022 05:38:02 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -194,10 +194,10 @@ index a736d7bcdc5861a01b66ba36158db1c716339346..22fc165fd9c95f0f3ae1be7a0857e48c
  
          @Override
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 92a1462261029e804da73da2743bbd68e57841e9..9b9af189b3865055570ba533b97c92c105cc5a37 100644
+index 92a1462261029e804da73da2743bbd68e57841e9..ef478e1d21e9b134641faa5060152125d5c5ea13 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2429,4 +2429,43 @@ public final class Bukkit {
+@@ -2429,4 +2429,127 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -238,6 +238,90 @@ index 92a1462261029e804da73da2743bbd68e57841e9..9b9af189b3865055570ba533b97c92c1
 +     */
 +    public static void removeFuel(@NotNull Material material) {
 +        server.removeFuel(material);
++    }
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     */
++    public static void sendBlockHighlight(@NotNull Location location, int duration) {
++        server.sendBlockHighlight(location, duration);
++    }
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    public static void sendBlockHighlight(@NotNull Location location, int duration, int argb) {
++        server.sendBlockHighlight(location, duration, argb);
++    }
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     */
++    public static void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text) {
++        server.sendBlockHighlight(location, duration, text);
++    }
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    public static void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, int argb) {
++        server.sendBlockHighlight(location, duration, text, argb);
++    }
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    public static void sendBlockHighlight(@NotNull Location location, int duration, @NotNull org.bukkit.Color color, int transparency) {
++        server.sendBlockHighlight(location, duration, color, transparency);
++    }
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    public static void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, @NotNull org.bukkit.Color color, int transparency) {
++        server.sendBlockHighlight(location, duration, text, color, transparency);
++    }
++
++    /**
++     * Clears all debug block highlights for all players on the server.
++     */
++    public static void clearBlockHighlights() {
++        server.clearBlockHighlights();
 +    }
 +    // Purpur end
  }
@@ -495,7 +579,7 @@ index a7d1f1e701f23e851f735584a30bedadb0d8b9bd..7da38adede5b752583b94f6a14b3e45d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 56e261efa654e4a6872ccea28f0461df13845d13..d73b7d72d00fa0edd6542226348af14c5203cf8d 100644
+index 56e261efa654e4a6872ccea28f0461df13845d13..b894ae05e566737680a444417c738c5aa8fc2450 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -1937,6 +1937,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
@@ -517,7 +601,7 @@ index 56e261efa654e4a6872ccea28f0461df13845d13..d73b7d72d00fa0edd6542226348af14c
          /**
           * Sends the component to the player
           *
-@@ -2105,4 +2117,35 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2105,4 +2117,105 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
@@ -551,13 +635,83 @@ index 56e261efa654e4a6872ccea28f0461df13845d13..d73b7d72d00fa0edd6542226348af14c
 +     * @param material The material that will no longer be a fuel
 +     */
 +    public void removeFuel(@NotNull Material material);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, int argb);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, int argb);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull org.bukkit.Color color, int transparency);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on the server.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, @NotNull org.bukkit.Color color, int transparency);
++
++    /**
++     * Clears all debug block highlights for all players on the server.
++     */
++    void clearBlockHighlights();
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index e8c0c853eb52d1473c20231660355f77b1f7e016..3d053490dc87724f57893a553f1ab9cf1a3b73c0 100644
+index e8c0c853eb52d1473c20231660355f77b1f7e016..ec8c098ee07ac88c023ec6274788c94a4cffc835 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -3985,6 +3985,16 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+@@ -3985,6 +3985,86 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
      @Nullable
      public DragonBattle getEnderDragonBattle();
  
@@ -569,6 +723,76 @@ index e8c0c853eb52d1473c20231660355f77b1f7e016..3d053490dc87724f57893a553f1ab9cf
 +     * @return The local difficulty
 +     */
 +    public float getLocalDifficultyAt(@NotNull Location location);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on this world.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on this world.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, int argb);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on this world.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on this world.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, int argb);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on this world.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull org.bukkit.Color color, int transparency);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to all players on this world.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, @NotNull org.bukkit.Color color, int transparency);
++
++    /**
++     * Clears all debug block highlights for all players on this world.
++     */
++    void clearBlockHighlights();
 +    // Purpur end
 +
      /**
@@ -815,13 +1039,13 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 03b35d3ba8ba00c0fa0272450f19355244a014ea..ffd3d7f4c0c86806bcf70bd90edf3041834d401c 100644
+index 4d4a0d15876cc48c9c0456b9f11a5dda37fd56ce..1f116f33e6dbce8d8d67d799beeedecf792cd728 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -897,4 +897,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -919,4 +919,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
-     boolean isInPowderedSnow();
-     // Paper end
+     boolean wouldCollideUsing(@NotNull BoundingBox boundingBox);
+     // Paper End - Collision API
 +
 +    // Purpur start
 +    /**
@@ -1078,10 +1302,10 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index b39afbcd1fa88a7f00cd5f4482d52f2d089497dc..8bf04a0ad920fa580568713b243c20c448435908 100644
+index b607c229cfb1e95b17b6a0073380089ef5e1b675..5e06858d68f725508e0055de3f5d8c0f6a56601b 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2770,4 +2770,67 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2796,4 +2796,137 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -1147,6 +1371,76 @@ index b39afbcd1fa88a7f00cd5f4482d52f2d089497dc..8bf04a0ad920fa580568713b243c20c4
 +     * @return True if fall damage is enabled when {@link #getAllowFlight()} is true
 +     */
 +    public boolean hasFlyingFallDamage();
++
++    /**
++     * Creates debug block highlight on specified block location and show it to this player.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to this player.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, int argb);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to this player.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to this player.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param argb Color of the highlight. ARGB int. Will be ignored on some versions of vanilla client
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, int argb);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to this player.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull org.bukkit.Color color, int transparency);
++
++    /**
++     * Creates debug block highlight on specified block location and show it to this player.
++     * <p>
++     * Clients may be inconsistent in displaying it.
++     * @param location Location to highlight
++     * @param duration Duration for highlight to show in milliseconds
++     * @param text Text to show above the highlight
++     * @param color Color of the highlight. Will be ignored on some versions of vanilla client
++     * @param transparency Transparency of the highlight
++     * @throws IllegalArgumentException If transparency is outside 0-255 range
++     */
++    void sendBlockHighlight(@NotNull Location location, int duration, @NotNull String text, @NotNull org.bukkit.Color color, int transparency);
++
++    /**
++     * Clears all debug block highlights
++     */
++    void clearBlockHighlights();
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Snowman.java b/src/main/java/org/bukkit/entity/Snowman.java
@@ -2705,6 +2999,179 @@ index 0000000000000000000000000000000000000000..519809eab5d926dc7b0a7bad5d446d0d
 +        return handlers;
 +    }
 +}
+diff --git a/src/main/java/org/purpurmc/purpur/event/entity/BeeFoundFlowerEvent.java b/src/main/java/org/purpurmc/purpur/event/entity/BeeFoundFlowerEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..833f46d1941f377765132fc528c45567ee0290d2
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/event/entity/BeeFoundFlowerEvent.java
+@@ -0,0 +1,48 @@
++package org.purpurmc.purpur.event.entity;
++
++import org.bukkit.Location;
++import org.bukkit.entity.Bee;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
++
++/**
++ * Called when a bee targets a flower
++ */
++public class BeeFoundFlowerEvent extends EntityEvent {
++    private static final HandlerList handlers = new HandlerList();
++    private final Location location;
++
++    public BeeFoundFlowerEvent(@NotNull Bee bee, @Nullable Location location) {
++        super(bee);
++        this.location = location;
++    }
++
++    @Override
++    @NotNull
++    public Bee getEntity() {
++        return (Bee) super.getEntity();
++    }
++
++    /**
++     * Returns the location of the flower that the bee targets
++     *
++     * @return The location of the flower
++     */
++    @Nullable
++    public Location getLocation() {
++        return location;
++    }
++
++    @Override
++    @NotNull
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}
+diff --git a/src/main/java/org/purpurmc/purpur/event/entity/BeeStartedPollinatingEvent.java b/src/main/java/org/purpurmc/purpur/event/entity/BeeStartedPollinatingEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..ae0bb654745724889c67fae9072ae90ea3778ba4
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/event/entity/BeeStartedPollinatingEvent.java
+@@ -0,0 +1,47 @@
++package org.purpurmc.purpur.event.entity;
++
++import org.bukkit.Location;
++import org.bukkit.entity.Bee;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++
++/**
++ * Called when a bee starts pollinating
++ */
++public class BeeStartedPollinatingEvent extends EntityEvent {
++    private static final HandlerList handlers = new HandlerList();
++    private final Location location;
++
++    public BeeStartedPollinatingEvent(@NotNull Bee bee, @NotNull Location location) {
++        super(bee);
++        this.location = location;
++    }
++
++    @Override
++    @NotNull
++    public Bee getEntity() {
++        return (Bee) super.getEntity();
++    }
++
++    /**
++     * Returns the location of the flower that the bee pollinates
++     *
++     * @return The location of the flower
++     */
++    @NotNull
++    public Location getLocation() {
++        return this.location;
++    }
++
++    @Override
++    @NotNull
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}
+diff --git a/src/main/java/org/purpurmc/purpur/event/entity/BeeStopPollinatingEvent.java b/src/main/java/org/purpurmc/purpur/event/entity/BeeStopPollinatingEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff3c9f075be2f624af8b0ce5fffc5ea69a41f32e
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/event/entity/BeeStopPollinatingEvent.java
+@@ -0,0 +1,60 @@
++package org.purpurmc.purpur.event.entity;
++
++import org.bukkit.Location;
++import org.bukkit.entity.Bee;
++import org.bukkit.event.HandlerList;
++import org.bukkit.event.entity.EntityEvent;
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
++
++/**
++ * Called when a bee stops pollinating
++ */
++public class BeeStopPollinatingEvent extends EntityEvent {
++    private static final HandlerList handlers = new HandlerList();
++    private final Location location;
++    private final boolean success;
++
++    public BeeStopPollinatingEvent(@NotNull Bee bee, @Nullable Location location, boolean success) {
++        super(bee);
++        this.location = location;
++        this.success = success;
++    }
++
++    @Override
++    @NotNull
++    public Bee getEntity() {
++        return (Bee) super.getEntity();
++    }
++
++    /**
++     * Returns the location of the flower that the bee stopped pollinating
++     *
++     * @return The location of the flower
++     */
++    @Nullable
++    public Location getLocation() {
++        return location;
++    }
++
++    /**
++     * Returns whether the bee successfully pollinated the flower
++     *
++     * @return True if the pollination was successful
++     */
++    public boolean wasSuccessful() {
++        return success;
++    }
++
++
++    @Override
++    @NotNull
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}
 diff --git a/src/main/java/org/purpurmc/purpur/event/entity/EntityTeleportHinderedEvent.java b/src/main/java/org/purpurmc/purpur/event/entity/EntityTeleportHinderedEvent.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..c66eb163877e872f234d86dc244cab7efeb818cd
@@ -3410,13 +3877,14 @@ index 0000000000000000000000000000000000000000..c88394336bc9ab0f66a2af24d393f4a1
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/event/player/PlayerPreviewChatEvent.java b/src/main/java/org/purpurmc/purpur/event/player/PlayerPreviewChatEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..502896f69a139c9524625a2c0d9029f85276146b
+index 0000000000000000000000000000000000000000..94ccdf11201774f9bea3ba56c4dde148ff5199f8
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/event/player/PlayerPreviewChatEvent.java
-@@ -0,0 +1,90 @@
+@@ -0,0 +1,91 @@
 +package org.purpurmc.purpur.event.player;
 +
 +import net.kyori.adventure.text.Component;
++import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 +import org.bukkit.Bukkit;
 +import org.bukkit.entity.Player;
 +import org.bukkit.event.Cancellable;
@@ -3430,9 +3898,9 @@ index 0000000000000000000000000000000000000000..502896f69a139c9524625a2c0d9029f8
 +    private final String originalQuery;
 +    private Component query;
 +
-+    public PlayerPreviewChatEvent(@NotNull Player who, @NotNull String originalQuery, @Nullable Component query) {
++    public PlayerPreviewChatEvent(@NotNull Player who, @Nullable Component query) {
 +        super(who, !Bukkit.isPrimaryThread());
-+        this.originalQuery = originalQuery;
++        this.originalQuery = query == null ? "" : LegacyComponentSerializer.legacySection().serialize(query);
 +        this.query = query;
 +    }
 +

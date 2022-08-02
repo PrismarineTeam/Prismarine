@@ -41,7 +41,7 @@ index fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57..a7d6029ae0ede33a560579149e3b9488
          ));
  
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index acd95cf1dc7f009b63e44e4404e1736283fd458e..15c195900d720e5bdf089feece2d2dbaf53deb6b 100644
+index acd95cf1dc7f009b63e44e4404e1736283fd458e..5e5914610dc6e6db7d1d3368212b24feca9bac71 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -53,6 +53,15 @@ index acd95cf1dc7f009b63e44e4404e1736283fd458e..15c195900d720e5bdf089feece2d2dba
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
+@@ -603,7 +603,7 @@ public class Metrics {
+ 
+                 metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
+                 metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
+-                metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur
++                metrics.addCustomChart(new Metrics.SimplePie("prismarine_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // Prismarine
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+                     Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa85f0917cc 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
@@ -138,10 +147,10 @@ index 005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea..988c39f87dd086fb8676baa9513064a8
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa21024ba7 100644
+index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb4492159bd65ac5 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
-@@ -33,7 +33,7 @@ public class CrashReport {
+@@ -35,7 +35,7 @@ public class CrashReport {
          io.papermc.paper.util.StacktraceDeobfuscator.INSTANCE.deobfuscateThrowable(cause); // Paper
          this.title = message;
          this.exception = cause;
@@ -150,7 +159,7 @@ index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa
      }
  
      public String getTitle() {
-@@ -123,7 +123,7 @@ public class CrashReport {
+@@ -125,7 +125,7 @@ public class CrashReport {
          stringbuilder.append("---- Minecraft Crash Report ----\n");
          // Purpur start
          stringbuilder.append("// ");
@@ -160,10 +169,10 @@ index 14ed740609b14242c2a8d377a78b2f719cd8a422..eb20cc34502cb00e09cf26f201a18baa
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6e8055d70695841d21654b4f72643b4d0ea42867..dcb193c8e8d08d09dd2266118aaa6936b78f2d0e 100644
+index 0e575dfdad513e04a23390caef108211ecc95076..a31eb4b8cf3d586c27358d762a559d952f67b29c 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -914,7 +914,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -916,7 +916,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
@@ -186,15 +195,15 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index f61e0c8a12f2132b307b541525df729eda1a4f51..2c92c92bcb56acbadea4ac34edcd03f10e5b754c 100644
+index 9a1ad181628c1a9cfc5a5e91e32a763240a85767..88222a6f4b6c16ec045d82dd108dec656ac37fed 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
--    private final String serverName = "Purpur"; // Paper // Purpur
-+    private final String serverName = "Prismarine"; // Paper // Purpur // Prismarine
+-    private final String serverName = "Purpur"; // Paper // Pufferfish // Purpur // Prismarine - Where's the pufferfish?
++    private final String serverName = "Prismarine"; // Paper // Pufferfish // Purpur // Prismarine - Where's the pufferfish? // Prismarine - Rebrand
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
@@ -212,7 +221,7 @@ index 76a4803decea19f8bed8cb11e73bd7895675a3f4..2ff05b28158feea57f44a8e7ceda7e24
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index d1526ed7197b883e1d1f07baf285bf5eef4d20d5..304c3fbd4c120546f666f89c0042d764d0f188b7 100644
+index 5402098dce0d64d3dceea51f248d7d366850a74f..490f2179b0ec4a7946c79e7b5a233a8909972752 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -504,7 +504,7 @@ public class CraftScheduler implements BukkitScheduler {

@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 8cffd2557e1a42c3b0060c72089c1f84aa8049a2..8aface1da844f89e50fd14600497643af126bf89 100644
+index 2b0f8f1c4b31ab80a8b118f6b4598d1eb26ed802..d3bef912129a0524977b2950555b566ddaced7cb 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -1049,13 +1049,22 @@ public abstract class Level implements LevelAccessor, AutoCloseable {

@@ -148,7 +148,7 @@ index e877921370f6009a4bd204d9b17d2d58834b8822..00000000000000000000000000000000
 -}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 835403ce42df05092685ef38a4546e409f8a1eab..cfac96faf51a3cfe2163a06e4a8700668d247b8b 100644
+index 35377576ed182814051c11f902e02e8e921e84e3..e28e4592b24c544ea975888f2aec474da218ceba 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 @@ -539,7 +539,7 @@ public class FriendlyByteBuf extends ByteBuf {

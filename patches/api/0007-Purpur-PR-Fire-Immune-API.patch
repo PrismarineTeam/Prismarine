@@ -27,10 +27,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..a3f6ecff6ac0540f99f95b9a2aca2071913a20e8 100644
+index 1f116f33e6dbce8d8d67d799beeedecf792cd728..94e824ea3fcdce12ed5da0cbb5ad4a031e14707f 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -934,5 +934,20 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -956,5 +956,20 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       * @return True if in daylight
       */
      boolean isInDaylight();

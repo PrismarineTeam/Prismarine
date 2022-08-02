@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 24 Jul 2022 18:57:05 +0900
+Subject: [PATCH] Fix Purpur patches
+
+
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index d678c6e0109dabe93485fb214622a0213c790f26..0e575dfdad513e04a23390caef108211ecc95076 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -931,7 +931,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+         }*/ // Purpur
+ 
+         MinecraftServer.LOGGER.info("Stopping server");
+-        MinecraftTimings.stopServer(); // Paper
++        //MinecraftTimings.stopServer(); // Paper // Prismarine - NO TIMINGS
+         // Purpur start
+         if (upnp) {
+             if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index c50dc34a731477c76315d8ef6b59b8539b76c7e3..0d913a89adb0b5d1fa2a00502d560b0ba2d25ad6 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -936,7 +936,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+             return holder.is(PoiTypes.LIGHTNING_ROD);
+         }, (blockposition1) -> {
+             return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
+-        }, pos, org.purpurmc.purpur.PurpurConfig.lightningRodRange, PoiManager.Occupancy.ANY);
++        }, pos, org.purpurmc.purpur.PurpurConfig.lightningRodRange, PoiManager.Occupancy.ANY); // Purpur // Prismarine - Mark
+ 
+         return optional.map((blockposition1) -> {
+             return blockposition1.above(1);
+@@ -985,7 +985,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+         if (this.canSleepThroughNights()) {
+             if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
+                 int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
+-                Component ichatmutablecomponent;
++                Component ichatmutablecomponent; // Purpur // Prismarine - Mark
+ 
+                 if (this.sleepStatus.areEnoughSleeping(i)) {
+                     // Purpur start
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 159582c7a27f2bed375e123aa4fcefe03f4b94f4..9a1ad181628c1a9cfc5a5e91e32a763240a85767 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
+ import javax.annotation.Nonnull; // Paper
+ 
+ public final class CraftServer implements Server {
+-    private final String serverName = "Purpur"; // Paper // Purpur
++    private final String serverName = "Purpur"; // Paper // Pufferfish // Purpur // Prismarine - Where's the pufferfish?
+     private final String serverVersion;
+     private final String bukkitVersion = Versioning.getBukkitVersion();
+     private final Logger logger = Logger.getLogger("Minecraft");

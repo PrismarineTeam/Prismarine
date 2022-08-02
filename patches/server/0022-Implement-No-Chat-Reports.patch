@@ -1,0 +1,108 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Thu, 28 Jul 2022 23:21:17 +0900
+Subject: [PATCH] Implement No Chat Reports
+
+Original by Aizistral Studios
+
+diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
+index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..1195d24a9a1180e926cd30fe98cfcb1856834a0d 100644
+--- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
++++ b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
+@@ -78,7 +78,7 @@ public class ServerStatus {
+     }
+ 
+     public boolean enforcesSecureChat() {
+-        return this.enforcesSecureChat;
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) || this.enforcesSecureChat; // Prismarine - Disable chat report
+     }
+ 
+     public static class Players {
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index 5379a400b91a7f74b6091db9d13595f34136b555..ed5b9663f2043e8ee86fabd2f67e2672c556bdab 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -663,7 +663,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+ 
+     @Override
+     public boolean enforceSecureProfile() {
+-        return this.getProperties().enforceSecureProfile && this.getProperties().onlineMode;
++        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? false : (this.getProperties().enforceSecureProfile && this.getProperties().onlineMode); // Prismarine - Disable chat report
+     }
+ 
+     protected boolean convertOldUsers() {
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index eedc75417d06eb8c5ac5ed1885847c4556bd3195..8a9fc94c1163e3a5a854dcd0a45f5ba4036307de 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -2236,10 +2236,27 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+ 
+     @Override
+     public void send(Packet<?> packet) {
++        // Prismarine start - Disable chat report
++        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage && packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat) {
++            packet = new ClientboundSystemChatPacket(chat.chatType().resolve(this.player.level.registryAccess())
++                    .get().decorate(chat.message().serverContent()), false);
++            this.send(packet, (PacketSendListener) null);
++        } else
++        // Prismarine end
+         this.send(packet, (PacketSendListener) null);
+     }
+ 
+     public void send(Packet<?> packet, @Nullable PacketSendListener packetsendlistener) {
++        // Prismarine start - Disable chat report
++        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) {
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatHeaderPacket) return;
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat && packetsendlistener != null) {
++                ((ServerGamePacketListenerImpl) (Object) this).send(chat);
++                return;
++            }
++        }
++        // Prismarine end
++
+         // CraftBukkit start
+         if (packet == null || this.processedDisconnect) { // Spigot
+             return;
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index efc47cc8d85df1ae09bc96dc1c93943adab2e47b..4aa6acfa836e27eb1dcd0a3d702262de9e239d0a 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -1507,7 +1507,7 @@ public abstract class PlayerList {
+     }
+ 
+     private boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) {
+-        return !message.hasExpiredServer(Instant.now()) && message.verify(profile);
++        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport || (!message.hasExpiredServer(Instant.now()) && message.verify(profile)); // Prismarine - disable chat report
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
+index f669386d8b17f78006917869a8393173b676c448..df8562aef9015194269aaaa451f6efa64428b81c 100644
+--- a/src/main/java/net/minecraft/world/entity/player/Player.java
++++ b/src/main/java/net/minecraft/world/entity/player/Player.java
+@@ -1555,7 +1555,7 @@ public abstract class Player extends LivingEntity {
+ 
+     @Nullable
+     public ProfilePublicKey getProfilePublicKey() {
+-        return this.profilePublicKey;
++        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? null : this.profilePublicKey; // Prismarine - Disable chat report
+     }
+ 
+     public Inventory getInventory() {
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index 5e2a7471c69a5bb7ceabf5aeee332f6208b9d309..536125b4fad19667464adba054c9a7bcb35410c2 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -201,4 +201,11 @@ public class PrismarineConfig {
+     private static void storePlayerJsonListAsynchronously() {
+         storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
+     }
++
++    public static boolean disableChatReport = false;
++    public static boolean convertToGameMessage = false;
++    private static void noChatReports() {
++        disableChatReport = getBoolean("settings.disable-chat-report.enabled", disableChatReport);
++        convertToGameMessage = getBoolean("settings.disable-chat-report.convert-to-game-message", convertToGameMessage);
++    }
+ }
+\ No newline at end of file

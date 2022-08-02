@@ -66,10 +66,10 @@ index 66c65df229acc4041ed2027df07d4ab0dd8e7454..d26666d67292f4b5d22b4d4ee0275f55
      }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 9a751acf2c844ef4a4d73861cec2acfc39988c37..4cf75838186714a1607c24f2ae441cd2e02c87ee 100644
+index 1aa9cc0c1d994f6c702360ae95a6a1c087aa498a..6b0609ff86c840355b7ec3ee14ab11db5dcbc444 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -146,4 +146,9 @@ public class PrismarineWorldConfig {
+@@ -96,4 +96,9 @@ public class PrismarineWorldConfig {
      private void useSlicePacketSystem() {
          useSlicePacketSystem = getBoolean("use-slice-packet-system", useSlicePacketSystem);
      }

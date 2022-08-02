@@ -12,59 +12,51 @@ Copyright (C) 2022 PatinaMC LLC
 0013 - completely remove bootstrapExecutor
 
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index c540b695282e2cca97cc4e3320d641befa19c1c6..1854a298cc63b09ca547cde599089ee1670c92e9 100644
+index cdb7aea969b56f59d88f60bc3744e4932228c50a..3c7c3c21fe1f4ce1299274eee82884cb8aa2d2e7 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
-@@ -77,7 +77,6 @@ public class Util {
-     private static final int DEFAULT_MAX_THREADS = 255;
-     private static final String MAX_THREADS_SYSTEM_PROPERTY = "max.bg.threads";
-     private static final AtomicInteger WORKER_COUNT = new AtomicInteger(1);
--    private static final ExecutorService BOOTSTRAP_EXECUTOR = makeExecutor("Bootstrap", -2); // Paper - add -2 priority
-     private static final ExecutorService BACKGROUND_EXECUTOR = makeExecutor("Main", -1); // Paper - add -1 priority
-     // Paper start - don't submit BLOCKING PROFILE LOOKUPS to the world gen thread
-     public static final ExecutorService PROFILE_EXECUTOR = Executors.newFixedThreadPool(2, new java.util.concurrent.ThreadFactory() {
-@@ -200,7 +199,7 @@ public class Util {
+@@ -207,7 +207,7 @@ public class Util {
      }
  
      public static ExecutorService bootstrapExecutor() {
 -        return BOOTSTRAP_EXECUTOR;
-+        return (net.prismarineteam.prismarine.PrismarineConfig.disableBootstrapExecutor ? BACKGROUND_EXECUTOR : makeExecutor("Bootstrap", -2)); // Patina // Prismarine - Patina patches
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableBootstrapExecutor ? BACKGROUND_EXECUTOR : BOOTSTRAP_EXECUTOR); // Patina // Prismarine - Patina patches
      }
  
      public static ExecutorService backgroundExecutor() {
 diff --git a/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java b/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
-index 29e2bc3fa3091df3c2fa908a2632c3b592c4a872..7059022702b26b7c7198336d060eaec763c1052c 100644
+index 1ef089dbf83de35d875c00efdf468c397be56978..d867232390c012d5eae2182fc73095aae5ed3409 100644
 --- a/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
 +++ b/src/main/java/net/minecraft/server/rcon/thread/QueryThreadGs4.java
-@@ -348,7 +348,7 @@ public class QueryThreadGs4 extends GenericThread {
+@@ -349,7 +349,7 @@ public class QueryThreadGs4 extends GenericThread {
              this.identBytes[2] = bs[5];
              this.identBytes[3] = bs[6];
              this.ident = new String(this.identBytes, StandardCharsets.UTF_8);
 -            this.challenge = RandomSource.create().nextInt(16777216);
 +            this.challenge = java.util.concurrent.ThreadLocalRandom.current().nextInt(16777216); // Patina // Prismarine - Patina patches
-             this.challengeBytes = String.format("\t%s%d\u0000", this.ident, this.challenge).getBytes(StandardCharsets.UTF_8);
+             this.challengeBytes = String.format(Locale.ROOT, "\t%s%d\u0000", this.ident, this.challenge).getBytes(StandardCharsets.UTF_8);
          }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index e543014d55a5e96a74b4278680003c703248fe73..696a0a6869fbe98667458cad874443c6d8d85631 100644
+index 40e5718ed69146cbf1aef7819bda1b8822e2499d..eb01aab61aa3383e39120c7dfb60d9c9a4b801d1 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 @@ -50,8 +50,8 @@ public class PrismarineConfig {
          commands = new HashMap<>();
          commands.put("prismarine", new PrismarineCommand("prismarine"));
  
--        version = getInt("config-version", 2);
--        set("config-version", 2);
+-        version = getInt("config-version", 1);
+-        set("config-version", 1);
 +        version = getInt("config-version", 3);
 +        set("config-version", 3);
  
          readConfig(PrismarineConfig.class, null);
      }
-@@ -203,4 +203,13 @@ public class PrismarineConfig {
-         enableMaxVillagerTradeLimit = getBoolean("settings.max-villager-trade-limit.enabled", enableMaxVillagerTradeLimit);
-         maxVillagerTradeLimit = getInt("settings.max-villager-trade-limit.limit", maxVillagerTradeLimit);
+@@ -145,4 +145,13 @@ public class PrismarineConfig {
+         }
+         return builder.build();
      }
-+
++    
 +    public static boolean disableBootstrapExecutor = false;
 +    private static void disableBootstrapExecutor() {
 +        disableBootstrapExecutor = getBoolean("settings.disable-bootstrap-executor", disableBootstrapExecutor);

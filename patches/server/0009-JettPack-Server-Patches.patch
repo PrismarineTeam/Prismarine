@@ -396,36 +396,10 @@ index 0000000000000000000000000000000000000000..b45371f7a776451d5a15da03d130a32f
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 1854a298cc63b09ca547cde599089ee1670c92e9..545437074aa2ddb62a73b71daa90a57db4c691d7 100644
+index 3c7c3c21fe1f4ce1299274eee82884cb8aa2d2e7..bf59498b4bf57a77c337ccd6ef09239e21965148 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
-@@ -31,23 +31,8 @@ import java.security.PrivilegedActionException;
- import java.security.PrivilegedExceptionAction;
- import java.time.Duration;
- import java.time.Instant;
--import java.util.Arrays;
--import java.util.Iterator;
--import java.util.List;
--import java.util.Locale;
--import java.util.Map;
--import java.util.Optional;
--import java.util.UUID;
--import java.util.concurrent.BlockingQueue;
--import java.util.concurrent.CompletableFuture;
--import java.util.concurrent.CompletionException;
--import java.util.concurrent.Executor;
--import java.util.concurrent.ExecutorService;
--import java.util.concurrent.Executors;
--import java.util.concurrent.ForkJoinPool;
--import java.util.concurrent.ForkJoinWorkerThread;
--import java.util.concurrent.LinkedBlockingQueue;
--import java.util.concurrent.TimeUnit;
-+import java.util.*; // Prismarine - JettPack patches
-+import java.util.concurrent.*; // Prismarine - JettPack patches
- import java.util.concurrent.atomic.AtomicInteger;
- import java.util.function.BiFunction;
- import java.util.function.BooleanSupplier;
-@@ -63,9 +48,11 @@ import java.util.stream.Collectors;
+@@ -65,9 +65,11 @@ import java.util.stream.Collectors;
  import java.util.stream.IntStream;
  import java.util.stream.Stream;
  import javax.annotation.Nullable;
@@ -435,22 +409,22 @@ index 1854a298cc63b09ca547cde599089ee1670c92e9..545437074aa2ddb62a73b71daa90a57d
  import net.minecraft.util.Mth;
 +import net.minecraft.server.MCUtil; // Prismarine - JettPack patches
  import net.minecraft.util.RandomSource;
+ import net.minecraft.util.TimeSource;
  import net.minecraft.util.datafix.DataFixers;
- import net.minecraft.world.level.block.state.properties.Property;
-@@ -157,7 +144,49 @@ public class Util {
+@@ -165,7 +167,49 @@ public class Util {
          if (i <= 0) {
              executorService = MoreExecutors.newDirectExecutorService();
          } else {
 -            executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new net.minecraft.server.ServerWorkerThread(target, s, priorityModifier));
 +            // Prismarine start - JettPack tweaks
 +            if (net.prismarineteam.prismarine.PrismarineConfig.useJettPackAsyncExecutor) {
-+                executorService = Integer.getInteger("Paper.WorkerThreadCount", i) <= 0 ? MoreExecutors.newDirectExecutorService() : new AbstractExecutorService() {
++                executorService = Integer.getInteger("Paper.WorkerThreadCount", i) <= 0 ? MoreExecutors.newDirectExecutorService() : new java.util.concurrent.AbstractExecutorService() {
 +                    private volatile boolean shutdown = false;
 +
 +                    @Override
 +                    public final List<Runnable> shutdownNow() {
 +                        this.shutdown = true;
-+                        return Collections.emptyList();
++                        return java.util.Collections.emptyList();
 +                    }
 +
 +                    @Override
@@ -520,36 +494,23 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index d21530eb6bc150e431769b02fe50040fa5190b02..24cb4d43703b4f2b40f5e15dbbe2cf7f0f56d9f8 100644
+index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d432f8a73bf 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
-@@ -43,21 +43,17 @@ import java.util.ArrayList;
- import java.util.List;
- import java.util.Queue;
- import java.util.Set;
--import java.util.concurrent.CompletableFuture;
--import java.util.concurrent.ExecutionException;
--import java.util.concurrent.LinkedBlockingQueue;
--import java.util.concurrent.ThreadPoolExecutor;
--import java.util.concurrent.TimeUnit;
--import java.util.concurrent.TimeoutException;
-+import java.util.concurrent.*;
- import java.util.concurrent.atomic.AtomicBoolean;
- import java.util.function.BiConsumer;
- import java.util.function.Consumer;
+@@ -55,9 +55,10 @@ import java.util.function.Consumer;
  import java.util.function.Supplier;
  
  public final class MCUtil {
-+    public static final ConcurrentLinkedQueue smallAsyncTasks = new ConcurrentLinkedQueue(); // Jettpack // Prismarine - JettPack patches
++    public static final java.util.concurrent.ConcurrentLinkedQueue smallAsyncTasks = new java.util.concurrent.ConcurrentLinkedQueue(); // Jettpack // Prismarine - JettPack patches
      public static final ThreadPoolExecutor asyncExecutor = new ThreadPoolExecutor(
 -        0, 2, 60L, TimeUnit.SECONDS,
 -        new LinkedBlockingQueue<>(),
 +        4, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, // JettPack // Prismarine - JettPack patches
-+        new SynchronousQueue<Runnable>(), // JettPack // Prismarine - JettPack patches
++        new java.util.concurrent.SynchronousQueue<Runnable>(), // JettPack // Prismarine - JettPack patches
          new ThreadFactoryBuilder()
              .setNameFormat("Paper Async Task Handler Thread - %1$d")
              .setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(MinecraftServer.LOGGER))
-@@ -74,6 +70,30 @@ public final class MCUtil {
+@@ -74,6 +75,30 @@ public final class MCUtil {
  
      public static final long INVALID_CHUNK_KEY = getCoordinateKey(Integer.MAX_VALUE, Integer.MAX_VALUE);
  
@@ -581,10 +542,10 @@ index d21530eb6bc150e431769b02fe50040fa5190b02..24cb4d43703b4f2b40f5e15dbbe2cf7f
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1db36356bc32543fe525cc261577b27dac965a1f..1ab7f19fdbc25f4303e6507830f6560979814499 100644
+index a31eb4b8cf3d586c27358d762a559d952f67b29c..1264f99d9cca96d01e9deafdf165ff9dbf2b783a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1029,6 +1029,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1031,6 +1031,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
          LOGGER.info("Closing Thread Pool");
@@ -600,17 +561,16 @@ index 1db36356bc32543fe525cc261577b27dac965a1f..1ab7f19fdbc25f4303e6507830f65609
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2739,7 +2741,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-             // so, backoff to prevent this
+@@ -2786,6 +2788,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
--
+ 
 +        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
          //co.aikar.timings.MinecraftTimings.midTickChunkTasks.startTiming(); // Purpur
          try {
              for (;;) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 20d579a20e186e59975df1b35112015e183cee36..d80894a0ed1022e9abec6b0bad50e6ff0a33157a 100644
+index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf57d64a08 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 @@ -137,7 +137,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
@@ -623,10 +583,10 @@ index 20d579a20e186e59975df1b35112015e183cee36..d80894a0ed1022e9abec6b0bad50e6ff
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1eb668bda8 100644
+index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ecf57b86df 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -132,6 +132,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+@@ -134,6 +134,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
      }
  
@@ -634,47 +594,46 @@ index eea58ef165e3e7078aed50a3e40f9b6217104171..6bb7ce37f2d99658b11631bb3d3e8e1e
      // Paper start - Cache authenticator threads
      private static final AtomicInteger threadId = new AtomicInteger(0);
      private static final java.util.concurrent.ExecutorService authenticatorPool = java.util.concurrent.Executors.newCachedThreadPool(
-@@ -144,6 +145,8 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+@@ -146,6 +147,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              }
      );
      // Paper end
-+    */ // Prismarine - JettPack patches
-+
++    */ // Prismarine end
      // Spigot start
      public void initUUID()
      {
-@@ -331,7 +334,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+@@ -331,7 +333,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
                  // Paper end
                  // Spigot start
              // Paper start - Cache authenticator threads
 -            authenticatorPool.execute(new Runnable() {
-+                net.minecraft.server.MCUtil.asyncExecutor.execute(new Runnable() {
++            net.minecraft.server.MCUtil.asyncExecutor.execute(new Runnable() { // Prismarine - JettPack patches
                      @Override
                      public void run() {
                          try {
-@@ -387,7 +390,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+@@ -389,7 +391,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
          }
  
          // Paper start - Cache authenticator threads
 -        authenticatorPool.execute(new Runnable() {
-+        net.minecraft.server.MCUtil.asyncExecutor.execute(new Runnable() {
++        net.minecraft.server.MCUtil.asyncExecutor.execute(new Runnable() { // Prismarine - JettPack patches
              public void run() {
                  GameProfile gameprofile = ServerLoginPacketListenerImpl.this.gameProfile;
  
-@@ -535,7 +538,7 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener
+@@ -538,7 +540,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              }
  
              // Proceed with login
 -            authenticatorPool.execute(() -> {
-+            net.minecraft.server.MCUtil.asyncExecutor.execute(() -> {
++            net.minecraft.server.MCUtil.asyncExecutor.execute(() -> { // Prismarine - JettPack patches
                  try {
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 048df4f7263515faefd78e60a8223136665cdf44..1b075ed41c0c7d4df0459d3ee25631f79e2f79b2 100644
+index 366530e2bceb0680c99627abc2c4c48b67f9829d..6f81b00a2ddd053e646f0d800220d840626ae313 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -498,7 +498,13 @@ public abstract class PlayerList {
+@@ -499,7 +499,13 @@ public abstract class PlayerList {
          // Paper end
          org.purpurmc.purpur.task.BossBarTask.addToAll(player); // Purpur
          // CraftBukkit - Moved from above, added world
@@ -876,7 +835,7 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 924b43be943f1ddd3458b56845ab56c4c08cc164..28474892edc43497532079ed2759fd0c1785256b 100644
+index 25c8294a36d2f062ca4882820e99315aabf5dde8..2b0f8f1c4b31ab80a8b118f6b4598d1eb26ed802 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -892,7 +851,7 @@ index 924b43be943f1ddd3458b56845ab56c4c08cc164..28474892edc43497532079ed2759fd0c
      public final Thread thread;
      private final boolean isDebug;
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index c45d394ed568122ad21a955c335b2744844a00de..31da3873bec0b75226baa53f3ee8c86cca4744d4 100644
+index ce4127f3701efa7d1c86bcdb4e7804fee11c397c..9d801652d1ccdb356f26f914824a2b46b1e8e9b6 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
 @@ -669,11 +669,13 @@ public class Block extends BlockBehaviour implements ItemLike {
@@ -1216,10 +1175,10 @@ index 68e89dbd79171627046e89699057964e44c40e7d..959588962acb0196ec9f1cc2502e6211
  
      @Override
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 696a0a6869fbe98667458cad874443c6d8d85631..24b3aef7c621ec6f5e225f3be1717083435706cb 100644
+index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..f059997d1d2b9b5fb9cba6e8ef8bcfef0cf24d9a 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -212,4 +212,27 @@ public class PrismarineConfig {
+@@ -154,4 +154,27 @@ public class PrismarineConfig {
              set("settings.patina-settings.disable-bootstrap-executor", null);
          }
      }
@@ -1249,14 +1208,14 @@ index 696a0a6869fbe98667458cad874443c6d8d85631..24b3aef7c621ec6f5e225f3be1717083
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index ad78676f03ebc52909594d2b69e2fe17694c64dc..0a653c684f0e89c6605b0da0c33c19ee4d450f65 100644
+index cf494171713b5fc12e9627774f2705b911b54bd2..c66135f75f95a10dd49cfb67ed8d84317715193d 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -124,4 +124,9 @@ public class PrismarineWorldConfig {
-     private void entitySettings() {
-         witherCanDespawn = getBoolean("wither.can-despawn", witherCanDespawn);
+@@ -74,4 +74,9 @@ public class PrismarineWorldConfig {
+         final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
+         return value.isEmpty() ? fallback : value;
      }
-+
++    
 +    public double fishingRodLength = 1024.0D;
 +    private void fishingRodLength() {
 +        fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);

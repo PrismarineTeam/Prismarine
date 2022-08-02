@@ -111,12 +111,12 @@ index 4fd709a550bf8da1e996894a1ca6b91206c31e9e..bd328d4d09f6fb885e343a039f5817f0
      }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index fbb35eaad141a52f70e7901cf3580aa49379fe78..552504fe974e4cd81034ca2146e6d27cee09843b 100644
+index 28f05e224afffd7255f1e7e4bccbd372d7f9b1ac..5e2a7471c69a5bb7ceabf5aeee332f6208b9d309 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -261,4 +261,9 @@ public class PrismarineConfig {
-         disableChatReport = getBoolean("settings.disable-chat-report.enabled", disableChatReport);
-         convertToGameMessage = getBoolean("settings.disable-chat-report.convert-to-game-message", convertToGameMessage);
+@@ -196,4 +196,9 @@ public class PrismarineConfig {
+             set("settings.pull-requests.paper.prevent-healing-by-negative-amounts", null);
+         }
      }
 +
 +    public static boolean storePlayerJsonListAsynchronously = false;
