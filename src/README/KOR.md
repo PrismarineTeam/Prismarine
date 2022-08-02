@@ -45,6 +45,15 @@ Prismarine은 이 운동을 지지하고, 채팅 신고 기능을 완전히 제�
 Prismarine은 서버 관리자가 채팅 신고 기능을 활성화 하거나, 비활성화 할 수 있도록 개발되었습니다.
 기본적으로 활성화 되어 있지만, 비활성화 하고 싶다면 `prismarine.yml` 에서 비활성화 할 수 있습니다. (기능 제공: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
 
+### #saveminecraft 운동에 참여하기
+[Change.org 청원](https://chng.it/4MQX8YybMf)에 참여해주세요. 가입은 필요하지 않습니다.
+
+[#saveminecraft 운동 디스코드](https://discord.gg/saveminecraft)에 접속해주세요.
+
+[여기에](https://saveminecraft.org/opinions) 자신의 의견을 남겨주세요. Google 계정 또는 GitHub 계정이 필요합니다.
+
+그리고, 이 운동을 퍼뜨려주세요. 채팅 신고 기능이 사라질 수 있도록 도와주세요.
+
 ## 다운로드
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
