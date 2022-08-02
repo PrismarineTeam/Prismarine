@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](LICENSE.md)
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
@@ -77,7 +77,7 @@ git config --global user.name "<your GitHub ID>"
 ### Initial Setup
 First, launch these commands in directory which you want to copy project.
 ```bash
-git clone -b dev/. https://github.com/PrismarineTeam/Prismarine
+git clone -b ver/1.19.1 https://github.com/PrismarineTeam/Prismarine
 ```
 If project is copied or you already copied, launch these commands in directory which you copied project. (If you are using Windows, launch commands removing `./` )
 ```bash
@@ -122,7 +122,7 @@ if you want to build API and server, use `./gradlew build`. Compiled JAR file wi
 If you want to make server file, use `./gradlew createReobfPaperclipJar`. If you want to make Mojmap Jar file, use `./gradlew createMojmapPaperclipJar`. file will be generated in `build/libs`.
 
 ## Licenses
-[![License](LICENSE.md)
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
 
 If It doesn't written in header of patch file, This project will be granted license following [MIT License](src/LICENSES/ENG/MIT.md).
 
