@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
@@ -57,7 +57,7 @@ Prismarine은 서버 관리자가 채팅 신고 기능을 활성화 하거나, �
 ## 다운로드
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
+일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.1-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
 
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)의 가장 하단에서 다운로드 할 수 있습니다.
 
@@ -79,7 +79,7 @@ git config --global user.name "<내 GitHub 아이디>"
 ### Initial Setup
 먼저, 프로젝트를 복사할 디렉토리에서 다음 명령어를 실행하세요.
 ```bash
-git clone -b dev/1.19 https://github.com/PrismarineTeam/Prismarine
+git clone -b ver/1.19.1 https://github.com/PrismarineTeam/Prismarine
 ```
 프로젝트가 복사되었거나 이미 복사했다면, 프로젝트를 복사한 경로에서 다음 명령어를 실행하세요. (Windows 사용자의 경우 앞 `./` 를 지우고 명령을 실행하세요)
 ```bash
@@ -116,7 +116,7 @@ repositories {
 [CONTRIBUTING.md](../CONTRIBUTING/KOR.md) 를 확인해주세요.
 
 ### Create your own bucket based on Prismarine
-[Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19/src/README/KOR.md) 을 확인해주세요.
+[Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19.1/src/README/KOR.md) 을 확인해주세요.
 
 ### Building a jar file
 API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파일된 JAR 파일은 `Prismarine-API/build/libs` 와 `Prismarine-Server/build/libs` 에 생성될 것입니다.
@@ -124,7 +124,7 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 실행 가능한 서버 파일을 만드려면, `./gradlew createReobfPaperclipJar` 를 사용하세요. Mojmap Jar 파일을 만드려면 `./gradlew createMojmapPaperclipJar` 를 사용하세요. 파일은 `build/libs` 에 생성될 것입니다.
 
 ## 라이선스
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
 
 패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](../LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
 
