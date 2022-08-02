@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
+[![License](LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
@@ -55,7 +55,7 @@ It's basically enabled, but if you want to disable, you can disable it in `prism
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19-R0.1-SNAPSHOT-reobf.jar)
+In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.1-R0.1-SNAPSHOT-reobf.jar)
 
 Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
@@ -77,7 +77,7 @@ git config --global user.name "<your GitHub ID>"
 ### Initial Setup
 First, launch these commands in directory which you want to copy project.
 ```bash
-git clone -b dev/1.19 https://github.com/PrismarineTeam/Prismarine
+git clone -b dev/. https://github.com/PrismarineTeam/Prismarine
 ```
 If project is copied or you already copied, launch these commands in directory which you copied project. (If you are using Windows, launch commands removing `./` )
 ```bash
@@ -122,7 +122,7 @@ if you want to build API and server, use `./gradlew build`. Compiled JAR file wi
 If you want to make server file, use `./gradlew createReobfPaperclipJar`. If you want to make Mojmap Jar file, use `./gradlew createMojmapPaperclipJar`. file will be generated in `build/libs`.
 
 ## Licenses
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.19/LICENSE.md)
+[![License](LICENSE.md)
 
 If It doesn't written in header of patch file, This project will be granted license following [MIT License](src/LICENSES/ENG/MIT.md).
 
