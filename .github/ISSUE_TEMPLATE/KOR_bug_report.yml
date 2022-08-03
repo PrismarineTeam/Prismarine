@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         오류를 신고하기 전, 이 오류가 Prismarine의 **최신 버전** 에서 발생한 것이 확실한지 확인해주세요.
-        또한, 이 오류가 신고되어 있지 않은지 확인해주세요.
+        또한, 이 오류가 이미 신고되어 있지 않은지 확인해주세요.
 
   - type: input
     attributes:

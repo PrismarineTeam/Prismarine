@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         오류를 신고하기 전, 이 오류가 Prismarine의 **최신 버전** 에서 발생한 것이 확실한지 확인해주세요.
-        또한, 이 오류가 신고되어 있지 않은지 확인해주세요.
+        또한, 이 오류가 이미 신고되어 있지 않은지 확인해주세요.
 
   - type: input
     attributes:
@@ -41,7 +41,7 @@ body:
       description: 서버에 설치되어있는 모든 데이터팩의 리스트를 적어주세요.
       placeholder: |
         ''/datapack list'' 를 입력하여 데이터팩 리스트를 확인할 수 있어요.
-        적용한 플러그인이 없을 경우 "없음" 이라고 입력해주세요!
+        적용한 데이터팩이 없을 경우 "없음" 이라고 입력해주세요!
     validations:
       required: true
 
