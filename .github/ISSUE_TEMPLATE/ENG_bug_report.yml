@@ -12,29 +12,29 @@ body:
   - type: input
     attributes:
       label: Spark URL
-      description: If you have Spark profile link, please write it down here.
+      description: If you have Spark profile link, please put it down here.
       placeholder: 'TIP: you can get profile link by putting ''/spark profiler --timeout (second that you want to test, e.g 300)''in the server.'
     validations:
       required: false
 
   - type: textarea
     attributes:
-      label: error description
+      label: Describe error
       description: please write every information about errors.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: result expectation
+      label: Expected result
       description: please write down how Prismarine worked if error did not occured.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: real result
-      description: please write down the result that error occured.
+      label: Actual result
+      description: Please write down the result that error occured.
       placeholder: |
         TIP: Click here and drag files to upload files.
         File can help Prismarine team to solve the errors.
@@ -57,11 +57,11 @@ body:
 
   - type: textarea
     attributes:
-      label: plugin list
-      description: write down every plugins that you installed in your server.
+      label: Plugin list
+      description: Write down every plugins that you installed in your server.
       placeholder: |
         you can check the list by writing ''/plugins''.
-        If you didn't applied plugins, please write "N/A" !
+        If you didn't put any plugins, please write "N/A" !
     validations:
       required: true
 
@@ -71,14 +71,14 @@ body:
       description: Please write every datapacks that you installed in your server.
       placeholder: |
         you can check list of datapack by writing''/datapack list''.
-        If you didn't applied dqatapacks, please write "N/A" !
+        If you didn't put any datapacks, please write "N/A" !
     validations:
       required: true
 
   - type: input
     attributes:
       label: Version of Prismarine
-      description: write down your version of Prismarine.
+      description: Write down your version of Prismarine.
       placeholder: |
         TIP: You can check Prismarine's version by writing ''/version''.
         Example: git-Prismarine-"77f3c4a" (MC: 1.19.1)
@@ -118,7 +118,7 @@ body:
 
   - type: textarea
     attributes:
-      label: additional information
+      label: Additional information
       description: You can add additional information.
       placeholder: 'TIP: Click here and drag files to upload files.'
     validations:

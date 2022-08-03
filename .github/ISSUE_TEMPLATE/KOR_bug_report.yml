@@ -71,7 +71,7 @@ body:
       description: 서버에 설치되어있는 모든 데이터팩의 리스트를 적어주세요.
       placeholder: |
         ''/datapack list'' 를 입력하여 데이터팩 리스트를 확인할 수 있어요.
-        적용한 플러그인이 없을 경우 "없음" 이라고 입력해주세요!
+        적용한 데이터팩이 없을 경우 "없음" 이라고 입력해주세요!
     validations:
       required: true
 
@@ -88,7 +88,7 @@ body:
   - type: input
     attributes:
       label: JVM 플래그
-      description: Prismarine을 작동할 때 사용한 JVM 플래그를 입력해주세요.
+      description: Prismarine을 실행할 때 사용한 JVM 플래그를 입력해주세요.
       placeholder: |
         TIP: java -jar 는 필요하지 않아요. 플래그가 없을 경우 "없음"을 입력해주세요!
         예: -Xms8G -Xmx8G -Dterminal.jline=false -Dterminal.ansi=true -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -server
