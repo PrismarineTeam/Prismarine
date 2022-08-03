@@ -1,13 +1,13 @@
-name: report errors (English)
-description: please report errors caused with Prismarine's patches.
+name: Report errors (English)
+description: Please report errors caused with Prismarine's patches.
 labels: ["bug"]
 assignees: ["AlphaKR93"]
 body:
   - type: markdown
     attributes:
       value: |
-        before reporting an error, please make sure that this error is caused in the **latest version** of Prismarine.
-        also, please check that this error is not reported.
+        Before reporting an error, please make sure that this error is caused in the **LATEST VERSION** of Prismarine.
+        Also, please check that this error is not reported.
 
   - type: input
     attributes:
@@ -20,14 +20,14 @@ body:
   - type: textarea
     attributes:
       label: Describe error
-      description: please write every information about errors.
+      description: Please write every information about errors.
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Expected result
-      description: please write down how Prismarine worked if error did not occured.
+      description: Please write down how Prismarine worked if error did not occured.
     validations:
       required: true
 
@@ -60,7 +60,7 @@ body:
       label: Plugin list
       description: Write down every plugins that you installed in your server.
       placeholder: |
-        you can check the list by writing ''/plugins''.
+        You can check the list by writing ''/plugins''.
         If you didn't put any plugins, please write "N/A" !
     validations:
       required: true
@@ -70,7 +70,7 @@ body:
       label: Datapack list
       description: Please write every datapacks that you installed in your server.
       placeholder: |
-        you can check list of datapack by writing''/datapack list''.
+        You can check list of datapack by writing''/datapack list''.
         If you didn't put any datapacks, please write "N/A" !
     validations:
       required: true
@@ -97,7 +97,7 @@ body:
 
   - type: textarea
     attributes:
-      label: JDK
+      label: JDK Version
       description: Please write down your JDK's name and version.
       placeholder: |
         TIP: You can check your JDK's version by writing `java -version` in your console.

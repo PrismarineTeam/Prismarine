@@ -1,13 +1,13 @@
-name: report performance problem (English)
-description: report performance that caused by Prismarine.
+name: Report performance issue (English)
+description: Report performance that caused by Prismarine.
 labels: ["bug"]
 assignees: ["AlphaKR93"]
 body:
   - type: markdown
     attributes:
       value: |
-        before reporting an error, please make sure that this error is caused in the **latest version** of Prismarine.
-        also, please check that this error is not reported.
+        Before reporting an error, please make sure that this error is caused in the **LATEST VERSION** of Prismarine.
+        Also, please check that this error is not reported.
 
   - type: input
     attributes:
@@ -19,18 +19,18 @@ body:
 
   - type: textarea
     attributes:
-      label: error description
-      description: please write every information about errors.
+      label: Error description
+      description: Please put every information about errors.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: plugin list
+      label: Plugin list
       description: write down every plugins that you installed in your server.
       placeholder: |
-        you can check the list by writing ''/plugins''.
-        If you didn't applied plugins, please write "N/A" !
+        You can check the list by writing ''/plugins''.
+        If you didn't put any plugins, please write "N/A" !
     validations:
       required: true
 
@@ -39,15 +39,15 @@ body:
       label: Datapack list
       description: Please write every datapacks that you installed in your server.
       placeholder: |
-        you can check list of datapack by writing''/datapack list''.
-        If you didn't applied dqatapacks, please write "N/A" !
+        You can check list of datapack by writing''/datapack list''.
+        If you didn't put any datapacks, please write "N/A" !
     validations:
       required: true
 
   - type: input
     attributes:
       label: Version of Prismarine
-      description: write down your version of Prismarine.
+      description: Write down your version of Prismarine.
       placeholder: |
         TIP: You can check Prismarine's version by writing ''/version''.
         Example: git-Prismarine-"77f3c4a" (MC: 1.19.1)
@@ -66,7 +66,7 @@ body:
 
   - type: textarea
     attributes:
-      label: JDK
+      label: JDK Version
       description: Please write down your JDK's name and version.
       placeholder: |
         TIP: You can check your JDK's version by writing `java -version` in your console.
@@ -87,7 +87,7 @@ body:
 
   - type: textarea
     attributes:
-      label: additional information
+      label: Additional information
       description: You can add additional information.
       placeholder: 'TIP: Click here and drag files to upload files.'
     validations:

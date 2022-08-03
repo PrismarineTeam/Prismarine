@@ -1,4 +1,4 @@
-name: Server/thread crash/Stacktrace(English)
+name: Server/thread crash or Stacktrace (English)
 description: Report Server/thread's crash or stacktrace.
 labels: ["bug"]
 assignees: ["AlphaKR93"]
@@ -6,8 +6,8 @@ body:
   - type: markdown
     attributes:
       value: |
-         before reporting an error, please make sure that this error is caused in the **latest version** of Prismarine.
-        also, please check that this error is not reported.
+        Before reporting an error, please make sure that this error is caused in the **LATEST VERSION** of Prismarine.
+        Also, please check that this error is not reported.
 
   - type: input
     attributes:
@@ -18,14 +18,14 @@ body:
 
   - type: textarea
     attributes:
-      label: error description
-      description: please write every information about errors.
+      label: Error description
+      description: Please write every information about errors.
     validations:
       required: true
 
   - type: textarea
     attributes:
-      label: crash log or Stacktrace
+      label: Crash log or Stacktrace
       description: Please write down crash log or "all" Stacktrace.
       placeholder: |
         Please write down hastebin or log here.
@@ -37,7 +37,7 @@ body:
 
  - type: textarea
     attributes:
-      label: How to reproduce errors
+      label: How to reproduce errors (가능한 경우)
       description: Please write down how to reproduce errors.
       placeholder: |
         1. move to '...'.
@@ -47,15 +47,15 @@ body:
         5. add '....' datapack.
         6. this is how this error occured.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     attributes:
-      label: plugin list
-      description: write down every plugins that you installed in your server.
+      label: Plugin list
+      description: Write down every plugins that you installed in your server.
       placeholder: |
-        you can check the list by writing ''/plugins''.
-        If you didn't applied plugins, please write "N/A" !
+        You can check the list by writing ''/plugins''.
+        If you didn't put any plugins, please write "N/A" !
     validations:
       required: true
 
@@ -64,8 +64,8 @@ body:
       label: Datapack list
       description: Please write every datapacks that you installed in your server.
       placeholder: |
-        you can check list of datapack by writing''/datapack list''.
-        If you didn't applied dqatapacks, please write "N/A" !
+        You can check list of datapack by writing''/datapack list''.
+        If you didn't put any datapacks, please write "N/A" !
     validations:
       required: true
 
@@ -91,11 +91,12 @@ body:
 
   - type: textarea
     attributes:
-      label: JDK
+      label: JDK Version
       description: Please write down your JDK's name and version.
       placeholder: |
         TIP: You can check your JDK's version by writing `java -version` in your console.
-        Example: openjdk version "17.0.3" 2022-04-19
+        Example:
+        openjdk version "17.0.3" 2022-04-19
         OpenJDK Runtime Environment Temurin-17.0.3+7 (build 17.0.3+7)
         OpenJDK 64-Bit Server VM Temurin-17.0.3+7 (build 17.0.3+7, mixed mode, sharing)
     validations:
@@ -112,7 +113,7 @@ body:
 
   - type: textarea
     attributes:
-      label: additional information
+      label: Additional information
       description: You can add additional information.
       placeholder: 'TIP: Click here and drag files to upload files.'
     validations:
