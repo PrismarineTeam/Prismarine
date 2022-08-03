@@ -32,10 +32,10 @@ index 5379a400b91a7f74b6091db9d13595f34136b555..ed5b9663f2043e8ee86fabd2f67e2672
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index eedc75417d06eb8c5ac5ed1885847c4556bd3195..8a9fc94c1163e3a5a854dcd0a45f5ba4036307de 100644
+index 5d0b2f0ea4d25c545d2a61143db9709b80224e3e..dc5aa61bf90af095fcde680bd77b7ea827818029 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2236,10 +2236,27 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2240,10 +2240,27 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void send(Packet<?> packet) {
@@ -64,13 +64,13 @@ index eedc75417d06eb8c5ac5ed1885847c4556bd3195..8a9fc94c1163e3a5a854dcd0a45f5ba4
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index efc47cc8d85df1ae09bc96dc1c93943adab2e47b..4aa6acfa836e27eb1dcd0a3d702262de9e239d0a 100644
+index 0a3a92bc58a2ed4d851eaf464c98c732646b390c..1bd52b164edcb54e3c3c3862a232ce9f2488c069 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1507,7 +1507,7 @@ public abstract class PlayerList {
+@@ -1518,7 +1518,7 @@ public abstract class PlayerList {
      }
  
-     private boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) {
+     public boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) { // Paper - private -> public
 -        return !message.hasExpiredServer(Instant.now()) && message.verify(profile);
 +        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport || (!message.hasExpiredServer(Instant.now()) && message.verify(profile)); // Prismarine - disable chat report
      }
