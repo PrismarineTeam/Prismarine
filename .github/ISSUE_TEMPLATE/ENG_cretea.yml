@@ -28,4 +28,4 @@ body:
       label: Before you report, please check once more.
       description: 
       options:
-        - label: I checked that this error is not reported yet.
+        - label: I checked that this error has not been reported yet.
