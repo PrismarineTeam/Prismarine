@@ -32,10 +32,10 @@ index 5379a400b91a7f74b6091db9d13595f34136b555..ed5b9663f2043e8ee86fabd2f67e2672
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 5d0b2f0ea4d25c545d2a61143db9709b80224e3e..dc5aa61bf90af095fcde680bd77b7ea827818029 100644
+index e766dbabf6e0868d79f33aef3ee3ac466e40c2a1..965f54df551d8f456fedd2d65203ae8f691d2914 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2240,10 +2240,27 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2241,10 +2241,27 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void send(Packet<?> packet) {
