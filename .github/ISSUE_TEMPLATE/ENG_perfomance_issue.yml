@@ -13,7 +13,7 @@ body:
     attributes:
       label: Spark URL
       description: If you have Spark profile link, please write it down here.
-      placeholder: 'TIP: you can get profile link by putting ''/spark profiler --timeout (second that you want to test, e.g 300)''in the server.'
+      placeholder: 'TIP: You can get profile link by putting ''/spark profiler --timeout (second that you want to test, e.g 300)''in the server.'
     validations:
       required: false
 
