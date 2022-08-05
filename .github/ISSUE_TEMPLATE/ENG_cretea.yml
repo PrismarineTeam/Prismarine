@@ -1,0 +1,31 @@
+name: Cretea
+description: You can report issues which didn't sorted.
+labels: ["bug"]
+assignees: ["AlphaKR93"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you report errors, please check it is nor reported yet.
+
+  - type: textarea
+    attributes:
+      label: Error description
+      description: Write down everything you know about the error.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: You can write additional information.
+      placeholder: 'TIP: Click here and drag files to upload files.'
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Before you report, please check once more.
+      description: 
+      options:
+        - label: I checked that this error has not been reported yet.

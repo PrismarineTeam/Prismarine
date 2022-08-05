@@ -1,59 +1,158 @@
+<div align="center">
+
 Prismarine
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/blob/ver/1.18.1/LICENSE)
-[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
-[![LiberaPay](https://img.shields.io/liberapay/patrons/alphakr93?label=LiberaPay&logo=LiberaPay)](https://liberapay.com/alphakr93)
-[![OpenCollective](https://img.shields.io/opencollective/all/Prismarine?color=7aa2df&label=OpenCollective&logo=opencollective)](https://opencollective.com/Prismarine)
 =
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
-[![Disscussions](https://img.shields.io/github/discussions/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/discussions)
+
 [![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
 [![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
 
-[Paper](https://github.com/PaperMC/Paper) 기반의 가장 빠른 업스트림을 제공하는 Minecraft Server 플랫폼
+[Discord](https://discord.gg/CQGVqeXQQC) - [Reddit](https://reddit.com/r/Prismarine) | [한국어](src/README/KOR.md) - **English**
 
-[Discord](https://discord.gg/kkqMSEVVxN) - [Naver Cafe](https://cafe.naver.com/prismarine)
+A Server Platform for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
 
-*우측 Sponsor를 통해 이 프로젝트/레포지토리를 지원하실 수 있습니다!*
+*You can support this project through the right (or bottom) Sponsor!*
+
+</div>
 
 ## Features
-- [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur), [Airplane](https://github.com/TECHNOVE/Airplane), [Patina](https://github.com/PatinaMC/Patina), [Empirecraft](https://github.com/starlis/empirecraft)의 모든 패치 포함
-- 버킷중에서 가장 빠른 업스트림
-- 누락 패치 복구
-- 업스트림 버킷 Pull Request 먼저 사용 가능
+- Based on [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) and [Paper](https://github.com/PaperMC/Paper), most plugins are fully supported and stable.
+- Supports faster speeds and wider APIs, including all patches from [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) and [Purpur](https://github.com/PurpurMC/Purpur).
+- Multiple improvements and bug resolution were included by porting multiple mods.
+- Have a better performance beacuse we removed unstable, old and optimized for particular users and only ported neccesary parts such as [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice).
+- Improve quality of server by porting patches disappeared or remained as a PR.
+   - Ported patches can be found at [here](src/PORTED_PATCHES/ENG.md) 
+- Provides the fastest upstream by using GitHub Action which do upstream automatically.
+- Can disable chatting report.
+
+## Communicate
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
+
+Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
+
+## [#saveminecraft](https://saveminecraft.org/)
+[#saveminecraft](https://saveminecraft.org/) is movement that refuses chatting report which added by Mojang Studios and Microsoft in Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**). #saveminecraft movement's goal is adding new permission for server admin without make minecraft's multiplay in danger, or removing chatting report. #saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](src/SAVEMINECRAFT/ENG.md).**
+
+Prismarine support this movement, not removing chatting report function which put minecraft's multiplay in danger, but make new permission for server admin.
+
+Prismarine is developed for server admin to enable or disable chatting report function.
+It's basically enabled, but if you want to disable, you can disable it in `prismarine.yml`. (Function provider: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
+
+### participate in #saveminecraft movement. 
+Please participate in [Change.org petition](https://chng.it/4MQX8YybMf). No register needs.
+
+Please join [#saveminecraft movement Discord](https://discord.gg/saveminecraft).
+
+Leave your opinion [in here](https://saveminecraft.org/opinions). You need Google account or GitHub account.
+
+And, please spread this movement widely. Please help chatting report function removed.
 
 ## Downloads
-고급 사용자일 경우, 본 레포지토리의 우측 [Releases](https://github.com/PrismarineTeam/Prismarine/releases) 에서 최신 Jar 파일을 다운로드 받을 수 있습니다.
+[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-일반 사용자일 경우, [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.18.2-R0.1-SNAPSHOT-reobf.jar) 최신 Jar 파일을 다운로드 받을 수 있습니다.
+In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.1-R0.1-SNAPSHOT-reobf.jar)
 
-## Official Minecraft Server
-```play.pmcsmp.kro.kr``` 은 저희 PrismarineTeam이 공식적으로 운영하고 있는 생존 서버입니다.
+Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
-[공식 Discord](https://discord.gg/kkqMSEVVxN)에 접속하여 서버가 온라인인지 확인할 수 있습니다.
+## Configuration & Optimize
+See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)
 
-## Build
+## For Developers
+### Requirements
+You needs latest Git, JDK upper than 17.
 
-#### Initial
-Clone한 Directory에서 아래의 명령어를 입력해주세요.
+Git should set `user.emal` and `user.name`
+
+If you want to set, use these commands in your terminal.
+```bash
+git config --global user.email "<your GitHub E-mail>"
+git config --global user.name "<your GitHub ID>"
+```
+
+### Initial Setup
+First, launch these commands in directory which you want to copy project.
+```bash
+git clone -b ver/1.19.1 https://github.com/PrismarineTeam/Prismarine
+```
+If project is copied or you already copied, launch these commands in directory which you copied project. (If you are using Windows, launch commands removing `./` )
 ```bash
 ./gradlew applyPatches
 ```
 
-#### Creating a patch
-*Comming Soon!*
+### Use Prismarine API
+Prismarine doesn't support Maven yet.
 
-#### Compiling
-서버를 빌드하려면 디렉토리에서 `./gradlew build`를 사용하세요. 실행 가능한 Jar 파일을 얻으려면 `./gradlew createReobfPaperclipJar`를 입력하세요.
-Prismarine-API 및 하위 API를 로컬 Maven repo에 설치하려면 `./gradlew publishToMavenLocal`을 사용하세요.
+Launch this command in your directory which copied project, Prismarine API will be installed Local Maven repository. (If you are using Windows, launch commands removing `./`)
+```bash
+./gradlew publishToMavenLocal
+```
+And add these information into your Dependency in API.
+
+#### Gradle
+```gradle
+repositories {
+  mavenLocal()
+}
+```
+
+#### Maven
+```xml
+<repositories>
+    <repository>
+        <id>local-maven-repo</id>
+        <url>file:///${project.parent.basedir}/local-maven-repo</url>
+    </repository>
+</repositories>
+```
+
+### Create patches and contribute to Prismarine
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### Create your own bucket based on Prismarine
+See [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template)
+
+### Building a jar file
+if you want to build API and server, use `./gradlew build`. Compiled JAR file will be generated in `Prismarine-API/build/libs` and `Prismarine-Server/build/libs`.
+
+If you want to make server file, use `./gradlew createReobfPaperclipJar`. If you want to make Mojmap Jar file, use `./gradlew createMojmapPaperclipJar`. file will be generated in `build/libs`.
 
 ## Licenses
-파일의 Header에 따로 명시되지 않은 한, 본 프로젝트는 MIT License에 따라 라이센스가 부여됩니다.
+[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
 
-[PaperMC/Paper](https://github.com/PaperMC/Paper), [TECHNOVE/Airplane](https://github.com/TECHNOVE/Airplane), [Pufferfish](https://github.com/pufferfish-gg/Pufferfish)는 GNU General Public License v3.0에 따라 라이센스가 부여됩니다.
+If It doesn't written in header of patch file, This project will be granted license following [MIT License](src/LICENSES/ENG/MIT.md).
 
-[PaperMC/paperweight](https://github.com/PaperMC/paperweight)은 GNU General Public License v2.1에 따라 라이센스가 부여됩니다.
+We've used these Other project's license in this project.
 
-[PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)는 MIT License에 따라 라이센스가 부여됩니다.
+### [Creative Commons Zero Version 1.0 Universal](src/LICENSES/ENG/CC0_v1.0.md)
+- [ArtixAllMighty/FixMySpawnR](https://github.com/ArtixAllMighty/FixMySpawnR)
+
+### [Do What The F\*ck You Want To Public License](src/LICENSES/ENG/WTFPL.md)
+- [Aizistral-Studios/No-Chat-Reports](https://github.com/Aizistral-Studios/No-Chat-Reports)
+
+### [GNU General Public License Version 3.0](src/LICENSES/ENG/GNU_GPL_v3.0.md)
+- [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
+- [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
+- [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
+- [PaperMC/Paper](https://github.com/PaperMC/Paper)
+- [PatinaMC/Patina](https://github.com/PatinaMC/Patina)
+   - Not specifically Written
+- [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
+- [Titaniumtown/JettPack](https://gitlab.com/Titaniumtown/JettPack)
+- [pufferfish-gg/Pufferfish](https://github.com/pufferfish-gg/Pufferfish)
+
+### [GNU Lesser General Public License Version 3.0](src/LICENSES/ENG/GNU_LGPL_v3.0.md)
+- [CaffeineMC/lithium-fabric](https://github.com/CaffeineMC/lithium-fabric)
+
+### [The MIT License](src/LICENSES/ENG/MIT.md)
+- [Cryptite/Slice](https://github.com/Cryptite/Slice)
+- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+- [RelativityMC/Concurrent Chunk Management Engine (C2ME-fabric)](https://github.com/RelativityMC/C2ME-fabric)
+- [RelativityMC/Very Many Players (VMP-fabric)](https://github.com/RelativityMC/VMP-fabric)
+- [The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover](https://github.com/The-Fireplace-Minecraft-Mods/Erroring-Entity-Remover)
+
+All License included in this project can be checked in [here](src/LICENSES/ENG/README.md).

@@ -1,0 +1,134 @@
+name: Report errors (English)
+description: Please report errors caused with Prismarine's patches.
+labels: ["bug"]
+assignees: ["AlphaKR93"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before reporting an error, please make sure that this error is caused in the **LATEST VERSION** of Prismarine.
+        Also, please check that this error is not reported.
+
+  - type: input
+    attributes:
+      label: Spark URL
+      description: If you have Spark profile link, please put it down here.
+      placeholder: 'TIP: you can get profile link by putting ''/spark profiler --timeout (second that you want to test, e.g 300)''in the server.'
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Describe error
+      description: Please write every information about errors.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected result
+      description: Please write down how Prismarine worked if error did not occured.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual result
+      description: Please write down the result that error occured.
+      placeholder: |
+        TIP: Click here and drag files to upload files.
+        File can help Prismarine team to solve the errors.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: How to reproduce errors
+      description: Please write down how to reproduce errors.
+      placeholder: |
+        1. move to '...'.
+        2. write down '....'.
+        3. choose '....'.
+        4. add '....' plugins.
+        5. add '....' datapack.
+        6. this is how this error occured.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Plugin list
+      description: Write down every plugins that you installed in your server.
+      placeholder: |
+        You can check the list by writing ''/plugins''.
+        If you didn't put any plugins, please write "N/A" !
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Datapack list
+      description: Please write every datapacks that you installed in your server.
+      placeholder: |
+        You can check list of datapack by writing''/datapack list''.
+        If you didn't put any datapacks, please write "N/A" !
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Version of Prismarine
+      description: Write down your version of Prismarine.
+      placeholder: |
+        TIP: You can check Prismarine's version by writing ''/version''.
+        Example: git-Prismarine-"77f3c4a" (MC: 1.19.1)
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: JVM Flag
+      description: Please write down JVM Flag that you used when you launch Prismarine.
+      placeholder: |
+        TIP: We don't need java -jar . If you don't have flag, please write down "N/A" !
+        Example: -Xms8G -Xmx8G -Dterminal.jline=false -Dterminal.ansi=true -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -server
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: JDK Version
+      description: Please write down your JDK's name and version.
+      placeholder: |
+        TIP: You can check your JDK's version by writing `java -version` in your console.
+        Example: openjdk version "17.0.3" 2022-04-19
+        OpenJDK Runtime Environment Temurin-17.0.3+7 (build 17.0.3+7)
+        OpenJDK 64-Bit Server VM Temurin-17.0.3+7 (build 17.0.3+7, mixed mode, sharing)
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Operating System (OS)
+      description: Please write down the os you use your server launcher.
+      placeholder: |
+        Example: Windows 11 Pro for Workstatin 21H2 (22000.100), Ubuntu 20.04
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: You can add additional information.
+      placeholder: 'TIP: Click here and drag files to upload files.'
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Before you report, please check once more.
+      description: 
+      options:
+        - label: I'm using the latest Prismarine in this version of Minecraft.
+        - label: I checked that this error has not reported yet.
+        - label: Prismarine supports this version of Minecraft.
