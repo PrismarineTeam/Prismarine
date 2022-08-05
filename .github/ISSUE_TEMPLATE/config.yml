@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: ENG HERE | 기능 제안하기
+  - name: Function proposal | 기능 제안하기
     url: https://github.com/orgs/community/discussions
-    about: ENG HERE | Prismarine에 추가되었으면 하는 아이디어에 대해 토론할 수 있어요.
+    about: You can talk about ideas that you want to add in Prismarine. | Prismarine에 추가되었으면 하는 아이디어에 대해 토론할 수 있어요.
   - name: Discord
     url: https://bounty.github.com/
     about: You can get questions and supports. | 질문과 지원은 여기서 받을 수 있어요.
