@@ -37,7 +37,7 @@ body:
 
  - type: textarea
     attributes:
-      label: How to reproduce errors
+      label: How to reproduce errors (If it is possible)
       description: Please write down how to reproduce errors.
       placeholder: |
         1. move to '...'.
