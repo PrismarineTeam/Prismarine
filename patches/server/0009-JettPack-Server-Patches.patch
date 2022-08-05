@@ -542,7 +542,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index a31eb4b8cf3d586c27358d762a559d952f67b29c..1264f99d9cca96d01e9deafdf165ff9dbf2b783a 100644
+index 635a395d7762f3ae0a9160aef01f93af8352a72b..52456f97d7c8c46109a6d9c7de3fb4457609b847 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1031,6 +1031,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -561,7 +561,7 @@ index a31eb4b8cf3d586c27358d762a559d952f67b29c..1264f99d9cca96d01e9deafdf165ff9d
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2786,6 +2788,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2766,6 +2768,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -630,7 +630,7 @@ index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ec
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 366530e2bceb0680c99627abc2c4c48b67f9829d..6f81b00a2ddd053e646f0d800220d840626ae313 100644
+index 7a5213d74f563c15dbcb4cf5a9865d33cf0e6c36..fd7dc031bd77df127a1f6ca77119663513cf5f81 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -499,7 +499,13 @@ public abstract class PlayerList {
