@@ -37,7 +37,7 @@ body:
 
  - type: textarea
     attributes:
-      label: How to reproduce errors (가능한 경우)
+      label: How to reproduce errors (If it is possible)
       description: Please write down how to reproduce errors.
       placeholder: |
         1. move to '...'.
