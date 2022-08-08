@@ -32,7 +32,7 @@ index 5379a400b91a7f74b6091db9d13595f34136b555..ed5b9663f2043e8ee86fabd2f67e2672
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e3aa852788ff16e2b52b00a09783721a747726c9..2ba9bc69531a4eb8bf72199b85dd3fb84dc9e20d 100644
+index e3aa852788ff16e2b52b00a09783721a747726c9..e68849afc2fffe142d489111a9c253fa57279378 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2241,10 +2241,26 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -53,7 +53,7 @@ index e3aa852788ff16e2b52b00a09783721a747726c9..2ba9bc69531a4eb8bf72199b85dd3fb8
 +        // Prismarine start - Disable chat report
 +        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) {
 +            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatHeaderPacket) return;
-+            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat && packetsendlistener != null) {
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat && callbacks != null) {
 +                ((ServerGamePacketListenerImpl) (Object) this).send(chat);
 +                return;
 +            }
