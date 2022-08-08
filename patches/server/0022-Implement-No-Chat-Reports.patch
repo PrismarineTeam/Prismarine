@@ -32,10 +32,10 @@ index 5379a400b91a7f74b6091db9d13595f34136b555..ed5b9663f2043e8ee86fabd2f67e2672
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e766dbabf6e0868d79f33aef3ee3ac466e40c2a1..965f54df551d8f456fedd2d65203ae8f691d2914 100644
+index e3aa852788ff16e2b52b00a09783721a747726c9..2ba9bc69531a4eb8bf72199b85dd3fb84dc9e20d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2241,10 +2241,27 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2241,10 +2241,26 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void send(Packet<?> packet) {
@@ -49,7 +49,7 @@ index e766dbabf6e0868d79f33aef3ee3ac466e40c2a1..965f54df551d8f456fedd2d65203ae8f
          this.send(packet, (PacketSendListener) null);
      }
  
-     public void send(Packet<?> packet, @Nullable PacketSendListener packetsendlistener) {
+     public void send(Packet<?> packet, @Nullable PacketSendListener callbacks) {
 +        // Prismarine start - Disable chat report
 +        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) {
 +            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatHeaderPacket) return;
@@ -59,12 +59,11 @@ index e766dbabf6e0868d79f33aef3ee3ac466e40c2a1..965f54df551d8f456fedd2d65203ae8f
 +            }
 +        }
 +        // Prismarine end
-+
          // CraftBukkit start
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 0a3a92bc58a2ed4d851eaf464c98c732646b390c..1bd52b164edcb54e3c3c3862a232ce9f2488c069 100644
+index c999b74f6f19fdb17e2f756b724f481b3dfe8d58..0e272fed1dc66154ba74ea0697b7bd32b3660419 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1518,7 +1518,7 @@ public abstract class PlayerList {

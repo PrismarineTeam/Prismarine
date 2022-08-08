@@ -2,7 +2,7 @@
 
 # Do What The F\*ck You Want To Public License
 
-##### [Original](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.1-Fabric-Port/LICENSE) | [한국어](../KOR/WTFPL.md) - **English**
+##### [Original](https://github.com/Aizistral-Studios/No-Chat-Reports/blob/1.19.2-Fabric/LICENSE) | [한국어](../KOR/WTFPL.md) - **English**
 
 </div>
 

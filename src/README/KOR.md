@@ -57,7 +57,7 @@ Prismarine은 서버 관리자가 채팅 신고 기능을 활성화 하거나, �
 ## 다운로드
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.1-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
+일반적인 경우 [여기를 클릭하여](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.2-R0.1-SNAPSHOT-reobf.jar) 최신 버킷 Jar 파일을 다운로드 받을 수 있습니다.
 
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)의 가장 하단에서 다운로드 할 수 있습니다.
 
@@ -79,7 +79,7 @@ git config --global user.name "<내 GitHub 아이디>"
 ### Initial Setup
 먼저, 프로젝트를 복사할 디렉토리에서 다음 명령어를 실행하세요.
 ```bash
-git clone -b ver/1.19.1 https://github.com/PrismarineTeam/Prismarine
+git clone -b ver/1.19.2 https://github.com/PrismarineTeam/Prismarine
 ```
 프로젝트가 복사되었거나 이미 복사했다면, 프로젝트를 복사한 경로에서 다음 명령어를 실행하세요. (Windows 사용자의 경우 앞 `./` 를 지우고 명령을 실행하세요)
 ```bash
@@ -116,7 +116,7 @@ repositories {
 [CONTRIBUTING.md](../CONTRIBUTING/KOR.md) 를 확인해주세요.
 
 ### Create your own bucket based on Prismarine
-[Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19.1/src/README/KOR.md) 을 확인해주세요.
+[Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template/blob/ver/1.19.2/src/README/KOR.md) 을 확인해주세요.
 
 ### Building a jar file
 API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파일된 JAR 파일은 `Prismarine-API/build/libs` 와 `Prismarine-Server/build/libs` 에 생성될 것입니다.

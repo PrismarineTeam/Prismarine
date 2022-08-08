@@ -55,7 +55,7 @@ And, please spread this movement widely. Please help chatting report function re
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.1-R0.1-SNAPSHOT-reobf.jar)
+In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.2-R0.1-SNAPSHOT-reobf.jar)
 
 Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
@@ -77,7 +77,7 @@ git config --global user.name "<your GitHub ID>"
 ### Initial Setup
 First, launch these commands in directory which you want to copy project.
 ```bash
-git clone -b ver/1.19.1 https://github.com/PrismarineTeam/Prismarine
+git clone -b ver/1.19.2 https://github.com/PrismarineTeam/Prismarine
 ```
 If project is copied or you already copied, launch these commands in directory which you copied project. (If you are using Windows, launch commands removing `./` )
 ```bash

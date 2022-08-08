@@ -583,10 +583,10 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ecf57b86df 100644
+index 430fb1d7905c6d33204fe77029ccfcc4b6af7d29..a07d82c5ab64492f51941223d1a2c86b31b42a6b 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -134,6 +134,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -130,6 +130,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
      }
  
@@ -594,7 +594,7 @@ index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ec
      // Paper start - Cache authenticator threads
      private static final AtomicInteger threadId = new AtomicInteger(0);
      private static final java.util.concurrent.ExecutorService authenticatorPool = java.util.concurrent.Executors.newCachedThreadPool(
-@@ -146,6 +147,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -142,6 +143,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              }
      );
      // Paper end
@@ -602,7 +602,7 @@ index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ec
      // Spigot start
      public void initUUID()
      {
-@@ -331,7 +333,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -315,7 +317,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
                  // Paper end
                  // Spigot start
              // Paper start - Cache authenticator threads
@@ -611,7 +611,7 @@ index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ec
                      @Override
                      public void run() {
                          try {
-@@ -389,7 +391,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -373,7 +375,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
          }
  
          // Paper start - Cache authenticator threads
@@ -620,7 +620,7 @@ index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ec
              public void run() {
                  GameProfile gameprofile = ServerLoginPacketListenerImpl.this.gameProfile;
  
-@@ -538,7 +540,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -522,7 +524,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              }
  
              // Proceed with login
@@ -630,7 +630,7 @@ index 3f6ecc9c6a3bfb477e1c90622cca7b39f5d33005..65fb673484cc4409b68da1127d3379ec
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 7a5213d74f563c15dbcb4cf5a9865d33cf0e6c36..fd7dc031bd77df127a1f6ca77119663513cf5f81 100644
+index 126afed7461d43906dbc84c798df180380288bc6..ef9d92497b548a18f367157b419ba0ca6dfb378c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -499,7 +499,13 @@ public abstract class PlayerList {

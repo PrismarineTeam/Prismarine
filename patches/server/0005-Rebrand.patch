@@ -26,20 +26,6 @@ index fd3805da1f276c76a2e814f755f6755245ec2ff4..782ed5d2edf550f5e4d1052eeb0e64c1
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57..a7d6029ae0ede33a560579149e3b948861c45768 100644
---- a/src/main/java/co/aikar/timings/TimingsExport.java
-+++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -245,7 +245,8 @@ public class TimingsExport extends Thread {
-             pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
-             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
-             pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish
--            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null))
-+            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null)), // Prismarine
-+            pair("prismarine", mapAsJSON(Bukkit.spigot().getPrismarineConfig(), null)) // Prismarine
-             // Purpur end
-         ));
- 
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
 index acd95cf1dc7f009b63e44e4404e1736283fd458e..5e5914610dc6e6db7d1d3368212b24feca9bac71 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
@@ -169,7 +155,7 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb449215
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0e575dfdad513e04a23390caef108211ecc95076..a31eb4b8cf3d586c27358d762a559d952f67b29c 100644
+index f7496866c1e66683c7ae625d16efcc1991d0e3a1..635a395d7762f3ae0a9160aef01f93af8352a72b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -916,7 +916,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
