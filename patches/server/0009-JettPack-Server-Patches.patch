@@ -542,10 +542,10 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 635a395d7762f3ae0a9160aef01f93af8352a72b..52456f97d7c8c46109a6d9c7de3fb4457609b847 100644
+index 6b39a57ada843c3a95f806cff456c6db529387da..26d0e651fa2cc0c198e6af5f55e2e61e15947bb4 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1031,6 +1031,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1033,6 +1033,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
          LOGGER.info("Closing Thread Pool");
@@ -553,7 +553,7 @@ index 635a395d7762f3ae0a9160aef01f93af8352a72b..52456f97d7c8c46109a6d9c7de3fb445
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1487,6 +1488,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1489,6 +1490,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
@@ -561,7 +561,7 @@ index 635a395d7762f3ae0a9160aef01f93af8352a72b..52456f97d7c8c46109a6d9c7de3fb445
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2766,6 +2768,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2768,6 +2770,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  

@@ -5,13 +5,13 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d678c6e0109dabe93485fb214622a0213c790f26..0e575dfdad513e04a23390caef108211ecc95076 100644
+index aa95f1aa23baa2bab109adcb4e076dac0c811af5..328ce0caf4bb4c2982cc8c5d0cf57841676b7e04 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -931,7 +931,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-         }*/ // Purpur
+@@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
+         Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Shutdown and don't bother finishing
 -        MinecraftTimings.stopServer(); // Paper
 +        //MinecraftTimings.stopServer(); // Paper // Prismarine - NO TIMINGS
          // Purpur start
