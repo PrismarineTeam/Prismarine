@@ -49,7 +49,7 @@ body:
       required: true
 
   - type: input
-    id: prismarine
+    id: version
     attributes:
       label: Version of Prismarine
       description: Write down your version of Prismarine.
@@ -106,8 +106,12 @@ body:
     id: checks
     attributes:
       label: Before you report, please check once more.
-      description: 
       options:
         - label: I'm using the latest Prismarine in this version of Minecraft.
+          required: true
+
         - label: I checked that this error has not reported yet.
+          required: true
+
         - label: Prismarine supports this version of Minecraft.
+          required: true

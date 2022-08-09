@@ -1,4 +1,4 @@
-name: 기타
+name: 기타 (한국어)
 description: 분류되어 있지 않은 문제를 신고할 수 있어요.
 labels: ["bug"]
 assignees: ["AlphaKR93"]
@@ -29,6 +29,6 @@ body:
     id: checks
     attributes:
       label: 신고하기 전, 다시 한번 확인해주세요.
-      description: 
       options:
         - label: 저는 이 오류가 신고되지 않았음을 확인했습니다.
+          required: true

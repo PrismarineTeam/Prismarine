@@ -83,7 +83,7 @@ body:
       required: true
 
   - type: input
-    id: prismarine
+    id: version
     attributes:
       label: Prismarine 버전
       description: Prismarine의 버전을 입력해주세요.
@@ -140,8 +140,12 @@ body:
     id: checks
     attributes:
       label: 신고하기 전, 다시 한번 확인해주세요.
-      description: 
       options:
         - label: 저는 이 Minecraft 버전에서 최신 버전의 Prismarine을 사용하고 있습니다.
+          required: true
+
         - label: 저는 이 오류가 신고되지 않았음을 확인했습니다.
+          required: true
+
         - label: 이 버전은 Prismarine에서 지원하는 버전입니다.
+          required: true

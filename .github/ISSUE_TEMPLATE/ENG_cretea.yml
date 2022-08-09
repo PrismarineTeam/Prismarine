@@ -29,6 +29,7 @@ body:
     id: checks
     attributes:
       label: Before you report, please check once more.
-      description: 
       options:
         - label: I checked that this error has not been reported yet.
+          required: true
+
