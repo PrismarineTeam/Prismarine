@@ -5,10 +5,10 @@ Subject: [PATCH] Fix Paper patches
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 000007e77e73153d3d634a3ab5882916bd8b43a3..159582c7a27f2bed375e123aa4fcefe03f4b94f4 100644
+index 0afdaebb071061bc26ae302bfe0d86149227850c..edc90b3d1d097040243ba372dc74c532b95c7bbd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2807,11 +2807,13 @@ public final class CraftServer implements Server {
+@@ -2814,11 +2814,13 @@ public final class CraftServer implements Server {
              return org.spigotmc.SpigotConfig.config;
          }
  

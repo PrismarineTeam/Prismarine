@@ -8970,13 +8970,13 @@ index 45c3cec839a7c23903dedf6e3e004305da2adceb..22a66e59687ca889965536464b628f45
              return super.mobInteract(player, hand);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 2bc8917b7c4512f0607f34b1f18627a391fda07d..c2ecc0fc1e715c6e019de91da11986b0224a9b94 100644
+index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..605b591bb5f62c59cbe122d7adc7777ed9b5da14 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -95,10 +95,23 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
-     private float dancingAnimationTicks;
+@@ -101,10 +101,23 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
      private float spinningAnimationTicks;
      private float spinningAnimationTicks0;
+     public boolean forceDancing = false; // CraftBukkit
 +    private org.purpurmc.purpur.controller.FlyingMoveControllerWASD purpurController; // Purpur
  
      public Allay(EntityType<? extends Allay> type, Level world) {
@@ -8984,7 +8984,7 @@ index 2bc8917b7c4512f0607f34b1f18627a391fda07d..c2ecc0fc1e715c6e019de91da11986b0
 -        this.moveControl = new FlyingMoveControl(this, 20, true);
 +        // Purpur start
 +        this.purpurController = new org.purpurmc.purpur.controller.FlyingMoveControllerWASD(this, 0.1F, 0.5F);
-+        this.moveControl = new FlyingMoveControl(this, 20, true) {
++       this.moveControl = new FlyingMoveControl(this, 20, true) {
 +            @Override
 +            public void tick() {
 +                if (mob.getRider() != null && mob.isControllable()) {
@@ -8996,10 +8996,10 @@ index 2bc8917b7c4512f0607f34b1f18627a391fda07d..c2ecc0fc1e715c6e019de91da11986b0
 +        };
 +        // Purpur end
          this.setCanPickUpLoot(this.canPickUpLoot());
-         PositionSource positionSource = new EntityPositionSource(this, this.getEyeHeight());
-         this.vibrationListenerConfig = new Allay.AllayVibrationListenerConfig();
-@@ -106,6 +119,28 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
-         this.dynamicJukeboxListener = new DynamicGameEventListener<>(new Allay.JukeboxListener(positionSource, GameEvent.JUKEBOX_PLAY.getNotificationRadius()));
+         EntityPositionSource entitypositionsource = new EntityPositionSource(this, this.getEyeHeight());
+ 
+@@ -113,6 +126,28 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+         this.dynamicJukeboxListener = new DynamicGameEventListener<>(new Allay.JukeboxListener(entitypositionsource, GameEvent.JUKEBOX_PLAY.getNotificationRadius()));
      }
  
 +    // Purpur start
@@ -9024,35 +9024,25 @@ index 2bc8917b7c4512f0607f34b1f18627a391fda07d..c2ecc0fc1e715c6e019de91da11986b0
 +    }
 +    // Purpur end
 +
-     @Override
-     protected Brain.Provider<Allay> brainProvider() {
-         return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
-@@ -118,7 +153,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+     // CraftBukkit start
+     public void setCanDuplicate(boolean canDuplicate) {
+         this.entityData.set(Allay.DATA_CAN_DUPLICATE, canDuplicate);
+@@ -131,7 +166,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
  
      @Override
      public Brain<Allay> getBrain() {
--        return super.getBrain();
+-        return (Brain<Allay>) super.getBrain(); // CraftBukkit - decompile error
 +        return (Brain<Allay>) super.getBrain(); // Purpur - decompile error
      }
  
      public static AttributeSupplier.Builder createAttributes() {
-@@ -174,8 +209,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
- 
-     @Override
-     public boolean hurt(DamageSource source, float amount) {
--        Entity optional = source.getEntity();
--        if (optional instanceof Player player) {
-+        if (source.getEntity() instanceof Player player) { // Purpur - decompile error
-             Optional<UUID> optional = this.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
-             if (optional.isPresent() && player.getUUID().equals(optional.get())) {
-                 return false;
-@@ -215,12 +249,12 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+@@ -230,12 +265,12 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
  
      @Override
      protected void customServerAiStep() {
 -        this.level.getProfiler().push("allayBrain");
 +        //this.level.getProfiler().push("allayBrain"); // Purpur
-         this.getBrain().tick((ServerLevel)this.level, this);
+         this.getBrain().tick((ServerLevel) this.level, this);
 -        this.level.getProfiler().pop();
 -        this.level.getProfiler().push("allayActivityUpdate");
 +        //this.level.getProfiler().pop(); // Purpur
@@ -19519,10 +19509,10 @@ index 6d2ba650f53de8a460857f1846401a20b50cc43c..8ed695fd64feb3c2411ed46d9c326eb2
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916bd8b43a3 100644
+index bfd4520ef6f085685a25cf7f49907e16202e6386..0afdaebb071061bc26ae302bfe0d86149227850c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
+@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -19531,7 +19521,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
-@@ -418,7 +418,38 @@ public final class CraftServer implements Server {
+@@ -420,7 +420,38 @@ public final class CraftServer implements Server {
              if (!pluginFolder.exists()) {
                  pluginFolder.mkdirs();
              }
@@ -19571,7 +19561,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
              // Paper end
              for (Plugin plugin : plugins) {
                  try {
-@@ -959,6 +990,7 @@ public final class CraftServer implements Server {
+@@ -961,6 +992,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -19579,7 +19569,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -974,6 +1006,7 @@ public final class CraftServer implements Server {
+@@ -976,6 +1008,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -19587,7 +19577,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -989,6 +1022,7 @@ public final class CraftServer implements Server {
+@@ -991,6 +1024,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -19595,7 +19585,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1416,6 +1450,55 @@ public final class CraftServer implements Server {
+@@ -1418,6 +1452,55 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -19651,7 +19641,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2683,6 +2766,7 @@ public final class CraftServer implements Server {
+@@ -2690,6 +2773,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -19659,7 +19649,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2729,6 +2813,18 @@ public final class CraftServer implements Server {
+@@ -2736,6 +2820,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -19678,7 +19668,7 @@ index 9a8a7eff47d40d6de558f0946c450531b3984f44..000007e77e73153d3d634a3ab5882916
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2904,4 +3000,16 @@ public final class CraftServer implements Server {
+@@ -2911,4 +3007,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
@@ -20681,7 +20671,7 @@ index 3f45bab0e9f7b3697e6d9d1092a1e6e579f7066f..4f1cf281c4bf68c37982d390da8779de
  
      long getCreatedAt() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java b/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
-index c74ac9cf5db4d8adfe781cf066258011da469717..73c48bbb3c6ff9de15acb7adaa15f904785ccfef 100644
+index 138407c2d4b0bc55ddb9aac5d2aa3edadda090fb..a6e9e503a496c18e2501b03ec84f4600c134a50c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
 @@ -115,7 +115,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
