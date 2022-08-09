@@ -63,10 +63,10 @@ index e3aa852788ff16e2b52b00a09783721a747726c9..e68849afc2fffe142d489111a9c253fa
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c999b74f6f19fdb17e2f756b724f481b3dfe8d58..0e272fed1dc66154ba74ea0697b7bd32b3660419 100644
+index 3ed4e75b853e7b930124c5ba421267825b63d973..d60e59c850167a7d7c2fc955da223feeb03bb5af 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1518,7 +1518,7 @@ public abstract class PlayerList {
+@@ -1510,7 +1510,7 @@ public abstract class PlayerList {
      }
  
      public boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) { // Paper - private -> public

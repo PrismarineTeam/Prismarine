@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Wed, 3 Aug 2022 16:50:46 +0900
+Subject: [PATCH] Fix logging
+
+
+diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
+index 5a4a141e0a4954f0612a3d0ee82952037592e50e..0c98cb53da6596755ea30a96fe9592a3befd69bd 100644
+--- a/src/main/resources/log4j2.xml
++++ b/src/main/resources/log4j2.xml
+@@ -8,8 +8,10 @@
+                 <LoggerNamePatternSelector defaultPattern="%highlightGUIError{[%d{HH:mm:ss} %level]: [%logger] %msg%n%xEx{full}}">
+                     <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
+                     <!-- Disable prefix for various plugins that bypass the plugin logger -->
+-                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang.,com.sk89q.,ru.tehkode.,Minecraft.AWE"
++                    <!-- Prismarine start -->
++                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang.,com.sk89q.,ru.tehkode.,Minecraft.AWE,io.papermc."
+                                   pattern="%highlightGUIError{[%d{HH:mm:ss} %level]: %msg%n%xEx{full}}" />
++                    <!-- Prismarine end -->
+                 </LoggerNamePatternSelector>
+             </PatternLayout>
+             <!-- Purpur end -->
+@@ -20,8 +22,10 @@
+                 <LoggerNamePatternSelector defaultPattern="%highlightError{[%d{HH:mm:ss} %level]: [%logger] %paperMinecraftFormatting{%msg}%n%xEx{full}}">
+                     <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
+                     <!-- Disable prefix for various plugins that bypass the plugin logger -->
+-                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang.,com.sk89q.,ru.tehkode.,Minecraft.AWE"
++                    <!-- Prismarine start -->
++                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang.,com.sk89q.,ru.tehkode.,Minecraft.AWE,io.papermc."
+                                   pattern="%highlightError{[%d{HH:mm:ss} %level]: %paperMinecraftFormatting{%msg}%n%xEx{full}}" />
++                    <!-- Prismarine end -->
+                 </LoggerNamePatternSelector>
+             </PatternLayout>
+         </TerminalConsole>
+@@ -30,8 +34,10 @@
+                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level]: [%logger] %paperMinecraftFormatting{%msg}{strip}%n%xEx{full}">
+                     <!-- Log root, Minecraft, Mojang and Bukkit loggers without prefix -->
+                     <!-- Disable prefix for various plugins that bypass the plugin logger -->
+-                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang.,com.sk89q.,ru.tehkode.,Minecraft.AWE"
++                    <!-- Prismarine start -->
++                    <PatternMatch key=",net.minecraft.,Minecraft,com.mojang.,com.sk89q.,ru.tehkode.,Minecraft.AWE,io.papermc."
+                                   pattern="[%d{HH:mm:ss}] [%t/%level]: %paperMinecraftFormatting{%msg}{strip}%n%xEx{full}" />
++                    <!-- Prismarine end -->
+                 </LoggerNamePatternSelector>
+             </PatternLayout>
+             <Policies>

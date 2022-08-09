@@ -4,11 +4,33 @@ Date: Sun, 24 Jul 2022 18:57:05 +0900
 Subject: [PATCH] Fix Purpur patches
 
 
+diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
+index 9bb8f278149cb1809767935375ca155e6c7916b5..d2dbbf8f2b5e3a2dc6a916dd9927318d456fde52 100644
+--- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
++++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
+@@ -1639,7 +1639,7 @@ public final class NewChunkHolder {
+         boolean canSavePOI = poi != null && poi.isDirty();
+         boolean canSaveEntities = entities != null;
+ 
+-        try (co.aikar.timings.Timing ignored = this.world.timings.chunkSave.startTiming()) { // Paper
++        //try (co.aikar.timings.Timing ignored = this.world.timings.chunkSave.startTiming()) { // Paper // Prismarine - Port PaperMC/Paper#8177 (Rewrite Chunk System) (Purpur - Remove Timings)
+             if (canSaveChunk) {
+                 canSaveChunk = this.saveChunk(chunk, unloading);
+             }
+@@ -1653,7 +1653,7 @@ public final class NewChunkHolder {
+                     this.lastEntityUnload = null;
+                 }
+             }
+-        }
++        //} // Prismarine - Port PaperMC/Paper#8177 (Rewrite Chunk System) (Purpur - Remove Timings)
+ 
+         return executedUnloadTask | canSaveChunk | canSaveEntities | canSavePOI;
+     }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 626f97882f2335ccf22d25c40aa389e6b4884207..035cf95c6342d48201efb1bc61fcb9c873630048 100644
+index abeb41655dd7f368a9f16e2ebec571633222a910..c35e25e1df8d679104b394e308bdbcc1723296ad 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Shutdown and don't bother finishing
@@ -18,10 +40,10 @@ index 626f97882f2335ccf22d25c40aa389e6b4884207..035cf95c6342d48201efb1bc61fcb9c8
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c50dc34a731477c76315d8ef6b59b8539b76c7e3..0d913a89adb0b5d1fa2a00502d560b0ba2d25ad6 100644
+index 09d9433521ee776943e79492fbf7b699b53ccbe3..6b9b6043a03ed8a9ce4af40fb903830fcb437e60 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -936,7 +936,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -968,7 +968,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -30,7 +52,7 @@ index c50dc34a731477c76315d8ef6b59b8539b76c7e3..0d913a89adb0b5d1fa2a00502d560b0b
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -985,7 +985,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1017,7 +1017,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);

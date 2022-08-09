@@ -494,10 +494,10 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d432f8a73bf 100644
+index eef4828676a450581e18510e4d47e6610127a922..95467c9b6a2cb2e41817a44d67627af1eaf13254 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
-@@ -55,9 +55,10 @@ import java.util.function.Consumer;
+@@ -56,9 +56,10 @@ import java.util.function.Consumer;
  import java.util.function.Supplier;
  
  public final class MCUtil {
@@ -510,7 +510,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
          new ThreadFactoryBuilder()
              .setNameFormat("Paper Async Task Handler Thread - %1$d")
              .setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(MinecraftServer.LOGGER))
-@@ -74,6 +75,30 @@ public final class MCUtil {
+@@ -75,6 +76,30 @@ public final class MCUtil {
  
      public static final long INVALID_CHUNK_KEY = getCoordinateKey(Integer.MAX_VALUE, Integer.MAX_VALUE);
  
@@ -542,26 +542,26 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 82bc8a784e8d75befb9a89214355825394b3069e..1846d3811a5ff72d981e57d24aa158d5e7133d85 100644
+index 9027750de0f300a9135d479d0810e1a7b3d2e8fc..93974a7e31b929e0228d0ec5968941510e3b8185 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1032,6 +1032,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1014,6 +1014,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
-         com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
+         io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
          LOGGER.info("Closing Thread Pool");
 +        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1488,6 +1489,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1478,6 +1479,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
-+            MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
++        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2767,6 +2769,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2757,6 +2759,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -630,10 +630,10 @@ index 8de50381d8b52dd87331a43fa95e09038e32db6f..c49312cc1272fbf7a176d14f4072a58b
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 126afed7461d43906dbc84c798df180380288bc6..ef9d92497b548a18f367157b419ba0ca6dfb378c 100644
+index ee53f0d9c264a5a25640f45b4c2b80d5171bccd8..18340c6fcb3e32faa30f383838e76486b72c560f 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -499,7 +499,13 @@ public abstract class PlayerList {
+@@ -491,7 +491,13 @@ public abstract class PlayerList {
          // Paper end
          org.purpurmc.purpur.task.BossBarTask.addToAll(player); // Purpur
          // CraftBukkit - Moved from above, added world
@@ -835,7 +835,7 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 25c8294a36d2f062ca4882820e99315aabf5dde8..2b0f8f1c4b31ab80a8b118f6b4598d1eb26ed802 100644
+index 6b4704744ead054a2c4b44faf702bccfe36b7825..908ac2fd9376c6de029031b635b4d35a274361a7 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -882,7 +882,7 @@ index ce4127f3701efa7d1c86bcdb4e7804fee11c397c..9d801652d1ccdb356f26f914824a2b46
      }
  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index af7c916f31926399445aeb1f76ec2bee79dd7821..63bedbfbedc688b9bd9555e811d51c555cbd6771 100644
+index 48593ae146ff1222603f2139c9c9e388e6c544cf..f474ce368d77784d5518c5629c9751d097e073f7 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {
@@ -1295,10 +1295,10 @@ index 2d90a7cf5d5de95005724fabcf7362bf7b555f6e..72ed3ff31682673c045be76bf5329894
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index af61231d5b76690f32ec51feae343909ecc5b0b6..c37de3ca2bdf3b9dfb92b8585015cb94eefef843 100644
+index 12afee59ddbdb95198341ce0310605487697ac86..12032eab34fcbee8ecf4a775ef58af467701f3a9 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -140,7 +140,7 @@ public class WatchdogThread extends Thread
+@@ -140,7 +140,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
      {
          while ( !this.stopping )
          {

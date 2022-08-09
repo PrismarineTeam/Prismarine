@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 24 Jul 2022 18:22:08 +0900
+Subject: [PATCH] Fix Pufferfish patches
+
+
+diff --git a/src/main/java/gg/pufferfish/pufferfish/flare/collectors/WorldCountCollector.java b/src/main/java/gg/pufferfish/pufferfish/flare/collectors/WorldCountCollector.java
+index db15d3fbe2b65fc8035573f5fdbea382055db9b2..5601882e7014cca2c7989ac7d6802b2265ddeba0 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/flare/collectors/WorldCountCollector.java
++++ b/src/main/java/gg/pufferfish/pufferfish/flare/collectors/WorldCountCollector.java
+@@ -31,7 +31,7 @@ public class WorldCountCollector extends LiveCollector {
+ 
+         if (!Bukkit.isStopping()) {
+             for (World world : Bukkit.getWorlds()) {
+-                entities += ((CraftWorld) world).getHandle().entityManager.getEntityGetter().getCount();
++                entities += ((CraftWorld) world).getHandle().getEntityLookup().getCount(); // Prismarine - Port PaperMC/Paper#8177 (Rewrite Chunk System)
+                 chunkCount += world.getChunkCount();
+                 tileEntityCount += world.getTileEntityCount();
+             }
+diff --git a/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java b/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java
+index ac541ddf1594ae865de02fd40940e39285043b1f..2ec90acf3a36aac84b68f086a333d8a6f73bc13f 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java
++++ b/src/main/java/gg/pufferfish/pufferfish/tracker/MultithreadedTracker.java
+@@ -103,7 +103,7 @@ public class MultithreadedTracker {
+     }
+ 
+     private void processChunk(LevelChunk chunk) {
+-        final ChunkEntitySlices entitySlices = chunk.level.entityManager.entitySliceManager.getChunk(chunk.locX, chunk.locZ);
++        final ChunkEntitySlices entitySlices = chunk.level.getEntityLookup().getChunk(chunk.locX, chunk.locZ); // Prismarine - Port PaperMC/Paper#8177 (Rewrite Chunk System)
+         if (entitySlices == null) {
+             return;
+         }
+diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
+index 25ae685b4c849a481bd7065219b2f952cc8d5e49..484ad4d54884b8a0ae83160266e88648c0653406 100644
+--- a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
++++ b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
+@@ -58,6 +58,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
+         this.worldCallback = worldCallback;
+     }
+ 
++    @Override public int getCount() { return entityById.values().size(); } // Prismarine - Port PaperMC/Paper#8177 (Rewrite Chunk System)
++
+     @Nullable
+     @Override
+     public Entity get(final int id) {

@@ -155,10 +155,10 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb449215
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 035cf95c6342d48201efb1bc61fcb9c873630048..82bc8a784e8d75befb9a89214355825394b3069e 100644
+index c35e25e1df8d679104b394e308bdbcc1723296ad..9027750de0f300a9135d479d0810e1a7b3d2e8fc 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -916,7 +916,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
@@ -167,8 +167,21 @@ index 035cf95c6342d48201efb1bc61fcb9c873630048..82bc8a784e8d75befb9a892143558253
              while (this.getRunningThread().isAlive()) {
                  this.getRunningThread().stop();
                  try {
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index f9cf11eee64ad1b84d922d6dd3d079fca44e7fe3..650806a728c5eb61f1bf67d40846c8a84af95bb7 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -1013,7 +1013,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+             TickingBlockEntity tickingblockentity = (TickingBlockEntity) this.blockEntityTickers.get(tileTickPosition);
+             // Spigot start
+             if (tickingblockentity == null) {
+-                this.getCraftServer().getLogger().severe("Spigot has detected a null entity and has removed it, preventing a crash");
++                this.getCraftServer().getLogger().severe("Prismarine has detected a null entity and has removed it, preventing a crash"); // Prismarine
+                 tilesThisCycle--;
+                 continue;
+             }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee79dd7821 100644
+index 70c4487fc2e5c807d70c4943d0716b9f632760df..48593ae146ff1222603f2139c9c9e388e6c544cf 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {
@@ -181,10 +194,10 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 159582c7a27f2bed375e123aa4fcefe03f4b94f4..18ed7d9682c98a444f69d55db948e3b164e3373a 100644
+index 46897641c5b7ac5e6af9dab67d4c9ace2ba6ef40..2b0ff86e3468019965d803618ba3aff8f0579718 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -246,7 +246,7 @@ import javax.annotation.Nullable; // Paper
+@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -255,10 +268,19 @@ index d44b8ce90db7c6c27f71aa841d6fb64b159b7b42..fe49723b5fec298d7a10a1f692119339
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 4a88fbee3566ba54b615745a2e4801691f494557..af61231d5b76690f32ec51feae343909ecc5b0b6 100644
+index 3811bd198a5159d1ef32c5d7566343a9829d18bc..12afee59ddbdb95198341ce0310605487697ac86 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -155,14 +155,14 @@ public class WatchdogThread extends Thread
+@@ -96,7 +96,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
+ 
+     private WatchdogThread(long timeoutTime, boolean restart)
+     {
+-        super( "Watchdog Thread" ); // Purpur - use a generic name
++        super( "Prismarine Watchdog Thread" ); // Purpur - use a generic name // Prismarine - We don't want to
+         this.timeoutTime = timeoutTime;
+         this.restart = restart;
+         earlyWarningEvery = Math.min(io.papermc.paper.configuration.GlobalConfiguration.get().watchdog.earlyWarningEvery, timeoutTime); // Paper
+@@ -155,14 +155,14 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                  if (isLongTimeout) {
                  // Paper end
                  log.log( Level.SEVERE, "------------------------------" );
@@ -269,14 +291,14 @@ index 4a88fbee3566ba54b615745a2e4801691f494557..af61231d5b76690f32ec51feae343909
                  log.log( Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once" );
                  log.log( Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes" );
 -                log.log( Level.SEVERE, "If you are unsure or still think this is a Purpur bug, please report this to https://github.com/PurpurMC/Purpur/issues" ); // Purpur
-+                log.log( Level.SEVERE, "If you are unsure or still think this is a Prismarine bug, please report this to https://github.com/PrismarineTeam/Prismarine/issues" ); // Purpur // Prismarine
++                log.log( Level.SEVERE, "If you are unsure or still think this is a Prismarine bug, please report this to https://github.com/PrismarineTeam/Prismarine/issues or https://discord.gg/kkqMSEVVxN" ); // Purpur // Prismarine
                  log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
 -                log.log( Level.SEVERE, "Purpur version: " + Bukkit.getServer().getVersion() ); // Purpur
 +                log.log( Level.SEVERE, "Prismarine version: " + Bukkit.getServer().getVersion() ); // Purpur // Prismarine
                  //
                  if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
                  {
-@@ -185,12 +185,12 @@ public class WatchdogThread extends Thread
+@@ -185,12 +185,12 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                  // Paper end
                  } else
                  {
@@ -288,10 +310,10 @@ index 4a88fbee3566ba54b615745a2e4801691f494557..af61231d5b76690f32ec51feae343909
                  log.log( Level.SEVERE, "------------------------------" );
 -                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Purpur!):" ); // Paper // Purpur
 +                log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Prismarine!):" ); // Paper // Purpur // Prismarine
-                 com.destroystokyo.paper.io.chunk.ChunkTaskManager.dumpAllChunkLoadInfo(); // Paper
+                 io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.dumpAllChunkLoadInfo(isLongTimeout); // Paper // Paper - rewrite chunk system
                  this.dumpTickingInfo(); // Paper - log detailed tick information
                  WatchdogThread.dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( server.serverThread.getId(), Integer.MAX_VALUE ), log );
-@@ -206,7 +206,7 @@ public class WatchdogThread extends Thread
+@@ -206,7 +206,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
                      WatchdogThread.dumpThread( thread, log );
                  }
                  } else {

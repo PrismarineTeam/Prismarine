@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index b3f9151e211ee52910e4e1598e193c00b1c58725..bd5c6015d7a5ad19cffc6d791bfca50db9b77849 100644
+index 7e7e7f4d9437f450e1f40828603cae5b8ddde733..889d26fef95dc35fe75669cfcbf86f84a78f1f07 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -399,6 +399,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -76,10 +76,10 @@ index b3f9151e211ee52910e4e1598e193c00b1c58725..bd5c6015d7a5ad19cffc6d791bfca50d
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Loading entity NBT");
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index be5cadf73ca4e2a2aa490e77ab7747ec8647a2ef..c78dec8d7f203971bfe5de905e3766732825b7c8 100644
+index fb33743e84c21f364f60c99feb9a6617f4de1b55..71706f36f828aa90f0432eb4cf5eb746ee8172ea 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -1386,5 +1386,17 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -1388,5 +1388,17 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
      public boolean isRidableInWater() {
          return getHandle().rideableUnderWater();
      }

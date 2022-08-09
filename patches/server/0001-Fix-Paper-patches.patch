@@ -5,10 +5,10 @@ Subject: [PATCH] Fix Paper patches
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 000007e77e73153d3d634a3ab5882916bd8b43a3..159582c7a27f2bed375e123aa4fcefe03f4b94f4 100644
+index 964ec590ef5302576ecb3ba2b8ea95dbc2acf103..31a9c375db3d4fb7809310b8226529b72f482cc2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2807,11 +2807,13 @@ public final class CraftServer implements Server {
+@@ -2725,11 +2725,13 @@ public final class CraftServer implements Server {
              return org.spigotmc.SpigotConfig.config;
          }
  
@@ -20,5 +20,5 @@ index 000007e77e73153d3d634a3ab5882916bd8b43a3..159582c7a27f2bed375e123aa4fcefe0
          }
 +        // Paper end // Prismarine - Mark
  
-         // Purpur start
          @Override
+         public void restart() {

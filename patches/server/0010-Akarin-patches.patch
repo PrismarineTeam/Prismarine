@@ -28,7 +28,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0011 - Swaps the predicate order of collision
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index ab3f5d8df443f1f23f4cf11af46ed4c95ff30f0e..cbe7f5c1f51b1315009eb4127a3d58cb34831d1b 100644
+index 1e2dc5626314a5c6436d860e10f9242541ac7352..80a2b43bf50ab4cb6a908d55d690a6c0a4ab8d3d 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -419,7 +419,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {

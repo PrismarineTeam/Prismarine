@@ -194,10 +194,10 @@ index a736d7bcdc5861a01b66ba36158db1c716339346..22fc165fd9c95f0f3ae1be7a0857e48c
  
          @Override
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 92a1462261029e804da73da2743bbd68e57841e9..ef478e1d21e9b134641faa5060152125d5c5ea13 100644
+index 840aaf9e8fc828b5a7ea02252038c6524680f2e0..a3e22c90f856ad215bab4e0f308e46cd4c4b06db 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2429,4 +2429,127 @@ public final class Bukkit {
+@@ -2442,4 +2442,127 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -579,10 +579,10 @@ index a7d1f1e701f23e851f735584a30bedadb0d8b9bd..7da38adede5b752583b94f6a14b3e45d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 56e261efa654e4a6872ccea28f0461df13845d13..b894ae05e566737680a444417c738c5aa8fc2450 100644
+index da5cab4246bd253fcc4e4d9574bdae1867ebb5ab..fea1283dcbac2794402bcd97f072ad3f84fcced1 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1937,6 +1937,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1948,6 +1948,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
@@ -601,7 +601,7 @@ index 56e261efa654e4a6872ccea28f0461df13845d13..b894ae05e566737680a444417c738c5a
          /**
           * Sends the component to the player
           *
-@@ -2105,4 +2117,105 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2116,4 +2128,105 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
