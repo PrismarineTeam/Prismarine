@@ -46,11 +46,11 @@
 
 ## [Patina](https://github.com/PatinaMC/Patina)
 - Server patches
-   - [0009 - remove TickTask](https://github.com/PatinaMC/Patina/blob/ver/1.19.1/patches/server/0009-remove-TickTask.patch)
-   - [0011 - don't create new random instance](https://github.com/PatinaMC/Patina/blob/ver/1.19.1/patches/server/0011-don-t-create-new-random-instance.patch)
-   - [0012 - completely remove bootstrapExecutor](https://github.com/PatinaMC/Patina/blob/ver/1.19.1/patches/server/0012-completely-remove-bootstrapExecutor.patch)
+   - [0009 - remove TickTask](https://github.com/PatinaMC/Patina/blob/ver/1.19.2/patches/server/0008-remove-TickTask.patch)
+   - [0011 - don't create new random instance](https://github.com/PatinaMC/Patina/blob/ver/1.19.2/patches/server/0010-don-t-create-new-random-instance.patch)
+   - [0012 - completely remove bootstrapExecutor](https://github.com/PatinaMC/Patina/blob/ver/1.19.2/patches/server/0011-completely-remove-bootstrapExecutor.patch)
 - API patches
-   - [0005 - Suspected plugins report](https://github.com/PatinaMC/Patina/blob/ver/1.19.1/patches/api/0005-Suspected-plugins-report.patch)
+   - [0005 - Suspected plugins report](https://github.com/PatinaMC/Patina/blob/ver/1.19.2/patches/api/0005-Suspected-plugins-report.patch)
 
 ## [Slice](https://github.com/Cryptite/Slice)
 - Server patches

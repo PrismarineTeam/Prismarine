@@ -31,7 +31,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index cc67217ff6003c83f10c6eeb7d4a2205cb0129c4..8f3227c005a4c54dd3db530b46eef8be67865afa 100644
+index 6bb115923767c4bd65b18e67eeff5408f2894ab0..321182c80bb8844df00d38da4e58db7932efe637 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -630,7 +630,13 @@ public final class SimplePluginManager implements PluginManager {
@@ -149,10 +149,10 @@ index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752ee
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 4f736a267eb4c8a3bedb2d02fb30468484b991d5..75ddfb49218213de278b4772ba314ed2381fd6c0 100644
+index ab24a3377b126022079e743e8cf963d090d88c26..58c8d52c05ffb59ebb5c987c0d1d1f72d1ba27e3 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-@@ -251,4 +251,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+@@ -252,4 +252,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
                     '}';
      }
      // Paper end

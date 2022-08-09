@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 3 Aug 2022 15:08:22 +0900
+Date: Tue, 9 Aug 2022 11:53:47 +0900
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -2334,6 +2334,19 @@ index 49a4611ed4891cce10fd6e01b4062740ad18ee6f..6bb115923767c4bd65b18e67eeff5408
  
              File replacedFile = plugins.put(description.getName(), file);
              if (replacedFile != null) {
+diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
+index 8f778e7d1b8508414ed47c6c6071cae9ebf2d986..ab24a3377b126022079e743e8cf963d090d88c26 100644
+--- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
+@@ -161,7 +161,7 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+         }
+         Class<?> result = classes.get(name);
+ 
+-        if (result == null && !this.closed) { // Pufferfish
++        if (result == null /*&& !this.closed*/) { // Pufferfish // Purpur - don't modify the classloader b.s.
+             String path = name.replace('.', '/').concat(".class");
+             JarEntry entry = jar.getJarEntry(path);
+ 
 diff --git a/src/main/java/org/bukkit/potion/PotionEffect.java b/src/main/java/org/bukkit/potion/PotionEffect.java
 index 24e36cdf580da885ac64002673a786b9c5a3f787..d20cc4d4f5b37a3de9cb3cf47af7a908e9dbc2fc 100644
 --- a/src/main/java/org/bukkit/potion/PotionEffect.java
