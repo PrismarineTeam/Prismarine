@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
