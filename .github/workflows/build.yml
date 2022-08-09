@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  version: 1.19
-  branch: dev/1.19
+  version: 1.19.2-rcs
+  branch: dev/rewrite-chunk-system
   debug: 'false'
 
 jobs:
