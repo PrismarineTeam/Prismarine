@@ -9,13 +9,15 @@ body:
         Before you report errors, please check it is nor reported yet.
 
   - type: textarea
+    id: describe-error
     attributes:
-      label: Error description
+      label: Describe error
       description: Write down everything you know about the error.
     validations:
       required: true
 
   - type: textarea
+    id: additional-information
     attributes:
       label: Additional information
       description: You can write additional information.
@@ -24,6 +26,7 @@ body:
       required: false
 
   - type: checkboxes
+    id: checks
     attributes:
       label: Before you report, please check once more.
       description: 

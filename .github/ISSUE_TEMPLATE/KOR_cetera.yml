@@ -9,6 +9,7 @@ body:
         오류를 신고하기 전, 이 오류가 이미 신고되어 있지 않은지 확인해주세요.
 
   - type: textarea
+    id: describe-error
     attributes:
       label: 오류 설명
       description: 오류에 대한 모든 정보를 서술해주세요.
@@ -16,6 +17,7 @@ body:
       required: true
 
   - type: textarea
+    id: additional-information
     attributes:
       label: 추가 정보
       description: 추가적인 정보를 입력할 수 있어요.
@@ -24,6 +26,7 @@ body:
       required: false
 
   - type: checkboxes
+    id: checks
     attributes:
       label: 신고하기 전, 다시 한번 확인해주세요.
       description: 

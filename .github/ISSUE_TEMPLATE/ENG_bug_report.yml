@@ -10,6 +10,7 @@ body:
         Also, please check that this error is not reported.
 
   - type: input
+    id: spark
     attributes:
       label: Spark URL
       description: If you have Spark profile link, please put it down here.
@@ -18,6 +19,7 @@ body:
       required: false
 
   - type: textarea
+    id: describe-error
     attributes:
       label: Describe error
       description: Please write every information about errors.
@@ -25,6 +27,7 @@ body:
       required: true
 
   - type: textarea
+    id: expected-result
     attributes:
       label: Expected result
       description: Please write down how Prismarine worked if error did not occured.
@@ -32,6 +35,7 @@ body:
       required: true
 
   - type: textarea
+    id: actual-result
     attributes:
       label: Actual result
       description: Please write down the result that error occured.
@@ -42,8 +46,9 @@ body:
       required: true
 
   - type: textarea
+    id: how-to-reproduce-error
     attributes:
-      label: How to reproduce errors
+      label: How to reproduce error
       description: Please write down how to reproduce errors.
       placeholder: |
         1. move to '...'.
@@ -56,6 +61,7 @@ body:
       required: true
 
   - type: textarea
+    id: plugins
     attributes:
       label: Plugin list
       description: Write down every plugins that you installed in your server.
@@ -66,6 +72,7 @@ body:
       required: true
 
   - type: textarea
+    id: datapacks
     attributes:
       label: Datapack list
       description: Please write every datapacks that you installed in your server.
@@ -76,6 +83,7 @@ body:
       required: true
 
   - type: input
+    id: prismarine
     attributes:
       label: Version of Prismarine
       description: Write down your version of Prismarine.
@@ -86,6 +94,7 @@ body:
       required: true
 
   - type: input
+    id: flags
     attributes:
       label: JVM Flag
       description: Please write down JVM Flag that you used when you launch Prismarine.
@@ -96,6 +105,7 @@ body:
       required: true
 
   - type: textarea
+    id: jdk
     attributes:
       label: JDK Version
       description: Please write down your JDK's name and version.
@@ -108,6 +118,7 @@ body:
       required: true
 
   - type: input
+    id: os
     attributes:
       label: Operating System (OS)
       description: Please write down the os you use your server launcher.
@@ -117,6 +128,7 @@ body:
       required: true
 
   - type: textarea
+    id: additional-information
     attributes:
       label: Additional information
       description: You can add additional information.
@@ -125,6 +137,7 @@ body:
       required: false
 
   - type: checkboxes
+    id: checks
     attributes:
       label: Before you report, please check once more.
       description: 
