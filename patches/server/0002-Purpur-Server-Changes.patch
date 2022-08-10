@@ -8970,7 +8970,7 @@ index 45c3cec839a7c23903dedf6e3e004305da2adceb..22a66e59687ca889965536464b628f45
              return super.mobInteract(player, hand);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..605b591bb5f62c59cbe122d7adc7777ed9b5da14 100644
+index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..e16a9ebc84e5494ce599c6817cfd0d233326b4db 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 @@ -101,10 +101,23 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
@@ -9027,15 +9027,6 @@ index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..605b591bb5f62c59cbe122d7adc7777e
      // CraftBukkit start
      public void setCanDuplicate(boolean canDuplicate) {
          this.entityData.set(Allay.DATA_CAN_DUPLICATE, canDuplicate);
-@@ -131,7 +166,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
- 
-     @Override
-     public Brain<Allay> getBrain() {
--        return (Brain<Allay>) super.getBrain(); // CraftBukkit - decompile error
-+        return (Brain<Allay>) super.getBrain(); // Purpur - decompile error
-     }
- 
-     public static AttributeSupplier.Builder createAttributes() {
 @@ -230,12 +265,12 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
  
      @Override
@@ -11170,7 +11161,7 @@ index e0f71dc12cfc28710cacfbc372026f556dcab165..fe26858b6d2f616fa34f4073ddfc1302
          }
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-index 30a67a1eef9238e12e54c57a0608387cc0f763ef..3c841029197eeca960f033acf7d450145e72e0bd 100644
+index 30a67a1eef9238e12e54c57a0608387cc0f763ef..17fbd93aa9bc397e4166d27618c6b89404e5b1ba 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 @@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
@@ -11203,7 +11194,7 @@ index 30a67a1eef9238e12e54c57a0608387cc0f763ef..3c841029197eeca960f033acf7d45014
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.drownedMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.zombieMaxHealth);
 +    }
 +
 +    @Override
@@ -13822,7 +13813,7 @@ index 056e4c2f7f632dadc0015710c032a0b718d46ff9..cc6e65d8fd760e46f20a7bcc6aff1cc0
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
-index 97b3082dc020043fa38d9e5e4591102f97519ed3..177bc2b03d2f103add8e8d8ff862c8fe48c4ef6b 100644
+index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b4c061c47 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 @@ -94,22 +94,69 @@ public class Zombie extends Monster {
@@ -13860,7 +13851,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..177bc2b03d2f103add8e8d8ff862c8fe
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.drownedMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.zombieMaxHealth);
 +    }
 +
 +    public boolean jockeyOnlyBaby() {
