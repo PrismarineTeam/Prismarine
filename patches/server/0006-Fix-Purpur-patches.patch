@@ -27,7 +27,7 @@ index 9bb8f278149cb1809767935375ca155e6c7916b5..d2dbbf8f2b5e3a2dc6a916dd9927318d
          return executedUnloadTask | canSaveChunk | canSaveEntities | canSavePOI;
      }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index abeb41655dd7f368a9f16e2ebec571633222a910..c35e25e1df8d679104b394e308bdbcc1723296ad 100644
+index abeb41655dd7f368a9f16e2ebec571633222a910..68fac0f4687f713ec0c5dfb1d639540b63f4ea38 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -39,10 +39,27 @@ index abeb41655dd7f368a9f16e2ebec571633222a910..c35e25e1df8d679104b394e308bdbcc1
          // Purpur start
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
+@@ -951,6 +951,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                 LOGGER.error("[UPnP] Failed to close port {}", this.getPort());
+             }
+         }
++        // Purpur end // Prismarine - Mark
+         // CraftBukkit start
+         if (this.server != null) {
+             this.server.disablePlugins();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 09d9433521ee776943e79492fbf7b699b53ccbe3..6b9b6043a03ed8a9ce4af40fb903830fcb437e60 100644
+index 09d9433521ee776943e79492fbf7b699b53ccbe3..6ca99115caf633ea55991ab5ad26ae215ed9c131 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -658,7 +658,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+         int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
+         long j;
+ 
+-        if (this.purpurConfig.playersSkipNight && this.sleepStatus.areEnoughSleeping(i) && this.sleepStatus.areEnoughDeepSleeping(i, this.players)) {
++        if (this.purpurConfig.playersSkipNight && this.sleepStatus.areEnoughSleeping(i) && this.sleepStatus.areEnoughDeepSleeping(i, this.players)) { // Purpur // Prismarine - Mark
+             // CraftBukkit start
+             j = this.levelData.getDayTime() + 24000L;
+             TimeSkipEvent event = new TimeSkipEvent(this.getWorld(), TimeSkipEvent.SkipReason.NIGHT_SKIP, (j - j % 24000L) - this.getDayTime());
 @@ -968,7 +968,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
@@ -61,3 +78,12 @@ index 09d9433521ee776943e79492fbf7b699b53ccbe3..6b9b6043a03ed8a9ce4af40fb903830f
  
                  if (this.sleepStatus.areEnoughSleeping(i)) {
                      // Purpur start
+@@ -1242,7 +1242,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+             // Paper end - log detailed entity tick information
+         ++TimingHistory.entityTicks; // Paper - timings
+         // Spigot start
+-        co.aikar.timings.Timing timer; // Paper
++        //co.aikar.timings.Timing timer; // Paper // Prismarine
+         /*if (!org.spigotmc.ActivationRange.checkIfActive(entity)) { // Paper - comment out - EAR 2, reimplement below
+             entity.tickCount++;
+             timer = entity.getType().inactiveTickTimer.startTiming(); try { // Paper - timings

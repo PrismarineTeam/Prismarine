@@ -212,10 +212,10 @@ index 80a2b43bf50ab4cb6a908d55d690a6c0a4ab8d3d..7e7e7f4d9437f450e1f40828603cae5b
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index cd414a9275e6d9f8c704854763b18f4ee43b67b7..0e6895350f8d9ff2a417fa9ca12dc37dd7fae28f 100644
+index 61bbb8a3738f289bd61c438a27a496f904c26b78..0805c3be61395d31f78524240a7330f6e9b24af3 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3150,7 +3150,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3151,7 +3151,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  

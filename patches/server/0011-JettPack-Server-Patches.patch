@@ -37,6 +37,12 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0028
 0029
 0031
+0035
+0038
+0040
+0041
+0042
+0043
 
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
@@ -325,6 +331,101 @@ index 0000000000000000000000000000000000000000..593f429a230b5056169be4e552791f77
 +    }
 +}
 \ No newline at end of file
+diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/math/CompactSineLUT.java b/src/main/java/me/jellysquid/mods/lithium/common/util/math/CompactSineLUT.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..600b30b097619c76ca95a4fdb6fb17b893e25207
+--- /dev/null
++++ b/src/main/java/me/jellysquid/mods/lithium/common/util/math/CompactSineLUT.java
+@@ -0,0 +1,89 @@
++package me.jellysquid.mods.lithium.common.util.math;
++
++import net.minecraft.util.Mth;
++
++/**
++ * A replacement for the sine angle lookup table used in {@link Mth}, both reducing the size of LUT and improving
++ * the access patterns for common paired sin/cos operations.
++ *
++ *  sin(-x) = -sin(x)
++ *    ... to eliminate negative angles from the LUT.
++ *
++ *  sin(x) = sin(pi/2 - x)
++ *    ... to eliminate supplementary angles from the LUT.
++ *
++ * Using these identities allows us to reduce the LUT from 64K entries (256 KB) to just 16K entries (64 KB), enabling
++ * it to better fit into the CPU's caches at the expense of some cycles on the fast path. The implementation has been
++ * tightly optimized to avoid branching where possible and to use very quick integer operations.
++ *
++ * Generally speaking, reducing the size of a lookup table is always a good optimization, but since we need to spend
++ * extra CPU cycles trying to maintain parity with vanilla, there is the potential risk that this implementation ends
++ * up being slower than vanilla when the lookup table is able to be kept in cache memory.
++ *
++ * Unlike other "fast math" implementations, the values returned by this class are *bit-for-bit identical* with those
++ * from {@link Mth}. Validation is performed during runtime to ensure that the table is correct.
++ *
++ * @author coderbot16   Author of the original (and very clever) implementation in Rust:
++ *  https://gitlab.com/coderbot16/i73/-/tree/master/i73-trig/src
++ * @author jellysquid3  Additional optimizations, port to Java
++ */
++public class CompactSineLUT {
++    private static final int[] SINE_TABLE_INT = new int[16384 + 1];
++    private static final float SINE_TABLE_MIDPOINT;
++
++    static {
++        // Copy the sine table, covering to raw int bits
++        for (int i = 0; i < SINE_TABLE_INT.length; i++) {
++            SINE_TABLE_INT[i] = Float.floatToRawIntBits(Mth.SIN[i]);
++        }
++
++        SINE_TABLE_MIDPOINT = Mth.SIN[Mth.SIN.length / 2];
++
++        // Test that the lookup table is correct during runtime
++        for (int i = 0; i < Mth.SIN.length; i++) {
++            float expected = Mth.SIN[i];
++            float value = lookup(i);
++
++            if (expected != value) {
++                throw new IllegalArgumentException(String.format("LUT error at index %d (expected: %s, found: %s)", i, expected, value));
++            }
++        }
++    }
++
++    // [VanillaCopy] MathHelper#sin(float)
++    public static float sin(float f) {
++        return lookup((int) (f * 10430.38) & 0xFFFF);
++    }
++
++    // [VanillaCopy] MathHelper#cos(float)
++    public static float cos(float f) {
++        return lookup((int) (f * 10430.38 + 16384.0) & 0xFFFF);
++    }
++
++    private static float lookup(int index) {
++        // A special case... Is there some way to eliminate this?
++        if (index == 32768) {
++            return SINE_TABLE_MIDPOINT;
++        }
++
++        // Trigonometric identity: sin(-x) = -sin(x)
++        // Given a domain of 0 <= x <= 2*pi, just negate the value if x > pi.
++        // This allows the sin table size to be halved.
++        int neg = (index & 0x8000) << 16;
++
++        // All bits set if (pi/2 <= x), none set otherwise
++        // Extracts the 15th bit from 'half'
++        int mask = (index << 17) >> 31;
++
++        // Trigonometric identity: sin(x) = sin(pi/2 - x)
++        int pos = (0x8001 & mask) + (index ^ mask);
++
++        // Wrap the position in the table. Moving this down to immediately before the array access
++        // seems to help the Hotspot compiler optimize the bit math better.
++        pos &= 0x7fff;
++
++        // Fetch the corresponding value from the LUT and invert the sign bit as needed
++        // This directly manipulate the sign bit on the float bits to simplify logic
++        return Float.intBitsToFloat(SINE_TABLE_INT[pos] ^ neg);
++    }
++}
 diff --git a/src/main/java/me/titaniumtown/cache/NBTCache.java b/src/main/java/me/titaniumtown/cache/NBTCache.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..6b416b201c370f497e2fd4368ffa0cdbb064a53e
@@ -542,10 +643,10 @@ index eef4828676a450581e18510e4d47e6610127a922..95467c9b6a2cb2e41817a44d67627af1
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 9027750de0f300a9135d479d0810e1a7b3d2e8fc..93974a7e31b929e0228d0ec5968941510e3b8185 100644
+index 5313eecc914aa0d0ff39ac1743470387faaa2a79..4db6ab1de422dc48ade56c5fe079903a5072cd45 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1014,6 +1014,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1015,6 +1015,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
          io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
          LOGGER.info("Closing Thread Pool");
@@ -553,7 +654,7 @@ index 9027750de0f300a9135d479d0810e1a7b3d2e8fc..93974a7e31b929e0228d0ec596894151
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1478,6 +1479,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1479,6 +1480,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
@@ -561,7 +662,7 @@ index 9027750de0f300a9135d479d0810e1a7b3d2e8fc..93974a7e31b929e0228d0ec596894151
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2757,6 +2759,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2758,6 +2760,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -648,6 +749,79 @@ index ee53f0d9c264a5a25640f45b4c2b80d5171bccd8..18340c6fcb3e32faa30f383838e76486
      }
  
      public void updateEntireScoreboard(ServerScoreboard scoreboard, ServerPlayer player) {
+diff --git a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
+index 50a9f33aa31e9273c7c52d4bb2b02f0f884f7ba5..76bb6cc0d28227afd6c0a62c1a13537d8a8c1907 100644
+--- a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
++++ b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
+@@ -13,7 +13,7 @@ import java.util.Map;
+ import java.util.stream.Collectors;
+ 
+ public class ClassInstanceMultiMap<T> extends AbstractCollection<T> {
+-    private final Map<Class<?>, List<T>> byClass = Maps.newHashMap();
++    private final Map<Class<?>, List<T>> byClass = net.prismarineteam.prismarine.PrismarineConfig.useLithiumEntityByType ? new it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap<>() : Maps.newHashMap(); // Prismarine - JettPack patches (lithium: collections.entity_by_type)
+     private final Class<T> baseClass;
+     private final List<T> allInstances = Lists.newArrayList();
+ 
+@@ -54,11 +54,32 @@ public class ClassInstanceMultiMap<T> extends AbstractCollection<T> {
+         return this.find(object.getClass()).contains(object);
+     }
+ 
++    // Prismarine start - JettPack patches
++    private <S> Collection<T> createAllOfType(Class<S> type) {
++        List<T> list = new java.util.ArrayList<>();
++
++        for (T allElement : this.allInstances) {
++            if (type.isInstance(allElement)) {
++                list.add(allElement);
++            }
++        }
++
++        this.byClass.put(type, list);
++
++        return list;
++    }
++
+     public <S> Collection<S> find(Class<S> type) {
++        if (net.prismarineteam.prismarine.PrismarineConfig.useLithiumEntityFiltering) {
++            Collection<T> collection = this.byClass.get(type);
++            if (collection == null) collection = this.createAllOfType(type);
++            return (Collection<S>) Collections.unmodifiableCollection(collection);
++        } else
++    // Prismarine end
+         if (!this.baseClass.isAssignableFrom(type)) {
+             throw new IllegalArgumentException("Don't know how to search for " + type);
+         } else {
+-            List<? extends T> list = this.byClass.computeIfAbsent(type, (typeClass) -> {
++            List list = this.byClass.computeIfAbsent(type, (typeClass) -> { // Prismarine - decomp fix
+                 return this.allInstances.stream().filter(typeClass::isInstance).collect(Collectors.toList());
+             });
+             return Collections.unmodifiableCollection(list);
+diff --git a/src/main/java/net/minecraft/util/Mth.java b/src/main/java/net/minecraft/util/Mth.java
+index 9b22034aa655ceb0da151d9d8ca3147f6487889a..4e0caf5dc8de00066819f40de52ec90559964f65 100644
+--- a/src/main/java/net/minecraft/util/Mth.java
++++ b/src/main/java/net/minecraft/util/Mth.java
+@@ -25,7 +25,7 @@ public class Mth {
+     public static final float EPSILON = 1.0E-5F;
+     public static final float SQRT_OF_TWO = sqrt(2.0F);
+     private static final float SIN_SCALE = 10430.378F;
+-    private static final float[] SIN = Util.make(new float[65536], (sineTable) -> {
++    public static final float[] SIN = Util.make(new float[65536], (sineTable) -> { // Prismarine - private -> public (Jettpack Patches)
+         for(int i = 0; i < sineTable.length; ++i) {
+             sineTable[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
+         }
+@@ -41,10 +41,12 @@ public class Mth {
+     private static final double[] COS_TAB = new double[257];
+ 
+     public static float sin(float value) {
++        if (net.prismarineteam.prismarine.PrismarineConfig.useLithiumSine) return me.jellysquid.mods.lithium.common.util.math.CompactSineLUT.sin(value); // Prismarine - JettPack patches (lithium: math.sine_lut)
+         return SIN[(int)(value * 10430.378F) & '\uffff'];
+     }
+ 
+     public static float cos(float value) {
++        if (net.prismarineteam.prismarine.PrismarineConfig.useLithiumCosine) return me.jellysquid.mods.lithium.common.util.math.CompactSineLUT.cos(value); // Prismarine - JettPack patches (lithium: math.sine_lut)
+         return SIN[(int)(value * 10430.378F + 16384.0F) & '\uffff'];
+     }
+ 
 diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d553dc29d9a 100644
 --- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
@@ -728,6 +902,41 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
      }
  
      protected void doRunTask(R task) {
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f904c26b78 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
+     }
+ 
+     protected void tryAddFrost() {
+-        if (!this.getBlockStateOnLegacy().isAir()) {
++        //if (!this.getBlockStateOnLegacy().isAir()) { // Prismarine - JettPack patches (lithium: entity.fast_powder_snow_check)
+             int i = this.getTicksFrozen();
+ 
+             if (i > 0) {
+-                AttributeInstance attributemodifiable = this.getAttribute(Attributes.MOVEMENT_SPEED);
++                AttributeInstance attributemodifiable = this.getBlockStateOn().isAir() ? null : this.getAttribute(Attributes.MOVEMENT_SPEED); // Prismarine - JettPack patches (lithium: entity.fast_powder_snow_check)
+ 
+                 if (attributemodifiable == null) {
+                     return;
+@@ -591,7 +591,7 @@ public abstract class LivingEntity extends Entity {
+ 
+                 attributemodifiable.addTransientModifier(new AttributeModifier(LivingEntity.SPEED_MODIFIER_POWDER_SNOW_UUID, "Powder snow slow", (double) f, AttributeModifier.Operation.ADDITION));
+             }
+-        }
++        //} // Prismarine - JettPack patches (lithium: entity.fast_powder_snow_check)
+ 
+     }
+ 
+@@ -2525,6 +2525,7 @@ public abstract class LivingEntity extends Entity {
+     }
+ 
+     protected void updateSwingTime() {
++        if (!this.swinging && this.swingTime == 0) return; // JettPack - lithium: entity.fast_hand_swing
+         int i = this.getCurrentSwingDuration();
+ 
+         if (this.swinging) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
 index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf1543009a8dab2b 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
@@ -752,6 +961,21 @@ index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf154300
  
          } else {
              this.noActionTime = 0;
+diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+index 00fc98797aea23e1f586b8e7f85fc27e2019352f..d281138a381a516804eef0da9dabd27e1e92145f 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
++++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+@@ -19,8 +19,8 @@ import org.slf4j.Logger;
+ 
+ public class AttributeMap {
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    private final Map<Attribute, AttributeInstance> attributes = Maps.newHashMap();
+-    private final Set<AttributeInstance> dirtyAttributes = Sets.newHashSet();
++    private final Map<Attribute, AttributeInstance> attributes = net.prismarineteam.prismarine.PrismarineConfig.useLithiumAttributes ? new it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap<>() : Maps.newHashMap(); // Prismarine - JettPack patches (lithium: collections.attributes)
++    private final Set<AttributeInstance> dirtyAttributes = net.prismarineteam.prismarine.PrismarineConfig.useLithiumAttributes ? new it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet<>() : Sets.newHashSet(); // Prismarine - JettPack patches (lithium: collections.attributes)
+     private final AttributeSupplier supplier;
+     private final net.minecraft.world.entity.LivingEntity entity; // Purpur
+     private final java.util.function.Function<Attribute, AttributeInstance> createInstance; // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 index 872ec431ae6beb0ef603d833f38aedb9d87e5466..59014e55a6848addfd67cfc2bc0366e313c0145d 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
@@ -1175,10 +1399,10 @@ index 68e89dbd79171627046e89699057964e44c40e7d..959588962acb0196ec9f1cc2502e6211
  
      @Override
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..f059997d1d2b9b5fb9cba6e8ef8bcfef0cf24d9a 100644
+index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -154,4 +154,27 @@ public class PrismarineConfig {
+@@ -154,4 +154,45 @@ public class PrismarineConfig {
              set("settings.patina-settings.disable-bootstrap-executor", null);
          }
      }
@@ -1204,6 +1428,24 @@ index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..f059997d1d2b9b5fb9cba6e8ef8bcfef
 +    public static boolean logPlayerLoginLocation = true;
 +    private static void logPlayerLoginLocation() {
 +        logPlayerLoginLocation = getBoolean("settings.log-player-login-location", logPlayerLoginLocation);
++    }
++
++    public static boolean useLithiumCosine = true;
++    public static boolean useLithiumSine = true;
++    public static boolean useLithiumAttributes = true;
++    public static boolean useLithiumEntityByType = true;
++    public static boolean useLithiumEntityFiltering = true;
++    private static void useLithiumMath() {
++        useLithiumCosine = getBoolean("settings.lithium.math.cosine", useLithiumCosine);
++        useLithiumSine = getBoolean("settings.lithium.math.sine", useLithiumSine);
++        useLithiumAttributes = getBoolean("settings.lithium.attributes", useLithiumAttributes);
++        useLithiumEntityByType = getBoolean("settings.lithium.collections.entity_by_type", useLithiumEntityByType);
++        useLithiumEntityFiltering = getBoolean("settings.lithium.collections.entity_filtering", useLithiumEntityFiltering);
++    }
++
++    public static boolean fastHandSwing = true;
++    private static void fastHandSwing() {
++        fastHandSwing = getBoolean("settings.fast-hand-swing", fastHandSwing);
 +    }
  }
 \ No newline at end of file
