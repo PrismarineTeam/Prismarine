@@ -132,7 +132,7 @@ if you want to build API and server, use `./gradlew build`. Compiled JAR file wi
 If you want to make server file, use `./gradlew createReobfPaperclipJar`. If you want to make Mojmap Jar file, use `./gradlew createMojmapPaperclipJar`. file will be generated in `build/libs`.
 
 ## Licenses
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 
 If It doesn't written in header of patch file, This project will be granted license following [MIT License](src/LICENSES/ENG/MIT.md).
 
