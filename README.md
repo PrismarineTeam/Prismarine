@@ -35,15 +35,15 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 
 Join [Discord](https://discord.gg/CQGVqeXQQC) and let us know error and help us find how to solve it!
 
-### useful servers
-- [Minecraft Development Dictionary (MDD)](https://discord.gg/AZwXTA9Pgx)
+### Useful servers
+- [Minecraft Development Dictionary (MDD)](https://discord.gg/AZwXTA9Pgx) (KOREAN)
    - You can get infos about Minecraft's news, announcement and server develop.
 
-- [Minecraft Customization Community (MCC)](https://discord.gg/nnkecH6n24)
+- [Minecraft Customization Community (MCC)](https://discord.gg/nnkecH6n24) (KOREAN)
    - You can get infos about Minecraft's mods, resource pack, shader.
 
-### partner server
-- [Hyeah's fan discord](https://discord.gg/ByHmmDSr4m)
+### Partnerships
+- [Hyeah's fan discord](https://discord.gg/ByHmmDSr4m) (KOREAN)
 
 ## [#saveminecraft](https://saveminecraft.org/)
 [#saveminecraft](https://saveminecraft.org/) is movement that refuses chatting report which added by Mojang Studios and Microsoft in Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**). #saveminecraft movement's goal is adding new permission for server admin without make minecraft's multiplay in danger, or removing chatting report. #saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](src/SAVEMINECRAFT/ENG.md).**
