@@ -497,7 +497,7 @@ index dd0143f319d4adef8834c513af34b1cce7a94a84..c2f32e65b44c60395661fb9f6eb8939a
          if (this.source.acceptsSuccess() && !this.silent) {
              this.source.sendSystemMessage(message);
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 135b341e5b975fc542f66ef9c52e29f4c6dd4a53..4bf5efd39938db79bba660efc2969022e8057abd 100644
+index 7c96f7fc5997761426a0c62cad0cab5cc668f282..eb4dac2239592d680ef31edf47f1ab660299762d 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
 @@ -137,7 +137,7 @@ public class Commands {
@@ -543,7 +543,7 @@ index 135b341e5b975fc542f66ef9c52e29f4c6dd4a53..4bf5efd39938db79bba660efc2969022
          }
  
          return b0;
-@@ -414,6 +420,7 @@ public class Commands {
+@@ -415,6 +421,7 @@ public class Commands {
      }
  
      private void runSync(ServerPlayer player, Collection<String> bukkit, RootCommandNode<SharedSuggestionProvider> rootcommandnode) {
@@ -551,7 +551,7 @@ index 135b341e5b975fc542f66ef9c52e29f4c6dd4a53..4bf5efd39938db79bba660efc2969022
          // Paper end - Async command map building
          new com.destroystokyo.paper.event.brigadier.AsyncPlayerSendCommandsEvent<CommandSourceStack>(player.getBukkitEntity(), (RootCommandNode) rootcommandnode, false).callEvent(); // Paper
          PlayerCommandSendEvent event = new PlayerCommandSendEvent(player.getBukkitEntity(), new LinkedHashSet<>(bukkit));
-@@ -426,6 +433,7 @@ public class Commands {
+@@ -427,6 +434,7 @@ public class Commands {
              }
          }
          // CraftBukkit end
@@ -20101,7 +20101,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 743b6e51817ffa1b7e602b1ac82eb1017841b691..6cc714d4044926a84feb5c084f2d15db1c29b21e 100644
+index 067d64ce06f626ce90b3ccf608d98f3c64fce335..284624683d0e593bc7996fa90a6eee2b6a22ad9e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -442,10 +442,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
