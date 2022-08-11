@@ -31,10 +31,10 @@ index ac541ddf1594ae865de02fd40940e39285043b1f..2ec90acf3a36aac84b68f086a333d8a6
              return;
          }
 diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-index 25ae685b4c849a481bd7065219b2f952cc8d5e49..484ad4d54884b8a0ae83160266e88648c0653406 100644
+index df92b8f4c6f668d27a73622d920182ed20dab582..46185ef61f42482959b922899ef9bdd641e71f68 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-@@ -58,6 +58,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
+@@ -59,6 +59,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
          this.worldCallback = worldCallback;
      }
  

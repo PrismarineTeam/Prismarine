@@ -497,7 +497,7 @@ index dd0143f319d4adef8834c513af34b1cce7a94a84..c2f32e65b44c60395661fb9f6eb8939a
          if (this.source.acceptsSuccess() && !this.silent) {
              this.source.sendSystemMessage(message);
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 135b341e5b975fc542f66ef9c52e29f4c6dd4a53..4bf5efd39938db79bba660efc2969022e8057abd 100644
+index 7c96f7fc5997761426a0c62cad0cab5cc668f282..eb4dac2239592d680ef31edf47f1ab660299762d 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
 @@ -137,7 +137,7 @@ public class Commands {
@@ -543,7 +543,7 @@ index 135b341e5b975fc542f66ef9c52e29f4c6dd4a53..4bf5efd39938db79bba660efc2969022
          }
  
          return b0;
-@@ -414,6 +420,7 @@ public class Commands {
+@@ -415,6 +421,7 @@ public class Commands {
      }
  
      private void runSync(ServerPlayer player, Collection<String> bukkit, RootCommandNode<SharedSuggestionProvider> rootcommandnode) {
@@ -551,7 +551,7 @@ index 135b341e5b975fc542f66ef9c52e29f4c6dd4a53..4bf5efd39938db79bba660efc2969022
          // Paper end - Async command map building
          new com.destroystokyo.paper.event.brigadier.AsyncPlayerSendCommandsEvent<CommandSourceStack>(player.getBukkitEntity(), (RootCommandNode) rootcommandnode, false).callEvent(); // Paper
          PlayerCommandSendEvent event = new PlayerCommandSendEvent(player.getBukkitEntity(), new LinkedHashSet<>(bukkit));
-@@ -426,6 +433,7 @@ public class Commands {
+@@ -427,6 +434,7 @@ public class Commands {
              }
          }
          // CraftBukkit end
@@ -1557,7 +1557,7 @@ index a32cfa75a9bea896f558bab646d0868391b069a9..01ca7156d86243a80cd343a2a66be9eb
      public final boolean spawnNpcs = this.get("spawn-npcs", true);
      public final boolean pvp = this.get("pvp", true);
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 8404d728d24095159868fbc10cfcf6028e787668..1a40514442eba785922d94236e7a51e243607fa7 100644
+index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0c49d46d5 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -739,20 +739,20 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -19545,10 +19545,10 @@ index 648c04762a5636d34bd4bf3528b191a336459d34..46897641c5b7ac5e6af9dab67d4c9ace
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index ed54d4aaf8a359652325fa00713ca135218408b0..7261a69044eea70878add580d12124bf9a9f9e41 100644
+index cfb810a9cc25c3133d9e333f35deff2424febb67..fe0280d66d593614847b9401130b4aac77b749ec 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2215,6 +2215,49 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2233,6 +2233,49 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      public DragonBattle getEnderDragonBattle() {
          return (this.getHandle().dragonFight() == null) ? null : new CraftDragonBattle(this.getHandle().dragonFight());
      }
@@ -19969,7 +19969,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index f5a83d989e53cc38701c815f82efb634bf06b4ec..864b74a3e7ec57db4ab04079c636d8b895363407 100644
+index 334339d7e7b6ae9a6a3a4f0c0bc61d4f20ce2ef8..1d6d62d287a56c0b914fa3dce9934d5cf0187cb3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -442,10 +442,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
