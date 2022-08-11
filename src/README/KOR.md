@@ -134,7 +134,7 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 실행 가능한 서버 파일을 만드려면, `./gradlew createReobfPaperclipJar` 를 사용하세요. Mojmap Jar 파일을 만드려면 `./gradlew createMojmapPaperclipJar` 를 사용하세요. 파일은 `build/libs` 에 생성될 것입니다.
 
 ## 라이선스
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 
 패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](../LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
 
