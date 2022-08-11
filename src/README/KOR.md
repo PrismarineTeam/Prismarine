@@ -2,7 +2,7 @@
 
 Prismarine
 =
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
 [![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
@@ -36,6 +36,16 @@ Prismarine
 [Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
 
 한국인이라면, [네이버 카페](https://cafe.naver.com/prismarine)에 가입할수도 있습니다.
+
+### 유용한 서버
+- [Minecraft Development Dictionary (MDD)](https://discord.gg/AZwXTA9Pgx)
+   - Minecraft에 관련된 다양한 뉴스, 소식과 서버 개발에 대한 정보를 얻고 질문&답변 할 수 있습니다.
+
+- [Minecraft Customization Community (MCC)](https://discord.gg/nnkecH6n24)
+   - Minecraft의 모드, 리소스팩, 셰이더에 대한 정보를 얻고 질문&답변 할 수 있습니다.
+
+### 파트너 서버
+- [혜아의 팬디코](https://discord.gg/ByHmmDSr4m)
 
 ## [#saveminecraft](https://saveminecraft.org/)
 [#saveminecraft](https://saveminecraft.org/)는 Minecraft: Java Edition의 1.19.1(1.**19.84**라고도 불림)에 Mojang Studios와 Microsoft에 의해 추가된 채팅 신고 기능에 반대하는 운동입니다. saveminecraft 운동의 목표는 Minecraft의 멀티 플레이를 위험에 빠뜨리지 않고 서버의 관리자에게 권한을 부여하는 새로운 채팅 신고 기능을 추가하거나, 채팅 신고 기능을 완전히 제거하는 것입니다. saveminecraft 운동은 이 변화를 평화적으로 항의하고 인식을 확산하고자 합니다. **자세한 내용은 [여기를](../SAVEMINECRAFT/KOR.md) 확인해주시기 바랍니다.**
@@ -124,7 +134,7 @@ API와 서버를 빌드하려면 `./gradlew build` 를 사용하세요. 컴파�
 실행 가능한 서버 파일을 만드려면, `./gradlew createReobfPaperclipJar` 를 사용하세요. Mojmap Jar 파일을 만드려면 `./gradlew createMojmapPaperclipJar` 를 사용하세요. 파일은 `build/libs` 에 생성될 것입니다.
 
 ## 라이선스
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 
 패치 파일의 헤더에 따로 명시되지 않은 한, 본 프로젝트는 [MIT License](../LICENSES/KOR/MIT.md)에 따라 라이선스가 부여됩니다.
 

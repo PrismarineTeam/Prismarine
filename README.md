@@ -10,7 +10,7 @@ Prismarine
 [![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
 [![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
 [![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/CQGVqeXQQC)
 
 [Discord](https://discord.gg/CQGVqeXQQC) - [Reddit](https://reddit.com/r/Prismarine) | [한국어](src/README/KOR.md) - **English**
 
@@ -31,9 +31,19 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Can disable chatting report.
 
 ## Communicate
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
+[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/CQGVqeXQQC)
 
-Join [Discord](https://discord.gg/kkqMSEVVxN) and let us know error and help us find how to solve it!
+Join [Discord](https://discord.gg/CQGVqeXQQC) and let us know error and help us find how to solve it!
+
+### 유용한 서버
+- [Minecraft Development Dictionary (MDD)](https://discord.gg/AZwXTA9Pgx)
+   - Minecraft에 관련된 다양한 뉴스, 소식과 서버 개발에 대한 정보를 얻고 질문&답변 할 수 있습니다.
+
+- [Minecraft Customization Community (MCC)](https://discord.gg/nnkecH6n24)
+   - Minecraft의 모드, 리소스팩, 셰이더에 대한 정보를 얻고 질문&답변 할 수 있습니다.
+
+### 파트너 서버
+- [혜아의 팬디코](https://discord.gg/ByHmmDSr4m)
 
 ## [#saveminecraft](https://saveminecraft.org/)
 [#saveminecraft](https://saveminecraft.org/) is movement that refuses chatting report which added by Mojang Studios and Microsoft in Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**). #saveminecraft movement's goal is adding new permission for server admin without make minecraft's multiplay in danger, or removing chatting report. #saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](src/SAVEMINECRAFT/ENG.md).**
@@ -122,7 +132,7 @@ if you want to build API and server, use `./gradlew build`. Compiled JAR file wi
 If you want to make server file, use `./gradlew createReobfPaperclipJar`. If you want to make Mojmap Jar file, use `./gradlew createMojmapPaperclipJar`. file will be generated in `build/libs`.
 
 ## Licenses
-[![License](https://img.shields.io/github/license/PrismarineTeam/Prismarine)](LICENSE.md)
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 
 If It doesn't written in header of patch file, This project will be granted license following [MIT License](src/LICENSES/ENG/MIT.md).
 
