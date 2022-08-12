@@ -42,9 +42,6 @@ Join [Discord](https://discord.gg/CQGVqeXQQC) and let us know error and help us 
 - [Minecraft Customization Community (MCC)](https://discord.gg/nnkecH6n24)
    - Minecraft의 모드, 리소스팩, 셰이더에 대한 정보를 얻고 질문&답변 할 수 있습니다.
 
-### 파트너 서버
-- [혜아의 팬디코](https://discord.gg/ByHmmDSr4m)
-
 ## [#saveminecraft](https://saveminecraft.org/)
 [#saveminecraft](https://saveminecraft.org/) is movement that refuses chatting report which added by Mojang Studios and Microsoft in Minecraft: Java Edition's 1.19.1(A.K.A. 1.**19.84**). #saveminecraft movement's goal is adding new permission for server admin without make minecraft's multiplay in danger, or removing chatting report. #saveminecraft movement protest peacefully and share this recognition widely. **You can view detail by clicking [here](src/SAVEMINECRAFT/ENG.md).**
 
