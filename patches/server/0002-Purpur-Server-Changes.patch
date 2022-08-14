@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 9 Aug 2022 11:53:27 +0900
+Date: Sun, 14 Aug 2022 14:40:15 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -27,21 +27,18 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 74c91f79576e85618fefb79be8d313ba871701c7..a9acec9feef3c5322ce2c312cd8800bcdaca0947 100644
+index 7074295d7399d03e259598bb4bfa0f21434d74be..dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -9,9 +9,9 @@ plugins {
+@@ -9,7 +9,7 @@ plugins {
  }
  
  dependencies {
 -    implementation(project(":pufferfish-api")) // Pufferfish // Paper
 +    implementation(project(":purpur-api")) // Purpur
      // Pufferfish start
--    implementation("io.papermc.paper:paper-mojangapi:1.19-R0.1-SNAPSHOT") {
-+    implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") { // Purpur
+     implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-     }
-     // Pufferfish end
 @@ -44,6 +44,9 @@ dependencies {
      runtimeOnly("mysql:mysql-connector-java:8.0.29")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
@@ -3288,7 +3285,7 @@ index d18b82f1f66cd10250a12222dfb983ef57629738..e3aa852788ff16e2b52b00a09783721a
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index bf488013e45b9ab97568e587f4dad899498b2f73..8de50381d8b52dd87331a43fa95e09038e32db6f 100644
+index 88a849a21d6e39fd70f6e7b554528da1a5a7dd57..9e7f500e0338b70223d879df5fda47acd8843fd8 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -263,6 +263,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
@@ -8970,7 +8967,7 @@ index 45c3cec839a7c23903dedf6e3e004305da2adceb..22a66e59687ca889965536464b628f45
              return super.mobInteract(player, hand);
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..e16a9ebc84e5494ce599c6817cfd0d233326b4db 100644
+index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..0f69e1c4e4b14186e7cb99f170ac4d164d2e252c 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 @@ -101,10 +101,23 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
@@ -8984,7 +8981,7 @@ index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..e16a9ebc84e5494ce599c6817cfd0d23
 -        this.moveControl = new FlyingMoveControl(this, 20, true);
 +        // Purpur start
 +        this.purpurController = new org.purpurmc.purpur.controller.FlyingMoveControllerWASD(this, 0.1F, 0.5F);
-+       this.moveControl = new FlyingMoveControl(this, 20, true) {
++        this.moveControl = new FlyingMoveControl(this, 20, true) {
 +            @Override
 +            public void tick() {
 +                if (mob.getRider() != null && mob.isControllable()) {
@@ -8998,9 +8995,9 @@ index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..e16a9ebc84e5494ce599c6817cfd0d23
          this.setCanPickUpLoot(this.canPickUpLoot());
          EntityPositionSource entitypositionsource = new EntityPositionSource(this, this.getEyeHeight());
  
-@@ -113,6 +126,28 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
-         this.dynamicJukeboxListener = new DynamicGameEventListener<>(new Allay.JukeboxListener(entitypositionsource, GameEvent.JUKEBOX_PLAY.getNotificationRadius()));
+@@ -119,6 +132,28 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
      }
+     // CraftBukkit end
  
 +    // Purpur start
 +    @Override
@@ -9024,9 +9021,9 @@ index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..e16a9ebc84e5494ce599c6817cfd0d23
 +    }
 +    // Purpur end
 +
-     // CraftBukkit start
-     public void setCanDuplicate(boolean canDuplicate) {
-         this.entityData.set(Allay.DATA_CAN_DUPLICATE, canDuplicate);
+     @Override
+     protected Brain.Provider<Allay> brainProvider() {
+         return Brain.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
 @@ -230,12 +265,12 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
  
      @Override
@@ -11161,7 +11158,7 @@ index e0f71dc12cfc28710cacfbc372026f556dcab165..fe26858b6d2f616fa34f4073ddfc1302
          }
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
-index 30a67a1eef9238e12e54c57a0608387cc0f763ef..17fbd93aa9bc397e4166d27618c6b89404e5b1ba 100644
+index 30a67a1eef9238e12e54c57a0608387cc0f763ef..3c841029197eeca960f033acf7d450145e72e0bd 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
 @@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
@@ -11194,7 +11191,7 @@ index 30a67a1eef9238e12e54c57a0608387cc0f763ef..17fbd93aa9bc397e4166d27618c6b894
 +
 +    @Override
 +    public void initAttributes() {
-+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.zombieMaxHealth);
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.drownedMaxHealth);
 +    }
 +
 +    @Override

@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a9acec9feef3c5322ce2c312cd8800bcdaca0947..2930d67e9fe5a88261291e1ee8c523a75f500694 100644
+index dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8..1dfd550e30ba1bd0b642a62bb0991395f52ec9f5 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -15,7 +15,7 @@ index a9acec9feef3c5322ce2c312cd8800bcdaca0947..2930d67e9fe5a88261291e1ee8c523a7
 -    implementation(project(":purpur-api")) // Purpur
 +    implementation(project(":Prismarine-API")) // Paper // Pufferfish // Purpur // Prismarine
      // Pufferfish start
-     implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") { // Purpur
+     implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
 @@ -87,7 +87,7 @@ tasks.jar {
          attributes(
