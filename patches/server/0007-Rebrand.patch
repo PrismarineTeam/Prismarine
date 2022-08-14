@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a9acec9feef3c5322ce2c312cd8800bcdaca0947..2930d67e9fe5a88261291e1ee8c523a75f500694 100644
+index dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8..1dfd550e30ba1bd0b642a62bb0991395f52ec9f5 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -15,7 +15,7 @@ index a9acec9feef3c5322ce2c312cd8800bcdaca0947..2930d67e9fe5a88261291e1ee8c523a7
 -    implementation(project(":purpur-api")) // Purpur
 +    implementation(project(":Prismarine-API")) // Paper // Pufferfish // Purpur // Prismarine
      // Pufferfish start
-     implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") { // Purpur
+     implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
 @@ -87,7 +87,7 @@ tasks.jar {
          attributes(
@@ -155,7 +155,7 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb449215
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c35e25e1df8d679104b394e308bdbcc1723296ad..9027750de0f300a9135d479d0810e1a7b3d2e8fc 100644
+index 68fac0f4687f713ec0c5dfb1d639540b63f4ea38..5313eecc914aa0d0ff39ac1743470387faaa2a79 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
