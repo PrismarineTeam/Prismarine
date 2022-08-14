@@ -50,7 +50,7 @@ Prismarine support this movement, not removing chatting report function which pu
 Prismarine is developed for server admin to enable or disable chatting report function.
 It's basically enabled, but if you want to disable, you can disable it in `prismarine.yml`. (Function provider: [No Chat Reports](https://modrinth.com/mod/no-chat-reports))
 
-### participate in #saveminecraft movement. 
+### Participate in #saveminecraft movement 
 Please participate in [Change.org petition](https://chng.it/4MQX8YybMf). No register needs.
 
 Please join [#saveminecraft movement Discord](https://discord.gg/saveminecraft).

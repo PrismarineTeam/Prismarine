@@ -27,9 +27,18 @@ index e13f5a56b5067ca5c322252d634a9096fd1a97c9..9ed7bc941f121035ebbf474f87ec9e27
          return executedUnloadTask | canSaveChunk | canSaveEntities | canSavePOI;
      }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index abeb41655dd7f368a9f16e2ebec571633222a910..68fac0f4687f713ec0c5dfb1d639540b63f4ea38 100644
+index 5a609ddfdad131172de374e3006aaf4b5aadc5ed..3acde23569719eee5493738b6e64e9eb1b545313 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -221,7 +221,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     private String localIp;
+     private int port;
+     public final RegistryAccess.Frozen registryHolder;
+-    private Map<ResourceKey<Level>, ServerLevel> levels;
++    public Map<ResourceKey<Level>, ServerLevel> levels; // Prismarine - private -> public
+     private PlayerList playerList;
+     private volatile boolean running;
+     private volatile boolean isRestarting = false; // Paper - flag to signify we're attempting to restart
 @@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
@@ -48,7 +57,7 @@ index abeb41655dd7f368a9f16e2ebec571633222a910..68fac0f4687f713ec0c5dfb1d639540b
          if (this.server != null) {
              this.server.disablePlugins();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 09d9433521ee776943e79492fbf7b699b53ccbe3..6ca99115caf633ea55991ab5ad26ae215ed9c131 100644
+index 19533ae826570a4847037385ab0c8ecf00a20b73..faee61048bc4a50509030f6adf80879cc39a9185 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -658,7 +658,7 @@ public class ServerLevel extends Level implements WorldGenLevel {

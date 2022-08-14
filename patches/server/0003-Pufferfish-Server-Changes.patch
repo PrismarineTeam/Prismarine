@@ -2784,7 +2784,7 @@ index 7ef6273f9205f5d116b3ccf1d9e4d7e95939aa16..eef4828676a450581e18510e4d47e661
  
      public static long getCoordinateKey(final ChunkPos pair) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index aed7ee721cc0790ee41ee789029af0177dad0bb7..b292e5903686982058c62d742192267c53d6e6c7 100644
+index 83c1b9dd7cd4a43375fd069f2892548ee4c51f1f..fc9b3d87cd1af291f4012112efdf288b30bb0a93 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -298,6 +298,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -2796,7 +2796,7 @@ index aed7ee721cc0790ee41ee789029af0177dad0bb7..b292e5903686982058c62d742192267c
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -1646,7 +1648,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1662,7 +1664,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -2805,7 +2805,7 @@ index aed7ee721cc0790ee41ee789029af0177dad0bb7..b292e5903686982058c62d742192267c
      }
  
      public SystemReport fillSystemReport(SystemReport details) {
-@@ -2225,6 +2227,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2241,6 +2243,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public ProfilerFiller getProfiler() {
@@ -3146,7 +3146,7 @@ index 3b144c820531122eb37d41be06c182b5f5dc0724..88152988425b7b02ec5ce229ba4c24b4
  
              set.clear();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 737a7dbab2a5e6dd8d3eccfb751f552be1df1c45..68f5bdf31b928986fcd753c5db55f3ca3a4f8632 100644
+index 7b14332f495c0c82a0d8b50b470c2e7ec5c278b4..e49d53204a01a6eec818992f7281518e0a58e2a3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -722,7 +722,20 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -3203,10 +3203,10 @@ index 737a7dbab2a5e6dd8d3eccfb751f552be1df1c45..68f5bdf31b928986fcd753c5db55f3ca
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index dbefefc123e3cb38a95bd321d74c384bc087cfba..d18b82f1f66cd10250a12222dfb983ef57629738 100644
+index c3a5aa2cbfeef1d2841ef85d135a2f6e0a7a2f61..9aab29dd7a09c306d6c0e1e8143daf005d611d65 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1219,6 +1219,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1222,6 +1222,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void handleEditBook(ServerboundEditBookPacket packet) {
@@ -3214,7 +3214,7 @@ index dbefefc123e3cb38a95bd321d74c384bc087cfba..d18b82f1f66cd10250a12222dfb983ef
          // Paper start
          if (!this.cserver.isPrimaryThread()) {
              List<String> pageList = packet.getPages();
-@@ -2365,6 +2366,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2368,6 +2369,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      }
  
      private boolean updateChatOrder(Instant timestamp) {
@@ -5665,7 +5665,7 @@ index b1992ed5136cc7dcf04219868b94b3c37ae36b4b..5b5339cba819368f4d6b7eaf404fa59b
  
      @Nullable
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3983a3033ad75c2a636e74bdcc6a27b59ffcd537..648c04762a5636d34bd4bf3528b191a336459d34 100644
+index 9f90a7f051ca4dd9ffdfacf70969d2af332bb668..0de9bd1c9828596950244dc7e5449eabe67f5708 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper

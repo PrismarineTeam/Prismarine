@@ -643,7 +643,7 @@ index eef4828676a450581e18510e4d47e6610127a922..95467c9b6a2cb2e41817a44d67627af1
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 5313eecc914aa0d0ff39ac1743470387faaa2a79..4db6ab1de422dc48ade56c5fe079903a5072cd45 100644
+index 2c2fa65314def31c25178c8e7fa0c462903e77bf..f2445e577a2207f5c3ed63a4a1146758e940fdd8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1015,6 +1015,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -662,7 +662,7 @@ index 5313eecc914aa0d0ff39ac1743470387faaa2a79..4db6ab1de422dc48ade56c5fe079903a
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2758,6 +2760,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2774,6 +2776,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -684,7 +684,7 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 8de50381d8b52dd87331a43fa95e09038e32db6f..c49312cc1272fbf7a176d14f4072a58bbb5a15ee 100644
+index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d48764455 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -130,6 +130,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se

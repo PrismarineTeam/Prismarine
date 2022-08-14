@@ -16717,7 +16717,7 @@ index 7034af8ad42940c5af6b9032b9873ce36c55a2a7..7ef6273f9205f5d116b3ccf1d9e4d7e9
          }
      }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 081c7160cf727646cdec4cd551dbc2aad56326f6..aed7ee721cc0790ee41ee789029af0177dad0bb7 100644
+index dd9ab51e904be2f2f2a2981d4f0f6638a6895e8d..83c1b9dd7cd4a43375fd069f2892548ee4c51f1f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -301,7 +301,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -16848,7 +16848,7 @@ index 081c7160cf727646cdec4cd551dbc2aad56326f6..aed7ee721cc0790ee41ee789029af017
                  long i = ((curTime = System.nanoTime()) / (1000L * 1000L)) - this.nextTickTime; // Paper
  
                  if (i > 5000L && this.nextTickTime - this.lastOverloadWarning >= 30000L) { // CraftBukkit
-@@ -2053,7 +2043,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2069,7 +2059,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              net.minecraft.world.item.alchemy.PotionBrewing.reload(); // Paper
              new io.papermc.paper.event.server.ServerResourcesReloadedEvent(cause).callEvent(); // Paper
              // Paper start
@@ -16857,7 +16857,7 @@ index 081c7160cf727646cdec4cd551dbc2aad56326f6..aed7ee721cc0790ee41ee789029af017
                  return;
              }
              // this.getPlayerList().saveAll(); // Paper - we don't need to save everything, just advancements
-@@ -2461,7 +2451,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2477,7 +2467,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // CraftBukkit start
      @Override
      public boolean isSameThread() {
@@ -20044,7 +20044,7 @@ index 59acbf6249f8f5285504c0ddea448a3433d1d68d..a6101a573fc18572d72acab8bb21143a
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 083349794d5ceb50322c5a645dd33fbfcc1c8155..737a7dbab2a5e6dd8d3eccfb751f552be1df1c45 100644
+index a030762ea9888b5fab04c5c80acdacccb76f0e46..7b14332f495c0c82a0d8b50b470c2e7ec5c278b4 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -190,7 +190,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -21819,7 +21819,7 @@ index 947b0b10fb965f30513fd0df5bc0910fb9cb9a71..01e15c7b70dd60f6ad417c8bb81edfa5
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 31a9c375db3d4fb7809310b8226529b72f482cc2..3983a3033ad75c2a636e74bdcc6a27b59ffcd537 100644
+index b7c2cb3209962ea8c7bd04fcaba7e2916b8a1f43..9f90a7f051ca4dd9ffdfacf70969d2af332bb668 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1251,7 +1251,7 @@ public final class CraftServer implements Server {
