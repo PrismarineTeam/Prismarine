@@ -31,11 +31,11 @@ index ac541ddf1594ae865de02fd40940e39285043b1f..2ec90acf3a36aac84b68f086a333d8a6
              return;
          }
 diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-index df92b8f4c6f668d27a73622d920182ed20dab582..46185ef61f42482959b922899ef9bdd641e71f68 100644
+index 4592917524a15c0f4053dffed23ce04b41b8ccd8..9fab9bb0bc9d01d4fa11cca253f17a5773633b76 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-@@ -59,6 +59,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
-         this.worldCallback = worldCallback;
+@@ -71,6 +71,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
+         return visibility.isAccessible() ? entity : null;
      }
  
 +    @Override public int getCount() { return entityById.values().size(); } // Prismarine - Port PaperMC/Paper#8177 (Rewrite Chunk System)

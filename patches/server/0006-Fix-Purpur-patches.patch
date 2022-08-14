@@ -5,10 +5,10 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 29595a5fef9a5cdd6891b2bdfc3bb8ee1e03aa59..2ed5706247d2ab97354423858836a851ba6d9de7 100644
+index e13f5a56b5067ca5c322252d634a9096fd1a97c9..9ed7bc941f121035ebbf474f87ec9e278d1da5bb 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-@@ -1641,7 +1641,7 @@ public final class NewChunkHolder {
+@@ -1651,7 +1651,7 @@ public final class NewChunkHolder {
          boolean canSavePOI = poi != null && poi.isDirty();
          boolean canSaveEntities = entities != null;
  
@@ -17,7 +17,7 @@ index 29595a5fef9a5cdd6891b2bdfc3bb8ee1e03aa59..2ed5706247d2ab97354423858836a851
              if (canSaveChunk) {
                  canSaveChunk = this.saveChunk(chunk, unloading);
              }
-@@ -1655,7 +1655,7 @@ public final class NewChunkHolder {
+@@ -1665,7 +1665,7 @@ public final class NewChunkHolder {
                      this.lastEntityUnload = null;
                  }
              }

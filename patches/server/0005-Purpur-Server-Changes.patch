@@ -3156,7 +3156,7 @@ index d18b82f1f66cd10250a12222dfb983ef57629738..e3aa852788ff16e2b52b00a09783721a
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index bf488013e45b9ab97568e587f4dad899498b2f73..8de50381d8b52dd87331a43fa95e09038e32db6f 100644
+index 88a849a21d6e39fd70f6e7b554528da1a5a7dd57..9e7f500e0338b70223d879df5fda47acd8843fd8 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -263,6 +263,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
@@ -5787,7 +5787,7 @@ index e752c83df50fb9b670ecea2abc95426c2a009b6f..baa4f9026d31de92210300ecb8ee8c1b
              if (baseEntity == null) {
                  if (this.isCombat && (!targetEntity.canBeSeenAsEnemy() || targetEntity.level.getDifficulty() == Difficulty.PEACEFUL)) {
 diff --git a/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java b/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java
-index 93a99f3e790f58477dd371eb04374d9b6a8aab1f..41f188d42e96e1bcc80ed1339f568f9224f6fd74 100644
+index c578056f1c17141bc708ce40e92cbc5fed69afc6..2f830cfbab9dfdd6c64ae4b5091144fb6797aad1 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 @@ -239,9 +239,9 @@ public class PoiManager extends SectionStorage<PoiSection> {
@@ -18827,7 +18827,7 @@ index fd74cc9c0dab84b176f7da3fbbbdbc8fd3a7e26d..fdda70f216b3805cc6d8105c3d85814a
      protected final float explosionResistance;
      protected final boolean isRandomlyTicking;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 0d5baca5cbea060ae29810baabe946e401cff1f8..a65eb60e8ade1e67d55b0f15e1039d10b1abdbce 100644
+index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33bb19caf82 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -136,7 +136,7 @@ public class LevelChunk extends ChunkAccess {
@@ -18839,7 +18839,7 @@ index 0d5baca5cbea060ae29810baabe946e401cff1f8..a65eb60e8ade1e67d55b0f15e1039d10
      }
  
      public org.bukkit.Chunk bukkitChunk;
-@@ -945,7 +945,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -939,7 +939,7 @@ public class LevelChunk extends ChunkAccess {
              server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkLoadEvent(this.bukkitChunk, this.needsDecoration));
  
              if (this.needsDecoration) {
@@ -18848,7 +18848,7 @@ index 0d5baca5cbea060ae29810baabe946e401cff1f8..a65eb60e8ade1e67d55b0f15e1039d10
                  this.needsDecoration = false;
                  java.util.Random random = new java.util.Random();
                  random.setSeed(this.level.getSeed());
-@@ -965,7 +965,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -959,7 +959,7 @@ public class LevelChunk extends ChunkAccess {
                      }
                  }
                  server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkPopulateEvent(this.bukkitChunk));
@@ -18857,7 +18857,7 @@ index 0d5baca5cbea060ae29810baabe946e401cff1f8..a65eb60e8ade1e67d55b0f15e1039d10
              }
          }
      }
-@@ -1306,10 +1306,10 @@ public class LevelChunk extends ChunkAccess {
+@@ -1300,10 +1300,10 @@ public class LevelChunk extends ChunkAccess {
  
                  if (LevelChunk.this.isTicking(blockposition)) {
                      try {
@@ -18871,7 +18871,7 @@ index 0d5baca5cbea060ae29810baabe946e401cff1f8..a65eb60e8ade1e67d55b0f15e1039d10
                          BlockState iblockdata = LevelChunk.this.getBlockState(blockposition);
  
                          if (this.blockEntity.getType().isValid(iblockdata)) {
-@@ -1320,7 +1320,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -1314,7 +1314,7 @@ public class LevelChunk extends ChunkAccess {
                              LevelChunk.LOGGER.warn("Block entity {} @ {} state {} invalid for ticking:", new Object[]{LogUtils.defer(this::getType), LogUtils.defer(this::getPos), iblockdata});
                          }
  
@@ -18880,7 +18880,7 @@ index 0d5baca5cbea060ae29810baabe946e401cff1f8..a65eb60e8ade1e67d55b0f15e1039d10
                      } catch (Throwable throwable) {
                          if (throwable instanceof ThreadDeath) throw throwable; // Paper
                          // Paper start - Prevent tile entity and entity crashes
-@@ -1331,7 +1331,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -1325,7 +1325,7 @@ public class LevelChunk extends ChunkAccess {
                          // Paper end
                          // Spigot start
                      } finally {

@@ -2758,10 +2758,10 @@ index 0fd814f1d65c111266a2b20f86561839a4cef755..ffc217df0649e85d4a7b3d4b1c2c6a82
      protected final double maxFragFactor;
  
 diff --git a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
-index 8463b6084322122f611588746431234a9e4fc0f9..243bcf3532501a76f2622d6e862924b3f6b49b89 100644
+index a55d8941e68949b61dc9b57d75fa549592f0974d..5993cfcf227fcdcf584c5a354133da167f64ff7e 100644
 --- a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
 +++ b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
-@@ -32,7 +32,7 @@ public final class ChunkEntitySlices {
+@@ -34,7 +34,7 @@ public final class ChunkEntitySlices {
      protected final EntityCollectionBySection allEntities;
      protected final EntityCollectionBySection hardCollidingEntities;
      protected final Reference2ObjectOpenHashMap<Class<? extends Entity>, EntityCollectionBySection> entitiesByClass;
@@ -2835,7 +2835,7 @@ index bdd6560fe85950b0a857a949cb38c044da44ca6b..519883c5549744e047a8a96afee14274
          }
      }
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index c51c97c620368dec265e0e9982e66f23f5566afe..8404d728d24095159868fbc10cfcf6028e787668 100644
+index 59286ccaefe86ac0f432a89662cbbd9a2216f32f..0604edd19378e366a679faa49d01166578688eb8 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -455,7 +455,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -5223,7 +5223,7 @@ index d559f93a9a09bac414dd5d58afccad42c127f09b..13e749a3c40f0b2cc002f13675a9a56e
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 25883cba5957c3c47f947bed0adfaba75e6368ce..0d5baca5cbea060ae29810baabe946e401cff1f8 100644
+index b135f38beb532452def4cb63b4226781974e2437..0124b29c57228df92cc37fbce539d20558bdd872 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -94,6 +94,18 @@ public class LevelChunk extends ChunkAccess {
