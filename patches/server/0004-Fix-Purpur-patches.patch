@@ -5,18 +5,9 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3d30dbb66d05f76545e119243cba4d549cbae714..2fd4a9c8726f51efc4e28cf27ea43e71359f4349 100644
+index 3d30dbb66d05f76545e119243cba4d549cbae714..31dc2b26f180e64c2e376b63efd7419a4fc66255 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -221,7 +221,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-     private String localIp;
-     private int port;
-     public final RegistryAccess.Frozen registryHolder;
--    private Map<ResourceKey<Level>, ServerLevel> levels;
-+    public Map<ResourceKey<Level>, ServerLevel> levels; // Prismarine - private -> public
-     private PlayerList playerList;
-     private volatile boolean running;
-     private volatile boolean isRestarting = false; // Paper - flag to signify we're attempting to restart
 @@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
