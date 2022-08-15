@@ -5,6 +5,19 @@ Subject: [PATCH] Implement No Chat Reports
 
 Original by Aizistral Studios
 
+diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
+index 28ddab1121e314e82bf764fd89f36714bd7445f8..94027fb10f382901992fac47fcef801e63c060cb 100644
+--- a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
++++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
+@@ -313,7 +313,7 @@ public final class ChatProcessor {
+ 
+         private void sendToServer(final ChatType.Bound chatType, final @Nullable Function<Audience, net.minecraft.network.chat.Component> msgFunction) {
+             final PlayerChatMessage toConsoleMessage = msgFunction == null ? ChatProcessor.this.message : ChatProcessor.this.message.withUnsignedContent(msgFunction.apply(ChatProcessor.this.server.console));
+-            ChatProcessor.this.server.logChatMessage(toConsoleMessage.serverContent(), chatType, ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage, ChatProcessor.this.player.asChatSender()) ? null : "Not Secure");
++            ChatProcessor.this.server.logChatMessage(toConsoleMessage.serverContent(), chatType, (ChatProcessor.this.server.getPlayerList().verifyChatTrusted(toConsoleMessage, ChatProcessor.this.player.asChatSender()) || net.prismarineteam.prismarine.PrismarineConfig.removeNotSecurePrefix) ? null : "Not Secure"); // Prismarine - Remove "Not Secure" prefix
+         }
+ 
+         record ConstantFunction(net.minecraft.network.chat.Component component) implements Function<Audience, net.minecraft.network.chat.Component> {
 diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
 index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..1195d24a9a1180e926cd30fe98cfcb1856834a0d 100644
 --- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
@@ -63,9 +76,18 @@ index 9adc717cffee5065863e2972ad749517e5a4a2a3..e655fbcf4b7c761c66a76e4586a687e7
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c999b74f6f19fdb17e2f756b724f481b3dfe8d58..0e272fed1dc66154ba74ea0697b7bd32b3660419 100644
+index c999b74f6f19fdb17e2f756b724f481b3dfe8d58..5c54675459b5a9b91bb7d0a8b5f4afe3d7017b17 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -1480,7 +1480,7 @@ public abstract class PlayerList {
+         // Paper end
+         boolean flag = this.verifyChatTrusted(message, sourceProfile);
+ 
+-        this.server.logChatMessage((unsignedFunction == null ? message : message.withUnsignedContent(unsignedFunction.apply(this.server.console))).serverContent(), params, flag ? null : "Not Secure"); // Paper
++        this.server.logChatMessage((unsignedFunction == null ? message : message.withUnsignedContent(unsignedFunction.apply(this.server.console))).serverContent(), params, (flag || net.prismarineteam.prismarine.PrismarineConfig.removeNotSecurePrefix) ? null : "Not Secure"); // Paper // Prismarine - Remove "Not Secure" prefix
+         OutgoingPlayerChatMessage outgoingplayerchatmessage = OutgoingPlayerChatMessage.create(message);
+         boolean flag1 = message.isFullyFiltered();
+         boolean flag2 = false;
 @@ -1518,7 +1518,7 @@ public abstract class PlayerList {
      }
  
@@ -89,10 +111,10 @@ index f669386d8b17f78006917869a8393173b676c448..df8562aef9015194269aaaa451f6efa6
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 5e2a7471c69a5bb7ceabf5aeee332f6208b9d309..536125b4fad19667464adba054c9a7bcb35410c2 100644
+index 5e2a7471c69a5bb7ceabf5aeee332f6208b9d309..4618c96a6d0a12b641f22f1a8024cc132a152216 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -201,4 +201,11 @@ public class PrismarineConfig {
+@@ -201,4 +201,16 @@ public class PrismarineConfig {
      private static void storePlayerJsonListAsynchronously() {
          storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
      }
@@ -102,6 +124,11 @@ index 5e2a7471c69a5bb7ceabf5aeee332f6208b9d309..536125b4fad19667464adba054c9a7bc
 +    private static void noChatReports() {
 +        disableChatReport = getBoolean("settings.disable-chat-report.enabled", disableChatReport);
 +        convertToGameMessage = getBoolean("settings.disable-chat-report.convert-to-game-message", convertToGameMessage);
++    }
++
++    public static boolean removeNotSecurePrefix = false;
++    private static void removeNotSecurePrefix() {
++        removeNotSecurePrefix = getBoolean("settings.remove-not-secure-prefix", removeNotSecurePrefix);
 +    }
  }
 \ No newline at end of file
