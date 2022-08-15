@@ -30,15 +30,6 @@ diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/
 index 5a609ddfdad131172de374e3006aaf4b5aadc5ed..3acde23569719eee5493738b6e64e9eb1b545313 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -221,7 +221,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-     private String localIp;
-     private int port;
-     public final RegistryAccess.Frozen registryHolder;
--    private Map<ResourceKey<Level>, ServerLevel> levels;
-+    public Map<ResourceKey<Level>, ServerLevel> levels; // Prismarine - private -> public
-     private PlayerList playerList;
-     private volatile boolean running;
-     private volatile boolean isRestarting = false; // Paper - flag to signify we're attempting to restart
 @@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");

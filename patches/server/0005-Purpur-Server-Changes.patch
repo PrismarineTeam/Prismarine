@@ -20549,7 +20549,7 @@ index 138407c2d4b0bc55ddb9aac5d2aa3edadda090fb..a6e9e503a496c18e2501b03ec84f4600
          // Paper end - add timings for scoreboard search
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 522c519752d2fdb838bd797c77fdc7d0934b51e9..03382a35e5b22b871ba945687c4030c5cf091625 100644
+index 05cc8f9cdcd7e920bf9503f68efb16cd74a359a2..0b248a987d22da21aa802c5dba00b4f987c365ea 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -430,7 +430,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
@@ -25668,7 +25668,7 @@ index 0000000000000000000000000000000000000000..d333334f323049ca97e756324cff0b23
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/task/CompassTask.java b/src/main/java/org/purpurmc/purpur/task/CompassTask.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bdb214bc2e0d944a26c825c1124d23d4fee2eca9
+index 0000000000000000000000000000000000000000..5c06909e343f06b00816fcf227c7080aec8057ce
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/task/CompassTask.java
 @@ -0,0 +1,68 @@
@@ -25700,7 +25700,7 @@ index 0000000000000000000000000000000000000000..bdb214bc2e0d944a26c825c1124d23d4
 +        }
 +        tick = 0;
 +
-+        MinecraftServer.getServer().levels.forEach((key, level) -> {
++        MinecraftServer.getServer().getAllLevels().forEach((level) -> {
 +            if (level.purpurConfig.compassItemShowsBossBar) {
 +                level.players.forEach(player -> {
 +                    if (!player.compassBar()) {
