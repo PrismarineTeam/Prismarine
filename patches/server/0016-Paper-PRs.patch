@@ -123,7 +123,7 @@ index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f20
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6f81b00a2ddd053e646f0d800220d840626ae313..efc47cc8d85df1ae09bc96dc1c93943adab2e47b 100644
+index ef9d92497b548a18f367157b419ba0ca6dfb378c..c999b74f6f19fdb17e2f756b724f481b3dfe8d58 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -610,7 +610,7 @@ public abstract class PlayerList {
@@ -213,10 +213,10 @@ index deffa277272c34adb39d7c3e69e91502780a090e..66c65df229acc4041ed2027df07d4ab0
          if (spawnDelay > 0 && --tickDelay > 0) return;
          tickDelay = world.paperConfig().tickRates.mobSpawner;
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 733ee49a31381cb4e82aa4d5d69e10af2d3e11da..28f05e224afffd7255f1e7e4bccbd372d7f9b1ac 100644
+index 30077cc34ba45025ec5ec60c01b84ed4b3d2dcc6..9bfbe138c4dc704a018ec7c16d04450b57579eea 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -187,4 +187,13 @@ public class PrismarineConfig {
+@@ -205,4 +205,13 @@ public class PrismarineConfig {
      private static void useAirplaneCollisionContext() {
          useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
      }
@@ -232,7 +232,7 @@ index 733ee49a31381cb4e82aa4d5d69e10af2d3e11da..28f05e224afffd7255f1e7e4bccbd372
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-index 6445c2e4c97860e1c98f5263188d309cf55936f0..019fcb36e8ad22a05448cc483f78a54e514b1ff0 100644
+index 62bca85da6c5d9877e21fecb702370506ddf671c..275f4b7378b1c9d297f2d0af5c7571b142a21db6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
 @@ -372,10 +372,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
@@ -262,7 +262,7 @@ index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407
      /**
       * Creates a suitable adapter instance for the primitive class type
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 4f37159aad0063645d0213286ca31975531b7ba2..08578ae2fff7a5da6bf4f82534bd393ca5b07bf3 100644
+index 0b248a987d22da21aa802c5dba00b4f987c365ea..58eaeae2751261057bdb0081e50db26b99fd8c17 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -453,8 +453,8 @@ public final class CraftMagicNumbers implements UnsafeValues {

@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index fb1e403edd753975d8c1608d569fc63adefc9ba5..0c1d9efcb47e10d796ddb14dbacef174f415e44f 100644
+index 22acc4d451a96c4b7655a9f2333a283d2b891caa..08b085da9a9a746223fc0387e58e3daf24432410 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {
@@ -39,11 +39,10 @@ index fb1e403edd753975d8c1608d569fc63adefc9ba5..0c1d9efcb47e10d796ddb14dbacef174
                  }
  
                  if ((this.trackDelta || this.entity.hasImpulse || this.entity instanceof LivingEntity && ((LivingEntity) this.entity).isFallFlying()) && this.tickCount > 0) {
-@@ -246,6 +247,22 @@ public class ServerEntity {
-         }
+@@ -247,6 +248,22 @@ public class ServerEntity {
  
      }
-+    
+ 
 +    // Prismarine start
 +    private boolean isUselessEntityPacket(Packet<?> possibleUselessEntityPacket) {
 +        if (possibleUselessEntityPacket instanceof ClientboundMoveEntityPacket) {
@@ -59,18 +58,19 @@ index fb1e403edd753975d8c1608d569fc63adefc9ba5..0c1d9efcb47e10d796ddb14dbacef174
 +        return false;
 +    }
 +    // Prismarine end
- 
++
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
+         // Pufferfish start - ensure main thread
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index f059997d1d2b9b5fb9cba6e8ef8bcfef0cf24d9a..b7e07417c65d927dcc97668aee03d58eed530d84 100644
+index 7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b..c1630079740f4ff37d772fa31859efa26af1c61e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -177,4 +177,9 @@ public class PrismarineConfig {
-     private static void logPlayerLoginLocation() {
-         logPlayerLoginLocation = getBoolean("settings.log-player-login-location", logPlayerLoginLocation);
+@@ -195,4 +195,9 @@ public class PrismarineConfig {
+     private static void fastHandSwing() {
+         fastHandSwing = getBoolean("settings.fast-hand-swing", fastHandSwing);
      }
-+    
++
 +    public static boolean doNotSendUselessEntityPackets = true;
 +    private static void doNotSendUselessEntityPackets() {
 +        doNotSendUselessEntityPackets = getBoolean("settings.do-not-send-useless-entity-packets", doNotSendUselessEntityPackets);

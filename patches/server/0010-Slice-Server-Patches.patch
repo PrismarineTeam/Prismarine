@@ -212,10 +212,10 @@ index cbe7f5c1f51b1315009eb4127a3d58cb34831d1b..b3f9151e211ee52910e4e1598e193c00
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index cd414a9275e6d9f8c704854763b18f4ee43b67b7..0e6895350f8d9ff2a417fa9ca12dc37dd7fae28f 100644
+index 61bbb8a3738f289bd61c438a27a496f904c26b78..0805c3be61395d31f78524240a7330f6e9b24af3 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3150,7 +3150,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3151,7 +3151,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
@@ -265,7 +265,7 @@ index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index f3839c16815b50dfce41c31bc6992dcbbd6759a5..95e84e7f00d2cd6ea19ff0054350ff2ab874b470 100644
+index 284624683d0e593bc7996fa90a6eee2b6a22ad9e..ffe714e847c71f955f286ee6ecc12c40a9ca685a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2344,7 +2344,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
