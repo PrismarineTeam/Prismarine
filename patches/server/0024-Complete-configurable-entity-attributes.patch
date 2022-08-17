@@ -1,0 +1,845 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Tue, 16 Aug 2022 14:49:26 +0900
+Subject: [PATCH] Complete configurable entity attributes
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+index b934d7d0317e6a94171ea484c72c8b15708842a3..3c9d9d1853838b36dd536662e14f8658d2aba8ed 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+@@ -218,6 +218,14 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.beeMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.beeFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.beeKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.beeMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.beeAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.beeArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.beeArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
+index ff3fe48b360784cf2fd63e7593487c6bc954fd09..981f7310eedc2f90fe90c92267ad24e397e502e9 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
+@@ -122,6 +122,14 @@ public class Cat extends TamableAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.catMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Chicken.java b/src/main/java/net/minecraft/world/entity/animal/Chicken.java
+index 67893824250ca0b1f441f116aefa555b68bb594e..4de1dba80a74ef7b74436d7aa09eb09581a3b026 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Chicken.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Chicken.java
+@@ -72,9 +72,14 @@ public class Chicken extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.chickenMaxHealth);
+-        if (level.purpurConfig.chickenRetaliate) {
+-            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+-        }
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.chickenFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.chickenKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.chickenMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.chickenAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.chickenArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.chickenArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cod.java b/src/main/java/net/minecraft/world/entity/animal/Cod.java
+index de70208403ef6c6c9c82ca4c1fd3b641a40bb45c..d1d98673261c36da79bcc02164e792ab0d218d88 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cod.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cod.java
+@@ -32,6 +32,13 @@ public class Cod extends AbstractSchoolingFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.codMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.codFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.codKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.codMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.codArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.codArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cow.java b/src/main/java/net/minecraft/world/entity/animal/Cow.java
+index a79b4a90274d25d427214b96649cdf8561469a83..aab3d8476330d94af871498f906e0c5add597ce0 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cow.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cow.java
+@@ -63,6 +63,13 @@ public class Cow extends Animal {
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.cowMaxHealth);
+         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.purpurConfig.cowNaturallyAggressiveToPlayersDamage); // Purpur
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.cowFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.cowKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.cowMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.cowArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.cowArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
+index 284c1342695aeb652f39c236d14538647465846e..2b99f01b6e6a7912ea6112f00cebb832da7c37ca 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
+@@ -162,6 +162,14 @@ public class Dolphin extends WaterAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.dolphinMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.dolphinFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.dolphinKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.dolphinMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.dolphinAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.dolphinArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.dolphinArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Fox.java b/src/main/java/net/minecraft/world/entity/animal/Fox.java
+index 21d755f228fbb49ded0e78322c6d29fc2622bb79..d55724825df08c9f7a5247b4bd98d2aa573bdef2 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Fox.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Fox.java
+@@ -182,6 +182,14 @@ public class Fox extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.foxMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.foxFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.foxKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.foxMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.foxAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.foxArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.foxArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+index 0292690b9c99f66210a03817e512c65ca65bc749..02c69dce92a66706d7ffb582a31d82ad6798a630 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
++++ b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+@@ -89,6 +89,14 @@ public class IronGolem extends AbstractGolem implements NeutralMob {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.ironGolemMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.ironGolemFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.ironGolemKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.ironGolemMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.ironGolemAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.ironGolemArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.ironGolemArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java b/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java
+index ecc36d8800427715c86060a1f29a292a475757a4..c85d54f1a5010754a528b2e54a57dab4881bc4b3 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java
++++ b/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java
+@@ -83,6 +83,14 @@ public class MushroomCow extends Cow implements Shearable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.mooshroomMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.mooshroomFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.mooshroomKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.mooshroomMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.mooshroomAttackDamage);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.mooshroomArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.mooshroomArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Ocelot.java b/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
+index ded18d12b426837723f98a0163efbb2bbbbf6c00..59685074aa77e2eac1c1cd87ef600af6e4ec2c23 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
+@@ -87,6 +87,14 @@ public class Ocelot extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.ocelotMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.ocelotFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.ocelotKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.ocelotMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.ocelotAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.ocelotArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.ocelotArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Panda.java b/src/main/java/net/minecraft/world/entity/animal/Panda.java
+index 31a5fa82ccae53d8755a4110497c9e8c04ff347a..e5099a9987ae79bf40a369626771d6abcb1b4cf6 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Panda.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Panda.java
+@@ -135,6 +135,14 @@ public class Panda extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pandaMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaArmorToughness);
++        // Prismarine end
+         setAttributes();
+     }
+ 
+@@ -656,7 +664,7 @@ public class Panda extends Animal {
+         }
+ 
+         if (this.isLazy()) {
+-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.07000000029802322D);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaLazyMovementSpeed);
+         }
+ 
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Parrot.java b/src/main/java/net/minecraft/world/entity/animal/Parrot.java
+index 69fb76512ee64cbc410542db3c9969f57cad1bd4..b9f8b3c8e3d3f0d6100387112e85a5c6aac6adb4 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Parrot.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Parrot.java
+@@ -189,6 +189,14 @@ public class Parrot extends ShoulderRidingEntity implements FlyingAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.parrotMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.parrotFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.parrotKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.parrotMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.parrotArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.parrotArmorToughness);
++        this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.parrotFlyingSpeed);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Pig.java b/src/main/java/net/minecraft/world/entity/animal/Pig.java
+index f8fb169609be7cde19d88192ce6791b4fa24a738..0fc341574625e4a1931a88036c9299c79cb9bc98 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Pig.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Pig.java
+@@ -83,6 +83,13 @@ public class Pig extends Animal implements ItemSteerable, Saddleable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pigMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pigFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pigKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pigMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pigArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pigArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/PolarBear.java b/src/main/java/net/minecraft/world/entity/animal/PolarBear.java
+index 43cc70fa6c5ad551a10054e68f6589e6514d60fc..73e4f199b66245534f1567af90d4d1df661f401e 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/PolarBear.java
++++ b/src/main/java/net/minecraft/world/entity/animal/PolarBear.java
+@@ -96,6 +96,14 @@ public class PolarBear extends Animal implements NeutralMob {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.polarBearMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.polarBearFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.polarBearKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.polarBearMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.polarBearAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.polarBearArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.polarBearArmorToughness);
++        // Prismarine end
+     }
+ 
+     public boolean canMate(Animal other) {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java b/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java
+index bf9e6b6ca2b2bf8b2a2e96d10cd4fda9c59df1b8..f630f8206fa26c43eeeeba95576de3429707ab2a 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java
+@@ -64,6 +64,13 @@ public class Pufferfish extends AbstractFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pufferfishMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pufferfishFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pufferfishKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pufferfishMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pufferfishArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pufferfishArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+index e6b36650d1c670dbb3ccb0657f43432e64166e29..6251e58962f8521d5b7e6e9c8f4a6578b90bbbe7 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+@@ -141,6 +141,13 @@ public class Rabbit extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.rabbitMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+@@ -443,7 +450,7 @@ public class Rabbit extends Animal {
+ 
+     public void setRabbitType(int rabbitType) {
+         if (rabbitType == 99) {
+-            this.getAttribute(Attributes.ARMOR).setBaseValue(8.0D);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.killerBunnyArmor);
+             this.goalSelector.addGoal(4, new Rabbit.EvilRabbitAttackGoal(this));
+             this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers());
+             this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Salmon.java b/src/main/java/net/minecraft/world/entity/animal/Salmon.java
+index bd1e964c7899a54a2c39afe0691a7573cfe35fc1..dd9669f555530bc0e71fba0ecc0fd854232c6252 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Salmon.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Salmon.java
+@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.world.damagesource.DamageSource;
+ import net.minecraft.world.entity.EntityType;
++import net.minecraft.world.entity.ai.attributes.Attributes;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.Items;
+ import net.minecraft.world.level.Level;
+@@ -32,6 +33,13 @@ public class Salmon extends AbstractSchoolingFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.salmonMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.salmonFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.salmonKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.salmonMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.salmonArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.salmonArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Sheep.java b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+index 954a12c23da96a07cd175f6f2eb28e8c5d2a8c3d..5205725e395837dd3dd1a440d30d0ef19a482875 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Sheep.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+@@ -135,6 +135,13 @@ public class Sheep extends Animal implements Shearable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.sheepMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.sheepFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.sheepKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.sheepMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.sheepArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.sheepArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java b/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
+index 00d86c57fabbb464a156dfaceadccd978f0d149c..8389e03cff955c8c8d05cc45d64b52b4dd537b8a 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
++++ b/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
+@@ -74,6 +74,14 @@ public class SnowGolem extends AbstractGolem implements Shearable, RangedAttackM
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.snowGolemMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.snowGolemFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.snowGolemKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.snowGolemMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.snowGolemAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.snowGolemArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.snowGolemArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Nullable
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Squid.java b/src/main/java/net/minecraft/world/entity/animal/Squid.java
+index 8afdb5d4fecbb45bad2ed801fc0e526d15ef07c5..4dfb4367b59e8f3efa45136e3e508b2d4f37ae4e 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Squid.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Squid.java
+@@ -79,6 +79,13 @@ public class Squid extends WaterAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.squidMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.squidFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.squidKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.squidMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.squidArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.squidArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java b/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java
+index 62b891c752d225f00685c42c8228eb0537f41091..6288182fc21797baece77d5b6941397000c1d06c 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java
++++ b/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java
+@@ -68,6 +68,13 @@ public class TropicalFish extends AbstractSchoolingFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.tropicalFishMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.tropicalFishFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.tropicalFishKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.tropicalFishMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.tropicalFishArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.tropicalFishArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Turtle.java b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
+index e9c37c2b7fb1c6f2abc0b51c498ba8e0d2a5ef7e..d44994d5e141fa8a68a34005cf99594749b10aff 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Turtle.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
+@@ -101,6 +101,13 @@ public class Turtle extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.turtleMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.turtleFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.turtleKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.turtleMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.turtleArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.turtleArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
+index 22a66e59687ca889965536464b628f45b0e88ec0..5008ae8fb6965a5e5aa419262cf239a607227f84 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
+@@ -164,6 +164,14 @@ public class Wolf extends TamableAnimal implements NeutralMob {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.wolfMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.wolfFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.wolfKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.wolfMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.wolfAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.wolfArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.wolfArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 6b0609ff86c840355b7ec3ee14ab11db5dcbc444..2b9ff023a10ba4ad24a3fdee7d7fb44114405e87 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -14,6 +14,13 @@ public class PrismarineWorldConfig {
+ 
+     private final String worldName;
+ 
++    private final double defaultFollowRange = 32.0D;
++    private final double defaultKnockbackResistance = 0.0D;
++    private final double defaultMovementSpeed = 0.699999988079071D;
++    private final double defaultAttackDamage = 2.0D;
++    private final double defaultArmor = 0.0D;
++    private final double defaultArmorToughness = 0.0D;
++
+     public PrismarineWorldConfig(String worldName) {
+         this.worldName = worldName;
+         init();
+@@ -74,7 +81,7 @@ public class PrismarineWorldConfig {
+         final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
+         return value.isEmpty() ? fallback : value;
+     }
+-    
++
+     public double fishingRodLength = 1024.0D;
+     private void fishingRodLength() {
+         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
+@@ -101,4 +108,354 @@ public class PrismarineWorldConfig {
+     private void timerTimeOut() {
+         timerTimeOut = getInt("timer-time-out", timerTimeOut);
+     }
++
++    public double beeFollowRange = 48.0D;
++    public double beeKnockbackResistance;
++    public double beeMovementSpeed = 0.30000001192092896D;
++    public double beeAttackDamage = 2.0D;
++    public double beeArmor;
++    public double beeArmorToughness;
++    public double beeFlyingSpeed = 0.6000000238418579D;
++    private void beeSettings() {
++        beeFollowRange = getDouble("mobs.bee.attribute.follow_range", beeFollowRange);
++        beeKnockbackResistance = getDouble("mobs.bee.attribute.knockback_resistance", defaultKnockbackResistance);
++        beeMovementSpeed = getDouble("mobs.bee.attribute.movement_speed", beeMovementSpeed);
++        beeAttackDamage = getDouble("mobs.bee.attribute.attack_damage", beeAttackDamage);
++        beeArmor = getDouble("mobs.bee.attribute.armor", defaultArmor);
++        beeArmorToughness = getDouble("mobs.bee.attribute.armor_toughness", defaultArmorToughness);
++        beeFlyingSpeed = getDouble("mobs.bee.attribute.flying_speed", beeFlyingSpeed);
++    }
++
++    public double catFollowRange;
++    public double catKnockbackResistance;
++    public double catMovementSpeed = 0.30000001192092896D;
++    public double catAttackDamage = 3.0D;
++    public double catArmor;
++    public double catArmorToughness;
++    private void catSettings() {
++        catFollowRange = getDouble("mobs.cat.attribute.follow_range", defaultFollowRange);
++        catKnockbackResistance = getDouble("mobs.cat.attribute.knockback_resistance", defaultKnockbackResistance);
++        catMovementSpeed = getDouble("mobs.cat.attribute.movement_speed", catMovementSpeed);
++        catAttackDamage = getDouble("mobs.cat.attribute.attack_damage", catAttackDamage);
++        catArmor = getDouble("mobs.cat.attribute.armor", defaultArmor);
++        catArmorToughness = getDouble("mobs.cat.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double chickenFollowRange;
++    public double chickenKnockbackResistance;
++    public double chickenMovementSpeed = 0.25D;
++    public double chickenAttackDamage;
++    public double chickenArmor;
++    public double chickenArmorToughness;
++    private void chickenSettings() {
++        chickenFollowRange = getDouble("mobs.chicken.attribute.follow_range", defaultFollowRange);
++        chickenKnockbackResistance = getDouble("mobs.chicken.attribute.knockback_resistance", defaultKnockbackResistance);
++        chickenMovementSpeed = getDouble("mobs.chicken.attribute.movement_speed", chickenMovementSpeed);
++        chickenAttackDamage = getDouble("mobs.chicken.attribute.attack_damage", defaultAttackDamage);
++        chickenArmor = getDouble("mobs.chicken.attribute.armor", defaultArmor);
++        chickenArmorToughness = getDouble("mobs.chicken.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double codFollowRange;
++    public double codKnockbackResistance;
++    public double codMovementSpeed;
++    public double codAttackDamage;
++    public double codArmor;
++    public double codArmorToughness;
++    private void codSettings() {
++        codFollowRange = getDouble("mobs.cod.attribute.follow_range", defaultFollowRange);
++        codKnockbackResistance = getDouble("mobs.cod.attribute.knockback_resistance", defaultKnockbackResistance);
++        codMovementSpeed = getDouble("mobs.cod.attribute.movement_speed", defaultMovementSpeed);
++        codAttackDamage = getDouble("mobs.cod.attribute.attack_damage", defaultAttackDamage);
++        codArmor = getDouble("mobs.cod.attribute.armor", defaultArmor);
++        codArmorToughness = getDouble("mobs.cod.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double cowFollowRange;
++    public double cowKnockbackResistance;
++    public double cowMovementSpeed = 0.20000000298023224D;
++    public double cowArmor;
++    public double cowArmorToughness;
++    private void cowSettings() {
++        cowFollowRange = getDouble("mobs.cow.attribute.follow_range", defaultFollowRange);
++        cowKnockbackResistance = getDouble("mobs.cow.attribute.knockback_resistance", defaultKnockbackResistance);
++        cowMovementSpeed = getDouble("mobs.cow.attribute.movement_speed", cowMovementSpeed);
++        cowArmor = getDouble("mobs.cow.attribute.armor", defaultArmor);
++        cowArmorToughness = getDouble("mobs.cow.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double dolphinFollowRange;
++    public double dolphinKnockbackResistance;
++    public double dolphinMovementSpeed = 1.2000000476837158D;
++    public double dolphinAttackDamage = 3.0D;
++    public double dolphinArmor;
++    public double dolphinArmorToughness;
++    private void dolphinSettings() {
++        dolphinFollowRange = getDouble("mobs.dolphin.attribute.follow_range", defaultFollowRange);
++        dolphinKnockbackResistance = getDouble("mobs.dolphin.attribute.knockback_resistance", defaultKnockbackResistance);
++        dolphinMovementSpeed = getDouble("mobs.dolphin.attribute.movement_speed", dolphinMovementSpeed);
++        dolphinAttackDamage = getDouble("mobs.dolphin.attribute.attack_damage", dolphinAttackDamage);
++        dolphinArmor = getDouble("mobs.dolphin.attribute.armor", defaultArmor);
++        dolphinArmorToughness = getDouble("mobs.dolphin.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double foxFollowRange;
++    public double foxKnockbackResistance;
++    public double foxMovementSpeed = 0.30000001192092896D;
++    public double foxAttackDamage;
++    public double foxArmor;
++    public double foxArmorToughness;
++    private void foxSettings() {
++        foxFollowRange = getDouble("mobs.fox.attribute.follow_range", defaultFollowRange);
++        foxKnockbackResistance = getDouble("mobs.fox.attribute.knockback_resistance", defaultKnockbackResistance);
++        foxMovementSpeed = getDouble("mobs.fox.attribute.movement_speed", foxMovementSpeed);
++        foxAttackDamage = getDouble("mobs.fox.attribute.attack_damage", defaultAttackDamage);
++        foxArmor = getDouble("mobs.fox.attribute.armor", defaultArmor);
++        foxArmorToughness = getDouble("mobs.fox.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double ironGolemFollowRange;
++    public double ironGolemKnockbackResistance = 1.0D;
++    public double ironGolemMovementSpeed = 0.25D;
++    public double ironGolemAttackDamage = 15.0D;
++    public double ironGolemArmor;
++    public double ironGolemArmorToughness;
++    private void ironGolemSettings() {
++        ironGolemFollowRange = getDouble("mobs.iron-golem.attribute.follow_range", defaultFollowRange);
++        ironGolemKnockbackResistance = getDouble("mobs.iron-golem.attribute.knockback_resistance", ironGolemKnockbackResistance);
++        ironGolemMovementSpeed = getDouble("mobs.iron-golem.attribute.movement_speed", ironGolemMovementSpeed);
++        ironGolemAttackDamage = getDouble("mobs.iron-golem.attribute.attack_damage", ironGolemAttackDamage);
++        ironGolemArmor = getDouble("mobs.iron-golem.attribute.armor", defaultArmor);
++        ironGolemArmorToughness = getDouble("mobs.iron-golem.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double mooshroomFollowRange;
++    public double mooshroomKnockbackResistance;
++    public double mooshroomMovementSpeed;
++    public double mooshroomAttackDamage;
++    public double mooshroomArmor;
++    public double mooshroomArmorToughness;
++    private void mooshroomSettings() {
++        mooshroomFollowRange = getDouble("mobs.mooshroom.attribute.follow_range", defaultFollowRange);
++        mooshroomKnockbackResistance = getDouble("mobs.mooshroom.attribute.knockback_resistance", defaultKnockbackResistance);
++        mooshroomMovementSpeed = getDouble("mobs.mooshroom.attribute.movement_speed", cowMovementSpeed);
++        mooshroomAttackDamage = getDouble("mobs.mooshroom.attribute.attack_damage", defaultAttackDamage);
++        mooshroomArmor = getDouble("mobs.mooshroom.attribute.armor", defaultArmor);
++        mooshroomArmorToughness = getDouble("mobs.mooshroom.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double ocelotFollowRange;
++    public double ocelotKnockbackResistance;
++    public double ocelotMovementSpeed = 0.30000001192092896D;
++    public double ocelotAttackDamage = 3.0D;
++    public double ocelotArmor;
++    public double ocelotArmorToughness;
++    private void ocelotSettings() {
++        ocelotFollowRange = getDouble("mobs.ocelot.attribute.follow_range", defaultFollowRange);
++        ocelotKnockbackResistance = getDouble("mobs.ocelot.attribute.knockback_resistance", defaultKnockbackResistance);
++        ocelotMovementSpeed = getDouble("mobs.ocelot.attribute.movement_speed", ocelotMovementSpeed);
++        ocelotAttackDamage = getDouble("mobs.ocelot.attribute.attack_damage", ocelotAttackDamage);
++        ocelotArmor = getDouble("mobs.ocelot.attribute.armor", defaultArmor);
++        ocelotArmorToughness = getDouble("mobs.ocelot.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double pandaFollowRange;
++    public double pandaKnockbackResistance;
++    public double pandaMovementSpeed = 0.15000000596046448D;
++    public double pandaAttackDamage = 6.0D;
++    public double pandaArmor;
++    public double pandaArmorToughness;
++    public double pandaLazyMovementSpeed = 0.07000000029802322D;
++    public double pandaWeakMaxHealth = 10.0D;
++    private void pandaSettings() {
++        pandaFollowRange = getDouble("mobs.panda.normal.attribute.follow_range", defaultFollowRange);
++        pandaKnockbackResistance = getDouble("mobs.panda.normal.attribute.knockback_resistance", defaultKnockbackResistance);
++        pandaMovementSpeed = getDouble("mobs.panda.normal.attribute.movement_speed", pandaMovementSpeed);
++        pandaAttackDamage = getDouble("mobs.panda.normal.attribute.attack_damage", pandaAttackDamage);
++        pandaArmor = getDouble("mobs.panda.normal.attribute.armor", defaultArmor);
++        pandaArmorToughness = getDouble("mobs.panda.normal.attribute.armor_toughness", defaultArmorToughness);
++        pandaLazyMovementSpeed = getDouble("mobs.panda.lazy.attribute.movement_speed", pandaLazyMovementSpeed);
++        pandaWeakMaxHealth = getDouble("mobs.panda.weak.attribute.max_health", pandaWeakMaxHealth);
++    }
++
++    public double parrotFollowRange;
++    public double parrotKnockbackResistance;
++    public double parrotMovementSpeed = 0.20000000298023224D;
++    public double parrotArmor;
++    public double parrotArmorToughness;
++    public double parrotFlyingSpeed = 0.4000000059604645D;
++    private void parrotSettings() {
++        parrotFollowRange = getDouble("mobs.parrot.attribute.follow_range", defaultFollowRange);
++        parrotKnockbackResistance = getDouble("mobs.parrot.attribute.knockback_resistance", defaultKnockbackResistance);
++        parrotMovementSpeed = getDouble("mobs.parrot.attribute.movement_speed", parrotMovementSpeed);
++        parrotArmor = getDouble("mobs.parrot.attribute.armor", defaultArmor);
++        parrotArmorToughness = getDouble("mobs.parrot.attribute.armor_toughness", defaultArmorToughness);
++        parrotFlyingSpeed = getDouble("mobs.parrot.attribute.flying_speed", parrotFlyingSpeed);
++    }
++
++    public double pigFollowRange;
++    public double pigKnockbackResistance;
++    public double pigMovementSpeed = 0.25D;
++    public double pigArmor;
++    public double pigArmorToughness;
++    private void pigSettings() {
++        pigFollowRange = getDouble("mobs.pig.attribute.follow_range", defaultFollowRange);
++        pigKnockbackResistance = getDouble("mobs.pig.attribute.knockback_resistance", defaultKnockbackResistance);
++        pigMovementSpeed = getDouble("mobs.pig.attribute.movement_speed", pigMovementSpeed);
++        pigArmor = getDouble("mobs.pig.attribute.armor", defaultArmor);
++        pigArmorToughness = getDouble("mobs.pig.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double polarBearFollowRange = 20.0D;
++    public double polarBearKnockbackResistance;
++    public double polarBearMovementSpeed = 0.25D;
++    public double polarBearAttackDamage = 6.0D;
++    public double polarBearArmor;
++    public double polarBearArmorToughness;
++    private void polarBearSettings() {
++        polarBearFollowRange = getDouble("mobs.polar-bear.attribute.follow_range", polarBearFollowRange);
++        polarBearKnockbackResistance = getDouble("mobs.polar-bear.attribute.knockback_resistance", defaultKnockbackResistance);
++        polarBearMovementSpeed = getDouble("mobs.polar-bear.attribute.movement_speed", polarBearMovementSpeed);
++        polarBearAttackDamage = getDouble("mobs.polar-bear.attribute.attack_damage", polarBearAttackDamage);
++        polarBearArmor = getDouble("mobs.polar-bear.attribute.armor", defaultArmor);
++        polarBearArmorToughness = getDouble("mobs.polar-bear.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double pufferfishFollowRange;
++    public double pufferfishKnockbackResistance;
++    public double pufferfishMovementSpeed;
++    public double pufferfishArmor;
++    public double pufferfishArmorToughness;
++    private void pufferfishSettings() {
++        pufferfishFollowRange = getDouble("mobs.pufferfish.attribute.follow_range", defaultFollowRange);
++        pufferfishKnockbackResistance = getDouble("mobs.pufferfish.attribute.knockback_resistance", defaultKnockbackResistance);
++        pufferfishMovementSpeed = getDouble("mobs.pufferfish.attribute.movement_speed", defaultMovementSpeed);
++        pufferfishArmor = getDouble("mobs.pufferfish.attribute.armor", defaultArmor);
++        pufferfishArmorToughness = getDouble("mobs.pufferfish.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double rabbitFollowRange;
++    public double rabbitKnockbackResistance;
++    public double rabbitMovementSpeed = 0.30000001192092896D;
++    public double rabbitArmor;
++    public double rabbitArmorToughness;
++    private void rabbitSettings() {
++        rabbitFollowRange = getDouble("mobs.rabbit.attribute.follow_range", defaultFollowRange);
++        rabbitKnockbackResistance = getDouble("mobs.rabbit.attribute.knockback_resistance", defaultKnockbackResistance);
++        rabbitMovementSpeed = getDouble("mobs.rabbit.attribute.movement_speed", rabbitMovementSpeed);
++        rabbitArmor = getDouble("mobs.rabbit.attribute.armor", defaultArmor);
++        rabbitArmorToughness = getDouble("mobs.rabbit.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double killerBunnyMaxHealth = 3.0D;
++    public double killerBunnyFollowRange;
++    public double killerBunnyKnockbackResistance;
++    public double killerBunnyMovementSpeed;
++    public double killerBunnyAttackDamage;
++    public double killerBunnyArmor = 8.0D;
++    public double killerBunnyArmorToughness;
++    private void killerBunnySettings() {
++        killerBunnyMaxHealth = getDouble("mobs.killer_bunny.attribute.max_health", killerBunnyMaxHealth);
++        killerBunnyFollowRange = getDouble("mobs.killer_bunny.attribute.follow_range", defaultFollowRange);
++        killerBunnyKnockbackResistance = getDouble("mobs.killer_bunny.attribute.knockback_resistance", defaultKnockbackResistance);
++        killerBunnyMovementSpeed = getDouble("mobs.killer_bunny.attribute.movement_speed", defaultMovementSpeed);
++        killerBunnyAttackDamage = getDouble("mobs.killer_bunny.attribute.attack_damage", defaultAttackDamage);
++        killerBunnyArmor = getDouble("mobs.killer_bunny.attribute.armor", killerBunnyArmor);
++        killerBunnyArmorToughness = getDouble("mobs.killer_bunny.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double salmonFollowRange;
++    public double salmonKnockbackResistance;
++    public double salmonMovementSpeed;
++    public double salmonArmor;
++    public double salmonArmorToughness;
++    private void salmonSettings() {
++        salmonFollowRange = getDouble("mobs.salmon.attribute.follow_range", defaultFollowRange);
++        salmonKnockbackResistance = getDouble("mobs.salmon.attribute.knockback_resistance", defaultKnockbackResistance);
++        salmonMovementSpeed = getDouble("mobs.salmon.attribute.movement_speed", defaultMovementSpeed);
++        salmonArmor = getDouble("mobs.salmon.attribute.armor", defaultArmor);
++        salmonArmorToughness = getDouble("mobs.salmon.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double sheepFollowRange;
++    public double sheepKnockbackResistance;
++    public double sheepMovementSpeed = 0.23000000417232513D;
++    public double sheepArmor;
++    public double sheepArmorToughness;
++    private void sheepSettings() {
++        sheepFollowRange = getDouble("mobs.sheep.attribute.follow_range", defaultFollowRange);
++        sheepKnockbackResistance = getDouble("mobs.sheep.attribute.knockback_resistance", defaultKnockbackResistance);
++        sheepMovementSpeed = getDouble("mobs.sheep.attribute.movement_speed", sheepMovementSpeed);
++        sheepArmor = getDouble("mobs.sheep.attribute.armor", defaultArmor);
++        sheepArmorToughness = getDouble("mobs.sheep.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double snowGolemFollowRange;
++    public double snowGolemKnockbackResistance;
++    public double snowGolemMovementSpeed = 0.20000000298023224D;
++    public double snowGolemAttackDamage;
++    public double snowGolemArmor;
++    public double snowGolemArmorToughness;
++    private void snowGolemSettings() {
++        snowGolemFollowRange = getDouble("mobs.snowgolem.attribute.follow_range", defaultFollowRange);
++        snowGolemKnockbackResistance = getDouble("mobs.snowgolem.attribute.knockback_resistance", defaultKnockbackResistance);
++        snowGolemMovementSpeed = getDouble("mobs.snowgolem.attribute.movement_speed", snowGolemMovementSpeed);
++        snowGolemAttackDamage = getDouble("mobs.snowgolem.attribute.attack_damage", defaultAttackDamage);
++        snowGolemArmor = getDouble("mobs.snowgolem.attribute.armor", defaultArmor);
++        snowGolemArmorToughness = getDouble("mobs.snowgolem.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double squidFollowRange;
++    public double squidKnockbackResistance;
++    public double squidMovementSpeed;
++    public double squidArmor;
++    public double squidArmorToughness;
++    private void squidSettings() {
++        squidFollowRange = getDouble("mobs.squid.attribute.follow_range", defaultFollowRange);
++        squidKnockbackResistance = getDouble("mobs.squid.attribute.knockback_resistance", defaultKnockbackResistance);
++        squidMovementSpeed = getDouble("mobs.squid.attribute.movement_speed", defaultMovementSpeed);
++        squidArmor = getDouble("mobs.squid.attribute.armor", defaultArmor);
++        squidArmorToughness = getDouble("mobs.squid.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double tropicalFishFollowRange;
++    public double tropicalFishKnockbackResistance;
++    public double tropicalFishMovementSpeed;
++    public double tropicalFishArmor;
++    public double tropicalFishArmorToughness;
++    private void tropicalFishSettings() {
++        tropicalFishFollowRange = getDouble("mobs.tropicalfish.attribute.follow_range", defaultFollowRange);
++        tropicalFishKnockbackResistance = getDouble("mobs.tropicalfish.attribute.knockback_resistance", defaultKnockbackResistance);
++        tropicalFishMovementSpeed = getDouble("mobs.tropicalfish.attribute.movement_speed", defaultMovementSpeed);
++        tropicalFishArmor = getDouble("mobs.tropicalfish.attribute.armor", defaultArmor);
++        tropicalFishArmorToughness = getDouble("mobs.tropicalfish.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double turtleFollowRange;
++    public double turtleKnockbackResistance;
++    public double turtleMovementSpeed = 0.25D;
++    public double turtleArmor;
++    public double turtleArmorToughness;
++    private void turtleSettings() {
++        turtleFollowRange = getDouble("mobs.turtle.attribute.follow_range", defaultFollowRange);
++        turtleKnockbackResistance = getDouble("mobs.turtle.attribute.knockback_resistance", defaultKnockbackResistance);
++        turtleMovementSpeed = getDouble("mobs.turtle.attribute.movement_speed", turtleMovementSpeed);
++        turtleArmor = getDouble("mobs.turtle.attribute.armor", defaultArmor);
++        turtleArmorToughness = getDouble("mobs.turtle.attribute.armor_toughness", defaultArmorToughness);
++    }
++
++    public double wolfFollowRange;
++    public double wolfKnockbackResistance;
++    public double wolfMovementSpeed = 0.30000001192092896D;
++    public double wolfAttackDamage;
++    public double wolfArmor;
++    public double wolfArmorToughness;
++    private void wolfSettings() {
++        wolfFollowRange = getDouble("mobs.wolf.attribute.follow_range", defaultFollowRange);
++        wolfKnockbackResistance = getDouble("mobs.wolf.attribute.knockback_resistance", defaultKnockbackResistance);
++        wolfMovementSpeed = getDouble("mobs.wolf.attribute.movement_speed", wolfMovementSpeed);
++        wolfAttackDamage = getDouble("mobs.wolf.attribute.attack_damage", defaultAttackDamage);
++        wolfArmor = getDouble("mobs.wolf.attribute.armor", defaultArmor);
++        wolfArmorToughness = getDouble("mobs.wolf.attribute.armor_toughness", defaultArmorToughness);
++    }
+ }
+\ No newline at end of file

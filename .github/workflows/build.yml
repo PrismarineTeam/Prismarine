@@ -6,7 +6,7 @@ on:
 env:
   version: 1.19.2
   branch: ver/1.19.2
-  debug: 'false'
+  debug: 'true'
 
 jobs:
   release:
@@ -41,12 +41,14 @@ jobs:
         run: ./gradlew applyPatches --stacktrace
 
       - name: Build
+        if: env.debug == 'false'
         run: ./gradlew build --stacktrace
 
       - name: Create Reobf Jar
         run: ./gradlew createReobfPaperclipJar --stacktrace
 
       - name: Create Mojmap Jar
+        if: env.debug == 'false'
         run: ./gradlew createMojmapPaperclipJar --stacktrace
         
       - name: Upload Artifacts
