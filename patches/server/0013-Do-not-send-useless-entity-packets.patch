@@ -39,11 +39,10 @@ index 22acc4d451a96c4b7655a9f2333a283d2b891caa..e69cfe03e35b2e8eae0f82084a5d7cc1
                  }
  
                  if ((this.trackDelta || this.entity.hasImpulse || this.entity instanceof LivingEntity && ((LivingEntity) this.entity).isFallFlying()) && this.tickCount > 0) {
-@@ -246,6 +247,22 @@ public class ServerEntity {
-         }
+@@ -247,6 +248,22 @@ public class ServerEntity {
  
      }
-+    
+ 
 +    // Prismarine start
 +    private boolean isUselessEntityPacket(Packet<?> possibleUselessEntityPacket) {
 +        if (possibleUselessEntityPacket instanceof ClientboundMoveEntityPacket) {
@@ -59,9 +58,10 @@ index 22acc4d451a96c4b7655a9f2333a283d2b891caa..e69cfe03e35b2e8eae0f82084a5d7cc1
 +        return false;
 +    }
 +    // Prismarine end
- 
++
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
+         // Pufferfish start - ensure main thread
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index 7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b..c1630079740f4ff37d772fa31859efa26af1c61e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
