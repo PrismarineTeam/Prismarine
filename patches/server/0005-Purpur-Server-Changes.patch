@@ -1554,10 +1554,10 @@ index a32cfa75a9bea896f558bab646d0868391b069a9..01ca7156d86243a80cd343a2a66be9eb
      public final boolean spawnNpcs = this.get("spawn-npcs", true);
      public final boolean pvp = this.get("pvp", true);
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0c49d46d5 100644
+index 923f4ed4fb67d447221ba52414d8aff1668e2399..be0155b64a575efd8be369c76670368a88a95468 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -739,20 +739,20 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -741,20 +741,20 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      }
  
      protected void tick(BooleanSupplier shouldKeepTicking) {
@@ -1586,7 +1586,7 @@ index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0
      }
  
      public boolean hasWork() {
-@@ -1125,7 +1125,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -1127,7 +1127,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          return this.anyPlayerCloseEnoughForSpawning(this.getUpdatingChunkIfPresent(chunkcoordintpair.toLong()), chunkcoordintpair, reducedRange);
      }
  
@@ -1595,7 +1595,7 @@ index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0
          // this function is so hot that removing the map lookup call can have an order of magnitude impact on its performance
          // tested and confirmed via System.nanoTime()
          com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> playersInRange = reducedRange ? playerchunk.playersInMobSpawnRange : playerchunk.playersInChunkTickRange;
-@@ -1411,24 +1411,24 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -1413,24 +1413,24 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          }
          // Pufferfish end
  
@@ -1624,7 +1624,7 @@ index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0
          }
      }
      // Paper end - optimised tracker
-@@ -1443,7 +1443,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -1445,7 +1445,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          List<ServerPlayer> list = Lists.newArrayList();
          List<ServerPlayer> list1 = this.level.players();
          ObjectIterator objectiterator = this.entityMap.values().iterator();
@@ -1633,7 +1633,7 @@ index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0
  
          ChunkMap.TrackedEntity playerchunkmap_entitytracker;
  
-@@ -1468,17 +1468,17 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -1470,17 +1470,17 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
                  playerchunkmap_entitytracker.serverEntity.sendChanges();
              }
          }
@@ -1655,10 +1655,10 @@ index 0604edd19378e366a679faa49d01166578688eb8..fefc38674df4333209000e37a67672d0
  
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626bdc0c7b16 100644
+index 5443853b0bd264bda05984c270cf78756e027fa0..122f03dcd53c94238635164db8f4429894cfdba0 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-@@ -384,9 +384,9 @@ public class ServerChunkCache extends ChunkSource {
+@@ -382,16 +382,16 @@ public class ServerChunkCache extends ChunkSource {
                  return ifLoaded;
              }
              // Paper end
@@ -1670,16 +1670,15 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
              long k = ChunkPos.asLong(x, z);
  
              ChunkAccess ichunkaccess;
-@@ -400,7 +400,7 @@ public class ServerChunkCache extends ChunkSource {
-                 }
-             }
+ 
+             // Paper - rewrite chunk system - there are no correct callbacks to remove items from cache, so why are we trusting this trash?
  
 -            gameprofilerfiller.incrementCounter("getChunkCacheMiss");
 +            //gameprofilerfiller.incrementCounter("getChunkCacheMiss"); // Purpur
              CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkFutureMainThread(x, z, leastStatus, create, true); // Paper
              ServerChunkCache.MainThreadExecutor chunkproviderserver_b = this.mainThreadProcessor;
  
-@@ -411,10 +411,10 @@ public class ServerChunkCache extends ChunkSource {
+@@ -402,10 +402,10 @@ public class ServerChunkCache extends ChunkSource {
                  io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.pushChunkWait(this.level, x1, z1); // Paper - rewrite chunk system
                  // Paper end
                  com.destroystokyo.paper.io.SyncLoadFinder.logSyncLoad(this.level, x1, z1); // Paper - sync load info
@@ -1692,7 +1691,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
                  // Paper - rewrite chunk system
              } // Paper
              ichunkaccess = (ChunkAccess) ((Either) completablefuture.join()).map((ichunkaccess1) -> {
-@@ -565,17 +565,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -556,17 +556,17 @@ public class ServerChunkCache extends ChunkSource {
  
      public void save(boolean flush) {
          this.runDistanceManagerUpdates();
@@ -1714,7 +1713,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
      }
      // Paper end
  
-@@ -592,36 +592,36 @@ public class ServerChunkCache extends ChunkSource {
+@@ -583,36 +583,36 @@ public class ServerChunkCache extends ChunkSource {
      // CraftBukkit start - modelled on below
      public void purgeUnload() {
          if (true) return; // Paper - tickets will be removed later, this behavior isn't really well accounted for by the chunk system
@@ -1764,7 +1763,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
          this.clearCache();
      }
  
-@@ -667,15 +667,15 @@ public class ServerChunkCache extends ChunkSource {
+@@ -658,15 +658,15 @@ public class ServerChunkCache extends ChunkSource {
              }
              // Paper end - optimize isOutisdeRange
              LevelData worlddata = this.level.getLevelData();
@@ -1784,7 +1783,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
              int l = this.distanceManager.getNaturalSpawnChunkCount();
              // Paper start - per player mob spawning
              NaturalSpawner.SpawnState spawnercreature_d; // moved down
-@@ -696,16 +696,16 @@ public class ServerChunkCache extends ChunkSource {
+@@ -687,16 +687,16 @@ public class ServerChunkCache extends ChunkSource {
                  // Pufferfish end
              }
              // Paper end
@@ -1805,7 +1804,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
              boolean flag2 = this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && !this.level.players().isEmpty(); // CraftBukkit
  
              // Paper - only shuffle if per-player mob spawning is disabled
-@@ -755,17 +755,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -746,17 +746,17 @@ public class ServerChunkCache extends ChunkSource {
                  }
              }
              // Paper end - optimise chunk tick iteration
@@ -1830,7 +1829,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
              if (!this.chunkMap.needsChangeBroadcasting.isEmpty()) {
                  ReferenceOpenHashSet<ChunkHolder> copy = this.chunkMap.needsChangeBroadcasting.clone();
                  this.chunkMap.needsChangeBroadcasting.clear();
-@@ -777,8 +777,8 @@ public class ServerChunkCache extends ChunkSource {
+@@ -768,8 +768,8 @@ public class ServerChunkCache extends ChunkSource {
                      }
                  }
              }
@@ -1841,7 +1840,7 @@ index 9101e4370309a850567a29e81f10840ebd9f6c2f..0bc187be4fe122bdf9ae8b12c795626b
              // Paper end - use set of chunks requiring updates, rather than iterating every single one loaded
              // Paper start - controlled flush for entity tracker packets
              List<net.minecraft.network.Connection> disabledFlushes = new java.util.ArrayList<>(this.level.players.size());
-@@ -989,7 +989,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -980,7 +980,7 @@ public class ServerChunkCache extends ChunkSource {
  
          @Override
          protected void doRunTask(Runnable task) {
@@ -1864,7 +1863,7 @@ index 88152988425b7b02ec5ce229ba4c24b40e030329..78c01b08ff8683960d1d227523ca6cec
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index e49d53204a01a6eec818992f7281518e0a58e2a3..19533ae826570a4847037385ab0c8ecf00a20b73 100644
+index 186f5bed36a9ee701c68683f07afdba554be7220..69a851d8a0778bb6fae4320eb52985230f9c664b 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -211,6 +211,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -18887,7 +18886,7 @@ index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33b
                      }
                  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
-index c5fce4f130a51508064f3b67ff617501de50e655..439d831b1b939613c83ed391fc08939c0c7ddc87 100644
+index 5bb0adfa7175ecce67a67d3835df468db7d95902..e707eee49866a72180eb0cb899a7057d78cef45d 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
 @@ -134,6 +134,7 @@ public class EntityStorage implements EntityPersistentStorage<Entity> {

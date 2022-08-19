@@ -5,10 +5,10 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 06fcbcc896355a80fa72fc70a584eae17ee264f7..4465c03b932f63f5fee74d985f8cd2bfc5cd4a76 100644
+index 28e692fb476b7530238018e02b00a34faca00e90..7bd68751805b14ab7907a44c3f46b1952b3c5ab1 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-@@ -1693,7 +1693,7 @@ public final class NewChunkHolder {
+@@ -1701,7 +1701,7 @@ public final class NewChunkHolder {
          boolean canSavePOI = poi != null && poi.isDirty();
          boolean canSaveEntities = entities != null;
  
@@ -17,7 +17,7 @@ index 06fcbcc896355a80fa72fc70a584eae17ee264f7..4465c03b932f63f5fee74d985f8cd2bf
              if (canSaveChunk) {
                  canSaveChunk = this.saveChunk(chunk, unloading);
              }
-@@ -1707,7 +1707,7 @@ public final class NewChunkHolder {
+@@ -1715,7 +1715,7 @@ public final class NewChunkHolder {
                      this.lastEntityUnload = null;
                  }
              }
@@ -48,7 +48,7 @@ index 5a609ddfdad131172de374e3006aaf4b5aadc5ed..39c3ccba27c2aad8b601a4014c0d271b
          if (this.server != null) {
              this.server.disablePlugins();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 19533ae826570a4847037385ab0c8ecf00a20b73..faee61048bc4a50509030f6adf80879cc39a9185 100644
+index 69a851d8a0778bb6fae4320eb52985230f9c664b..7fb719d7b9e6a30650d1781856a288bc511d4f09 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -658,7 +658,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
