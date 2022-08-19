@@ -73,7 +73,7 @@ See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)
 ### Requirements
 You needs latest Git, JDK upper than 17.
 
-Git should set `user.emal` and `user.name`
+Git should set `user.email` and `user.name`
 
 If you want to set, use these commands in your terminal.
 ```bash
@@ -120,7 +120,7 @@ repositories {
 ### Create patches and contribute to Prismarine
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-### Create your own bucket based on Prismarine
+### Create your own bukkit based on Prismarine
 See [Prismarine-Template](https://github.com/PrismarineTeam/Prismarine-Template)
 
 ### Building a jar file
