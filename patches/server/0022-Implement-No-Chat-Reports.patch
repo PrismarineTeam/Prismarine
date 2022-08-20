@@ -89,10 +89,10 @@ index f669386d8b17f78006917869a8393173b676c448..df8562aef9015194269aaaa451f6efa6
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 15d831471095782112e1087893d1bf12626e5080..38caff0e3f387ec6ff090ca1501718c9a1173c3c 100644
+index 066b16a49a2a1d20db794dd386f0ede9fb7a7cb8..90a199fb6d69f0b0d6c1d2b73bccce164710e312 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -219,4 +219,11 @@ public class PrismarineConfig {
+@@ -224,4 +224,11 @@ public class PrismarineConfig {
      private static void storePlayerJsonListAsynchronously() {
          storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
      }

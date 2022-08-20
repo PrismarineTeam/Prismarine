@@ -38,10 +38,10 @@ index a87f6380b2c387fb0cdd40d5087b5c93492e3c88..70009f417eb39a6c10b895b372309117
                                      VoxelShape voxelshape2 = blockData.getCollisionShape(getter, mutablePos, collisionShape);
                                      if (voxelshape2 != Shapes.empty()) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index c1630079740f4ff37d772fa31859efa26af1c61e..30077cc34ba45025ec5ec60c01b84ed4b3d2dcc6 100644
+index 565b871f1fd6e4bbe3bfcafdbdc9b3c2a259a0aa..f59337dd6c3a3c55e542a8d9a68a877d873576ff 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -200,4 +200,9 @@ public class PrismarineConfig {
+@@ -205,4 +205,9 @@ public class PrismarineConfig {
      private static void doNotSendUselessEntityPackets() {
          doNotSendUselessEntityPackets = getBoolean("settings.do-not-send-useless-entity-packets", doNotSendUselessEntityPackets);
      }

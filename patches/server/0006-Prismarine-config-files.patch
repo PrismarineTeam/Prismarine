@@ -46,10 +46,10 @@ index 018a5c13d3f0321d4346e6c1845f1aed2b8de3dd..25c8294a36d2f062ca4882820e99315a
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..40e5718ed69146cbf1aef7819bda1b8822e2499d
+index 0000000000000000000000000000000000000000..6022bfbf78999c5269f80a0435f5c91fe8177936
 --- /dev/null
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -0,0 +1,148 @@
+@@ -0,0 +1,153 @@
 +package net.prismarineteam.prismarine;
 +
 +import com.google.common.base.Throwables;
@@ -162,6 +162,11 @@ index 0000000000000000000000000000000000000000..40e5718ed69146cbf1aef7819bda1b88
 +        return config.getBoolean(path, config.getBoolean(path));
 +    }
 +
++    private static float getFloat(String path, float def) {
++        config.addDefault(path, def);
++        return config.getFloat(path, config.getFloat(path));
++    }
++
 +    private static double getDouble(String path, double def) {
 +        config.addDefault(path, def);
 +        return config.getDouble(path, config.getDouble(path));
@@ -201,10 +206,10 @@ index 0000000000000000000000000000000000000000..40e5718ed69146cbf1aef7819bda1b88
 \ No newline at end of file
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cf494171713b5fc12e9627774f2705b911b54bd2
+index 0000000000000000000000000000000000000000..a606ee39d03fc4870c6d801d43538032cf47069b
 --- /dev/null
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -0,0 +1,77 @@
+@@ -0,0 +1,90 @@
 +package net.prismarineteam.prismarine;
 +
 +import org.apache.commons.lang.BooleanUtils;
@@ -261,9 +266,22 @@ index 0000000000000000000000000000000000000000..cf494171713b5fc12e9627774f2705b9
 +        return predicate.test(bool);
 +    }
 +
++    private float getFloat(String path, float def) {
++        PrismarineConfig.config.addDefault("world-settings.default." + path, def);
++        return PrismarineConfig.config.getFloat("world-settings." + worldName + "." + path, PrismarineConfig.config.getFloat("world-settings.default." + path));
++    }
++
 +    private double getDouble(String path, double def) {
 +        PrismarineConfig.config.addDefault("world-settings.default." + path, def);
 +        return PrismarineConfig.config.getDouble("world-settings." + worldName + "." + path, PrismarineConfig.config.getDouble("world-settings.default." + path));
++    }
++
++    private double getDoubleIfSet(String path, double def){
++        return PrismarineConfig.config.getDouble("world-settings." + worldName + "." + path, PrismarineConfig.config.getDouble("world-settings.default." + path, def));
++    }
++
++    private double getPurpurWorldConfigDouble(String path) {
++        return org.purpurmc.purpur.PurpurConfig.config.getDouble("world-settings." + worldName + "." + path, PrismarineConfig.config.getDouble("world-settings.default." + path));
 +    }
 +
 +    private int getInt(String path, int def) {
@@ -357,7 +375,7 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 6d494301b67f3a04aa53bd742c7e5602bcff14ba..fdd46842810ab567498d144bf18a60366304905f 100644
+index ae57213514254811f85a26c5861df99bdec0c1f6..fe35b11d495ce0c400e03f0028c4e3a180161b97 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -993,6 +993,7 @@ public final class CraftServer implements Server {

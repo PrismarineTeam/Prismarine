@@ -1399,10 +1399,10 @@ index 68e89dbd79171627046e89699057964e44c40e7d..959588962acb0196ec9f1cc2502e6211
  
      @Override
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b 100644
+index 3e341c45ec7ae149bb0d6f7d8d464d19b574e4a4..a252004b8e15f1c44e5f2298e821f8b58c54a575 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -154,4 +154,45 @@ public class PrismarineConfig {
+@@ -159,4 +159,45 @@ public class PrismarineConfig {
              set("settings.patina-settings.disable-bootstrap-executor", null);
          }
      }
@@ -1450,10 +1450,10 @@ index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..7ff0d6ca8fcd4c9c5692647fe602512c
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index cf494171713b5fc12e9627774f2705b911b54bd2..c66135f75f95a10dd49cfb67ed8d84317715193d 100644
+index a606ee39d03fc4870c6d801d43538032cf47069b..54d7f554be4eb607cf2304eff21aab1783c8e58d 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -74,4 +74,9 @@ public class PrismarineWorldConfig {
+@@ -87,4 +87,9 @@ public class PrismarineWorldConfig {
          final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
          return value.isEmpty() ? fallback : value;
      }

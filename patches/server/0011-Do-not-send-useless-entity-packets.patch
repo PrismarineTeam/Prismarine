@@ -63,10 +63,10 @@ index 22acc4d451a96c4b7655a9f2333a283d2b891caa..08b085da9a9a746223fc0387e58e3daf
          this.entity.stopSeenByPlayer(player);
          // Pufferfish start - ensure main thread
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b..c1630079740f4ff37d772fa31859efa26af1c61e 100644
+index a252004b8e15f1c44e5f2298e821f8b58c54a575..565b871f1fd6e4bbe3bfcafdbdc9b3c2a259a0aa 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -195,4 +195,9 @@ public class PrismarineConfig {
+@@ -200,4 +200,9 @@ public class PrismarineConfig {
      private static void fastHandSwing() {
          fastHandSwing = getBoolean("settings.fast-hand-swing", fastHandSwing);
      }

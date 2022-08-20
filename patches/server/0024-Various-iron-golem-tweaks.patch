@@ -1,0 +1,69 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 20 Aug 2022 16:58:00 +0900
+Subject: [PATCH] Various iron golem tweaks
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+index 0292690b9c99f66210a03817e512c65ca65bc749..238ce4cfe28e47df0af8bf448b22acbf7b16623d 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
++++ b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+@@ -326,27 +326,24 @@ public class IronGolem extends AbstractGolem implements NeutralMob {
+     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+         ItemStack itemstack = player.getItemInHand(hand);
+ 
+-        if (!itemstack.is(Items.IRON_INGOT)) {
++        // Prismarine start
++        if ((!itemstack.is(Items.IRON_INGOT) && !itemstack.is(Items.IRON_BLOCK)) || this.getHealth() == this.getMaxHealth()) {
+             return tryRide(player, hand); // Purpur
+         } else {
+-            float f = this.getHealth();
++            if (itemstack.is(Items.IRON_INGOT)) this.heal(this.level.prismarineConfig.ironGolemHealAmount);
++            else if (itemstack.is(Items.IRON_BLOCK)) this.heal(this.level.prismarineConfig.ironGolemBulkHealAmount);
++            float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+ 
+-            this.heal(25.0F);
+-            if (this.getHealth() == f) {
+-                return tryRide(player, hand); // Purpur
+-            } else {
+-                float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+-
+-                this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
+-                if (!player.getAbilities().instabuild) {
+-                    itemstack.shrink(1);
+-                }
++            this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
++            if (!player.getAbilities().instabuild) {
++                itemstack.shrink(1);
++            }
+ 
+-                if (this.level.purpurConfig.ironGolemHealCalm && isAngry() && getHealth() == getMaxHealth()) stopBeingAngry(); // Purpur
++            if (this.level.purpurConfig.ironGolemHealCalm && isAngry() && getHealth() == getMaxHealth()) stopBeingAngry(); // Purpur
+ 
+-                return InteractionResult.sidedSuccess(this.level.isClientSide);
+-            }
++            return InteractionResult.sidedSuccess(this.level.isClientSide);
+         }
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 8850d9e23b851bad7d32bdaca2ddfbed0746c359..5cff7addb0a723e29b352c7b4b7d6cc60c16e118 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -114,4 +114,13 @@ public class PrismarineWorldConfig {
+     private void timerTimeOut() {
+         timerTimeOut = getInt("timer-time-out", timerTimeOut);
+     }
++
++    public float ironGolemHealAmount = 25.0F;
++    public boolean ironGolemBulkHeal = false;
++    public float ironGolemBulkHealAmount = 250.0F;
++    private void ironGolemSettings() {
++        ironGolemHealAmount = getFloat("mobs.iron_golem.heal-amount", ironGolemHealAmount);
++        ironGolemBulkHeal = getBoolean("mobs.iron_golem.bulk-heal.enabled", ironGolemBulkHeal);
++        ironGolemBulkHealAmount = getFloat("mobs.iron_golem.bulk-heal.amount", ironGolemBulkHealAmount);
++    }
+ }
+\ No newline at end of file

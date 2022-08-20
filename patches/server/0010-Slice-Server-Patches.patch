@@ -238,10 +238,10 @@ index 64ca2c92c4908bbb0272d1c22870af68aa9daad2..f669386d8b17f78006917869a8393173
  
      public void startAutoSpinAttack(int riptideTicks) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c087aa498a 100644
+index 54d7f554be4eb607cf2304eff21aab1783c8e58d..e2cb90247959f13c6a21af091d79d8404607544a 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -79,4 +79,21 @@ public class PrismarineWorldConfig {
+@@ -92,4 +92,21 @@ public class PrismarineWorldConfig {
      private void fishingRodLength() {
          fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
      }

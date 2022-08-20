@@ -1,0 +1,1742 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Tue, 16 Aug 2022 14:49:26 +0900
+Subject: [PATCH] Complete configurable entity attributes
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+index b934d7d0317e6a94171ea484c72c8b15708842a3..3c9d9d1853838b36dd536662e14f8658d2aba8ed 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+@@ -218,6 +218,14 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.beeMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.beeFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.beeKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.beeMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.beeAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.beeArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.beeArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
+index ff3fe48b360784cf2fd63e7593487c6bc954fd09..7eb7e08ef12622518e71303a111ca9d127c50c52 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
+@@ -119,10 +119,99 @@ public class Cat extends TamableAnimal {
+         setRelaxStateOne(false);
+     }
+ 
+-    @Override
+-    public void initAttributes() {
+-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.catMaxHealth);
++    // Prismarine start
++    public void setAttributes() {
++        if (getCatVariant() == CatVariant.WHITE) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catWhiteMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catWhiteFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catWhiteKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catWhiteMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catWhiteAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catWhiteArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catWhiteArmorToughness);
++        } else if (getCatVariant() == CatVariant.BLACK) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catBlackMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catBlackFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catBlackKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catBlackMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catBlackAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catBlackArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catBlackArmorToughness);
++        } else if (getCatVariant() == CatVariant.RED) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catRedMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catRedFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catRedKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catRedMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catRedAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catRedArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catRedArmorToughness);
++        } else if (getCatVariant() == CatVariant.SIAMESE) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catSiameseMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catSiameseFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catSiameseKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catSiameseMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catSiameseAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catSiameseArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catSiameseArmorToughness);
++        } else if (getCatVariant() == CatVariant.BRITISH_SHORTHAIR) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catBritishShorthairMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catBritishShorthairFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catBritishShorthairKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catBritishShorthairMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catBritishShorthairAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catBritishShorthairArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catBritishShorthairArmorToughness);
++        } else if (getCatVariant() == CatVariant.CALICO) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catCalicoMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catCalicoFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catCalicoKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catCalicoMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catCalicoAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catCalicoArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catCalicoArmorToughness);
++        } else if (getCatVariant() == CatVariant.PERSIAN) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catPersianMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catPersianFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catPersianKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catPersianMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catPersianAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catPersianArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catPersianArmorToughness);
++        } else if (getCatVariant() == CatVariant.RAGDOLL) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catRagdollMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catRagdollFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catRagdollKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catRagdollMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catRagdollAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catRagdollArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catRagdollArmorToughness);
++        } else if (getCatVariant() == CatVariant.TABBY) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catTabbyMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catTabbyFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catTabbyKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catTabbyMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catTabbyAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catTabbyArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catTabbyArmorToughness);
++        } else if (getCatVariant() == CatVariant.ALL_BLACK) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catAllBlackMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catAllBlackFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catAllBlackKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catAllBlackMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catAllBlackAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catAllBlackArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catAllBlackArmorToughness);
++        } else if (getCatVariant() == CatVariant.JELLIE) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.catJellieMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.catJellieFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.catJellieKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.catJellieMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.catJellieAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.catJellieArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.catJellieArmorToughness);
++        }
+     }
++    // Prismarine end
+ 
+     @Override
+     public int getPurpurBreedTime() {
+@@ -421,6 +510,7 @@ public class Cat extends TamableAnimal {
+             this.setPersistenceRequired();
+         }
+ 
++        this.setAttributes();
+         return entityData;
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Chicken.java b/src/main/java/net/minecraft/world/entity/animal/Chicken.java
+index 67893824250ca0b1f441f116aefa555b68bb594e..4de1dba80a74ef7b74436d7aa09eb09581a3b026 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Chicken.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Chicken.java
+@@ -72,9 +72,14 @@ public class Chicken extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.chickenMaxHealth);
+-        if (level.purpurConfig.chickenRetaliate) {
+-            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+-        }
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.chickenFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.chickenKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.chickenMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.chickenAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.chickenArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.chickenArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cod.java b/src/main/java/net/minecraft/world/entity/animal/Cod.java
+index de70208403ef6c6c9c82ca4c1fd3b641a40bb45c..d1d98673261c36da79bcc02164e792ab0d218d88 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cod.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cod.java
+@@ -32,6 +32,13 @@ public class Cod extends AbstractSchoolingFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.codMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.codFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.codKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.codMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.codArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.codArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Cow.java b/src/main/java/net/minecraft/world/entity/animal/Cow.java
+index a79b4a90274d25d427214b96649cdf8561469a83..aab3d8476330d94af871498f906e0c5add597ce0 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Cow.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Cow.java
+@@ -63,6 +63,13 @@ public class Cow extends Animal {
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.cowMaxHealth);
+         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.purpurConfig.cowNaturallyAggressiveToPlayersDamage); // Purpur
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.cowFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.cowKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.cowMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.cowArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.cowArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
+index 284c1342695aeb652f39c236d14538647465846e..2b99f01b6e6a7912ea6112f00cebb832da7c37ca 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Dolphin.java
+@@ -162,6 +162,14 @@ public class Dolphin extends WaterAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.dolphinMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.dolphinFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.dolphinKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.dolphinMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.dolphinAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.dolphinArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.dolphinArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Fox.java b/src/main/java/net/minecraft/world/entity/animal/Fox.java
+index 21d755f228fbb49ded0e78322c6d29fc2622bb79..d55724825df08c9f7a5247b4bd98d2aa573bdef2 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Fox.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Fox.java
+@@ -182,6 +182,14 @@ public class Fox extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.foxMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.foxFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.foxKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.foxMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.foxAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.foxArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.foxArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+index 238ce4cfe28e47df0af8bf448b22acbf7b16623d..7b12e700920c59712794612e53ded63160694e00 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
++++ b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+@@ -89,6 +89,14 @@ public class IronGolem extends AbstractGolem implements NeutralMob {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.ironGolemMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.ironGolemFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.ironGolemKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.ironGolemMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.ironGolemAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.ironGolemArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.ironGolemArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java b/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java
+index ecc36d8800427715c86060a1f29a292a475757a4..c85d54f1a5010754a528b2e54a57dab4881bc4b3 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java
++++ b/src/main/java/net/minecraft/world/entity/animal/MushroomCow.java
+@@ -83,6 +83,14 @@ public class MushroomCow extends Cow implements Shearable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.mooshroomMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.mooshroomFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.mooshroomKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.mooshroomMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.mooshroomAttackDamage);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.mooshroomArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.mooshroomArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Ocelot.java b/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
+index ded18d12b426837723f98a0163efbb2bbbbf6c00..59685074aa77e2eac1c1cd87ef600af6e4ec2c23 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
+@@ -87,6 +87,14 @@ public class Ocelot extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.ocelotMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.ocelotFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.ocelotKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.ocelotMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.ocelotAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.ocelotArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.ocelotArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Panda.java b/src/main/java/net/minecraft/world/entity/animal/Panda.java
+index 31a5fa82ccae53d8755a4110497c9e8c04ff347a..424736f8d5d3d4dafb8119597ecc0ec23aee15c6 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Panda.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Panda.java
+@@ -134,7 +134,7 @@ public class Panda extends Animal {
+ 
+     @Override
+     public void initAttributes() {
+-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pandaMaxHealth);
++        //this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pandaMaxHealth); // Prismarine - move to setAttributes
+         setAttributes();
+     }
+ 
+@@ -337,6 +337,8 @@ public class Panda extends Animal {
+         return Panda.Gene.getVariantFromGenes(this.getMainGene(), this.getHiddenGene());
+     }
+ 
++    public boolean isNormal() { return this.getVariant() == Panda.Gene.NORMAL; } // Prismarine
++
+     public boolean isLazy() {
+         return this.getVariant() == Panda.Gene.LAZY;
+     }
+@@ -648,17 +650,65 @@ public class Panda extends Animal {
+     }
+ 
+     public void setAttributes() {
+-        if (this.isWeak()) {
+-            // Purpur start
+-            net.minecraft.world.entity.ai.attributes.AttributeInstance maxHealth = this.getAttribute(Attributes.MAX_HEALTH);
+-            maxHealth.setBaseValue(maxHealth.getValue() / 2);
+-            // Purpur end
+-        }
+-
+-        if (this.isLazy()) {
+-            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.07000000029802322D);
+-        }
+-
++        // Prismarine start
++        if (this.isNormal()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaNormalMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaNormalFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaNormalKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaNormalMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaNormalAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaNormalArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaNormalArmorToughness);
++        } else if (this.isLazy()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaLazyMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaLazyFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaLazyKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaLazyMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaLazyAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaLazyArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaLazyArmorToughness);
++        } else if (this.isWorried()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaWorriedMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaWorriedFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaWorriedKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaWorriedMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaWorriedAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaWorriedArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaWorriedArmorToughness);
++        } else if (this.isPlayful()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaPlayfulMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaPlayfulFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaPlayfulKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaPlayfulMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaPlayfulAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaPlayfulArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaPlayfulArmorToughness);
++        } else if (this.isBrown()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaBrownMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaBrownFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaBrownKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaBrownMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaBrownAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaBrownArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaBrownArmorToughness);
++        } else if (this.isWeak()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaWeakMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaWeakFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaWeakKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaWeakMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaWeakAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaWeakArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaWeakArmorToughness);
++        } else if (this.isAggressive()) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.pandaAggressiveMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pandaAggressiveFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pandaAggressiveKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pandaAggressiveMovementSpeed);
++            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.pandaAggressiveAttackDamage);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pandaAggressiveArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pandaAggressiveArmorToughness);
++        }
++        // Prismarine end
+     }
+ 
+     void tryToSit() {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Parrot.java b/src/main/java/net/minecraft/world/entity/animal/Parrot.java
+index 69fb76512ee64cbc410542db3c9969f57cad1bd4..3f59f0dca6f364a5d46ab9433875bd9cf9865fef 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Parrot.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Parrot.java
+@@ -186,10 +186,51 @@ public class Parrot extends ShoulderRidingEntity implements FlyingAnimal {
+         }
+     }
+ 
+-    @Override
+-    public void initAttributes() {
+-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.parrotMaxHealth);
++    // Prismarine start
++    public void setAttributes() {
++        if (getVariant() == 0) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.parrotRedMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.parrotRedFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.parrotRedKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.parrotRedMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.parrotRedArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.parrotRedArmorToughness);
++            this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.parrotRedFlyingSpeed);
++        } else if (getVariant() == 1) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.parrotBlueMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.parrotBlueFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.parrotBlueKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.parrotBlueMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.parrotBlueArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.parrotBlueArmorToughness);
++            this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.parrotBlueFlyingSpeed);
++        } else if (getVariant() == 2) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.parrotGreenMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.parrotGreenFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.parrotGreenKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.parrotGreenMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.parrotGreenArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.parrotGreenArmorToughness);
++            this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.parrotGreenFlyingSpeed);
++        } else if (getVariant() == 3) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.parrotCyanMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.parrotCyanFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.parrotCyanKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.parrotCyanMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.parrotCyanArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.parrotCyanArmorToughness);
++            this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.parrotCyanFlyingSpeed);
++        } else if (getVariant() == 4) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.parrotGrayMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.parrotGrayFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.parrotGrayKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.parrotGrayMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.parrotGrayArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.parrotGrayArmorToughness);
++            this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.parrotGrayFlyingSpeed);
++        }
+     }
++    // Prismarine end
+ 
+     @Override
+     public int getPurpurBreedTime() {
+@@ -215,6 +256,7 @@ public class Parrot extends ShoulderRidingEntity implements FlyingAnimal {
+             entityData = new AgeableMob.AgeableMobGroupData(false);
+         }
+ 
++        this.setAttributes();
+         return super.finalizeSpawn(world, difficulty, spawnReason, (SpawnGroupData) entityData, entityNbt);
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Pig.java b/src/main/java/net/minecraft/world/entity/animal/Pig.java
+index f8fb169609be7cde19d88192ce6791b4fa24a738..0fc341574625e4a1931a88036c9299c79cb9bc98 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Pig.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Pig.java
+@@ -83,6 +83,13 @@ public class Pig extends Animal implements ItemSteerable, Saddleable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pigMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pigFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pigKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pigMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pigArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pigArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/PolarBear.java b/src/main/java/net/minecraft/world/entity/animal/PolarBear.java
+index 43cc70fa6c5ad551a10054e68f6589e6514d60fc..73e4f199b66245534f1567af90d4d1df661f401e 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/PolarBear.java
++++ b/src/main/java/net/minecraft/world/entity/animal/PolarBear.java
+@@ -96,6 +96,14 @@ public class PolarBear extends Animal implements NeutralMob {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.polarBearMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.polarBearFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.polarBearKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.polarBearMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.polarBearAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.polarBearArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.polarBearArmorToughness);
++        // Prismarine end
+     }
+ 
+     public boolean canMate(Animal other) {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java b/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java
+index bf9e6b6ca2b2bf8b2a2e96d10cd4fda9c59df1b8..f630f8206fa26c43eeeeba95576de3429707ab2a 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Pufferfish.java
+@@ -64,6 +64,13 @@ public class Pufferfish extends AbstractFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.pufferfishMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.pufferfishFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.pufferfishKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.pufferfishMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.pufferfishArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.pufferfishArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+index e6b36650d1c670dbb3ccb0657f43432e64166e29..295c07c74ef8781847b208a46ca743051975b2fb 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+@@ -138,9 +138,66 @@ public class Rabbit extends Animal {
+         wasOnGround = onGround;
+     }
+ 
+-    @Override
+-    public void initAttributes() {
+-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.rabbitMaxHealth);
++    public void setAttributes() {
++        // Prismarine start
++        if (getRabbitType() == 0) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitBrownMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitBrownFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitBrownKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitBrownMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitBrownArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitBrownArmorToughness);
++        } else if (getRabbitType() == 1) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitWhiteMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitWhiteFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitWhiteKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitWhiteMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitWhiteArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitWhiteArmorToughness);
++        } else if (getRabbitType() == 2) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitBlackMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitBlackFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitBlackKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitBlackMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitBlackArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitBlackArmorToughness);
++        } else if (getRabbitType() == 3) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitBlackAndWhiteMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitBlackAndWhiteFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitBlackAndWhiteKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitBlackAndWhiteMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitBlackAndWhiteArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitBlackAndWhiteArmorToughness);
++        } else if (getRabbitType() == 4) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitGoldMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitGoldFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitGoldKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitGoldMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitGoldArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitGoldArmorToughness);
++        } else if (getRabbitType() == 5) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitSaltAndPepperMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitSaltAndPepperFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitSaltAndPepperKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitSaltAndPepperMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitSaltAndPepperArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitSaltAndPepperArmorToughness);
++        } else if (getRabbitType() == 98) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitToastMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitToastFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitToastKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitToastMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitToastArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitToastArmorToughness);
++        } else if (getRabbitType() == 99) {
++            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.prismarineConfig.rabbitKillerMaxHealth);
++            this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.rabbitKillerFollowRange);
++            this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.rabbitKillerKnockbackResistance);
++            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.rabbitKillerMovementSpeed);
++            this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.rabbitKillerArmor);
++            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.rabbitKillerArmorToughness);
++        }
++        // Prismarine end
+     }
+ 
+     @Override
+@@ -443,7 +500,6 @@ public class Rabbit extends Animal {
+ 
+     public void setRabbitType(int rabbitType) {
+         if (rabbitType == 99) {
+-            this.getAttribute(Attributes.ARMOR).setBaseValue(8.0D);
+             this.goalSelector.addGoal(4, new Rabbit.EvilRabbitAttackGoal(this));
+             this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers());
+             this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+@@ -472,6 +528,7 @@ public class Rabbit extends Animal {
+         }
+ 
+         this.setRabbitType(i);
++        this.setAttributes();
+         return super.finalizeSpawn(world, difficulty, spawnReason, (SpawnGroupData) entityData, entityNbt);
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Salmon.java b/src/main/java/net/minecraft/world/entity/animal/Salmon.java
+index bd1e964c7899a54a2c39afe0691a7573cfe35fc1..1513ba9a793878bef8393a49cd544db81ee4d230 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Salmon.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Salmon.java
+@@ -32,6 +32,13 @@ public class Salmon extends AbstractSchoolingFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.salmonMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.salmonFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.salmonKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.salmonMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.salmonArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.salmonArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Sheep.java b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+index 954a12c23da96a07cd175f6f2eb28e8c5d2a8c3d..5205725e395837dd3dd1a440d30d0ef19a482875 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Sheep.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Sheep.java
+@@ -135,6 +135,13 @@ public class Sheep extends Animal implements Shearable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.sheepMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.sheepFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.sheepKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.sheepMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.sheepArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.sheepArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java b/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
+index 00d86c57fabbb464a156dfaceadccd978f0d149c..8389e03cff955c8c8d05cc45d64b52b4dd537b8a 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
++++ b/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
+@@ -74,6 +74,14 @@ public class SnowGolem extends AbstractGolem implements Shearable, RangedAttackM
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.snowGolemMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.snowGolemFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.snowGolemKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.snowGolemMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.snowGolemAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.snowGolemArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.snowGolemArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Nullable
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Squid.java b/src/main/java/net/minecraft/world/entity/animal/Squid.java
+index 8afdb5d4fecbb45bad2ed801fc0e526d15ef07c5..4dfb4367b59e8f3efa45136e3e508b2d4f37ae4e 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Squid.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Squid.java
+@@ -79,6 +79,13 @@ public class Squid extends WaterAnimal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.squidMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.squidFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.squidKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.squidMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.squidArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.squidArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java b/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java
+index 62b891c752d225f00685c42c8228eb0537f41091..6288182fc21797baece77d5b6941397000c1d06c 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java
++++ b/src/main/java/net/minecraft/world/entity/animal/TropicalFish.java
+@@ -68,6 +68,13 @@ public class TropicalFish extends AbstractSchoolingFish {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.tropicalFishMaxHealth);
++        // Prismarine start
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.tropicalFishFollowRange);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.tropicalFishKnockbackResistance);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.tropicalFishMovementSpeed);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.tropicalFishArmor);
++        this.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.tropicalFishArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Turtle.java b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
+index e9c37c2b7fb1c6f2abc0b51c498ba8e0d2a5ef7e..d44994d5e141fa8a68a34005cf99594749b10aff 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Turtle.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
+@@ -101,6 +101,13 @@ public class Turtle extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.turtleMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.turtleFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.turtleKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.turtleMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.turtleArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.turtleArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
+index 22a66e59687ca889965536464b628f45b0e88ec0..5008ae8fb6965a5e5aa419262cf239a607227f84 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
+@@ -164,6 +164,14 @@ public class Wolf extends TamableAnimal implements NeutralMob {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.wolfMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.wolfFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.wolfKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.wolfMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.wolfAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.wolfArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.wolfArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+index 0f69e1c4e4b14186e7cb99f170ac4d164d2e252c..f60fb0759cf938fb48748e42d26a6e463a6ddd09 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
++++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+@@ -169,6 +169,20 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+         return (Brain<Allay>) super.getBrain(); // CraftBukkit - decompile error
+     }
+ 
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.allayMaxHealth);
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.allayFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.allayKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.allayMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.allayAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.allayArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.allayArmorToughness);
++        this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(this.level.prismarineConfig.allayFlyingSpeed);
++    }
++    // Prismarine end
++
+     public static AttributeSupplier.Builder createAttributes() {
+         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.FLYING_SPEED, 0.10000000149011612D).add(Attributes.MOVEMENT_SPEED, 0.10000000149011612D).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FOLLOW_RANGE, 48.0D);
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
+index 50f19125fa3dda79a850cfce0ab7c72045d6220b..9a6508c141cfd5f92d703ac1b6a81f95f88c7ab8 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
++++ b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
+@@ -121,6 +121,14 @@ public class Axolotl extends Animal implements LerpingModel, Bucketable {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.axolotlMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.axolotlFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.axolotlKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.axolotlMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.axolotlAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.axolotlArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.axolotlArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+index 82d98615fea97ebc0a333748d47b83beeff923d6..581547fdf3c8c586c7dcdd6cb0cffa6ec5483cf0 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+@@ -347,6 +347,19 @@ public class Frog extends Animal {
+         return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
+     }
+ 
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.frogMaxHealth);
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.frogFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.frogKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.frogMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.frogAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.frogArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.frogArmorToughness);
++    }
++    // Prismarine end
++
+     public static AttributeSupplier.Builder createAttributes() {
+         return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 1.0D).add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.ATTACK_DAMAGE, 10.0D);
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
+index 88025a051a9e8c21aaf171431a0850c267ca4ca4..f1111630fafd05f140747c8405f2c29438c68778 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
+@@ -124,6 +124,18 @@ public class Tadpole extends AbstractFish {
+         super.customServerAiStep();
+     }
+ 
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.tadpoleMaxHealth);
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.tadpoleFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.tadpoleKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.tadpoleMovementSpeed);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.tadpoleArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.tadpoleArmorToughness);
++    }
++    // Prismarine end
++
+     public static AttributeSupplier.Builder createAttributes() {
+         return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 1.0D).add(Attributes.MAX_HEALTH, 6.0D);
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
+index 3b85ec87ec708d670710734a1c1b04b2313cbbea..59a491b69effdb363d094f1896cdec76dd8cd1a1 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
++++ b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
+@@ -108,6 +108,14 @@ public class Goat extends Animal {
+     @Override
+     public void initAttributes() {
+         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.goatMaxHealth);
++        // Prismarine start
++        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(this.level.prismarineConfig.goatFollowRange);
++        this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(this.level.prismarineConfig.goatKnockbackResistance);
++        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.level.prismarineConfig.goatMovementSpeed);
++        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.level.prismarineConfig.goatAttackDamage);
++        this.getAttribute(Attributes.ARMOR).setBaseValue(this.level.prismarineConfig.goatArmor);
++        this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(this.level.prismarineConfig.goatArmorToughness);
++        // Prismarine end
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 5cff7addb0a723e29b352c7b4b7d6cc60c16e118..f4578a2cba896b2746484b900b4e3518ae8622b5 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -14,6 +14,13 @@ public class PrismarineWorldConfig {
+ 
+     private final String worldName;
+ 
++    private final double defaultFollowRange = 32.0D;
++    private final double defaultKnockbackResistance = 0.0D;
++    private final double defaultMovementSpeed = 0.699999988079071D;
++    private final double defaultAttackDamage = 2.0D;
++    private final double defaultArmor = 0.0D;
++    private final double defaultArmorToughness = 0.0D;
++
+     public PrismarineWorldConfig(String worldName) {
+         this.worldName = worldName;
+         init();
+@@ -115,12 +122,835 @@ public class PrismarineWorldConfig {
+         timerTimeOut = getInt("timer-time-out", timerTimeOut);
+     }
+ 
++    public double beeFollowRange = 48.0D;
++    public double beeKnockbackResistance;
++    public double beeMovementSpeed = 0.30000001192092896D;
++    public double beeAttackDamage = 2.0D;
++    public double beeArmor;
++    public double beeArmorToughness;
++    public double beeFlyingSpeed = 0.6000000238418579D;
++    private void beeSettings() {
++        beeFollowRange = getDouble("mobs.bee.attributes.follow_range", beeFollowRange);
++        beeKnockbackResistance = getDouble("mobs.bee.attributes.knockback_resistance", defaultKnockbackResistance);
++        beeMovementSpeed = getDouble("mobs.bee.attributes.movement_speed", beeMovementSpeed);
++        beeAttackDamage = getDouble("mobs.bee.attributes.attack_damage", beeAttackDamage);
++        beeArmor = getDouble("mobs.bee.attributes.armor", defaultArmor);
++        beeArmorToughness = getDouble("mobs.bee.attributes.armor_toughness", defaultArmorToughness);
++        beeFlyingSpeed = getDouble("mobs.bee.attributes.flying_speed", beeFlyingSpeed);
++    }
++
++    public double chickenFollowRange;
++    public double chickenKnockbackResistance;
++    public double chickenMovementSpeed = 0.25D;
++    public double chickenAttackDamage;
++    public double chickenArmor;
++    public double chickenArmorToughness;
++    private void chickenSettings() {
++        chickenFollowRange = getDouble("mobs.chicken.attributes.follow_range", defaultFollowRange);
++        chickenKnockbackResistance = getDouble("mobs.chicken.attributes.knockback_resistance", defaultKnockbackResistance);
++        chickenMovementSpeed = getDouble("mobs.chicken.attributes.movement_speed", chickenMovementSpeed);
++        chickenAttackDamage = getDouble("mobs.chicken.attributes.attack_damage", defaultAttackDamage);
++        chickenArmor = getDouble("mobs.chicken.attributes.armor", defaultArmor);
++        chickenArmorToughness = getDouble("mobs.chicken.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double codFollowRange;
++    public double codKnockbackResistance;
++    public double codMovementSpeed;
++    public double codAttackDamage;
++    public double codArmor;
++    public double codArmorToughness;
++    private void codSettings() {
++        codFollowRange = getDouble("mobs.cod.attributes.follow_range", defaultFollowRange);
++        codKnockbackResistance = getDouble("mobs.cod.attributes.knockback_resistance", defaultKnockbackResistance);
++        codMovementSpeed = getDouble("mobs.cod.attributes.movement_speed", defaultMovementSpeed);
++        codAttackDamage = getDouble("mobs.cod.attributes.attack_damage", defaultAttackDamage);
++        codArmor = getDouble("mobs.cod.attributes.armor", defaultArmor);
++        codArmorToughness = getDouble("mobs.cod.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double cowFollowRange;
++    public double cowKnockbackResistance;
++    public double cowMovementSpeed = 0.20000000298023224D;
++    public double cowArmor;
++    public double cowArmorToughness;
++    private void cowSettings() {
++        cowFollowRange = getDouble("mobs.cow.attributes.follow_range", defaultFollowRange);
++        cowKnockbackResistance = getDouble("mobs.cow.attributes.knockback_resistance", defaultKnockbackResistance);
++        cowMovementSpeed = getDouble("mobs.cow.attributes.movement_speed", cowMovementSpeed);
++        cowArmor = getDouble("mobs.cow.attributes.armor", defaultArmor);
++        cowArmorToughness = getDouble("mobs.cow.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double dolphinFollowRange;
++    public double dolphinKnockbackResistance;
++    public double dolphinMovementSpeed = 1.2000000476837158D;
++    public double dolphinAttackDamage = 3.0D;
++    public double dolphinArmor;
++    public double dolphinArmorToughness;
++    private void dolphinSettings() {
++        dolphinFollowRange = getDouble("mobs.dolphin.attributes.follow_range", defaultFollowRange);
++        dolphinKnockbackResistance = getDouble("mobs.dolphin.attributes.knockback_resistance", defaultKnockbackResistance);
++        dolphinMovementSpeed = getDouble("mobs.dolphin.attributes.movement_speed", dolphinMovementSpeed);
++        dolphinAttackDamage = getDouble("mobs.dolphin.attributes.attack_damage", dolphinAttackDamage);
++        dolphinArmor = getDouble("mobs.dolphin.attributes.armor", defaultArmor);
++        dolphinArmorToughness = getDouble("mobs.dolphin.attributes.armor_toughness", defaultArmorToughness);
++    }
++
+     public float ironGolemHealAmount = 25.0F;
+     public boolean ironGolemBulkHeal = false;
+     public float ironGolemBulkHealAmount = 250.0F;
++    public double ironGolemFollowRange;
++    public double ironGolemKnockbackResistance = 1.0D;
++    public double ironGolemMovementSpeed = 0.25D;
++    public double ironGolemAttackDamage = 15.0D;
++    public double ironGolemArmor;
++    public double ironGolemArmorToughness;
+     private void ironGolemSettings() {
+         ironGolemHealAmount = getFloat("mobs.iron_golem.heal-amount", ironGolemHealAmount);
+         ironGolemBulkHeal = getBoolean("mobs.iron_golem.bulk-heal.enabled", ironGolemBulkHeal);
+         ironGolemBulkHealAmount = getFloat("mobs.iron_golem.bulk-heal.amount", ironGolemBulkHealAmount);
++        ironGolemFollowRange = getDouble("mobs.iron_golem.attributes.follow_range", defaultFollowRange);
++        ironGolemKnockbackResistance = getDouble("mobs.iron_golem.attributes.knockback_resistance", ironGolemKnockbackResistance);
++        ironGolemMovementSpeed = getDouble("mobs.iron_golem.attributes.movement_speed", ironGolemMovementSpeed);
++        ironGolemAttackDamage = getDouble("mobs.iron_golem.attributes.attack_damage", ironGolemAttackDamage);
++        ironGolemArmor = getDouble("mobs.iron_golem.attributes.armor", defaultArmor);
++        ironGolemArmorToughness = getDouble("mobs.iron_golem.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double ocelotFollowRange;
++    public double ocelotKnockbackResistance;
++    public double ocelotMovementSpeed = 0.30000001192092896D;
++    public double ocelotAttackDamage = 3.0D;
++    public double ocelotArmor;
++    public double ocelotArmorToughness;
++    private void ocelotSettings() {
++        ocelotFollowRange = getDouble("mobs.ocelot.attributes.follow_range", defaultFollowRange);
++        ocelotKnockbackResistance = getDouble("mobs.ocelot.attributes.knockback_resistance", defaultKnockbackResistance);
++        ocelotMovementSpeed = getDouble("mobs.ocelot.attributes.movement_speed", ocelotMovementSpeed);
++        ocelotAttackDamage = getDouble("mobs.ocelot.attributes.attack_damage", ocelotAttackDamage);
++        ocelotArmor = getDouble("mobs.ocelot.attributes.armor", defaultArmor);
++        ocelotArmorToughness = getDouble("mobs.ocelot.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double pigFollowRange;
++    public double pigKnockbackResistance;
++    public double pigMovementSpeed = 0.25D;
++    public double pigArmor;
++    public double pigArmorToughness;
++    private void pigSettings() {
++        pigFollowRange = getDouble("mobs.pig.attributes.follow_range", defaultFollowRange);
++        pigKnockbackResistance = getDouble("mobs.pig.attributes.knockback_resistance", defaultKnockbackResistance);
++        pigMovementSpeed = getDouble("mobs.pig.attributes.movement_speed", pigMovementSpeed);
++        pigArmor = getDouble("mobs.pig.attributes.armor", defaultArmor);
++        pigArmorToughness = getDouble("mobs.pig.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double polarBearFollowRange = 20.0D;
++    public double polarBearKnockbackResistance;
++    public double polarBearMovementSpeed = 0.25D;
++    public double polarBearAttackDamage = 6.0D;
++    public double polarBearArmor;
++    public double polarBearArmorToughness;
++    private void polarBearSettings() {
++        polarBearFollowRange = getDouble("mobs.polar_bear.attributes.follow_range", polarBearFollowRange);
++        polarBearKnockbackResistance = getDouble("mobs.polar_bear.attributes.knockback_resistance", defaultKnockbackResistance);
++        polarBearMovementSpeed = getDouble("mobs.polar_bear.attributes.movement_speed", polarBearMovementSpeed);
++        polarBearAttackDamage = getDouble("mobs.polar_bear.attributes.attack_damage", polarBearAttackDamage);
++        polarBearArmor = getDouble("mobs.polar_bear.attributes.armor", defaultArmor);
++        polarBearArmorToughness = getDouble("mobs.polar_bear.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double pufferfishFollowRange;
++    public double pufferfishKnockbackResistance;
++    public double pufferfishMovementSpeed;
++    public double pufferfishArmor;
++    public double pufferfishArmorToughness;
++    private void pufferfishSettings() {
++        pufferfishFollowRange = getDouble("mobs.pufferfish.attributes.follow_range", defaultFollowRange);
++        pufferfishKnockbackResistance = getDouble("mobs.pufferfish.attributes.knockback_resistance", defaultKnockbackResistance);
++        pufferfishMovementSpeed = getDouble("mobs.pufferfish.attributes.movement_speed", defaultMovementSpeed);
++        pufferfishArmor = getDouble("mobs.pufferfish.attributes.armor", defaultArmor);
++        pufferfishArmorToughness = getDouble("mobs.pufferfish.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double salmonFollowRange;
++    public double salmonKnockbackResistance;
++    public double salmonMovementSpeed;
++    public double salmonArmor;
++    public double salmonArmorToughness;
++    private void salmonSettings() {
++        salmonFollowRange = getDouble("mobs.salmon.attributes.follow_range", defaultFollowRange);
++        salmonKnockbackResistance = getDouble("mobs.salmon.attributes.knockback_resistance", defaultKnockbackResistance);
++        salmonMovementSpeed = getDouble("mobs.salmon.attributes.movement_speed", defaultMovementSpeed);
++        salmonArmor = getDouble("mobs.salmon.attributes.armor", defaultArmor);
++        salmonArmorToughness = getDouble("mobs.salmon.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double snowGolemFollowRange;
++    public double snowGolemKnockbackResistance;
++    public double snowGolemMovementSpeed = 0.20000000298023224D;
++    public double snowGolemAttackDamage;
++    public double snowGolemArmor;
++    public double snowGolemArmorToughness;
++    private void snowGolemSettings() {
++        snowGolemFollowRange = getDouble("mobs.snowgolem.attributes.follow_range", defaultFollowRange);
++        snowGolemKnockbackResistance = getDouble("mobs.snowgolem.attributes.knockback_resistance", defaultKnockbackResistance);
++        snowGolemMovementSpeed = getDouble("mobs.snowgolem.attributes.movement_speed", snowGolemMovementSpeed);
++        snowGolemAttackDamage = getDouble("mobs.snowgolem.attributes.attack_damage", defaultAttackDamage);
++        snowGolemArmor = getDouble("mobs.snowgolem.attributes.armor", defaultArmor);
++        snowGolemArmorToughness = getDouble("mobs.snowgolem.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double squidFollowRange;
++    public double squidKnockbackResistance;
++    public double squidMovementSpeed;
++    public double squidArmor;
++    public double squidArmorToughness;
++    private void squidSettings() {
++        squidFollowRange = getDouble("mobs.squid.attributes.follow_range", defaultFollowRange);
++        squidKnockbackResistance = getDouble("mobs.squid.attributes.knockback_resistance", defaultKnockbackResistance);
++        squidMovementSpeed = getDouble("mobs.squid.attributes.movement_speed", defaultMovementSpeed);
++        squidArmor = getDouble("mobs.squid.attributes.armor", defaultArmor);
++        squidArmorToughness = getDouble("mobs.squid.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double tropicalFishFollowRange;
++    public double tropicalFishKnockbackResistance;
++    public double tropicalFishMovementSpeed;
++    public double tropicalFishArmor;
++    public double tropicalFishArmorToughness;
++    private void tropicalFishSettings() {
++        tropicalFishFollowRange = getDouble("mobs.tropical_fish.attributes.follow_range", defaultFollowRange);
++        tropicalFishKnockbackResistance = getDouble("mobs.tropical_fish.attributes.knockback_resistance", defaultKnockbackResistance);
++        tropicalFishMovementSpeed = getDouble("mobs.tropical_fish.attributes.movement_speed", defaultMovementSpeed);
++        tropicalFishArmor = getDouble("mobs.tropical_fish.attributes.armor", defaultArmor);
++        tropicalFishArmorToughness = getDouble("mobs.tropical_fish.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double turtleFollowRange;
++    public double turtleKnockbackResistance;
++    public double turtleMovementSpeed = 0.25D;
++    public double turtleArmor;
++    public double turtleArmorToughness;
++    private void turtleSettings() {
++        turtleFollowRange = getDouble("mobs.turtle.attributes.follow_range", defaultFollowRange);
++        turtleKnockbackResistance = getDouble("mobs.turtle.attributes.knockback_resistance", defaultKnockbackResistance);
++        turtleMovementSpeed = getDouble("mobs.turtle.attributes.movement_speed", turtleMovementSpeed);
++        turtleArmor = getDouble("mobs.turtle.attributes.armor", defaultArmor);
++        turtleArmorToughness = getDouble("mobs.turtle.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double foxFollowRange;
++    public double foxKnockbackResistance;
++    public double foxMovementSpeed = 0.30000001192092896D;
++    public double foxAttackDamage;
++    public double foxArmor;
++    public double foxArmorToughness;
++    private void foxSettings() {
++        foxFollowRange = getDouble("mobs.fox.attributes.follow_range", defaultFollowRange);
++        foxKnockbackResistance = getDouble("mobs.fox.attributes.knockback_resistance", defaultKnockbackResistance);
++        foxMovementSpeed = getDouble("mobs.fox.attributes.movement_speed", foxMovementSpeed);
++        foxAttackDamage = getDouble("mobs.fox.attributes.attack_damage", defaultAttackDamage);
++        foxArmor = getDouble("mobs.fox.attributes.armor", defaultArmor);
++        foxArmorToughness = getDouble("mobs.fox.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double mooshroomFollowRange;
++    public double mooshroomKnockbackResistance;
++    public double mooshroomMovementSpeed;
++    public double mooshroomAttackDamage;
++    public double mooshroomArmor;
++    public double mooshroomArmorToughness;
++    private void mooshroomSettings() {
++        mooshroomFollowRange = getDouble("mobs.mooshroom.attributes.follow_range", defaultFollowRange);
++        mooshroomKnockbackResistance = getDouble("mobs.mooshroom.attributes.knockback_resistance", defaultKnockbackResistance);
++        mooshroomMovementSpeed = getDouble("mobs.mooshroom.attributes.movement_speed", cowMovementSpeed);
++        mooshroomAttackDamage = getDouble("mobs.mooshroom.attributes.attack_damage", defaultAttackDamage);
++        mooshroomArmor = getDouble("mobs.mooshroom.attributes.armor", defaultArmor);
++        mooshroomArmorToughness = getDouble("mobs.mooshroom.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double sheepFollowRange;
++    public double sheepKnockbackResistance;
++    public double sheepMovementSpeed = 0.23000000417232513D;
++    public double sheepArmor;
++    public double sheepArmorToughness;
++    private void sheepSettings() {
++        sheepFollowRange = getDouble("mobs.sheep.attributes.follow_range", defaultFollowRange);
++        sheepKnockbackResistance = getDouble("mobs.sheep.attributes.knockback_resistance", defaultKnockbackResistance);
++        sheepMovementSpeed = getDouble("mobs.sheep.attributes.movement_speed", sheepMovementSpeed);
++        sheepArmor = getDouble("mobs.sheep.attributes.armor", defaultArmor);
++        sheepArmorToughness = getDouble("mobs.sheep.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double wolfFollowRange;
++    public double wolfKnockbackResistance;
++    public double wolfMovementSpeed = 0.30000001192092896D;
++    public double wolfAttackDamage;
++    public double wolfArmor;
++    public double wolfArmorToughness;
++    private void wolfSettings() {
++        wolfFollowRange = getDouble("mobs.wolf.attributes.follow_range", defaultFollowRange);
++        wolfKnockbackResistance = getDouble("mobs.wolf.attributes.knockback_resistance", defaultKnockbackResistance);
++        wolfMovementSpeed = getDouble("mobs.wolf.attributes.movement_speed", wolfMovementSpeed);
++        wolfAttackDamage = getDouble("mobs.wolf.attributes.attack_damage", defaultAttackDamage);
++        wolfArmor = getDouble("mobs.wolf.attributes.armor", defaultArmor);
++        wolfArmorToughness = getDouble("mobs.wolf.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double axolotlFollowRange;
++    public double axolotlKnockbackResistance;
++    public double axolotlMovementSpeed = 1.0D;
++    public double axolotlAttackDamage;
++    public double axolotlArmor;
++    public double axolotlArmorToughness;
++    private void axolotlSettings() {
++        axolotlFollowRange = getDouble("mobs.axolotl.attributes.follow_range", defaultFollowRange);
++        axolotlKnockbackResistance = getDouble("mobs.axolotl.attributes.knockback_resistance", defaultKnockbackResistance);
++        axolotlMovementSpeed = getDouble("mobs.axolotl.attributes.movement_speed", axolotlMovementSpeed);
++        axolotlAttackDamage = getDouble("mobs.axolotl.attributes.attack_damage", defaultAttackDamage);
++        axolotlArmor = getDouble("mobs.axolotl.attributes.armor", defaultArmor);
++        axolotlArmorToughness = getDouble("mobs.axolotl.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double goatFollowRange;
++    public double goatKnockbackResistance;
++    public double goatMovementSpeed = 0.20000000298023224D;
++    public double goatAttackDamage;
++    public double goatArmor;
++    public double goatArmorToughness;
++    private void goatSettings() {
++        goatFollowRange = getDouble("mobs.goat.attributes.follow_range", defaultFollowRange);
++        goatKnockbackResistance = getDouble("mobs.goat.attributes.knockback_resistance", defaultKnockbackResistance);
++        goatMovementSpeed = getDouble("mobs.goat.attributes.movement_speed", goatMovementSpeed);
++        goatAttackDamage = getDouble("mobs.goat.attributes.attack_damage", defaultAttackDamage);
++        goatArmor = getDouble("mobs.goat.attributes.armor", defaultArmor);
++        goatArmorToughness = getDouble("mobs.goat.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double allayFollowRange = 48.0D;
++    public double allayKnockbackResistance;
++    public double allayMovementSpeed = 0.10000000149011612D;
++    public double allayAttackDamage;
++    public double allayArmor;
++    public double allayArmorToughness;
++    public double allayFlyingSpeed = 0.10000000149011612D;
++    private void allaySettings() {
++        allayFollowRange = getDouble("mobs.allay.attributes.follow_range", allayFollowRange);
++        allayKnockbackResistance = getDouble("mobs.allay.attributes.knockback_resistance", defaultKnockbackResistance);
++        allayMovementSpeed = getDouble("mobs.allay.attributes.movement_speed", allayMovementSpeed);
++        allayAttackDamage = getDouble("mobs.allay.attributes.attack_damage", defaultAttackDamage);
++        allayArmor = getDouble("mobs.allay.attributes.armor", defaultArmor);
++        allayArmorToughness = getDouble("mobs.allay.attributes.armor_toughness", defaultArmorToughness);
++        allayFlyingSpeed = getDouble("mobs.allay.attributes.flying_speed", allayFlyingSpeed);
++    }
++
++    public double frogFollowRange;
++    public double frogKnockbackResistance;
++    public double frogMovementSpeed = 1.0D;
++    public double frogAttackDamage = 10.0D;
++    public double frogArmor;
++    public double frogArmorToughness;
++    private void frogSettings() {
++        frogFollowRange = getDouble("mobs.frog.attributes.follow_range", defaultFollowRange);
++        frogKnockbackResistance = getDouble("mobs.frog.attributes.knockback_resistance", defaultKnockbackResistance);
++        frogMovementSpeed = getDouble("mobs.frog.attributes.movement_speed", frogMovementSpeed);
++        frogAttackDamage = getDouble("mobs.frog.attributes.attack_damage", frogAttackDamage);
++        frogArmor = getDouble("mobs.frog.attributes.armor", defaultArmor);
++        frogArmorToughness = getDouble("mobs.frog.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    public double tadpoleFollowRange;
++    public double tadpoleKnockbackResistance;
++    public double tadpoleMovementSpeed = 1.0D;
++    public double tadpoleArmor;
++    public double tadpoleArmorToughness;
++    private void tadpoleSettings() {
++        tadpoleFollowRange = getDouble("mobs.tadpole.attributes.follow_range", defaultFollowRange);
++        tadpoleKnockbackResistance = getDouble("mobs.tadpole.attributes.knockback_resistance", defaultKnockbackResistance);
++        tadpoleMovementSpeed = getDouble("mobs.tadpole.attributes.movement_speed", tadpoleMovementSpeed);
++        tadpoleArmor = getDouble("mobs.tadpole.attributes.armor", defaultArmor);
++        tadpoleArmorToughness = getDouble("mobs.tadpole.attributes.armor_toughness", defaultArmorToughness);
++    }
++
++    private final double catMaxHealth = getPurpurWorldConfigDouble("mobs.cat.attributes.max_health");
++    public double catFollowRange;
++    public double catKnockbackResistance;
++    public double catMovementSpeed = 0.30000001192092896D;
++    public double catAttackDamage = 3.0D;
++    public double catArmor;
++    public double catArmorToughness;
++    public double catWhiteMaxHealth;
++    public double catWhiteFollowRange;
++    public double catWhiteKnockbackResistance;
++    public double catWhiteMovementSpeed;
++    public double catWhiteAttackDamage;
++    public double catWhiteArmor;
++    public double catWhiteArmorToughness;
++    public double catBlackMaxHealth;
++    public double catBlackFollowRange;
++    public double catBlackKnockbackResistance;
++    public double catBlackMovementSpeed;
++    public double catBlackAttackDamage;
++    public double catBlackArmor;
++    public double catBlackArmorToughness;
++    public double catRedMaxHealth;
++    public double catRedFollowRange;
++    public double catRedKnockbackResistance;
++    public double catRedMovementSpeed;
++    public double catRedAttackDamage;
++    public double catRedArmor;
++    public double catRedArmorToughness;
++    public double catSiameseMaxHealth;
++    public double catSiameseFollowRange;
++    public double catSiameseKnockbackResistance;
++    public double catSiameseMovementSpeed;
++    public double catSiameseAttackDamage;
++    public double catSiameseArmor;
++    public double catSiameseArmorToughness;
++    public double catBritishShorthairMaxHealth;
++    public double catBritishShorthairFollowRange;
++    public double catBritishShorthairKnockbackResistance;
++    public double catBritishShorthairMovementSpeed;
++    public double catBritishShorthairAttackDamage;
++    public double catBritishShorthairArmor;
++    public double catBritishShorthairArmorToughness;
++    public double catCalicoMaxHealth;
++    public double catCalicoFollowRange;
++    public double catCalicoKnockbackResistance;
++    public double catCalicoMovementSpeed;
++    public double catCalicoAttackDamage;
++    public double catCalicoArmor;
++    public double catCalicoArmorToughness;
++    public double catPersianMaxHealth;
++    public double catPersianFollowRange;
++    public double catPersianKnockbackResistance;
++    public double catPersianMovementSpeed;
++    public double catPersianAttackDamage;
++    public double catPersianArmor;
++    public double catPersianArmorToughness;
++    public double catRagdollMaxHealth;
++    public double catRagdollFollowRange;
++    public double catRagdollKnockbackResistance;
++    public double catRagdollMovementSpeed;
++    public double catRagdollAttackDamage;
++    public double catRagdollArmor;
++    public double catRagdollArmorToughness;
++    public double catTabbyMaxHealth;
++    public double catTabbyFollowRange;
++    public double catTabbyKnockbackResistance;
++    public double catTabbyMovementSpeed;
++    public double catTabbyAttackDamage;
++    public double catTabbyArmor;
++    public double catTabbyArmorToughness;
++    public double catAllBlackMaxHealth;
++    public double catAllBlackFollowRange;
++    public double catAllBlackKnockbackResistance;
++    public double catAllBlackMovementSpeed;
++    public double catAllBlackAttackDamage;
++    public double catAllBlackArmor;
++    public double catAllBlackArmorToughness;
++    public double catJellieMaxHealth;
++    public double catJellieFollowRange;
++    public double catJellieKnockbackResistance;
++    public double catJellieMovementSpeed;
++    public double catJellieAttackDamage;
++    public double catJellieArmor;
++    public double catJellieArmorToughness;
++    private void catSettings() {
++        catFollowRange = getDouble("mobs.cat.attributes.default.follow_range", defaultFollowRange);
++        catKnockbackResistance = getDouble("mobs.cat.attributes.default.knockback_resistance", defaultKnockbackResistance);
++        catMovementSpeed = getDouble("mobs.cat.attributes.default.movement_speed", catMovementSpeed);
++        catAttackDamage = getDouble("mobs.cat.attributes.default.attack_damage", catAttackDamage);
++        catArmor = getDouble("mobs.cat.attributes.default.armor", defaultArmor);
++        catArmorToughness = getDouble("mobs.cat.attributes.default.armor_toughness", defaultArmorToughness);
++        catWhiteMaxHealth = getDoubleIfSet("mobs.cat.attributes.white.max_health", catMaxHealth);
++        catWhiteFollowRange = getDoubleIfSet("mobs.cat.attributes.white.follow_range", catFollowRange);
++        catWhiteKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.white.knockback_resistance", catKnockbackResistance);
++        catWhiteMovementSpeed = getDoubleIfSet("mobs.cat.attributes.white.movement_speed", catMovementSpeed);
++        catWhiteAttackDamage = getDoubleIfSet("mobs.cat.attributes.white.attack_damamge", catAttackDamage);
++        catWhiteArmor = getDoubleIfSet("mobs.cat.attributes.white.armor", catArmor);
++        catWhiteArmorToughness = getDoubleIfSet("mobs.cat.attributes.white.armor_toughness", catArmorToughness);
++        catBlackMaxHealth = getDoubleIfSet("mobs.cat.attributes.black.max_health", catMaxHealth);
++        catBlackFollowRange = getDoubleIfSet("mobs.cat.attributes.black.follow_range", catFollowRange);
++        catBlackKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.black.knockback_resistance", catKnockbackResistance);
++        catBlackMovementSpeed = getDoubleIfSet("mobs.cat.attributes.black.movement_speed", catMovementSpeed);
++        catBlackAttackDamage = getDoubleIfSet("mobs.cat.attributes.black.attack_damamge", catAttackDamage);
++        catBlackArmor = getDoubleIfSet("mobs.cat.attributes.black.armor", catArmor);
++        catBlackArmorToughness = getDoubleIfSet("mobs.cat.attributes.black.armor_toughness", catArmorToughness);
++        catRedMaxHealth = getDoubleIfSet("mobs.cat.attributes.red.max_health", catMaxHealth);
++        catRedFollowRange = getDoubleIfSet("mobs.cat.attributes.red.follow_range", catFollowRange);
++        catRedKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.red.knockback_resistance", catKnockbackResistance);
++        catRedMovementSpeed = getDoubleIfSet("mobs.cat.attributes.red.movement_speed", catMovementSpeed);
++        catRedAttackDamage = getDoubleIfSet("mobs.cat.attributes.red.attack_damamge", catAttackDamage);
++        catRedArmor = getDoubleIfSet("mobs.cat.attributes.red.armor", catArmor);
++        catRedArmorToughness = getDoubleIfSet("mobs.cat.attributes.red.armor_toughness", catArmorToughness);
++        catSiameseMaxHealth = getDoubleIfSet("mobs.cat.attributes.siamese.max_health", catMaxHealth);
++        catSiameseFollowRange = getDoubleIfSet("mobs.cat.attributes.siamese.follow_range", catFollowRange);
++        catSiameseKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.siamese.knockback_resistance", catKnockbackResistance);
++        catSiameseMovementSpeed = getDoubleIfSet("mobs.cat.attributes.siamese.movement_speed", catMovementSpeed);
++        catSiameseAttackDamage = getDoubleIfSet("mobs.cat.attributes.siamese.attack_damamge", catAttackDamage);
++        catSiameseArmor = getDoubleIfSet("mobs.cat.attributes.siamese.armor", catArmor);
++        catSiameseArmorToughness = getDoubleIfSet("mobs.cat.attributes.siamese.armor_toughness", catArmorToughness);
++        catBritishShorthairMaxHealth = getDoubleIfSet("mobs.cat.attributes.british-shorthair.max_health", catMaxHealth);
++        catBritishShorthairFollowRange = getDoubleIfSet("mobs.cat.attributes.british-shorthair.follow_range", catFollowRange);
++        catBritishShorthairKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.british-shorthair.knockback_resistance", catKnockbackResistance);
++        catBritishShorthairMovementSpeed = getDoubleIfSet("mobs.cat.attributes.british-shorthair.movement_speed", catMovementSpeed);
++        catBritishShorthairAttackDamage = getDoubleIfSet("mobs.cat.attributes.british-shorthair.attack_damamge", catAttackDamage);
++        catBritishShorthairArmor = getDoubleIfSet("mobs.cat.attributes.british-shorthair.armor", catArmor);
++        catBritishShorthairArmorToughness = getDoubleIfSet("mobs.cat.attributes.british-shorthair.armor_toughness", catArmorToughness);
++        catCalicoMaxHealth = getDoubleIfSet("mobs.cat.attributes.calico.max_health", catMaxHealth);
++        catCalicoFollowRange = getDoubleIfSet("mobs.cat.attributes.calico.follow_range", catFollowRange);
++        catCalicoKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.calico.knockback_resistance", catKnockbackResistance);
++        catCalicoMovementSpeed = getDoubleIfSet("mobs.cat.attributes.calico.movement_speed", catMovementSpeed);
++        catCalicoAttackDamage = getDoubleIfSet("mobs.cat.attributes.calico.attack_damamge", catAttackDamage);
++        catCalicoArmor = getDoubleIfSet("mobs.cat.attributes.calico.armor", catArmor);
++        catCalicoArmorToughness = getDoubleIfSet("mobs.cat.attributes.calico.armor_toughness", catArmorToughness);
++        catPersianMaxHealth = getDoubleIfSet("mobs.cat.attributes.persian.max_health", catMaxHealth);
++        catPersianFollowRange = getDoubleIfSet("mobs.cat.attributes.persian.follow_range", catFollowRange);
++        catPersianKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.persian.knockback_resistance", catKnockbackResistance);
++        catPersianMovementSpeed = getDoubleIfSet("mobs.cat.attributes.persian.movement_speed", catMovementSpeed);
++        catPersianAttackDamage = getDoubleIfSet("mobs.cat.attributes.persian.attack_damamge", catAttackDamage);
++        catPersianArmor = getDoubleIfSet("mobs.cat.attributes.persian.armor", catArmor);
++        catPersianArmorToughness = getDoubleIfSet("mobs.cat.attributes.persian.armor_toughness", catArmorToughness);
++        catRagdollMaxHealth = getDoubleIfSet("mobs.cat.attributes.ragdoll.max_health", catMaxHealth);
++        catRagdollFollowRange = getDoubleIfSet("mobs.cat.attributes.ragdoll.follow_range", catFollowRange);
++        catRagdollKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.ragdoll.knockback_resistance", catKnockbackResistance);
++        catRagdollMovementSpeed = getDoubleIfSet("mobs.cat.attributes.ragdoll.movement_speed", catMovementSpeed);
++        catRagdollAttackDamage = getDoubleIfSet("mobs.cat.attributes.ragdoll.attack_damamge", catAttackDamage);
++        catRagdollArmor = getDoubleIfSet("mobs.cat.attributes.ragdoll.armor", catArmor);
++        catRagdollArmorToughness = getDoubleIfSet("mobs.cat.attributes.ragdoll.armor_toughness", catArmorToughness);
++        catTabbyMaxHealth = getDoubleIfSet("mobs.cat.attributes.tabby.max_health", catMaxHealth);
++        catTabbyFollowRange = getDoubleIfSet("mobs.cat.attributes.tabby.follow_range", catFollowRange);
++        catTabbyKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.tabby.knockback_resistance", catKnockbackResistance);
++        catTabbyMovementSpeed = getDoubleIfSet("mobs.cat.attributes.tabby.movement_speed", catMovementSpeed);
++        catTabbyAttackDamage = getDoubleIfSet("mobs.cat.attributes.tabby.attack_damamge", catAttackDamage);
++        catTabbyArmor = getDoubleIfSet("mobs.cat.attributes.tabby.armor", catArmor);
++        catTabbyArmorToughness = getDoubleIfSet("mobs.cat.attributes.tabby.armor_toughness", catArmorToughness);
++        catAllBlackMaxHealth = getDoubleIfSet("mobs.cat.attributes.all-black.max_health", catMaxHealth);
++        catAllBlackFollowRange = getDoubleIfSet("mobs.cat.attributes.all-black.follow_range", catFollowRange);
++        catAllBlackKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.all-black.knockback_resistance", catKnockbackResistance);
++        catAllBlackMovementSpeed = getDoubleIfSet("mobs.cat.attributes.all-black.movement_speed", catMovementSpeed);
++        catAllBlackAttackDamage = getDoubleIfSet("mobs.cat.attributes.all-black.attack_damamge", catAttackDamage);
++        catAllBlackArmor = getDoubleIfSet("mobs.cat.attributes.all-black.armor", catArmor);
++        catAllBlackArmorToughness = getDoubleIfSet("mobs.cat.attributes.all-black.armor_toughness", catArmorToughness);
++        catJellieMaxHealth = getDoubleIfSet("mobs.cat.attributes.jellie.max_health", catMaxHealth);
++        catJellieFollowRange = getDoubleIfSet("mobs.cat.attributes.jellie.follow_range", catFollowRange);
++        catJellieKnockbackResistance = getDoubleIfSet("mobs.cat.attributes.jellie.knockback_resistance", catKnockbackResistance );
++        catJellieMovementSpeed = getDoubleIfSet("mobs.cat.attributes.jellie.movement_speed", catMovementSpeed);
++        catJellieAttackDamage = getDoubleIfSet("mobs.cat.attributes.jellie.attack_damamge", catAttackDamage);
++        catJellieArmor = getDoubleIfSet("mobs.cat.attributes.jellie.armor", catArmor);
++        catJellieArmorToughness = getDoubleIfSet("mobs.cat.attributes.jellie.armor_toughness", catArmorToughness);
++    }
++
++    private final double pandaMaxHealth = getPurpurWorldConfigDouble("mobs.panda.attributes.max_health");
++    public double pandaFollowRange;
++    public double pandaKnockbackResistance;
++    public double pandaMovementSpeed = 0.15000000596046448D;
++    public double pandaAttackDamage = 6.0D;
++    public double pandaArmor;
++    public double pandaArmorToughness;
++    public double pandaNormalMaxHealth;
++    public double pandaNormalFollowRange;
++    public double pandaNormalKnockbackResistance;
++    public double pandaNormalMovementSpeed;
++    public double pandaNormalAttackDamage;
++    public double pandaNormalArmor;
++    public double pandaNormalArmorToughness;
++    public double pandaLazyMaxHealth;
++    public double pandaLazyFollowRange;
++    public double pandaLazyKnockbackResistance;
++    public double pandaLazyMovementSpeed = 0.07000000029802322D;
++    public double pandaLazyAttackDamage;
++    public double pandaLazyArmor;
++    public double pandaLazyArmorToughness;
++    public double pandaWorriedMaxHealth;
++    public double pandaWorriedFollowRange;
++    public double pandaWorriedKnockbackResistance;
++    public double pandaWorriedMovementSpeed;
++    public double pandaWorriedAttackDamage;
++    public double pandaWorriedArmor;
++    public double pandaWorriedArmorToughness;
++    public double pandaPlayfulMaxHealth;
++    public double pandaPlayfulFollowRange;
++    public double pandaPlayfulKnockbackResistance;
++    public double pandaPlayfulMovementSpeed;
++    public double pandaPlayfulAttackDamage;
++    public double pandaPlayfulArmor;
++    public double pandaPlayfulArmorToughness;
++    public double pandaBrownMaxHealth;
++    public double pandaBrownFollowRange;
++    public double pandaBrownKnockbackResistance;
++    public double pandaBrownMovementSpeed;
++    public double pandaBrownAttackDamage;
++    public double pandaBrownArmor;
++    public double pandaBrownArmorToughness;
++    public double pandaWeakMaxHealth = 10.0D;
++    public double pandaWeakFollowRange;
++    public double pandaWeakKnockbackResistance;
++    public double pandaWeakMovementSpeed;
++    public double pandaWeakAttackDamage;
++    public double pandaWeakArmor;
++    public double pandaWeakArmorToughness;
++    public double pandaAggressiveMaxHealth;
++    public double pandaAggressiveFollowRange;
++    public double pandaAggressiveKnockbackResistance;
++    public double pandaAggressiveMovementSpeed;
++    public double pandaAggressiveAttackDamage;
++    public double pandaAggressiveArmor;
++    public double pandaAggressiveArmorToughness;
++    private void pandaSettings() {
++        pandaFollowRange = getDouble("mobs.panda.attributes.default.follow_range", defaultFollowRange);
++        pandaKnockbackResistance = getDouble("mobs.panda.attributes.default.knockback_resistance", defaultKnockbackResistance);
++        pandaMovementSpeed = getDouble("mobs.panda.attributes.default.movement_speed", pandaMovementSpeed);
++        pandaAttackDamage = getDouble("mobs.panda.attributes.default.attack_damage", pandaAttackDamage);
++        pandaArmor = getDouble("mobs.panda.attributes.default.armor", defaultArmor);
++        pandaArmorToughness = getDouble("mobs.panda.attributes.default.armor_toughness", defaultArmorToughness);
++        pandaNormalMaxHealth = getDoubleIfSet("mobs.panda.attributes.normal.max_health", pandaMaxHealth);
++        pandaNormalFollowRange = getDoubleIfSet("mobs.panda.attributes.normal.follow_range", pandaFollowRange);
++        pandaNormalKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.normal.knockback_resistance", pandaKnockbackResistance);
++        pandaNormalMovementSpeed = getDoubleIfSet("mobs.panda.attributes.normal.movement_speed", pandaMovementSpeed);
++        pandaNormalAttackDamage = getDoubleIfSet("mobs.panda.attributes.normal.attack_damage", pandaAttackDamage);
++        pandaNormalArmor = getDoubleIfSet("mobs.panda.attributes.normal.armor", pandaArmor);
++        pandaNormalArmorToughness = getDoubleIfSet("mobs.panda.attributes.normal.armor_toughness", pandaArmorToughness);
++        pandaLazyMaxHealth = getDoubleIfSet("mobs.panda.attributes.lazy.max_health", pandaMaxHealth);
++        pandaLazyFollowRange = getDoubleIfSet("mobs.panda.attributes.lazy.follow_range", pandaFollowRange);
++        pandaLazyKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.lazy.knockback_resistance", pandaKnockbackResistance);
++        pandaLazyMovementSpeed = getDouble("mobs.panda.attributes.lazy.movement_speed", pandaLazyMovementSpeed);
++        pandaLazyAttackDamage = getDoubleIfSet("mobs.panda.attributes.lazy.attack_damage", pandaAttackDamage);
++        pandaLazyArmor = getDoubleIfSet("mobs.panda.attributes.lazy.armor", pandaArmor);
++        pandaLazyArmorToughness = getDoubleIfSet("mobs.panda.attributes.lazy.armor_toughness", pandaArmorToughness);
++        pandaWorriedMaxHealth = getDoubleIfSet("mobs.panda.attributes.worried.max_health", pandaMaxHealth);
++        pandaWorriedFollowRange = getDoubleIfSet("mobs.panda.attributes.worried.follow_range", pandaFollowRange);
++        pandaWorriedKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.worried.knockback_resistance", pandaKnockbackResistance);
++        pandaWorriedMovementSpeed = getDoubleIfSet("mobs.panda.attributes.worried.movement_speed", pandaMovementSpeed);
++        pandaWorriedAttackDamage = getDoubleIfSet("mobs.panda.attributes.worried.attack_damage", pandaAttackDamage);
++        pandaWorriedArmor = getDoubleIfSet("mobs.panda.attributes.worried.armor", pandaArmor);
++        pandaWorriedArmorToughness = getDoubleIfSet("mobs.panda.attributes.worried.armor_toughness", pandaArmorToughness);
++        pandaPlayfulMaxHealth = getDoubleIfSet("mobs.panda.attributes.playful.max_health", pandaMaxHealth);
++        pandaPlayfulFollowRange = getDoubleIfSet("mobs.panda.attributes.playful.follow_range", pandaFollowRange);
++        pandaPlayfulKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.playful.knockback_resistance", pandaKnockbackResistance);
++        pandaPlayfulMovementSpeed = getDoubleIfSet("mobs.panda.attributes.playful.movement_speed", pandaMovementSpeed);
++        pandaPlayfulAttackDamage = getDoubleIfSet("mobs.panda.attributes.playful.attack_damage", pandaAttackDamage);
++        pandaPlayfulArmor = getDoubleIfSet("mobs.panda.attributes.playful.armor", pandaArmor);
++        pandaPlayfulArmorToughness = getDoubleIfSet("mobs.panda.attributes.playful.armor_toughness", pandaArmorToughness);
++        pandaBrownMaxHealth = getDoubleIfSet("mobs.panda.attributes.brown.max_health", pandaMaxHealth);
++        pandaBrownFollowRange = getDoubleIfSet("mobs.panda.attributes.brown.follow_range", pandaFollowRange);
++        pandaBrownKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.brown.knockback_resistance", pandaKnockbackResistance);
++        pandaBrownMovementSpeed = getDoubleIfSet("mobs.panda.attributes.brown.movement_speed", pandaMovementSpeed);
++        pandaBrownAttackDamage = getDoubleIfSet("mobs.panda.attributes.brown.attack_damage", pandaAttackDamage);
++        pandaBrownArmor = getDoubleIfSet("mobs.panda.attributes.brown.armor", pandaArmor);
++        pandaBrownArmorToughness = getDoubleIfSet("mobs.panda.attributes.brown.armor_toughness", pandaArmorToughness);
++        pandaWeakMaxHealth = getDouble("mobs.panda.attributes.weak.max_health", pandaWeakMaxHealth);
++        pandaWeakFollowRange = getDoubleIfSet("mobs.panda.attributes.weak.follow_range", pandaFollowRange);
++        pandaWeakKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.weak.knockback_resistance", pandaKnockbackResistance);
++        pandaWeakMovementSpeed = getDoubleIfSet("mobs.panda.attributes.weak.movement_speed", pandaMovementSpeed);
++        pandaWeakAttackDamage = getDoubleIfSet("mobs.panda.attributes.weak.attack_damage", pandaAttackDamage);
++        pandaWeakArmor = getDoubleIfSet("mobs.panda.attributes.weak.armor", pandaArmor);
++        pandaWeakArmorToughness = getDoubleIfSet("mobs.panda.attributes.weak.armor_toughness", pandaArmorToughness);
++        pandaAggressiveMaxHealth = getDoubleIfSet("mobs.panda.attributes.aggressive.max_health", pandaMaxHealth);
++        pandaAggressiveFollowRange = getDoubleIfSet("mobs.panda.attributes.aggressive.follow_range", pandaFollowRange);
++        pandaAggressiveKnockbackResistance = getDoubleIfSet("mobs.panda.attributes.aggressive.knockback_resistance", pandaKnockbackResistance);
++        pandaAggressiveMovementSpeed = getDoubleIfSet("mobs.panda.attributes.aggressive.movement_speed", pandaMovementSpeed);
++        pandaAggressiveAttackDamage = getDoubleIfSet("mobs.panda.attributes.aggressive.attack_damage", pandaAttackDamage);
++        pandaAggressiveArmor = getDoubleIfSet("mobs.panda.attributes.aggressive.armor", pandaArmor);
++        pandaAggressiveArmorToughness = getDoubleIfSet("mobs.panda.attributes.aggressive.armor_toughness", pandaArmorToughness);
++    }
++
++    private final double parrotMaxHealth = getPurpurWorldConfigDouble("mobs.parrot.attributes.max_health");
++    public double parrotFollowRange;
++    public double parrotKnockbackResistance;
++    public double parrotMovementSpeed = 0.20000000298023224D;
++    public double parrotArmor;
++    public double parrotArmorToughness;
++    public double parrotFlyingSpeed = 0.4000000059604645D;
++    public double parrotRedMaxHealth;
++    public double parrotRedFollowRange;
++    public double parrotRedKnockbackResistance;
++    public double parrotRedMovementSpeed;
++    public double parrotRedArmor;
++    public double parrotRedArmorToughness;
++    public double parrotRedFlyingSpeed;
++    public double parrotBlueMaxHealth;
++    public double parrotBlueFollowRange;
++    public double parrotBlueKnockbackResistance;
++    public double parrotBlueMovementSpeed;
++    public double parrotBlueArmor;
++    public double parrotBlueArmorToughness;
++    public double parrotBlueFlyingSpeed;
++    public double parrotGreenMaxHealth;
++    public double parrotGreenFollowRange;
++    public double parrotGreenKnockbackResistance;
++    public double parrotGreenMovementSpeed;
++    public double parrotGreenArmor;
++    public double parrotGreenArmorToughness;
++    public double parrotGreenFlyingSpeed;
++    public double parrotCyanMaxHealth;
++    public double parrotCyanFollowRange;
++    public double parrotCyanKnockbackResistance;
++    public double parrotCyanMovementSpeed;
++    public double parrotCyanArmor;
++    public double parrotCyanArmorToughness;
++    public double parrotCyanFlyingSpeed;
++    public double parrotGrayMaxHealth;
++    public double parrotGrayFollowRange;
++    public double parrotGrayKnockbackResistance;
++    public double parrotGrayMovementSpeed;
++    public double parrotGrayArmor;
++    public double parrotGrayArmorToughness;
++    public double parrotGrayFlyingSpeed;
++    private void parrotSettings() {
++        parrotFollowRange = getDouble("mobs.parrot.attributes.default.follow_range", defaultFollowRange);
++        parrotKnockbackResistance = getDouble("mobs.parrot.attributes.default.knockback_resistance", defaultKnockbackResistance);
++        parrotMovementSpeed = getDouble("mobs.parrot.attributes.default.movement_speed", parrotMovementSpeed);
++        parrotArmor = getDouble("mobs.parrot.attributes.default.armor", defaultArmor);
++        parrotArmorToughness = getDouble("mobs.parrot.attributes.default.armor_toughness", defaultArmorToughness);
++        parrotFlyingSpeed = getDouble("mobs.parrot.attributes.default.flying_speed", parrotFlyingSpeed);
++        parrotRedMaxHealth = getDoubleIfSet("mobs.parrot.attributes.red.max_health", parrotMaxHealth);
++        parrotRedFollowRange = getDoubleIfSet("mobs.parrot.attributes.red.follow_range", parrotFollowRange);
++        parrotRedKnockbackResistance = getDoubleIfSet("mobs.parrot.attributes.red.knockback_resistance", parrotKnockbackResistance);
++        parrotRedMovementSpeed = getDoubleIfSet("mobs.parrot.attributes.red.movement_speed", parrotMovementSpeed);
++        parrotRedArmor = getDoubleIfSet("mobs.parrot.attributes.red.armor", parrotArmor);
++        parrotRedArmorToughness = getDoubleIfSet("mobs.parrot.attributes.red.armor_toughness", parrotArmorToughness);
++        parrotRedFlyingSpeed = getDoubleIfSet("mobs.parrot.attributes.red.flying_speed", parrotFlyingSpeed);
++        parrotBlueMaxHealth = getDoubleIfSet("mobs.parrot.attributes.blue.max_health", parrotMaxHealth);
++        parrotBlueFollowRange = getDoubleIfSet("mobs.parrot.attributes.blue.follow_range", parrotFollowRange);
++        parrotBlueKnockbackResistance = getDoubleIfSet("mobs.parrot.attributes.blue.knockback_resistance", parrotKnockbackResistance);
++        parrotBlueMovementSpeed = getDoubleIfSet("mobs.parrot.attributes.blue.movement_speed", parrotMovementSpeed);
++        parrotBlueArmor = getDoubleIfSet("mobs.parrot.attributes.blue.armor", parrotArmor);
++        parrotBlueArmorToughness = getDoubleIfSet("mobs.parrot.attributes.blue.armor_toughness", parrotArmorToughness);
++        parrotBlueFlyingSpeed = getDoubleIfSet("mobs.parrot.attributes.blue.flying_speed", parrotFlyingSpeed);
++        parrotGreenMaxHealth = getDoubleIfSet("mobs.parrot.attributes.green.max_health", parrotMaxHealth);
++        parrotGreenFollowRange = getDoubleIfSet("mobs.parrot.attributes.green.follow_range", parrotFollowRange);
++        parrotGreenKnockbackResistance = getDoubleIfSet("mobs.parrot.attributes.green.knockback_resistance", parrotKnockbackResistance);
++        parrotGreenMovementSpeed = getDoubleIfSet("mobs.parrot.attributes.green.movement_speed", parrotMovementSpeed);
++        parrotGreenArmor = getDoubleIfSet("mobs.parrot.attributes.green.armor", parrotArmor);
++        parrotGreenArmorToughness = getDoubleIfSet("mobs.parrot.attributes.green.armor_toughness", parrotArmorToughness);
++        parrotGreenFlyingSpeed = getDoubleIfSet("mobs.parrot.attributes.green.flying_speed", parrotFlyingSpeed);
++        parrotCyanMaxHealth = getDoubleIfSet("mobs.parrot.attributes.cyan.max_health", parrotMaxHealth);
++        parrotCyanFollowRange = getDoubleIfSet("mobs.parrot.attributes.cyan.follow_range", parrotFollowRange);
++        parrotCyanKnockbackResistance = getDoubleIfSet("mobs.parrot.attributes.cyan.knockback_resistance", parrotKnockbackResistance);
++        parrotCyanMovementSpeed = getDoubleIfSet("mobs.parrot.attributes.cyan.movement_speed", parrotMovementSpeed);
++        parrotCyanArmor = getDoubleIfSet("mobs.parrot.attributes.cyan.armor", parrotArmor);
++        parrotCyanArmorToughness = getDoubleIfSet("mobs.parrot.attributes.cyan.armor_toughness", parrotArmorToughness);
++        parrotCyanFlyingSpeed = getDoubleIfSet("mobs.parrot.attributes.cyan.flying_speed", parrotFlyingSpeed);
++        parrotGrayMaxHealth = getDoubleIfSet("mobs.parrot.attributes.gray.max_health", parrotMaxHealth);
++        parrotGrayFollowRange = getDoubleIfSet("mobs.parrot.attributes.gray.follow_range", parrotFollowRange);
++        parrotGrayKnockbackResistance = getDoubleIfSet("mobs.parrot.attributes.gray.knockback_resistance", parrotKnockbackResistance);
++        parrotGrayMovementSpeed = getDoubleIfSet("mobs.parrot.attributes.gray.movement_speed", parrotMovementSpeed);
++        parrotGrayArmor = getDoubleIfSet("mobs.parrot.attributes.gray.armor", parrotArmor);
++        parrotGrayArmorToughness = getDoubleIfSet("mobs.parrot.attributes.gray.armor_toughness", parrotArmorToughness);
++        parrotGrayFlyingSpeed = getDoubleIfSet("mobs.parrot.attributes.gray.flying_speed", parrotFlyingSpeed);
++    }
++
++    private final double rabbitMaxHealth = getPurpurWorldConfigDouble("mobs.rabbit.attributes.max_health");
++    public double rabbitFollowRange;
++    public double rabbitKnockbackResistance;
++    public double rabbitMovementSpeed = 0.30000001192092896D;
++    public double rabbitArmor;
++    public double rabbitArmorToughness;
++    public double rabbitBrownMaxHealth;
++    public double rabbitBrownFollowRange;
++    public double rabbitBrownKnockbackResistance;
++    public double rabbitBrownMovementSpeed;
++    public double rabbitBrownArmor;
++    public double rabbitBrownArmorToughness;
++    public double rabbitWhiteMaxHealth;
++    public double rabbitWhiteFollowRange;
++    public double rabbitWhiteKnockbackResistance;
++    public double rabbitWhiteMovementSpeed;
++    public double rabbitWhiteArmor;
++    public double rabbitWhiteArmorToughness;
++    public double rabbitBlackMaxHealth;
++    public double rabbitBlackFollowRange;
++    public double rabbitBlackKnockbackResistance;
++    public double rabbitBlackMovementSpeed;
++    public double rabbitBlackArmor;
++    public double rabbitBlackArmorToughness;
++    public double rabbitBlackAndWhiteMaxHealth;
++    public double rabbitBlackAndWhiteFollowRange;
++    public double rabbitBlackAndWhiteKnockbackResistance;
++    public double rabbitBlackAndWhiteMovementSpeed;
++    public double rabbitBlackAndWhiteArmor;
++    public double rabbitBlackAndWhiteArmorToughness;
++    public double rabbitGoldMaxHealth;
++    public double rabbitGoldFollowRange;
++    public double rabbitGoldKnockbackResistance;
++    public double rabbitGoldMovementSpeed;
++    public double rabbitGoldArmor;
++    public double rabbitGoldArmorToughness;
++    public double rabbitSaltAndPepperMaxHealth;
++    public double rabbitSaltAndPepperFollowRange;
++    public double rabbitSaltAndPepperKnockbackResistance;
++    public double rabbitSaltAndPepperMovementSpeed;
++    public double rabbitSaltAndPepperArmor;
++    public double rabbitSaltAndPepperArmorToughness;
++    public double rabbitKillerMaxHealth;
++    public double rabbitKillerFollowRange;
++    public double rabbitKillerKnockbackResistance;
++    public double rabbitKillerMovementSpeed;
++    public double rabbitKillerArmor = 8.0D;
++    public double rabbitKillerArmorToughness;
++    public double rabbitToastMaxHealth;
++    public double rabbitToastFollowRange;
++    public double rabbitToastKnockbackResistance;
++    public double rabbitToastMovementSpeed;
++    public double rabbitToastArmor;
++    public double rabbitToastArmorToughness;
++    private void rabbitSettings() {
++        rabbitFollowRange = getDouble("mobs.rabbit.attributes.default.follow_range", defaultFollowRange);
++        rabbitKnockbackResistance = getDouble("mobs.rabbit.attributes.default.knockback_resistance", defaultKnockbackResistance);
++        rabbitMovementSpeed = getDouble("mobs.rabbit.attributes.default.movement_speed", rabbitMovementSpeed);
++        rabbitArmor = getDouble("mobs.rabbit.attributes.default.armor", defaultArmor);
++        rabbitArmorToughness = getDouble("mobs.rabbit.attributes.default.armor_toughness", defaultArmorToughness);
++        rabbitBrownMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.brown.max_health", rabbitMaxHealth);
++        rabbitBrownFollowRange = getDoubleIfSet("mobs.rabbit.attributes.brown.follow_range", rabbitFollowRange);
++        rabbitBrownKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.brown.knockback_resistance", rabbitKnockbackResistance);
++        rabbitBrownMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.brown.movement_speed", rabbitMovementSpeed);
++        rabbitBrownArmor = getDoubleIfSet("mobs.rabbit.attributes.brown.armor", rabbitArmor);
++        rabbitBrownArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.brown.armor_toughness", rabbitArmorToughness);
++        rabbitWhiteMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.white.max_health", rabbitMaxHealth);
++        rabbitWhiteFollowRange = getDoubleIfSet("mobs.rabbit.attributes.white.follow_range", rabbitFollowRange);
++        rabbitWhiteKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.white.knockback_resistance", rabbitKnockbackResistance);
++        rabbitWhiteMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.white.movement_speed", rabbitMovementSpeed);
++        rabbitWhiteArmor = getDoubleIfSet("mobs.rabbit.attributes.white.armor", rabbitArmor);
++        rabbitWhiteArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.white.armor_toughness", rabbitArmorToughness);
++        rabbitBlackMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.black.max_health", rabbitMaxHealth);
++        rabbitBlackFollowRange = getDoubleIfSet("mobs.rabbit.attributes.black.follow_range", rabbitFollowRange);
++        rabbitBlackKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.black.knockback_resistance", rabbitKnockbackResistance);
++        rabbitBlackMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.black.movement_speed", rabbitMovementSpeed);
++        rabbitBlackArmor = getDoubleIfSet("mobs.rabbit.attributes.black.armor", rabbitArmor);
++        rabbitBlackArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.black.armor_toughness", rabbitArmorToughness);
++        rabbitBlackAndWhiteMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.black_and_white.max_health", rabbitMaxHealth);
++        rabbitBlackAndWhiteFollowRange = getDoubleIfSet("mobs.rabbit.attributes.black_and_white.follow_range", rabbitFollowRange);
++        rabbitBlackAndWhiteKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.black_and_white.knockback_resistance", rabbitKnockbackResistance);
++        rabbitBlackAndWhiteMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.black_and_white.movement_speed", rabbitMovementSpeed);
++        rabbitBlackAndWhiteArmor = getDoubleIfSet("mobs.rabbit.attributes.black_and_white.armor", rabbitArmor);
++        rabbitBlackAndWhiteArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.black_and_white.armor_toughness", rabbitArmorToughness);
++        rabbitGoldMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.gold.max_health", rabbitMaxHealth);
++        rabbitGoldFollowRange = getDoubleIfSet("mobs.rabbit.attributes.gold.follow_range", rabbitFollowRange);
++        rabbitGoldKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.gold.knockback_resistance", rabbitKnockbackResistance);
++        rabbitGoldMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.gold.movement_speed", rabbitMovementSpeed);
++        rabbitGoldArmor = getDoubleIfSet("mobs.rabbit.attributes.gold.armor", rabbitArmor);
++        rabbitGoldArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.gold.armor_toughness", rabbitArmorToughness);
++        rabbitSaltAndPepperMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.slat_and_pepper.max_health", rabbitMaxHealth);
++        rabbitSaltAndPepperFollowRange = getDoubleIfSet("mobs.rabbit.attributes.slat_and_pepper.follow_range", rabbitFollowRange);
++        rabbitSaltAndPepperKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.slat_and_pepper.knockback_resistance", rabbitKnockbackResistance);
++        rabbitSaltAndPepperMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.slat_and_pepper.movement_speed", rabbitMovementSpeed);
++        rabbitSaltAndPepperArmor = getDoubleIfSet("mobs.rabbit.attributes.slat_and_pepper.armor", rabbitArmor);
++        rabbitSaltAndPepperArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.slat_and_pepper.armor_toughness", rabbitArmorToughness);
++        rabbitKillerMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.killer.max_health", rabbitMaxHealth);
++        rabbitKillerFollowRange = getDoubleIfSet("mobs.rabbit.attributes.killer.follow_range", rabbitFollowRange);
++        rabbitKillerKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.killer.knockback_resistance", rabbitKnockbackResistance);
++        rabbitKillerMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.killer.movement_speed", rabbitMovementSpeed);
++        rabbitKillerArmor = getDouble("mobs.rabbit.attributes.killer.armor", rabbitKillerArmor);
++        rabbitKillerArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.killer.armor_toughness", rabbitArmorToughness);
++        rabbitToastMaxHealth = getDoubleIfSet("mobs.rabbit.attributes.toast.max_health", rabbitMaxHealth);
++        rabbitToastFollowRange = getDoubleIfSet("mobs.rabbit.attributes.toast.follow_range", rabbitFollowRange);
++        rabbitToastKnockbackResistance = getDoubleIfSet("mobs.rabbit.attributes.toast.knockback_resistance", rabbitKnockbackResistance);
++        rabbitToastMovementSpeed = getDoubleIfSet("mobs.rabbit.attributes.toast.movement_speed", rabbitMovementSpeed);
++        rabbitToastArmor = getDoubleIfSet("mobs.rabbit.attributes.toast.armor", rabbitArmor);
++        rabbitToastArmorToughness = getDoubleIfSet("mobs.rabbit.attributes.toast.armor_toughness", rabbitArmorToughness);
+     }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+index cfd847249c8bf98f824043c69eeb160a04c108bb..58e606469c4c94e142ee25cd91abeec852821b7d 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+@@ -1071,10 +1071,12 @@ public class PurpurWorldConfig {
+     public boolean allayRidable = false;
+     public boolean allayRidableInWater = false;
+     public boolean allayControllable = true;
++    public double allayMaxHealth = 20.0D; // Prismarine
+     private void allaySettings() {
+         allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
+         allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
+         allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
++        allayMaxHealth = getDouble("mobs.allay.attributes.max-health", allayMaxHealth); // Prismarine
+     }
+ 
+     public boolean axolotlRidable = false;
+@@ -1588,12 +1590,14 @@ public class PurpurWorldConfig {
+     public boolean frogControllable = true;
+     public float frogRidableJumpHeight = 0.65F;
+     public int frogBreedingTicks = 6000;
++    public double frogMaxHealth = 10.0D; // Prismarine
+     private void frogSettings() {
+         frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
+         frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
+         frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
+         frogRidableJumpHeight = (float) getDouble("mobs.frog.ridable-jump-height", frogRidableJumpHeight);
+         frogBreedingTicks = getInt("mobs.frog.breeding-delay-ticks", frogBreedingTicks);
++        frogMaxHealth = getDouble("mobs.frog.attributes.max_health", frogMaxHealth); // Prismarine
+     }
+ 
+     public boolean ghastRidable = false;
+@@ -2625,10 +2629,12 @@ public class PurpurWorldConfig {
+     public boolean tadpoleRidable = false;
+     public boolean tadpoleRidableInWater = false;
+     public boolean tadpoleControllable = true;
++    public double tadpoleMaxHealth = 6.0D; // Prismarine
+     private void tadpoleSettings() {
+         tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
+         tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
+         tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
++        tadpoleMaxHealth = getDouble("mobs.tadpole.attributes.max_health", tadpoleMaxHealth); // Prismarine
+     }
+ 
+     public boolean traderLlamaRidable = false;

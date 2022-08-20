@@ -111,10 +111,10 @@ index 4fd709a550bf8da1e996894a1ca6b91206c31e9e..bd328d4d09f6fb885e343a039f5817f0
      }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 9bfbe138c4dc704a018ec7c16d04450b57579eea..15d831471095782112e1087893d1bf12626e5080 100644
+index af05167315fe811e9577205ee5a4e2ee37a38e6e..066b16a49a2a1d20db794dd386f0ede9fb7a7cb8 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -214,4 +214,9 @@ public class PrismarineConfig {
+@@ -219,4 +219,9 @@ public class PrismarineConfig {
              set("settings.pull-requests.paper.prevent-healing-by-negative-amounts", null);
          }
      }

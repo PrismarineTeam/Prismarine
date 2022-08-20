@@ -38,7 +38,7 @@ index 1ef089dbf83de35d875c00efdf468c397be56978..d867232390c012d5eae2182fc73095aa
          }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 40e5718ed69146cbf1aef7819bda1b8822e2499d..eb01aab61aa3383e39120c7dfb60d9c9a4b801d1 100644
+index 6022bfbf78999c5269f80a0435f5c91fe8177936..3e341c45ec7ae149bb0d6f7d8d464d19b574e4a4 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 @@ -50,8 +50,8 @@ public class PrismarineConfig {
@@ -52,7 +52,7 @@ index 40e5718ed69146cbf1aef7819bda1b8822e2499d..eb01aab61aa3383e39120c7dfb60d9c9
  
          readConfig(PrismarineConfig.class, null);
      }
-@@ -145,4 +145,13 @@ public class PrismarineConfig {
+@@ -150,4 +150,13 @@ public class PrismarineConfig {
          }
          return builder.build();
      }
