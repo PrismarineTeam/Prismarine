@@ -643,7 +643,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 07bf23cec0e0c4e874fd0f62e2e0ea3433252f10..6fab1fe0dfa55041e2ddc9a50cb3a767a69a8f20 100644
+index 90713ba4af50af926dda8dc53fe07c08de4e6586..521741f363243fcc7d727825a0d1c84de56ac7bb 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1032,6 +1032,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -654,7 +654,7 @@ index 07bf23cec0e0c4e874fd0f62e2e0ea3433252f10..6fab1fe0dfa55041e2ddc9a50cb3a767
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1488,6 +1489,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1489,6 +1490,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
@@ -662,7 +662,7 @@ index 07bf23cec0e0c4e874fd0f62e2e0ea3433252f10..6fab1fe0dfa55041e2ddc9a50cb3a767
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2783,6 +2785,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2784,6 +2786,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  

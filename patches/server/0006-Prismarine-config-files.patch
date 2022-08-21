@@ -357,7 +357,7 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 6d494301b67f3a04aa53bd742c7e5602bcff14ba..fdd46842810ab567498d144bf18a60366304905f 100644
+index ae57213514254811f85a26c5861df99bdec0c1f6..fe35b11d495ce0c400e03f0028c4e3a180161b97 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -993,6 +993,7 @@ public final class CraftServer implements Server {
@@ -391,10 +391,10 @@ index 6d494301b67f3a04aa53bd742c7e5602bcff14ba..fdd46842810ab567498d144bf18a6036
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 5199e59c606833f90610f7360121e9628abafe2e..2af0587afa06638c1e15d2c1e41d41d548d9adca 100644
+index 420300ce19d01f36f071eae44efd4cb32beb0ed6..235fdb79f8aa350de90f0e8776545820e348b528 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -166,6 +166,14 @@ public class Main {
+@@ -172,6 +172,14 @@ public class Main {
                      .describedAs("Yml file");
                  // Purpur end
  
