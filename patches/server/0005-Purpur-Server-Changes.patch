@@ -1449,7 +1449,7 @@ index 06e3a868e922f1b7a586d0ca28f64a67ae463b68..32beb045f990d4da6112da4fea295333
                          itemstack.setCount(1);
                          entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68bc7d77d7b 100644
+index f2692f0e2..e2c7a587a 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -223,6 +223,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -1523,7 +1523,7 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
              return true;
          }
      }
-@@ -460,7 +496,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -480,7 +516,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
      }
  
      public void handleConsoleInputs() {
@@ -1532,7 +1532,7 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
          // Paper start - use proper queue
          ConsoleInput servercommand;
          while ((servercommand = this.serverCommandQueue.poll()) != null) {
-@@ -477,7 +513,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -497,7 +533,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              // CraftBukkit end
          }
  
@@ -1655,7 +1655,7 @@ index 923f4ed4fb67d447221ba52414d8aff1668e2399..be0155b64a575efd8be369c76670368a
  
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 5443853b0bd264bda05984c270cf78756e027fa0..122f03dcd53c94238635164db8f4429894cfdba0 100644
+index c295ad09b..5798d891d 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -382,16 +382,16 @@ public class ServerChunkCache extends ChunkSource {
@@ -1671,7 +1671,7 @@ index 5443853b0bd264bda05984c270cf78756e027fa0..122f03dcd53c94238635164db8f44298
  
              ChunkAccess ichunkaccess;
  
-             // Paper - rewrite chunk system - there are no correct callbacks to remove items from cache, so why are we trusting this trash?
+             // Paper - rewrite chunk system - there are no correct callbacks to remove items from cache in the new chunk system
  
 -            gameprofilerfiller.incrementCounter("getChunkCacheMiss");
 +            //gameprofilerfiller.incrementCounter("getChunkCacheMiss"); // Purpur
@@ -18823,7 +18823,7 @@ index fd74cc9c0dab84b176f7da3fbbbdbc8fd3a7e26d..fdda70f216b3805cc6d8105c3d85814a
      protected final float explosionResistance;
      protected final boolean isRandomlyTicking;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33bb19caf82 100644
+index 69110481a..05b906dfa 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -136,7 +136,7 @@ public class LevelChunk extends ChunkAccess {
@@ -18835,8 +18835,8 @@ index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33b
      }
  
      public org.bukkit.Chunk bukkitChunk;
-@@ -939,7 +939,7 @@ public class LevelChunk extends ChunkAccess {
-             server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkLoadEvent(this.bukkitChunk, this.needsDecoration));
+@@ -940,7 +940,7 @@ public class LevelChunk extends ChunkAccess {
+             this.chunkHolder.getEntityChunk().callEntitiesLoadEvent(); // Paper - rewrite chunk system
  
              if (this.needsDecoration) {
 -                try (co.aikar.timings.Timing ignored = this.level.timings.chunkLoadPopulate.startTiming()) { // Paper
@@ -18844,7 +18844,7 @@ index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33b
                  this.needsDecoration = false;
                  java.util.Random random = new java.util.Random();
                  random.setSeed(this.level.getSeed());
-@@ -959,7 +959,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -960,7 +960,7 @@ public class LevelChunk extends ChunkAccess {
                      }
                  }
                  server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkPopulateEvent(this.bukkitChunk));
@@ -18853,7 +18853,7 @@ index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33b
              }
          }
      }
-@@ -1300,10 +1300,10 @@ public class LevelChunk extends ChunkAccess {
+@@ -1302,10 +1302,10 @@ public class LevelChunk extends ChunkAccess {
  
                  if (LevelChunk.this.isTicking(blockposition)) {
                      try {
@@ -18867,7 +18867,7 @@ index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33b
                          BlockState iblockdata = LevelChunk.this.getBlockState(blockposition);
  
                          if (this.blockEntity.getType().isValid(iblockdata)) {
-@@ -1314,7 +1314,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -1316,7 +1316,7 @@ public class LevelChunk extends ChunkAccess {
                              LevelChunk.LOGGER.warn("Block entity {} @ {} state {} invalid for ticking:", new Object[]{LogUtils.defer(this::getType), LogUtils.defer(this::getPos), iblockdata});
                          }
  
@@ -18876,7 +18876,7 @@ index 0124b29c57228df92cc37fbce539d20558bdd872..76aa516855804d3da4ebadc57680e33b
                      } catch (Throwable throwable) {
                          if (throwable instanceof ThreadDeath) throw throwable; // Paper
                          // Paper start - Prevent tile entity and entity crashes
-@@ -1325,7 +1325,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -1327,7 +1327,7 @@ public class LevelChunk extends ChunkAccess {
                          // Paper end
                          // Spigot start
                      } finally {
