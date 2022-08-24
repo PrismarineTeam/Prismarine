@@ -2758,7 +2758,7 @@ index 0fd814f1d65c111266a2b20f86561839a4cef755..ffc217df0649e85d4a7b3d4b1c2c6a82
      protected final double maxFragFactor;
  
 diff --git a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
-index a55d8941e68949b61dc9b57d75fa549592f0974d..5993cfcf227fcdcf584c5a354133da167f64ff7e 100644
+index 7f2d59b61a4cc71339eff6eb076ba1975eb7373a..9a505bacdb2272bdcf0a74f2996970f71b0fae39 100644
 --- a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
 +++ b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
 @@ -34,7 +34,7 @@ public final class ChunkEntitySlices {
@@ -2771,7 +2771,7 @@ index a55d8941e68949b61dc9b57d75fa549592f0974d..5993cfcf227fcdcf584c5a354133da16
      public ChunkHolder.FullChunkStatus status;
  
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index 7ef6273f9205f5d116b3ccf1d9e4d7e95939aa16..eef4828676a450581e18510e4d47e6610127a922 100644
+index 9f50305075a362e24319bb12ff43a937174e23cd..5915b7191401dc3fe24f39ece348724deb551957 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
 @@ -210,7 +210,7 @@ public final class MCUtil {
@@ -2814,7 +2814,7 @@ index 83c1b9dd7cd4a43375fd069f2892548ee4c51f1f..fc9b3d87cd1af291f4012112efdf288b
      }
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index bdd6560fe85950b0a857a949cb38c044da44ca6b..519883c5549744e047a8a96afee142746fcb49cd 100644
+index dfb9b10db9f87d4139a88336a3a2b4432ec37076..f2692f0e24837a4c17fa914ffdf1b6c6552b7b70 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -226,6 +226,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -2979,7 +2979,7 @@ index ca42c2642a729b90d22b968af7258f3aee72e14b..7613510e5f4c22ee15651f162fe1bca1
      public boolean visible = true;
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 2da262eaf46424d7a31cd2866caf683b7d390200..5443853b0bd264bda05984c270cf78756e027fa0 100644
+index fe4e284fd4b5f0409b4281cc86926d45b8dd8035..477209e0587f2b71378432500b10113a483652f5 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -75,6 +75,9 @@ public class ServerChunkCache extends ChunkSource {
@@ -2992,7 +2992,7 @@ index 2da262eaf46424d7a31cd2866caf683b7d390200..5443853b0bd264bda05984c270cf7875
  
      private static int getChunkCacheKey(int x, int z) {
          return x & 3 | ((z & 3) << 2);
-@@ -658,6 +661,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -661,6 +664,7 @@ public class ServerChunkCache extends ChunkSource {
              ProfilerFiller gameprofilerfiller = this.level.getProfiler();
  
              gameprofilerfiller.push("pollingChunks");
@@ -3000,7 +3000,7 @@ index 2da262eaf46424d7a31cd2866caf683b7d390200..5443853b0bd264bda05984c270cf7875
              int k = this.level.getGameRules().getInt(GameRules.RULE_RANDOMTICKING);
              boolean flag1 = level.ticksPerSpawnCategory.getLong(org.bukkit.entity.SpawnCategory.ANIMAL) != 0L && worlddata.getGameTime() % level.ticksPerSpawnCategory.getLong(org.bukkit.entity.SpawnCategory.ANIMAL) == 0L; // CraftBukkit
  
-@@ -667,18 +671,25 @@ public class ServerChunkCache extends ChunkSource {
+@@ -670,18 +674,25 @@ public class ServerChunkCache extends ChunkSource {
              // Paper start - per player mob spawning
              NaturalSpawner.SpawnState spawnercreature_d; // moved down
              if ((this.spawnFriendlies || this.spawnEnemies) && this.chunkMap.playerMobDistanceMap != null) { // don't count mobs when animals and monsters are disabled
@@ -3032,7 +3032,7 @@ index 2da262eaf46424d7a31cd2866caf683b7d390200..5443853b0bd264bda05984c270cf7875
              gameprofilerfiller.popPush("filteringLoadedChunks");
              // Paper - moved down
              this.level.timings.chunkTicks.startTiming(); // Paper
-@@ -716,8 +727,8 @@ public class ServerChunkCache extends ChunkSource {
+@@ -719,8 +730,8 @@ public class ServerChunkCache extends ChunkSource {
  
                  if ((true || this.level.isNaturalSpawningAllowed(chunkcoordintpair)) && this.chunkMap.anyPlayerCloseEnoughForSpawning(holder, chunkcoordintpair, false)) { // Paper - optimise anyPlayerCloseEnoughForSpawning // Paper - replace player chunk loader system
                      chunk1.incrementInhabitedTime(j);
@@ -3043,7 +3043,7 @@ index 2da262eaf46424d7a31cd2866caf683b7d390200..5443853b0bd264bda05984c270cf7875
                      }
  
                      if (true || this.level.shouldTickBlocksAt(chunkcoordintpair.toLong())) { // Paper - replace player chunk loader system
-@@ -779,6 +790,30 @@ public class ServerChunkCache extends ChunkSource {
+@@ -782,6 +793,30 @@ public class ServerChunkCache extends ChunkSource {
              }
              // Paper end - controlled flush for entity tracker packets
          }
@@ -5223,7 +5223,7 @@ index d559f93a9a09bac414dd5d58afccad42c127f09b..13e749a3c40f0b2cc002f13675a9a56e
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index b135f38beb532452def4cb63b4226781974e2437..0124b29c57228df92cc37fbce539d20558bdd872 100644
+index 5f5723c5230af790df5e415824dac9c10bd2016b..69110481a950736bd72f212223d229eaae51a507 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -94,6 +94,18 @@ public class LevelChunk extends ChunkAccess {

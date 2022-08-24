@@ -1449,7 +1449,7 @@ index 06e3a868e922f1b7a586d0ca28f64a67ae463b68..32beb045f990d4da6112da4fea295333
                          itemstack.setCount(1);
                          entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index f2692f0e2..e2c7a587a 100644
+index f2692f0e24837a4c17fa914ffdf1b6c6552b7b70..e2c7a587a83a568fbab35217be59af89e4d0b711 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -223,6 +223,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -1655,7 +1655,7 @@ index 923f4ed4fb67d447221ba52414d8aff1668e2399..be0155b64a575efd8be369c76670368a
  
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index c295ad09b..5798d891d 100644
+index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d43b1fe0a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -382,16 +382,16 @@ public class ServerChunkCache extends ChunkSource {
@@ -1691,7 +1691,7 @@ index c295ad09b..5798d891d 100644
                  // Paper - rewrite chunk system
              } // Paper
              ichunkaccess = (ChunkAccess) ((Either) completablefuture.join()).map((ichunkaccess1) -> {
-@@ -556,17 +556,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -559,17 +559,17 @@ public class ServerChunkCache extends ChunkSource {
  
      public void save(boolean flush) {
          this.runDistanceManagerUpdates();
@@ -1713,7 +1713,7 @@ index c295ad09b..5798d891d 100644
      }
      // Paper end
  
-@@ -583,36 +583,36 @@ public class ServerChunkCache extends ChunkSource {
+@@ -586,36 +586,36 @@ public class ServerChunkCache extends ChunkSource {
      // CraftBukkit start - modelled on below
      public void purgeUnload() {
          if (true) return; // Paper - tickets will be removed later, this behavior isn't really well accounted for by the chunk system
@@ -1763,7 +1763,7 @@ index c295ad09b..5798d891d 100644
          this.clearCache();
      }
  
-@@ -658,15 +658,15 @@ public class ServerChunkCache extends ChunkSource {
+@@ -661,15 +661,15 @@ public class ServerChunkCache extends ChunkSource {
              }
              // Paper end - optimize isOutisdeRange
              LevelData worlddata = this.level.getLevelData();
@@ -1783,7 +1783,7 @@ index c295ad09b..5798d891d 100644
              int l = this.distanceManager.getNaturalSpawnChunkCount();
              // Paper start - per player mob spawning
              NaturalSpawner.SpawnState spawnercreature_d; // moved down
-@@ -687,16 +687,16 @@ public class ServerChunkCache extends ChunkSource {
+@@ -690,16 +690,16 @@ public class ServerChunkCache extends ChunkSource {
                  // Pufferfish end
              }
              // Paper end
@@ -1804,7 +1804,7 @@ index c295ad09b..5798d891d 100644
              boolean flag2 = this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && !this.level.players().isEmpty(); // CraftBukkit
  
              // Paper - only shuffle if per-player mob spawning is disabled
-@@ -746,17 +746,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -749,17 +749,17 @@ public class ServerChunkCache extends ChunkSource {
                  }
              }
              // Paper end - optimise chunk tick iteration
@@ -1829,7 +1829,7 @@ index c295ad09b..5798d891d 100644
              if (!this.chunkMap.needsChangeBroadcasting.isEmpty()) {
                  ReferenceOpenHashSet<ChunkHolder> copy = this.chunkMap.needsChangeBroadcasting.clone();
                  this.chunkMap.needsChangeBroadcasting.clear();
-@@ -768,8 +768,8 @@ public class ServerChunkCache extends ChunkSource {
+@@ -771,8 +771,8 @@ public class ServerChunkCache extends ChunkSource {
                      }
                  }
              }
@@ -1840,7 +1840,7 @@ index c295ad09b..5798d891d 100644
              // Paper end - use set of chunks requiring updates, rather than iterating every single one loaded
              // Paper start - controlled flush for entity tracker packets
              List<net.minecraft.network.Connection> disabledFlushes = new java.util.ArrayList<>(this.level.players.size());
-@@ -980,7 +980,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -983,7 +983,7 @@ public class ServerChunkCache extends ChunkSource {
  
          @Override
          protected void doRunTask(Runnable task) {
@@ -18823,7 +18823,7 @@ index fd74cc9c0dab84b176f7da3fbbbdbc8fd3a7e26d..fdda70f216b3805cc6d8105c3d85814a
      protected final float explosionResistance;
      protected final boolean isRandomlyTicking;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 69110481a..05b906dfa 100644
+index 69110481a950736bd72f212223d229eaae51a507..05b906dfa43065e95a96f0ef4a1b6dd915f7a6be 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -136,7 +136,7 @@ public class LevelChunk extends ChunkAccess {
