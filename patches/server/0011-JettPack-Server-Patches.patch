@@ -595,7 +595,7 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index eef4828676a450581e18510e4d47e6610127a922..95467c9b6a2cb2e41817a44d67627af1eaf13254 100644
+index 5915b7191401dc3fe24f39ece348724deb551957..996e7b405cbb1668835d050c5ee68039640e3f38 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
 @@ -56,9 +56,10 @@ import java.util.function.Consumer;
@@ -643,7 +643,7 @@ index eef4828676a450581e18510e4d47e6610127a922..95467c9b6a2cb2e41817a44d67627af1
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 2c2fa65314def31c25178c8e7fa0c462903e77bf..f2445e577a2207f5c3ed63a4a1146758e940fdd8 100644
+index d1df1f2f74f8326ba49b582139484df443ce8a5a..9f8a106813f4ff04fa56fcb746395441e6b9a3e3 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1015,6 +1015,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -654,7 +654,7 @@ index 2c2fa65314def31c25178c8e7fa0c462903e77bf..f2445e577a2207f5c3ed63a4a1146758
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1479,6 +1480,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1480,6 +1481,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
@@ -662,7 +662,7 @@ index 2c2fa65314def31c25178c8e7fa0c462903e77bf..f2445e577a2207f5c3ed63a4a1146758
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2774,6 +2776,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2775,6 +2777,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  

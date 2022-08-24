@@ -2784,7 +2784,7 @@ index 9f50305075a362e24319bb12ff43a937174e23cd..5915b7191401dc3fe24f39ece348724d
  
      public static long getCoordinateKey(final ChunkPos pair) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 83c1b9dd7cd4a43375fd069f2892548ee4c51f1f..fc9b3d87cd1af291f4012112efdf288b30bb0a93 100644
+index ebf9ebad4e675e78389c44de84cf8f93d8bad4f0..9025cd611c4eb660b340f1f7c41dc23fbcc41df0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -298,6 +298,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -2796,7 +2796,7 @@ index 83c1b9dd7cd4a43375fd069f2892548ee4c51f1f..fc9b3d87cd1af291f4012112efdf288b
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -1662,7 +1664,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1663,7 +1665,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -2805,7 +2805,7 @@ index 83c1b9dd7cd4a43375fd069f2892548ee4c51f1f..fc9b3d87cd1af291f4012112efdf288b
      }
  
      public SystemReport fillSystemReport(SystemReport details) {
-@@ -2241,6 +2243,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2242,6 +2244,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      public ProfilerFiller getProfiler() {
