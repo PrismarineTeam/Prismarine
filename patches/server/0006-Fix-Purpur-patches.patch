@@ -5,10 +5,10 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 98e6b58a1de61b48190ed67a7beda7829a3db810..738d04a111154dd8ae9920ae40c8337e26df02cd 100644
+index 897f4ee4c911ccd8d554a90f483f9c60022cca79..a990b211e214521a2d1245d8f8c89f22dbe6bd44 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-@@ -1737,7 +1737,7 @@ public final class NewChunkHolder {
+@@ -1732,7 +1732,7 @@ public final class NewChunkHolder {
          boolean canSavePOI = poi != null && poi.isDirty();
          boolean canSaveEntities = entities != null;
  
@@ -17,7 +17,7 @@ index 98e6b58a1de61b48190ed67a7beda7829a3db810..738d04a111154dd8ae9920ae40c8337e
              if (canSaveChunk) {
                  canSaveChunk = this.saveChunk(chunk, unloading);
              }
-@@ -1751,7 +1751,7 @@ public final class NewChunkHolder {
+@@ -1746,7 +1746,7 @@ public final class NewChunkHolder {
                      this.lastEntityUnload = null;
                  }
              }
@@ -27,7 +27,7 @@ index 98e6b58a1de61b48190ed67a7beda7829a3db810..738d04a111154dd8ae9920ae40c8337e
          return executedUnloadTask | canSaveChunk | canSaveEntities | canSavePOI;
      }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 5a609ddfdad131172de374e3006aaf4b5aadc5ed..39c3ccba27c2aad8b601a4014c0d271b2ce79ee2 100644
+index 35e8d189e560396f55a78903876948a701cf3e54..fcbd0dd116a7a8674debff5e7f0c9a2ae666d8be 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -48,7 +48,7 @@ index 5a609ddfdad131172de374e3006aaf4b5aadc5ed..39c3ccba27c2aad8b601a4014c0d271b
          if (this.server != null) {
              this.server.disablePlugins();
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index e2c7a587a83a568fbab35217be59af89e4d0b711..f787fb206588a643c4f90ee1bd7b1044f651815c 100644
+index 97821cd1473f3e04236c48076358cca9d5b7c75f..177ad4b4af8ab77a121c0991d19804f59cbeaa5f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -222,7 +222,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface

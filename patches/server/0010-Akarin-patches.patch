@@ -28,7 +28,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0011 - Swaps the predicate order of collision
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 1e2dc5626314a5c6436d860e10f9242541ac7352..80a2b43bf50ab4cb6a908d55d690a6c0a4ab8d3d 100644
+index 57521ebccc29bca13ea4f763feca32c72a835230..987b6757d814e0863825592c43e955e20452cc44 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -419,7 +419,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -40,7 +40,7 @@ index 1e2dc5626314a5c6436d860e10f9242541ac7352..80a2b43bf50ab4cb6a908d55d690a6c0
      public float getBukkitYaw() {
          return this.yRot;
      }
-@@ -1954,38 +1954,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1956,38 +1956,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      public void playerTouch(Player player) {}
  
      public void push(Entity entity) {

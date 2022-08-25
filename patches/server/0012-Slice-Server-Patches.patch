@@ -184,10 +184,10 @@ index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d
              this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
              ); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 80a2b43bf50ab4cb6a908d55d690a6c0a4ab8d3d..7e7e7f4d9437f450e1f40828603cae5b8ddde733 100644
+index 987b6757d814e0863825592c43e955e20452cc44..4985a7bf2c6a05db69482d04337597298aea66fc 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -880,6 +880,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
          this.checkOutOfWorld();
          if (!this.level.isClientSide) {
@@ -202,7 +202,7 @@ index 80a2b43bf50ab4cb6a908d55d690a6c0a4ab8d3d..7e7e7f4d9437f450e1f40828603cae5b
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3132,7 +3140,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3134,7 +3142,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -265,7 +265,7 @@ index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 864b74a3e7ec57db4ab04079c636d8b895363407..78cb9d1e424be4ce4d15ca5db45d4d10907eb8ad 100644
+index 1d6d62d287a56c0b914fa3dce9934d5cf0187cb3..83cdf9fd8784103fecaca598bc959d819374a5b5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2336,7 +2336,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

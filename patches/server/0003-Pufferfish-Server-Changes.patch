@@ -2758,7 +2758,7 @@ index 0fd814f1d65c111266a2b20f86561839a4cef755..ffc217df0649e85d4a7b3d4b1c2c6a82
      protected final double maxFragFactor;
  
 diff --git a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
-index 7f2d59b61a4cc71339eff6eb076ba1975eb7373a..9a505bacdb2272bdcf0a74f2996970f71b0fae39 100644
+index a0714c48b141a36009afdb30d4bf5429601d37dd..df0ac7804601d1d9028df7ef117e7ef37a14b9d8 100644
 --- a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
 +++ b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
 @@ -34,7 +34,7 @@ public final class ChunkEntitySlices {
@@ -2979,7 +2979,7 @@ index ca42c2642a729b90d22b968af7258f3aee72e14b..7613510e5f4c22ee15651f162fe1bca1
      public boolean visible = true;
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index fe4e284fd4b5f0409b4281cc86926d45b8dd8035..477209e0587f2b71378432500b10113a483652f5 100644
+index dcae22fe3ea6a0009770daeeb4e8d31044e09cef..c295ad09bf3a6dd67b5560300c80f2b18e5560d8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -75,6 +75,9 @@ public class ServerChunkCache extends ChunkSource {
@@ -2992,7 +2992,7 @@ index fe4e284fd4b5f0409b4281cc86926d45b8dd8035..477209e0587f2b71378432500b10113a
  
      private static int getChunkCacheKey(int x, int z) {
          return x & 3 | ((z & 3) << 2);
-@@ -661,6 +664,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -658,6 +661,7 @@ public class ServerChunkCache extends ChunkSource {
              ProfilerFiller gameprofilerfiller = this.level.getProfiler();
  
              gameprofilerfiller.push("pollingChunks");
@@ -3000,7 +3000,7 @@ index fe4e284fd4b5f0409b4281cc86926d45b8dd8035..477209e0587f2b71378432500b10113a
              int k = this.level.getGameRules().getInt(GameRules.RULE_RANDOMTICKING);
              boolean flag1 = level.ticksPerSpawnCategory.getLong(org.bukkit.entity.SpawnCategory.ANIMAL) != 0L && worlddata.getGameTime() % level.ticksPerSpawnCategory.getLong(org.bukkit.entity.SpawnCategory.ANIMAL) == 0L; // CraftBukkit
  
-@@ -670,18 +674,25 @@ public class ServerChunkCache extends ChunkSource {
+@@ -667,18 +671,25 @@ public class ServerChunkCache extends ChunkSource {
              // Paper start - per player mob spawning
              NaturalSpawner.SpawnState spawnercreature_d; // moved down
              if ((this.spawnFriendlies || this.spawnEnemies) && this.chunkMap.playerMobDistanceMap != null) { // don't count mobs when animals and monsters are disabled
@@ -3032,7 +3032,7 @@ index fe4e284fd4b5f0409b4281cc86926d45b8dd8035..477209e0587f2b71378432500b10113a
              gameprofilerfiller.popPush("filteringLoadedChunks");
              // Paper - moved down
              this.level.timings.chunkTicks.startTiming(); // Paper
-@@ -719,8 +730,8 @@ public class ServerChunkCache extends ChunkSource {
+@@ -716,8 +727,8 @@ public class ServerChunkCache extends ChunkSource {
  
                  if ((true || this.level.isNaturalSpawningAllowed(chunkcoordintpair)) && this.chunkMap.anyPlayerCloseEnoughForSpawning(holder, chunkcoordintpair, false)) { // Paper - optimise anyPlayerCloseEnoughForSpawning // Paper - replace player chunk loader system
                      chunk1.incrementInhabitedTime(j);
@@ -3043,7 +3043,7 @@ index fe4e284fd4b5f0409b4281cc86926d45b8dd8035..477209e0587f2b71378432500b10113a
                      }
  
                      if (true || this.level.shouldTickBlocksAt(chunkcoordintpair.toLong())) { // Paper - replace player chunk loader system
-@@ -782,6 +793,30 @@ public class ServerChunkCache extends ChunkSource {
+@@ -779,6 +790,30 @@ public class ServerChunkCache extends ChunkSource {
              }
              // Paper end - controlled flush for entity tracker packets
          }
@@ -3335,7 +3335,7 @@ index 540bc9500c35c0db719b00aa26f6fb3a1b08ed9f..806cb760822a99316b08ad95ff8922df
      int LARGE_MAX_STACK_SIZE = 64;
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index a10799816ee26bd4708957628b642e3760ca54a7..afdff8756b4a3c286f17c0df84ab7653436c5609 100644
+index 5aeedb9c60e4055b2cd50e2e8770fb581f28937c..d9933cf321f24390e25a68a2d5a532ea1043d0b7 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -292,7 +292,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -3407,7 +3407,7 @@ index a10799816ee26bd4708957628b642e3760ca54a7..afdff8756b4a3c286f17c0df84ab7653
  
          return chunkMap.playerEntityTrackerTrackMaps[type.ordinal()].getObjectsInRange(MCUtil.getCoordinateKey(this));
      }
-@@ -787,6 +814,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -789,6 +816,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      // CraftBukkit end
  
      public void baseTick() {
@@ -3420,7 +3420,7 @@ index a10799816ee26bd4708957628b642e3760ca54a7..afdff8756b4a3c286f17c0df84ab7653
          this.level.getProfiler().push("entityBaseTick");
          if (firstTick && this instanceof net.minecraft.world.entity.NeutralMob neutralMob) neutralMob.tickInitialPersistentAnger(level); // Paper - Update last hurt when ticking
          this.feetBlockState = null;
-@@ -4001,16 +4034,18 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4003,16 +4036,18 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
@@ -3446,7 +3446,7 @@ index a10799816ee26bd4708957628b642e3760ca54a7..afdff8756b4a3c286f17c0df84ab7653
              double d1 = 0.0D;
              boolean flag = this.isPushedByFluid();
              boolean flag1 = false;
-@@ -4018,14 +4053,61 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4020,14 +4055,61 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              int k1 = 0;
              BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
  
@@ -3514,7 +3514,7 @@ index a10799816ee26bd4708957628b642e3760ca54a7..afdff8756b4a3c286f17c0df84ab7653
  
                              if (d2 >= axisalignedbb.minY) {
                                  flag1 = true;
-@@ -4047,9 +4129,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4049,9 +4131,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                                  // CraftBukkit end
                              }
                          }

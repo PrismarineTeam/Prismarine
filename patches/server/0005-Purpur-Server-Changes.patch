@@ -1673,7 +1673,7 @@ index 923f4ed4fb67d447221ba52414d8aff1668e2399..be0155b64a575efd8be369c76670368a
  
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d43b1fe0a 100644
+index c295ad09bf3a6dd67b5560300c80f2b18e5560d8..5798d891dc0e379d5e65fa306c79c6a93eb36fdb 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -382,16 +382,16 @@ public class ServerChunkCache extends ChunkSource {
@@ -1709,7 +1709,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
                  // Paper - rewrite chunk system
              } // Paper
              ichunkaccess = (ChunkAccess) ((Either) completablefuture.join()).map((ichunkaccess1) -> {
-@@ -559,17 +559,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -556,17 +556,17 @@ public class ServerChunkCache extends ChunkSource {
  
      public void save(boolean flush) {
          this.runDistanceManagerUpdates();
@@ -1731,7 +1731,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
      }
      // Paper end
  
-@@ -586,36 +586,36 @@ public class ServerChunkCache extends ChunkSource {
+@@ -583,36 +583,36 @@ public class ServerChunkCache extends ChunkSource {
      // CraftBukkit start - modelled on below
      public void purgeUnload() {
          if (true) return; // Paper - tickets will be removed later, this behavior isn't really well accounted for by the chunk system
@@ -1781,7 +1781,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
          this.clearCache();
      }
  
-@@ -661,15 +661,15 @@ public class ServerChunkCache extends ChunkSource {
+@@ -658,15 +658,15 @@ public class ServerChunkCache extends ChunkSource {
              }
              // Paper end - optimize isOutisdeRange
              LevelData worlddata = this.level.getLevelData();
@@ -1801,7 +1801,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
              int l = this.distanceManager.getNaturalSpawnChunkCount();
              // Paper start - per player mob spawning
              NaturalSpawner.SpawnState spawnercreature_d; // moved down
-@@ -690,16 +690,16 @@ public class ServerChunkCache extends ChunkSource {
+@@ -687,16 +687,16 @@ public class ServerChunkCache extends ChunkSource {
                  // Pufferfish end
              }
              // Paper end
@@ -1822,7 +1822,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
              boolean flag2 = this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && !this.level.players().isEmpty(); // CraftBukkit
  
              // Paper - only shuffle if per-player mob spawning is disabled
-@@ -749,17 +749,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -746,17 +746,17 @@ public class ServerChunkCache extends ChunkSource {
                  }
              }
              // Paper end - optimise chunk tick iteration
@@ -1847,7 +1847,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
              if (!this.chunkMap.needsChangeBroadcasting.isEmpty()) {
                  ReferenceOpenHashSet<ChunkHolder> copy = this.chunkMap.needsChangeBroadcasting.clone();
                  this.chunkMap.needsChangeBroadcasting.clear();
-@@ -771,8 +771,8 @@ public class ServerChunkCache extends ChunkSource {
+@@ -768,8 +768,8 @@ public class ServerChunkCache extends ChunkSource {
                      }
                  }
              }
@@ -1858,7 +1858,7 @@ index 477209e0587f2b71378432500b10113a483652f5..6afe0ae305fc0e1aaa8c9b4562eeb46d
              // Paper end - use set of chunks requiring updates, rather than iterating every single one loaded
              // Paper start - controlled flush for entity tracker packets
              List<net.minecraft.network.Connection> disabledFlushes = new java.util.ArrayList<>(this.level.players.size());
-@@ -983,7 +983,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -980,7 +980,7 @@ public class ServerChunkCache extends ChunkSource {
  
          @Override
          protected void doRunTask(Runnable task) {
@@ -3813,7 +3813,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f9242541ac7352 100644
+index d9933cf321f24390e25a68a2d5a532ea1043d0b7..57521ebccc29bca13ea4f763feca32c72a835230 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -3842,7 +3842,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
      private float eyeHeight;
      public boolean isInPowderSnow;
      public boolean wasInPowderSnow;
-@@ -575,7 +576,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -577,7 +578,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.bb = Entity.INITIAL_AABB;
          this.stuckSpeedMultiplier = Vec3.ZERO;
          this.nextStep = 1.0F;
@@ -3851,7 +3851,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
          this.remainingFireTicks = -this.getFireImmuneTicks();
          this.fluidHeight = new Object2DoubleArrayMap(2);
          this.fluidOnEyes = new HashSet();
-@@ -820,7 +821,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -822,7 +823,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              return;
          }
          // Pufferfish end - entity TTL
@@ -3860,7 +3860,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
          if (firstTick && this instanceof net.minecraft.world.entity.NeutralMob neutralMob) neutralMob.tickInitialPersistentAnger(level); // Paper - Update last hurt when ticking
          this.feetBlockState = null;
          if (this.isPassenger() && this.getVehicle().isRemoved()) {
-@@ -881,7 +882,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -883,7 +884,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
  
          this.firstTick = false;
@@ -3869,7 +3869,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
      }
  
      public void setSharedFlagOnFire(boolean onFire) {
-@@ -890,7 +891,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -892,7 +893,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkOutOfWorld() {
          // Paper start - Configurable nether ceiling damage
@@ -3878,7 +3878,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              && level.paperConfig().environment.netherCeilingVoidDamageHeight > 0
              && this.getY() >= this.level.paperConfig().environment.netherCeilingVoidDamageHeight)) {
              // Paper end
-@@ -1055,7 +1056,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1057,7 +1058,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
              }
  
@@ -3887,7 +3887,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              if (this.stuckSpeedMultiplier.lengthSqr() > 1.0E-7D) {
                  movement = movement.multiply(this.stuckSpeedMultiplier);
                  this.stuckSpeedMultiplier = Vec3.ZERO;
-@@ -1064,7 +1065,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1066,7 +1067,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              // Paper start - ignore movement changes while inactive.
              if (isTemporarilyActive && !(this instanceof ItemEntity || this instanceof net.minecraft.world.entity.vehicle.AbstractMinecart) && movement == getDeltaMovement() && movementType == MoverType.SELF) {
                  setDeltaMovement(Vec3.ZERO);
@@ -3896,7 +3896,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
                  return;
              }
              // Paper end
-@@ -1085,8 +1086,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1087,8 +1088,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.setPos(this.getX() + vec3d1.x, this.getY() + vec3d1.y, this.getZ() + vec3d1.z);
              }
  
@@ -3907,7 +3907,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              boolean flag = !Mth.equal(movement.x, vec3d1.x);
              boolean flag1 = !Mth.equal(movement.z, vec3d1.z);
  
-@@ -1105,7 +1106,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1107,7 +1108,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
              this.checkFallDamage(vec3d1.y, this.onGround, iblockdata, blockposition);
              if (this.isRemoved()) {
@@ -3916,7 +3916,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              } else {
                  if (this.horizontalCollision) {
                      Vec3 vec3d2 = this.getDeltaMovement();
-@@ -1246,7 +1247,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1248,7 +1249,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                      this.setRemainingFireTicks(-this.getFireImmuneTicks());
                  }
  
@@ -3925,7 +3925,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              }
          }
          // Paper start - detailed watchdog information
-@@ -1416,7 +1417,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1418,7 +1419,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, true,
                  false, false, null, null);
  
@@ -3934,7 +3934,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
                  io.papermc.paper.util.CollisionUtil.addBoxesToIfIntersects(world.getWorldBorder().getCollisionShape(), collisionBox, potentialCollisions);
              }
  
-@@ -1718,7 +1719,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1720,7 +1721,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return this.isInWater() || flag;
      }
  
@@ -3943,7 +3943,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
          if (this.getVehicle() instanceof Boat) {
              this.wasTouchingWater = false;
          } else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
-@@ -2767,6 +2768,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2769,6 +2770,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.passengers = ImmutableList.copyOf(list);
              }
  
@@ -3956,7 +3956,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
          }
          return true; // CraftBukkit
      }
-@@ -2807,6 +2814,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2809,6 +2816,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  return false;
              }
              // Spigot end
@@ -3971,7 +3971,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              if (this.passengers.size() == 1 && this.passengers.get(0) == entity) {
                  this.passengers = ImmutableList.of();
              } else {
-@@ -2861,12 +2876,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2863,12 +2878,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return Vec3.directionFromRotation(this.getRotationVector());
      }
  
@@ -3988,7 +3988,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              }
  
              this.isInsidePortal = true;
-@@ -2884,7 +2902,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2886,7 +2904,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  ServerLevel worldserver1 = minecraftserver.getLevel(resourcekey);
  
                  if (true && !this.isPassenger() && this.portalTime++ >= i) { // CraftBukkit
@@ -3997,7 +3997,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
                      this.portalTime = i;
                      // Paper start
                      io.papermc.paper.event.entity.EntityPortalReadyEvent event = new io.papermc.paper.event.entity.EntityPortalReadyEvent(this.getBukkitEntity(), worldserver1 == null ? null : worldserver1.getWorld(), org.bukkit.PortalType.NETHER);
-@@ -2902,7 +2920,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2904,7 +2922,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                      }
                      } // Paper
                      // CraftBukkit end
@@ -4006,7 +4006,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
                  }
  
                  this.isInsidePortal = false;
-@@ -2917,7 +2935,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2919,7 +2937,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -4015,7 +4015,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
          }
      }
  
-@@ -3097,7 +3115,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3099,7 +3117,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public int getMaxAirSupply() {
@@ -4024,7 +4024,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
      }
  
      public int getAirSupply() {
-@@ -3356,14 +3374,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3358,14 +3376,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
          // Paper end
          if (this.level instanceof ServerLevel && !this.isRemoved()) {
@@ -4041,7 +4041,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
              PortalInfo shapedetectorshape = (location == null) ? this.findDimensionEntryPoint(worldserver) : new PortalInfo(new Vec3(location.x(), location.y(), location.z()), Vec3.ZERO, this.yRot, this.xRot, worldserver, null); // CraftBukkit
  
              if (shapedetectorshape == null) {
-@@ -3397,7 +3415,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3399,7 +3417,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.unRide();
                  // CraftBukkit end
  
@@ -4050,7 +4050,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
                  // Paper start - Change lead drop timing to prevent dupe
                  if (this instanceof Mob) {
                      ((Mob) this).dropLeash(true, true); // Paper drop lead
-@@ -3420,10 +3438,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3422,10 +3440,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
  
                  this.removeAfterChangingDimensions();
@@ -4063,7 +4063,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
                  return entity;
              }
          } else {
-@@ -3536,7 +3554,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3538,7 +3556,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -4072,7 +4072,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3783,6 +3801,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3785,6 +3803,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -4093,7 +4093,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
      @Override
      public void sendSystemMessage(Component message) {}
  
-@@ -4033,6 +4065,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4035,6 +4067,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -4106,7 +4106,7 @@ index afdff8756b4a3c286f17c0df84ab7653436c5609..1e2dc5626314a5c6436d860e10f92425
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4527,4 +4565,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4541,4 +4579,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
