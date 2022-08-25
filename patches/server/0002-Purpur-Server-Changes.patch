@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 14 Aug 2022 14:40:15 +0900
+Date: Thu, 25 Aug 2022 16:50:08 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 7074295d7399d03e259598bb4bfa0f21434d74be..dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8 100644
+index 7074295d7399d03e259598bb4bfa0f21434d74be..6b72c9d76ac7a98cc0af0adc9220d21072d4f478 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -39,16 +39,16 @@ index 7074295d7399d03e259598bb4bfa0f21434d74be..dc00d06f9bd4cc7403e0fe89822ed40e
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -44,6 +44,9 @@ dependencies {
+@@ -43,6 +43,9 @@ dependencies {
+     runtimeOnly("org.xerial:sqlite-jdbc:3.36.0.3")
      runtimeOnly("mysql:mysql-connector-java:8.0.29")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
- 
++ 
 +    implementation("cat.inspiracio:rhino-js-engine:1.7.7.1") // Purpur
 +    implementation("dev.omega24:upnp4j:1.0") // Purpur
-+
+ 
      runtimeOnly("org.apache.maven:maven-resolver-provider:3.8.5")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
-     runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
 @@ -84,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
@@ -301,10 +301,27 @@ index 39844531b03eb8a6c70700b4ecbf0ff1a557424d..632ae75cb3bbc7a3955872d14ad0fbc2
      public void removeCommand(String name) {
          this.children.remove(name);
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 38cb29c646ff496ffaa6553f98a565b71155c464..e077a43cf3f06207234cb445b58dff79eabcb9c6 100644
+index 38cb29c646ff496ffaa6553f98a565b71155c464..852ed093488ae624960a7dd35f68d8cee39067e7 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-@@ -121,6 +121,22 @@ public class PufferfishConfig {
+@@ -36,6 +36,7 @@ public class PufferfishConfig {
+ 	
+ 	private static final YamlFile config = new YamlFile();
+ 	private static int updates = 0;
++	public static File pufferfishFile; // Purpur
+ 	
+ 	private static ConfigurationSection convertToBukkit(org.simpleyaml.configuration.ConfigurationSection section) {
+ 		ConfigurationSection newSection = new MemoryConfiguration();
+@@ -58,7 +59,7 @@ public class PufferfishConfig {
+ 	}
+ 	
+ 	public static void load() throws IOException {
+-		File configFile = new File("pufferfish.yml");
++		File configFile = pufferfishFile; // Purpur
+ 		
+ 		if (configFile.exists()) {
+ 			try {
+@@ -121,6 +122,22 @@ public class PufferfishConfig {
  			config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
  		}
  	}
@@ -1449,10 +1466,10 @@ index 06e3a868e922f1b7a586d0ca28f64a67ae463b68..32beb045f990d4da6112da4fea295333
                          itemstack.setCount(1);
                          entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68bc7d77d7b 100644
+index 519883c5549744e047a8a96afee142746fcb49cd..5a5c5a366e1156e1233efc04d0c0a6051170a4f5 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -223,6 +223,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -223,6 +223,16 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          thread.start(); // Paper - start console thread after MinecraftServer.console & PaperConfig are initialized
          io.papermc.paper.command.PaperCommands.registerCommands(this);
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics();
@@ -1464,11 +1481,12 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
 +            return false;
 +        }
 +        org.purpurmc.purpur.PurpurConfig.registerCommands();
++        gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
 +        // Purpur end
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
-@@ -274,6 +283,30 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -274,6 +284,30 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.warn("Perhaps a server is already running on that port?");
              return false;
          }
@@ -1499,7 +1517,7 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
  
          // CraftBukkit start
          // this.setPlayerList(new DedicatedPlayerList(this, this.registryHolder, this.playerDataStorage)); // Spigot - moved up
-@@ -285,11 +318,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -285,11 +319,12 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
              // Spigot start
@@ -1514,7 +1532,7 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
              }
              // Spigot end
              DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
-@@ -341,6 +375,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -341,6 +376,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              }
  
              if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncMobSpawning) mobSpawnExecutor.start(); // Pufferfish
@@ -1523,7 +1541,7 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
              return true;
          }
      }
-@@ -460,7 +496,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -460,7 +497,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
      }
  
      public void handleConsoleInputs() {
@@ -1532,7 +1550,7 @@ index 519883c5549744e047a8a96afee142746fcb49cd..0bfdc4247a651f6c1caf7a95114be68b
          // Paper start - use proper queue
          ConsoleInput servercommand;
          while ((servercommand = this.serverCommandQueue.poll()) != null) {
-@@ -477,7 +513,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -477,7 +514,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              // CraftBukkit end
          }
  
@@ -19728,14 +19746,19 @@ index f0b14914438840bd819fa7da8b76f4fcc13704d0..01313fdd9d5a1909bfbcbf8f613030e7
      @Override
      public java.util.concurrent.CompletableFuture<Chunk> getChunkAtAsync(int x, int z, boolean gen, boolean urgent) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 56a784e943cb5d8b15b41e3e66545ebf166c221c..420300ce19d01f36f071eae44efd4cb32beb0ed6 100644
+index 56a784e943cb5d8b15b41e3e66545ebf166c221c..ee15a1f29b7af499ccedb3ff37413d68fb98d270 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -164,6 +164,14 @@ public class Main {
+@@ -164,6 +164,19 @@ public class Main {
                          .describedAs("Jar file");
                  // Paper end
  
 +                // Purpur Start
++                acceptsAll(asList("pufferfish", "pufferfish-settings"), "File for pufferfish settings")
++                        .withRequiredArg()
++                        .ofType(File.class)
++                        .defaultsTo(new File("pufferfish.yml"))
++                        .describedAs("Yml file");
 +                acceptsAll(asList("purpur", "purpur-settings"), "File for purpur settings")
 +                    .withRequiredArg()
 +                    .ofType(File.class)
@@ -19746,7 +19769,7 @@ index 56a784e943cb5d8b15b41e3e66545ebf166c221c..420300ce19d01f36f071eae44efd4cb3
                  // Paper start
                  acceptsAll(asList("server-name"), "Name of the server")
                          .withRequiredArg()
-@@ -268,7 +276,7 @@ public class Main {
+@@ -268,7 +281,7 @@ public class Main {
                      System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Paper
                  }
  
