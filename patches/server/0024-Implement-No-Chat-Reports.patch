@@ -19,10 +19,10 @@ index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..1195d24a9a1180e926cd30fe98cfcb18
  
      public static class Players {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 06ef4d20c879b18465c23d969ff2c4a7aed358b3..e642d895b4275ab721d47058bbffe19ae06895d9 100644
+index 8d339f2cec73a7bd5633f95e805333b16c98ad55..25a750a641f75a7df26c005a92352da69cfa4925 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -683,7 +683,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -684,7 +684,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
  
      @Override
      public boolean enforceSecureProfile() {

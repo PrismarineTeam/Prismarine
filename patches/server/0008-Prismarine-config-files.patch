@@ -5,12 +5,12 @@ Subject: [PATCH] Prismarine config files
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index f787fb206588a643c4f90ee1bd7b1044f651815c..5b2b54bcba6a254ed3c5a065e898383820ff2911 100644
+index 177ad4b4af8ab77a121c0991d19804f59cbeaa5f..81a5089c6e6505437674f04adf783405f797f1e0 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -232,6 +232,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         }
+@@ -233,6 +233,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          org.purpurmc.purpur.PurpurConfig.registerCommands();
+         gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
          // Purpur end
 +        // Prismarine start
 +        try {
@@ -391,10 +391,10 @@ index 68efc0c7c60f2156734c0d7064c348e73b483279..7a1ec03940392404e5edeb98beddf39e
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 420300ce19d01f36f071eae44efd4cb32beb0ed6..235fdb79f8aa350de90f0e8776545820e348b528 100644
+index ee15a1f29b7af499ccedb3ff37413d68fb98d270..5d709c26c210c09f1fe1b00f9f2d3d5314083251 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -172,6 +172,14 @@ public class Main {
+@@ -177,6 +177,14 @@ public class Main {
                      .describedAs("Yml file");
                  // Purpur end
  
