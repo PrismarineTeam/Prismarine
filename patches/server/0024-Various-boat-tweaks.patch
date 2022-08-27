@@ -1,0 +1,107 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 27 Aug 2022 14:20:08 +0900
+Subject: [PATCH] Various boat tweaks
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
+index ed260c5f8cdf9027ad95c81cb84bb91879647836..d854a6fd62221e27ebf5de0575deaad7a01f2b30 100644
+--- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
++++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
+@@ -879,13 +879,27 @@ public class Boat extends Entity {
+         return player.isSecondaryUseActive() ? InteractionResult.PASS : (this.outOfControlTicks < 60.0F ? (!this.level.isClientSide ? (player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS) : InteractionResult.SUCCESS) : InteractionResult.PASS);
+     }
+ 
++    // Prismarine start
++    protected void dropLoots() {
++        int i;
++
++        for (i = 0; i < 3; ++i) {
++            this.spawnAtLocation((ItemLike) this.getBoatType().getPlanks());
++        }
++
++        for (i = 0; i < 2; ++i) {
++            this.spawnAtLocation((ItemLike) Items.STICK);
++        }
++    }
++    // Prismarine end
++
+     @Override
+     protected void checkFallDamage(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
+         this.lastYd = this.getDeltaMovement().y;
+         if (!this.isPassenger()) {
+             if (onGround) {
+                 if (this.fallDistance > 3.0F) {
+-                    if (this.status != Boat.Status.ON_LAND) {
++                    if (this.level.prismarineConfig.boatBreakWhenLand ? false : this.status != Boat.Status.ON_LAND) { // Prismarine - Break boats when land
+                         this.resetFallDistance();
+                         return;
+                     }
+@@ -899,15 +913,7 @@ public class Boat extends Entity {
+                     if (!destroyEvent.isCancelled()) {
+                         this.kill();
+                         if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+-                            int i;
+-
+-                            for (i = 0; i < 3; ++i) {
+-                                this.spawnAtLocation((ItemLike) this.getBoatType().getPlanks());
+-                            }
+-
+-                            for (i = 0; i < 2; ++i) {
+-                                this.spawnAtLocation((ItemLike) Items.STICK);
+-                            }
++                            this.dropLoots();
+                         }
+                     }
+                     } // CraftBukkit end
+diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
+index ba14657c6911bfd54da6ee9e248b3a050455d68a..064168f309f7ca72c2e45b278e0eb44c6018c265 100644
+--- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
++++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
+@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.ChestMenu;
+ import net.minecraft.world.item.Item;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.Items;
++import net.minecraft.world.level.ItemLike;
+ import net.minecraft.world.level.Level;
+ import net.minecraft.world.level.gameevent.GameEvent;
+ // CraftBukkit start
+@@ -96,6 +97,23 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+         return this.canAddPassenger(player) && !player.isSecondaryUseActive() ? super.interact(player, hand) : this.interactWithChestVehicle(this::gameEvent, player);
+     }
+ 
++    // Prismarine start
++    @Override
++    protected void dropLoots() {
++        int i;
++
++        for (i = 0; i < 3; ++i) {
++            this.spawnAtLocation((ItemLike) this.getBoatType().getPlanks());
++        }
++
++        for (i = 0; i < 2; ++i) {
++            this.spawnAtLocation((ItemLike) Items.STICK);
++        }
++
++        this.spawnAtLocation((ItemLike) Items.CHEST);
++    }
++    // Prismarine end
++
+     @Override
+     public void openCustomInventoryScreen(Player player) {
+         player.openMenu(this);
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 6b0609ff86c840355b7ec3ee14ab11db5dcbc444..6a6cee3430f72bc0da37377f8dd3a870aa93714d 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -101,4 +101,9 @@ public class PrismarineWorldConfig {
+     private void timerTimeOut() {
+         timerTimeOut = getInt("timer-time-out", timerTimeOut);
+     }
++
++    public boolean boatBreakWhenLand = false;
++    private void boatSettings() {
++        boatBreakWhenLand = getBoolean("entity.boat.break-when-land", boatBreakWhenLand);
++    }
+ }
+\ No newline at end of file
