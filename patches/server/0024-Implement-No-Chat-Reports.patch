@@ -6,20 +6,41 @@ Subject: [PATCH] Implement No Chat Reports
 Original by Aizistral Studios
 
 diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..1195d24a9a1180e926cd30fe98cfcb1856834a0d 100644
+index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..41e4503558f99a7c0b9f2f1eda166e79f4c12f20 100644
 --- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
 +++ b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-@@ -78,7 +78,7 @@ public class ServerStatus {
+@@ -28,6 +28,7 @@ public class ServerStatus {
+     private String favicon;
+     private boolean previewsChat;
+     private boolean enforcesSecureChat;
++    private boolean preventsChatReports; // Prismarine - Implement No Chat Reports
+ 
+     @Nullable
+     public Component getDescription() {
+@@ -78,7 +79,7 @@ public class ServerStatus {
      }
  
      public boolean enforcesSecureChat() {
 -        return this.enforcesSecureChat;
-+        return (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) || this.enforcesSecureChat; // Prismarine - Disable chat report
++        return (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) || this.enforcesSecureChat; // Prismarine - Implement No Chat Reports
      }
  
      public static class Players {
+@@ -210,6 +211,12 @@ public class ServerStatus {
+                 jsonObject.addProperty("favicon", serverStatus.getFavicon());
+             }
+ 
++            // Prismarine start - Implement No Chat Reports
++            if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport) {
++                jsonObject.addProperty("preventsChatReports", true);
++            }
++            // Prismarine end
++
+             return jsonObject;
+         }
+     }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 8d339f2cec73a7bd5633f95e805333b16c98ad55..25a750a641f75a7df26c005a92352da69cfa4925 100644
+index 8d339f2cec73a7bd5633f95e805333b16c98ad55..61507db0ca22e36e7bc8ffe32d6529bdacab80b0 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -684,7 +684,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -27,34 +48,36 @@ index 8d339f2cec73a7bd5633f95e805333b16c98ad55..25a750a641f75a7df26c005a92352da6
      @Override
      public boolean enforceSecureProfile() {
 -        return this.getProperties().enforceSecureProfile && this.getProperties().onlineMode;
-+        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? false : (this.getProperties().enforceSecureProfile && this.getProperties().onlineMode); // Prismarine - Disable chat report
++        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? false : (this.getProperties().enforceSecureProfile && this.getProperties().onlineMode); // Prismarine - Implement No Chat Reports
      }
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 9adc717cffee5065863e2972ad749517e5a4a2a3..e655fbcf4b7c761c66a76e4586a687e7d0107184 100644
+index 9adc717cffee5065863e2972ad749517e5a4a2a3..8a12d4fb061d50adc69f198203415fc5cd78b11e 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2244,10 +2244,26 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2244,10 +2244,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void send(Packet<?> packet) {
-+        // Prismarine start - Disable chat report
-+        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage && packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat) {
-+            packet = new ClientboundSystemChatPacket(chat.chatType().resolve(this.player.level.registryAccess())
-+                    .get().decorate(chat.message().serverContent()), false);
-+            this.send(packet, (PacketSendListener) null);
-+        } else
++        // Prismarine start - Implement No Chat Reports
++        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) {
++            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatHeaderPacket) return;
++            else if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat) {
++                this.send(new net.minecraft.network.protocol.game.ClientboundSystemChatPacket(chat.chatType().resolve(this.player.level.registryAccess()).get().decorate(chat.message().serverContent()), false));
++                return;
++            }
++        }
 +        // Prismarine end
          this.send(packet, (PacketSendListener) null);
      }
  
      public void send(Packet<?> packet, @Nullable PacketSendListener callbacks) {
-+        // Prismarine start - Disable chat report
++        // Prismarine start - Implement No Chat Reports
 +        if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.convertToGameMessage) {
 +            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatHeaderPacket) return;
-+            if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat && callbacks != null) {
-+                ((ServerGamePacketListenerImpl) (Object) this).send(chat);
++            else if (packet instanceof net.minecraft.network.protocol.game.ClientboundPlayerChatPacket chat) {
++                this.send(chat);
 +                return;
 +            }
 +        }
@@ -62,8 +85,17 @@ index 9adc717cffee5065863e2972ad749517e5a4a2a3..e655fbcf4b7c761c66a76e4586a687e7
          // CraftBukkit start
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
+@@ -2646,7 +2664,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+ 
+     private PlayerChatMessage getSignedMessage(ServerboundChatPacket packet) {
+         MessageSigner messagesigner = packet.getSigner(this.player);
+-        SignedMessageChain.Link signedmessagechain_c = new SignedMessageChain.Link(packet.signature());
++        SignedMessageChain.Link signedmessagechain_c = new SignedMessageChain.Link(net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? MessageSignature.EMPTY : packet.signature()); // Prismarine - Implement No Chat Reports
+         LastSeenMessages lastseenmessages = packet.lastSeenMessages().lastSeen();
+         ChatMessageContent chatmessagecontent = this.getSignedContent(packet);
+ 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 0150458a1fe8f871109b941132155ffcf3070404..d0dcfbbfb2a1290da4094576385f6605c4cda2af 100644
+index 0150458a1fe8f871109b941132155ffcf3070404..8673a4a5cb9492559172d8e82321c20e84a520c8 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1512,7 +1512,7 @@ public abstract class PlayerList {
@@ -71,12 +103,12 @@ index 0150458a1fe8f871109b941132155ffcf3070404..d0dcfbbfb2a1290da4094576385f6605
  
      public boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) { // Paper - private -> public
 -        return !message.hasExpiredServer(Instant.now()) && message.verify(profile);
-+        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport || (!message.hasExpiredServer(Instant.now()) && message.verify(profile)); // Prismarine - disable chat report
++        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport || (!message.hasExpiredServer(Instant.now()) && message.verify(profile)); // Prismarine - Implement No Chat Reports
      }
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index f669386d8b17f78006917869a8393173b676c448..df8562aef9015194269aaaa451f6efa64428b81c 100644
+index f669386d8b17f78006917869a8393173b676c448..4c0b68e436e34490e0b151058998f8a424859926 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -1555,7 +1555,7 @@ public abstract class Player extends LivingEntity {
@@ -84,24 +116,43 @@ index f669386d8b17f78006917869a8393173b676c448..df8562aef9015194269aaaa451f6efa6
      @Nullable
      public ProfilePublicKey getProfilePublicKey() {
 -        return this.profilePublicKey;
-+        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? null : this.profilePublicKey; // Prismarine - Disable chat report
++        return net.prismarineteam.prismarine.PrismarineConfig.disableChatReport ? null : this.profilePublicKey; // Prismarine - Implement No Chat Reports
      }
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 15d831471095782112e1087893d1bf12626e5080..38caff0e3f387ec6ff090ca1501718c9a1173c3c 100644
+index 15d831471095782112e1087893d1bf12626e5080..a4b83873c90fa658abaeccc035778888fbc93977 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -219,4 +219,11 @@ public class PrismarineConfig {
+@@ -50,8 +50,8 @@ public class PrismarineConfig {
+         commands = new HashMap<>();
+         commands.put("prismarine", new PrismarineCommand("prismarine"));
+ 
+-        version = getInt("config-version", 3);
+-        set("config-version", 3);
++        version = getInt("config-version", 4);
++        set("config-version", 4);
+ 
+         readConfig(PrismarineConfig.class, null);
+     }
+@@ -219,4 +219,19 @@ public class PrismarineConfig {
      private static void storePlayerJsonListAsynchronously() {
          storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
      }
 +
 +    public static boolean disableChatReport = false;
 +    public static boolean convertToGameMessage = false;
++    public static boolean addQueryData = false;
 +    private static void noChatReports() {
-+        disableChatReport = getBoolean("settings.disable-chat-report.enabled", disableChatReport);
-+        convertToGameMessage = getBoolean("settings.disable-chat-report.convert-to-game-message", convertToGameMessage);
++        if (version < 4) {
++            set("settings.no-chat-reports.enabled", getBoolean("settings.disable-chat-report.enabled", disableChatReport));
++            set("settings.disable-chat-report.enabled", null);
++            set("settings.no-chat-reports.convert-to-game-message", getBoolean("settings.disable-chat-report.convert-to-game-message", convertToGameMessage));
++            set("settings.disable-chat-report.convert-to-game-message", null);
++        }
++        disableChatReport = getBoolean("settings.no-chat-reports.enabled", disableChatReport);
++        convertToGameMessage = getBoolean("settings.no-chat-reports.convert-to-game-message", convertToGameMessage);
++        addQueryData = getBoolean("settings.no-chat-reports.add-query-data", addQueryData);
 +    }
  }
 \ No newline at end of file
