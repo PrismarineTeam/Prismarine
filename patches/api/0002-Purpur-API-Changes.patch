@@ -1302,10 +1302,25 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index b607c229cfb1e95b17b6a0073380089ef5e1b675..5e06858d68f725508e0055de3f5d8c0f6a56601b 100644
+index b607c229cfb1e95b17b6a0073380089ef5e1b675..8ab346562c23ff2c14727408e61e75e324885e67 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2796,4 +2796,137 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2375,6 +2375,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      */
+     public void showDemoScreen();
+ 
++    /**
++     * Shows the credits to the player, this screen is normally only seen after
++     * going into the end portal for the first time.
++     * <br>
++     * Servers can modify the text on this screen using a resource pack.
++     */
++    public void showCreditScreen();
++
+     /**
+      * Gets whether the player has the "Allow Server Listings" setting enabled.
+      *
+@@ -2796,4 +2804,137 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end

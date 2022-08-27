@@ -5,7 +5,7 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3d30dbb66d05f76545e119243cba4d549cbae714..31dc2b26f180e64c2e376b63efd7419a4fc66255 100644
+index 24f767663b1190dcada3da554375e3a01064c462..6b2c99ddfb37fdafb4734bdbba4de2b130ea18e8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -18,10 +18,10 @@ index 3d30dbb66d05f76545e119243cba4d549cbae714..31dc2b26f180e64c2e376b63efd7419a
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index d1bc23c939e12f040843c1105df87b802137d198..f2854cb0c8b34e75be40749cb6d917b4e66f66a3 100644
+index f561fa1acfcfc78fc2a3a5fe1c12d43a9e708146..2d9b747190a814238fc909630902adb712f94d33 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -936,7 +936,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -939,7 +939,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -30,7 +30,7 @@ index d1bc23c939e12f040843c1105df87b802137d198..f2854cb0c8b34e75be40749cb6d917b4
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -985,7 +985,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -988,7 +988,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
