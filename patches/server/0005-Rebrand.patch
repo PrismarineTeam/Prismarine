@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8..1dfd550e30ba1bd0b642a62bb0991395f52ec9f5 100644
+index 6b72c9d76ac7a98cc0af0adc9220d21072d4f478..f6cfb7b6b7fc3b9a98268f39b54b23b40d0f54f1 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -22,7 +22,7 @@ index dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8..1dfd550e30ba1bd0b642a62bb0991395
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
 -            "Implementation-Version" to "git-Purpur-$implementationVersion",// Purpur
-+            "Implementation-Version" to "git-Purpur-$implementationVersion", // Pufferfish // Purpur // Prismarine
++            "Implementation-Version" to "git-Prismarine-$implementationVersion", // Pufferfish // Purpur // Prismarine
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
@@ -155,7 +155,7 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..e52235ae17bddc768b291a45eb449215
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 035cf95c6342d48201efb1bc61fcb9c873630048..82bc8a784e8d75befb9a89214355825394b3069e 100644
+index 6b2c99ddfb37fdafb4734bdbba4de2b130ea18e8..90713ba4af50af926dda8dc53fe07c08de4e6586 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -916,7 +916,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -181,7 +181,7 @@ index f613825c69a8d683b8029fe34503125969980341..af7c916f31926399445aeb1f76ec2bee
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index edc90b3d1d097040243ba372dc74c532b95c7bbd..6d494301b67f3a04aa53bd742c7e5602bcff14ba 100644
+index 7e89628e1f440a9088fff27952e4a958b2a4f4d3..ae57213514254811f85a26c5861df99bdec0c1f6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
