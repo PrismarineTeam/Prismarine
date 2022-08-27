@@ -5,7 +5,7 @@ Subject: [PATCH] Various boat tweaks
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
-index ed260c5f8cdf9027ad95c81cb84bb91879647836..d854a6fd62221e27ebf5de0575deaad7a01f2b30 100644
+index ed260c5f8cdf9027ad95c81cb84bb91879647836..75dce07b3b4b52361deacdfa1eb911e8d060d7d4 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/Boat.java
 @@ -879,13 +879,27 @@ public class Boat extends Entity {
@@ -50,23 +50,15 @@ index ed260c5f8cdf9027ad95c81cb84bb91879647836..d854a6fd62221e27ebf5de0575deaad7
 -                            for (i = 0; i < 2; ++i) {
 -                                this.spawnAtLocation((ItemLike) Items.STICK);
 -                            }
-+                            this.dropLoots();
++                            this.dropLoots(); // Prismarine
                          }
                      }
                      } // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index ba14657c6911bfd54da6ee9e248b3a050455d68a..064168f309f7ca72c2e45b278e0eb44c6018c265 100644
+index ba14657c6911bfd54da6ee9e248b3a050455d68a..3ac698a2c24bfdeb0b0433c0978f6ef7636bbb97 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.ChestMenu;
- import net.minecraft.world.item.Item;
- import net.minecraft.world.item.ItemStack;
- import net.minecraft.world.item.Items;
-+import net.minecraft.world.level.ItemLike;
- import net.minecraft.world.level.Level;
- import net.minecraft.world.level.gameevent.GameEvent;
- // CraftBukkit start
-@@ -96,6 +97,23 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
+@@ -96,6 +96,23 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
          return this.canAddPassenger(player) && !player.isSecondaryUseActive() ? super.interact(player, hand) : this.interactWithChestVehicle(this::gameEvent, player);
      }
  
@@ -76,14 +68,14 @@ index ba14657c6911bfd54da6ee9e248b3a050455d68a..064168f309f7ca72c2e45b278e0eb44c
 +        int i;
 +
 +        for (i = 0; i < 3; ++i) {
-+            this.spawnAtLocation((ItemLike) this.getBoatType().getPlanks());
++            this.spawnAtLocation(this.getBoatType().getPlanks());
 +        }
 +
 +        for (i = 0; i < 2; ++i) {
-+            this.spawnAtLocation((ItemLike) Items.STICK);
++            this.spawnAtLocation(Items.STICK);
 +        }
 +
-+        this.spawnAtLocation((ItemLike) Items.CHEST);
++        this.spawnAtLocation(Items.CHEST);
 +    }
 +    // Prismarine end
 +
