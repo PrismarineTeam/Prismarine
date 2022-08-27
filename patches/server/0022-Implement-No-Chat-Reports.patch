@@ -5,34 +5,10 @@ Subject: [PATCH] Implement No Chat Reports
 
 Original by Aizistral Studios
 
-diff --git a/src/main/java/com/aizistral/nochatreports/core/ServerDataExtension.java b/src/main/java/com/aizistral/nochatreports/core/ServerDataExtension.java
-new file mode 100644
-index 0000000000000000000000000000000000000000..8b56291a9e668a99742ef73492d423d2249af6a5
---- /dev/null
-+++ b/src/main/java/com/aizistral/nochatreports/core/ServerDataExtension.java
-@@ -0,0 +1,9 @@
-+package com.aizistral.nochatreports.core;
-+
-+public interface ServerDataExtension {
-+
-+    public boolean preventsChatReports();
-+
-+    public void setPreventsChatReports(boolean prevents);
-+
-+}
 diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..b8869c0aa61e1eaada25cd3922a0e1a9c2f0cc38 100644
+index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..41e4503558f99a7c0b9f2f1eda166e79f4c12f20 100644
 --- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
 +++ b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
- import net.minecraft.network.chat.Component;
- import net.minecraft.util.GsonHelper;
- 
--public class ServerStatus {
-+public class ServerStatus implements com.aizistral.nochatreports.core.ServerDataExtension { // Prismarine - Implement No Chat Reports
-     public static final int FAVICON_WIDTH = 64;
-     public static final int FAVICON_HEIGHT = 64;
-     @Nullable
 @@ -28,6 +28,7 @@ public class ServerStatus {
      private String favicon;
      private boolean previewsChat;
@@ -50,39 +26,7 @@ index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..b8869c0aa61e1eaada25cd3922a0e1a9
      }
  
      public static class Players {
-@@ -157,6 +158,18 @@ public class ServerStatus {
-         }
-     }
- 
-+    // Prismarine start - Implement No Chat Reports
-+    @Override
-+    public boolean preventsChatReports() {
-+        return this.preventsChatReports;
-+    }
-+
-+    @Override
-+    public void setPreventsChatReports(boolean prevents) {
-+        this.preventsChatReports = prevents;
-+    }
-+    // Prismarine end
-+
-     public static class Serializer implements JsonDeserializer<ServerStatus>, JsonSerializer<ServerStatus> {
-         @Override
-         public ServerStatus deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-@@ -186,6 +199,12 @@ public class ServerStatus {
-                 serverStatus.setEnforcesSecureChat(GsonHelper.getAsBoolean(jsonObject, "enforcesSecureChat"));
-             }
- 
-+            // Prismarine start - Implement No Chat Reports
-+            if (jsonObject.has("preventsChatReports")) {
-+                serverStatus.setPreventsChatReports(GsonHelper.getAsBoolean(jsonObject, "preventsChatReports"));
-+            }
-+            // Prismarine end
-+
-             return serverStatus;
-         }
- 
-@@ -210,6 +229,12 @@ public class ServerStatus {
+@@ -210,6 +211,12 @@ public class ServerStatus {
                  jsonObject.addProperty("favicon", serverStatus.getFavicon());
              }
  
