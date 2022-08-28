@@ -52,3 +52,133 @@ index f561fa1acfcfc78fc2a3a5fe1c12d43a9e708146..2d9b747190a814238fc909630902adb7
  
                  if (this.sleepStatus.areEnoughSleeping(i)) {
                      // Purpur start
+diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+index c233533fdacb4f5e635267b5fc9fe21bc8b3c51a..9f20768f0d8fb38650893811012ae573b61361e3 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
++++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+@@ -152,6 +152,13 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+     protected void registerGoals() {
+         this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+     }
++
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.allayMaxHealth);
++    }
++    // Prismarine end
+     // Purpur end
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+index 989af6f3e0604a342032b308f97c7b863b3b1e40..edf40a4b5dbc3ca42b3b8ae83c86583257cfd689 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+@@ -144,6 +144,13 @@ public class Frog extends Animal {
+     public int getPurpurBreedTime() {
+         return this.level.purpurConfig.frogBreedingTicks;
+     }
++
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.frogMaxHealth);
++    }
++    // Prismarine end
+     // Purpur end
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
+index 5268a56a7967275df63f5a5ddb59219904f9a3c4..47ab079c1d1bd7ffc223f8086a74ecda4665e1f6 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Tadpole.java
+@@ -86,6 +86,13 @@ public class Tadpole extends AbstractFish {
+     protected void registerGoals() {
+         this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+     }
++
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.tadpoleMaxHealth);
++    }
++    // Prismarine end
+     // Purpur end
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
+index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b4725c2ef59 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
++++ b/src/main/java/net/minecraft/world/entity/monster/warden/Warden.java
+@@ -144,6 +144,13 @@ public class Warden extends Monster implements VibrationListener.VibrationListen
+         this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+     }
++
++    // Prismarine start
++    @Override
++    public void initAttributes() {
++        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.level.purpurConfig.wardenMaxHealth);
++    }
++    // Prismarine end
+     // Purpur end
+ 
+     @Override
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d50645f4f361 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
+@@ -1073,10 +1073,12 @@ public class PurpurWorldConfig {
+     public boolean allayRidable = false;
+     public boolean allayRidableInWater = false;
+     public boolean allayControllable = true;
++    public double allayMaxHealth = 20.0D; // Prismarine
+     private void allaySettings() {
+         allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
+         allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
+         allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
++        allayMaxHealth = getDouble("mobs.allay.max-health", allayMaxHealth); // Prismarine
+     }
+ 
+     public boolean axolotlRidable = false;
+@@ -1590,12 +1592,14 @@ public class PurpurWorldConfig {
+     public boolean frogControllable = true;
+     public float frogRidableJumpHeight = 0.65F;
+     public int frogBreedingTicks = 6000;
++    public double frogMaxHealth = 10.0D; // Prismarine
+     private void frogSettings() {
+         frogRidable = getBoolean("mobs.frog.ridable", frogRidable);
+         frogRidableInWater = getBoolean("mobs.frog.ridable-in-water", frogRidableInWater);
+         frogControllable = getBoolean("mobs.frog.controllable", frogControllable);
+         frogRidableJumpHeight = (float) getDouble("mobs.frog.ridable-jump-height", frogRidableJumpHeight);
+         frogBreedingTicks = getInt("mobs.frog.breeding-delay-ticks", frogBreedingTicks);
++        frogMaxHealth = getDouble("mobs.frog.attributes.max_health", frogMaxHealth); // Prismarine
+     }
+ 
+     public boolean ghastRidable = false;
+@@ -2627,10 +2631,12 @@ public class PurpurWorldConfig {
+     public boolean tadpoleRidable = false;
+     public boolean tadpoleRidableInWater = false;
+     public boolean tadpoleControllable = true;
++    public double tadpoleMaxHealth = 6.0D; // Prismarine
+     private void tadpoleSettings() {
+         tadpoleRidable = getBoolean("mobs.tadpole.ridable", tadpoleRidable);
+         tadpoleRidableInWater = getBoolean("mobs.tadpole.ridable-in-water", tadpoleRidableInWater);
+         tadpoleControllable = getBoolean("mobs.tadpole.controllable", tadpoleControllable);
++        tadpoleMaxHealth = getDouble("mobs.tadpole.attributes.max_health", tadpoleMaxHealth); // Prismarine
+     }
+ 
+     public boolean traderLlamaRidable = false;
+@@ -2841,10 +2847,12 @@ public class PurpurWorldConfig {
+     public boolean wardenRidable = false;
+     public boolean wardenRidableInWater = false;
+     public boolean wardenControllable = true;
++    public double wardenMaxHealth = 500.0D; // Prismarine
+     private void wardenSettings() {
+         wardenRidable = getBoolean("mobs.warden.ridable", wardenRidable);
+         wardenRidableInWater = getBoolean("mobs.warden.ridable-in-water", wardenRidableInWater);
+         wardenControllable = getBoolean("mobs.warden.controllable", wardenControllable);
++        wardenMaxHealth = getDouble("mobs.warden.attributes.max_health", wardenMaxHealth); // Prismarine
+     }
+ 
+     public boolean witchRidable = false;

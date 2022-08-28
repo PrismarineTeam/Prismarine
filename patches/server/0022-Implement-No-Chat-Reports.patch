@@ -6,7 +6,7 @@ Subject: [PATCH] Implement No Chat Reports
 Original by Aizistral Studios
 
 diff --git a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
-index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..41e4503558f99a7c0b9f2f1eda166e79f4c12f20 100644
+index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..0bd26e91b9971149a2f81f7361058038bafeb057 100644
 --- a/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
 +++ b/src/main/java/net/minecraft/network/protocol/status/ServerStatus.java
 @@ -28,6 +28,7 @@ public class ServerStatus {
@@ -31,7 +31,7 @@ index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..41e4503558f99a7c0b9f2f1eda166e79
              }
  
 +            // Prismarine start - Implement No Chat Reports
-+            if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport) {
++            if (net.prismarineteam.prismarine.PrismarineConfig.disableChatReport && net.prismarineteam.prismarine.PrismarineConfig.addQueryData) {
 +                jsonObject.addProperty("preventsChatReports", true);
 +            }
 +            // Prismarine end
