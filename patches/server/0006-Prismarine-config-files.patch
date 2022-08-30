@@ -5,12 +5,12 @@ Subject: [PATCH] Prismarine config files
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 5a5c5a366e1156e1233efc04d0c0a6051170a4f5..1367d23d8eb37676c3d3590fd6885738c18f94fe 100644
+index 68ee7f105ad0e5e885fdf78b049cf9a6d3f7b2ed..c387154d61a0ab9a7ba4bdd8f07a8a587750908e 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -233,6 +233,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -232,6 +232,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         }
          org.purpurmc.purpur.PurpurConfig.registerCommands();
-         gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
          // Purpur end
 +        // Prismarine start
 +        try {
@@ -357,7 +357,7 @@ index 0000000000000000000000000000000000000000..6fd00057defc1278c58b0f4c6e017ddc
 +}
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ae57213514254811f85a26c5861df99bdec0c1f6..fe35b11d495ce0c400e03f0028c4e3a180161b97 100644
+index f7c2aaff199f039daf79e39c19355d4a6d31f05e..9b3c1b79f766ff7b801971cb917ed17e4233b4b1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -993,6 +993,7 @@ public final class CraftServer implements Server {
@@ -391,11 +391,11 @@ index ae57213514254811f85a26c5861df99bdec0c1f6..fe35b11d495ce0c400e03f0028c4e3a1
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index ee15a1f29b7af499ccedb3ff37413d68fb98d270..5d709c26c210c09f1fe1b00f9f2d3d5314083251 100644
+index 3080b2a7920a736880c48b66164ed45686ab1d44..6b4cb407f1134f097c586ae5b855739f9b3d9e6a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -177,6 +177,14 @@ public class Main {
-                     .describedAs("Yml file");
+@@ -178,6 +178,14 @@ public class Main {
+                         .describedAs("Yml file");
                  // Purpur end
  
 +                // Prismarine start

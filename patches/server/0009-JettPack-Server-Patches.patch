@@ -731,10 +731,10 @@ index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index cc09274fb3c3068ecd56e4c3c280b4fc876e628f..bafeb791c0a7fc75082eb7412f147a88908b095f 100644
+index 1da509127582618d6ced45e6e8a310304e9ecc16..9bd4844cead93e0ecfddce69f9c54505963d6b94 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -501,7 +501,13 @@ public abstract class PlayerList {
+@@ -508,7 +508,13 @@ public abstract class PlayerList {
          // Paper end
          org.purpurmc.purpur.task.BossBarTask.addToAll(player); // Purpur
          // CraftBukkit - Moved from above, added world

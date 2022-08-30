@@ -1,24 +1,24 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 25 Aug 2022 16:22:20 +0900
+Date: Tue, 30 Aug 2022 07:30:31 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
 
 Copyright (C) 2022 Pufferfish Studios LLC
 
-This program is free software: you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation, either version 3 of the License, or (at your
-option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 2374cc9bab5039d0a0dc11d4b2ec573ab75778a7..7074295d7399d03e259598bb4bfa0f21434d74be 100644
@@ -3203,10 +3203,10 @@ index 3d986805c89d22330d6ad1e09760940b2f399214..0c71d72fb04eb00e159ddd456df82376
              this.getRandomBlockPosition(j, 0, k, 15, blockposition);
              int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index c3a5aa2cbfeef1d2841ef85d135a2f6e0a7a2f61..9aab29dd7a09c306d6c0e1e8143daf005d611d65 100644
+index 325def3149693f64b2b21e0e655b5b3e888fd9a0..3d4e0be647f48a33d1afcdbec62c6624f2086294 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1222,6 +1222,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1216,6 +1216,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void handleEditBook(ServerboundEditBookPacket packet) {
@@ -3214,7 +3214,7 @@ index c3a5aa2cbfeef1d2841ef85d135a2f6e0a7a2f61..9aab29dd7a09c306d6c0e1e8143daf00
          // Paper start
          if (!this.cserver.isPrimaryThread()) {
              List<String> pageList = packet.getPages();
-@@ -2368,6 +2369,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2362,6 +2363,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      }
  
      private boolean updateChatOrder(Instant timestamp) {

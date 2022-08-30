@@ -5,7 +5,7 @@ Subject: [PATCH] Add permission for reducedDebugInfo gamerule
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index f8b0e564c4465ad04fbafdaf0e9d5a0989c8bc70..e0322da17c8ccf5f27b313d538bd438e233f9742 100644
+index 79b89424eacd770b52fb01397c1ee32ed3aaf7d5..a5d8e9643fb9a4fafd1c41099d3827982a331033 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -271,7 +271,7 @@ public abstract class PlayerList {
@@ -17,7 +17,7 @@ index f8b0e564c4465ad04fbafdaf0e9d5a0989c8bc70..e0322da17c8ccf5f27b313d538bd438e
  
          // Spigot - view distance
          playerconnection.send(new ClientboundLoginPacket(player.getId(), worlddata.isHardcore(), player.gameMode.getGameModeForPlayer(), player.gameMode.getPreviousGameModeForPlayer(), this.server.levelKeys(), this.registryHolder, worldserver1.dimensionTypeId(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), this.getMaxPlayers(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetSendDistance(), worldserver1.getChunkSource().chunkMap.playerChunkManager.getTargetTickViewDistance(), flag1, !flag, worldserver1.isDebug(), worldserver1.isFlat(), player.getLastDeathLocation())); // Paper - replace old player chunk management
-@@ -1346,7 +1346,7 @@ public abstract class PlayerList {
+@@ -1353,7 +1353,7 @@ public abstract class PlayerList {
          player.getBukkitEntity().updateScaledHealth(); // CraftBukkit - Update scaled health on respawn and worldchange
          player.connection.send(new ClientboundSetCarriedItemPacket(player.getInventory().selected));
          // CraftBukkit start - from GameRules

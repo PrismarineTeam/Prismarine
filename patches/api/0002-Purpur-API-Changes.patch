@@ -1,30 +1,23 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Thu, 25 Aug 2022 16:49:31 +0900
+Date: Tue, 30 Aug 2022 07:32:34 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-Software), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the Software), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED AS
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 10716b2c866631badb99b1fb79b66c62b117b038..a141e5cdcec4d09b05252782e8a0ab5fac532680 100644
@@ -2349,19 +2342,6 @@ index 49a4611ed4891cce10fd6e01b4062740ad18ee6f..6bb115923767c4bd65b18e67eeff5408
  
              File replacedFile = plugins.put(description.getName(), file);
              if (replacedFile != null) {
-diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 8f778e7d1b8508414ed47c6c6071cae9ebf2d986..ab24a3377b126022079e743e8cf963d090d88c26 100644
---- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-+++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-@@ -161,7 +161,7 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
-         }
-         Class<?> result = classes.get(name);
- 
--        if (result == null && !this.closed) { // Pufferfish
-+        if (result == null /*&& !this.closed*/) { // Pufferfish // Purpur - don't modify the classloader b.s.
-             String path = name.replace('.', '/').concat(".class");
-             JarEntry entry = jar.getJarEntry(path);
- 
 diff --git a/src/main/java/org/bukkit/potion/PotionEffect.java b/src/main/java/org/bukkit/potion/PotionEffect.java
 index 24e36cdf580da885ac64002673a786b9c5a3f787..d20cc4d4f5b37a3de9cb3cf47af7a908e9dbc2fc 100644
 --- a/src/main/java/org/bukkit/potion/PotionEffect.java
