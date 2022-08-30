@@ -123,10 +123,10 @@ index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f20
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 43676ecbd6f07cc9fc273a7c30266816b76ec0c0..0150458a1fe8f871109b941132155ffcf3070404 100644
+index efe4ea8a9acee2caf3af0045c3faceb25fbe90a3..c3b0ee8590d36f496bab3dc7624ca0e2d8ccdd7a 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -604,7 +604,7 @@ public abstract class PlayerList {
+@@ -611,7 +611,7 @@ public abstract class PlayerList {
  
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer) { // Paper - return Component
          // Paper start

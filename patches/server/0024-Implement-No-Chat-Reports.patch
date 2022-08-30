@@ -40,7 +40,7 @@ index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..0bd26e91b9971149a2f81f7361058038
          }
      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 8d339f2cec73a7bd5633f95e805333b16c98ad55..61507db0ca22e36e7bc8ffe32d6529bdacab80b0 100644
+index caf801c75d212fd71e67e36f0dab6050ff54c617..08bd8b83fb39971ffa42d1d02949fecbc303b437 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -684,7 +684,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -53,10 +53,10 @@ index 8d339f2cec73a7bd5633f95e805333b16c98ad55..61507db0ca22e36e7bc8ffe32d6529bd
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 9adc717cffee5065863e2972ad749517e5a4a2a3..8a12d4fb061d50adc69f198203415fc5cd78b11e 100644
+index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..ed16b35a17508a04d704193885114465f44508b4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2244,10 +2244,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2238,10 +2238,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void send(Packet<?> packet) {
@@ -85,7 +85,7 @@ index 9adc717cffee5065863e2972ad749517e5a4a2a3..8a12d4fb061d50adc69f198203415fc5
          // CraftBukkit start
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
-@@ -2646,7 +2664,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2640,7 +2658,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private PlayerChatMessage getSignedMessage(ServerboundChatPacket packet) {
          MessageSigner messagesigner = packet.getSigner(this.player);
@@ -95,10 +95,10 @@ index 9adc717cffee5065863e2972ad749517e5a4a2a3..8a12d4fb061d50adc69f198203415fc5
          ChatMessageContent chatmessagecontent = this.getSignedContent(packet);
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 0150458a1fe8f871109b941132155ffcf3070404..8673a4a5cb9492559172d8e82321c20e84a520c8 100644
+index c3b0ee8590d36f496bab3dc7624ca0e2d8ccdd7a..d5c4d7e9875dd8bca7bf32902ae83fef5475e4c9 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1512,7 +1512,7 @@ public abstract class PlayerList {
+@@ -1519,7 +1519,7 @@ public abstract class PlayerList {
      }
  
      public boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) { // Paper - private -> public
