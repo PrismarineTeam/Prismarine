@@ -100,6 +100,19 @@ index 281f2f2d9270fbba1cb82166790eb0f8eedc7cb2..675b3becc759701f6c77da29f31021cd
          /*if (!org.spigotmc.ActivationRange.checkIfActive(entity)) { // Paper - comment out - EAR 2, reimplement below
              entity.tickCount++;
              timer = entity.getType().inactiveTickTimer.startTiming(); try { // Paper - timings
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index 138b2c1a21b9ceb60030d10e24c78e09533937a0..77edbb1cb71a3915bc96b78df2e01eaf66a1f32f 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -1225,7 +1225,7 @@ public abstract class PlayerList {
+         } else {
+             player.sixRowEnderchestSlotCount = -1;
+         }
+-        //Purpur end
++        // Purpur end
+     }
+ 
+     public boolean isWhiteListed(GameProfile profile) {
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 index c233533fdacb4f5e635267b5fc9fe21bc8b3c51a..9f20768f0d8fb38650893811012ae573b61361e3 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
