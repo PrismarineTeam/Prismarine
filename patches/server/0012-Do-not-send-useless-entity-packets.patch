@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 22acc4d451a96c4b7655a9f2333a283d2b891caa..e69cfe03e35b2e8eae0f82084a5d7cc19e4e9f1e 100644
+index 22acc4d451a96c4b7655a9f2333a283d2b891caa..08b085da9a9a746223fc0387e58e3daf24432410 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {

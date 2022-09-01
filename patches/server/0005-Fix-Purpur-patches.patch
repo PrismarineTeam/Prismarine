@@ -5,7 +5,7 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 6297709f9f7af08c73a04745a49aa10468af05c3..22699ec4a8435ece88bef6c1ccbfcd622784c02e 100644
+index 25850cb778f3ad0c1e18c1b3a45bec0ed579f0df..de69f1c971659bc6abc166543cc963f42597ccf0 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 @@ -1737,7 +1737,7 @@ public final class NewChunkHolder {
@@ -61,10 +61,10 @@ index c46011c4e6141ed7015fcc15494fd68235ab327b..f79099af82151f27b96cd69286655925
          try {
              org.purpurmc.purpur.PurpurConfig.init((java.io.File) options.valueOf("purpur-settings"));
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 4bbf81d80eceeadce97ed937803d3a599f56badb..e5246d41b22366fa738be39b59c457e7acfe29c9 100644
+index 281f2f2d9270fbba1cb82166790eb0f8eedc7cb2..675b3becc759701f6c77da29f31021cdad027708 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -661,7 +661,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -662,7 +662,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
          long j;
  
@@ -73,7 +73,7 @@ index 4bbf81d80eceeadce97ed937803d3a599f56badb..e5246d41b22366fa738be39b59c457e7
              // CraftBukkit start
              j = this.levelData.getDayTime() + 24000L;
              TimeSkipEvent event = new TimeSkipEvent(this.getWorld(), TimeSkipEvent.SkipReason.NIGHT_SKIP, (j - j % 24000L) - this.getDayTime());
-@@ -971,7 +971,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -972,7 +972,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -82,7 +82,7 @@ index 4bbf81d80eceeadce97ed937803d3a599f56badb..e5246d41b22366fa738be39b59c457e7
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -1020,7 +1020,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1021,7 +1021,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
@@ -91,7 +91,7 @@ index 4bbf81d80eceeadce97ed937803d3a599f56badb..e5246d41b22366fa738be39b59c457e7
  
                  if (this.sleepStatus.areEnoughSleeping(i)) {
                      // Purpur start
-@@ -1245,7 +1245,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1246,7 +1246,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              // Paper end - log detailed entity tick information
          ++TimingHistory.entityTicks; // Paper - timings
          // Spigot start

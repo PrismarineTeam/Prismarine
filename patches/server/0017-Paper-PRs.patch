@@ -123,10 +123,10 @@ index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f20
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index efe4ea8a9acee2caf3af0045c3faceb25fbe90a3..c3b0ee8590d36f496bab3dc7624ca0e2d8ccdd7a 100644
+index 2ac13f6d367b90ff9b66925904a650387593c4f5..2f67ff558f107cb4fe28d725cae26de7d8707f5a 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -611,7 +611,7 @@ public abstract class PlayerList {
+@@ -616,7 +616,7 @@ public abstract class PlayerList {
  
      public net.kyori.adventure.text.Component remove(ServerPlayer entityplayer) { // Paper - return Component
          // Paper start
@@ -181,7 +181,7 @@ index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55
  
      private EntitySelector() {}
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 6fc891e78b7a3839755a719ebc23f2ed2d714870..2cc1dbbca9e290492b82fcc75b7adc92796cf8ad 100644
+index 4e00c2216142b52fb34be0e51d00fa20fded92c8..4f31454c192361a18d32d3085cb9df90effadba9 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -128,8 +128,13 @@ public class EnderMan extends Monster implements NeutralMob {

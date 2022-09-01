@@ -95,10 +95,10 @@ index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..ed16b35a17508a04d704193885114465
          ChatMessageContent chatmessagecontent = this.getSignedContent(packet);
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c3b0ee8590d36f496bab3dc7624ca0e2d8ccdd7a..d5c4d7e9875dd8bca7bf32902ae83fef5475e4c9 100644
+index 2f67ff558f107cb4fe28d725cae26de7d8707f5a..27f8506a4dbfa855526ef29718e44cd6a0bd0beb 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1519,7 +1519,7 @@ public abstract class PlayerList {
+@@ -1524,7 +1524,7 @@ public abstract class PlayerList {
      }
  
      public boolean verifyChatTrusted(PlayerChatMessage message, ChatSender profile) { // Paper - private -> public

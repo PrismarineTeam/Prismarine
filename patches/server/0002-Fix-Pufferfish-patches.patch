@@ -31,10 +31,10 @@ index ac541ddf1594ae865de02fd40940e39285043b1f..2ec90acf3a36aac84b68f086a333d8a6
              return;
          }
 diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-index 4592917524a15c0f4053dffed23ce04b41b8ccd8..9fab9bb0bc9d01d4fa11cca253f17a5773633b76 100644
+index fd1d99582b1e872c9a6b8e1be7d71b217f198605..b95c9c6e619ba2101ff689f3ebd68ceadce9623d 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-@@ -71,6 +71,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
+@@ -72,6 +72,8 @@ public final class EntityLookup implements LevelEntityGetter<Entity> {
          return visibility.isAccessible() ? entity : null;
      }
  
