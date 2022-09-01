@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 30 Aug 2022 07:32:34 +0000
+Date: Thu, 1 Sep 2022 06:10:26 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -11360,7 +11360,7 @@ index d02286d553c600fe7e75f48e278e380d21c5b868..3533414fcb112b75df7226d32b220bfc
          return Guardian.createAttributes().add(Attributes.MOVEMENT_SPEED, 0.30000001192092896D).add(Attributes.ATTACK_DAMAGE, 8.0D).add(Attributes.MAX_HEALTH, 80.0D);
      }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index f5bb64f9f683cf21e772035e9be100ed2ddf8bc6..6fc891e78b7a3839755a719ebc23f2ed2d714870 100644
+index f5bb64f9f683cf21e772035e9be100ed2ddf8bc6..4e00c2216142b52fb34be0e51d00fa20fded92c8 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -84,12 +84,40 @@ public class EnderMan extends Monster implements NeutralMob {
@@ -11461,23 +11461,39 @@ index f5bb64f9f683cf21e772035e9be100ed2ddf8bc6..6fc891e78b7a3839755a719ebc23f2ed
      }
  
      private static class EndermanFreezeWhenLookedAt extends Goal {
-@@ -498,7 +529,8 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -498,7 +529,16 @@ public class EnderMan extends Monster implements NeutralMob {
  
          @Override
          public boolean canUse() {
 -            return this.enderman.getCarriedBlock() == null ? false : (!this.enderman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) ? false : this.enderman.getRandom().nextInt(reducedTickDelay(2000)) == 0);
 +            if (!enderman.level.purpurConfig.endermanAllowGriefing) return false; // Purpur
-+            return this.enderman.getCarriedBlock() != null ? false : (!this.enderman.level.purpurConfig.endermanBypassMobGriefing && !this.enderman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) ? false : this.enderman.getRandom().nextInt(reducedTickDelay(2000)) == 0); // Purpur
++            // Purpur start
++            if (this.enderman.getCarriedBlock() == null) {
++                return false;
++            }
++            if (!this.enderman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !this.enderman.level.purpurConfig.endermanBypassMobGriefing) {
++                return false;
++            }
++            return this.enderman.getRandom().nextInt(reducedTickDelay(2000)) == 0;
++            // Purpur end
          }
  
          @Override
-@@ -545,7 +577,8 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -545,7 +585,16 @@ public class EnderMan extends Monster implements NeutralMob {
  
          @Override
          public boolean canUse() {
 -            return this.enderman.getCarriedBlock() != null ? false : (!this.enderman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) ? false : this.enderman.getRandom().nextInt(reducedTickDelay(20)) == 0);
 +            if (!enderman.level.purpurConfig.endermanAllowGriefing) return false; // Purpur
-+            return this.enderman.getCarriedBlock() == null ? false : (!this.enderman.level.purpurConfig.endermanBypassMobGriefing && !this.enderman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) ? false : this.enderman.getRandom().nextInt(reducedTickDelay(2000)) == 0); // Purpur
++            // Purpur start
++            if (this.enderman.getCarriedBlock() != null) {
++                return false;
++            }
++            if (!this.enderman.level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !this.enderman.level.purpurConfig.endermanBypassMobGriefing) {
++                return false;
++            }
++            return this.enderman.getRandom().nextInt(reducedTickDelay(20)) == 0;
++            // Purpur end
          }
  
          @Override
