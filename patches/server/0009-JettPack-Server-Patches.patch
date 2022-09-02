@@ -595,10 +595,10 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d432f8a73bf 100644
+index e9f0ddf1a34bf3b0d868b53e4439d9d9851ad4d6..16515a5bd284e6d0ac1605e040e53f2c958f405a 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
-@@ -55,9 +55,10 @@ import java.util.function.Consumer;
+@@ -53,9 +53,10 @@ import java.util.function.Consumer;
  import java.util.function.Supplier;
  
  public final class MCUtil {
@@ -611,7 +611,7 @@ index c0fdc5a79107f8694a514a12d5526bd431fc45e9..c093fb16c55c4e61b40c1fe6d8a30d43
          new ThreadFactoryBuilder()
              .setNameFormat("Paper Async Task Handler Thread - %1$d")
              .setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(MinecraftServer.LOGGER))
-@@ -74,6 +75,30 @@ public final class MCUtil {
+@@ -72,6 +73,30 @@ public final class MCUtil {
  
      public static final long INVALID_CHUNK_KEY = getCoordinateKey(Integer.MAX_VALUE, Integer.MAX_VALUE);
  
@@ -731,10 +731,10 @@ index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 1da509127582618d6ced45e6e8a310304e9ecc16..9bd4844cead93e0ecfddce69f9c54505963d6b94 100644
+index 138b2c1a21b9ceb60030d10e24c78e09533937a0..2ac13f6d367b90ff9b66925904a650387593c4f5 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -508,7 +508,13 @@ public abstract class PlayerList {
+@@ -505,7 +505,13 @@ public abstract class PlayerList {
          // Paper end
          org.purpurmc.purpur.task.BossBarTask.addToAll(player); // Purpur
          // CraftBukkit - Moved from above, added world
@@ -1106,7 +1106,7 @@ index ce4127f3701efa7d1c86bcdb4e7804fee11c397c..9d801652d1ccdb356f26f914824a2b46
      }
  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index af7c916f31926399445aeb1f76ec2bee79dd7821..63bedbfbedc688b9bd9555e811d51c555cbd6771 100644
+index 0c648611658c4c1fae08e867c3090c7d0241a189..9da7c6b4e3a3c8127089218a1e811c23ff27734e 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {

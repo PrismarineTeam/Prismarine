@@ -265,10 +265,10 @@ index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 284624683d0e593bc7996fa90a6eee2b6a22ad9e..ffe714e847c71f955f286ee6ecc12c40a9ca685a 100644
+index cac6bd2f6ee4e9603a860ca7ddabbe7d002daa53..c9213ddf974dd03ab8aa1fbbb9c146565f2b18db 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2344,7 +2344,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2334,7 +2334,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
                  this.sendHealthUpdate();
              }
          }
