@@ -1459,7 +1459,7 @@ index 06e3a868e922f1b7a586d0ca28f64a67ae463b68..32beb045f990d4da6112da4fea295333
                          itemstack.setCount(1);
                          entityitem = entityplayer.drop(itemstack, false, false, false); // SPIGOT-2942: Add boolean to call event
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index f2692f0e24837a4c17fa914ffdf1b6c6552b7b70..c46011c4e6141ed7015fcc15494fd68235ab327b 100644
+index 1e0c56df22318af114bb352610e40143eff7cfd7..26d0737db480b36c366c0b581871cc17bab9b88b 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -223,9 +223,19 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -1537,7 +1537,7 @@ index f2692f0e24837a4c17fa914ffdf1b6c6552b7b70..c46011c4e6141ed7015fcc15494fd682
              return true;
          }
      }
-@@ -480,7 +517,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -487,7 +524,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
      }
  
      public void handleConsoleInputs() {
@@ -1546,7 +1546,7 @@ index f2692f0e24837a4c17fa914ffdf1b6c6552b7b70..c46011c4e6141ed7015fcc15494fd682
          // Paper start - use proper queue
          ConsoleInput servercommand;
          while ((servercommand = this.serverCommandQueue.poll()) != null) {
-@@ -497,7 +534,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -504,7 +541,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              // CraftBukkit end
          }
  
@@ -19584,10 +19584,10 @@ index eca9ead4368e5e2822ed8c2c665902c2544815af..3abbb0044df19b52eb2d971ac34263ed
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 089d768a9999e8c91fac9e9bafeb009bacb2cf12..d79c49797964c5bb1dd8f7ffe7b25385eb3418bc 100644
+index 55bfb6e72f0083da0173f0980263124a8e82502a..2cfe83151d423ef1e4b413ba47db68e5812771e5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2231,6 +2231,48 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2234,6 +2234,48 @@ public class CraftWorld extends CraftRegionAccessor implements World {
          return (this.getHandle().dragonFight() == null) ? null : new CraftDragonBattle(this.getHandle().dragonFight());
      }
  
