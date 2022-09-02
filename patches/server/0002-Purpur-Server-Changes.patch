@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 2 Sep 2022 13:34:49 +0000
+Date: Fri, 2 Sep 2022 18:50:16 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -3942,7 +3942,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 9630d95ad2d47bb4a043dcb143bb58cd183c00c1..ab3f5d8df443f1f23f4cf11af46ed4c95ff30f0e 100644
+index 9630d95ad2d47bb4a043dcb143bb58cd183c00c1..0cdac68d20a77948ef7dd4072b3db039e280c567 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -3950,7 +3950,7 @@ index 9630d95ad2d47bb4a043dcb143bb58cd183c00c1..ab3f5d8df443f1f23f4cf11af46ed4c9
  
  public abstract class Entity implements Nameable, EntityAccess, CommandSource {
 -
-+    protected static javax.script.ScriptEngine scriptEngine = new javax.script.ScriptEngineManager().getEngineByName("rhino"); // Purpur
++    public static javax.script.ScriptEngine scriptEngine = new javax.script.ScriptEngineManager().getEngineByName("rhino"); // Purpur
      // CraftBukkit start
      private static final int CURRENT_LEVEL = 2;
      public boolean preserveMotion = true; // Paper - keep initial motion on first setPositionRotation
@@ -10761,7 +10761,7 @@ index 16a55f94bda9f959548772c8916b4dc3eb045d47..aa1c929d948cea8f6212330f922eb5f1
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java b/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
-index b8abee145fc92faddef98da913eca7715b6bfc03..e542407894f58fb8c0339a7a6d2e7b2cb5891eb4 100644
+index b8abee145fc92faddef98da913eca7715b6bfc03..0cfe5cb3ce0ac8554bbdb68c6658369306ce634c 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
 @@ -65,16 +65,19 @@ public abstract class AbstractSkeleton extends Monster implements RangedAttackMo
@@ -10843,6 +10843,15 @@ index b8abee145fc92faddef98da913eca7715b6bfc03..e542407894f58fb8c0339a7a6d2e7b2c
          }
      }
  
+@@ -202,7 +179,7 @@ public abstract class AbstractSkeleton extends Monster implements RangedAttackMo
+         double d2 = target.getZ() - this.getZ();
+         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+ 
+-        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.level.getDifficulty().getId() * 4));
++        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, this.level.purpurConfig.skeletonBowAccuracyMap.getOrDefault(this.level.getDifficulty().getId(), (float) (14 - this.level.getDifficulty().getId() * 4))); // Purpur
+         // CraftBukkit start
+         org.bukkit.event.entity.EntityShootBowEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callEntityShootBowEvent(this, this.getMainHandItem(), entityarrow.getPickupItem(), entityarrow, net.minecraft.world.InteractionHand.MAIN_HAND, 0.8F, true); // Paper
+         if (event.isCancelled()) {
 @@ -233,7 +210,7 @@ public abstract class AbstractSkeleton extends Monster implements RangedAttackMo
          this.reassessWeaponGoal();
          // Paper start
@@ -21312,16 +21321,17 @@ index 0000000000000000000000000000000000000000..d44b8ce90db7c6c27f71aa841d6fb64b
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..45eebbc1993b53b4d01317c6089b619f026d53ed
+index 0000000000000000000000000000000000000000..3cf1451569128640fe5d6d9fc0fdc550de75c091
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3148 @@
+@@ -0,0 +1,3162 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
 +import net.minecraft.core.Registry;
 +import net.minecraft.resources.ResourceLocation;
 +import net.minecraft.util.Mth;
++import net.minecraft.world.entity.Entity;
 +import net.minecraft.world.entity.EntityType;
 +import net.minecraft.world.item.DyeColor;
 +import net.minecraft.world.item.Item;
@@ -21338,7 +21348,6 @@ index 0000000000000000000000000000000000000000..45eebbc1993b53b4d01317c6089b619f
 +import org.bukkit.ChatColor;
 +import org.bukkit.World;
 +import org.bukkit.configuration.ConfigurationSection;
-+
 +import java.util.ArrayList;
 +import java.util.HashMap;
 +import java.util.List;
@@ -23745,6 +23754,8 @@ index 0000000000000000000000000000000000000000..45eebbc1993b53b4d01317c6089b619f
 +    public boolean skeletonAlwaysDropExp = false;
 +    public double skeletonHeadVisibilityPercent = 0.5D;
 +    public int skeletonFeedWitherRoses = 0;
++    public String skeletonBowAccuracy = "14 - difficulty * 4";
++    public Map<Integer, Float> skeletonBowAccuracyMap = new HashMap<>();
 +    private void skeletonSettings() {
 +        skeletonRidable = getBoolean("mobs.skeleton.ridable", skeletonRidable);
 +        skeletonRidableInWater = getBoolean("mobs.skeleton.ridable-in-water", skeletonRidableInWater);
@@ -23759,6 +23770,18 @@ index 0000000000000000000000000000000000000000..45eebbc1993b53b4d01317c6089b619f
 +        skeletonAlwaysDropExp = getBoolean("mobs.skeleton.always-drop-exp", skeletonAlwaysDropExp);
 +        skeletonHeadVisibilityPercent = getDouble("mobs.skeleton.head-visibility-percent", skeletonHeadVisibilityPercent);
 +        skeletonFeedWitherRoses = getInt("mobs.skeleton.feed-wither-roses", skeletonFeedWitherRoses);
++        skeletonBowAccuracy = getString("mobs.skeleton.bow-accuracy", skeletonBowAccuracy);
++        for (int i = 1; i < 4; i++) {
++            float divergence;
++            try {
++                Entity.scriptEngine.eval("difficulty = " + i);
++                divergence = ((Double)Entity.scriptEngine.eval(skeletonBowAccuracy)).floatValue();
++            } catch (Exception e) {
++                e.printStackTrace();
++                continue;
++            }
++            skeletonBowAccuracyMap.put(i, divergence);
++        }
 +    }
 +
 +    public boolean skeletonHorseRidableInWater = true;
