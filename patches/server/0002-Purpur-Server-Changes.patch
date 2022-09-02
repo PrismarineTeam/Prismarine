@@ -1767,10 +1767,10 @@ index 5fdef81245cb3cc686225cfd7c5ce13b011503ef..e4cec79dc5911e1f000c63fe333eea04
  
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc9a5bf74c 100644
+index 795691bcb61a7c2b4f903d8db3b6714908c78ac2..7d8f7ecad22cdcd39270af79af8e0cd83e07bbc1 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-@@ -452,9 +452,9 @@ public class ServerChunkCache extends ChunkSource {
+@@ -454,9 +454,9 @@ public class ServerChunkCache extends ChunkSource {
                  return ifLoaded;
              }
              // Paper end
@@ -1782,7 +1782,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
              long k = ChunkPos.asLong(x, z);
  
              ChunkAccess ichunkaccess;
-@@ -468,7 +468,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -470,7 +470,7 @@ public class ServerChunkCache extends ChunkSource {
                  }
              }
  
@@ -1791,7 +1791,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
              CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture = this.getChunkFutureMainThread(x, z, leastStatus, create, true); // Paper
              ServerChunkCache.MainThreadExecutor chunkproviderserver_b = this.mainThreadProcessor;
  
-@@ -481,10 +481,10 @@ public class ServerChunkCache extends ChunkSource {
+@@ -483,10 +483,10 @@ public class ServerChunkCache extends ChunkSource {
                  com.destroystokyo.paper.io.chunk.ChunkTaskManager.pushChunkWait(this.level, x1, z1);
                  // Paper end
                  com.destroystokyo.paper.io.SyncLoadFinder.logSyncLoad(this.level, x1, z1); // Paper - sync load info
@@ -1804,7 +1804,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
                  this.distanceManager.clearPriorityTickets(pair); // Paper - Chunk priority
                  this.distanceManager.clearUrgent(pair); // Paper - Chunk priority
              } // Paper
-@@ -567,13 +567,13 @@ public class ServerChunkCache extends ChunkSource {
+@@ -569,13 +569,13 @@ public class ServerChunkCache extends ChunkSource {
              this.distanceManager.addTicket(TicketType.REQUIRED_LOAD, chunkcoordintpair, l, identifier); // Paper - prevent plugin unloads from removing our ticket
              if (isUrgent) this.distanceManager.markUrgent(chunkcoordintpair); // Paper - Chunk priority
              if (this.chunkAbsent(playerchunk, l)) {
@@ -1821,7 +1821,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
                  if (this.chunkAbsent(playerchunk, l)) {
                      this.distanceManager.removeTicket(TicketType.REQUIRED_LOAD, chunkcoordintpair, l, identifier); // Paper
                      throw (IllegalStateException) Util.pauseInIde(new IllegalStateException("No chunk holder after ticket has been added"));
-@@ -648,7 +648,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -650,7 +650,7 @@ public class ServerChunkCache extends ChunkSource {
      public boolean runDistanceManagerUpdates() {
          if (distanceManager.delayDistanceManagerTick) return false; // Paper - Chunk priority
          if (this.chunkMap.unloadingPlayerChunk) { LOGGER.error("Cannot tick distance manager while unloading playerchunks", new Throwable()); throw new IllegalStateException("Cannot tick distance manager while unloading playerchunks"); } // Paper
@@ -1830,7 +1830,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
          boolean flag = this.distanceManager.runAllUpdates(this.chunkMap);
          boolean flag1 = this.chunkMap.promoteChunkMap();
  
-@@ -658,7 +658,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -660,7 +660,7 @@ public class ServerChunkCache extends ChunkSource {
              this.clearCache();
              return true;
          }
@@ -1839,7 +1839,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
      }
  
      // Paper start
-@@ -676,17 +676,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -678,17 +678,17 @@ public class ServerChunkCache extends ChunkSource {
  
      public void save(boolean flush) {
          this.runDistanceManagerUpdates();
@@ -1861,7 +1861,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
      }
      // Paper end
  
-@@ -708,36 +708,36 @@ public class ServerChunkCache extends ChunkSource {
+@@ -710,36 +710,36 @@ public class ServerChunkCache extends ChunkSource {
      // CraftBukkit start - modelled on below
      public void purgeUnload() {
          if (true) return; // Paper - tickets will be removed later, this behavior isn't really well accounted for by the chunk system
@@ -1911,7 +1911,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
          this.clearCache();
      }
  
-@@ -783,15 +783,15 @@ public class ServerChunkCache extends ChunkSource {
+@@ -785,15 +785,15 @@ public class ServerChunkCache extends ChunkSource {
              }
              // Paper end - optimize isOutisdeRange
              LevelData worlddata = this.level.getLevelData();
@@ -1931,7 +1931,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
              int l = this.distanceManager.getNaturalSpawnChunkCount();
              // Paper start - per player mob spawning
              NaturalSpawner.SpawnState spawnercreature_d; // moved down
-@@ -812,16 +812,16 @@ public class ServerChunkCache extends ChunkSource {
+@@ -814,16 +814,16 @@ public class ServerChunkCache extends ChunkSource {
                  // Pufferfish end
              }
              // Paper end
@@ -1952,7 +1952,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
              boolean flag2 = this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && !this.level.players().isEmpty(); // CraftBukkit
  
              // Paper - only shuffle if per-player mob spawning is disabled
-@@ -871,17 +871,17 @@ public class ServerChunkCache extends ChunkSource {
+@@ -873,17 +873,17 @@ public class ServerChunkCache extends ChunkSource {
                  }
              }
              // Paper end - optimise chunk tick iteration
@@ -1977,7 +1977,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
              if (!this.chunkMap.needsChangeBroadcasting.isEmpty()) {
                  ReferenceOpenHashSet<ChunkHolder> copy = this.chunkMap.needsChangeBroadcasting.clone();
                  this.chunkMap.needsChangeBroadcasting.clear();
-@@ -893,8 +893,8 @@ public class ServerChunkCache extends ChunkSource {
+@@ -895,8 +895,8 @@ public class ServerChunkCache extends ChunkSource {
                      }
                  }
              }
@@ -1988,7 +1988,7 @@ index 40094f8ed5e04eed0378c68120c918af05090601..25b9f739abba986264e9f59b5125c1cc
              // Paper end - use set of chunks requiring updates, rather than iterating every single one loaded
              // Paper start - controlled flush for entity tracker packets
              List<net.minecraft.network.Connection> disabledFlushes = new java.util.ArrayList<>(this.level.players.size());
-@@ -1100,7 +1100,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -1102,7 +1102,7 @@ public class ServerChunkCache extends ChunkSource {
  
          @Override
          protected void doRunTask(Runnable task) {
