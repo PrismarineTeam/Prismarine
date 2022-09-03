@@ -186,7 +186,7 @@ index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b47
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d50645f4f361 100644
+index 3cf1451569128640fe5d6d9fc0fdc550de75c091..ec27ed30b36542198b7bd8473c88bfd79426248f 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1073,10 +1073,12 @@ public class PurpurWorldConfig {
@@ -217,7 +217,7 @@ index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d506
      }
  
      public boolean ghastRidable = false;
-@@ -2627,10 +2631,12 @@ public class PurpurWorldConfig {
+@@ -2641,10 +2645,12 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = false;
      public boolean tadpoleControllable = true;
@@ -230,7 +230,7 @@ index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d506
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2841,10 +2847,12 @@ public class PurpurWorldConfig {
+@@ -2855,10 +2861,12 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = false;
      public boolean wardenControllable = true;
