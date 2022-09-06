@@ -23,18 +23,10 @@ index 275f4b7378b1c9d297f2d0af5c7571b142a21db6..b47f42acd29d5a1fdf5ad0894b3ea9db
      public void setBiome(Location location, Biome biome) {
          this.setBiome(location.getBlockX(), location.getBlockY(), location.getBlockZ(), biome);
 diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
-index 0d47460494135d4ec4c95260de033e054c2f0404..bbde40760f7a4f603b97b86c0f8ce461225372ee 100644
+index 0d47460494135d4ec4c95260de033e054c2f0404..35a6f5508981e13b54d689d85b2b892413cb952e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
 +++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
-@@ -23,6 +23,7 @@ import net.minecraft.world.level.LightLayer;
- import net.minecraft.world.level.block.Blocks;
- import net.minecraft.world.level.block.RedStoneWireBlock;
- import net.minecraft.world.level.block.SaplingBlock;
-+import net.minecraft.world.level.chunk.LevelChunk;
- import net.minecraft.world.phys.AABB;
- import net.minecraft.world.phys.BlockHitResult;
- import net.minecraft.world.phys.HitResult;
-@@ -348,6 +349,15 @@ public class CraftBlock implements Block {
+@@ -348,6 +348,15 @@ public class CraftBlock implements Block {
      }
      // Paper end
  
