@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alpha <alphakr93@outlook.com>
+Date: Tue, 6 Sep 2022 14:23:02 +0900
+Subject: [PATCH] Datapack Biome API
+
+
+diff --git a/src/main/java/org/bukkit/RegionAccessor.java b/src/main/java/org/bukkit/RegionAccessor.java
+index 39fa4c65e0f61450901662ff5c08d54a5d9841b2..1aa1dfd219a19b489c6db6448a057a1051039acf 100644
+--- a/src/main/java/org/bukkit/RegionAccessor.java
++++ b/src/main/java/org/bukkit/RegionAccessor.java
+@@ -65,6 +65,20 @@ public interface RegionAccessor extends Keyed { // Paper
+     Biome getComputedBiome(int x, int y, int z);
+     // Paper end
+ 
++    // Prismarine start
++
++    /**
++     * Gets the key of the biome at the given coordinates in the registry.
++     *
++     * @param x X-coordinate of the block
++     * @param y Y-coordinate of the block
++     * @param z Z-coordinate of the block
++     * @return Key of the biome at the given coordinates in the registry
++     */
++    @NotNull
++    String getRegistryBiome(int x, int y, int z);
++    // Prismarine end
++
+     /**
+      * Sets the {@link Biome} at the given {@link Location}.
+      *
+diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukkit/block/Block.java
+index 9930ebe7a23d306c602840fd43652fbdaba481b3..1e05687ef42a711f2cff7f6ddf1c83288eaf62a6 100644
+--- a/src/main/java/org/bukkit/block/Block.java
++++ b/src/main/java/org/bukkit/block/Block.java
+@@ -386,6 +386,17 @@ public interface Block extends Metadatable, net.kyori.adventure.translation.Tran
+     Biome getComputedBiome();
+     // Paper end
+ 
++    // Prismarine start
++
++    /**
++     * Gets the key of the biome at the location of this Block in the registry.
++     *
++     * @return Key of the biome at the location of this Block in the registry
++     */
++    @NotNull
++    String getRegistryBiome();
++    // Prismarine end
++
+     /**
+      * Sets the biome that this block resides in
+      *

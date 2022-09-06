@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alpha <alphakr93@outlook.com>
+Date: Tue, 6 Sep 2022 14:23:10 +0900
+Subject: [PATCH] Datapack Biome API
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
+index 275f4b7378b1c9d297f2d0af5c7571b142a21db6..b47f42acd29d5a1fdf5ad0894b3ea9db095c9e58 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
+@@ -218,6 +218,13 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
+     }
+     // Paper end
+ 
++    // Prismarine start
++    @Override
++    public String getRegistryBiome(int x, int y, int z) {
++        return this.getHandle().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(this.getHandle().getNoiseBiome(x >> 2, y >> 2, z >> 2).value()).toString();
++    }
++    // Prismarine end
++
+     @Override
+     public void setBiome(Location location, Biome biome) {
+         this.setBiome(location.getBlockX(), location.getBlockY(), location.getBlockZ(), biome);
+diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
+index 0d47460494135d4ec4c95260de033e054c2f0404..bbde40760f7a4f603b97b86c0f8ce461225372ee 100644
+--- a/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
++++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBlock.java
+@@ -23,6 +23,7 @@ import net.minecraft.world.level.LightLayer;
+ import net.minecraft.world.level.block.Blocks;
+ import net.minecraft.world.level.block.RedStoneWireBlock;
+ import net.minecraft.world.level.block.SaplingBlock;
++import net.minecraft.world.level.chunk.LevelChunk;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.BlockHitResult;
+ import net.minecraft.world.phys.HitResult;
+@@ -348,6 +349,15 @@ public class CraftBlock implements Block {
+     }
+     // Paper end
+ 
++    // Prismarine start
++    @Override
++    public String getRegistryBiome() {
++        net.minecraft.world.level.biome.Biome biome = this.getCraftWorld().getHandle().getChunkAt(this.position).getNoiseBiome(this.position.getX() >> 2, this.position.getY() >> 2, this.position.getZ() >> 2).value();
++        net.minecraft.core.Registry<net.minecraft.world.level.biome.Biome> reg = ((org.bukkit.craftbukkit.CraftServer) Bukkit.getServer()).getServer().registryHolder.registryOrThrow(net.minecraft.core.Registry.BIOME_REGISTRY);
++        return reg.getKey(biome).toString();
++    }
++    // Prismarine end
++
+     @Override
+     public void setBiome(Biome bio) {
+         this.getWorld().setBiome(this.getX(), this.getY(), this.getZ(), bio);
