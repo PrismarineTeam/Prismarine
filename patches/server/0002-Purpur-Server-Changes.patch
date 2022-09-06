@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 6 Sep 2022 13:35:03 +0000
+Date: Tue, 6 Sep 2022 19:38:01 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -5822,6 +5822,24 @@ index 5c64905e90ccca6e0b347241ddf9cc3f71058b8e..3bd7521b131b2b40f807bdc7ab95e64c
                      this.horse.tameWithName((Player) entity);
                      return;
                  }
+diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java
+index 19540fd4a7f992888fadb6501d0c8a5a7e71fcf6..8562cbfa258499bc04e5ffbcb4402dfc78ed20c3 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java
++++ b/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java
+@@ -21,6 +21,13 @@ public class SwellGoal extends Goal {
+         return this.creeper.getSwellDir() > 0 || livingEntity != null && this.creeper.distanceToSqr(livingEntity) < 9.0D;
+     }
+ 
++    // Purpur start
++    @Override
++    public boolean canContinueToUse() {
++        return !net.minecraft.world.entity.EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(this.creeper.getTarget()) && canUse();
++    }
++    // Purpur end
++
+     @Override
+     public void start() {
+         this.creeper.getNavigation().stop();
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/TemptGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/TemptGoal.java
 index 79bb13c5614bab1f0749c5f8f57f762c6216c564..2cbc9adc8e417def48be03d08174a5833068ec65 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/TemptGoal.java
