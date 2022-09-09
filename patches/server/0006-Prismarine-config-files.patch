@@ -25,7 +25,7 @@ index 68ee7f105ad0e5e885fdf78b049cf9a6d3f7b2ed..c387154d61a0ab9a7ba4bdd8f07a8a58
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 018a5c13d3f0321d4346e6c1845f1aed2b8de3dd..25c8294a36d2f062ca4882820e99315aabf5dde8 100644
+index 5e0fb02ccd1204a72b2d730a25e35844a07c5759..9a38eebd6805e5ae18390eaa2f5cfd36be31be4e 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -175,6 +175,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -391,10 +391,10 @@ index f7c2aaff199f039daf79e39c19355d4a6d31f05e..9b3c1b79f766ff7b801971cb917ed17e
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 3080b2a7920a736880c48b66164ed45686ab1d44..6b4cb407f1134f097c586ae5b855739f9b3d9e6a 100644
+index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..2fc8c86a810329307c63758364bd494d8c328f80 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -178,6 +178,14 @@ public class Main {
+@@ -180,6 +180,14 @@ public class Main {
                          .describedAs("Yml file");
                  // Purpur end
  

@@ -1171,10 +1171,10 @@ index d0bef15785493b512ff0f7414c1d58d38fead581..fd213c026fdfb3030d0c37f651a88857
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 8fa8922ad2fb0ea8f770368faff61e56e9761df9..6c46107e13a5fd648d64844ffa5b326d4909d702 100644
+index a1dba2bcc2a636718a6f377907afc82add617fa2..a9b79beb8d16ed74c953ff46ad61945327d685e8 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
-@@ -909,4 +909,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
+@@ -917,4 +917,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
       */
      void setHurtDirection(float hurtDirection);
      // Paper end

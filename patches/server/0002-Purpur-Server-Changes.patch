@@ -2895,7 +2895,7 @@ index 80c1e0e47818486a68e0114b063395290365346b..c677a55db62b4d197eeb1bf5d929e240
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe 100644
+index d3dd458dc1d3eb7f426565e38d63bb26c48cec4b..d96ac24bcded35b6009aec7dc7b8c76dbf4500c4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -260,6 +260,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -3221,7 +3221,7 @@ index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d6
              ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized? c: {} s: {}", this.player.getName().getString(), playerchatmessage.signedContent().plain(), playerchatmessage.timeStamp().getEpochSecond(), Instant.now().getEpochSecond()); // Paper
          }
  
-@@ -2905,6 +2996,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2899,6 +2990,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              }
  
              if (entity.distanceToSqr(this.player.getEyePosition()) < ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE) {
@@ -3229,7 +3229,7 @@ index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d6
                  packet.dispatch(new ServerboundInteractPacket.Handler() {
                      private void performInteraction(InteractionHand enumhand, ServerGamePacketListenerImpl.EntityInteraction playerconnection_a, PlayerInteractEntityEvent event) { // CraftBukkit
                          ItemStack itemstack = ServerGamePacketListenerImpl.this.player.getItemInHand(enumhand).copy();
-@@ -2915,6 +3007,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2909,6 +3001,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
                          ServerGamePacketListenerImpl.this.cserver.getPluginManager().callEvent(event);
  
@@ -3238,7 +3238,7 @@ index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d6
                          // Entity in bucket - SPIGOT-4048 and SPIGOT-6859
                          if ((entity instanceof Bucketable && entity instanceof LivingEntity && origItem != null && origItem.asItem() == Items.WATER_BUCKET) && (event.isCancelled() || ServerGamePacketListenerImpl.this.player.getInventory().getSelected() == null || ServerGamePacketListenerImpl.this.player.getInventory().getSelected().getItem() != origItem)) {
                              ServerGamePacketListenerImpl.this.send(new ClientboundAddEntityPacket(entity));
-@@ -3571,11 +3665,17 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3565,11 +3659,17 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              for (int i = 0; i < signText.size(); ++i) {
                  FilteredText filteredtext = (FilteredText) signText.get(i);
  
@@ -3259,7 +3259,7 @@ index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d6
              }
              SignChangeEvent event = new SignChangeEvent((org.bukkit.craftbukkit.block.CraftBlock) player.getWorld().getBlockAt(x, y, z), this.player.getBukkitEntity(), lines);
              this.cserver.getPluginManager().callEvent(event);
-@@ -3597,6 +3697,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3591,6 +3691,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
@@ -3276,7 +3276,7 @@ index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d6
          //PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel()); // CraftBukkit // Paper - This shouldn't be on the main thread
          if (this.keepAlivePending && packet.getId() == this.keepAliveChallenge) {
              int i = (int) (Util.getMillis() - this.keepAliveTime);
-@@ -3647,6 +3757,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3641,6 +3751,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      private static final ResourceLocation CUSTOM_UNREGISTER = new ResourceLocation("unregister");
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
@@ -3284,7 +3284,7 @@ index 3d4e0be647f48a33d1afcdbec62c6624f2086294..d70c9d4a77edce10f783ab6c53b1e2d6
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3671,6 +3782,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3665,6 +3776,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
@@ -19797,10 +19797,10 @@ index 1b6ae90acffa06502902e11473b65c8431616b05..42058ebca02f1ae7fdf970b9fdf36afc
      public PersistentDataContainer getPersistentDataContainer() {
          return this.persistentDataContainer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 56a784e943cb5d8b15b41e3e66545ebf166c221c..3080b2a7920a736880c48b66164ed45686ab1d44 100644
+index f30621be24c6c3a4f173436fce1ad1c13507c84f..8a4c8701122edf2f29edbe97e4fa199da2744e9e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -164,6 +164,20 @@ public class Main {
+@@ -166,6 +166,20 @@ public class Main {
                          .describedAs("Jar file");
                  // Paper end
  
@@ -19821,7 +19821,7 @@ index 56a784e943cb5d8b15b41e3e66545ebf166c221c..3080b2a7920a736880c48b66164ed456
                  // Paper start
                  acceptsAll(asList("server-name"), "Name of the server")
                          .withRequiredArg()
-@@ -268,7 +282,7 @@ public class Main {
+@@ -270,7 +284,7 @@ public class Main {
                      System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Paper
                  }
  
@@ -20040,7 +20040,7 @@ index fea44ba6a6584b4a510af6a58cab07eecec6b68b..f3bf5199bc7ddf8a3d0dc67a184e7690
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index c022751e3b45469cc0ad6732e2d6ff08918bafa4..76a4803decea19f8bed8cb11e73bd7895675a3f4 100644
+index 5d15295604e40ed7b580c949868ce9be5f8065a6..c0f32ec1f8c14d310a044889b520446e2c5e9cb3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -425,7 +425,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
@@ -20079,7 +20079,7 @@ index c022751e3b45469cc0ad6732e2d6ff08918bafa4..76a4803decea19f8bed8cb11e73bd789
          }
          return effects;
      }
-@@ -808,7 +808,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -813,7 +813,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
              return EntityCategory.WATER;
          }
  
@@ -20088,7 +20088,7 @@ index c022751e3b45469cc0ad6732e2d6ff08918bafa4..76a4803decea19f8bed8cb11e73bd789
      }
  
      @Override
-@@ -920,4 +920,32 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -925,4 +925,32 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
          throw new IllegalArgumentException(entityCategory + " is an unrecognized entity category");
      }
      // Paper end
