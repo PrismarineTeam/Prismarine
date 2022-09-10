@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 9 Sep 2022 18:02:27 +0000
+Date: Sat, 10 Sep 2022 09:56:51 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -179,7 +179,7 @@ index bf42969859545a8a520923ef1836ffa4a5cc24a0..fba5dbdb7bcbb55400ef18342c9b5461
      }
  }
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index b0390eedb507d27426d1e1d73bd4ab63aec89ebe..005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea 100644
+index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..3cb56595822799926a8141e60a42f5d1edfc6de5 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
