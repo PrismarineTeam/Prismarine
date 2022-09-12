@@ -18,7 +18,7 @@ index 24f767663b1190dcada3da554375e3a01064c462..6b2c99ddfb37fdafb4734bdbba4de2b1
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 5a5c5a366e1156e1233efc04d0c0a6051170a4f5..fd95dd67c0ce31d8a046781800837e66773139f4 100644
+index 33ec9cb7efd5623866c03506b8dcb28831b54b21..68ee7f105ad0e5e885fdf78b049cf9a6d3f7b2ed 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -222,7 +222,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -31,10 +31,10 @@ index 5a5c5a366e1156e1233efc04d0c0a6051170a4f5..fd95dd67c0ce31d8a046781800837e66
          try {
              org.purpurmc.purpur.PurpurConfig.init((java.io.File) options.valueOf("purpur-settings"));
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index f561fa1acfcfc78fc2a3a5fe1c12d43a9e708146..2d9b747190a814238fc909630902adb712f94d33 100644
+index 6859e2054e8eb4fc8ac005e0bf646a30defa47a6..f9a3db9a814685d33b54836af0b0aab6f70a87bd 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -939,7 +939,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -941,7 +941,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -43,7 +43,7 @@ index f561fa1acfcfc78fc2a3a5fe1c12d43a9e708146..2d9b747190a814238fc909630902adb7
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -988,7 +988,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -990,7 +990,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
@@ -125,7 +125,7 @@ index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b47
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d50645f4f361 100644
+index 3cf1451569128640fe5d6d9fc0fdc550de75c091..ec27ed30b36542198b7bd8473c88bfd79426248f 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1073,10 +1073,12 @@ public class PurpurWorldConfig {
@@ -156,7 +156,7 @@ index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d506
      }
  
      public boolean ghastRidable = false;
-@@ -2627,10 +2631,12 @@ public class PurpurWorldConfig {
+@@ -2641,10 +2645,12 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = false;
      public boolean tadpoleControllable = true;
@@ -169,7 +169,7 @@ index 45eebbc1993b53b4d01317c6089b619f026d53ed..2d6f30f668ad4cbfc8d8066c2a82d506
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2841,10 +2847,12 @@ public class PurpurWorldConfig {
+@@ -2855,10 +2861,12 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = false;
      public boolean wardenControllable = true;
