@@ -903,7 +903,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f904c26b78 100644
+index 34c48c9a1cf14c4eb76a0449f04cc05155a65ba6..bbf4d6b14a37a3dc3684c00380f6da546b6533e8 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
@@ -929,7 +929,7 @@ index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f9
  
      }
  
-@@ -2525,6 +2525,7 @@ public abstract class LivingEntity extends Entity {
+@@ -2547,6 +2547,7 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void updateSwingTime() {
@@ -938,10 +938,10 @@ index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f9
  
          if (this.swinging) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf1543009a8dab2b 100644
+index ec4f04327eb875989af4d7da0171e2000fadef6b..2b17237eebc7d4aa939a0954f154b2206ed33293 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -835,9 +835,6 @@ public abstract class Mob extends LivingEntity {
+@@ -841,9 +841,6 @@ public abstract class Mob extends LivingEntity {
          } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
              // Paper start - optimise checkDespawn
              Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
@@ -951,7 +951,7 @@ index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf154300
              // Paper end - optimise checkDespawn
  
              if (entityhuman != null) {
-@@ -858,6 +855,9 @@ public abstract class Mob extends LivingEntity {
+@@ -864,6 +861,9 @@ public abstract class Mob extends LivingEntity {
                      this.noActionTime = 0;
                  }
              }
@@ -1059,7 +1059,7 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 25c8294a36d2f062ca4882820e99315aabf5dde8..2b0f8f1c4b31ab80a8b118f6b4598d1eb26ed802 100644
+index 9a38eebd6805e5ae18390eaa2f5cfd36be31be4e..d16e8c5d3e20ee449955f77a212e84724fd50df4 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {

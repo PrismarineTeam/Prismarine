@@ -184,7 +184,7 @@ index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d
              this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
              ); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index cbe7f5c1f51b1315009eb4127a3d58cb34831d1b..b3f9151e211ee52910e4e1598e193c00b1c58725 100644
+index b71a39afa565700f4c64840846aa5006e974e830..83b48e59cba8a2298628800fdf81cb6b901a73ac 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -202,7 +202,7 @@ index cbe7f5c1f51b1315009eb4127a3d58cb34831d1b..b3f9151e211ee52910e4e1598e193c00
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3132,7 +3140,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3146,7 +3154,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -212,10 +212,10 @@ index cbe7f5c1f51b1315009eb4127a3d58cb34831d1b..b3f9151e211ee52910e4e1598e193c00
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 61bbb8a3738f289bd61c438a27a496f904c26b78..0805c3be61395d31f78524240a7330f6e9b24af3 100644
+index bbf4d6b14a37a3dc3684c00380f6da546b6533e8..9ca064b8f7b33cad9860951974f8278673ae9a59 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3151,7 +3151,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3172,7 +3172,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  

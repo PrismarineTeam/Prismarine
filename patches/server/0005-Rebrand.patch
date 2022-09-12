@@ -120,7 +120,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa8
      // Contributed by Techcable <Techcable@outlook.com> in GH-65
      private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea..988c39f87dd086fb8676baa9513064a861c52be9 100644
+index 3cb56595822799926a8141e60a42f5d1edfc6de5..22e477b36ad0886f8f2733076b3099f060c90310 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -194,10 +194,10 @@ index db30708c5376d00a42baebf6957821798253aa64..f7c2aaff199f039daf79e39c19355d4a
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index c0f32ec1f8c14d310a044889b520446e2c5e9cb3..a5e1e430b443e58c9cdb4fb2c055fde0a41dacc7 100644
+index 5711535e40e3174049deb39b72c760a225a0fd2f..dbb728ac1712f914b9ca3d77d63dd2bb1603db91 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-@@ -813,7 +813,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -854,7 +854,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
              return EntityCategory.WATER;
          }
  

@@ -1032,10 +1032,10 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 4d4a0d15876cc48c9c0456b9f11a5dda37fd56ce..1f116f33e6dbce8d8d67d799beeedecf792cd728 100644
+index 6dd81f07ef4d6993187987d3352a01771ffb715e..be7ad89699619aba9df4699403c9a70fd2bc9da1 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -919,4 +919,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -946,4 +946,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean wouldCollideUsing(@NotNull BoundingBox boundingBox);
      // Paper End - Collision API
@@ -1171,10 +1171,10 @@ index d0bef15785493b512ff0f7414c1d58d38fead581..fd213c026fdfb3030d0c37f651a88857
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index a1dba2bcc2a636718a6f377907afc82add617fa2..a9b79beb8d16ed74c953ff46ad61945327d685e8 100644
+index 4af5e8d0cba6555f7615e4e809d9aff221c0dc4d..4a4606f2598b868e43c270cd3056d44549bc914e 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
-@@ -917,4 +917,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
+@@ -986,4 +986,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
       */
      void setHurtDirection(float hurtDirection);
      // Paper end
