@@ -184,7 +184,7 @@ index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d
              this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
              ); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index b71a39afa565700f4c64840846aa5006e974e830..83b48e59cba8a2298628800fdf81cb6b901a73ac 100644
+index 38bc49ee42cbbba8186e639b7d5b3eccac809ba6..7292a04706ee2703df603837233b1e8ec4050895 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -212,10 +212,10 @@ index b71a39afa565700f4c64840846aa5006e974e830..83b48e59cba8a2298628800fdf81cb6b
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index bbf4d6b14a37a3dc3684c00380f6da546b6533e8..9ca064b8f7b33cad9860951974f8278673ae9a59 100644
+index 2be6a5bd859927e803440736c162f7d0e35ac379..3e1ff5e9f8e8d06c3f1e765d1c76179ca54e76ed 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3172,7 +3172,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3173,7 +3173,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
