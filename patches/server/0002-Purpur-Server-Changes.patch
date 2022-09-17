@@ -4495,7 +4495,7 @@ index c1e9b40a4a0f9cdc650caa88b5ea132e06ee2496..b7abcaa32341c292f9f884fa6319fd65
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0df177dc5 100644
+index ded69bc892aaf35cc57a562116bb623c07b08550..260e094bad8d6f1b775e317ba2c9b3e25cfa7467 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -44,6 +44,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
@@ -4797,18 +4797,18 @@ index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0
 +        //this.level.getProfiler().pop(); // Purpur
 +        //this.level.getProfiler().push("rangeChecks"); // Purpur
  
-         while (this.getYRot() - this.yRotO < -180.0F) {
-             this.yRotO -= 360.0F;
-@@ -3061,7 +3124,7 @@ public abstract class LivingEntity extends Entity {
-             this.yHeadRotO += 360.0F;
-         }
+         // Paper start - stop large pitch and yaw changes from crashing the server
+         this.yRotO += Math.round((this.getYRot() - this.yRotO) / 360.0F) * 360.0F;
+@@ -3039,7 +3102,7 @@ public abstract class LivingEntity extends Entity {
+         this.yHeadRotO += Math.round((this.yHeadRot - this.yHeadRotO) / 360.0F) * 360.0F;
+         // Paper end
  
 -        this.level.getProfiler().pop();
 +        //this.level.getProfiler().pop(); // Purpur
          this.animStep += f2;
          if (this.isFallFlying()) {
              ++this.fallFlyTicks;
-@@ -3343,19 +3406,19 @@ public abstract class LivingEntity extends Entity {
+@@ -3321,19 +3384,19 @@ public abstract class LivingEntity extends Entity {
          }
  
          this.setDeltaMovement(d4, d5, d6);
@@ -4833,7 +4833,7 @@ index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0
          if (this.jumping && this.isAffectedByFluids()) {
              double d7;
  
-@@ -3382,8 +3445,8 @@ public abstract class LivingEntity extends Entity {
+@@ -3360,8 +3423,8 @@ public abstract class LivingEntity extends Entity {
              this.noJumpDelay = 0;
          }
  
@@ -4844,7 +4844,7 @@ index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0
          this.xxa *= 0.98F;
          this.zza *= 0.98F;
          this.updateFallFlying();
-@@ -3392,8 +3455,8 @@ public abstract class LivingEntity extends Entity {
+@@ -3370,8 +3433,8 @@ public abstract class LivingEntity extends Entity {
          // SpigotTimings.timerEntityAIMove.startTiming(); // Spigot // Paper
          this.travel(new Vec3((double) this.xxa, (double) this.yya, (double) this.zza));
          // SpigotTimings.timerEntityAIMove.stopTiming(); // Spigot // Paper
@@ -4855,7 +4855,7 @@ index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0
          boolean flag1 = this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
          int i;
  
-@@ -3413,18 +3476,20 @@ public abstract class LivingEntity extends Entity {
+@@ -3391,18 +3454,20 @@ public abstract class LivingEntity extends Entity {
              this.hurt(DamageSource.FREEZE, (float) i);
          }
  
@@ -4881,7 +4881,7 @@ index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0
                  Location from = new Location(this.level.getWorld(), this.xo, this.yo, this.zo, this.yRotO, this.xRotO);
                  Location to = new Location (this.level.getWorld(), this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
                  io.papermc.paper.event.entity.EntityMoveEvent event = new io.papermc.paper.event.entity.EntityMoveEvent(this.getBukkitLivingEntity(), from, to.clone());
-@@ -3434,12 +3499,48 @@ public abstract class LivingEntity extends Entity {
+@@ -3412,12 +3477,48 @@ public abstract class LivingEntity extends Entity {
                      absMoveTo(event.getTo().getX(), event.getTo().getY(), event.getTo().getZ(), event.getTo().getYaw(), event.getTo().getPitch());
                  }
              }
@@ -4930,7 +4930,7 @@ index 94f5d710464de0ec4a972b36051e8672b6673cc7..8f80b2f14c582d248988a824193d1fd0
      }
  
      public boolean isSensitiveToWater() {
-@@ -3460,7 +3561,16 @@ public abstract class LivingEntity extends Entity {
+@@ -3438,7 +3539,16 @@ public abstract class LivingEntity extends Entity {
                      int j = i / 10;
  
                      if (j % 2 == 0) {
@@ -15210,10 +15210,10 @@ index 4132c1113f5437a776e5e3c1cb306904775aed88..1a945a32c3d3705a318ebca72a365931
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index 39ba6ca32b827daee300e1240bd76fd8f680ea02..41adf8762919dffbac6adc4e9a6c120e48c3dd43 100644
+index 85fb907fb149961611310c355d0911d81f1b735c..c37832b3fee9d7d8577f8b1701c1c2c27cfdbf09 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-@@ -308,6 +308,6 @@ public abstract class Projectile extends Entity {
+@@ -302,6 +302,6 @@ public abstract class Projectile extends Entity {
      public boolean mayInteract(Level world, BlockPos pos) {
          Entity entity = this.getOwner();
  
