@@ -5,7 +5,7 @@ Subject: [PATCH] Prismarine config files
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index f79099af82151f27b96cd6928665592561e8f8c2..fc5d04c6dcb41476e07f0ff36c1725a7ba0e8f59 100644
+index 9b23d1d610e945613dafb977729f6ffc5c7af3c6..862434e10922fe1e81f216599c10092173038f54 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -232,6 +232,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -25,7 +25,7 @@ index f79099af82151f27b96cd6928665592561e8f8c2..fc5d04c6dcb41476e07f0ff36c1725a7
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 650806a728c5eb61f1bf67d40846c8a84af95bb7..6b4704744ead054a2c4b44faf702bccfe36b7825 100644
+index 0f608f53e0d3a74f9fcee52790cba0c84d8203ad..cb4f254970c6a46ca554b49afae35f8a33448689 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -175,6 +175,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -391,10 +391,10 @@ index 0299eaaf0e92c0e74231cd983669e991a3b30f0b..a9ff372ebbe70f98ea147f8ddfa69ead
          @Override
          public void restart() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 3080b2a7920a736880c48b66164ed45686ab1d44..6b4cb407f1134f097c586ae5b855739f9b3d9e6a 100644
+index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..2fc8c86a810329307c63758364bd494d8c328f80 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -178,6 +178,14 @@ public class Main {
+@@ -180,6 +180,14 @@ public class Main {
                          .describedAs("Yml file");
                  // Purpur end
  

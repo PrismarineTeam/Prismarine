@@ -1,9 +1,181 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Spottedleaf <Spottedleaf@users.noreply.github.com>
-Date: Sun, 23 Jan 2022 22:58:11 -0800
-Subject: [PATCH] C Rewrite chunk system
+Date: Fri, 26 Aug 2022 09:51:48 -0700
+Subject: [PATCH] Rewrite chunk system
 
 
+diff --git a/src/main/java/ca/spottedleaf/concurrentutil/collection/SRSWLinkedQueue.java b/src/main/java/ca/spottedleaf/concurrentutil/collection/SRSWLinkedQueue.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..597659f38aa816646dcda4ca39c002b6d9f9a792
+--- /dev/null
++++ b/src/main/java/ca/spottedleaf/concurrentutil/collection/SRSWLinkedQueue.java
+@@ -0,0 +1,148 @@
++package ca.spottedleaf.concurrentutil.collection;
++
++import ca.spottedleaf.concurrentutil.util.ConcurrentUtil;
++import ca.spottedleaf.concurrentutil.util.Validate;
++import java.lang.invoke.VarHandle;
++import java.util.ConcurrentModificationException;
++
++/**
++ * Single reader thread single writer thread queue. The reader side of the queue is ordered by acquire semantics,
++ * and the writer side of the queue is ordered by release semantics.
++ */
++// TODO test
++public class SRSWLinkedQueue<E> {
++
++    // always non-null
++    protected LinkedNode<E> head;
++
++    // always non-null
++    protected LinkedNode<E> tail;
++
++    /* IMPL NOTE: Leave hashCode and equals to their defaults */
++
++    public SRSWLinkedQueue() {
++        final LinkedNode<E> dummy = new LinkedNode<>(null, null);
++        this.head = this.tail = dummy;
++    }
++
++    /**
++     * Must be the reader thread.
++     *
++     * <p>
++     * Returns, without removing, the first element of this queue.
++     * </p>
++     * @return Returns, without removing, the first element of this queue.
++     */
++    public E peekFirst() {
++        LinkedNode<E> head = this.head;
++        E ret = head.getElementPlain();
++        if (ret == null) {
++            head = head.getNextAcquire();
++            if (head == null) {
++                // empty
++                return null;
++            }
++            // update head reference for next poll() call
++            this.head = head;
++            // guaranteed to be non-null
++            ret = head.getElementPlain();
++            if (ret == null) {
++                throw new ConcurrentModificationException("Multiple reader threads");
++            }
++        }
++
++        return ret;
++    }
++
++    /**
++     * Must be the reader thread.
++     *
++     * <p>
++     * Returns and removes the first element of this queue.
++     * </p>
++     * @return Returns and removes the first element of this queue.
++     */
++    public E poll() {
++        LinkedNode<E> head = this.head;
++        E ret = head.getElementPlain();
++        if (ret == null) {
++            head = head.getNextAcquire();
++            if (head == null) {
++                // empty
++                return null;
++            }
++            // guaranteed to be non-null
++            ret = head.getElementPlain();
++            if (ret == null) {
++                throw new ConcurrentModificationException("Multiple reader threads");
++            }
++        }
++
++        head.setElementPlain(null);
++        LinkedNode<E> next = head.getNextAcquire();
++        this.head = next == null ? head : next;
++
++        return ret;
++    }
++
++    /**
++     * Must be the writer thread.
++     *
++     * <p>
++     * Adds the element to the end of the queue.
++     * </p>
++     *
++     * @throws NullPointerException If the provided element is null
++     */
++    public void addLast(final E element) {
++        Validate.notNull(element, "Provided element cannot be null");
++        final LinkedNode<E> append = new LinkedNode<>(element, null);
++
++        this.tail.setNextRelease(append);
++        this.tail = append;
++    }
++
++    protected static final class LinkedNode<E> {
++
++        protected volatile Object element;
++        protected volatile LinkedNode<E> next;
++
++        protected static final VarHandle ELEMENT_HANDLE = ConcurrentUtil.getVarHandle(LinkedNode.class, "element", Object.class);
++        protected static final VarHandle NEXT_HANDLE = ConcurrentUtil.getVarHandle(LinkedNode.class, "next", LinkedNode.class);
++
++        protected LinkedNode(final Object element, final LinkedNode<E> next) {
++            ELEMENT_HANDLE.set(this, element);
++            NEXT_HANDLE.set(this, next);
++        }
++
++        /* element */
++
++        @SuppressWarnings("unchecked")
++        protected final E getElementPlain() {
++            return (E)ELEMENT_HANDLE.get(this);
++        }
++
++        protected final void setElementPlain(final E update) {
++            ELEMENT_HANDLE.set(this, (Object)update);
++        }
++        /* next */
++
++        @SuppressWarnings("unchecked")
++        protected final LinkedNode<E> getNextPlain() {
++            return (LinkedNode<E>)NEXT_HANDLE.get(this);
++        }
++
++        @SuppressWarnings("unchecked")
++        protected final LinkedNode<E> getNextAcquire() {
++            return (LinkedNode<E>)NEXT_HANDLE.getAcquire(this);
++        }
++
++        protected final void setNextPlain(final LinkedNode<E> next) {
++            NEXT_HANDLE.set(this, next);
++        }
++
++        protected final void setNextRelease(final LinkedNode<E> next) {
++            NEXT_HANDLE.setRelease(this, next);
++        }
++    }
++}
+diff --git a/src/main/java/ca/spottedleaf/concurrentutil/executor/BaseExecutor.java b/src/main/java/ca/spottedleaf/concurrentutil/executor/BaseExecutor.java
+index 716a0fd3f558df748e355069746272facb91de22..8c452b0988da4725762d543f6bee09915c328ae6 100644
+--- a/src/main/java/ca/spottedleaf/concurrentutil/executor/BaseExecutor.java
++++ b/src/main/java/ca/spottedleaf/concurrentutil/executor/BaseExecutor.java
+@@ -51,11 +51,11 @@ public interface BaseExecutor {
+      * @throws IllegalStateException If the current thread is not allowed to wait
+      */
+     public default void waitUntilAllExecuted() throws IllegalStateException {
+-        long failures = 9L; // start out at 1ms
++        long failures = 1L; // start at 0.25ms
+ 
+         while (!this.haveAllTasksExecuted()) {
+             Thread.yield();
+-            failures = ConcurrentUtil.linearLongBackoff(failures, 500_000L, 5_000_000L); // 500us, 5ms
++            failures = ConcurrentUtil.linearLongBackoff(failures, 250_000L, 5_000_000L); // 500us, 5ms
+         }
+     }
+ 
 diff --git a/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java b/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java
 index ef8dcbb6bbc0769e9ccfdadb05e6a46c070eda98..f6dfaaa0ccd8caeb4bd4b94254aebe7e96732f12 100644
 --- a/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java
@@ -512,6 +684,137 @@ index 68860a3b6db2aa50373d71aec9502c18d48ab8b9..193f492ce1fb6a7ebf2c19f092c26842
      }
  
      public static void processConfiguration(GlobalConfiguration.AsyncChunks config) {
+diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java b/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..190c5f0b02a3d99054704ae1afbffb3498ddffe1
+--- /dev/null
++++ b/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java
+@@ -0,0 +1,125 @@
++package com.destroystokyo.paper.util.maplist;
++
++import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
++import java.util.Arrays;
++import java.util.Iterator;
++import java.util.NoSuchElementException;
++
++/**
++ * @author Spottedleaf
++ */
++public final class ReferenceList<E> implements Iterable<E> {
++
++    protected final Reference2IntOpenHashMap<E> referenceToIndex = new Reference2IntOpenHashMap<>(2, 0.8f);
++    {
++        this.referenceToIndex.defaultReturnValue(Integer.MIN_VALUE);
++    }
++
++    protected static final Object[] EMPTY_LIST = new Object[0];
++
++    protected Object[] references = EMPTY_LIST;
++    protected int count;
++
++    public int size() {
++        return this.count;
++    }
++
++    public boolean contains(final E obj) {
++        return this.referenceToIndex.containsKey(obj);
++    }
++
++    public boolean remove(final E obj) {
++        final int index = this.referenceToIndex.removeInt(obj);
++        if (index == Integer.MIN_VALUE) {
++            return false;
++        }
++
++        // move the object at the end to this index
++        final int endIndex = --this.count;
++        final E end = (E)this.references[endIndex];
++        if (index != endIndex) {
++            // not empty after this call
++            this.referenceToIndex.put(end, index); // update index
++        }
++        this.references[index] = end;
++        this.references[endIndex] = null;
++
++        return true;
++    }
++
++    public boolean add(final E obj) {
++        final int count = this.count;
++        final int currIndex = this.referenceToIndex.putIfAbsent(obj, count);
++
++        if (currIndex != Integer.MIN_VALUE) {
++            return false; // already in this list
++        }
++
++        Object[] list = this.references;
++
++        if (list.length == count) {
++            // resize required
++            list = this.references = Arrays.copyOf(list, (int)Math.max(4L, count * 2L)); // overflow results in negative
++        }
++
++        list[count] = obj;
++        this.count = count + 1;
++
++        return true;
++    }
++
++    public E getChecked(final int index) {
++        if (index < 0 || index >= this.count) {
++            throw new IndexOutOfBoundsException("Index: " + index + " is out of bounds, size: " + this.count);
++        }
++        return (E)this.references[index];
++    }
++
++    public E getUnchecked(final int index) {
++        return (E)this.references[index];
++    }
++
++    public Object[] getRawData() {
++        return this.references;
++    }
++
++    public void clear() {
++        this.referenceToIndex.clear();
++        Arrays.fill(this.references, 0, this.count, null);
++        this.count = 0;
++    }
++
++    @Override
++    public Iterator<E> iterator() {
++        return new Iterator<>() {
++            private E lastRet;
++            private int current;
++
++            @Override
++            public boolean hasNext() {
++                return this.current < ReferenceList.this.count;
++            }
++
++            @Override
++            public E next() {
++                if (this.current >= ReferenceList.this.count) {
++                    throw new NoSuchElementException();
++                }
++                return this.lastRet = (E)ReferenceList.this.references[this.current++];
++            }
++
++            @Override
++            public void remove() {
++                final E lastRet = this.lastRet;
++
++                if (lastRet == null) {
++                    throw new IllegalStateException();
++                }
++                this.lastRet = null;
++
++                ReferenceList.this.remove(lastRet);
++                --this.current;
++            }
++        };
++    }
++}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..fd1d99582b1e872c9a6b8e1be7d71b217f198605

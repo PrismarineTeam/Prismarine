@@ -123,7 +123,7 @@ index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f20
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 2ac13f6d367b90ff9b66925904a650387593c4f5..2f67ff558f107cb4fe28d725cae26de7d8707f5a 100644
+index c86c201ee749b224f21dfb98e61e55108e6f603e..bd145e07b080a82ad1df0772404292cf74183f2e 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -616,7 +616,7 @@ public abstract class PlayerList {

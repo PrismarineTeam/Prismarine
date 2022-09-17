@@ -184,7 +184,7 @@ index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d
              this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
              ); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 987b6757d814e0863825592c43e955e20452cc44..4985a7bf2c6a05db69482d04337597298aea66fc 100644
+index 79883e716b0bf2e6751828c43d9683fefaf86dcd..ef100a29a881699e30c418713d86f2ca2bf03536 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -880,6 +880,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -202,7 +202,7 @@ index 987b6757d814e0863825592c43e955e20452cc44..4985a7bf2c6a05db69482d0433759729
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3134,7 +3142,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3148,7 +3156,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -212,7 +212,7 @@ index 987b6757d814e0863825592c43e955e20452cc44..4985a7bf2c6a05db69482d0433759729
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 61bbb8a3738f289bd61c438a27a496f904c26b78..0805c3be61395d31f78524240a7330f6e9b24af3 100644
+index 6758de92fb111cde1fc63d81afee6789159bfdd8..4132e17fc09c79dd68d5dc16e33b2c604e36f73e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3151,7 +3151,7 @@ public abstract class LivingEntity extends Entity {

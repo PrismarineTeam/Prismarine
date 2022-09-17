@@ -53,10 +53,10 @@ index 7d03832d5271641d952912bc5ed6998b5ef6e3e6..1ff77d3a4aa6644208c73bf2ac423e05
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..ed16b35a17508a04d704193885114465f44508b4 100644
+index 8533b31b31138b000308107ce4215746edd1f16b..6a2732e10f2458dd635eaa8e78daf4b5527306c1 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2238,10 +2238,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2239,10 +2239,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      @Override
      public void send(Packet<?> packet) {
@@ -85,7 +85,7 @@ index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..ed16b35a17508a04d704193885114465
          // CraftBukkit start
          if (packet == null || this.processedDisconnect) { // Spigot
              return;
-@@ -2640,7 +2658,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2641,7 +2659,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private PlayerChatMessage getSignedMessage(ServerboundChatPacket packet) {
          MessageSigner messagesigner = packet.getSigner(this.player);

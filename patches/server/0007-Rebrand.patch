@@ -120,7 +120,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa8
      // Contributed by Techcable <Techcable@outlook.com> in GH-65
      private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea..988c39f87dd086fb8676baa9513064a861c52be9 100644
+index 3cb56595822799926a8141e60a42f5d1edfc6de5..22e477b36ad0886f8f2733076b3099f060c90310 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -168,10 +168,10 @@ index fcbd0dd116a7a8674debff5e7f0c9a2ae666d8be..d1df1f2f74f8326ba49b582139484df4
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index f9cf11eee64ad1b84d922d6dd3d079fca44e7fe3..650806a728c5eb61f1bf67d40846c8a84af95bb7 100644
+index b793717e16f95fb183fd8ec1404df6f6e80ec5c5..0f608f53e0d3a74f9fcee52790cba0c84d8203ad 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -1013,7 +1013,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1014,7 +1014,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
              TickingBlockEntity tickingblockentity = (TickingBlockEntity) this.blockEntityTickers.get(tileTickPosition);
              // Spigot start
              if (tickingblockentity == null) {
@@ -207,10 +207,10 @@ index 3abbb0044df19b52eb2d971ac34263ed4afe3568..0299eaaf0e92c0e74231cd983669e991
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 76a4803decea19f8bed8cb11e73bd7895675a3f4..2ff05b28158feea57f44a8e7ceda7e24ee72e571 100644
+index 5711535e40e3174049deb39b72c760a225a0fd2f..dbb728ac1712f914b9ca3d77d63dd2bb1603db91 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-@@ -808,7 +808,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -854,7 +854,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
              return EntityCategory.WATER;
          }
  

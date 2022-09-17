@@ -84,7 +84,7 @@ index 719f6ff508653db989ab0199476b47100378f92c..99715170d000f2a45a3db932d4d4f8f6
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 2d6f30f668ad4cbfc8d8066c2a82d50645f4f361..5c6489fe4c03deb7fa7aaef83a7d2f3874473f3c 100644
+index ec27ed30b36542198b7bd8473c88bfd79426248f..d35316eb013e565742ba26c9da0640e427142f0d 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -414,7 +414,7 @@ public class PurpurWorldConfig {

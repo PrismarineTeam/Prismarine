@@ -595,7 +595,7 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index d94aa4b01ca4e87c027ab4257ad07a062f7517d6..ed4b9e463e141edb9f94ed1b4fd2b7e036da6de9 100644
+index 07b0b0993c01763b39d1c9a387447ec76b5de190..488b70f4f3c47c520ee3d9053f137f5bf627dd9a 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
 @@ -54,9 +54,10 @@ import java.util.function.Consumer;
@@ -731,7 +731,7 @@ index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 138b2c1a21b9ceb60030d10e24c78e09533937a0..2ac13f6d367b90ff9b66925904a650387593c4f5 100644
+index 77edbb1cb71a3915bc96b78df2e01eaf66a1f32f..c86c201ee749b224f21dfb98e61e55108e6f603e 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -505,7 +505,13 @@ public abstract class PlayerList {
@@ -903,7 +903,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f904c26b78 100644
+index 260e094bad8d6f1b775e317ba2c9b3e25cfa7467..6758de92fb111cde1fc63d81afee6789159bfdd8 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
@@ -929,7 +929,7 @@ index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f9
  
      }
  
-@@ -2525,6 +2525,7 @@ public abstract class LivingEntity extends Entity {
+@@ -2547,6 +2547,7 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void updateSwingTime() {
@@ -938,10 +938,10 @@ index cd414a9275e6d9f8c704854763b18f4ee43b67b7..61bbb8a3738f289bd61c438a27a496f9
  
          if (this.swinging) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf1543009a8dab2b 100644
+index ec4f04327eb875989af4d7da0171e2000fadef6b..2b17237eebc7d4aa939a0954f154b2206ed33293 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -835,9 +835,6 @@ public abstract class Mob extends LivingEntity {
+@@ -841,9 +841,6 @@ public abstract class Mob extends LivingEntity {
          } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
              // Paper start - optimise checkDespawn
              Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
@@ -951,7 +951,7 @@ index b75243eca01cae108093368e426ea2d6b6ef1057..a6d022298e2b993f803c4c51bf154300
              // Paper end - optimise checkDespawn
  
              if (entityhuman != null) {
-@@ -858,6 +855,9 @@ public abstract class Mob extends LivingEntity {
+@@ -864,6 +861,9 @@ public abstract class Mob extends LivingEntity {
                      this.noActionTime = 0;
                  }
              }
@@ -1059,7 +1059,7 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 6b4704744ead054a2c4b44faf702bccfe36b7825..908ac2fd9376c6de029031b635b4d35a274361a7 100644
+index cb4f254970c6a46ca554b49afae35f8a33448689..be1e1995d95655174199639b463dc58458fddfda 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {

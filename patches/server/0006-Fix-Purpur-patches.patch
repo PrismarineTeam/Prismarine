@@ -5,11 +5,11 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 25850cb778f3ad0c1e18c1b3a45bec0ed579f0df..de69f1c971659bc6abc166543cc963f42597ccf0 100644
+index d2d66fb775027903c60c02102d001fdea7abb808..b96be81a822994b70c53289e586ae735ffc18459 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-@@ -1737,7 +1737,7 @@ public final class NewChunkHolder {
-         boolean canSavePOI = poi != null && poi.isDirty();
+@@ -1747,7 +1747,7 @@ public final class NewChunkHolder {
+         boolean canSavePOI = !(chunk instanceof LevelChunk levelChunk && levelChunk.mustNotSave) && (poi != null && poi.isDirty());
          boolean canSaveEntities = entities != null;
  
 -        try (co.aikar.timings.Timing ignored = this.world.timings.chunkSave.startTiming()) { // Paper
@@ -17,7 +17,7 @@ index 25850cb778f3ad0c1e18c1b3a45bec0ed579f0df..de69f1c971659bc6abc166543cc963f4
              if (canSaveChunk) {
                  canSaveChunk = this.saveChunk(chunk, unloading);
              }
-@@ -1751,7 +1751,7 @@ public final class NewChunkHolder {
+@@ -1761,7 +1761,7 @@ public final class NewChunkHolder {
                      this.lastEntityUnload = null;
                  }
              }
@@ -48,7 +48,7 @@ index 35e8d189e560396f55a78903876948a701cf3e54..fcbd0dd116a7a8674debff5e7f0c9a2a
          if (this.server != null) {
              this.server.disablePlugins();
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index c46011c4e6141ed7015fcc15494fd68235ab327b..f79099af82151f27b96cd6928665592561e8f8c2 100644
+index 26d0737db480b36c366c0b581871cc17bab9b88b..9b23d1d610e945613dafb977729f6ffc5c7af3c6 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -222,7 +222,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
