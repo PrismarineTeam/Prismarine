@@ -3635,10 +3635,10 @@ index 0000000000000000000000000000000000000000..b02619d7111c52d1b4e3b50267e54da3
 +}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..dadb971cd1fb0b6729e4672024f4f72fa4b908f2
+index 0000000000000000000000000000000000000000..06b700de0bd53c4c02a13be76c0ddca58d1532c2
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
-@@ -0,0 +1,1188 @@
+@@ -0,0 +1,1189 @@
 +package io.papermc.paper.chunk.system.scheduling;
 +
 +import ca.spottedleaf.concurrentutil.executor.standard.PrioritisedExecutor;
@@ -4551,6 +4551,7 @@ index 0000000000000000000000000000000000000000..dadb971cd1fb0b6729e4672024f4f72f
 +    }
 +
 +    private boolean processTicketUpdates(final boolean checkLocks, final boolean processFullUpdates, List<ChunkProgressionTask> scheduledTasks) {
++        TickThread.ensureTickThread("Cannot process ticket levels off-main");
 +        if (BLOCK_TICKET_UPDATES.get() == Boolean.TRUE) {
 +            throw new IllegalStateException("Cannot update ticket level while unloading chunks or updating entity manager");
 +        }
@@ -5632,10 +5633,10 @@ index 0000000000000000000000000000000000000000..322675a470eacbf0e5452f4009c643f2
 +}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..9f7eca1d60fd46364d6de9fbe8a4a4e4efc13b98
+index 0000000000000000000000000000000000000000..2b4e3f31d7c31aa5a4a5a18ba9e1d8b3f232fd16
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
-@@ -0,0 +1,768 @@
+@@ -0,0 +1,780 @@
 +package io.papermc.paper.chunk.system.scheduling;
 +
 +import ca.spottedleaf.concurrentutil.executor.standard.PrioritisedExecutor;
@@ -5905,6 +5906,12 @@ index 0000000000000000000000000000000000000000..9f7eca1d60fd46364d6de9fbe8a4a4e4
 +    public void scheduleTickingState(final int chunkX, final int chunkZ, final ChunkHolder.FullChunkStatus toStatus,
 +                                     final boolean addTicket, final PrioritisedExecutor.Priority priority,
 +                                     final Consumer<LevelChunk> onComplete) {
++        if (!TickThread.isTickThread()) {
++            this.scheduleChunkTask(chunkX, chunkZ, () -> {
++                ChunkTaskScheduler.this.scheduleTickingState(chunkX, chunkZ, toStatus, addTicket, priority, onComplete);
++            }, priority);
++            return;
++        }
 +        if (this.chunkHolderManager.ticketLock.isHeldByCurrentThread()) {
 +            throw new IllegalStateException("Cannot schedule chunk load during ticket level update");
 +        }
@@ -6014,6 +6021,12 @@ index 0000000000000000000000000000000000000000..9f7eca1d60fd46364d6de9fbe8a4a4e4
 +
 +    public void scheduleChunkLoad(final int chunkX, final int chunkZ, final ChunkStatus toStatus, final boolean addTicket,
 +                                  final PrioritisedExecutor.Priority priority, final Consumer<ChunkAccess> onComplete) {
++        if (!TickThread.isTickThread()) {
++            this.scheduleChunkTask(chunkX, chunkZ, () -> {
++                ChunkTaskScheduler.this.scheduleChunkLoad(chunkX, chunkZ, toStatus, addTicket, priority, onComplete);
++            }, priority);
++            return;
++        }
 +        if (this.chunkHolderManager.ticketLock.isHeldByCurrentThread()) {
 +            throw new IllegalStateException("Cannot schedule chunk load during ticket level update");
 +        }
@@ -7373,7 +7386,7 @@ index 0000000000000000000000000000000000000000..ffbfaef2a57f0f26d0143f3a8fcf937b
 +}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d2d66fb775027903c60c02102d001fdea7abb808
+index 0000000000000000000000000000000000000000..9a4ec0f1fb3bac0e84e6bd3aaeb77f44e248aadb
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 @@ -0,0 +1,2071 @@
@@ -8147,18 +8160,12 @@ index 0000000000000000000000000000000000000000..d2d66fb775027903c60c02102d001fde
 +        // priority state
 +        this.priorityLocked = false;
 +
-+        if (!(chunk instanceof LevelChunk && ((LevelChunk)chunk).mustNotSave)) {
-+            if (chunk != null) {
-+                this.chunkDataUnload = new UnloadTask(new Completable<>(), new DelayedPrioritisedTask(PrioritisedExecutor.Priority.NORMAL));
-+            }
-+            if (poiChunk != null) {
-+                this.poiDataUnload = new UnloadTask(new Completable<>(), null);
-+            }
-+        } else {
-+            chunk = null;
-+            poiChunk = null;
++        if (chunk != null) {
++            this.chunkDataUnload = new UnloadTask(new Completable<>(), new DelayedPrioritisedTask(PrioritisedExecutor.Priority.NORMAL));
 +        }
-+
++        if (poiChunk != null) {
++            this.poiDataUnload = new UnloadTask(new Completable<>(), null);
++        }
 +        if (entityChunk != null) {
 +            this.entityDataUnload = new UnloadTask(new Completable<>(), null);
 +        }
@@ -8188,13 +8195,19 @@ index 0000000000000000000000000000000000000000..d2d66fb775027903c60c02102d001fde
 +        final ChunkEntitySlices entityChunk = state.entityChunk();
 +        final PoiChunk poiChunk = state.poiChunk();
 +
++        final boolean shouldLevelChunkNotSave = (chunk instanceof LevelChunk levelChunk && levelChunk.mustNotSave);
++
 +        // unload chunk data
 +        if (chunk != null) {
 +            if (chunk instanceof LevelChunk levelChunk) {
 +                levelChunk.setLoaded(false);
 +            }
 +
-+            this.saveChunk(chunk, true);
++            if (!shouldLevelChunkNotSave) {
++                this.saveChunk(chunk, true);
++            } else {
++                this.completeAsyncChunkDataSave(null);
++            }
 +
 +            if (chunk instanceof LevelChunk levelChunk) {
 +                this.world.unload(levelChunk);
@@ -8226,7 +8239,7 @@ index 0000000000000000000000000000000000000000..d2d66fb775027903c60c02102d001fde
 +
 +        // unload poi data
 +        if (poiChunk != null) {
-+            if (poiChunk.isDirty()) {
++            if (poiChunk.isDirty() && !shouldLevelChunkNotSave) {
 +                this.savePOI(poiChunk, true);
 +            } else {
 +                this.poiDataUnload.completable().complete(null);
@@ -15283,7 +15296,7 @@ index c2356ed1a00fd8087cca285be5e7f6a5442e73fb..8db3bcc63aeb23e5b50864ebea675acc
          int attempts = 0; Exception laste = null; while (attempts++ < 5) { try { // Paper
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
-index 38287fad39d553a86370bbdc755c0a006615e0cf..77fdb4556bbccbd558d3cb12650e14f876bf4388 100644
+index 954819db8ada38ef2c832151be8a96492e76390a..707c54d19ae27046fce65df31173befe41b4b542 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
 @@ -44,7 +44,7 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
@@ -15332,8 +15345,8 @@ index 38287fad39d553a86370bbdc755c0a006615e0cf..77fdb4556bbccbd558d3cb12650e14f8
      }
  
      public void flush(ChunkPos pos) {
-@@ -299,20 +298,5 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
-         //this.worker.close(); // Paper - nuke I/O worker
+@@ -300,20 +299,5 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
+         super.close(); // Paper - nuke I/O worker - call super.close method which is responsible for closing used files.
      }
  
 -    // Paper start - get data function
