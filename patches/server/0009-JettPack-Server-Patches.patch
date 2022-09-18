@@ -684,26 +684,19 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d48764455 100644
+index 13939c839faaeb29c00d6eadfb581e22bfe41a89..a419e91712786b0c78f2d8d23747d1e39640982d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -130,6 +130,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -130,7 +130,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
      }
  
-+    /* // Prismarine - JettPack patches
-     // Paper start - Cache authenticator threads
-     private static final AtomicInteger threadId = new AtomicInteger(0);
-     private static final java.util.concurrent.ExecutorService authenticatorPool = java.util.concurrent.Executors.newCachedThreadPool(
-@@ -142,6 +143,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
-             }
-     );
-     // Paper end
-+    */ // Prismarine end
+-    private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.SynchronousQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads
++    //private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.SynchronousQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads // Prismarine - JettPack patches
+ 
      // Spigot start
      public void initUUID()
-     {
-@@ -315,7 +317,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -305,7 +305,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
                  // Paper end
                  // Spigot start
              // Paper start - Cache authenticator threads
@@ -712,7 +705,7 @@ index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d
                      @Override
                      public void run() {
                          try {
-@@ -373,7 +375,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -363,7 +363,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
          }
  
          // Paper start - Cache authenticator threads
@@ -721,7 +714,7 @@ index 9e7f500e0338b70223d879df5fda47acd8843fd8..fccdcf8d47bf8a5bd462f25f4152d80d
              public void run() {
                  GameProfile gameprofile = ServerLoginPacketListenerImpl.this.gameProfile;
  
-@@ -523,7 +525,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -513,7 +513,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              }
  
              // Proceed with login
@@ -903,7 +896,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 34c48c9a1cf14c4eb76a0449f04cc05155a65ba6..bbf4d6b14a37a3dc3684c00380f6da546b6533e8 100644
+index 260e094bad8d6f1b775e317ba2c9b3e25cfa7467..6758de92fb111cde1fc63d81afee6789159bfdd8 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {

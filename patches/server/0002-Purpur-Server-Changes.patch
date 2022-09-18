@@ -3299,10 +3299,10 @@ index cc55cb14f2d0f656213be25a1e428132871ac5dd..8533b31b31138b000308107ce4215746
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 88a849a21d6e39fd70f6e7b554528da1a5a7dd57..9e7f500e0338b70223d879df5fda47acd8843fd8 100644
+index 855eac5e6f3a99a2fc31ad0e02c496d4b5c60622..13939c839faaeb29c00d6eadfb581e22bfe41a89 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -263,6 +263,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -253,6 +253,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              return false;
          }
  
@@ -3311,7 +3311,7 @@ index 88a849a21d6e39fd70f6e7b554528da1a5a7dd57..9e7f500e0338b70223d879df5fda47ac
          for (int i = 0, len = in.length(); i < len; ++i) {
              char c = in.charAt(i);
  
-@@ -389,7 +391,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -379,7 +381,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
                          ServerLoginPacketListenerImpl.this.gameProfile = gameprofile;
                          ServerLoginPacketListenerImpl.this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
                      } else {
@@ -6389,7 +6389,7 @@ index dbeb70913d3933164e997ce5d662b4890ffe4f36..b934d7d0317e6a94171ea484c72c8b15
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cat.java b/src/main/java/net/minecraft/world/entity/animal/Cat.java
-index ab86bfdaebe9b8791f0cfa6e0c61f80c8f891a93..ff3fe48b360784cf2fd63e7593487c6bc954fd09 100644
+index 745883a7b9c2590ae8e28db79e1bd0341a7e54bd..25d81c2b27be5a441f375d67686fa98a6c434ead 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cat.java
 @@ -95,6 +95,51 @@ public class Cat extends TamableAnimal {
@@ -9075,7 +9075,7 @@ index d38d1e3692e093d6707b6bd80cd56ec4afcf093b..c233533fdacb4f5e635267b5fc9fe21b
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
-index fdd2c63ff0017bafa544a3cff2ee6d2d62c92cb3..50f19125fa3dda79a850cfce0ab7c72045d6220b 100644
+index 1c93872f9fcc6f6a19dee8565726501d0e580d44..2e0f340f9b339b1d772c0676e97c12f389827848 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 @@ -97,6 +97,48 @@ public class Axolotl extends Animal implements LerpingModel, Bucketable {
@@ -9617,7 +9617,7 @@ index 34299274e7dd57076a1043d735a41b9c34f0a349..d0b477c01386ce25bf4a93bda8561c7e
      protected void randomizeAttributes(RandomSource random) {
          this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((double)this.generateRandomMaxHealth(random));
 diff --git a/src/main/java/net/minecraft/world/entity/animal/horse/Llama.java b/src/main/java/net/minecraft/world/entity/animal/horse/Llama.java
-index 5ffae9d3be22b5e78645da57a6bd0e7350749ef1..9bbb756e5da3d0967e5beb026996775e272b10e4 100644
+index ed8dfabdad28e27054aa0679e06fcf87dc049f77..ca40e73eb20095be9155938e9869a543fbf6006b 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/horse/Llama.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/horse/Llama.java
 @@ -68,11 +68,86 @@ public class Llama extends AbstractChestedHorse implements RangedAttackMob {
@@ -16047,7 +16047,7 @@ index af81ba310dbd7fdbdccdd0cc74b7c085ad54027f..3e529ea7548a2a6617f70a3c3ad2d8f4
                      world.playSound((Player) null, entityarmorstand.getX(), entityarmorstand.getY(), entityarmorstand.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
                      entityarmorstand.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());
 diff --git a/src/main/java/net/minecraft/world/item/AxeItem.java b/src/main/java/net/minecraft/world/item/AxeItem.java
-index 03a6a99dcc0c8fcc32776dd49cf6092b899bf6ed..33b162108bb088827101e9972b89390fb67feca8 100644
+index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..c6da19410c2eec938902c52789d9a27741a0f559 100644
 --- a/src/main/java/net/minecraft/world/item/AxeItem.java
 +++ b/src/main/java/net/minecraft/world/item/AxeItem.java
 @@ -33,22 +33,22 @@ public class AxeItem extends DiggerItem {
@@ -16082,7 +16082,7 @@ index 03a6a99dcc0c8fcc32776dd49cf6092b899bf6ed..33b162108bb088827101e9972b89390f
              level.levelEvent(player, 3004, blockPos, 0);
              optional4 = optional3;
          }
-@@ -58,15 +58,23 @@ public class AxeItem extends DiggerItem {
+@@ -63,15 +63,23 @@ public class AxeItem extends DiggerItem {
                  CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockPos, itemStack);
              }
  
@@ -16596,7 +16596,7 @@ index 623f78c078fb3aa2665d7e8a37672438227bce6b..500c69e555c7247e20ef8cc59d834155
                      ((Mob) newEntityLiving).setPersistenceRequired();
                  // Paper end
 diff --git a/src/main/java/net/minecraft/world/item/ShovelItem.java b/src/main/java/net/minecraft/world/item/ShovelItem.java
-index 32995cb5efdad0bc34ecacacb78cccd21220ba8d..ee1ed9262e4f2a8f1889feb7b2d4f64a2efa63a5 100644
+index c7195f2e12bbd6545f7bffcc2b4ba5cc3d48df20..5e730bc9c8ff94b16ac2bf8567dda8aea2ee4b2a 100644
 --- a/src/main/java/net/minecraft/world/item/ShovelItem.java
 +++ b/src/main/java/net/minecraft/world/item/ShovelItem.java
 @@ -34,7 +34,7 @@ public class ShovelItem extends DiggerItem {
@@ -16606,8 +16606,8 @@ index 32995cb5efdad0bc34ecacacb78cccd21220ba8d..ee1ed9262e4f2a8f1889feb7b2d4f64a
 -            BlockState blockState2 = FLATTENABLES.get(blockState.getBlock());
 +            BlockState blockState2 = level.purpurConfig.shovelTurnsBlockToGrassPath.contains(blockState.getBlock()) ? Blocks.DIRT_PATH.defaultBlockState() : null; // Purpur
              BlockState blockState3 = null;
+             Runnable afterAction = null; // Paper
              if (blockState2 != null && level.getBlockState(blockPos.above()).isAir()) {
-                 level.playSound(player, blockPos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
 diff --git a/src/main/java/net/minecraft/world/item/SnowballItem.java b/src/main/java/net/minecraft/world/item/SnowballItem.java
 index ef3f90a5bcdd7b9815a4053cff166f9d2552f55d..e7e5e1cc92f56e3daba8fa09c59188febec5e8f2 100644
 --- a/src/main/java/net/minecraft/world/item/SnowballItem.java
@@ -17541,15 +17541,22 @@ index a6c25647fb37f59307de0d390f8e8cf55504d7d3..52aae8bd4023b2bb48f12983f54b20fa
              world.scheduleTick(pos, this, 1);
              return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 diff --git a/src/main/java/net/minecraft/world/level/block/ComposterBlock.java b/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
-index 2b1983d61fd3ed856770146de5cdfd33b4f63a46..9315c819a0c113313a8e6f97e02b4d13c2cf62c0 100644
+index 492e3ffd6a4588a521486db631f3e8b2a25b74ec..5d10f92de9ee9f66f9c7b16cc3155cb3979151fe 100644
 --- a/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
-@@ -220,16 +220,21 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+@@ -220,23 +220,21 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
          ItemStack itemstack = player.getItemInHand(hand);
  
          if (i < 8 && ComposterBlock.COMPOSTABLES.containsKey(itemstack.getItem())) {
 -            if (i < 7 && !world.isClientSide) {
--                BlockState iblockdata1 = ComposterBlock.addItem(state, world, pos, itemstack);
+-                // Paper start - EntityChangeBlockEvent
+-                double rand = world.getRandom().nextDouble();
+-                BlockState dummyBlockState = ComposterBlock.addItem(state, org.bukkit.craftbukkit.util.DummyGeneratorAccess.INSTANCE, pos, itemstack, rand);
+-                if (state != dummyBlockState && org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, pos, dummyBlockState).isCancelled()) { // if block state will change and event cancelled
+-                    return InteractionResult.sidedSuccess(world.isClientSide);
+-                }
+-                BlockState iblockdata1 = ComposterBlock.addItem(state, world, pos, itemstack, rand);
+-                // Paper end
 -
 -                world.levelEvent(1500, pos, state != iblockdata1 ? 1 : 0);
 -                player.awardStat(Stats.ITEM_USED.get(itemstack.getItem()));
@@ -17575,14 +17582,22 @@ index 2b1983d61fd3ed856770146de5cdfd33b4f63a46..9315c819a0c113313a8e6f97e02b4d13
              return InteractionResult.sidedSuccess(world.isClientSide);
          } else if (i == 8) {
              ComposterBlock.extractProduce(state, world, pos, (Entity) null); // CraftBukkit - no event for players
-@@ -239,6 +244,21 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+@@ -246,6 +244,29 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
          }
      }
  
 +    // Purpur start
 +    private static BlockState process(int level, BlockState state, Level world, ItemStack itemstack, BlockPos pos, Player player) {
 +        if (level < 7) {
-+            BlockState state1 = ComposterBlock.addItem(state, world, pos, itemstack);
++            // Paper start - EntityChangeBlockEvent
++            double rand = world.getRandom().nextDouble();
++            BlockState dummyBlockState = ComposterBlock.addItem(state, org.bukkit.craftbukkit.util.DummyGeneratorAccess.INSTANCE, pos, itemstack, rand);
++            if (state != dummyBlockState && org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, pos, dummyBlockState).isCancelled()) { // if block state will change and event cancelled
++                return InteractionResult.sidedSuccess(world.isClientSide);
++            }
++            BlockState state1 = ComposterBlock.addItem(state, world, pos, itemstack, rand);
++            // Paper end
++
 +            world.levelEvent(1500, pos, state != state1 ? 1 : 0);
 +            player.awardStat(Stats.ITEM_USED.get(itemstack.getItem()));
 +            if (!player.getAbilities().instabuild) {
