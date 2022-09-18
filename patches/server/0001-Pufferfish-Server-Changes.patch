@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 13 Sep 2022 22:44:37 +0000
+Date: Sun, 18 Sep 2022 18:51:32 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -4369,7 +4369,7 @@ index 2d87b740e84435ef9bd3eee3d3e2af9f707a0826..d38d1e3692e093d6707b6bd80cd56ec4
          this.level.getProfiler().pop();
          this.level.getProfiler().push("allayActivityUpdate");
 diff --git a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
-index da5e6141f548539cac720aba558e1b6f3a87e474..fdd2c63ff0017bafa544a3cff2ee6d2d62c92cb3 100644
+index e7467fec2cab37c1a9933d1096724e3732913590..1c93872f9fcc6f6a19dee8565726501d0e580d44 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 @@ -283,9 +283,11 @@ public class Axolotl extends Animal implements LerpingModel, Bucketable {
