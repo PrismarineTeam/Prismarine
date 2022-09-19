@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 13 Sep 2022 22:46:32 +0000
+Date: Mon, 19 Sep 2022 04:15:12 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -16047,10 +16047,10 @@ index af81ba310dbd7fdbdccdd0cc74b7c085ad54027f..3e529ea7548a2a6617f70a3c3ad2d8f4
                      world.playSound((Player) null, entityarmorstand.getX(), entityarmorstand.getY(), entityarmorstand.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
                      entityarmorstand.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());
 diff --git a/src/main/java/net/minecraft/world/item/AxeItem.java b/src/main/java/net/minecraft/world/item/AxeItem.java
-index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..98617a20b7735654124715256157706f3c15ca3a 100644
+index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..22c8ef3d8d20c14d3b032d054827e074a4422ad6 100644
 --- a/src/main/java/net/minecraft/world/item/AxeItem.java
 +++ b/src/main/java/net/minecraft/world/item/AxeItem.java
-@@ -33,29 +33,29 @@ public class AxeItem extends DiggerItem {
+@@ -33,29 +33,31 @@ public class AxeItem extends DiggerItem {
          BlockPos blockPos = context.getClickedPos();
          Player player = context.getPlayer();
          BlockState blockState = level.getBlockState(blockPos);
@@ -16084,27 +16084,28 @@ index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..98617a20b7735654124715256157706f
          }
  
          if (optional4.isPresent()) {
++            org.purpurmc.purpur.tool.Actionable actionable = optional4.get();
++            BlockState state = actionable.into().withPropertiesOf(blockState); // Purpur
              // Paper start - EntityChangeBlockEvent
 -            if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, blockPos, optional4.get()).isCancelled()) {
-+            if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, blockPos, optional4.get().into().withPropertiesOf(blockState)).isCancelled()) {
++            if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, blockPos, state).isCancelled()) { // Purpur
                  return InteractionResult.PASS;
              }
              // Paper end
-@@ -63,15 +63,23 @@ public class AxeItem extends DiggerItem {
+@@ -63,15 +65,22 @@ public class AxeItem extends DiggerItem {
                  CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockPos, itemStack);
              }
  
 -            level.setBlock(blockPos, optional4.get(), 11);
 -            level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, optional4.get()));
 +            // Purpur start
-+            org.purpurmc.purpur.tool.Actionable actionable = optional4.get();
-+            level.setBlock(blockPos, actionable.into().withPropertiesOf(blockState), 11);
++            level.setBlock(blockPos, state, 11);
 +            actionable.drops().forEach((drop, chance) -> {
 +                if (level.random.nextDouble() < chance) {
 +                    Block.popResourceFromFace(level, blockPos, context.getClickedFace(), new ItemStack(drop));
 +                }
 +            });
-+            level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, actionable.into().withPropertiesOf(blockState)));
++            level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, state));
 +            // Purpur end
              if (player != null) {
                  itemStack.hurtAndBreak(1, player, (p) -> {
@@ -17549,10 +17550,10 @@ index a6c25647fb37f59307de0d390f8e8cf55504d7d3..52aae8bd4023b2bb48f12983f54b20fa
              world.scheduleTick(pos, this, 1);
              return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 diff --git a/src/main/java/net/minecraft/world/level/block/ComposterBlock.java b/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
-index 492e3ffd6a4588a521486db631f3e8b2a25b74ec..aa9295dea6f31fd4efdb93abd449af200da4516c 100644
+index 492e3ffd6a4588a521486db631f3e8b2a25b74ec..954c4a112d675144befd253abe880251f4ea1876 100644
 --- a/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
-@@ -220,23 +220,28 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+@@ -220,23 +220,21 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
          ItemStack itemstack = player.getItemInHand(hand);
  
          if (i < 8 && ComposterBlock.COMPOSTABLES.containsKey(itemstack.getItem())) {
@@ -17572,46 +17573,46 @@ index 492e3ffd6a4588a521486db631f3e8b2a25b74ec..aa9295dea6f31fd4efdb93abd449af20
 -                    itemstack.shrink(1);
 -                }
 +            // Purpur start
-+            // Paper start - EntityChangeBlockEvent
-+            double rand = world.getRandom().nextDouble();
-+            BlockState dummyBlockState = ComposterBlock.addItem(state, org.bukkit.craftbukkit.util.DummyGeneratorAccess.INSTANCE, pos, itemstack, rand);
-+            if (state != dummyBlockState && org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, pos, dummyBlockState).isCancelled()) { // if block state will change and event cancelled
-+                return InteractionResult.sidedSuccess(world.isClientSide);
-             }
--
-+            // Paper end
-+            BlockState newState = process(i, state, world, itemstack, pos, player, rand);
-+            if (world.purpurConfig.composterBulkProcess && player.isShiftKeyDown()) {
++            BlockState newState = process(i, state, world, itemstack, pos, player);
++            if (world.purpurConfig.composterBulkProcess && player.isShiftKeyDown() && newState != state) {
 +                BlockState oldState;
 +                int oldCount, newCount, oldLevel, newLevel;
 +                do {
 +                    oldState = newState;
 +                    oldCount = itemstack.getCount();
 +                    oldLevel = oldState.getValue(ComposterBlock.LEVEL);
-+                    newState = process(oldLevel, oldState, world, itemstack, pos, player, rand);
++                    newState = process(oldLevel, oldState, world, itemstack, pos, player);
 +                    newCount = itemstack.getCount();
 +                    newLevel = newState.getValue(ComposterBlock.LEVEL);
 +                } while (newCount > 0 && (newCount != oldCount || newLevel != oldLevel || newState != oldState));
-+            }
+             }
+-
 +            // Purpur end
              return InteractionResult.sidedSuccess(world.isClientSide);
          } else if (i == 8) {
              ComposterBlock.extractProduce(state, world, pos, (Entity) null); // CraftBukkit - no event for players
-@@ -246,6 +251,22 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+@@ -246,6 +244,29 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
          }
      }
  
 +    // Purpur start
-+    private static BlockState process(int level, BlockState state, Level world, ItemStack itemstack, BlockPos pos, Player player, double rand) {
-+        if (level < 7) {
-+            BlockState state1 = ComposterBlock.addItem(state, world, pos, itemstack, rand);
++    private static BlockState process(int level, BlockState state, Level world, ItemStack itemstack, BlockPos pos, Player player) {
++        if (level < 7 && !world.isClientSide) {
++            // Paper start - EntityChangeBlockEvent
++            double rand = world.getRandom().nextDouble();
++            BlockState dummyBlockState = ComposterBlock.addItem(state, org.bukkit.craftbukkit.util.DummyGeneratorAccess.INSTANCE, pos, itemstack, rand);
++            if (state != dummyBlockState && org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(player, pos, dummyBlockState).isCancelled()) { // if block state will change and event cancelled
++                return state;
++            }
++            BlockState iblockdata1 = ComposterBlock.addItem(state, world, pos, itemstack, rand);
++            // Paper end
 +
-+            world.levelEvent(1500, pos, state != state1 ? 1 : 0);
++            world.levelEvent(1500, pos, state != iblockdata1 ? 1 : 0);
 +            player.awardStat(Stats.ITEM_USED.get(itemstack.getItem()));
 +            if (!player.getAbilities().instabuild) {
 +                itemstack.shrink(1);
 +            }
-+            return state1;
++            return dummyBlockState;
 +        }
 +        return state;
 +    }
