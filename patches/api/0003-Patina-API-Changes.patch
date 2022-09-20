@@ -149,10 +149,10 @@ index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752ee
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index ab24a3377b126022079e743e8cf963d090d88c26..58c8d52c05ffb59ebb5c987c0d1d1f72d1ba27e3 100644
+index 2003a5fdf4cb3710f7b76ee435275cd13a50fe86..d7331e5c92100600c0d20571521580ac6b8825ad 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-@@ -252,4 +252,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+@@ -273,4 +273,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
                     '}';
      }
      // Paper end

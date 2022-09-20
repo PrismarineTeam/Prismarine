@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Mon, 19 Sep 2022 04:15:12 +0000
+Date: Tue, 20 Sep 2022 20:25:02 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -338,7 +338,7 @@ index 38cb29c646ff496ffaa6553f98a565b71155c464..852ed093488ae624960a7dd35f68d8ce
  	private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
  		return getBoolean(key, null, defaultValue, comment);
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index bc72131afa1ae9986ee311a9b371e97c8feb38f8..538bf435a4307a166bf6d926f71f391f620233f0 100644
+index 2eb30c6c6f1354a559a7b8c14c36a9970bdf2a42..d9f5f48fbb67d7f8dbfc0b7fa8fe0c294a7e8f0d 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 @@ -68,14 +68,14 @@ public class GlobalConfiguration extends ConfigurationPart {
@@ -3942,7 +3942,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 417570c2ad71bc3727e7d5eb841a92ec815d12f6..ffbe6f3b5fdd60332627fdb6a7ea050d21ad8cdb 100644
+index 4971ec79a114fd0d7540eaa0ef54b18c4bfbea57..2c7554a1dd092aca9dd1988b99f126630a968f5e 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -4055,7 +4055,7 @@ index 417570c2ad71bc3727e7d5eb841a92ec815d12f6..ffbe6f3b5fdd60332627fdb6a7ea050d
          }
          // Paper start - detailed watchdog information
 @@ -1416,7 +1417,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
-             io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, true,
+             io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, this.level.paperConfig().chunks.preventMovingIntoUnloadedChunks,
                  false, false, null, null);
  
 -            if (io.papermc.paper.util.CollisionUtil.isCollidingWithBorderEdge(world.getWorldBorder(), collisionBox)) {
@@ -18876,7 +18876,7 @@ index b96d57b0bcf21508f8e03e96b7553eb486fdf212..cb81086c8fe78321b157aa7d107f215c
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/ConduitBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
-index 05eab04e4aec4151018f25b59f92ddbbb4c09f87..8db906e021ca57c7f2a1e7002647e5c50be180aa 100644
+index 05eab04e4aec4151018f25b59f92ddbbb4c09f87..3b5c502fc211940dd908f1d276fa11e3826abda7 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
 @@ -172,7 +172,7 @@ public class ConduitBlockEntity extends BlockEntity {
@@ -18897,7 +18897,15 @@ index 05eab04e4aec4151018f25b59f92ddbbb4c09f87..8db906e021ca57c7f2a1e7002647e5c5
          int k = pos.getX();
          int l = pos.getY();
          int i1 = pos.getZ();
-@@ -230,14 +230,14 @@ public class ConduitBlockEntity extends BlockEntity {
+@@ -223,21 +223,21 @@ public class ConduitBlockEntity extends BlockEntity {
+             blockEntity.destroyTarget = ConduitBlockEntity.findDestroyTarget(world, pos, blockEntity.destroyTargetUUID);
+             blockEntity.destroyTargetUUID = null;
+         } else if (blockEntity.destroyTarget == null) {
+-            List<LivingEntity> list1 = world.getEntitiesOfClass(LivingEntity.class, ConduitBlockEntity.getDestroyRangeAABB(pos), (entityliving1) -> {
++            List<LivingEntity> list1 = world.getEntitiesOfClass(LivingEntity.class, ConduitBlockEntity.getDestroyRangeAABB(pos, world), (entityliving1) -> { // Purpur
+                 return entityliving1 instanceof Enemy && entityliving1.isInWaterOrRain();
+             });
+ 
              if (!list1.isEmpty()) {
                  blockEntity.destroyTarget = (LivingEntity) list1.get(world.random.nextInt(list1.size()));
              }
@@ -18914,6 +18922,31 @@ index 05eab04e4aec4151018f25b59f92ddbbb4c09f87..8db906e021ca57c7f2a1e7002647e5c5
                  world.playSound((Player) null, blockEntity.destroyTarget.getX(), blockEntity.destroyTarget.getY(), blockEntity.destroyTarget.getZ(), SoundEvents.CONDUIT_ATTACK_TARGET, SoundSource.BLOCKS, 1.0F, 1.0F);
              }
              CraftEventFactory.blockDamage = null;
+@@ -263,16 +263,22 @@ public class ConduitBlockEntity extends BlockEntity {
+     }
+ 
+     private static AABB getDestroyRangeAABB(BlockPos pos) {
++        // Purpur start
++        return getDestroyRangeAABB(pos, null);
++    }
++
++    private static AABB getDestroyRangeAABB(BlockPos pos, Level level) {
++        // Purpur end
+         int i = pos.getX();
+         int j = pos.getY();
+         int k = pos.getZ();
+ 
+-        return (new AABB((double) i, (double) j, (double) k, (double) (i + 1), (double) (j + 1), (double) (k + 1))).inflate(8.0D);
++        return (new AABB((double) i, (double) j, (double) k, (double) (i + 1), (double) (j + 1), (double) (k + 1))).inflate(level == null ? 8.0D : level.purpurConfig.conduitDamageDistance); // Purpur
+     }
+ 
+     @Nullable
+     private static LivingEntity findDestroyTarget(Level world, BlockPos pos, UUID uuid) {
+-        List<LivingEntity> list = world.getEntitiesOfClass(LivingEntity.class, ConduitBlockEntity.getDestroyRangeAABB(pos), (entityliving) -> {
++        List<LivingEntity> list = world.getEntitiesOfClass(LivingEntity.class, ConduitBlockEntity.getDestroyRangeAABB(pos, world), (entityliving) -> { // Purpur
+             return entityliving.getUUID().equals(uuid);
+         });
+ 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/EnchantmentTableBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/EnchantmentTableBlockEntity.java
 index 2341a5a249d455628165fc6ba508fc6d70c3dbfb..4ccb8a7dc4201a7cffa59e419576500189042ac6 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/EnchantmentTableBlockEntity.java
@@ -20064,7 +20097,7 @@ index fea44ba6a6584b4a510af6a58cab07eecec6b68b..f3bf5199bc7ddf8a3d0dc67a184e7690
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 1994dd3c272395a27474ec1b37a924a24fc50fd6..5711535e40e3174049deb39b72c760a225a0fd2f 100644
+index e807ef287136e7b3931197e45434a3f618cf3054..37bcc72ce132f7901460f25d700dba1bac6c210f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -427,7 +427,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
@@ -20103,7 +20136,7 @@ index 1994dd3c272395a27474ec1b37a924a24fc50fd6..5711535e40e3174049deb39b72c760a2
          }
          return effects;
      }
-@@ -854,7 +854,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -866,7 +866,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
              return EntityCategory.WATER;
          }
  
@@ -20112,7 +20145,7 @@ index 1994dd3c272395a27474ec1b37a924a24fc50fd6..5711535e40e3174049deb39b72c760a2
      }
  
      @Override
-@@ -966,4 +966,32 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -978,4 +978,32 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
          throw new IllegalArgumentException(entityCategory + " is an unrecognized entity category");
      }
      // Paper end
