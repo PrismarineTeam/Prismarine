@@ -5,7 +5,7 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 24f767663b1190dcada3da554375e3a01064c462..6b2c99ddfb37fdafb4734bdbba4de2b130ea18e8 100644
+index d7c77908ba7f0a0c00c06744d1ee0c1ad3ee0d7c..828fda5c7ea8f8a040d5f39e6c9cc5a0cdc55649 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -13,7 +13,7 @@ index 24f767663b1190dcada3da554375e3a01064c462..6b2c99ddfb37fdafb4734bdbba4de2b1
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Shutdown and don't bother finishing
 -        MinecraftTimings.stopServer(); // Paper
-+        //MinecraftTimings.stopServer(); // Paper // Prismarine - NO TIMINGS
++        //MinecraftTimings.stopServer(); // Paper // Prismarine
          // Purpur start
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
@@ -53,10 +53,10 @@ index 6859e2054e8eb4fc8ac005e0bf646a30defa47a6..f9a3db9a814685d33b54836af0b0aab6
                  if (this.sleepStatus.areEnoughSleeping(i)) {
                      // Purpur start
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index c233533fdacb4f5e635267b5fc9fe21bc8b3c51a..9f20768f0d8fb38650893811012ae573b61361e3 100644
+index 4e77bb2be5a35bc6b002e2eae4af41937187ba0d..d0f4e1556e606d916f7f9d511a1fb2ddee7d9ab2 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -152,6 +152,13 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+@@ -153,6 +153,13 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
      protected void registerGoals() {
          this.goalSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
      }
@@ -125,23 +125,25 @@ index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b47
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 3cf1451569128640fe5d6d9fc0fdc550de75c091..ec27ed30b36542198b7bd8473c88bfd79426248f 100644
+index c622cbe7104d0d107116d711de06b3653e3bfd1a..7a37bdc4a926bc7e8140331a98fe5e2a17b2ffaf 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -1073,10 +1073,12 @@ public class PurpurWorldConfig {
-     public boolean allayRidable = false;
+@@ -1074,12 +1074,14 @@ public class PurpurWorldConfig {
      public boolean allayRidableInWater = false;
      public boolean allayControllable = true;
+     public List<String> allayRespectNBT = new ArrayList<>();
 +    public double allayMaxHealth = 20.0D; // Prismarine
      private void allaySettings() {
          allayRidable = getBoolean("mobs.allay.ridable", allayRidable);
          allayRidableInWater = getBoolean("mobs.allay.ridable-in-water", allayRidableInWater);
          allayControllable = getBoolean("mobs.allay.controllable", allayControllable);
+         allayRespectNBT.clear();
+         getList("mobs.allay.respect-nbt", new ArrayList<>()).forEach(key -> allayRespectNBT.add(key.toString()));
 +        allayMaxHealth = getDouble("mobs.allay.max-health", allayMaxHealth); // Prismarine
      }
  
      public boolean axolotlRidable = false;
-@@ -1590,12 +1592,14 @@ public class PurpurWorldConfig {
+@@ -1593,12 +1595,14 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -156,7 +158,7 @@ index 3cf1451569128640fe5d6d9fc0fdc550de75c091..ec27ed30b36542198b7bd8473c88bfd7
      }
  
      public boolean ghastRidable = false;
-@@ -2641,10 +2645,12 @@ public class PurpurWorldConfig {
+@@ -2644,10 +2648,12 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = false;
      public boolean tadpoleControllable = true;
@@ -169,7 +171,7 @@ index 3cf1451569128640fe5d6d9fc0fdc550de75c091..ec27ed30b36542198b7bd8473c88bfd7
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2855,10 +2861,12 @@ public class PurpurWorldConfig {
+@@ -2858,10 +2864,12 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = false;
      public boolean wardenControllable = true;

@@ -1,26 +1,33 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 20 Sep 2022 20:25:03 +0000
+Date: Sat, 24 Sep 2022 21:07:09 +0900
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the Software), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+Software), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED AS
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 10716b2c866631badb99b1fb79b66c62b117b038..a141e5cdcec4d09b05252782e8a0ab5fac532680 100644
+index c187795c9e44ec08c0826139b487be808209d1d5..3bb897b4cf5e92fd0b3440945f4996038d16d490 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -103,6 +103,8 @@ tasks.jar {
@@ -187,10 +194,10 @@ index a736d7bcdc5861a01b66ba36158db1c716339346..22fc165fd9c95f0f3ae1be7a0857e48c
  
          @Override
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 840aaf9e8fc828b5a7ea02252038c6524680f2e0..a3e22c90f856ad215bab4e0f308e46cd4c4b06db 100644
+index b5a7d6ab4e458843f2e163bf06b5668627012f91..827ff8d71391a7e7b4273c85fe3b6601dab68f77 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2442,4 +2442,127 @@ public final class Bukkit {
+@@ -2462,4 +2462,127 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -409,10 +416,10 @@ index f6eb30f53dad684f156102cf7147b2f00c82c71e..f1239a2618b08fa92e0e20692d1c3d20
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 1d6baee05643607baa40a07022576906ea61a92f..5da8af8e11dfa741aea4c167c4cb5e63dbdf5e70 100644
+index cb00e050cd5fff3a037a32ac34e02eeea3827357..6c82d84c190dee87cc72ed0d06f089348c6fddf4 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -10221,4 +10221,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
+@@ -10235,4 +10235,39 @@ public enum Material implements Keyed, net.kyori.adventure.translation.Translata
          return Bukkit.getUnsafe().getCreativeCategory(this);
      }
  
@@ -572,10 +579,10 @@ index a7d1f1e701f23e851f735584a30bedadb0d8b9bd..7da38adede5b752583b94f6a14b3e45d
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index da5cab4246bd253fcc4e4d9574bdae1867ebb5ab..fea1283dcbac2794402bcd97f072ad3f84fcced1 100644
+index 1982fc2d7f1cb80d3e324ee283211b251a976c6e..0e4d5345a5590d1a5d98cf11eb6e3649303c3ebb 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1948,6 +1948,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1969,6 +1969,18 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
@@ -594,7 +601,7 @@ index da5cab4246bd253fcc4e4d9574bdae1867ebb5ab..fea1283dcbac2794402bcd97f072ad3f
          /**
           * Sends the component to the player
           *
-@@ -2116,4 +2128,105 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2137,4 +2149,105 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
@@ -701,7 +708,7 @@ index da5cab4246bd253fcc4e4d9574bdae1867ebb5ab..fea1283dcbac2794402bcd97f072ad3f
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index e8c0c853eb52d1473c20231660355f77b1f7e016..ec8c098ee07ac88c023ec6274788c94a4cffc835 100644
+index 9e71e519cda72a1e2a01474f238b97015ec5115e..0cd49cb31b21e52009f6220d505aa2a3713381b3 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
 @@ -3985,6 +3985,86 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
@@ -1295,10 +1302,10 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 5e51bc9176b481ec70fd7e5ac23d04d59f8d1a9a..f50c61a8c375af03f3f0f5469e376e3f9c19f03e 100644
+index 1d98abff1ad0116f7a2599f078aa730cb84843c1..80f0d631a9780ec853b2ab44d5bcbec45f7d4051 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2387,6 +2387,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2411,6 +2411,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void showDemoScreen();
  
@@ -1313,7 +1320,7 @@ index 5e51bc9176b481ec70fd7e5ac23d04d59f8d1a9a..f50c61a8c375af03f3f0f5469e376e3f
      /**
       * Gets whether the player has the "Allow Server Listings" setting enabled.
       *
-@@ -2808,4 +2816,137 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2832,4 +2840,153 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -1449,6 +1456,22 @@ index 5e51bc9176b481ec70fd7e5ac23d04d59f8d1a9a..f50c61a8c375af03f3f0f5469e376e3f
 +     * Clears all debug block highlights
 +     */
 +    void clearBlockHighlights();
++
++    /**
++     * Sends a player the death screen with a specified death message.
++     *
++     * @param message The death message to show the player
++     */
++    void sendDeathScreen(@NotNull Component message);
++
++    /**
++     * Sends a player the death screen with a specified death message,
++     * along with the entity that caused the death.
++     *
++     * @param message The death message to show the player
++     * @param killer The entity that killed the player
++     */
++    void sendDeathScreen(@NotNull Component message, @Nullable Entity killer);
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Snowman.java b/src/main/java/org/bukkit/entity/Snowman.java
@@ -3898,7 +3921,7 @@ index 123647bb10fc89508437d7a0bd3fd31d58ee7c82..ce209668dd7f11b284bd7f5688191a0b
  
  }
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index bbe81f7a420f913ffdcad913a3c43ff41ead41f5..49de298146814fdf238929e10270ac6717dd73bd 100644
+index 4bca64b2a44ae032730575ecba39f9737a5a1ec7..7769e19a5a86b5c76094058d31269fc6cc9f0ac3 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
 @@ -47,6 +47,10 @@ public class AnnotationTest {
