@@ -4,6 +4,19 @@ Date: Sat, 5 Mar 2022 12:27:53 +0900
 Subject: [PATCH] Miscellaneous patches
 
 
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 3ce0d7b079a3e0bda105b3400b593556be2c8013..3ec51240edf380f8500135d4ec8adfdd67269a6b 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -36,7 +36,7 @@ dependencies {
+     implementation("commons-lang:commons-lang:2.6")
+     implementation("net.fabricmc:mapping-io:0.3.0") // Paper - needed to read mappings for stacktrace deobfuscation
+     // Paper start - Use Velocity cipher
+-    implementation("com.velocitypowered:velocity-native:1.1.0-SNAPSHOT") {
++    implementation("com.velocitypowered:velocity-native:3.1.2-SNAPSHOT") { // Prismarine - Paper PR
+         isTransitive = false
+     }
+     // Paper end
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
 index e877921370f6009a4bd204d9b17d2d58834b8822..0000000000000000000000000000000000000000

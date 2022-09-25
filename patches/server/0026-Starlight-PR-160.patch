@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 25 Sep 2022 13:26:40 +0900
+Subject: [PATCH] Starlight PR (#160)
+
+
+diff --git a/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java b/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java
+index ef8dcbb6bbc0769e9ccfdadb05e6a46c070eda98..6a74d1e5429504cf95a7f00cccd5e3222e798d70 100644
+--- a/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java
++++ b/src/main/java/ca/spottedleaf/starlight/common/light/StarLightInterface.java
+@@ -3,6 +3,7 @@ package ca.spottedleaf.starlight.common.light;
+ import ca.spottedleaf.starlight.common.util.CoordinateUtils;
+ import ca.spottedleaf.starlight.common.util.WorldUtil;
+ import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
++import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet; // Prismarine - Starlight PR
+ import it.unimi.dsi.fastutil.shorts.ShortCollection;
+ import it.unimi.dsi.fastutil.shorts.ShortOpenHashSet;
+ import net.minecraft.core.BlockPos;
+@@ -647,7 +648,7 @@ public final class StarLightInterface {
+ 
+         protected static final class ChunkTasks {
+ 
+-            public final Set<BlockPos> changedPositions = new HashSet<>();
++            public final Set<BlockPos> changedPositions = new ObjectOpenHashSet<>(); // Prismarine - Starlight PR
+             public Boolean[] changedSectionSet;
+             public ShortOpenHashSet queuedEdgeChecksSky;
+             public ShortOpenHashSet queuedEdgeChecksBlock;
+diff --git a/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java b/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java
+index b57bffce30154b196b879209c1ce559d0b82456e..59a1dccb0d987df4971590c7f05e6e290beac692 100644
+--- a/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java
++++ b/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java
+@@ -285,9 +285,7 @@ public class ThreadedLevelLightEngine extends LevelLightEngine implements AutoCl
+             for (int dz = -1; dz <= 1; ++dz) {
+                 ChunkHolder neighbour = world.getChunkSource().chunkMap.getUpdatingChunkIfPresent(CoordinateUtils.getChunkKey(dx + chunkX, dz + chunkZ));
+                 if (neighbour != null) {
+-                    neighbour.chunkToSave = neighbour.chunkToSave.thenCombine(updateFuture, (final ChunkAccess curr, final Void ignore) -> {
+-                        return curr;
+-                    });
++                    neighbour.chunkToSave = updateFuture.thenCompose(v -> neighbour.chunkToSave); // Prismarine - Starlight PR
+                 }
+             }
+         }
