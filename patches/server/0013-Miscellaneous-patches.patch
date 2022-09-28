@@ -4,19 +4,6 @@ Date: Sat, 5 Mar 2022 12:27:53 +0900
 Subject: [PATCH] Miscellaneous patches
 
 
-diff --git a/build.gradle.kts b/build.gradle.kts
-index 3ce0d7b079a3e0bda105b3400b593556be2c8013..3ec51240edf380f8500135d4ec8adfdd67269a6b 100644
---- a/build.gradle.kts
-+++ b/build.gradle.kts
-@@ -36,7 +36,7 @@ dependencies {
-     implementation("commons-lang:commons-lang:2.6")
-     implementation("net.fabricmc:mapping-io:0.3.0") // Paper - needed to read mappings for stacktrace deobfuscation
-     // Paper start - Use Velocity cipher
--    implementation("com.velocitypowered:velocity-native:1.1.0-SNAPSHOT") {
-+    implementation("com.velocitypowered:velocity-native:3.1.2-SNAPSHOT") { // Prismarine - Paper PR
-         isTransitive = false
-     }
-     // Paper end
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
 index e877921370f6009a4bd204d9b17d2d58834b8822..0000000000000000000000000000000000000000
@@ -161,10 +148,10 @@ index e877921370f6009a4bd204d9b17d2d58834b8822..00000000000000000000000000000000
 -}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 35377576ed182814051c11f902e02e8e921e84e3..e28e4592b24c544ea975888f2aec474da218ceba 100644
+index a7b6e22daf64abca311bc5771192a3c09368537f..580c0d76bdedd83be29500d64816a129e270fbc3 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-@@ -539,7 +539,7 @@ public class FriendlyByteBuf extends ByteBuf {
+@@ -541,7 +541,7 @@ public class FriendlyByteBuf extends ByteBuf {
  
      @Nullable
      public CompoundTag readNbt() {
@@ -223,7 +210,7 @@ index 3eee2ebaee415cde427eb72f61a3c67ed5cc0e30..97115c2c5fdbea7f73b2eb81093dfae6
      }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index fe49723b5fec298d7a10a1f69211933974edf3e9..719f6ff508653db989ab0199476b47100378f92c 100644
+index cf08075a2f38dd6809b872fa1ad6fc6f620cceba..8f65dfb8d29632d44c2b0b118881fc83e52d9ba6 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -46,7 +46,11 @@ public class PurpurConfig {

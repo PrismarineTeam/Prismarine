@@ -1,9 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 25 Sep 2022 21:55:39 +0000
+Date: Wed, 28 Sep 2022 16:59:12 +0900
 Subject: [PATCH] Pufferfish API Changes
-
-Original by Kevin Raneri <kevin.raneri@gmail.com>
 
 Copyright (C) 2022 Pufferfish Studios LLC
 
@@ -21,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index ea41ad342b0b4b4504deffc216541580879197bf..c187795c9e44ec08c0826139b487be808209d1d5 100644
+index 428e7777906aa5177c5c6489838e6400349bb62f..c873a0537186ebe8a0fe2d15c7a7950793fd9a37 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -41,6 +41,7 @@ dependencies {

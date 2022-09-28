@@ -595,10 +595,10 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index e9f0ddf1a34bf3b0d868b53e4439d9d9851ad4d6..16515a5bd284e6d0ac1605e040e53f2c958f405a 100644
+index 07b0b0993c01763b39d1c9a387447ec76b5de190..488b70f4f3c47c520ee3d9053f137f5bf627dd9a 100644
 --- a/src/main/java/net/minecraft/server/MCUtil.java
 +++ b/src/main/java/net/minecraft/server/MCUtil.java
-@@ -53,9 +53,10 @@ import java.util.function.Consumer;
+@@ -54,9 +54,10 @@ import java.util.function.Consumer;
  import java.util.function.Supplier;
  
  public final class MCUtil {
@@ -611,7 +611,7 @@ index e9f0ddf1a34bf3b0d868b53e4439d9d9851ad4d6..16515a5bd284e6d0ac1605e040e53f2c
          new ThreadFactoryBuilder()
              .setNameFormat("Paper Async Task Handler Thread - %1$d")
              .setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(MinecraftServer.LOGGER))
-@@ -72,6 +73,30 @@ public final class MCUtil {
+@@ -73,6 +74,30 @@ public final class MCUtil {
  
      public static final long INVALID_CHUNK_KEY = getCoordinateKey(Integer.MAX_VALUE, Integer.MAX_VALUE);
  
@@ -643,26 +643,26 @@ index e9f0ddf1a34bf3b0d868b53e4439d9d9851ad4d6..16515a5bd284e6d0ac1605e040e53f2c
      public static Runnable once(Runnable run) {
          AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 14adff5b0f6b02564331ba2cc091e839f33dc62b..fadff68570a7ce02a40559f1075b5ac95a11ab0f 100644
+index 0b9fa8ae706d84b2445115e310c089e5dbac8a4a..11d62baf0ccbcc85e5b809da98b13fde72a9cec0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1032,6 +1032,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1004,6 +1004,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
-         com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
+         io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
          LOGGER.info("Closing Thread Pool");
 +        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
-@@ -1489,6 +1490,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1469,6 +1470,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
-+            MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
++        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
              this.runAllTasks();
          //} // Purpur
          // Paper end
-@@ -2785,6 +2787,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2766,6 +2768,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              return;
          }
  
@@ -684,15 +684,15 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 13939c839faaeb29c00d6eadfb581e22bfe41a89..a419e91712786b0c78f2d8d23747d1e39640982d 100644
+index 68903862b8b9485f29d2e0da282505742f01dc3b..35c12bf6e2d58f33c8f19ed8165b6425d7a67587 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -130,7 +130,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
      }
  
--    private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.SynchronousQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads
-+    //private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.SynchronousQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads // Prismarine - JettPack patches
+-    private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.LinkedBlockingQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads
++    //private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.LinkedBlockingQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads // Prismarine - JettPack patches
  
      // Spigot start
      public void initUUID()
@@ -724,7 +724,7 @@ index 13939c839faaeb29c00d6eadfb581e22bfe41a89..a419e91712786b0c78f2d8d23747d1e3
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 138b2c1a21b9ceb60030d10e24c78e09533937a0..2ac13f6d367b90ff9b66925904a650387593c4f5 100644
+index 3fb2323c89d04f1a545897a1e67f6f637f5ab9c1..285914761bf0f165f5789f9138c76f9fa0d7b238 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -505,7 +505,13 @@ public abstract class PlayerList {
@@ -1052,7 +1052,7 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9a38eebd6805e5ae18390eaa2f5cfd36be31be4e..d16e8c5d3e20ee449955f77a212e84724fd50df4 100644
+index e9dc771f4487a57d40f57596da723c60c0e04778..020f647733bc0a51abae141f529df9c1ab85c58c 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -1099,7 +1099,7 @@ index ce4127f3701efa7d1c86bcdb4e7804fee11c397c..9d801652d1ccdb356f26f914824a2b46
      }
  }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 0c648611658c4c1fae08e867c3090c7d0241a189..9da7c6b4e3a3c8127089218a1e811c23ff27734e 100644
+index dfe2a2c13b149c20728112d4e9dfcfa8f118e541..02d877ebc0f4e0e8d24c1c432f8a654bef01f30f 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {
@@ -1112,7 +1112,7 @@ index 0c648611658c4c1fae08e867c3090c7d0241a189..9da7c6b4e3a3c8127089218a1e811c23
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
-index f54ca6383298848b2ee7108c41fcea593f924881..3f620efec7af845532d5562403e06971134b17f5 100644
+index 4c1e7c219e1ca153be4423347bd239ebaec4a31d..1e34e7d81dd4aa3a47be6cadfadd9c0f16c781b1 100644
 --- a/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
 +++ b/src/main/java/net/minecraft/world/level/entity/EntitySectionStorage.java
 @@ -32,34 +32,66 @@ public class EntitySectionStorage<T extends EntityAccess> {
@@ -1530,10 +1530,10 @@ index 2d90a7cf5d5de95005724fabcf7362bf7b555f6e..72ed3ff31682673c045be76bf5329894
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index af61231d5b76690f32ec51feae343909ecc5b0b6..c37de3ca2bdf3b9dfb92b8585015cb94eefef843 100644
+index e34254283a7c0b05d652dadddab92627b7899e89..07554d02995675469ff29cd0f2903d1022e56026 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
-@@ -140,7 +140,7 @@ public class WatchdogThread extends Thread
+@@ -140,7 +140,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
      {
          while ( !this.stopping )
          {

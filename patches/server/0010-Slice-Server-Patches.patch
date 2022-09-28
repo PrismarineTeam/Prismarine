@@ -158,10 +158,10 @@ index 1c4e812c8b3f85ac5d69b637eb43d4b9751ad150..03b6ad0064d1d201f317f1c168f07834
      }
  }
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d2b891caa 100644
+index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf36289bceab0 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -366,6 +366,21 @@ public class ServerEntity {
+@@ -362,6 +362,21 @@ public class ServerEntity {
          SynchedEntityData datawatcher = this.entity.getEntityData();
  
          if (datawatcher.isDirty()) {
@@ -180,14 +180,14 @@ index 78c01b08ff8683960d1d227523ca6cecf56c06b1..22acc4d451a96c4b7655a9f2333a283d
 +                }
 +            } else
 +            // Prismarine end
-             ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> // Pufferfish
-             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false))
-             ); // Pufferfish
+             this.broadcastAndSend(new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false));
+         }
+ 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 213a655b6a1951414f3a70f3eb1cdcd0c3806cbd..1ce1cbce85a12640ee463baee52b7df3de098d98 100644
+index 2baed6e10f60ffd8e66c58aa44f7b4737b497dc4..f3c16377e123bc78239920051462a80c5888ce06 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
          this.checkOutOfWorld();
          if (!this.level.isClientSide) {
@@ -202,7 +202,7 @@ index 213a655b6a1951414f3a70f3eb1cdcd0c3806cbd..1ce1cbce85a12640ee463baee52b7df3
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3146,7 +3154,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3147,7 +3155,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -265,7 +265,7 @@ index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 76a9d1769ccafe68bd587b0d27aacb537338f97f..bb952f14a86182a9b4770b5fc510125aa9f34ee0 100644
+index 46d1f192dbbc1b3f96fa4163efe6b835c7bc739b..f5231a83fdacf0899bea09e15824d3e5dad0158c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2384,7 +2384,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

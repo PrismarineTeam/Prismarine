@@ -5,7 +5,7 @@ Subject: [PATCH] Miscellaneous patches
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 3bb897b4cf5e92fd0b3440945f4996038d16d490..39fb2dba341b7c239a5e22bb13d99cb78dbb96ec 100644
+index da7ee9a8748737a2041c3a5aa6e69de48e77485c..f6139369e1a357c081bb91b9e5dbe8bcae2ba38e 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -25,7 +25,7 @@ dependencies {
@@ -14,7 +14,7 @@ index 3bb897b4cf5e92fd0b3440945f4996038d16d490..39fb2dba341b7c239a5e22bb13d99cb7
      api("com.google.code.gson:gson:2.8.9")
 -    api("net.md-5:bungeecord-chat:1.16-R0.4-deprecated+build.6") // Paper
 +    api("net.md-5:bungeecord-chat:1.19-R0.1-SNAPSHOT") // Paper // Prismarine
-     api("org.yaml:snakeyaml:1.32")
+     api("org.yaml:snakeyaml:1.33") // Paper
      // Paper start
      api("com.googlecode.json-simple:json-simple:1.1.1") {
 diff --git a/src/main/java/org/bukkit/configuration/ConfigurationSection.java b/src/main/java/org/bukkit/configuration/ConfigurationSection.java

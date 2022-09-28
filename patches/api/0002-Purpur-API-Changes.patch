@@ -1,26 +1,31 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 25 Sep 2022 21:57:38 +0000
+Date: Wed, 28 Sep 2022 17:07:52 +0900
 Subject: [PATCH] Purpur API Changes
-
-Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the Software), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+Software), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED AS
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index c187795c9e44ec08c0826139b487be808209d1d5..3bb897b4cf5e92fd0b3440945f4996038d16d490 100644
+index c873a0537186ebe8a0fe2d15c7a7950793fd9a37..da7ee9a8748737a2041c3a5aa6e69de48e77485c 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -103,6 +103,8 @@ tasks.jar {
@@ -3819,6 +3824,60 @@ index 0000000000000000000000000000000000000000..eebb5d124456b8209d1b8e8cc4cb772d
 +
 +    @NotNull
 +    @Override
++    public HandlerList getHandlers() {
++        return handlers;
++    }
++
++    @NotNull
++    public static HandlerList getHandlerList() {
++        return handlers;
++    }
++}
+diff --git a/src/main/java/org/purpurmc/purpur/event/packet/NetworkItemSerializeEvent.java b/src/main/java/org/purpurmc/purpur/event/packet/NetworkItemSerializeEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..c0da73d2ea83a6055e34894ba1c7506fc8667712
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/event/packet/NetworkItemSerializeEvent.java
+@@ -0,0 +1,48 @@
++package org.purpurmc.purpur.event.packet;
++
++import org.bukkit.event.Event;
++import org.bukkit.event.HandlerList;
++import org.bukkit.inventory.ItemStack;
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
++
++/**
++ * Called when an item is about to be written to a packet.
++ */
++public class NetworkItemSerializeEvent extends Event {
++    private ItemStack itemStack;
++
++    public NetworkItemSerializeEvent(@NotNull ItemStack itemStack) {
++        super(!org.bukkit.Bukkit.isPrimaryThread());
++        this.itemStack = itemStack;
++    }
++
++    /**
++     * @return The item that is about to be serialized. Not mutable
++     */
++    @NotNull
++    public ItemStack getItemStack() {
++        return itemStack;
++    }
++
++    /**
++     * Sets the item that will be serialized.
++     *
++     * @param itemStack The item
++     */
++    public void setItemStack(@Nullable ItemStack itemStack) {
++        this.itemStack = itemStack;
++    }
++
++    private static final HandlerList handlers = new HandlerList();
++
++    @NotNull
 +    public HandlerList getHandlers() {
 +        return handlers;
 +    }

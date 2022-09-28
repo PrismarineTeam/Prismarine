@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 22acc4d451a96c4b7655a9f2333a283d2b891caa..08b085da9a9a746223fc0387e58e3daf24432410 100644
+index 869b85b4c482d8bd0a48b948cffcf36289bceab0..3846817023da87e935152582d5bbc745182d0622 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {
@@ -61,7 +61,7 @@ index 22acc4d451a96c4b7655a9f2333a283d2b891caa..08b085da9a9a746223fc0387e58e3daf
 +
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
-         // Pufferfish start - ensure main thread
+         player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index 7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b..c1630079740f4ff37d772fa31859efa26af1c61e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java

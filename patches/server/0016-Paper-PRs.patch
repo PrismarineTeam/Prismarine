@@ -51,10 +51,10 @@ Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#
 0017
 
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index e28e4592b24c544ea975888f2aec474da218ceba..3e668af7db351c2a9437bb7d725ec9cfa4d513ba 100644
+index 580c0d76bdedd83be29500d64816a129e270fbc3..245ffd8d8db27b598f1c6f491ff451c6734f1ed0 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-@@ -82,19 +82,24 @@ public class FriendlyByteBuf extends ByteBuf {
+@@ -82,6 +82,17 @@ public class FriendlyByteBuf extends ByteBuf {
      private static final int PUBLIC_KEY_SIZE = 256;
      private static final int MAX_PUBLIC_KEY_HEADER_SIZE = 256;
      private static final int MAX_PUBLIC_KEY_LENGTH = 512;
@@ -70,8 +70,9 @@ index e28e4592b24c544ea975888f2aec474da218ceba..3e668af7db351c2a9437bb7d725ec9cf
 +    // Paper end
 +    // Prismarine end
  
-     public FriendlyByteBuf(ByteBuf parent) {
-         this.source = parent;
+     public static boolean hasItemSerializeEvent = false; // Purpur
+ 
+@@ -90,13 +101,7 @@ public class FriendlyByteBuf extends ByteBuf {
      }
  
      public static int getVarIntSize(int value) {
@@ -86,7 +87,7 @@ index e28e4592b24c544ea975888f2aec474da218ceba..3e668af7db351c2a9437bb7d725ec9cf
      }
  
      public static int getVarLongSize(long value) {
-@@ -504,6 +509,23 @@ public class FriendlyByteBuf extends ByteBuf {
+@@ -506,6 +511,23 @@ public class FriendlyByteBuf extends ByteBuf {
      }
  
      public FriendlyByteBuf writeVarInt(int value) {
@@ -123,7 +124,7 @@ index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f20
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 2ac13f6d367b90ff9b66925904a650387593c4f5..2f67ff558f107cb4fe28d725cae26de7d8707f5a 100644
+index 285914761bf0f165f5789f9138c76f9fa0d7b238..e9130fd8f630018eac9f26e81910aadf56afabaf 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -616,7 +616,7 @@ public abstract class PlayerList {

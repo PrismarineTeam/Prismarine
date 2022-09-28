@@ -71,10 +71,10 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda87
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
          this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 719f6ff508653db989ab0199476b47100378f92c..99715170d000f2a45a3db932d4d4f8f6deab487f 100644
+index 8f65dfb8d29632d44c2b0b118881fc83e52d9ba6..0397e90c9a3c7a53f3cc9d4f404b5eb4a6338e1f 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -249,7 +249,7 @@ public class PurpurConfig {
+@@ -253,7 +253,7 @@ public class PurpurConfig {
          laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
      }
  
@@ -84,7 +84,7 @@ index 719f6ff508653db989ab0199476b47100378f92c..99715170d000f2a45a3db932d4d4f8f6
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 45eebbc1993b53b4d01317c6089b619f026d53ed..eedbf1b9878e01ef791ecc6736a06c46d03bfd01 100644
+index 7a37bdc4a926bc7e8140331a98fe5e2a17b2ffaf..6b223ab7ddf8208bfab1db925c33926ec9f2acaf 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -414,7 +414,7 @@ public class PurpurWorldConfig {

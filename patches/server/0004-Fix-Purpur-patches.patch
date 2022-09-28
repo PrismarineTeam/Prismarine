@@ -5,10 +5,10 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index d7c77908ba7f0a0c00c06744d1ee0c1ad3ee0d7c..828fda5c7ea8f8a040d5f39e6c9cc5a0cdc55649 100644
+index 13c9cddf7ac0af16676050e3bcdf22b7475a0387..a2b3875dfb70011e0df517813590a96fff28f662 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          MinecraftServer.LOGGER.info("Stopping server");
          Commands.COMMAND_SENDING_POOL.shutdownNow(); // Paper - Shutdown and don't bother finishing
@@ -18,7 +18,7 @@ index d7c77908ba7f0a0c00c06744d1ee0c1ad3ee0d7c..828fda5c7ea8f8a040d5f39e6c9cc5a0
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 33ec9cb7efd5623866c03506b8dcb28831b54b21..68ee7f105ad0e5e885fdf78b049cf9a6d3f7b2ed 100644
+index a029f51983bcfe49beab1359f282f0f957723ef2..3ea565a2b1cbf564f69f463347e60d7bfa6813e3 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -222,7 +222,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -31,10 +31,10 @@ index 33ec9cb7efd5623866c03506b8dcb28831b54b21..68ee7f105ad0e5e885fdf78b049cf9a6
          try {
              org.purpurmc.purpur.PurpurConfig.init((java.io.File) options.valueOf("purpur-settings"));
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 6859e2054e8eb4fc8ac005e0bf646a30defa47a6..f9a3db9a814685d33b54836af0b0aab6f70a87bd 100644
+index 9f8d89e45c9d15f07e9b5c27451816ae06819f68..e2955414c32d66c8b247c738d0075c8d66e0b760 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -941,7 +941,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -971,7 +971,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -43,7 +43,7 @@ index 6859e2054e8eb4fc8ac005e0bf646a30defa47a6..f9a3db9a814685d33b54836af0b0aab6
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -990,7 +990,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1020,7 +1020,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
@@ -71,7 +71,7 @@ index 4e77bb2be5a35bc6b002e2eae4af41937187ba0d..d0f4e1556e606d916f7f9d511a1fb2dd
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 989af6f3e0604a342032b308f97c7b863b3b1e40..edf40a4b5dbc3ca42b3b8ae83c86583257cfd689 100644
+index 22f8db91f31be6a6d981c70e2ab94d031723ac9c..55a36e1573058175c45a2c0ac4978b7b96a9fda0 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 @@ -144,6 +144,13 @@ public class Frog extends Animal {

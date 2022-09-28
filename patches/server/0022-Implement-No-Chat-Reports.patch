@@ -40,10 +40,10 @@ index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..0bd26e91b9971149a2f81f7361058038
          }
      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 47600c5fd0625f42a21821719ab869e273eaf807..c52618b56da668a53d0e881e1b3286372917a154 100644
+index 5328515f1e781f98c1795c5ca85c5b07f3876c8d..20512d901e82a1b67cf097044abdc37d93e7ed75 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -664,7 +664,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -691,7 +691,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
  
      @Override
      public boolean enforceSecureProfile() {
@@ -95,7 +95,7 @@ index 8533b31b31138b000308107ce4215746edd1f16b..6a2732e10f2458dd635eaa8e78daf4b5
          ChatMessageContent chatmessagecontent = this.getSignedContent(packet);
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 2f67ff558f107cb4fe28d725cae26de7d8707f5a..27f8506a4dbfa855526ef29718e44cd6a0bd0beb 100644
+index e9130fd8f630018eac9f26e81910aadf56afabaf..6cfa0819dd5908fdc121d950cb181247b4564571 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1524,7 +1524,7 @@ public abstract class PlayerList {
