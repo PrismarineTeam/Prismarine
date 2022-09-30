@@ -25,7 +25,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 0485d126f799789b5d5abcaf96da96df25a12dfd..4e4bc7e55a81dc44d7f6cfc6a8761141d0d3bb6c 100644
+index 9746ce97d05cace4104e6992126fb983beadc4cf..a61a0f4f1ce89681336d2ed246e6b616aa6fe73d 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -254,6 +254,24 @@ index 39844531b03eb8a6c70700b4ecbf0ff1a557424d..632ae75cb3bbc7a3955872d14ad0fbc2
      // CraftBukkit start
      public void removeCommand(String name) {
          this.children.remove(name);
+diff --git a/src/main/java/com/mojang/logging/LogUtils.java b/src/main/java/com/mojang/logging/LogUtils.java
+index 46cab7a8c7b87ab01b26074b04f5a02b3907cfc4..f7449f6ec04356175a0349001a6daa27ab5873f1 100644
+--- a/src/main/java/com/mojang/logging/LogUtils.java
++++ b/src/main/java/com/mojang/logging/LogUtils.java
+@@ -59,6 +59,12 @@ public class LogUtils {
+      * Caller sensitive, DO NOT WRAP
+      */
+     public static Logger getLogger() {
+-        return LoggerFactory.getLogger(STACK_WALKER.getCallerClass());
++        // Purpur start
++        Class<?> clazz = STACK_WALKER.getCallerClass();
++        if (clazz.getPackageName().startsWith("io.papermc.paper")) {
++            return LoggerFactory.getLogger(clazz.getSimpleName());
++        }
++        return LoggerFactory.getLogger(clazz);
++        // Purpur end
+     }
+ }
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a114722e81a1d 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
@@ -17839,9 +17857,18 @@ index d089887030ac7c7a79abca97134ba9291e244059..7068cb39ab264fa0c65febff01236b8d
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java b/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
-index 4d1e1cf4c541793492a02681087a6242e7977acd..7e776115872873b13af4352791ef23630c10f3ae 100644
+index 4d1e1cf4c541793492a02681087a6242e7977acd..5f4a37d350dc6db2531cf5f9cfe91545cc5cacbb 100644
 --- a/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
+@@ -30,7 +30,7 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+ 
+     @Override
+     public BlockState getStateForPlacement(LevelAccessor world) {
+-        return (BlockState) this.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, world.getRandom().nextInt(25));
++        return (BlockState) this.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, world.getRandom().nextInt(getMaxGrowthAge(world.getMinecraftWorld()))); // Purpur
+     }
+ 
+     @Override
 @@ -38,6 +38,8 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
          return (Integer) state.getValue(GrowingPlantHeadBlock.AGE) < 25;
      }
@@ -17973,25 +18000,17 @@ index 0afadbc8515d448b0ef817f4f0f53b1bb0abde43..c9daa26ab987249f390c64c9e26cd9ce
          } else {
              world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
 diff --git a/src/main/java/net/minecraft/world/level/block/KelpBlock.java b/src/main/java/net/minecraft/world/level/block/KelpBlock.java
-index bc66fa91ec3e13431d5d9b6e17935cab73066be7..171eeab0c395af77725f3e62ef9594a1c22f381f 100644
+index bc66fa91ec3e13431d5d9b6e17935cab73066be7..6776ca3340f710cea4bf90b610def9e51051cf75 100644
 --- a/src/main/java/net/minecraft/world/level/block/KelpBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/KelpBlock.java
-@@ -3,6 +3,7 @@ package net.minecraft.world.level.block;
- import javax.annotation.Nullable;
- import net.minecraft.core.BlockPos;
- import net.minecraft.core.Direction;
-+import net.minecraft.server.level.ServerLevel;
- import net.minecraft.tags.FluidTags;
- import net.minecraft.util.RandomSource;
- import net.minecraft.world.item.context.BlockPlaceContext;
-@@ -64,4 +65,11 @@ public class KelpBlock extends GrowingPlantHeadBlock implements LiquidBlockConta
+@@ -64,4 +64,11 @@ public class KelpBlock extends GrowingPlantHeadBlock implements LiquidBlockConta
      public FluidState getFluidState(BlockState state) {
          return Fluids.WATER.getSource(false);
      }
 +
 +    // Purpur start
 +    @Override
-+    public int getMaxGrowthAge(ServerLevel world) {
++    public int getMaxGrowthAge(net.minecraft.server.level.ServerLevel world) {
 +        return world.purpurConfig.kelpMaxGrowthAge;
 +    }
 +    // Purpur end
@@ -18137,7 +18156,7 @@ index 7b45d6b9a005036ca5051d089a7be792eb87012f..8806c97ecc6bdd8a64c2d82bb2f58f46
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java b/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
-index ef15adf66ea994d15a7d2718dd3d22cd07c31f98..dd87e3efdeafb211c1e44f8dc3348830ed7e22ad 100644
+index ce4265a9cf01db335a6a88b91ae5e6ff4518ef92..f889729b3bbbe1c82fa8bc7e1ab1f7b0727f85b0 100644
 --- a/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/PointedDripstoneBlock.java
 @@ -188,7 +188,7 @@ public class PointedDripstoneBlock extends Block implements Fallable, SimpleWate
@@ -18536,25 +18555,17 @@ index 7d25fb0fc64a4f559fe206198fde900afa06f258..6151226a88a9ca44955821521641e788
      }
  }
 diff --git a/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java b/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java
-index 6866605c7ef5361b21130a19a59c3fa3660dfb19..e8fe6959b96e4f4669adffd8b56f4f3204721a7e 100644
+index 6866605c7ef5361b21130a19a59c3fa3660dfb19..c3f42d587de584406ebb6a68d9529c0410a6554d 100644
 --- a/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java
-@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
- import net.minecraft.world.level.block.state.BlockBehaviour;
- import net.minecraft.world.level.block.state.BlockState;
- import net.minecraft.world.phys.shapes.VoxelShape;
-+import net.minecraft.server.level.ServerLevel; // Purpur
- 
- public class TwistingVinesBlock extends GrowingPlantHeadBlock {
-     public static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 15.0D, 12.0D);
-@@ -27,4 +28,11 @@ public class TwistingVinesBlock extends GrowingPlantHeadBlock {
+@@ -27,4 +27,11 @@ public class TwistingVinesBlock extends GrowingPlantHeadBlock {
      protected boolean canGrowInto(BlockState state) {
          return NetherVines.isValidGrowthState(state);
      }
 +
 +    // Purpur start
 +    @Override
-+    public int getMaxGrowthAge(ServerLevel world) {
++    public int getMaxGrowthAge(net.minecraft.server.level.ServerLevel world) {
 +        return world.purpurConfig.twistingVinesMaxGrowthAge;
 +    }
 +    // Purpur end
@@ -20208,7 +20219,7 @@ index ae05f526f9ec70a2992ef3ee66b7f57eca2351fc..b010d7398c657367651fc576af5b0514
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index a508619e6855ee0b96a9bf61526b1b88abf0e732..46d1f192dbbc1b3f96fa4163efe6b835c7bc739b 100644
+index 7005146e178d2e6358f3cd6a1a97ba12f410e16d..c44f3b9cc34a545da60f772567b72f1fba4648d5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -522,10 +522,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
