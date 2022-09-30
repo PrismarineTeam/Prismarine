@@ -25,7 +25,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 9746ce97d05cace4104e6992126fb983beadc4cf..a61a0f4f1ce89681336d2ed246e6b616aa6fe73d 100644
+index 7b74ec475b1e953080d5aa8b0a10d1680e7c46f1..e2ee97d7a98e6eac3db4f2a06eaa35f1dde45db1 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -56,7 +56,7 @@ index 9746ce97d05cace4104e6992126fb983beadc4cf..a61a0f4f1ce89681336d2ed246e6b616
          exclude(group="org.yaml", module="snakeyaml")
      }
      // Pufferfish end
-@@ -83,7 +86,7 @@ tasks.jar {
+@@ -84,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -65,7 +65,7 @@ index 9746ce97d05cace4104e6992126fb983beadc4cf..a61a0f4f1ce89681336d2ed246e6b616
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -182,7 +185,7 @@ fun TaskContainer.registerRunTask(
+@@ -183,7 +186,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -273,10 +273,10 @@ index 46cab7a8c7b87ab01b26074b04f5a02b3907cfc4..f7449f6ec04356175a0349001a6daa27
      }
  }
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a114722e81a1d 100644
+index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b92ffb1ab 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-@@ -28,6 +28,7 @@ public class PufferfishConfig {
+@@ -36,6 +36,7 @@ public class PufferfishConfig {
  	
  	private static final YamlFile config = new YamlFile();
  	private static int updates = 0;
@@ -284,7 +284,7 @@ index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a1147
  	
  	private static ConfigurationSection convertToBukkit(org.simpleyaml.configuration.ConfigurationSection section) {
  		ConfigurationSection newSection = new MemoryConfiguration();
-@@ -50,7 +51,7 @@ public class PufferfishConfig {
+@@ -58,7 +59,7 @@ public class PufferfishConfig {
  	}
  	
  	public static void load() throws IOException {
@@ -293,7 +293,7 @@ index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a1147
  		
  		if (configFile.exists()) {
  			try {
-@@ -113,6 +114,22 @@ public class PufferfishConfig {
+@@ -121,6 +122,22 @@ public class PufferfishConfig {
  			config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
  		}
  	}
@@ -316,7 +316,7 @@ index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a1147
  	
  	private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
  		return getBoolean(key, null, defaultValue, comment);
-@@ -222,7 +239,7 @@ public class PufferfishConfig {
+@@ -230,7 +247,7 @@ public class PufferfishConfig {
      public static int activationDistanceMod;
  
      private static void dynamicActivationOfBrains() throws IOException {
@@ -325,7 +325,7 @@ index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a1147
          startDistance = getInt("dab.start-distance", "activation-range.start-distance", 12,
                  "This value determines how far away an entity has to be",
                  "from the player to start being effected by DEAR.");
-@@ -266,7 +283,7 @@ public class PufferfishConfig {
+@@ -298,7 +315,7 @@ public class PufferfishConfig {
      
      public static boolean throttleInactiveGoalSelectorTick;
  	private static void inactiveGoalSelectorThrottle() {

@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4e4bc7e55a81dc44d7f6cfc6a8761141d0d3bb6c..86b5ec9cc5cf3dbfdaef3ad33d547d245d261ea1 100644
+index e2ee97d7a98e6eac3db4f2a06eaa35f1dde45db1..762d7405ddb661ce2913dff6963e076767297a52 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -17,7 +17,7 @@ index 4e4bc7e55a81dc44d7f6cfc6a8761141d0d3bb6c..86b5ec9cc5cf3dbfdaef3ad33d547d24
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -86,7 +86,7 @@ tasks.jar {
+@@ -87,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
