@@ -149,10 +149,10 @@ index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752ee
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 2003a5fdf4cb3710f7b76ee435275cd13a50fe86..d7331e5c92100600c0d20571521580ac6b8825ad 100644
+index 0011c228b10316b09a62579dfc3d37794ee8e61a..12fc90b265a38b170ddbda4bd0baebeed1266900 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-@@ -273,4 +273,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+@@ -278,4 +278,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
                     '}';
      }
      // Paper end
@@ -272,7 +272,7 @@ index 0000000000000000000000000000000000000000..6299e45ee89218566634431771a4c661
 +}
 \ No newline at end of file
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index 49de298146814fdf238929e10270ac6717dd73bd..e29c57344e95fcc48b3c68b08d25a810cfa51864 100644
+index 7769e19a5a86b5c76094058d31269fc6cc9f0ac3..2c767a4c6a7644e7affa6d54aeb123fec4db79bc 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
 @@ -61,8 +61,9 @@ public class AnnotationTest {
