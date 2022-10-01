@@ -254,24 +254,6 @@ index 39844531b03eb8a6c70700b4ecbf0ff1a557424d..632ae75cb3bbc7a3955872d14ad0fbc2
      // CraftBukkit start
      public void removeCommand(String name) {
          this.children.remove(name);
-diff --git a/src/main/java/com/mojang/logging/LogUtils.java b/src/main/java/com/mojang/logging/LogUtils.java
-index 46cab7a8c7b87ab01b26074b04f5a02b3907cfc4..f7449f6ec04356175a0349001a6daa27ab5873f1 100644
---- a/src/main/java/com/mojang/logging/LogUtils.java
-+++ b/src/main/java/com/mojang/logging/LogUtils.java
-@@ -59,6 +59,12 @@ public class LogUtils {
-      * Caller sensitive, DO NOT WRAP
-      */
-     public static Logger getLogger() {
--        return LoggerFactory.getLogger(STACK_WALKER.getCallerClass());
-+        // Purpur start
-+        Class<?> clazz = STACK_WALKER.getCallerClass();
-+        if (clazz.getPackageName().startsWith("io.papermc.paper")) {
-+            return LoggerFactory.getLogger(clazz.getSimpleName());
-+        }
-+        return LoggerFactory.getLogger(clazz);
-+        // Purpur end
-     }
- }
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b92ffb1ab 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
@@ -335,7 +317,7 @@ index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b
  				"This can improve performance by a few percent, but has minor gameplay implications.");
  	}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
-index 6513438d01a3c7955e61a77b57385baf487aeed8..75bcbfdd657f6be95d76a416a8a32f9cd562c931 100644
+index 8dc1d2d15d571d1603a41dee13681a87841f5e23..54ec7955ba394e82663b08972dd89f69a23593ac 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
 @@ -901,9 +901,9 @@ public final class ChunkHolderManager {
@@ -351,7 +333,7 @@ index 6513438d01a3c7955e61a77b57385baf487aeed8..75bcbfdd657f6be95d76a416a8a32f9c
  
      private static final ThreadLocal<List<ChunkProgressionTask>> CURRENT_TICKET_UPDATE_SCHEDULING = new ThreadLocal<>();
 diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 9a4ec0f1fb3bac0e84e6bd3aaeb77f44e248aadb..4d285d7c0cbc0a84a11e0c403dc91a9626757f06 100644
+index dd9c1d68a2bc42467b4566953aaed028bddf0f74..4172d93a73c373482159b48b76200176267b1b19 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
 @@ -1747,7 +1747,7 @@ public final class NewChunkHolder {
@@ -482,7 +464,7 @@ index abe37c7c3c6f5ab73afd738ec78f06d7e4d2ed96..b5b6657e52e4f7a630229bd3ba433438
          stringbuilder.append(CrashReport.getErrorComment());
          stringbuilder.append("\n\n");
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-index dd0143f319d4adef8834c513af34b1cce7a94a84..c2f32e65b44c60395661fb9f6eb8939ac7bea2ab 100644
+index 0d140dd7d55407b57fc3394ceb2eba5136e4fcaf..e7c51725d5c04cc9da1bd1d2e12392ca07264609 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
 +++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
 @@ -213,6 +213,21 @@ public class CommandSourceStack implements SharedSuggestionProvider, com.destroy
@@ -10669,7 +10651,7 @@ index 150afceb491cfd254c0f1b84800e6df14cf26676..bdb0efdcac171a92a0e05557db7d099f
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java b/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
-index d2a77b4ca343d19e1c70afe3f3906a9bd53d0eec..2a3ec299283c2cc039877eade6e2ddee8f3812ea 100644
+index d2a77b4ca343d19e1c70afe3f3906a9bd53d0eec..420c13e00ca3e22a101d3867f99fdf2dd30776a8 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
 @@ -267,7 +267,13 @@ public class ItemFrame extends HangingEntity {
@@ -10687,6 +10669,20 @@ index d2a77b4ca343d19e1c70afe3f3906a9bd53d0eec..2a3ec299283c2cc039877eade6e2ddee
                  }
  
                  if (!itemstack.isEmpty()) {
+@@ -282,6 +288,13 @@ public class ItemFrame extends HangingEntity {
+         }
+     }
+ 
++    // Purpur start
++    @Nullable
++    public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ItemStack stack) {
++        return this.spawnAtLocation(stack, getDirection().equals(Direction.DOWN) ? -0.6F : 0.0F);
++    }
++    // Purpur end
++
+     private void removeFramedMap(ItemStack itemstack) {
+         this.getFramedMapId().ifPresent((i) -> {
+             MapItemSavedData worldmap = MapItem.getSavedData(i, this.level);
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/Painting.java b/src/main/java/net/minecraft/world/entity/decoration/Painting.java
 index 18697701ca6406b2a74f190b22d5b276359547d0..ee72748a8c07587c95bdce8f982fcdd73e8fd8f4 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/Painting.java

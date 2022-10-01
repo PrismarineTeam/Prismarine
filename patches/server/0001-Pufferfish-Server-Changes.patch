@@ -2142,17 +2142,18 @@ index 0000000000000000000000000000000000000000..facd55463d44cb7e3d2ca6892982f549
 +	}
 +}
 diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-index 7d7540cb917564c497eb3a5ef98fb068944694ea..eb22acd39de0c57a9089b452136c39bdf186f316 100644
+index 7d37b2b02dd64acdac7e5981bebcf988e2f5a7c1..2012fc770b0a8c1092327695646d1aa76478428d 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-@@ -36,6 +36,7 @@ import java.util.function.Consumer;
+@@ -36,7 +36,7 @@ import java.util.function.Consumer;
  import java.util.function.Predicate;
  
  public final class EntityLookup implements LevelEntityGetter<Entity> {
+-
 +    @Override public int getCount() { return this.accessibleEntities.size(); } // Pufferfish // Prismarine - Flare
+     private static final Logger LOGGER = LogUtils.getClassLogger();
  
-     private static final Logger LOGGER = LogUtils.getLogger();
- 
+     protected static final int REGION_SHIFT = 5;
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 index 4a8286c78a9a5e305b19cc5d316bc73a78e49b4d..54bca103347e89f116fb7fbf37449a32ac094286 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
