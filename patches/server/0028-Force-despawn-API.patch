@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 2 Oct 2022 21:26:45 +0900
+Subject: [PATCH] Force despawn API
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 85d8711a02208f99840900d201a3972d3e2b7cc2..fdb54fe3c496615f9b532cc8ccc950294d19243b 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -4433,6 +4433,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+ 
+     public void checkDespawn() {}
+ 
++    public void setForceDespawn(boolean force) {} // Prismarine
++
+     public Vec3 getRopeHoldPosition(float delta) {
+         return this.getPosition(delta).add(0.0D, (double) this.eyeHeight * 0.7D, 0.0D);
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
+index 920318f80256632a8b6ac430e18ea470dfbfba37..fbf4db7ccf25af0765132c3638699b8fee50aece 100644
+--- a/src/main/java/net/minecraft/world/entity/Mob.java
++++ b/src/main/java/net/minecraft/world/entity/Mob.java
+@@ -136,6 +136,7 @@ public abstract class Mob extends LivingEntity {
+ 
+     public int ticksSinceLastInteraction; // Purpur
+     public boolean aware = true; // CraftBukkit
++    public boolean forceDespawn = false; // Prismarine
+ 
+     protected Mob(EntityType<? extends Mob> type, Level world) {
+         super(type, world);
+@@ -838,7 +839,7 @@ public abstract class Mob extends LivingEntity {
+     public void checkDespawn() {
+         if (this.level.getDifficulty() == Difficulty.PEACEFUL && this.shouldDespawnInPeaceful()) {
+             this.discard();
+-        } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
++        } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence() || this.forceDespawn) { // Prismarine
+             // Paper start - optimise checkDespawn
+             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
+             // Paper end - optimise checkDespawn
+@@ -870,6 +871,13 @@ public abstract class Mob extends LivingEntity {
+         }
+     }
+ 
++    // Prismarine start
++    @Override
++    public void setForceDespawn(boolean force) {
++        this.forceDespawn = force;
++    }
++    // Prismarine end
++
+     @Override
+     protected final void serverAiStep() {
+         ++this.noActionTime;
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+index 08fa6244dcfda8a8a05cb2b89352575e91400607..8a98398015ff24395d040d741357228715d9cbef 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+@@ -687,6 +687,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+         this.entity.discard();
+     }
+ 
++    // Prismairne start
++    @Override
++    public void setRemove(boolean force) {
++        this.entity.setForceDespawn(force);
++    }
++    // Prismarine end
++
+     @Override
+     public boolean isDead() {
+         return !this.entity.isAlive();

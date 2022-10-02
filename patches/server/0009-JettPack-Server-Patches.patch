@@ -896,7 +896,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 260e094bad8d6f1b775e317ba2c9b3e25cfa7467..6758de92fb111cde1fc63d81afee6789159bfdd8 100644
+index aeb0498853cccf88090e9b577cce472d408d5e2d..5b51419611baa7d89450d0e618f7a717a258f298 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
@@ -922,7 +922,7 @@ index 260e094bad8d6f1b775e317ba2c9b3e25cfa7467..6758de92fb111cde1fc63d81afee6789
  
      }
  
-@@ -2547,6 +2547,7 @@ public abstract class LivingEntity extends Entity {
+@@ -2550,6 +2550,7 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void updateSwingTime() {
@@ -931,7 +931,7 @@ index 260e094bad8d6f1b775e317ba2c9b3e25cfa7467..6758de92fb111cde1fc63d81afee6789
  
          if (this.swinging) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index ec4f04327eb875989af4d7da0171e2000fadef6b..2b17237eebc7d4aa939a0954f154b2206ed33293 100644
+index d5e3bd662da349fc2ee58c7800d79c60300f33b3..920318f80256632a8b6ac430e18ea470dfbfba37 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -841,9 +841,6 @@ public abstract class Mob extends LivingEntity {

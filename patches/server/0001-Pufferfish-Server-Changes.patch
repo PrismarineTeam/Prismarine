@@ -2086,7 +2086,7 @@ index 12cf4d3dfbd2c4f4a1815f5e26e59ae8667f7b47..bbe9568b8df69f5f1ef08dc02dc8ee6a
      public final String id;
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 1c8661afcfaaf56953cef3a5c26fbc4fa3ac5b1c..ded69bc892aaf35cc57a562116bb623c07b08550 100644
+index 0318c9483a4d96eb39ff4df9054a9e6398186bc3..26efc49b4530112c8bd3f580ce375ab4203c9609 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -142,7 +142,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -2123,7 +2123,7 @@ index 1c8661afcfaaf56953cef3a5c26fbc4fa3ac5b1c..ded69bc892aaf35cc57a562116bb623c
      @Override
      public boolean hurt(DamageSource source, float amount) {
          if (this.isInvulnerableTo(source)) {
-@@ -1903,6 +1910,20 @@ public abstract class LivingEntity extends Entity {
+@@ -1906,6 +1913,20 @@ public abstract class LivingEntity extends Entity {
          return this.lastClimbablePos;
      }
  
@@ -2144,7 +2144,7 @@ index 1c8661afcfaaf56953cef3a5c26fbc4fa3ac5b1c..ded69bc892aaf35cc57a562116bb623c
      public boolean onClimbable() {
          if (this.isSpectator()) {
              return false;
-@@ -3583,7 +3604,10 @@ public abstract class LivingEntity extends Entity {
+@@ -3586,7 +3607,10 @@ public abstract class LivingEntity extends Entity {
              Vec3 vec3d1 = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ());
  
              // Paper - diff on change - used in CraftLivingEntity#hasLineOfSight(Location) and CraftWorld#lineOfSightExists
@@ -2157,7 +2157,7 @@ index 1c8661afcfaaf56953cef3a5c26fbc4fa3ac5b1c..ded69bc892aaf35cc57a562116bb623c
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 557e90e54439ce0430075403392b5052d5181feb..5ab1f5d36a61e7a7fe8da4e74f75963ea6432101 100644
+index fffa6ba329b38433a1df51df339df652d3fda828..e89b88eb3d4202ea7ff043dc9e92163332cd10d3 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -210,14 +210,16 @@ public abstract class Mob extends LivingEntity {
@@ -2408,7 +2408,7 @@ index 3dd4e6d622a6daafa00ae971edd88a147e34beef..32cca29fd622d18030931e1f33079149
          this.level.getProfiler().pop();
          this.level.getProfiler().push("tadpoleActivityUpdate");
 diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
-index 962a6dfed8496959b3f7eac12c7f55fb1b9c57d1..0a700defc04f649fb45cb3d3df1e332f39f6d89a 100644
+index a4690391df0aa26abea1ad92e6143eb19c5d1143..3c3453638e117609190787efbf5d87fc20dcf8fd 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -163,9 +163,11 @@ public class Goat extends Animal {
@@ -2951,10 +2951,10 @@ index d89471935b2b5888cb5d1f6829ae479003451fda..0277633fd328ef9993fea4ac29df83b5
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index e31a2eea9a62ab2c0bed1a97dab6bae231b8cd8b..1f4acc1a2605f1e9051126fc811a5479351fc61a 100644
+index df83b6f0e217eec4c9e9707be0030c129fdeb545..386ed2c102aaa3ec68e828e20fff6bfe0d8f7877 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-@@ -414,12 +414,12 @@ public final class NaturalSpawner {
+@@ -415,12 +415,12 @@ public final class NaturalSpawner {
          }
      }
  
