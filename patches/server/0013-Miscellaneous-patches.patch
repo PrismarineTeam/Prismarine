@@ -210,10 +210,10 @@ index 3eee2ebaee415cde427eb72f61a3c67ed5cc0e30..97115c2c5fdbea7f73b2eb81093dfae6
      }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index cf08075a2f38dd6809b872fa1ad6fc6f620cceba..8f65dfb8d29632d44c2b0b118881fc83e52d9ba6 100644
+index af628461958c4c0e630e70d09c80dd92e1b03556..223dec38e73b57e9130287ec74bb1786df77eb92 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -46,7 +46,11 @@ public class PurpurConfig {
+@@ -49,7 +49,11 @@ public class PurpurConfig {
              + "join us in our Discord guild.\n"
              + "\n"
              + "Website: https://purpurmc.org \n"

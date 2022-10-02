@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 28 Sep 2022 17:07:40 +0900
+Date: Sun, 2 Oct 2022 11:26:24 +0900
 Subject: [PATCH] Purpur Server Changes
 
 Copyright (C) 2022 PurpurMC LLC
@@ -25,7 +25,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 7b74ec475b1e953080d5aa8b0a10d1680e7c46f1..e2ee97d7a98e6eac3db4f2a06eaa35f1dde45db1 100644
+index 9746ce97d05cace4104e6992126fb983beadc4cf..a61a0f4f1ce89681336d2ed246e6b616aa6fe73d 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -56,7 +56,7 @@ index 7b74ec475b1e953080d5aa8b0a10d1680e7c46f1..e2ee97d7a98e6eac3db4f2a06eaa35f1
          exclude(group="org.yaml", module="snakeyaml")
      }
      // Pufferfish end
-@@ -84,7 +87,7 @@ tasks.jar {
+@@ -83,7 +86,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -65,7 +65,7 @@ index 7b74ec475b1e953080d5aa8b0a10d1680e7c46f1..e2ee97d7a98e6eac3db4f2a06eaa35f1
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -183,7 +186,7 @@ fun TaskContainer.registerRunTask(
+@@ -182,7 +185,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -255,10 +255,10 @@ index 39844531b03eb8a6c70700b4ecbf0ff1a557424d..632ae75cb3bbc7a3955872d14ad0fbc2
      public void removeCommand(String name) {
          this.children.remove(name);
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b92ffb1ab 100644
+index ed9c8e882739c02d0d04129d251e4c726b422c07..c9ae76401278057f87ebef13619a114722e81a1d 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-@@ -36,6 +36,7 @@ public class PufferfishConfig {
+@@ -28,6 +28,7 @@ public class PufferfishConfig {
  	
  	private static final YamlFile config = new YamlFile();
  	private static int updates = 0;
@@ -266,7 +266,7 @@ index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b
  	
  	private static ConfigurationSection convertToBukkit(org.simpleyaml.configuration.ConfigurationSection section) {
  		ConfigurationSection newSection = new MemoryConfiguration();
-@@ -58,7 +59,7 @@ public class PufferfishConfig {
+@@ -50,7 +51,7 @@ public class PufferfishConfig {
  	}
  	
  	public static void load() throws IOException {
@@ -275,7 +275,7 @@ index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b
  		
  		if (configFile.exists()) {
  			try {
-@@ -121,6 +122,22 @@ public class PufferfishConfig {
+@@ -113,6 +114,22 @@ public class PufferfishConfig {
  			config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
  		}
  	}
@@ -298,7 +298,7 @@ index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b
  	
  	private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
  		return getBoolean(key, null, defaultValue, comment);
-@@ -230,7 +247,7 @@ public class PufferfishConfig {
+@@ -222,7 +239,7 @@ public class PufferfishConfig {
      public static int activationDistanceMod;
  
      private static void dynamicActivationOfBrains() throws IOException {
@@ -307,7 +307,7 @@ index 5d75693abb78f1a6cb3595a4af6d1ca0795c1025..7cda3da7f9eb68e06570765ef8e0fa0b
          startDistance = getInt("dab.start-distance", "activation-range.start-distance", 12,
                  "This value determines how far away an entity has to be",
                  "from the player to start being effected by DEAR.");
-@@ -298,7 +315,7 @@ public class PufferfishConfig {
+@@ -266,7 +283,7 @@ public class PufferfishConfig {
      
      public static boolean throttleInactiveGoalSelectorTick;
  	private static void inactiveGoalSelectorThrottle() {
@@ -4398,10 +4398,16 @@ index d6527396939d9a1dd2f1cfb6cb66dc64fa0e5332..b10c792a4f743bdb8a10fe1693def562
          if (entry != null) {
              ItemStack itemstack = (ItemStack) entry.getValue();
 diff --git a/src/main/java/net/minecraft/world/entity/GlowSquid.java b/src/main/java/net/minecraft/world/entity/GlowSquid.java
-index c1e9b40a4a0f9cdc650caa88b5ea132e06ee2496..b7abcaa32341c292f9f884fa6319fd65596e1b37 100644
+index c1e9b40a4a0f9cdc650caa88b5ea132e06ee2496..5d6cddc221887be20ef75d688817dfe527e73362 100644
 --- a/src/main/java/net/minecraft/world/entity/GlowSquid.java
 +++ b/src/main/java/net/minecraft/world/entity/GlowSquid.java
-@@ -23,6 +23,43 @@ public class GlowSquid extends Squid {
+@@ -18,11 +18,49 @@ import net.minecraft.world.level.block.Blocks;
+ 
+ public class GlowSquid extends Squid {
+     private static final EntityDataAccessor<Integer> DATA_DARK_TICKS_REMAINING = SynchedEntityData.defineId(GlowSquid.class, EntityDataSerializers.INT);
++    private static final net.minecraft.network.syncher.EntityDataAccessor<String> SQUID_COLOR = net.minecraft.network.syncher.SynchedEntityData.defineId(GlowSquid.class, net.minecraft.network.syncher.EntityDataSerializers.STRING); // Purpur
+ 
+     public GlowSquid(EntityType<? extends GlowSquid> type, Level world) {
          super(type, world);
      }
  
@@ -4445,6 +4451,29 @@ index c1e9b40a4a0f9cdc650caa88b5ea132e06ee2496..b7abcaa32341c292f9f884fa6319fd65
      @Override
      protected ParticleOptions getInkParticle() {
          return ParticleTypes.GLOW_SQUID_INK;
+@@ -32,6 +70,7 @@ public class GlowSquid extends Squid {
+     protected void defineSynchedData() {
+         super.defineSynchedData();
+         this.entityData.define(DATA_DARK_TICKS_REMAINING, 0);
++        this.entityData.define(SQUID_COLOR, this.level.purpurConfig.glowSquidColorMode.getRandom(this.random).toString()); // Purpur
+     }
+ 
+     @Override
+@@ -58,12 +97,14 @@ public class GlowSquid extends Squid {
+     public void addAdditionalSaveData(CompoundTag nbt) {
+         super.addAdditionalSaveData(nbt);
+         nbt.putInt("DarkTicksRemaining", this.getDarkTicksRemaining());
++        nbt.putString("Colour", this.entityData.get(SQUID_COLOR)); // Purpur - key must match rainglow
+     }
+ 
+     @Override
+     public void readAdditionalSaveData(CompoundTag nbt) {
+         super.readAdditionalSaveData(nbt);
+         this.setDarkTicks(nbt.getInt("DarkTicksRemaining"));
++        if (nbt.contains("Colour")) this.entityData.set(SQUID_COLOR, nbt.getString("Colour")); // Purpur - key must match rainglow
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 index ded69bc892aaf35cc57a562116bb623c07b08550..260e094bad8d6f1b775e317ba2c9b3e25cfa7467 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
@@ -9335,7 +9364,7 @@ index 32cca29fd622d18030931e1f330791491e7f9fa0..5268a56a7967275df63f5a5ddb592199
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
-index 362f952888f63a453a4352a9f1dc7df799244a3c..3b85ec87ec708d670710734a1c1b04b2313cbbea 100644
+index 0a700defc04f649fb45cb3d3df1e332f39f6d89a..8140ca3b43c3927829e20a4ef99f92009ceb274a 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -89,6 +89,43 @@ public class Goat extends Animal {
@@ -15144,10 +15173,18 @@ index efee1a8e0e3ad566cd550e51d3e559c5a495889a..0331830815f14779e578e3fe94c400e4
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-index bc01e5014e1355a225bdf5c47f2965290b45e2d2..e292589e015c6691be65285b041f5b4f0d0afeb1 100644
+index bc01e5014e1355a225bdf5c47f2965290b45e2d2..4c6b015532a033ec3d11a96e5758d9dcaad8827c 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -322,7 +322,7 @@ public abstract class AbstractArrow extends Projectile {
+@@ -71,6 +71,7 @@ public abstract class AbstractArrow extends Projectile {
+     private IntOpenHashSet piercingIgnoreEntityIds;
+     @Nullable
+     private List<Entity> piercedAndKilledEntities;
++    public int lootingLevel; // Purpur
+ 
+     // Spigot Start
+     @Override
+@@ -322,7 +323,7 @@ public abstract class AbstractArrow extends Projectile {
          Vec3 vec3d = this.getDeltaMovement();
  
          this.setDeltaMovement(vec3d.multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
@@ -15156,6 +15193,19 @@ index bc01e5014e1355a225bdf5c47f2965290b45e2d2..e292589e015c6691be65285b041f5b4f
      }
  
      @Override
+@@ -622,6 +623,12 @@ public abstract class AbstractArrow extends Projectile {
+         this.knockback = punch;
+     }
+ 
++    // Purpur start
++    public void setLootingLevel(int looting) {
++        this.lootingLevel = looting;
++    }
++    // Purpur end
++
+     public int getKnockback() {
+         return this.knockback;
+     }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java b/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
 index 5237b699e000b4fed99be39b0a7e2daab9c8bf42..efa9424f8e2716f073e89b03f3d85e1b7774af9f 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
@@ -15342,7 +15392,7 @@ index 4bb9730b6a42702e91467f980b9f045585039db3..a1b9a11c3026a6fdd0f47ed27b99539e
  
              if (this.mob.hasActiveRaid() && !this.mob.getCurrentRaid().isOver() && this.mob.canBeLeader() && !ItemStack.matches(this.mob.getItemBySlot(EquipmentSlot.HEAD), Raid.getLeaderBannerInstance())) {
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raids.java b/src/main/java/net/minecraft/world/entity/raid/Raids.java
-index fa8fcdfea51a35e4a482d3d7b18159099da62706..6e2373a06ea4c048e5a6eebff19f924c3b106019 100644
+index feb89eb69994bdd1d2f95d2b9992e69251b2bee7..0670775c2de33e69c75644e5d2ff19db08444040 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raids.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raids.java
 @@ -28,6 +28,7 @@ import net.minecraft.world.phys.Vec3;
@@ -16039,10 +16089,10 @@ index af81ba310dbd7fdbdccdd0cc74b7c085ad54027f..3e529ea7548a2a6617f70a3c3ad2d8f4
                      world.playSound((Player) null, entityarmorstand.getX(), entityarmorstand.getY(), entityarmorstand.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
                      entityarmorstand.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());
 diff --git a/src/main/java/net/minecraft/world/item/AxeItem.java b/src/main/java/net/minecraft/world/item/AxeItem.java
-index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..22c8ef3d8d20c14d3b032d054827e074a4422ad6 100644
+index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..7738735c2d3847f048b9bdffaa2b3eff0b5b0940 100644
 --- a/src/main/java/net/minecraft/world/item/AxeItem.java
 +++ b/src/main/java/net/minecraft/world/item/AxeItem.java
-@@ -33,29 +33,31 @@ public class AxeItem extends DiggerItem {
+@@ -33,29 +33,32 @@ public class AxeItem extends DiggerItem {
          BlockPos blockPos = context.getClickedPos();
          Player player = context.getPlayer();
          BlockState blockState = level.getBlockState(blockPos);
@@ -16052,6 +16102,7 @@ index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..22c8ef3d8d20c14d3b032d054827e074
 -            return block.withPropertiesOf(blockState);
 -        });
 +        // Purpur start
++        Block clickedBlock = level.getBlockState(blockPos).getBlock();
 +        Optional<org.purpurmc.purpur.tool.Actionable> optional = Optional.ofNullable(level.purpurConfig.axeStrippables.get(blockState.getBlock()));
 +        Optional<org.purpurmc.purpur.tool.Actionable> optional2 = Optional.ofNullable(level.purpurConfig.axeWeatherables.get(blockState.getBlock()));
 +        Optional<org.purpurmc.purpur.tool.Actionable> optional3 = Optional.ofNullable(level.purpurConfig.axeWaxables.get(blockState.getBlock()));
@@ -16061,16 +16112,16 @@ index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..22c8ef3d8d20c14d3b032d054827e074
 +        Optional<org.purpurmc.purpur.tool.Actionable> optional4 = Optional.empty(); // Purpur
          if (optional.isPresent()) {
 -            level.playSound(player, blockPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
-+            level.playSound(null, blockPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
++            if (!STRIPPABLES.containsKey(clickedBlock)) level.playSound(null, blockPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
              optional4 = optional;
          } else if (optional2.isPresent()) {
 -            level.playSound(player, blockPos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
-+            level.playSound(null, blockPos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
++            if (!HoneycombItem.WAXABLES.get().containsKey(clickedBlock)) level.playSound(null, blockPos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
              level.levelEvent(player, 3005, blockPos, 0);
              optional4 = optional2;
          } else if (optional3.isPresent()) {
 -            level.playSound(player, blockPos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
-+            level.playSound(null, blockPos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
++            if (!HoneycombItem.WAX_OFF_BY_BLOCK.get().containsKey(clickedBlock)) level.playSound(null, blockPos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
              level.levelEvent(player, 3004, blockPos, 0);
              optional4 = optional3;
          }
@@ -16084,7 +16135,7 @@ index 9c49d8f696864d2aad23208422c4ab5b598a0cd9..22c8ef3d8d20c14d3b032d054827e074
                  return InteractionResult.PASS;
              }
              // Paper end
-@@ -63,15 +65,22 @@ public class AxeItem extends DiggerItem {
+@@ -63,15 +66,22 @@ public class AxeItem extends DiggerItem {
                  CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockPos, itemStack);
              }
  
@@ -16166,7 +16217,7 @@ index 447e16f06c1686c2a2c6c12c856bdb937a5d050f..c923ca8c405e415999148c0148d2d823
                      return InteractionResultHolder.fail(itemstack);
                  } else {
 diff --git a/src/main/java/net/minecraft/world/item/BowItem.java b/src/main/java/net/minecraft/world/item/BowItem.java
-index 08d597db1a5345a343777a01427655e6bf2c926b..220513d3fd5645322886522ea4f6b8c55d043b3c 100644
+index 08d597db1a5345a343777a01427655e6bf2c926b..d45a2f49c82d00801578c34e5f5277fc5e82be87 100644
 --- a/src/main/java/net/minecraft/world/item/BowItem.java
 +++ b/src/main/java/net/minecraft/world/item/BowItem.java
 @@ -38,13 +38,13 @@ public class BowItem extends ProjectileWeaponItem implements Vanishable {
@@ -16185,7 +16236,21 @@ index 08d597db1a5345a343777a01427655e6bf2c926b..220513d3fd5645322886522ea4f6b8c5
                          if (f == 1.0F) {
                              entityarrow.setCritArrow(true);
                          }
-@@ -132,7 +132,7 @@ public class BowItem extends ProjectileWeaponItem implements Vanishable {
+@@ -64,6 +64,13 @@ public class BowItem extends ProjectileWeaponItem implements Vanishable {
+                         if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, stack) > 0) {
+                             entityarrow.setSecondsOnFire(100);
+                         }
++                        // Purpur start
++                        int lootingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, stack);
++
++                        if (lootingLevel > 0) {
++                            entityarrow.setLootingLevel(lootingLevel);
++                        }
++                        // Purpur end
+                         // CraftBukkit start
+                         org.bukkit.event.entity.EntityShootBowEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callEntityShootBowEvent(entityhuman, stack, itemstack1, entityarrow, entityhuman.getUsedItemHand(), f, !flag1);
+                         if (event.isCancelled()) {
+@@ -132,7 +139,7 @@ public class BowItem extends ProjectileWeaponItem implements Vanishable {
          ItemStack itemstack = user.getItemInHand(hand);
          boolean flag = !user.getProjectile(itemstack).isEmpty();
  
@@ -16217,7 +16282,7 @@ index 73f1211470d9626c82c8345037da19aed9db3f23..40c7bf266eccc43faa081ade9402bee5
  
                  return true;
 diff --git a/src/main/java/net/minecraft/world/item/CrossbowItem.java b/src/main/java/net/minecraft/world/item/CrossbowItem.java
-index 3b8629d31dc7bc66debe9c56593fbd071a6ddd11..2d30300de78de957358cfddac12294b308062e2a 100644
+index 3b8629d31dc7bc66debe9c56593fbd071a6ddd11..37cbd0d95f3232ed399c6ef19f714c547b9fd8e5 100644
 --- a/src/main/java/net/minecraft/world/item/CrossbowItem.java
 +++ b/src/main/java/net/minecraft/world/item/CrossbowItem.java
 @@ -63,7 +63,7 @@ public class CrossbowItem extends ProjectileWeaponItem implements Vanishable {
@@ -16238,7 +16303,22 @@ index 3b8629d31dc7bc66debe9c56593fbd071a6ddd11..2d30300de78de957358cfddac12294b3
          ItemStack itemstack1 = shooter.getProjectile(projectile);
          ItemStack itemstack2 = itemstack1.copy();
  
-@@ -303,7 +303,7 @@ public class CrossbowItem extends ProjectileWeaponItem implements Vanishable {
+@@ -294,6 +294,14 @@ public class CrossbowItem extends ProjectileWeaponItem implements Vanishable {
+             entityarrow.setPierceLevel((byte) i);
+         }
+ 
++        // Purpur start
++        int lootingLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, crossbow);
++
++        if (lootingLevel > 0) {
++            entityarrow.setLootingLevel(lootingLevel);
++        }
++        // Purpur end
++
+         return entityarrow;
+     }
+ 
+@@ -303,7 +311,7 @@ public class CrossbowItem extends ProjectileWeaponItem implements Vanishable {
  
          for (int i = 0; i < list.size(); ++i) {
              ItemStack itemstack1 = (ItemStack) list.get(i);
@@ -16370,10 +16450,10 @@ index 4c5671cd4c26c23e61b2196577c554f504a03c55..678e0cb7e5b704ce01eda96b2d74694d
  
              if (((HangingEntity) object).survives()) {
 diff --git a/src/main/java/net/minecraft/world/item/HoeItem.java b/src/main/java/net/minecraft/world/item/HoeItem.java
-index 180aec596110309aade13d2080f8824d152b07cb..bf0e1f481b4c81f0663366bbe597b066f95a6200 100644
+index 180aec596110309aade13d2080f8824d152b07cb..c4aec1e5135a79837918b692e75a7b55d5cffeb0 100644
 --- a/src/main/java/net/minecraft/world/item/HoeItem.java
 +++ b/src/main/java/net/minecraft/world/item/HoeItem.java
-@@ -34,15 +34,22 @@ public class HoeItem extends DiggerItem {
+@@ -34,15 +34,23 @@ public class HoeItem extends DiggerItem {
      public InteractionResult useOn(UseOnContext context) {
          Level level = context.getLevel();
          BlockPos blockPos = context.getClickedPos();
@@ -16384,6 +16464,7 @@ index 180aec596110309aade13d2080f8824d152b07cb..bf0e1f481b4c81f0663366bbe597b066
 -            Predicate<UseOnContext> predicate = pair.getFirst();
 -            Consumer<UseOnContext> consumer = pair.getSecond();
 +        // Purpur start
++        Block clickedBlock = level.getBlockState(blockPos).getBlock();
 +        var tillable = level.purpurConfig.hoeTillables.get(level.getBlockState(blockPos).getBlock());
 +        if (tillable == null) { return InteractionResult.PASS; } else {
 +            Predicate<UseOnContext> predicate = tillable.condition().predicate();
@@ -16399,11 +16480,11 @@ index 180aec596110309aade13d2080f8824d152b07cb..bf0e1f481b4c81f0663366bbe597b066
              if (predicate.test(context)) {
                  Player player = context.getPlayer();
 -                level.playSound(player, blockPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-+                level.playSound(null, blockPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
++                if (!TILLABLES.containsKey(clickedBlock)) level.playSound(null, blockPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F); // Purpur - force sound
                  if (!level.isClientSide) {
                      consumer.accept(context);
                      if (player != null) {
-@@ -52,7 +59,7 @@ public class HoeItem extends DiggerItem {
+@@ -52,7 +60,7 @@ public class HoeItem extends DiggerItem {
                      }
                  }
  
@@ -16656,10 +16737,10 @@ index de5bdceb4c8578fb972a2fd5ee0dfdae509e46dc..bcf63ccb6e679cb97d658780b2663aaf
              com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent event = new com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent((org.bukkit.entity.Player) user.getBukkitEntity(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(itemStack), (org.bukkit.entity.Projectile) thrownPotion.getBukkitEntity());
              if (event.callEvent() && world.addFreshEntity(thrownPotion)) {
 diff --git a/src/main/java/net/minecraft/world/item/TridentItem.java b/src/main/java/net/minecraft/world/item/TridentItem.java
-index 998758be827efbcb7693ed36ab1dffc0ef0369bf..086f746cc632a90c67a6c30ea9197c5bb5485b22 100644
+index 998758be827efbcb7693ed36ab1dffc0ef0369bf..ccf1ae6d7b8bf1177526c95a62814f507221da58 100644
 --- a/src/main/java/net/minecraft/world/item/TridentItem.java
 +++ b/src/main/java/net/minecraft/world/item/TridentItem.java
-@@ -77,7 +77,7 @@ public class TridentItem extends Item implements Vanishable {
+@@ -77,11 +77,19 @@ public class TridentItem extends Item implements Vanishable {
                          if (k == 0) {
                              ThrownTrident entitythrowntrident = new ThrownTrident(world, entityhuman, stack);
  
@@ -16668,7 +16749,19 @@ index 998758be827efbcb7693ed36ab1dffc0ef0369bf..086f746cc632a90c67a6c30ea9197c5b
                              if (entityhuman.getAbilities().instabuild) {
                                  entitythrowntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                              }
-@@ -126,6 +126,14 @@ public class TridentItem extends Item implements Vanishable {
+ 
++                            // Purpur start
++                            int lootingLevel = EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.MOB_LOOTING, stack);
++
++                            if (lootingLevel > 0) {
++                                entitythrowntrident.setLootingLevel(lootingLevel);
++                            }
++                            // Purpur end
++
+                             // CraftBukkit start
+                             if (!world.addFreshEntity(entitythrowntrident)) {
+                                 if (entityhuman instanceof net.minecraft.server.level.ServerPlayer) {
+@@ -126,6 +134,14 @@ public class TridentItem extends Item implements Vanishable {
                          f2 *= f6 / f5;
                          f3 *= f6 / f5;
                          f4 *= f6 / f5;
@@ -17494,7 +17587,7 @@ index 46846ac9981e447fc6886aecf82563378a4f5548..9122485755ce8aa6e6f4773a5fb1315c
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java b/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java
-index 4940e101250874111e9c55aeb5b87b28602246f0..1963831ccef0ea1e2ee519c8b3a53d245c80aa63 100644
+index 4940e101250874111e9c55aeb5b87b28602246f0..45eeb8523b9923585d7738f5ad8f5e8c6c7cbe5d 100644
 --- a/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/CaveVinesBlock.java
 @@ -88,4 +88,11 @@ public class CaveVinesBlock extends GrowingPlantHeadBlock implements Bonemealabl
@@ -17504,8 +17597,8 @@ index 4940e101250874111e9c55aeb5b87b28602246f0..1963831ccef0ea1e2ee519c8b3a53d24
 +
 +    // Purpur start
 +    @Override
-+    public int getMaxGrowthAge(ServerLevel world) {
-+        return world.purpurConfig.caveVinesMaxGrowthAge;
++    public int getMaxGrowthAge() {
++        return org.purpurmc.purpur.PurpurConfig.caveVinesMaxGrowthAge;
 +    }
 +    // Purpur end
  }
@@ -17853,52 +17946,70 @@ index d089887030ac7c7a79abca97134ba9291e244059..7068cb39ab264fa0c65febff01236b8d
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java b/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
-index 4d1e1cf4c541793492a02681087a6242e7977acd..5f4a37d350dc6db2531cf5f9cfe91545cc5cacbb 100644
+index 4d1e1cf4c541793492a02681087a6242e7977acd..2d6fe648f5a1c0dd146d1649384bc9f47b0ccde4 100644
 --- a/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
-@@ -30,7 +30,7 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+@@ -30,12 +30,12 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
  
      @Override
      public BlockState getStateForPlacement(LevelAccessor world) {
 -        return (BlockState) this.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, world.getRandom().nextInt(25));
-+        return (BlockState) this.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, world.getRandom().nextInt(getMaxGrowthAge(world.getMinecraftWorld()))); // Purpur
++        return (BlockState) this.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, world.getRandom().nextInt(getMaxGrowthAge())); // Purpur
      }
  
      @Override
-@@ -38,6 +38,8 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
-         return (Integer) state.getValue(GrowingPlantHeadBlock.AGE) < 25;
+     public boolean isRandomlyTicking(BlockState state) {
+-        return (Integer) state.getValue(GrowingPlantHeadBlock.AGE) < 25;
++        return (Integer) state.getValue(GrowingPlantHeadBlock.AGE) < getMaxGrowthAge(); // Purpur
      }
  
-+    public abstract int getMaxGrowthAge(ServerLevel world); // Purpur
-+
      @Override
-     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-         // Paper start
-@@ -53,7 +55,7 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+@@ -53,7 +53,7 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
          } else {
              modifier = 100; // Above cases are exhaustive as of 1.18
          }
 -        if ((Integer) state.getValue(GrowingPlantHeadBlock.AGE) < 25 && random.nextDouble() < (modifier / 100.0D) * this.growPerTickProbability) { // Spigot // Paper - fix growth modifier having the reverse effect
-+        if ((Integer) state.getValue(GrowingPlantHeadBlock.AGE) < getMaxGrowthAge(world) && random.nextDouble() < (modifier / 100.0D) * this.growPerTickProbability) { // Spigot // Paper - fix growth modifier having the reverse effect // Purpur
++        if ((Integer) state.getValue(GrowingPlantHeadBlock.AGE) < getMaxGrowthAge() && random.nextDouble() < (modifier / 100.0D) * this.growPerTickProbability) { // Spigot // Paper - fix growth modifier having the reverse effect // Purpur
              // Paper end
              BlockPos blockposition1 = pos.relative(this.growthDirection);
  
-@@ -121,13 +123,13 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+@@ -75,11 +75,11 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+     }
+ 
+     public BlockState getMaxAgeState(BlockState state) {
+-        return (BlockState) state.setValue(GrowingPlantHeadBlock.AGE, 25);
++        return (BlockState) state.setValue(GrowingPlantHeadBlock.AGE, getMaxGrowthAge()); // Purpur
+     }
+ 
+     public boolean isMaxAge(BlockState state) {
+-        return (Integer) state.getValue(GrowingPlantHeadBlock.AGE) == 25;
++        return (Integer) state.getValue(GrowingPlantHeadBlock.AGE) >= getMaxGrowthAge(); // Purpur
+     }
+ 
+     protected BlockState updateBodyAfterConvertedFromHead(BlockState from, BlockState to) {
+@@ -121,13 +121,13 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
      @Override
      public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state) {
          BlockPos blockposition1 = pos.relative(this.growthDirection);
 -        int i = Math.min((Integer) state.getValue(GrowingPlantHeadBlock.AGE) + 1, 25);
-+        int i = Math.min((Integer) state.getValue(GrowingPlantHeadBlock.AGE) + 1, getMaxGrowthAge(world));
++        int i = Math.min((Integer) state.getValue(GrowingPlantHeadBlock.AGE) + 1, getMaxGrowthAge()); // Purpur
          int j = this.getBlocksToGrowWhenBonemealed(random);
  
          for (int k = 0; k < j && this.canGrowInto(world.getBlockState(blockposition1)); ++k) {
              world.setBlockAndUpdate(blockposition1, (BlockState) state.setValue(GrowingPlantHeadBlock.AGE, i));
              blockposition1 = blockposition1.relative(this.growthDirection);
 -            i = Math.min(i + 1, 25);
-+            i = Math.min(i + 1, getMaxGrowthAge(world));
++            i = Math.min(i + 1, getMaxGrowthAge()); // Purpur
          }
  
      }
+@@ -140,4 +140,6 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+     protected GrowingPlantHeadBlock getHeadBlock() {
+         return this;
+     }
++
++    public abstract int getMaxGrowthAge(); // Purpur
+ }
 diff --git a/src/main/java/net/minecraft/world/level/block/HugeMushroomBlock.java b/src/main/java/net/minecraft/world/level/block/HugeMushroomBlock.java
 index 3c6d97b51c6fec130b80e5965afa2c49d48843c9..b456cb8efd8f0be8a6860c82462ce9bdde3a8383 100644
 --- a/src/main/java/net/minecraft/world/level/block/HugeMushroomBlock.java
@@ -17996,7 +18107,7 @@ index 0afadbc8515d448b0ef817f4f0f53b1bb0abde43..c9daa26ab987249f390c64c9e26cd9ce
          } else {
              world.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
 diff --git a/src/main/java/net/minecraft/world/level/block/KelpBlock.java b/src/main/java/net/minecraft/world/level/block/KelpBlock.java
-index bc66fa91ec3e13431d5d9b6e17935cab73066be7..6776ca3340f710cea4bf90b610def9e51051cf75 100644
+index bc66fa91ec3e13431d5d9b6e17935cab73066be7..0f16b5ed2e249f3d8f583dc941e32066d354cf95 100644
 --- a/src/main/java/net/minecraft/world/level/block/KelpBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/KelpBlock.java
 @@ -64,4 +64,11 @@ public class KelpBlock extends GrowingPlantHeadBlock implements LiquidBlockConta
@@ -18006,8 +18117,8 @@ index bc66fa91ec3e13431d5d9b6e17935cab73066be7..6776ca3340f710cea4bf90b610def9e5
 +
 +    // Purpur start
 +    @Override
-+    public int getMaxGrowthAge(net.minecraft.server.level.ServerLevel world) {
-+        return world.purpurConfig.kelpMaxGrowthAge;
++    public int getMaxGrowthAge() {
++        return org.purpurmc.purpur.PurpurConfig.kelpMaxGrowthAge;
 +    }
 +    // Purpur end
  }
@@ -18551,7 +18662,7 @@ index 7d25fb0fc64a4f559fe206198fde900afa06f258..6151226a88a9ca44955821521641e788
      }
  }
 diff --git a/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java b/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java
-index 6866605c7ef5361b21130a19a59c3fa3660dfb19..c3f42d587de584406ebb6a68d9529c0410a6554d 100644
+index 6866605c7ef5361b21130a19a59c3fa3660dfb19..dee5d76d29da13f8639ab5d392cd0143201e71ba 100644
 --- a/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/TwistingVinesBlock.java
 @@ -27,4 +27,11 @@ public class TwistingVinesBlock extends GrowingPlantHeadBlock {
@@ -18561,32 +18672,24 @@ index 6866605c7ef5361b21130a19a59c3fa3660dfb19..c3f42d587de584406ebb6a68d9529c04
 +
 +    // Purpur start
 +    @Override
-+    public int getMaxGrowthAge(net.minecraft.server.level.ServerLevel world) {
-+        return world.purpurConfig.twistingVinesMaxGrowthAge;
++    public int getMaxGrowthAge() {
++        return org.purpurmc.purpur.PurpurConfig.twistingVinesMaxGrowthAge;
 +    }
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/level/block/WeepingVinesBlock.java b/src/main/java/net/minecraft/world/level/block/WeepingVinesBlock.java
-index e5c135ec059746b75fe58516809584221285cdbe..b09ccc493c7503aa99a64d760b5bc769aa62095b 100644
+index e5c135ec059746b75fe58516809584221285cdbe..713c7e6e31a3e1097b612c77a4fce147c9252e0b 100644
 --- a/src/main/java/net/minecraft/world/level/block/WeepingVinesBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/WeepingVinesBlock.java
-@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
- import net.minecraft.world.level.block.state.BlockBehaviour;
- import net.minecraft.world.level.block.state.BlockState;
- import net.minecraft.world.phys.shapes.VoxelShape;
-+import net.minecraft.server.level.ServerLevel; // Purpur
- 
- public class WeepingVinesBlock extends GrowingPlantHeadBlock {
-     protected static final VoxelShape SHAPE = Block.box(4.0D, 9.0D, 4.0D, 12.0D, 16.0D, 12.0D);
-@@ -27,4 +28,11 @@ public class WeepingVinesBlock extends GrowingPlantHeadBlock {
+@@ -27,4 +27,11 @@ public class WeepingVinesBlock extends GrowingPlantHeadBlock {
      protected boolean canGrowInto(BlockState state) {
          return NetherVines.isValidGrowthState(state);
      }
 +
 +    // Purpur start
 +    @Override
-+    public int getMaxGrowthAge(ServerLevel world) {
-+        return world.purpurConfig.weepingVinesMaxGrowthAge;
++    public int getMaxGrowthAge() {
++        return org.purpurmc.purpur.PurpurConfig.weepingVinesMaxGrowthAge;
 +    }
 +    // Purpur end
  }
@@ -18603,7 +18706,7 @@ index 03b97e9ea6059fa09bbbed7fc9ae7212f3eaa70b..25daac2b7c1cb5f8194704aa36ba04b4
                      if (!world.addFreshEntity(entitywither, SpawnReason.BUILD_WITHER)) {
                          return;
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-index 4977f3fad3bfc12fd4c5f9fbe8beea2895247c57..e1abe61edfaa7b1497b5367310b49146f10fa139 100644
+index c6aeda6497cb59673b469588142f5f15a338389d..8bc29f442d855606f5367d8b7a1ed5a2361ea84f 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 @@ -43,6 +43,7 @@ import net.minecraft.world.level.Level;
@@ -19055,18 +19158,21 @@ index 744d91546d1a810f60a43c15ed74b4158f341a4a..354538daefa603f6df5a139b6bff87db
                      }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-index b86c17b5572f8f74bfefd0f3c6f9d25187574392..304f0f372d669e3da2e8131c50f2f1246185a56b 100644
+index b86c17b5572f8f74bfefd0f3c6f9d25187574392..bcc4c1af0fe153ed87e55706a1a6a5c6e945fec8 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-@@ -73,7 +73,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
+@@ -73,9 +73,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  public abstract class BlockBehaviour {
  
      protected static final Direction[] UPDATE_SHAPE_ORDER = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.DOWN, Direction.UP};
 -    protected final Material material;
 +    public final Material material; // Purpur - protected -> public
      public final boolean hasCollision;
-     protected final float explosionResistance;
+-    protected final float explosionResistance;
++    public float explosionResistance; // Purpur - protected final -> public
      protected final boolean isRandomlyTicking;
+     protected final SoundType soundType;
+     protected final float friction;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 index 34334c139176e0aa9f6d93a87821508d17567cfc..6638a4fd77230ec9d5b5db097e9ee1a3cc92a726 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
@@ -19342,6 +19448,24 @@ index 3414f3190e1a760c602613e82e551e797c3aa575..5368376c126f3b629c0448f937c140ab
      };
      private final LevelAccessor level;
      private final Direction.Axis axis;
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/functions/LootingEnchantFunction.java b/src/main/java/net/minecraft/world/level/storage/loot/functions/LootingEnchantFunction.java
+index 31918fa2eb38e42a5ea5366e559f25ea9d7d59ae..15d8e9261a89da30529ac347462c520920ca4e7d 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/functions/LootingEnchantFunction.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/functions/LootingEnchantFunction.java
+@@ -49,6 +49,13 @@ public class LootingEnchantFunction extends LootItemConditionalFunction {
+ 
+         if (entity instanceof LivingEntity) {
+             int i = EnchantmentHelper.getMobLooting((LivingEntity) entity);
++            // Purpur start
++            if (org.purpurmc.purpur.PurpurConfig.fixProjectileLootingTransfer &&
++                    context.getParamOrNull(LootContextParams.DIRECT_KILLER_ENTITY)
++                        instanceof net.minecraft.world.entity.projectile.AbstractArrow arrow) {
++                i = arrow.lootingLevel;
++            }
++            // Purpur end
+             // CraftBukkit start - use lootingModifier if set by plugin
+             if (context.hasParam(LootContextParams.LOOTING_MOD)) {
+                 i = context.getParamOrNull(LootContextParams.LOOTING_MOD);
 diff --git a/src/main/java/net/minecraft/world/phys/AABB.java b/src/main/java/net/minecraft/world/phys/AABB.java
 index 68cc6f2a78a06293a29317fda72ab3ee79b3533a..cfb2e46b34b2982d6724f18214557fc80cf4adfa 100644
 --- a/src/main/java/net/minecraft/world/phys/AABB.java
@@ -20873,10 +20997,10 @@ index 0467419fc8a06c241a46216c8f8c32abeb9fbc26..bc178d7305f38b77393b827d7b71412d
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcbdf0f7504
+index 0000000000000000000000000000000000000000..14844cb8a402ac987f44a91b95d5ebdac73c6dfe
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -0,0 +1,538 @@
+@@ -0,0 +1,591 @@
 +package org.purpurmc.purpur;
 +
 +import co.aikar.timings.TimingsManager;
@@ -20894,6 +21018,8 @@ index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcb
 +import net.minecraft.world.food.FoodProperties;
 +import net.minecraft.world.food.Foods;
 +import net.minecraft.world.item.enchantment.Enchantment;
++import net.minecraft.world.level.block.Block;
++import net.minecraft.world.level.block.Blocks;
 +import org.bukkit.Bukkit;
 +import org.bukkit.command.Command;
 +import org.bukkit.configuration.ConfigurationSection;
@@ -20908,6 +21034,7 @@ index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcb
 +import java.lang.reflect.Method;
 +import java.lang.reflect.Modifier;
 +import java.util.ArrayList;
++import java.util.Collections;
 +import java.util.HashMap;
 +import java.util.HashSet;
 +import java.util.List;
@@ -20955,6 +21082,8 @@ index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcb
 +        set("config-version", 30);
 +
 +        readConfig(PurpurConfig.class, null);
++
++        Blocks.rebuildCache();
 +    }
 +
 +    protected static void log(String s) {
@@ -21226,6 +21355,10 @@ index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcb
 +    public static Set<Enchantment> grindstoneIgnoredEnchants = new HashSet<>();
 +    public static boolean grindstoneRemoveAttributes = false;
 +    public static boolean grindstoneRemoveDisplay = false;
++    public static int caveVinesMaxGrowthAge = 25;
++    public static int kelpMaxGrowthAge = 25;
++    public static int twistingVinesMaxGrowthAge = 25;
++    public static int weepingVinesMaxGrowthAge = 25;
 +    private static void blockSettings() {
 +        if (version < 3) {
 +            boolean oldValue = getBoolean("settings.barrel.packed-barrels", true);
@@ -21273,6 +21406,30 @@ index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcb
 +        });
 +        grindstoneRemoveAttributes = getBoolean("settings.blocks.grindstone.remove-attributes", grindstoneRemoveAttributes);
 +        grindstoneRemoveDisplay = getBoolean("settings.blocks.grindstone.remove-name-and-lore", grindstoneRemoveDisplay);
++        caveVinesMaxGrowthAge = getInt("settings.blocks.cave_vines.max-growth-age", caveVinesMaxGrowthAge);
++        if (caveVinesMaxGrowthAge > 25) {
++            caveVinesMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.cave_vines.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++        kelpMaxGrowthAge = getInt("settings.blocks.kelp.max-growth-age", kelpMaxGrowthAge);
++        if (kelpMaxGrowthAge > 25) {
++            kelpMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.kelp.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++        twistingVinesMaxGrowthAge = getInt("settings.blocks.twisting_vines.max-growth-age", twistingVinesMaxGrowthAge);
++        if (twistingVinesMaxGrowthAge > 25) {
++            twistingVinesMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.twisting_vines.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
++        weepingVinesMaxGrowthAge = getInt("settings.blocks.weeping_vines.max-growth-age", weepingVinesMaxGrowthAge);
++        if (weepingVinesMaxGrowthAge > 25) {
++            weepingVinesMaxGrowthAge = 25;
++            log(Level.WARNING, "blocks.weeping_vines.max-growth-age is set to above maximum allowed value of 25");
++            log(Level.WARNING, "Using value of 25 to prevent issues");
++        }
 +    }
 +
 +    public static boolean allowInfinityMending = false;
@@ -21414,13 +21571,33 @@ index 0000000000000000000000000000000000000000..f45b0002efd30b45633b31cf9995cfcb
 +            }
 +        });
 +    }
++
++    public static boolean fixProjectileLootingTransfer = false;
++    private static void fixProjectileLootingTransfer() {
++        fixProjectileLootingTransfer = getBoolean("settings.fix-projectile-looting-transfer", fixProjectileLootingTransfer);
++    }
++
++    private static void blastResistanceSettings() {
++        getMap("settings.blast-resistance-overrides", Collections.emptyMap()).forEach((blockId, value) -> {
++            Block block = Registry.BLOCK.get(new ResourceLocation(blockId));
++            if (block == Blocks.AIR) {
++                log(Level.SEVERE, "Invalid block for `settings.blast-resistance-overrides`: " + blockId);
++                return;
++            }
++            if (!(value instanceof Number blastResistance)) {
++                log(Level.SEVERE, "Invalid blast resistance for `settings.blast-resistance-overrides." + blockId + "`: " + value);
++                return;
++            }
++            block.explosionResistance = blastResistance.floatValue();
++        });
++    }
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b3653e3bfd1a
+index 0000000000000000000000000000000000000000..df0668c1f35c1acca1de7f81c8afaa06c2e21082
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3165 @@
+@@ -0,0 +1,3133 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -21436,6 +21613,7 @@ index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b365
 +import net.minecraft.world.level.block.Block;
 +import net.minecraft.world.level.block.Blocks;
 +import net.minecraft.world.level.block.state.properties.Tilt;
++import org.purpurmc.purpur.entity.GlowSquidColor;
 +import org.purpurmc.purpur.tool.Strippable;
 +import org.purpurmc.purpur.tool.Tillable;
 +import org.purpurmc.purpur.tool.Waxable;
@@ -22227,11 +22405,6 @@ index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b365
 +        composterBulkProcess = getBoolean("blocks.composter.sneak-to-bulk-process", composterBulkProcess);
 +    }
 +
-+    public int caveVinesMaxGrowthAge = 25;
-+    private void caveVinesSettings() {
-+        caveVinesMaxGrowthAge = getInt("blocks.cave_vines.max-growth-age", caveVinesMaxGrowthAge);
-+    }
-+
 +    public boolean coralDieOutsideWater = true;
 +    private void coralSettings() {
 +        coralDieOutsideWater = getBoolean("blocks.coral.die-outside-water", coralDieOutsideWater);
@@ -22333,16 +22506,6 @@ index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b365
 +        mobsSpawnOnPackedIce = getBoolean("blocks.packed_ice.allow-mob-spawns", mobsSpawnOnPackedIce);
 +        mobsSpawnOnBlueIce = getBoolean("blocks.blue_ice.allow-mob-spawns", mobsSpawnOnBlueIce);
 +        snowOnBlueIce = getBoolean("blocks.blue_ice.allow-snow-formation", snowOnBlueIce);
-+    }
-+
-+    public int kelpMaxGrowthAge = 25;
-+    private void kelpSettings() {
-+        kelpMaxGrowthAge = getInt("blocks.kelp.max-growth-age", kelpMaxGrowthAge);
-+        if (kelpMaxGrowthAge > 25) {
-+            kelpMaxGrowthAge = 25;
-+            log(Level.WARNING, "blocks.kelp.max-growth-age is set to above maximum allowed value of 25");
-+            log(Level.WARNING, "Using value of 25 anyway to prevent issues");
-+        }
 +    }
 +
 +    public boolean lavaInfinite = false;
@@ -22457,31 +22620,11 @@ index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b365
 +        turtleEggsTramplingFeatherFalling = getBoolean("blocks.turtle_egg.feather-fall-distance-affects-trampling", turtleEggsTramplingFeatherFalling);
 +    }
 +
-+    public int twistingVinesMaxGrowthAge = 25;
-+    private void twistingVinesSettings() {
-+        twistingVinesMaxGrowthAge = getInt("blocks.twisting_vines.max-growth-age", twistingVinesMaxGrowthAge);
-+        if (twistingVinesMaxGrowthAge > 25) {
-+            twistingVinesMaxGrowthAge = 25;
-+            log(Level.WARNING, "blocks.twisting_vines.max-growth-age is set to above maximum allowed value of 25");
-+            log(Level.WARNING, "Using value of 25 anyway to prevent issues");
-+        }
-+    }
-+
 +    public boolean waterInfinite = true;
 +    public int waterInfiniteRequiredSources = 2;
 +    private void waterSources() {
 +        waterInfinite = getBoolean("blocks.water.infinite-source", waterInfinite);
 +        waterInfiniteRequiredSources = getInt("blocks.water.infinite-required-sources", waterInfiniteRequiredSources);
-+    }
-+
-+    public int weepingVinesMaxGrowthAge = 25;
-+    private void weepingVinesSettings() {
-+        weepingVinesMaxGrowthAge = getInt("blocks.weeping_vines.max-growth-age", weepingVinesMaxGrowthAge);
-+        if (weepingVinesMaxGrowthAge > 25) {
-+            weepingVinesMaxGrowthAge = 25;
-+            log(Level.WARNING, "blocks.weeping_vines.max-growth-age is set to above maximum allowed value of 25");
-+            log(Level.WARNING, "Using value of 25 anyway to prevent issues");
-+        }
 +    }
 +
 +    public boolean babiesAreRidable = true;
@@ -23088,6 +23231,7 @@ index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b365
 +    public boolean glowSquidsCanFly = false;
 +    public boolean glowSquidTakeDamageFromWater = false;
 +    public boolean glowSquidAlwaysDropExp = false;
++    public GlowSquidColor.Mode glowSquidColorMode = GlowSquidColor.Mode.RAINBOW;
 +    private void glowSquidSettings() {
 +        glowSquidRidable = getBoolean("mobs.glow_squid.ridable", glowSquidRidable);
 +        glowSquidControllable = getBoolean("mobs.glow_squid.controllable", glowSquidControllable);
@@ -23095,6 +23239,7 @@ index 0000000000000000000000000000000000000000..c622cbe7104d0d107116d711de06b365
 +        glowSquidsCanFly = getBoolean("mobs.glow_squid.can-fly", glowSquidsCanFly);
 +        glowSquidTakeDamageFromWater = getBoolean("mobs.glow_squid.takes-damage-from-water", glowSquidTakeDamageFromWater);
 +        glowSquidAlwaysDropExp = getBoolean("mobs.glow_squid.always-drop-exp", glowSquidAlwaysDropExp);
++        glowSquidColorMode = GlowSquidColor.Mode.get(getString("mobs.glow_squid.rainglow-mode", glowSquidColorMode.toString()));
 +    }
 +
 +    public boolean goatRidable = false;
@@ -25491,6 +25636,73 @@ index 0000000000000000000000000000000000000000..5e99789e5156e8ffbf125e77114c547e
 +        BlockState state = this.level.getBlockState(blockHitResult.getBlockPos());
 +        state.onProjectileHit(this.level, state, blockHitResult, this);
 +        this.discard();
++    }
++}
+diff --git a/src/main/java/org/purpurmc/purpur/entity/GlowSquidColor.java b/src/main/java/org/purpurmc/purpur/entity/GlowSquidColor.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..c90256f4c16ffdb2d8e767e837ea36ac7a6613be
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/entity/GlowSquidColor.java
+@@ -0,0 +1,61 @@
++package org.purpurmc.purpur.entity;
++
++import net.minecraft.util.RandomSource;
++
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.HashMap;
++import java.util.List;
++import java.util.Locale;
++import java.util.Map;
++
++public enum GlowSquidColor {
++    BLUE, RED, GREEN, PINK, YELLOW, ORANGE, INDIGO, PURPLE, WHITE, GRAY, BLACK;
++
++    @Override
++    public String toString() {
++        return this.name().toLowerCase(Locale.ROOT);
++    }
++
++    public enum Mode {
++        RAINBOW(RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, PURPLE),
++        ALL_COLORS(BLUE, RED, GREEN, PINK, YELLOW, ORANGE, INDIGO, PURPLE, WHITE, GRAY, BLACK),
++        TRANS_PRIDE(BLUE, WHITE, PINK),
++        LESBIAN_PRIDE(RED, ORANGE, WHITE, PINK, PURPLE),
++        BI_PRIDE(BLUE, PINK, PURPLE),
++        GAY_PRIDE(BLUE, GREEN, WHITE),
++        PAN_PRIDE(PINK, YELLOW, BLUE),
++        ACE_PRIDE(BLACK, GRAY, WHITE, PURPLE),
++        ARO_PRIDE(BLACK, GRAY, WHITE, GREEN),
++        ENBY_PRIDE(YELLOW, WHITE, BLACK, PURPLE),
++        GENDERFLUID(PURPLE, WHITE, BLACK, PINK, BLUE),
++        MONOCHROME(BLACK, GRAY, WHITE),
++        VANILLA(BLUE);
++
++        private static final Map<String, Mode> BY_NAME = new HashMap<>();
++
++        static {
++            Arrays.stream(values()).forEach(mode -> BY_NAME.put(mode.name(), mode));
++        }
++
++        private final List<GlowSquidColor> colors = new ArrayList<>();
++
++        Mode(GlowSquidColor... colors) {
++            this.colors.addAll(Arrays.stream(colors).toList());
++        }
++
++        public static Mode get(String string) {
++            Mode mode = BY_NAME.get(string.toUpperCase(Locale.ROOT));
++            return mode == null ? RAINBOW : mode;
++        }
++
++        public GlowSquidColor getRandom(RandomSource random) {
++            return this.colors.get(random.nextInt(this.colors.size()));
++        }
++
++        @Override
++        public String toString() {
++            return this.name().toLowerCase(Locale.ROOT);
++        }
 +    }
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/entity/PhantomFlames.java b/src/main/java/org/purpurmc/purpur/entity/PhantomFlames.java
