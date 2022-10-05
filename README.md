@@ -14,7 +14,7 @@ Prismarine
 
 [Discord](https://discord.gg/CQGVqeXQQC) - [Reddit](https://reddit.com/r/Prismarine) | [한국어](src/README/KOR.md) - **English**
 
-A Server Software for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
+A Server Platform for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
 
 *You can support this project through Sponsor at right (or bottom)!*
 
