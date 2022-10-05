@@ -28,7 +28,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Improve quality of server by porting patches disappeared or remained as a PR.
    - Ported patches can be found at [here](src/PORTED_PATCHES/ENG.md) 
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
-- Ability to disable 1.19.2's Chat Report System.
+- Ability to disable Chat Report System.
 
 ## Communicate
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/CQGVqeXQQC)
