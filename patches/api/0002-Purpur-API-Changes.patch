@@ -1,31 +1,26 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 2 Oct 2022 11:26:40 +0900
+Date: Wed, 5 Oct 2022 11:57:15 +0000
 Subject: [PATCH] Purpur API Changes
+
+Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-Software), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the Software), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED AS
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index c873a0537186ebe8a0fe2d15c7a7950793fd9a37..da7ee9a8748737a2041c3a5aa6e69de48e77485c 100644
+index 780c9b40f69c247592c1fe469c05fd12e984b633..8e64ccdb928bc38cb703e60c8ec31339a6f6d894 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -103,6 +103,8 @@ tasks.jar {
@@ -1037,7 +1032,7 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430
      void setPlayerSpawned(boolean playerSpawned);
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 6dd81f07ef4d6993187987d3352a01771ffb715e..be7ad89699619aba9df4699403c9a70fd2bc9da1 100644
+index d00ce1de6f683777d6ccc10c4db1c28c571dbe75..90d8073b6a10778914be7a31f29d4763b67c3296 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
 @@ -946,4 +946,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
@@ -3956,6 +3951,72 @@ index 0000000000000000000000000000000000000000..c88394336bc9ab0f66a2af24d393f4a1
 +    @NotNull
 +    public static HandlerList getHandlerList() {
 +        return handlers;
++    }
++}
+diff --git a/src/main/java/org/purpurmc/purpur/language/Language.java b/src/main/java/org/purpurmc/purpur/language/Language.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..38483d908ed830e97883733bee2370f87060f4c7
+--- /dev/null
++++ b/src/main/java/org/purpurmc/purpur/language/Language.java
+@@ -0,0 +1,60 @@
++package org.purpurmc.purpur.language;
++
++import net.kyori.adventure.translation.Translatable;
++import org.jetbrains.annotations.NotNull;
++
++/**
++ * Represents a language that can translate translation keys
++ */
++public abstract class Language {
++    private static Language language;
++
++    /**
++     * Returns the default language of the server
++     */
++    @NotNull
++    public static Language getLanguage() {
++        return language;
++    }
++
++    public static void setLanguage(@NotNull Language language) {
++        if (Language.language != null) {
++            throw new UnsupportedOperationException("Cannot redefine singleton Language");
++        }
++        Language.language = language;
++    }
++
++    /**
++     * Checks if a certain translation key is translatable with this language
++     * @param key The translation key
++     * @return Whether this language can translate the key
++     */
++    abstract public boolean has(@NotNull String key);
++
++    /**
++     * Checks if a certain translation key is translatable with this language
++     * @param key The translation key
++     * @return Whether this language can translate the key
++     */
++    public boolean has(@NotNull Translatable key) {
++        return has(key.translationKey());
++    }
++
++    /**
++     * Translates a translation key to this language
++     * @param key The translation key
++     * @return The translated key, or the translation key if it couldn't be translated
++     */
++    @NotNull
++    abstract public String getOrDefault(@NotNull String key);
++
++    /**
++     * Translates a translation key to this language
++     * @param key The translation key
++     * @return The translated key, or the translation key if it couldn't be translated
++     */
++    @NotNull
++    public String getOrDefault(@NotNull Translatable key) {
++        return getOrDefault(key.translationKey());
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/CustomTimingsHandler.java b/src/main/java/org/spigotmc/CustomTimingsHandler.java

@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a61a0f4f1ce89681336d2ed246e6b616aa6fe73d..bff4b5bb7543d8921d50cbc645aa0fe4dd3985bb 100644
+index fd4a23b4b9fc9143f88c907e406476508ff62f99..f11cae89edeb929c37de00a0f237711f33914301 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,7 +9,7 @@ plugins {
@@ -17,7 +17,7 @@ index a61a0f4f1ce89681336d2ed246e6b616aa6fe73d..bff4b5bb7543d8921d50cbc645aa0fe4
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -86,7 +86,7 @@ tasks.jar {
+@@ -87,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -194,10 +194,10 @@ index 3aa9a667d988fe2b6118ce4b3a4551e7e17b7884..dfe2a2c13b149c20728112d4e9dfcfa8
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5a79983bf65d00fc3d24ca7e964c9c00a093d3b0..38d6325466a40f52d22b7b6a9bbed1e64032cc4e 100644
+index 461d15bd2be988aa9e2379299181b3b37e81749a..36cc2cb5fdebcc051feae7490522c526f8ae9585 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
+@@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -255,7 +255,7 @@ index fb87620c742ff7912f5e8ccd2a7930dd605576d9..2d90a7cf5d5de95005724fabcf7362bf
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 14844cb8a402ac987f44a91b95d5ebdac73c6dfe..af628461958c4c0e630e70d09c80dd92e1b03556 100644
+index 3cfbb4300e82cce409a7a0b53ef98987f166143c..4aed2a7e4400daaee234f928255aee5902eb7f3e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -244,7 +244,7 @@ public class PurpurConfig {

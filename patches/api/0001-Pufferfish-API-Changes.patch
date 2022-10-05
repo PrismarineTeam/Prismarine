@@ -1,7 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 2 Oct 2022 11:24:40 +0900
+Date: Wed, 5 Oct 2022 11:55:29 +0000
 Subject: [PATCH] Pufferfish API Changes
+
+Original by Kevin Raneri <kevin.raneri@gmail.com>
 
 Copyright (C) 2022 Pufferfish Studios LLC
 
@@ -19,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 428e7777906aa5177c5c6489838e6400349bb62f..c873a0537186ebe8a0fe2d15c7a7950793fd9a37 100644
+index 9f5694204091e23c4771657127a06f98e27ad8f1..780c9b40f69c247592c1fe469c05fd12e984b633 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -41,6 +41,7 @@ dependencies {
@@ -475,7 +477,7 @@ index 8ff78fad47f6086aa289e32590f4fbec24b3d500..a16c841751bc44e46d27fc4efbfc2ab2
  
              if (cloader instanceof PluginClassLoader) {
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 06daf7e7b9f177256a7a15b91e72ff53f89ccb68..0011c228b10316b09a62579dfc3d37794ee8e61a 100644
+index cb3c25ef46b279ffdde87f47f729eb8aa7549c1c..6fb179c4d420eac3a6399fbff104b5af6ba448ba 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 @@ -46,6 +46,8 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot

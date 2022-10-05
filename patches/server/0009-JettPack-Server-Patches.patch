@@ -896,7 +896,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index aeb0498853cccf88090e9b577cce472d408d5e2d..5b51419611baa7d89450d0e618f7a717a258f298 100644
+index 9dca0d694aa8fa7f8bec0d2504986085e0cc6fe9..8b83f91f009f8d9c1b4ba92660ce9f7c34f55c1f 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
@@ -1068,10 +1068,10 @@ index e9dc771f4487a57d40f57596da723c60c0e04778..020f647733bc0a51abae141f529df9c1
      public final Thread thread;
      private final boolean isDebug;
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index ce4127f3701efa7d1c86bcdb4e7804fee11c397c..9d801652d1ccdb356f26f914824a2b46b1e8e9b6 100644
+index e94ca6283a0471a49b31942de763472ccb989dcb..75e44de348a33991761f1306d0ebcfee5e96e22f 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
-@@ -669,11 +669,13 @@ public class Block extends BlockBehaviour implements ItemLike {
+@@ -673,11 +673,13 @@ public class Block extends BlockBehaviour implements ItemLike {
          private final BlockState first;
          private final BlockState second;
          private final Direction direction;
@@ -1085,7 +1085,7 @@ index ce4127f3701efa7d1c86bcdb4e7804fee11c397c..9d801652d1ccdb356f26f914824a2b46
          }
  
          public boolean equals(Object object) {
-@@ -689,11 +691,7 @@ public class Block extends BlockBehaviour implements ItemLike {
+@@ -693,11 +695,7 @@ public class Block extends BlockBehaviour implements ItemLike {
          }
  
          public int hashCode() {

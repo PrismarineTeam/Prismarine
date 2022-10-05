@@ -80,10 +80,10 @@ index 11d62baf0ccbcc85e5b809da98b13fde72a9cec0..3a0f6bcd0f28206a01f5cdb304c656f9
                  }
                  // Spigot end
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ba91a3e3012d56a847887a14c84fea088ea325c3..d3c7fa7b32ad2b5045fa29784ef456d1d802c563 100644
+index bba6be490e6d3fecac6d91568d210752d64ab29a..ab4054f09f5a617e3102f76e0fe554ccf6d2c56f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2780,6 +2780,7 @@ public final class CraftServer implements Server {
+@@ -2795,6 +2795,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
