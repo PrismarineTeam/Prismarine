@@ -16,19 +16,19 @@ Prismarine
 
 A Server Platform for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
 
-*You can support this project through the right (or bottom) Sponsor!*
+*You can support this project through Sponsor at right (or bottom)!*
 
 </div>
 
 ## Features
-- Based on [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) and [Paper](https://github.com/PaperMC/Paper), most plugins are fully supported and stable.
-- Supports faster speeds and wider APIs, including all patches from [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) and [Purpur](https://github.com/PurpurMC/Purpur).
-- Multiple improvements and bug resolution were included by porting multiple mods.
+- Based on [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) and [Paper](https://github.com/PaperMC/Paper). Most plugins are fully supported and stable.
+- Fast speed and wide api support, including all patches from [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) and [Purpur](https://github.com/PurpurMC/Purpur).
+- Multiple improvements and bug fixes are implemented by porting multiple mods.
 - Have a better performance beacuse we removed unstable, old and optimized for particular users and only ported neccesary parts such as [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice).
 - Improve quality of server by porting patches disappeared or remained as a PR.
    - Ported patches can be found at [here](src/PORTED_PATCHES/ENG.md) 
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
-- Can disable chatting report.
+- Ability to disable Chat Report System.
 
 ## Communicate
 [![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/CQGVqeXQQC)
