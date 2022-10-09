@@ -71,7 +71,7 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda87
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
          this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 223dec38e73b57e9130287ec74bb1786df77eb92..400ec68e3cca48e6a048cec3caf439c722e51dd9 100644
+index 230f938438963523b0c559694932bf614bb04b96..bfb42e1536383d3083eece605a3c46530d0660ed 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -258,7 +258,7 @@ public class PurpurConfig {
@@ -84,10 +84,10 @@ index 223dec38e73b57e9130287ec74bb1786df77eb92..400ec68e3cca48e6a048cec3caf439c7
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 6e4d83851f50c9c1c65726cc0cebdabb605f91a0..cb3418654b1eede2de788b57852bd8a80dff2a94 100644
+index c9d94372a788eefb430b29e123dc37b4bf730f30..b9ce818a4ac265787ae2a167c4ae0388f4987099 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -415,7 +415,7 @@ public class PurpurWorldConfig {
+@@ -417,7 +417,7 @@ public class PurpurWorldConfig {
      public boolean playerInvulnerableWhileAcceptingResourcePack = false;
      public String playerDeathExpDropEquation = "expLevel * 7";
      public int playerDeathExpDropMax = 100;

@@ -184,7 +184,7 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf362
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index ca9473b6d6824f932bc0c7c308b83fb6c8856aaa..e5769f53fc9a333eefaf5e78f9fde9ec649525db 100644
+index aa8f664ae1bba9729d146efadb8fd46ba03c2db9..0f385b2f877627e70f68b80e80e2754387619f76 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -212,10 +212,10 @@ index ca9473b6d6824f932bc0c7c308b83fb6c8856aaa..e5769f53fc9a333eefaf5e78f9fde9ec
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8b83f91f009f8d9c1b4ba92660ce9f7c34f55c1f..6da27c8b1a77f22235301fa86e7a7936e5605797 100644
+index e0a5f41477c63c801b3205b04ff3824c96c21311..4bfc563ca6590407973b13433e1d1686261220b9 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3154,7 +3154,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3155,7 +3155,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
