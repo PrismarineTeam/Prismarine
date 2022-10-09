@@ -22,7 +22,7 @@ index fd4a23b4b9fc9143f88c907e406476508ff62f99..f11cae89edeb929c37de00a0f237711f
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
 -            "Implementation-Version" to "git-Purpur-$implementationVersion",// Purpur
-+            "Implementation-Version" to "git-Prismarine-$implementationVersion", // Pufferfish // Purpur // Prismarine
++            "Implementation-Version" to "git-Spectral-$implementationVersion", // Pufferfish // Purpur // Prismarine
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
@@ -44,7 +44,7 @@ index acd95cf1dc7f009b63e44e4404e1736283fd458e..5e5914610dc6e6db7d1d3368212b24fe
                  metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
                  metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
 -                metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur
-+                metrics.addCustomChart(new Metrics.SimplePie("prismarine_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // Prismarine
++                metrics.addCustomChart(new Metrics.SimplePie("spectral_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // Prismarine
  
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
@@ -68,7 +68,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..27b04711cb79491c27e14e5324e19fa8
 -        String[] parts = serverVersion.substring("git-Purpur-".length()).split("[-\\s]"); // Purpur
 -        final Component updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", "ver/" + getMinecraftVersion(), parts[0]); // Purpur
 +        String[] parts = serverVersion.substring("git-Spectral-".length()).split("[-\\s]"); // Purpur // Prismarine
-+        final Component updateMessage = getUpdateStatusMessage("PrismarineTeam/Prismarine", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // Prismarine
++        final Component updateMessage = getUpdateStatusMessage("GommeMode/Spectral", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // Prismarine
          final Component history = getHistory();
  
          return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur
@@ -263,7 +263,7 @@ index 3cfbb4300e82cce409a7a0b53ef98987f166143c..4aed2a7e4400daaee234f928255aee59
      }
  
 -    public static String serverModName = "Purpur";
-+    public static String serverModName = "Prismarine"; // Prismarine
++    public static String serverModName = "Spectral"; // Prismarine
      private static void serverModName() {
          serverModName = getString("settings.server-mod-name", serverModName);
      }
@@ -294,7 +294,7 @@ index a810bfd3b8d6bd4d8f2ef8797e4281ae4fe8a67f..e34254283a7c0b05d652dadddab92627
 +                log.log( Level.SEVERE, "If you are unsure or still think this is a Prismarine bug, please report this to https://github.com/PrismarineTeam/Prismarine/issues" ); // Purpur // Prismarine
                  log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
 -                log.log( Level.SEVERE, "Purpur version: " + Bukkit.getServer().getVersion() ); // Purpur
-+                log.log( Level.SEVERE, "Prismarine version: " + Bukkit.getServer().getVersion() ); // Purpur // Prismarine
++                log.log( Level.SEVERE, "Spectral version: " + Bukkit.getServer().getVersion() ); // Purpur // Prismarine
                  //
                  if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
                  {
