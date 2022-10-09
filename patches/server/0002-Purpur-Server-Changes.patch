@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 5 Oct 2022 11:57:15 +0000
+Date: Sat, 8 Oct 2022 23:52:16 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -2754,7 +2754,7 @@ index af7acb628b84539b1ee5ef1934f75f091c4cd91e..12637019da44019475042e4cf88d3e0e
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
-index 0a5f8d990cce5df339fd9b2b0fcb291a20ddad41..0a884ca8b081f1952638ee83ebae957527696fbf 100644
+index 0a5f8d990cce5df339fd9b2b0fcb291a20ddad41..194e9e341b9d1a966d0d78af19120422d7b7eb0a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 @@ -389,6 +389,7 @@ public class ServerPlayerGameMode {
@@ -2791,15 +2791,6 @@ index 0a5f8d990cce5df339fd9b2b0fcb291a20ddad41..0a884ca8b081f1952638ee83ebae9575
          BlockPos blockposition = hitResult.getBlockPos();
          BlockState iblockdata = world.getBlockState(blockposition);
          InteractionResult enuminteractionresult = InteractionResult.PASS;
-@@ -520,7 +522,7 @@ public class ServerPlayerGameMode {
-         }
- 
-         if (player.getCooldowns().isOnCooldown(stack.getItem())) {
--            cancelledItem = true; // Paper - correctly handle items on cooldown
-+            cancelledBlock = stack.getItem() != net.minecraft.world.item.Items.GOAT_HORN; // Purpur
-         }
- 
-         PlayerInteractEvent event = CraftEventFactory.callPlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, blockposition, hitResult.getDirection(), stack, cancelledBlock, cancelledItem, hand, hitResult.getLocation()); // Paper
 @@ -566,7 +568,7 @@ public class ServerPlayerGameMode {
              boolean flag1 = player.isSecondaryUseActive() && flag;
              ItemStack itemstack1 = stack.copy();
@@ -3888,7 +3879,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 568760d0824ecd7c46536479d94e3155900ce89a..46aab96ceae032aa5e8b33ec8dc2a9e88bee2d7f 100644
+index 568760d0824ecd7c46536479d94e3155900ce89a..39d71c0b35095440d5b65876cf56f406debaf04f 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,7 +156,7 @@ import org.bukkit.plugin.PluginManager;
@@ -4005,7 +3996,7 @@ index 568760d0824ecd7c46536479d94e3155900ce89a..46aab96ceae032aa5e8b33ec8dc2a9e8
                  false, false, null, null);
  
 -            if (io.papermc.paper.util.CollisionUtil.isCollidingWithBorderEdge(world.getWorldBorder(), collisionBox)) {
-+                if (this.collidingWithWorldBorder = io.papermc.paper.util.CollisionUtil.isCollidingWithBorderEdge(world.getWorldBorder(), collisionBox)) { // Purpur
++            if (this.collidingWithWorldBorder = io.papermc.paper.util.CollisionUtil.isCollidingWithBorderEdge(world.getWorldBorder(), collisionBox)) { // Purpur
                  io.papermc.paper.util.CollisionUtil.addBoxesToIfIntersects(world.getWorldBorder().getCollisionShape(), collisionBox, potentialCollisions);
              }
  
