@@ -184,7 +184,7 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf362
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index aa8f664ae1bba9729d146efadb8fd46ba03c2db9..0f385b2f877627e70f68b80e80e2754387619f76 100644
+index d3f8e8b7955331de42d65b66197aefa471403704..459b25d4c8395cee893bede7540359d6790dbc4c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -202,7 +202,7 @@ index aa8f664ae1bba9729d146efadb8fd46ba03c2db9..0f385b2f877627e70f68b80e80e27543
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3148,7 +3156,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3147,7 +3155,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
