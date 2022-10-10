@@ -25,6 +25,7 @@ index 0000000000000000000000000000000000000000..06399c159c8b779bb65149704490671e
 +    public MaskedList(ObjectArrayList<E> allElements) {
 +        this.allElements = allElements;
 +        this.visibleMask = new BitSet();
+
 +    }
 +
 +    public void setVisible(E element, final boolean visible) {
