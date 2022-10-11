@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Mon, 10 Oct 2022 09:02:37 +0000
+Date: Mon, 10 Oct 2022 23:55:55 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -5770,6 +5770,22 @@ index 721971f7618751a2e95f1c49fdc48a9c0c672cab..ad30f2d678cfc4b0d693e84e6e152c63
          if (this.llama.inCaravan() && this.llama.getCaravanHead().isAlive() && this.firstIsLeashed(this.llama, 0)) {
              double d = this.llama.distanceToSqr(this.llama.getCaravanHead());
              if (d > 676.0D) {
+diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java
+index 6558b0d4bea99948fdc2b51751f3cfdc239d4b67..d85dabebbbbe213e791b8a3be3c6df05b959e40c 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java
++++ b/src/main/java/net/minecraft/world/entity/ai/goal/RangedBowAttackGoal.java
+@@ -111,9 +111,9 @@ public class RangedBowAttackGoal<T extends Monster & RangedAttackMob> extends Go
+ 
+                 this.mob.getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+                 this.mob.lookAt(livingEntity, 30.0F, 30.0F);
+-            } else {
++            } //else { // Purpur - fix MC-121706
+                 this.mob.getLookControl().setLookAt(livingEntity, 30.0F, 30.0F);
+-            }
++            //} // Purpur
+ 
+             if (this.mob.isUsingItem()) {
+                 if (!bl && this.seeTime < -60) {
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
 index bd0cbf4390fc7d00b4bd5008cdf8f6f49df4f69b..27e96c4c1377c49f03df032683aac32d96ae1c6f 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
