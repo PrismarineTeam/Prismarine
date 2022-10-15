@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 11 Oct 2022 11:56:54 +0000
+Date: Sat, 15 Oct 2022 18:02:31 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original by PurpurMC Team
@@ -999,10 +999,10 @@ index 635e07a6b0e255c4fdad58ba9d281c807af4e229..1f478844707352072cbcefe34318637c
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Endermite.java b/src/main/java/org/bukkit/entity/Endermite.java
-index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430d90d799a 100644
+index 138d2530de2410f4a9424dabd3e5ce0cd1c1dcd2..10a8d64ad2da0be2c14f34c3e7d1957c6f2883d1 100644
 --- a/src/main/java/org/bukkit/entity/Endermite.java
 +++ b/src/main/java/org/bukkit/entity/Endermite.java
-@@ -3,24 +3,20 @@ package org.bukkit.entity;
+@@ -3,25 +3,21 @@ package org.bukkit.entity;
  public interface Endermite extends Monster {
  
      /**
@@ -1030,12 +1030,13 @@ index 9e7f42caab1204036f4203354c115fd40c6def92..1bc6a6930e9a5881a4fe4bf208da4430
       */
 -    @Deprecated
      void setPlayerSpawned(boolean playerSpawned);
- }
+     // Paper start
+     /**
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index d00ce1de6f683777d6ccc10c4db1c28c571dbe75..90d8073b6a10778914be7a31f29d4763b67c3296 100644
+index 33a6b7a27dc91552799c07a7aad9b3df31ad13f7..28be71aa677ed8cb9a9d06b3aba7af40f0992f68 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -946,4 +946,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -951,4 +951,42 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean wouldCollideUsing(@NotNull BoundingBox boundingBox);
      // Paper End - Collision API
@@ -1217,24 +1218,15 @@ index 4af5e8d0cba6555f7615e4e809d9aff221c0dc4d..4a4606f2598b868e43c270cd3056d445
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Llama.java b/src/main/java/org/bukkit/entity/Llama.java
-index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c34040d16d 100644
+index bc84b892cae5fe7019a3ad481e9da79956efa1fe..48eb5b00c460cccde29d327cef1d63fc04d6a829 100644
 --- a/src/main/java/org/bukkit/entity/Llama.java
 +++ b/src/main/java/org/bukkit/entity/Llama.java
-@@ -3,6 +3,7 @@ package org.bukkit.entity;
- import com.destroystokyo.paper.entity.RangedEntity;
- import org.bukkit.inventory.LlamaInventory;
- import org.jetbrains.annotations.NotNull;
-+import org.jetbrains.annotations.Nullable; // Purpur
- 
- /**
-  * Represents a Llama.
-@@ -67,4 +68,65 @@ public interface Llama extends ChestedHorse, RangedEntity { // Paper
-     @NotNull
-     @Override
-     LlamaInventory getInventory();
+@@ -119,4 +119,20 @@ public interface Llama extends ChestedHorse, RangedEntity { // Paper
+     @org.jetbrains.annotations.Nullable
+     Llama getCaravanTail();
+     // Paper end
 +
 +    // Purpur start
-+
 +    /**
 +     * Check if this Llama should attempt to join a caravan
 +     *
@@ -1248,54 +1240,10 @@ index d23226ccb0f6c25028f000ce31346cd0a8898e6a..1ef9479c962b3f4f6fed46671a1209c3
 +     * @param shouldJoinCaravan True to allow joining a caravan
 +     */
 +    void setShouldJoinCaravan(boolean shouldJoinCaravan);
-+
-+    /**
-+     * Check if Llama is in a caravan
-+     *
-+     * @return True if in caravan
-+     */
-+    boolean inCaravan();
-+
-+    /**
-+     * Join a caravan
-+     *
-+     * @param llama Head of caravan to join
-+     */
-+    void joinCaravan(@NotNull Llama llama);
-+
-+    /**
-+     * Leave current caravan if in one
-+     */
-+    void leaveCaravan();
-+
-+    /**
-+     * Check if another Llama is following this Llama
-+     *
-+     * @return True if being followed in the caravan
-+     */
-+    boolean hasCaravanTail();
-+
-+    /**
-+     * Get the Llama that this Llama is following
-+     * <p>
-+     * Does not necessarily mean the leader of the entire caravan
-+     *
-+     * @return The Llama being followed
-+     */
-+    @Nullable
-+    Llama getCaravanHead();
-+
-+    /**
-+     * Get the Llama following this Llama, if any
-+     *
-+     * @return The Llama following this one
-+     */
-+    @Nullable
-+    Llama getCaravanTail();
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 1d98abff1ad0116f7a2599f078aa730cb84843c1..80f0d631a9780ec853b2ab44d5bcbec45f7d4051 100644
+index ecb8b4cf48c7d6151ffec92bc6855d1fc57a2b51..9c2dcca0b6e34a3083226360575f0956a077d767 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2411,6 +2411,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -1313,7 +1261,7 @@ index 1d98abff1ad0116f7a2599f078aa730cb84843c1..80f0d631a9780ec853b2ab44d5bcbec4
      /**
       * Gets whether the player has the "Allow Server Listings" setting enabled.
       *
-@@ -2832,4 +2840,153 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2850,4 +2858,153 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -2358,6 +2306,46 @@ index 49a4611ed4891cce10fd6e01b4062740ad18ee6f..6bb115923767c4bd65b18e67eeff5408
  
              File replacedFile = plugins.put(description.getName(), file);
              if (replacedFile != null) {
+diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..4dd9306c13aff0e54521e1c157b8a9c16db7387a 100644
+--- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+@@ -57,6 +57,7 @@ public final class JavaPluginLoader implements PluginLoader {
+     private final Map<String, Integer> classLoadLockCount = new java.util.HashMap<String, Integer>(); // Paper
+     private final List<PluginClassLoader> loaders = new CopyOnWriteArrayList<PluginClassLoader>();
+     private final LibraryLoader libraryLoader;
++    public static boolean SuppressLibraryLoaderLogger = false; // Purpur
+ 
+     /**
+      * This class was not meant to be constructed explicitly
+diff --git a/src/main/java/org/bukkit/plugin/java/LibraryLoader.java b/src/main/java/org/bukkit/plugin/java/LibraryLoader.java
+index 6d634b0ea813ccb19f1562a7d0e5a59cea4eab21..06a7f27aa7c3963f63fe158438a83fdf67a20c51 100644
+--- a/src/main/java/org/bukkit/plugin/java/LibraryLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/LibraryLoader.java
+@@ -62,6 +62,7 @@ class LibraryLoader
+             @Override
+             public void transferStarted(@NotNull TransferEvent event) throws TransferCancelledException
+             {
++                if (!JavaPluginLoader.SuppressLibraryLoaderLogger) // Purpur
+                 logger.log( Level.INFO, "Downloading {0}", event.getResource().getRepositoryUrl() + event.getResource().getResourceName() );
+             }
+         } );
+@@ -77,6 +78,7 @@ class LibraryLoader
+         {
+             return null;
+         }
++        if (!JavaPluginLoader.SuppressLibraryLoaderLogger) // Purpur
+         logger.log( Level.INFO, "[{0}] Loading {1} libraries... please wait", new Object[]
+         {
+             desc.getName(), desc.getLibraries().size()
+@@ -115,6 +117,7 @@ class LibraryLoader
+             }
+ 
+             jarFiles.add( url );
++            if (!JavaPluginLoader.SuppressLibraryLoaderLogger) // Purpur
+             logger.log( Level.INFO, "[{0}] Loaded library {1}", new Object[]
+             {
+                 desc.getName(), file
 diff --git a/src/main/java/org/bukkit/potion/PotionEffect.java b/src/main/java/org/bukkit/potion/PotionEffect.java
 index 24e36cdf580da885ac64002673a786b9c5a3f787..d20cc4d4f5b37a3de9cb3cf47af7a908e9dbc2fc 100644
 --- a/src/main/java/org/bukkit/potion/PotionEffect.java
@@ -2637,10 +2625,10 @@ index e1a4ddf2c07cdd242fa8054a0152522fe4039e85..10627d2a11251a8cb01bbc3f6242d66f
  }
 diff --git a/src/main/java/org/bukkit/util/permissions/PurpurPermissions.java b/src/main/java/org/bukkit/util/permissions/PurpurPermissions.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bed91e726faae389536c8725061f23f069ba6b21
+index 0000000000000000000000000000000000000000..baec4c87d7ea4d54934ca22fd1eb7b46dd69061b
 --- /dev/null
 +++ b/src/main/java/org/bukkit/util/permissions/PurpurPermissions.java
-@@ -0,0 +1,79 @@
+@@ -0,0 +1,87 @@
 +package org.bukkit.util.permissions;
 +
 +import org.bukkit.entity.Entity;
@@ -2684,7 +2672,15 @@ index 0000000000000000000000000000000000000000..bed91e726faae389536c8725061f23f0
 +        DefaultPermissions.registerPermission(PREFIX + "drop.spawners", "Allows the user to drop spawner cage when broken with diamond pickaxe with silk touch", PermissionDefault.FALSE, purpur);
 +        DefaultPermissions.registerPermission(PREFIX + "place.spawners", "Allows the user to place spawner cage in the world", PermissionDefault.FALSE, purpur);
 +
-+        DefaultPermissions.registerPermission(PREFIX + "anvil.color", "Allows the user to use color codes on anvils", PermissionDefault.FALSE, purpur);
++        DefaultPermissions.registerPermission(PREFIX + "mending_shift_click", "Allows the user to use shift-right-click to mend items", PermissionDefault.FALSE, purpur);
++        DefaultPermissions.registerPermission(PREFIX + "inventory_totem", "Uses a totem from anywhere in the user's inventory on death", PermissionDefault.FALSE, purpur);
++
++        Permission anvil = DefaultPermissions.registerPermission(PREFIX + "anvil", "Allows the user to use all anvil color and format abilities", PermissionDefault.FALSE, purpur);
++        DefaultPermissions.registerPermission(PREFIX + "anvil.color", "Allows the user to use color codes in an anvil", PermissionDefault.FALSE, anvil);
++        DefaultPermissions.registerPermission(PREFIX + "anvil.minimessage", "Allows the user to use minimessage tags in an anvil", PermissionDefault.FALSE, anvil);
++        DefaultPermissions.registerPermission(PREFIX + "anvil.remove_italics", "Allows the user to remove italics in an anvil", PermissionDefault.FALSE, anvil);
++        DefaultPermissions.registerPermission(PREFIX + "anvil.format", "Allows the user to use format codes in an anvil", PermissionDefault.FALSE, anvil);
++        anvil.recalculatePermissibles();
 +
 +        Permission book = DefaultPermissions.registerPermission(PREFIX + "book", "Allows the user to use color codes on books", PermissionDefault.FALSE, purpur);
 +        DefaultPermissions.registerPermission(PREFIX + "book.color.edit", "Allows the user to use color codes on books when editing", PermissionDefault.FALSE, book);

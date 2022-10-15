@@ -125,10 +125,10 @@ index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b47
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index a70caf9a80c39840ea70539d3eedc767fee64872..c9d94372a788eefb430b29e123dc37b4bf730f30 100644
+index 33d7c132b19095598eb681da8487a072f1dccab6..d3e14750f70d8311ebf0b910ad03681a247fdbcb 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -1044,12 +1044,14 @@ public class PurpurWorldConfig {
+@@ -1046,12 +1046,14 @@ public class PurpurWorldConfig {
      public boolean allayRidableInWater = false;
      public boolean allayControllable = true;
      public List<String> allayRespectNBT = new ArrayList<>();
@@ -143,7 +143,7 @@ index a70caf9a80c39840ea70539d3eedc767fee64872..c9d94372a788eefb430b29e123dc37b4
      }
  
      public boolean axolotlRidable = false;
-@@ -1563,12 +1565,14 @@ public class PurpurWorldConfig {
+@@ -1565,12 +1567,14 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -158,7 +158,7 @@ index a70caf9a80c39840ea70539d3eedc767fee64872..c9d94372a788eefb430b29e123dc37b4
      }
  
      public boolean ghastRidable = false;
-@@ -2616,10 +2620,12 @@ public class PurpurWorldConfig {
+@@ -2618,10 +2622,12 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = false;
      public boolean tadpoleControllable = true;
@@ -171,7 +171,7 @@ index a70caf9a80c39840ea70539d3eedc767fee64872..c9d94372a788eefb430b29e123dc37b4
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2830,10 +2836,12 @@ public class PurpurWorldConfig {
+@@ -2832,10 +2838,12 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = false;
      public boolean wardenControllable = true;

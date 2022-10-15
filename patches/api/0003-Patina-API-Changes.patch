@@ -91,10 +91,10 @@ index 3bea5dd67ad0393160ccede4ac99a3c7baa1803b..08ed2f80677ac3dfd2a82afdee83ae41
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752eeee4081e3 100644
+index 4dd9306c13aff0e54521e1c157b8a9c16db7387a..db0bd5626c1923f9ed9b08f7a379047908e1180a 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-@@ -370,7 +370,13 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -371,7 +371,13 @@ public final class JavaPluginLoader implements PluginLoader {
                  jPlugin.setEnabled(true);
              } catch (Throwable ex) {
                  gg.pufferfish.pufferfish.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
@@ -109,7 +109,7 @@ index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752ee
                  gg.pufferfish.pufferfish.sentry.SentryContext.removePluginContext(); // Pufferfish
                  // Paper start - Disable plugins that fail to load
                  this.server.getPluginManager().disablePlugin(jPlugin);
-@@ -401,7 +407,13 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -402,7 +408,13 @@ public final class JavaPluginLoader implements PluginLoader {
                  jPlugin.setEnabled(false);
              } catch (Throwable ex) {
                  gg.pufferfish.pufferfish.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
@@ -124,7 +124,7 @@ index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752ee
                  gg.pufferfish.pufferfish.sentry.SentryContext.removePluginContext(); // Pufferfish
              }
  
-@@ -418,10 +430,22 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -419,10 +431,22 @@ public final class JavaPluginLoader implements PluginLoader {
                  try {
                      loader.close();
                  } catch (IOException ex) {
@@ -149,7 +149,7 @@ index a16c841751bc44e46d27fc4efbfc2ab23cc7b0d7..1ab625ca3b392a94b34aeabbc3b752ee
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 0011c228b10316b09a62579dfc3d37794ee8e61a..12fc90b265a38b170ddbda4bd0baebeed1266900 100644
+index 6fb179c4d420eac3a6399fbff104b5af6ba448ba..3cfcf546c8385c1e29ee1e09a121389390c93490 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 @@ -278,4 +278,6 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
