@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 15 Oct 2022 18:02:30 +0000
+Date: Sat, 15 Oct 2022 18:54:33 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original by PurpurMC Team
@@ -15907,7 +15907,7 @@ index f7404f41c2df202a428711e7e09a9a6eb11bf527..d0baf170d0b535b4b1a8c48944a91de3
          });
      }
 diff --git a/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java b/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java
-index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..43d7ca6ceb89d65149314e56a846081d6c3a048a 100644
+index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..1344c2bc08743088c56862469949dcb148a99a8b 100644
 --- a/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/GrindstoneMenu.java
 @@ -95,9 +95,11 @@ public class GrindstoneMenu extends AbstractContainerMenu {
@@ -15932,6 +15932,15 @@ index 740b778ce14f241e509f17c3a84b9ed47cdeeebe..43d7ca6ceb89d65149314e56a846081d
                          j += enchantment.getMinCost(integer);
                      }
                  }
+@@ -198,7 +200,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
+                 i = Math.max(item.getMaxDamage() - l, 0);
+                 itemstack2 = this.mergeEnchants(itemstack, itemstack1);
+                 if (!itemstack2.isDamageableItem()) {
+-                    if (!ItemStack.matches(itemstack, itemstack1) || itemstack2.getMaxStackSize() == 1) { // Paper - add max stack size check
++                    if (!ItemStack.matches(itemstack, itemstack1) || ((org.bukkit.craftbukkit.entity.CraftPlayer)this.player).getHandle().getLevel().purpurConfig.grindstoneAllowOversizedStacking || itemstack2.getMaxStackSize() == 1) { // Paper - add max stack size check // Purpur
+                         this.resultSlots.setItem(0, ItemStack.EMPTY);
+                         this.broadcastChanges();
+                         return;
 @@ -230,7 +232,7 @@ public class GrindstoneMenu extends AbstractContainerMenu {
              Entry<Enchantment, Integer> entry = (Entry) iterator.next();
              Enchantment enchantment = (Enchantment) entry.getKey();
@@ -21684,10 +21693,10 @@ index 0000000000000000000000000000000000000000..5d71e3040df116a94df7efa83e61dc17
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..33d7c132b19095598eb681da8487a072f1dccab6
+index 0000000000000000000000000000000000000000..daa437f3aaebed4d917fde65d75a8a941755a764
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3139 @@
+@@ -0,0 +1,3144 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -22593,6 +22602,11 @@ index 0000000000000000000000000000000000000000..33d7c132b19095598eb681da8487a072
 +    public boolean endPortalSafeTeleporting = true;
 +    private void endPortalSettings() {
 +        endPortalSafeTeleporting = getBoolean("blocks.end_portal.safe-teleporting", endPortalSafeTeleporting);
++    }
++
++    public boolean grindstoneAllowOversizedStacking = false;
++    private void grindstoneSettings() {
++        grindstoneAllowOversizedStacking = getBoolean("blocks.grindstone.allow-oversized-stacking", grindstoneAllowOversizedStacking);
 +    }
 +
 +    public boolean mobsSpawnOnPackedIce = true;
