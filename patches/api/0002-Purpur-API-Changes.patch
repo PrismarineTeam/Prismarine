@@ -1,11 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sat, 15 Oct 2022 18:54:33 +0000
+Date: Mon, 24 Oct 2022 16:15:19 +0900
 Subject: [PATCH] Purpur API Changes
 
-Original by PurpurMC Team
-
-Copyright (C) 2022 PurpurMC LLC
+Copyright 2022 PurpurMC LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the Software), to deal
@@ -17,7 +15,12 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED AS
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index 780c9b40f69c247592c1fe469c05fd12e984b633..8e64ccdb928bc38cb703e60c8ec31339a6f6d894 100644
@@ -1172,12 +1175,12 @@ index d0bef15785493b512ff0f7414c1d58d38fead581..fd213c026fdfb3030d0c37f651a88857
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 319e4571aca24d1e3f6c85b7435d65c0e77a5245..510d72bb5805ae14715282d21d790d251be21dd2 100644
+index 3bd1d100d0c481ae7edaa251869640ab370aeb42..c730b7e091b897fac7faa2d756b90ea5f0cef44d 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
-@@ -1004,4 +1004,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
-         }
-     }
+@@ -1016,4 +1016,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
+      */
+     void knockback(double strength, double directionX, double directionZ);
      // Paper end
 +
 +    // Purpur start

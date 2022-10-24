@@ -15,7 +15,7 @@ THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
 HEREUNDER.
 
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 66c65df229acc4041ed2027df07d4ab0dd8e7454..d26666d67292f4b5d22b4d4ee0275f557108e85e 100644
+index 577a82608a5094df96e2f2a379f51516d1eab192..961a89ace505375be1cc71b6313e1accbbc2ec70 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -43,6 +43,8 @@ public abstract class BaseSpawner {
@@ -41,7 +41,7 @@ index 66c65df229acc4041ed2027df07d4ab0dd8e7454..d26666d67292f4b5d22b4d4ee0275f55
 +        }
 +        if (blockLockedByTime && world.getBestNeighborSignal(pos) > 0) return;
 +        // Prismarine end
-         if (spawnCount <= 0 || maxNearbyEntities <= 0) return; // Paper - Ignore impossible spawn tick // Prismarine - Paper PR
+         if (spawnCount <= 0 || maxNearbyEntities <= 0) return; // Paper - Ignore impossible spawn tick
          // Paper start - Configurable mob spawner tick rate
          if (spawnDelay > 0 && --tickDelay > 0) return;
 @@ -301,6 +313,11 @@ public abstract class BaseSpawner {

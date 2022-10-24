@@ -201,18 +201,6 @@ index 4e00c2216142b52fb34be0e51d00fa20fded92c8..4f31454c192361a18d32d3085cb9df90
      }
  
      public static AttributeSupplier.Builder createAttributes() {
-diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index deffa277272c34adb39d7c3e69e91502780a090e..66c65df229acc4041ed2027df07d4ab0dd8e7454 100644
---- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
-+++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-@@ -78,6 +78,7 @@ public abstract class BaseSpawner {
-     }
- 
-     public void serverTick(ServerLevel world, BlockPos pos) {
-+        if (spawnCount <= 0 || maxNearbyEntities <= 0) return; // Paper - Ignore impossible spawn tick // Prismarine - Paper PR
-         // Paper start - Configurable mob spawner tick rate
-         if (spawnDelay > 0 && --tickDelay > 0) return;
-         tickDelay = world.paperConfig().tickRates.mobSpawner;
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index 30077cc34ba45025ec5ec60c01b84ed4b3d2dcc6..9bfbe138c4dc704a018ec7c16d04450b57579eea 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java

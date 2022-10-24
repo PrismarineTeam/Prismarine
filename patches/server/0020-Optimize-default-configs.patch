@@ -5,7 +5,7 @@ Subject: [PATCH] Optimize default configs
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 3d2e67dc559ee3910b17ca86a46030ec05232250..e670716689024b02c18655cf1a61acc822586ab2 100644
+index a1bd848bbf924267e74e61dabdb840628712b1ad..8e505fa457dbd5e72870d475f0cf0626fa7efdfa 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 @@ -309,7 +309,7 @@ public class WorldConfiguration extends ConfigurationPart {
@@ -17,7 +17,7 @@ index 3d2e67dc559ee3910b17ca86a46030ec05232250..e670716689024b02c18655cf1a61acc8
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -388,7 +388,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -389,7 +389,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -26,7 +26,7 @@ index 3d2e67dc559ee3910b17ca86a46030ec05232250..e670716689024b02c18655cf1a61acc8
          @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
          public int maxEntityCollisions = 8;
          public boolean allowPlayerCrammingDamage = false;
-@@ -400,7 +400,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -401,7 +401,7 @@ public class WorldConfiguration extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
          public int maxAutoSaveChunksPerTick = 24;
          public int fixedChunkInhabitedTime = -1;
@@ -35,7 +35,7 @@ index 3d2e67dc559ee3910b17ca86a46030ec05232250..e670716689024b02c18655cf1a61acc8
          public Duration delayChunkUnloadsBy = Duration.of("10s");
          public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(Registry.ENTITY_TYPE.size()), map -> {
              map.defaultReturnValue(-1);
-@@ -451,7 +451,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -452,7 +452,7 @@ public class WorldConfiguration extends ConfigurationPart {
          public int lightQueueSize = 20;
          public boolean updatePathfindingOnBlockUpdate = true;
          public boolean showSignClickCommandFailureMsgsToPlayer = false;
@@ -71,7 +71,7 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda87
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
          this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 230f938438963523b0c559694932bf614bb04b96..bfb42e1536383d3083eece605a3c46530d0660ed 100644
+index 0fc372f66b105692d75532b187b96b4d322113f8..d390fd4aeec7b75e65819d0e1f040b638e3b2433 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -258,7 +258,7 @@ public class PurpurConfig {
@@ -84,7 +84,7 @@ index 230f938438963523b0c559694932bf614bb04b96..bfb42e1536383d3083eece605a3c4653
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index c9d94372a788eefb430b29e123dc37b4bf730f30..b9ce818a4ac265787ae2a167c4ae0388f4987099 100644
+index d3e14750f70d8311ebf0b910ad03681a247fdbcb..03dac931c3ede6cd154fe648b7ace17f649ec96e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -417,7 +417,7 @@ public class PurpurWorldConfig {

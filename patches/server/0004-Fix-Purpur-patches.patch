@@ -31,10 +31,10 @@ index a029f51983bcfe49beab1359f282f0f957723ef2..3ea565a2b1cbf564f69f463347e60d7b
          try {
              org.purpurmc.purpur.PurpurConfig.init((java.io.File) options.valueOf("purpur-settings"));
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 571a1cbee376032b6b9f36c9fe3f9199a3ad3197..e804051c2ce3e3a4ce0efe5d48931c4d1e189c92 100644
+index d418144bc7471b2c00ad272652b035d79974ef75..85992d794f65a6bb6068e0685dfa72496fb0165e 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -971,7 +971,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -973,7 +973,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
              return holder.is(PoiTypes.LIGHTNING_ROD);
          }, (blockposition1) -> {
              return blockposition1.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, blockposition1.getX(), blockposition1.getZ()) - 1;
@@ -43,7 +43,7 @@ index 571a1cbee376032b6b9f36c9fe3f9199a3ad3197..e804051c2ce3e3a4ce0efe5d48931c4d
  
          return optional.map((blockposition1) -> {
              return blockposition1.above(1);
-@@ -1020,7 +1020,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1022,7 +1022,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          if (this.canSleepThroughNights()) {
              if (!this.getServer().isSingleplayer() || this.getServer().isPublished()) {
                  int i = this.getGameRules().getInt(GameRules.RULE_PLAYERS_SLEEPING_PERCENTAGE);
@@ -53,7 +53,7 @@ index 571a1cbee376032b6b9f36c9fe3f9199a3ad3197..e804051c2ce3e3a4ce0efe5d48931c4d
                  if (this.sleepStatus.areEnoughSleeping(i)) {
                      // Purpur start
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 4e77bb2be5a35bc6b002e2eae4af41937187ba0d..d0f4e1556e606d916f7f9d511a1fb2ddee7d9ab2 100644
+index 8f843b562d96274d7e786f1dc1f04602a7303222..96e4981247f3a091d142b135fd5e2ac0f92cdafc 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 @@ -153,6 +153,13 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
@@ -125,10 +125,10 @@ index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b47
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index daa437f3aaebed4d917fde65d75a8a941755a764..2d36e2bf685f1d5a3910e07be9697c663e6bcd75 100644
+index 33d7c132b19095598eb681da8487a072f1dccab6..d3e14750f70d8311ebf0b910ad03681a247fdbcb 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -1051,12 +1051,14 @@ public class PurpurWorldConfig {
+@@ -1046,12 +1046,14 @@ public class PurpurWorldConfig {
      public boolean allayRidableInWater = false;
      public boolean allayControllable = true;
      public List<String> allayRespectNBT = new ArrayList<>();
@@ -143,7 +143,7 @@ index daa437f3aaebed4d917fde65d75a8a941755a764..2d36e2bf685f1d5a3910e07be9697c66
      }
  
      public boolean axolotlRidable = false;
-@@ -1570,12 +1572,14 @@ public class PurpurWorldConfig {
+@@ -1565,12 +1567,14 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -158,7 +158,7 @@ index daa437f3aaebed4d917fde65d75a8a941755a764..2d36e2bf685f1d5a3910e07be9697c66
      }
  
      public boolean ghastRidable = false;
-@@ -2623,10 +2627,12 @@ public class PurpurWorldConfig {
+@@ -2618,10 +2622,12 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = false;
      public boolean tadpoleControllable = true;
@@ -171,7 +171,7 @@ index daa437f3aaebed4d917fde65d75a8a941755a764..2d36e2bf685f1d5a3910e07be9697c66
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2837,10 +2843,12 @@ public class PurpurWorldConfig {
+@@ -2832,10 +2838,12 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = false;
      public boolean wardenControllable = true;
