@@ -26,14 +26,14 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0010 - Save Json list asynchronously
 
 diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
-index 4fd709a550bf8da1e996894a1ca6b91206c31e9e..bd328d4d09f6fb885e343a039f5817f0ea7f33a7 100644
+index 4fd709a550bf8da1e996894a1ca6b91206c31e9e..63a12d90821f22a9926fcd5dbcf35e5dd7f04058 100644
 --- a/src/main/java/net/minecraft/server/players/StoredUserList.java
 +++ b/src/main/java/net/minecraft/server/players/StoredUserList.java
 @@ -24,6 +24,7 @@ import java.util.Objects;
  import java.util.stream.Stream;
  import javax.annotation.Nullable;
  import net.minecraft.Util;
-+import net.minecraft.server.MCUtil;
++import io.papermc.paper.util.MCUtil;
  import net.minecraft.util.GsonHelper;
  import org.slf4j.Logger;
  
