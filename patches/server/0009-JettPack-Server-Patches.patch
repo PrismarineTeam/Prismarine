@@ -44,6 +44,54 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0042
 0043
 
+diff --git a/src/main/java/io/papermc/paper/util/MCUtil.java b/src/main/java/io/papermc/paper/util/MCUtil.java
+index c8f7aa9e0794713724e1053581c220aa95f1bc90..07aa7249b2a84f0441ce7d010cc39e931cb67d34 100644
+--- a/src/main/java/io/papermc/paper/util/MCUtil.java
++++ b/src/main/java/io/papermc/paper/util/MCUtil.java
+@@ -55,9 +55,10 @@ import java.util.function.Consumer;
+ import java.util.function.Supplier;
+ 
+ public final class MCUtil {
++    public static final java.util.concurrent.ConcurrentLinkedQueue smallAsyncTasks = new java.util.concurrent.ConcurrentLinkedQueue(); // Jettpack // Prismarine - JettPack patches
+     public static final ThreadPoolExecutor asyncExecutor = new ThreadPoolExecutor(
+-        0, 2, 60L, TimeUnit.SECONDS,
+-        new LinkedBlockingQueue<>(),
++        4, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, // JettPack // Prismarine - JettPack patches
++        new java.util.concurrent.SynchronousQueue<Runnable>(), // JettPack // Prismarine - JettPack patches
+         new ThreadFactoryBuilder()
+             .setNameFormat("Paper Async Task Handler Thread - %1$d")
+             .setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(MinecraftServer.LOGGER))
+@@ -74,6 +75,30 @@ public final class MCUtil {
+ 
+     public static final long INVALID_CHUNK_KEY = getCoordinateKey(Integer.MAX_VALUE, Integer.MAX_VALUE);
+ 
++    // Prismarine start - JettPack patches
++    public static void flushAsyncTasks() {
++        if (!smallAsyncTasks.isEmpty()) {
++            asyncExecutor.submit(() -> {
++                Runnable runnable;
++                while((runnable = (Runnable)smallAsyncTasks.poll()) != null) {
++                    runnable.run();
++                }
++            });
++        }
++    }
++
++    public static void flushAsyncTasksMidTick() {
++        int i = smallAsyncTasks.size() < 16 ? smallAsyncTasks.size() : 16; // if smallAsyncTasks is over size 16, only execute 16 tasks
++        asyncExecutor.submit(() -> {
++            Runnable runnable;
++            int i_tmp = 0;
++            while((runnable = (Runnable)smallAsyncTasks.poll()) != null && i_tmp != i-1) {
++                runnable.run();
++                i_tmp += 1;
++            }
++        });
++    }
++    // Prismarine end
+ 
+     public static Runnable once(Runnable run) {
+         AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java b/src/main/java/me/jellysquid/mods/lithium/common/util/collections/HashedList.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..593f429a230b5056169be4e552791f77175d10f9
@@ -497,7 +545,7 @@ index 0000000000000000000000000000000000000000..b45371f7a776451d5a15da03d130a32f
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 3c7c3c21fe1f4ce1299274eee82884cb8aa2d2e7..bf59498b4bf57a77c337ccd6ef09239e21965148 100644
+index 9894a955015e9cb8138f5d12a74b4a650ce06852..62adf527d7601213291bb9db5a11289deda04c0d 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
 @@ -65,9 +65,11 @@ import java.util.stream.Collectors;
@@ -508,7 +556,7 @@ index 3c7c3c21fe1f4ce1299274eee82884cb8aa2d2e7..bf59498b4bf57a77c337ccd6ef09239e
  import net.minecraft.resources.ResourceLocation;
  import net.minecraft.server.Bootstrap;
  import net.minecraft.util.Mth;
-+import net.minecraft.server.MCUtil; // Prismarine - JettPack patches
++import io.papermc.paper.util.MCUtil; // Prismarine - JettPack patches
  import net.minecraft.util.RandomSource;
  import net.minecraft.util.TimeSource;
  import net.minecraft.util.datafix.DataFixers;
@@ -516,7 +564,7 @@ index 3c7c3c21fe1f4ce1299274eee82884cb8aa2d2e7..bf59498b4bf57a77c337ccd6ef09239e
          if (i <= 0) {
              executorService = MoreExecutors.newDirectExecutorService();
          } else {
--            executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new net.minecraft.server.ServerWorkerThread(target, s, priorityModifier));
+-            executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new io.papermc.paper.util.ServerWorkerThread(target, s, priorityModifier));
 +            // Prismarine start - JettPack tweaks
 +            if (net.prismarineteam.prismarine.PrismarineConfig.useJettPackAsyncExecutor) {
 +                executorService = Integer.getInteger("Paper.WorkerThreadCount", i) <= 0 ? MoreExecutors.newDirectExecutorService() : new java.util.concurrent.AbstractExecutorService() {
@@ -594,56 +642,8 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
      }
  
      public static Direction getNearest(double x, double y, double z) {
-diff --git a/src/main/java/net/minecraft/server/MCUtil.java b/src/main/java/net/minecraft/server/MCUtil.java
-index 07b0b0993c01763b39d1c9a387447ec76b5de190..488b70f4f3c47c520ee3d9053f137f5bf627dd9a 100644
---- a/src/main/java/net/minecraft/server/MCUtil.java
-+++ b/src/main/java/net/minecraft/server/MCUtil.java
-@@ -54,9 +54,10 @@ import java.util.function.Consumer;
- import java.util.function.Supplier;
- 
- public final class MCUtil {
-+    public static final java.util.concurrent.ConcurrentLinkedQueue smallAsyncTasks = new java.util.concurrent.ConcurrentLinkedQueue(); // Jettpack // Prismarine - JettPack patches
-     public static final ThreadPoolExecutor asyncExecutor = new ThreadPoolExecutor(
--        0, 2, 60L, TimeUnit.SECONDS,
--        new LinkedBlockingQueue<>(),
-+        4, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, // JettPack // Prismarine - JettPack patches
-+        new java.util.concurrent.SynchronousQueue<Runnable>(), // JettPack // Prismarine - JettPack patches
-         new ThreadFactoryBuilder()
-             .setNameFormat("Paper Async Task Handler Thread - %1$d")
-             .setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(MinecraftServer.LOGGER))
-@@ -73,6 +74,30 @@ public final class MCUtil {
- 
-     public static final long INVALID_CHUNK_KEY = getCoordinateKey(Integer.MAX_VALUE, Integer.MAX_VALUE);
- 
-+    // Prismarine start - JettPack patches
-+    public static void flushAsyncTasks() {
-+        if (!smallAsyncTasks.isEmpty()) {
-+            asyncExecutor.submit(() -> {
-+                Runnable runnable;
-+                while((runnable = (Runnable)smallAsyncTasks.poll()) != null) {
-+                    runnable.run();
-+                }
-+            });
-+        }
-+    }
-+
-+    public static void flushAsyncTasksMidTick() {
-+        int i = smallAsyncTasks.size() < 16 ? smallAsyncTasks.size() : 16; // if smallAsyncTasks is over size 16, only execute 16 tasks
-+        asyncExecutor.submit(() -> {
-+            Runnable runnable;
-+            int i_tmp = 0;
-+            while((runnable = (Runnable)smallAsyncTasks.poll()) != null && i_tmp != i-1) {
-+                runnable.run();
-+                i_tmp += 1;
-+            }
-+        });
-+    }
-+    // Prismarine end
- 
-     public static Runnable once(Runnable run) {
-         AtomicBoolean ran = new AtomicBoolean(false);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0b9fa8ae706d84b2445115e310c089e5dbac8a4a..11d62baf0ccbcc85e5b809da98b13fde72a9cec0 100644
+index 1a8dffe6b975e1ac3b4db98bf8a6b36b687e4ae0..042cee3c1e2414dcbc35b7dcabfa49103cb2c16b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1004,6 +1004,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -684,47 +684,52 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 68903862b8b9485f29d2e0da282505742f01dc3b..35c12bf6e2d58f33c8f19ed8165b6425d7a67587 100644
+index 0ea7c0f0f3f9be737e7b8e262be8113469912310..f71e1454db9ef344cc8447d68c0c3d5a1ffa4fb0 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -130,7 +130,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -132,6 +132,13 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
  
-     }
+     private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.LinkedBlockingQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads
  
--    private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.LinkedBlockingQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads
-+    //private static final java.util.concurrent.ExecutorService authenticatorPool = new java.util.concurrent.ThreadPoolExecutor(0, 16, 60L, java.util.concurrent.TimeUnit.SECONDS, new java.util.concurrent.LinkedBlockingQueue<>(),  new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat("User Authenticator #%d").setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(LOGGER)).build()); // Paper - Cache authenticator threads // Prismarine - JettPack patches
- 
++    // Prismarine start
++    private java.util.concurrent.ExecutorService getAuthenticatorPool() {
++        if (net.prismarineteam.prismarine.PrismarineConfig.useAsyncExecutorAtAuthencatorPool) return io.papermc.paper.util.MCUtil.asyncExecutor;
++        else return authenticatorPool;
++    }
++    // Prismarine end
++
      // Spigot start
      public void initUUID()
-@@ -305,7 +305,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+     {
+@@ -305,7 +312,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
                  // Paper end
                  // Spigot start
              // Paper start - Cache authenticator threads
 -            authenticatorPool.execute(new Runnable() {
-+            net.minecraft.server.MCUtil.asyncExecutor.execute(new Runnable() { // Prismarine - JettPack patches
++            getAuthenticatorPool().execute(new Runnable() {
                      @Override
                      public void run() {
                          try {
-@@ -363,7 +363,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -363,7 +370,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
          }
  
          // Paper start - Cache authenticator threads
 -        authenticatorPool.execute(new Runnable() {
-+        net.minecraft.server.MCUtil.asyncExecutor.execute(new Runnable() { // Prismarine - JettPack patches
++        getAuthenticatorPool().execute(new Runnable() {
              public void run() {
                  GameProfile gameprofile = ServerLoginPacketListenerImpl.this.gameProfile;
  
-@@ -513,7 +513,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -513,7 +520,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              }
  
              // Proceed with login
 -            authenticatorPool.execute(() -> {
-+            net.minecraft.server.MCUtil.asyncExecutor.execute(() -> { // Prismarine - JettPack patches
++            getAuthenticatorPool().execute(() -> {
                  try {
                      new LoginHandler().fireEvents();
                  } catch (Exception ex) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 3fb2323c89d04f1a545897a1e67f6f637f5ab9c1..285914761bf0f165f5789f9138c76f9fa0d7b238 100644
+index 755d15af7cc0e47c1700db55f51e8169a521bfb8..5bdc1c8a10d540e6de23cba0d82f1abd43e6e67e 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -505,7 +505,13 @@ public abstract class PlayerList {
@@ -896,10 +901,10 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 1fc877194950ee754e9ffdbe3ff9b80bb316560f..8b58fa5d5fa2debd205d59a8c2335be2239f0780 100644
+index 1ec9a48f2f44f5bd647e0661423ae90970aee262..5b5e91a4fd837093d012845a9024a5884b0fd209 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
+@@ -576,11 +576,11 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void tryAddFrost() {
@@ -913,7 +918,7 @@ index 1fc877194950ee754e9ffdbe3ff9b80bb316560f..8b58fa5d5fa2debd205d59a8c2335be2
  
                  if (attributemodifiable == null) {
                      return;
-@@ -591,7 +591,7 @@ public abstract class LivingEntity extends Entity {
+@@ -590,7 +590,7 @@ public abstract class LivingEntity extends Entity {
  
                  attributemodifiable.addTransientModifier(new AttributeModifier(LivingEntity.SPEED_MODIFIER_POWDER_SNOW_UUID, "Powder snow slow", (double) f, AttributeModifier.Operation.ADDITION));
              }
@@ -922,7 +927,7 @@ index 1fc877194950ee754e9ffdbe3ff9b80bb316560f..8b58fa5d5fa2debd205d59a8c2335be2
  
      }
  
-@@ -2550,6 +2550,7 @@ public abstract class LivingEntity extends Entity {
+@@ -2549,6 +2549,7 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void updateSwingTime() {
@@ -1052,7 +1057,7 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index e9dc771f4487a57d40f57596da723c60c0e04778..020f647733bc0a51abae141f529df9c1ab85c58c 100644
+index aa47d6e12c2472a58ba102a618d704e39a0777df..24f55068da24f0685aa48e2cef48802055c8f2b6 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -117,9 +117,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -1204,7 +1209,7 @@ index 4c1e7c219e1ca153be4423347bd239ebaec4a31d..1e34e7d81dd4aa3a47be6cadfadd9c0f
      public LongStream getExistingSectionPositionsInChunk(long chunkPos) {
          int i = ChunkPos.getX(chunkPos);
 diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
-index 2bb24bf628a37c79e337f1cba99b816465ecb723..f5a877126db1b772f44136ffc2a9740b57ef6d88 100644
+index 2bb24bf628a37c79e337f1cba99b816465ecb723..bb23784a480d9ca6e1246260e724a42073bb636a 100644
 --- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
 +++ b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
 @@ -24,6 +24,7 @@ public class PlayerDataStorage {
@@ -1239,7 +1244,7 @@ index 2bb24bf628a37c79e337f1cba99b816465ecb723..f5a877126db1b772f44136ffc2a9740b
 +                this.dataCache.put(file, nbttagcompound);
 +            }
 +            if (net.prismarineteam.prismarine.PrismarineConfig.useYatopiaAsyncNBTCache) {
-+                net.minecraft.server.MCUtil.asyncExecutor.execute(task);
++                io.papermc.paper.util.MCUtil.asyncExecutor.execute(task);
 +            } else {
 +                task.run();
 +            }
@@ -1392,10 +1397,10 @@ index 68e89dbd79171627046e89699057964e44c40e7d..959588962acb0196ec9f1cc2502e6211
  
      @Override
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b 100644
+index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..da4b140a10687dde0e40da12baf68d63cfb2271e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -154,4 +154,45 @@ public class PrismarineConfig {
+@@ -154,4 +154,50 @@ public class PrismarineConfig {
              set("settings.patina-settings.disable-bootstrap-executor", null);
          }
      }
@@ -1440,6 +1445,11 @@ index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..7ff0d6ca8fcd4c9c5692647fe602512c
 +    private static void fastHandSwing() {
 +        fastHandSwing = getBoolean("settings.fast-hand-swing", fastHandSwing);
 +    }
++
++    public static boolean useAsyncExecutorAtAuthencatorPool = false;
++    private static void useAsyncExecutorAtAuthencatorPool() {
++        useAsyncExecutorAtAuthencatorPool = getBoolean("settings.use-async-executor-at-authencator-pool", useAsyncExecutorAtAuthencatorPool);
++    }
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
@@ -1458,7 +1468,7 @@ index cf494171713b5fc12e9627774f2705b911b54bd2..c66135f75f95a10dd49cfb67ed8d8431
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
-index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..f8b36ea1249d3444d25ac88748437aa999171ac6 100644
+index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..5bd196e7e64e3f3e735b8cd5b82563cfec73924d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
 @@ -38,17 +38,21 @@ import java.util.concurrent.TimeUnit;
@@ -1488,7 +1498,7 @@ index 9c1aff17aabd062640e3f451a2ef8c50a7c62f10..f8b36ea1249d3444d25ac88748437aa9
          if (isValid(task)) {
              this.runners.put(task.getTaskId(), task);
 -            this.executor.execute(new ServerSchedulerReportingWrapper(task));
-+            net.minecraft.server.MCUtil.asyncExecutor.execute(new ServerSchedulerReportingWrapper(task)); // Jettpack // Prismarine - JettPack patches
++            io.papermc.paper.util.MCUtil.asyncExecutor.execute(new ServerSchedulerReportingWrapper(task)); // Jettpack // Prismarine - JettPack patches
              return true;
          }
          return false;
@@ -1530,7 +1540,7 @@ index 2d90a7cf5d5de95005724fabcf7362bf7b555f6e..72ed3ff31682673c045be76bf5329894
 +    // Prismarine end
  }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index e34254283a7c0b05d652dadddab92627b7899e89..07554d02995675469ff29cd0f2903d1022e56026 100644
+index e34254283a7c0b05d652dadddab92627b7899e89..e27dec3ab8c5fd23ab8ae735f8996bf04b3afe3c 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -140,7 +140,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
@@ -1538,7 +1548,7 @@ index e34254283a7c0b05d652dadddab92627b7899e89..07554d02995675469ff29cd0f2903d10
          while ( !this.stopping )
          {
 -            //
-+            net.minecraft.server.MCUtil.flushAsyncTasks(); // Jettpack // Prismarine - JettPack patches
++            io.papermc.paper.util.MCUtil.flushAsyncTasks(); // Jettpack // Prismarine - JettPack patches
              // Paper start
              Logger log = Bukkit.getServer().getLogger();
              long currentTime = WatchdogThread.monotonicMillis();

@@ -5,7 +5,7 @@ Subject: [PATCH] Fix Purpur patches
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 13c9cddf7ac0af16676050e3bcdf22b7475a0387..a2b3875dfb70011e0df517813590a96fff28f662 100644
+index 735e01c550d561aa21c3c8f7f34a495ec3a0ab67..f7065a325fa9ecba067c9f7dbf6ed138a5c16808 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -942,7 +942,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -18,7 +18,7 @@ index 13c9cddf7ac0af16676050e3bcdf22b7475a0387..a2b3875dfb70011e0df517813590a96f
          if (upnp) {
              if (dev.omega24.upnp4j.UPnP4J.close(this.getPort(), dev.omega24.upnp4j.util.Protocol.TCP)) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index a029f51983bcfe49beab1359f282f0f957723ef2..3ea565a2b1cbf564f69f463347e60d7bfa6813e3 100644
+index d6c563dff2e816e043e096f8286e3d975cc86290..1beda771fc4af1728c78a0a85f7eeeba7f873859 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -222,7 +222,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -31,7 +31,7 @@ index a029f51983bcfe49beab1359f282f0f957723ef2..3ea565a2b1cbf564f69f463347e60d7b
          try {
              org.purpurmc.purpur.PurpurConfig.init((java.io.File) options.valueOf("purpur-settings"));
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index d418144bc7471b2c00ad272652b035d79974ef75..85992d794f65a6bb6068e0685dfa72496fb0165e 100644
+index c888e654ab9449bfdc7dfe16078eb0786ae6c15e..a06089083cf36b1934aa1d67c25bc859e73afbaf 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -973,7 +973,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -125,7 +125,7 @@ index 5dab2eea9e9c50e41c7971daefc3bbe819583207..7d310183e7715aac4f442948ef210b47
  
      @Override
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 33d7c132b19095598eb681da8487a072f1dccab6..d3e14750f70d8311ebf0b910ad03681a247fdbcb 100644
+index c7f0fba9d3d5415e7965501774feaf12d7b1b3a6..dd04cdb37ad294f54032f7b215423227b9b230e0 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -1046,12 +1046,14 @@ public class PurpurWorldConfig {
@@ -143,7 +143,7 @@ index 33d7c132b19095598eb681da8487a072f1dccab6..d3e14750f70d8311ebf0b910ad03681a
      }
  
      public boolean axolotlRidable = false;
-@@ -1565,12 +1567,14 @@ public class PurpurWorldConfig {
+@@ -1567,12 +1569,14 @@ public class PurpurWorldConfig {
      public boolean frogControllable = true;
      public float frogRidableJumpHeight = 0.65F;
      public int frogBreedingTicks = 6000;
@@ -158,7 +158,7 @@ index 33d7c132b19095598eb681da8487a072f1dccab6..d3e14750f70d8311ebf0b910ad03681a
      }
  
      public boolean ghastRidable = false;
-@@ -2618,10 +2622,12 @@ public class PurpurWorldConfig {
+@@ -2620,10 +2624,12 @@ public class PurpurWorldConfig {
      public boolean tadpoleRidable = false;
      public boolean tadpoleRidableInWater = false;
      public boolean tadpoleControllable = true;
@@ -171,7 +171,7 @@ index 33d7c132b19095598eb681da8487a072f1dccab6..d3e14750f70d8311ebf0b910ad03681a
      }
  
      public boolean traderLlamaRidable = false;
-@@ -2832,10 +2838,12 @@ public class PurpurWorldConfig {
+@@ -2834,10 +2840,12 @@ public class PurpurWorldConfig {
      public boolean wardenRidable = false;
      public boolean wardenRidableInWater = false;
      public boolean wardenControllable = true;

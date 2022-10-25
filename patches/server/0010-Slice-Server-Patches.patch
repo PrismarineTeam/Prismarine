@@ -184,7 +184,7 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf362
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 1e5b99b0936535a2be81bbcb6c8f3a2b72585c9f..aeaa5df117c1815214d2ec87950e2d075cbdd51a 100644
+index 5317a739305e95115633bbacbb3ea42c9f74c37a..52db5fb10f0ce23f6cb0ad6f6b66537d7bc8575d 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -212,10 +212,10 @@ index 1e5b99b0936535a2be81bbcb6c8f3a2b72585c9f..aeaa5df117c1815214d2ec87950e2d07
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8b58fa5d5fa2debd205d59a8c2335be2239f0780..887e471510efac6c63153ccb95a33c38eec82606 100644
+index 5b5e91a4fd837093d012845a9024a5884b0fd209..f4c06c9cc4530d56e74e43d69457e76dc3f429fc 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3154,7 +3154,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3153,7 +3153,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
@@ -265,7 +265,7 @@ index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 1ca26e7757fa8af885bfb3870128f8b48e0a7745..0f7f46dea550a0ffaf493fe13b9a25f32ab8d93c 100644
+index 026a98f9c33ed2af243a89be1a89241e5df0188b..bf551661a20bd434460d9fd3282feca31fd37e4a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2384,7 +2384,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

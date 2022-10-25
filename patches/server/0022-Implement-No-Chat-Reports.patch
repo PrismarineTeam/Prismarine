@@ -40,7 +40,7 @@ index 11183b4a39b9897e1b1067eb2a3556d2b1d90f52..0bd26e91b9971149a2f81f7361058038
          }
      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 5328515f1e781f98c1795c5ca85c5b07f3876c8d..20512d901e82a1b67cf097044abdc37d93e7ed75 100644
+index e61ab98ff3ed7692db7bbb50e1d50ce03f9711df..1f847ac2b0b8096015da1e830a6cd664f1cef244 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -691,7 +691,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -53,7 +53,7 @@ index 5328515f1e781f98c1795c5ca85c5b07f3876c8d..20512d901e82a1b67cf097044abdc37d
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b05a632576099c8d06152bae57a5f1f69909408d..f2df1ad7e1b5bad6a319ded44a820a6b4b40f3d1 100644
+index 66c632f9a824e705420b9bb86de294f0e7305c50..5d50fe8439760ec023f560b0a306fa9516b9ec75 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2240,10 +2240,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -95,7 +95,7 @@ index b05a632576099c8d06152bae57a5f1f69909408d..f2df1ad7e1b5bad6a319ded44a820a6b
          ChatMessageContent chatmessagecontent = this.getSignedContent(packet);
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index e9130fd8f630018eac9f26e81910aadf56afabaf..6cfa0819dd5908fdc121d950cb181247b4564571 100644
+index 6a8a5d930f03f7de3085b8614f8705d506baa641..f95d2c7a59f30fa239e34604eca2897fe5fe386c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1524,7 +1524,7 @@ public abstract class PlayerList {
@@ -108,7 +108,7 @@ index e9130fd8f630018eac9f26e81910aadf56afabaf..6cfa0819dd5908fdc121d950cb181247
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index f669386d8b17f78006917869a8393173b676c448..4c0b68e436e34490e0b151058998f8a424859926 100644
+index b78907c5f8b247e4553da14fedc7f28ddabec20c..db3956b6eb41e281b0457035b5eb7386f7f25e58 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -1555,7 +1555,7 @@ public abstract class Player extends LivingEntity {
@@ -121,7 +121,7 @@ index f669386d8b17f78006917869a8393173b676c448..4c0b68e436e34490e0b151058998f8a4
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 15d831471095782112e1087893d1bf12626e5080..a4b83873c90fa658abaeccc035778888fbc93977 100644
+index 1b825f6dd406cb53ca33ba5b37bf4168d871f124..6460b791f5394445c3df3bd03b4b807c071535ec 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 @@ -50,8 +50,8 @@ public class PrismarineConfig {
@@ -135,7 +135,7 @@ index 15d831471095782112e1087893d1bf12626e5080..a4b83873c90fa658abaeccc035778888
  
          readConfig(PrismarineConfig.class, null);
      }
-@@ -219,4 +219,19 @@ public class PrismarineConfig {
+@@ -224,4 +224,19 @@ public class PrismarineConfig {
      private static void storePlayerJsonListAsynchronously() {
          storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
      }

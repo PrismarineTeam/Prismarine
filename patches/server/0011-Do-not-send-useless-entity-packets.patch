@@ -63,12 +63,12 @@ index 869b85b4c482d8bd0a48b948cffcf36289bceab0..3846817023da87e935152582d5bbc745
          this.entity.stopSeenByPlayer(player);
          player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 7ff0d6ca8fcd4c9c5692647fe602512cb31ad65b..c1630079740f4ff37d772fa31859efa26af1c61e 100644
+index da4b140a10687dde0e40da12baf68d63cfb2271e..2f3e794fcec9efe5ce3cae27b328644c2fd8132e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -195,4 +195,9 @@ public class PrismarineConfig {
-     private static void fastHandSwing() {
-         fastHandSwing = getBoolean("settings.fast-hand-swing", fastHandSwing);
+@@ -200,4 +200,9 @@ public class PrismarineConfig {
+     private static void useAsyncExecutorAtAuthencatorPool() {
+         useAsyncExecutorAtAuthencatorPool = getBoolean("settings.use-async-executor-at-authencator-pool", useAsyncExecutorAtAuthencatorPool);
      }
 +
 +    public static boolean doNotSendUselessEntityPackets = true;
