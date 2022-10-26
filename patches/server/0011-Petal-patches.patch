@@ -6,10 +6,10 @@ Subject: [PATCH] Petal patches
 
 diff --git a/src/main/java/host/bloom/pathfinding/AsyncPath.java b/src/main/java/host/bloom/pathfinding/AsyncPath.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac897a8ed6e0
+index 0000000000000000000000000000000000000000..8c4c7acfa0efa30fa14b2fae6b6f8f33d7e9e6fc
 --- /dev/null
 +++ b/src/main/java/host/bloom/pathfinding/AsyncPath.java
-@@ -0,0 +1,288 @@
+@@ -0,0 +1,222 @@
 +package host.bloom.pathfinding;
 +
 +import net.minecraft.core.BlockPos;
@@ -25,56 +25,14 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 +import java.util.Set;
 +import java.util.function.Supplier;
 +
-+/**
-+ * i'll be using this to represent a path that not be processed yet!
-+ */
 +public class AsyncPath extends Path {
-+
-+    /**
-+     * marks whether this async path has been processed
-+     */
 +    private volatile boolean processed = false;
-+
-+    /**
-+     * runnables waiting for this to be processed
-+     */
 +    private final List<Runnable> postProcessing = new ArrayList<>(0);
-+
-+    /**
-+     * a list of positions that this path could path towards
-+     */
 +    private final Set<BlockPos> positions;
-+
-+    /**
-+     * the supplier of the real processed path
-+     */
 +    private final Supplier<Path> pathSupplier;
-+
-+    /*
-+     * Processed values
-+     */
-+
-+    /**
-+     * this is a reference to the nodes list in the parent `Path` object
-+     */
 +    private final List<Node> nodes;
-+    /**
-+     * the block we're trying to path to
-+     *
-+     * while processing, we have no idea where this is so consumers of `Path` should check that the path is processed before checking the target block
-+     */
 +    private @Nullable BlockPos target;
-+    /**
-+     * how far we are to the target
-+     *
-+     * while processing, the target could be anywhere but theoretically we're always "close" to a theoretical target so default is 0
-+     */
 +    private float distToTarget = 0;
-+    /**
-+     * whether we can reach the target
-+     *
-+     * while processing we can always theoretically reach the target so default is true
-+     */
 +    private boolean canReach = true;
 +
 +    public AsyncPath(@NotNull List<Node> emptyNodeList, @NotNull Set<BlockPos> positions, @NotNull Supplier<Path> pathSupplier) {
@@ -93,10 +51,6 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 +        return this.processed;
 +    }
 +
-+    /**
-+     * returns the future representing the processing state of this path
-+     * @return a future
-+     */
 +    public synchronized void postProcessing(@NotNull Runnable runnable) {
 +        if (this.processed) {
 +            runnable.run();
@@ -105,12 +59,6 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 +        }
 +    }
 +
-+    /**
-+     * an easy way to check if this processing path is the same as an attempted new path
-+     *
-+     * @param positions - the positions to compare against
-+     * @return true if we are processing the same positions
-+     */
 +    public boolean hasSameProcessingPositions(final Set<BlockPos> positions) {
 +        if (this.positions.size() != positions.size()) {
 +            return false;
@@ -119,9 +67,6 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 +        return this.positions.containsAll(positions);
 +    }
 +
-+    /**
-+     * starts processing this path
-+     */
 +    public synchronized void process() {
 +        if (this.processed) {
 +            return;
@@ -141,18 +86,11 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 +        }
 +    }
 +
-+    /**
-+     * if this path is accessed while it hasn't processed, just process it in-place
-+     */
 +    private void checkProcessed() {
 +        if (!this.processed) {
 +            this.process();
 +        }
 +    }
-+
-+    /*
-+     * overrides we need for final fields that we cannot modify after processing
-+     */
 +
 +    @Override
 +    public @NotNull BlockPos getTarget() {
@@ -174,10 +112,6 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 +
 +        return this.canReach;
 +    }
-+
-+    /*
-+     * overrides to ensure we're processed first
-+     */
 +
 +    @Override
 +    public boolean isDone() {
@@ -301,10 +235,10 @@ index 0000000000000000000000000000000000000000..e0c1e71f5c90f8fdf6151587b493ac89
 \ No newline at end of file
 diff --git a/src/main/java/host/bloom/pathfinding/AsyncPathProcessor.java b/src/main/java/host/bloom/pathfinding/AsyncPathProcessor.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c011e1f7e60d57ef70564c3c4b092cb439accc3f
+index 0000000000000000000000000000000000000000..c9ae3194eacb84a50b6b4e3b865912bff5736178
 --- /dev/null
 +++ b/src/main/java/host/bloom/pathfinding/AsyncPathProcessor.java
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,33 @@
 +package host.bloom.pathfinding;
 +
 +import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -318,9 +252,6 @@ index 0000000000000000000000000000000000000000..c011e1f7e60d57ef70564c3c4b092cb4
 +import java.util.concurrent.Executors;
 +import java.util.function.Consumer;
 +
-+/**
-+ * used to handle the scheduling of async path processing
-+ */
 +public class AsyncPathProcessor {
 +
 +    private static final Executor mainThreadExecutor = MinecraftServer.getServer();
@@ -333,14 +264,6 @@ index 0000000000000000000000000000000000000000..c011e1f7e60d57ef70564c3c4b092cb4
 +        return CompletableFuture.runAsync(path::process, pathProcessingExecutor);
 +    }
 +
-+    /**
-+     * takes a possibly unprocessed path, and waits until it is completed
-+     * the consumer will be immediately invoked if the path is already processed
-+     * the consumer will always be called on the main thread
-+     *
-+     * @param path a path to wait on
-+     * @param afterProcessing a consumer to be called
-+     */
 +    public static void awaitProcessing(@Nullable Path path, Consumer<@Nullable Path> afterProcessing) {
 +        if (path != null && !path.isProcessed() && path instanceof AsyncPath asyncPath) {
 +            asyncPath.postProcessing(() -> mainThreadExecutor.execute(() -> afterProcessing.accept(path)));
@@ -453,6 +376,446 @@ index bf3b8ccb3e031e0ad24cd51e28ea8cbd4f8a8030..82bd16851090d8628d78bb943451585d
  
      }
  
+diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
+index 18364ce4c60172529b10bc9e3a813dcedc4b766f..d495e77eac941e399b5b7e32637d634ae1aca942 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
++++ b/src/main/java/net/minecraft/world/entity/ai/behavior/MoveToTargetSink.java
+@@ -21,6 +21,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
+     private int remainingCooldown;
+     @Nullable
+     private Path path;
++    private boolean finishedProcessing; // Prismarine - Petal patches (track when path is processed)
+     @Nullable
+     private BlockPos lastTargetPos;
+     private float speedModifier;
+@@ -42,8 +43,8 @@ public class MoveToTargetSink extends Behavior<Mob> {
+             Brain<?> brain = entity.getBrain();
+             WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
+             boolean bl = this.reachedTarget(entity, walkTarget);
+-            if (!bl && this.tryComputePath(entity, walkTarget, world.getGameTime())) {
+-                this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
++            if (!bl/* && this.tryComputePath(entity, walkTarget, world.getGameTime())*/) { // Prismarine - Petal patches (async path processing means we cant know if the path is reachable here)
++                //this.lastTargetPos = walkTarget.getTarget().currentBlockPosition(); // Prismarine - Petal patches (async path processing means we cant know if the path is reachable here)
+                 return true;
+             } else {
+                 brain.eraseMemory(MemoryModuleType.WALK_TARGET);
+@@ -58,6 +59,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
+ 
+     @Override
+     protected boolean canStillUse(ServerLevel serverLevel, Mob mob, long l) {
++        if (!this.finishedProcessing) return true; // Prismarine - Petal patches (wait for processing)
+         if (this.path != null && this.lastTargetPos != null) {
+             Optional<WalkTarget> optional = mob.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
+             PathNavigation pathNavigation = mob.getNavigation();
+@@ -81,29 +83,83 @@ public class MoveToTargetSink extends Behavior<Mob> {
+ 
+     @Override
+     protected void start(ServerLevel serverLevel, Mob mob, long l) {
+-        mob.getBrain().setMemory(MemoryModuleType.PATH, this.path);
+-        mob.getNavigation().moveTo(this.path, (double)this.speedModifier);
++        // Prismarine start - Petal patches
++        Brain<?> brain = mob.getBrain();
++        WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
++
++        this.finishedProcessing = false;
++        this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
++        this.path = this.computePath(mob, walkTarget);
++        // Prismarie end
+     }
+ 
+     @Override
+     protected void tick(ServerLevel world, Mob entity, long time) {
+-        Path path = entity.getNavigation().getPath();
+-        Brain<?> brain = entity.getBrain();
+-        if (this.path != path) {
+-            this.path = path;
+-            brain.setMemory(MemoryModuleType.PATH, path);
++        // Prismarine start - Petal patches
++        if (this.path != null && !this.path.isProcessed()) return; // wait for processing
++
++        if (!this.finishedProcessing) {
++            this.finishedProcessing = true;
++
++            Brain<?> brain = entity.getBrain();
++            boolean canReach = this.path != null && this.path.canReach();
++            if (canReach) {
++                brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
++            } else if (!brain.hasMemoryValue(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) {
++                brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, time);
++            }
++
++            if (!canReach) {
++                Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
++
++                if (walkTarget.isPresent()) {
++                    BlockPos blockPos = walkTarget.get().getTarget().currentBlockPosition();
++                    Vec3 vec3 = DefaultRandomPos.getPosTowards((PathfinderMob) entity, 10, 7, Vec3.atBottomCenterOf(blockPos), ((float) Math.PI / 2F));
++                    if (vec3 != null) {
++                        // try recalculating the path using a random position
++                        this.path = entity.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
++                        this.finishedProcessing = false;
++                        return;
++                    }
++                }
++
++                // if failed, erase and move on
++                brain.eraseMemory(MemoryModuleType.WALK_TARGET);
++                this.path = null;
++
++                return;
++            }
++
++            entity.getBrain().setMemory(MemoryModuleType.PATH, this.path);
++            entity.getNavigation().moveTo(this.path, this.speedModifier);
+         }
+ 
+-        if (path != null && this.lastTargetPos != null) {
++        Path path = entity.getNavigation().getPath();
++        Brain<?> brain = entity.getBrain();
++        if (path != null && this.lastTargetPos != null && brain.hasMemoryValue(MemoryModuleType.WALK_TARGET)) {
+             WalkTarget walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
+-            if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D && this.tryComputePath(entity, walkTarget, world.getGameTime())) {
+-                this.lastTargetPos = walkTarget.getTarget().currentBlockPosition();
++            if (walkTarget.getTarget().currentBlockPosition().distSqr(this.lastTargetPos) > 4.0D) {
++        // Prismarine end
+                 this.start(world, entity, time);
+             }
+ 
+         }
+     }
+ 
++    // Prismarine start - Petal patches
++    private Path computePath(Mob entity, WalkTarget walkTarget) {
++        BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
++        this.speedModifier = walkTarget.getSpeedModifier();
++        Brain<?> brain = entity.getBrain();
++        if (this.reachedTarget(entity, walkTarget)) {
++            brain.eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
++        }
++
++        return entity.getNavigation().createPath(blockPos, 0);
++    }
++
++    /*
++    // Prismarine end
+     private boolean tryComputePath(Mob entity, WalkTarget walkTarget, long time) {
+         BlockPos blockPos = walkTarget.getTarget().currentBlockPosition();
+         this.path = entity.getNavigation().createPath(blockPos, 0);
+@@ -132,6 +188,7 @@ public class MoveToTargetSink extends Behavior<Mob> {
+ 
+         return false;
+     }
++     */ // Prismarine - Petal patches
+ 
+     private boolean reachedTarget(Mob entity, WalkTarget walkTarget) {
+         return walkTarget.getTarget().currentBlockPosition().distManhattan(entity.blockPosition()) <= walkTarget.getCloseEnoughDist();
+diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java b/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
+index 9bd6d4f7b86daaaa9cfbad454dde06b797e3f667..cedb40cfb148a2d5377dc84ceaea53578379b585 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
++++ b/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
+@@ -71,19 +71,25 @@ public class SetClosestHomeAsWalkTarget extends Behavior<LivingEntity> {
+         Set<Pair<Holder<PoiType>, BlockPos>> set = poiManager.findAllWithType((poiType) -> {
+             return poiType.is(PoiTypes.HOME);
+         }, predicate, entity.blockPosition(), 48, PoiManager.Occupancy.ANY).collect(Collectors.toSet());
+-        Path path = AcquirePoi.findPathToPois(pathfinderMob, set);
+-        if (path != null && path.canReach()) {
++        // Prismarine start - Petal patches
++        Path possiblePath = AcquirePoi.findPathToPois(pathfinderMob, set);
++
++        // wait on the path to be processed
++        host.bloom.pathfinding.AsyncPathProcessor.awaitProcessing(possiblePath, path -> {
++            if (path != null || !path.canReach() || this.triedCount < 5) {
++                this.batchCache.long2LongEntrySet().removeIf((entry) -> {
++                    return entry.getLongValue() < this.lastUpdate;
++                });
++                return;
++            }
++
+             BlockPos blockPos = path.getTarget();
+             Optional<Holder<PoiType>> optional = poiManager.getType(blockPos);
+             if (optional.isPresent()) {
+                 entity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(blockPos, this.speedModifier, 1));
+                 DebugPackets.sendPoiTicketCountPacket(world, blockPos);
+             }
+-        } else if (this.triedCount < 5) {
+-            this.batchCache.long2LongEntrySet().removeIf((entry) -> {
+-                return entry.getLongValue() < this.lastUpdate;
+-            });
+-        }
+-
++        });
++        // Prismairne end
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java
+index 29a872393f2f995b13b4ed26b42c6464ab27ca73..f651e165e03b2190ac70f39683f70a8c86f6e52e 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/AmphibiousPathNavigation.java
+@@ -8,6 +8,14 @@ import net.minecraft.world.level.pathfinder.PathFinder;
+ import net.minecraft.world.phys.Vec3;
+ 
+ public class AmphibiousPathNavigation extends PathNavigation {
++    // Prismarine start - Petal patches
++    private static final host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = () -> {
++        var nodeEvaluator = new AmphibiousNodeEvaluator(false);
++        nodeEvaluator.setCanPassDoors(true);
++        return nodeEvaluator;
++    };
++    // Prismarine end
++
+     public AmphibiousPathNavigation(Mob mob, Level world) {
+         super(mob, world);
+     }
+@@ -16,7 +24,7 @@ public class AmphibiousPathNavigation extends PathNavigation {
+     protected PathFinder createPathFinder(int range) {
+         this.nodeEvaluator = new AmphibiousNodeEvaluator(false);
+         this.nodeEvaluator.setCanPassDoors(true);
+-        return new PathFinder(this.nodeEvaluator, range);
++        return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator); // Prismarine - Petal patches
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
+index 27cd393e81f6ef9b5690c051624d8d2af50acd34..cccf2f00d75da4e7feae08719282803bf725a938 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
+@@ -12,6 +12,14 @@ import net.minecraft.world.level.pathfinder.PathFinder;
+ import net.minecraft.world.phys.Vec3;
+ 
+ public class FlyingPathNavigation extends PathNavigation {
++    // Prismarine start - Petal patches
++    private static final host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = () -> {
++        var nodeEvaluator = new FlyNodeEvaluator();
++        nodeEvaluator.setCanPassDoors(true);
++        return nodeEvaluator;
++    };
++    // Prismarine end
++
+     public FlyingPathNavigation(Mob entity, Level world) {
+         super(entity, world);
+     }
+@@ -20,7 +28,7 @@ public class FlyingPathNavigation extends PathNavigation {
+     protected PathFinder createPathFinder(int range) {
+         this.nodeEvaluator = new FlyNodeEvaluator();
+         this.nodeEvaluator.setCanPassDoors(true);
+-        return new PathFinder(this.nodeEvaluator, range);
++        return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator); // Prismarine - Petal patches
+     }
+ 
+     @Override
+@@ -45,6 +53,8 @@ public class FlyingPathNavigation extends PathNavigation {
+             this.recomputePath();
+         }
+ 
++        if (this.path != null && !this.path.isProcessed()) return; // Prismarine - Petal patches
++
+         if (!this.isDone()) {
+             if (this.canUpdatePath()) {
+                 this.followThePath();
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
+index f0248d839255763005ba333b0bfcf691407fb69b..f21dda90a4cad8dd8b302635a254b644abaca63d 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
+@@ -15,6 +15,14 @@ import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
+ import net.minecraft.world.phys.Vec3;
+ 
+ public class GroundPathNavigation extends PathNavigation {
++    // Prismarine start - Petal patches
++    private static final host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = () -> {
++        var nodeEvaluator = new WalkNodeEvaluator();
++        nodeEvaluator.setCanPassDoors(true);
++        return nodeEvaluator;
++    };
++    // Prismarine end
++
+     private boolean avoidSun;
+ 
+     public GroundPathNavigation(Mob entity, Level world) {
+@@ -25,7 +33,7 @@ public class GroundPathNavigation extends PathNavigation {
+     protected PathFinder createPathFinder(int range) {
+         this.nodeEvaluator = new WalkNodeEvaluator();
+         this.nodeEvaluator.setCanPassDoors(true);
+-        return new PathFinder(this.nodeEvaluator, range);
++        return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator); // Prismarine - Petal patches
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
+index 2289ebc669078e8db054a0ecf7092b736bb99f12..9671568d89dc28119b45dc5a02044061a41c33de 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
++++ b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
+@@ -150,6 +150,8 @@ public abstract class PathNavigation {
+             return null;
+         } else if (!this.canUpdatePath()) {
+             return null;
++        } else if (this.path instanceof host.bloom.pathfinding.AsyncPath asyncPath && !asyncPath.isProcessed() && asyncPath.hasSameProcessingPositions(positions)) { // Prismarine - Petal patches (catch early if it's still processing these positions let it keep processing)
++            return this.path; // Prismarine - Petal patches
+         } else if (this.path != null && !this.path.isDone() && positions.contains(this.targetPos)) {
+             return this.path;
+         } else {
+@@ -176,11 +178,17 @@ public abstract class PathNavigation {
+             PathNavigationRegion pathNavigationRegion = new PathNavigationRegion(this.level, blockPos.offset(-i, -i, -i), blockPos.offset(i, i, i));
+             Path path = this.pathFinder.findPath(pathNavigationRegion, this.mob, positions, followRange, distance, this.maxVisitedNodesMultiplier);
+             //this.level.getProfiler().pop(); // Purpur
+-            if (path != null && path.getTarget() != null) {
+-                this.targetPos = path.getTarget();
+-                this.reachRange = distance;
+-                this.resetStuckTimeout();
+-            }
++            // Prismarine start
++            if (!positions.isEmpty()) this.targetPos = positions.iterator().next(); // assign early a target position. most calls will only have 1 position
++            host.bloom.pathfinding.AsyncPathProcessor.awaitProcessing(path, processedPath -> {
++                if (processedPath != this.path) return; // check that processing didn't take so long that we calculated a new path
++                if (processedPath != null && processedPath.getTarget() != null) {
++                    this.targetPos = processedPath.getTarget();
++                    this.reachRange = distance;
++                    this.resetStuckTimeout();
++                }
++            });
++            // Prismarine end
+ 
+             return path;
+         }
+@@ -227,8 +235,8 @@ public abstract class PathNavigation {
+             if (this.isDone()) {
+                 return false;
+             } else {
+-                this.trimPath();
+-                if (this.path.getNodeCount() <= 0) {
++                if (path.isProcessed()) this.trimPath(); // Prismarine - Petal patches (only trim if processed)
++                if (path.isProcessed() && this.path.getNodeCount() <= 0) { // Prismarine - Petal patches (only check node count if processed)
+                     return false;
+                 } else {
+                     this.speedModifier = speed;
+@@ -252,6 +260,8 @@ public abstract class PathNavigation {
+             this.recomputePath();
+         }
+ 
++        if (this.path != null && !this.path.isProcessed()) return; // Prismarine - Petal patches (skip pathfinding if we're still processing)
++
+         if (!this.isDone()) {
+             if (this.canUpdatePath()) {
+                 this.followThePath();
+@@ -277,6 +287,7 @@ public abstract class PathNavigation {
+     }
+ 
+     protected void followThePath() {
++        if (!this.path.isProcessed()) return; // Prismarine - Petal patches
+         Vec3 vec3 = this.getTempMobPos();
+         this.maxDistanceToWaypoint = this.mob.getBbWidth() > 0.75F ? this.mob.getBbWidth() / 2.0F : 0.75F - this.mob.getBbWidth() / 2.0F;
+         Vec3i vec3i = this.path.getNextNodePos();
+@@ -419,7 +430,7 @@ public abstract class PathNavigation {
+     public boolean shouldRecomputePath(BlockPos pos) {
+         if (this.hasDelayedRecomputation) {
+             return false;
+-        } else if (this.path != null && !this.path.isDone() && this.path.getNodeCount() != 0) {
++        } else if (this.path != null && !this.path.isDone() && this.path.getNodeCount() != 0 && this.path.isProcessed()) { // Prismarine - Petal patches
+             Node node = this.path.getEndNode();
+             Vec3 vec3 = new Vec3(((double)node.x + this.mob.getX()) / 2.0D, ((double)node.y + this.mob.getY()) / 2.0D, ((double)node.z + this.mob.getZ()) / 2.0D);
+             return pos.closerToCenterThan(vec3, (double)(this.path.getNodeCount() - this.path.getNextNodeIndex()));
+diff --git a/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java b/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
+index 8db20db72cd51046213625fac46c35854c59ec5d..10342d631ea6562682f87176f7e67ff4851d5177 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
++++ b/src/main/java/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
+@@ -57,20 +57,26 @@ public class NearestBedSensor extends Sensor<Mob> {
+             java.util.List<Pair<Holder<PoiType>, BlockPos>> poiposes = new java.util.ArrayList<>();
+             // don't ask me why it's unbounded. ask mojang.
+             io.papermc.paper.util.PoiAccess.findAnyPoiPositions(poiManager, type -> type.is(PoiTypes.HOME), predicate, entity.blockPosition(), 48, PoiManager.Occupancy.ANY, false, Integer.MAX_VALUE, poiposes);
+-            Path path = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
++            // Prismarine start - Petal patches (await on path async)
++            Path possiblePath = AcquirePoi.findPathToPois(entity, new java.util.HashSet<>(poiposes));
+             // Paper end - optimise POI access
+-            if (path != null && path.canReach()) {
++            // await on path async
++            host.bloom.pathfinding.AsyncPathProcessor.awaitProcessing(possiblePath, path -> {
++                // readd canReach check
++                if (path == null || !path.canReach()) {
++                    this.batchCache.long2LongEntrySet().removeIf((entry) -> {
++                        return entry.getLongValue() < this.lastUpdate;
++                    });
++                    return;
++                }
++
+                 BlockPos blockPos = path.getTarget();
+                 Optional<Holder<PoiType>> optional = poiManager.getType(blockPos);
+                 if (optional.isPresent()) {
+                     entity.getBrain().setMemory(MemoryModuleType.NEAREST_BED, blockPos);
+                 }
+-            } else if (this.triedCount < 5) {
+-                this.batchCache.long2LongEntrySet().removeIf((entry) -> {
+-                    return entry.getLongValue() < this.lastUpdate;
+-                });
+-            }
+-
++            });
++            // Prismarine end
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+index 0a432fe44e8d444d635b3e3e274dd20cf0b910f3..d0dc965b9795c1424ec050e7935b2acfa7668854 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+@@ -1146,7 +1146,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+                         } else {
+                             Bee.this.pathfindRandomlyTowards(Bee.this.hivePos);
+                         }
+-                    } else {
++                    } else if (navigation.getPath() != null && navigation.getPath().isProcessed()) { // Prismarine - Petal patches (check processing)
+                         boolean flag = this.pathfindDirectlyTowards(Bee.this.hivePos);
+ 
+                         if (!flag) {
+@@ -1208,7 +1208,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+             } else {
+                 Path pathentity = Bee.this.navigation.getPath();
+ 
+-                return pathentity != null && pathentity.getTarget().equals(pos) && pathentity.canReach() && pathentity.isDone();
++                return pathentity != null && pathentity.getTarget().equals(pos) && pathentity.canReach() && pathentity.isDone() && pathentity.isProcessed(); // Prismarine - Petal patches (ensure path is processed)
+             }
+         }
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+index 55a36e1573058175c45a2c0ac4978b7b96a9fda0..6a07cc89199f57de3371a938536a7538f9681dea 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
++++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
+@@ -473,6 +473,15 @@ public class Frog extends Animal {
+     }
+ 
+     static class FrogPathNavigation extends AmphibiousPathNavigation {
++        // Prismarine start - Petal patches
++        private static final host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = () -> {
++            var nodeEvaluator = new FrogNodeEvaluator(true);
++            nodeEvaluator.setCanOpenDoors(true);
++            nodeEvaluator.setCanFloat(true);
++            return nodeEvaluator;
++        };
++        // Prismarine end
++
+         FrogPathNavigation(Frog frog, Level world) {
+             super(frog, world);
+         }
+@@ -481,7 +490,7 @@ public class Frog extends Animal {
+         protected PathFinder createPathFinder(int range) {
+             this.nodeEvaluator = new Frog.FrogNodeEvaluator(true);
+             this.nodeEvaluator.setCanPassDoors(true);
+-            return new PathFinder(this.nodeEvaluator, range);
++            return new PathFinder(this.nodeEvaluator, range, nodeEvaluatorGenerator); // Prismarine - Petal patches
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
+index 68e31cf561f3d76bce6fa4324a75594c776f8964..e39911f0ccceb734b47347f0ff97e83ed83fd537 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
+@@ -288,7 +288,7 @@ public class Drowned extends Zombie implements RangedAttackMob {
+     protected boolean closeToNextPos() {
+         Path pathentity = this.getNavigation().getPath();
+ 
+-        if (pathentity != null) {
++        if (pathentity != null && pathentity.isProcessed()) { // Prismarine - Petal patches
+             BlockPos blockposition = pathentity.getTarget();
+ 
+             if (blockposition != null) {
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/Path.java b/src/main/java/net/minecraft/world/level/pathfinder/Path.java
 index 2a335f277bd0e4b8ad0f60d8226eb8aaa80a871f..7fe51454914587dd7cc86de3db37e07d8c56650e 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/Path.java
@@ -474,3 +837,99 @@ index 2a335f277bd0e4b8ad0f60d8226eb8aaa80a871f..7fe51454914587dd7cc86de3db37e07d
          if (o == null) {
              return false;
          } else if (o.nodes.size() != this.nodes.size()) {
+diff --git a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
+index a8af51a25b0f99c3a64d9150fdfcd6b818aa7581..65fd3af4d1278ed80d7b5929ed412d611402cdc0 100644
+--- a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
++++ b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
+@@ -25,28 +25,56 @@ public class PathFinder {
+     private static final boolean DEBUG = false;
+     private final BinaryHeap openSet = new BinaryHeap();
+ 
+-    public PathFinder(NodeEvaluator pathNodeMaker, int range) {
++    // Prismarine start - Petal patches
++    private final @Nullable host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator; // use this later to generate an evaluator
++
++    public PathFinder(NodeEvaluator pathNodeMaker, int range, @Nullable host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator) {
+         this.nodeEvaluator = pathNodeMaker;
+         this.maxVisitedNodes = range;
++        this.nodeEvaluatorGenerator = nodeEvaluatorGenerator;
++    }
++
++    public PathFinder(NodeEvaluator pathNodeMaker, int range) {
++        this(pathNodeMaker, range, null);
+     }
++    // Prismarine end
+ 
+     @Nullable
+     public Path findPath(PathNavigationRegion world, Mob mob, Set<BlockPos> positions, float followRange, int distance, float rangeMultiplier) {
+-        this.openSet.clear();
+-        this.nodeEvaluator.prepare(world, mob);
+-        Node node = this.nodeEvaluator.getStart();
++        // Prismarine start - Petal patches (use a gererated evaluator if we have one otherwise run sync)
++        var nodeEvaluator = this.nodeEvaluatorGenerator == null ? this.nodeEvaluator : host.bloom.pathfinding.NodeEvaluatorCache.takeNodeEvaluator(this.nodeEvaluatorGenerator);
++        nodeEvaluator.prepare(world, mob);
++        Node node = nodeEvaluator.getStart();
++
+         if (node == null) {
++            if (this.nodeEvaluatorGenerator != null) {
++                host.bloom.pathfinding.NodeEvaluatorCache.returnNodeEvaluator(nodeEvaluator);
++            }
++            // Prismairne end
++
+             return null;
+         } else {
+             // Paper start - remove streams - and optimize collection
+             List<Map.Entry<Target, BlockPos>> map = Lists.newArrayList();
+             for (BlockPos pos : positions) {
+-                map.add(new java.util.AbstractMap.SimpleEntry<>(this.nodeEvaluator.getGoal(pos.getX(), pos.getY(), pos.getZ()), pos));
++                map.add(new java.util.AbstractMap.SimpleEntry<>(nodeEvaluator.getGoal(pos.getX(), pos.getY(), pos.getZ()), pos)); // Prismarine - Petal patches
+             }
+             // Paper end
+-            Path path = this.findPath(world.getProfiler(), node, map, followRange, distance, rangeMultiplier);
+-            this.nodeEvaluator.done();
+-            return path;
++            // Prismarine start - Petal patches
++            if (this.nodeEvaluatorGenerator == null) {
++                // run sync
++                return this.findPath(world.getProfiler(), node, map, followRange, distance, rangeMultiplier);
++            }
++
++            return new host.bloom.pathfinding.AsyncPath(Lists.newArrayList(), positions, () -> {
++                try {
++                    return this.processPath(nodeEvaluator, node, map, followRange, distance, rangeMultiplier);
++                } finally {
++                    nodeEvaluator.done();
++                    host.bloom.pathfinding.NodeEvaluatorCache.returnNodeEvaluator(nodeEvaluator);
++                }
++            });
++            // Prismarine end
+         }
+     }
+ 
+@@ -55,6 +83,17 @@ public class PathFinder {
+     private Path findPath(ProfilerFiller profiler, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) {
+         //profiler.push("find_path"); // Purpur
+         //profiler.markForCharting(MetricCategory.PATH_FINDING); // Purpur
++        // Prismarine start - Petal patches
++        try {
++            return this.processPath(this.nodeEvaluator, startNode, positions, followRange, distance, rangeMultiplier);
++        } finally {
++            this.nodeEvaluator.done();
++        }
++    }
++
++    private synchronized @org.jetbrains.annotations.NotNull Path processPath(NodeEvaluator nodeEvaluator, Node startNode, List<Map.Entry<Target, BlockPos>> positions, float followRange, int distance, float rangeMultiplier) { // sync to only use the caching functions in this class on a single thread
++        org.apache.commons.lang3.Validate.isTrue(!positions.isEmpty()); // ensure that we have at least one position, which means we'll always return a path
++        // Prismarine end
+         // Set<Target> set = positions.keySet();
+         startNode.g = 0.0F;
+         startNode.h = this.getBestH(startNode, positions); // Paper - optimize collection
+@@ -91,7 +130,7 @@ public class PathFinder {
+             }
+ 
+             if (!(node.distanceTo(startNode) >= followRange)) {
+-                int k = this.nodeEvaluator.getNeighbors(this.neighbors, node);
++                int k = nodeEvaluator.getNeighbors(this.neighbors, node); // Prismarine - Petal patches
+ 
+                 for(int l = 0; l < k; ++l) {
+                     Node node2 = this.neighbors[l];
