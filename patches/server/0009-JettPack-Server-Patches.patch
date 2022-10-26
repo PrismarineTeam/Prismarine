@@ -545,7 +545,7 @@ index 0000000000000000000000000000000000000000..b45371f7a776451d5a15da03d130a32f
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 9894a955015e9cb8138f5d12a74b4a650ce06852..62adf527d7601213291bb9db5a11289deda04c0d 100644
+index 9894a955015e9cb8138f5d12a74b4a650ce06852..80bfb4e038e8c7c3d34a7bbabdc73ebc79637239 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
 @@ -65,9 +65,11 @@ import java.util.stream.Collectors;
@@ -605,7 +605,7 @@ index 9894a955015e9cb8138f5d12a74b4a650ce06852..62adf527d7601213291bb9db5a11289d
 +                    }
 +                };
 +            } else {
-+                executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new net.minecraft.server.ServerWorkerThread(target, s, priorityModifier));
++                executorService = new java.util.concurrent.ThreadPoolExecutor(i, i,0L, TimeUnit.MILLISECONDS, new java.util.concurrent.LinkedBlockingQueue<Runnable>(), target -> new io.papermc.paper.util.ServerWorkerThread(target, s, priorityModifier));
 +            }
 +            // Prismarine end
          }
@@ -643,14 +643,14 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1a8dffe6b975e1ac3b4db98bf8a6b36b687e4ae0..042cee3c1e2414dcbc35b7dcabfa49103cb2c16b 100644
+index 1a8dffe6b975e1ac3b4db98bf8a6b36b687e4ae0..02c130383c0d26626ae867d1ceaba13517970cf8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1004,6 +1004,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          LOGGER.info("Flushing Chunk IO");
          io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
          LOGGER.info("Closing Thread Pool");
-+        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
++        io.papermc.paper.util.MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
          Util.shutdownExecutors(); // Paper
          LOGGER.info("Closing Server");
          try {
@@ -658,7 +658,7 @@ index 1a8dffe6b975e1ac3b4db98bf8a6b36b687e4ae0..042cee3c1e2414dcbc35b7dcabfa4910
          io.papermc.paper.util.CachedLists.reset(); // Paper
          // Paper start - move executeAll() into full server tick timing
          //try (co.aikar.timings.Timing ignored = MinecraftTimings.processTasksTimer.startTiming()) { // Purpur
-+        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
++        io.papermc.paper.util.MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
              this.runAllTasks();
          //} // Purpur
          // Paper end
@@ -666,7 +666,7 @@ index 1a8dffe6b975e1ac3b4db98bf8a6b36b687e4ae0..042cee3c1e2414dcbc35b7dcabfa4910
              return;
          }
  
-+        MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
++        io.papermc.paper.util.MCUtil.flushAsyncTasks(); // Prismarine - JettPack patches
          //co.aikar.timings.MinecraftTimings.midTickChunkTasks.startTiming(); // Purpur
          try {
              for (;;) {
