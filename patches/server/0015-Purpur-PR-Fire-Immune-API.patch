@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index aeaa5df117c1815214d2ec87950e2d075cbdd51a..cf99dcc1af77edc812eeb5acb277b1fbf91dd9f5 100644
+index 52db5fb10f0ce23f6cb0ad6f6b66537d7bc8575d..1d7d547507567ea2b4f7deb2bdb06229b2886ba4 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -398,6 +398,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {

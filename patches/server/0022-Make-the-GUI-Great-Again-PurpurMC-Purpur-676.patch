@@ -27,7 +27,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 7c152d899ee8cd238d7bc934e15c8b07ddbf9e45..5379a400b91a7f74b6091db9d13595f34136b555 100644
+index b8a25fc478a911181d12726a020f511fd43edfdb..e61ab98ff3ed7692db7bbb50e1d50ce03f9711df 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -104,6 +104,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface

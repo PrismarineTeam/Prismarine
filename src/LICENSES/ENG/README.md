@@ -38,6 +38,7 @@ Licenses that used in Prismarine's project, code and PR.
 
 ## [GNU General Public License Version 3.0](GNU_GPL_v3.0.md)
 - [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
+- [Bloom-host/Petal](https://github.com/Bloom-host/Petal)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)

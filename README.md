@@ -24,7 +24,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Based on [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse) and [Paper](https://github.com/PaperMC/Paper). Most plugins are fully supported and stable.
 - Fast speed and wide api support, including all patches from [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) and [Purpur](https://github.com/PurpurMC/Purpur).
 - Multiple improvements and bug fixes are implemented by porting multiple mods.
-- Have a better performance beacuse we removed unstable, old and optimized for particular users and only ported neccesary parts such as [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice).
+- Have a better performance beacuse we removed unstable, old and optimized for particular users and only ported neccesary parts such as [Patina](https://github.com/PatinaMC/Patina), [JettPack](https://gitlab.com/Titaniumtown/JettPack), [EmpireCraft](https://github.com/starlis/EmpireCraft), [Akarin](https://github.com/Akarin-project/Akarin), [Slice](https://github.com/Cryptite/Slice), [Petal](https://github.com/bloom-host/Petal).
 - Improve quality of server by porting patches disappeared or remained as a PR.
    - Ported patches can be found at [here](src/PORTED_PATCHES/ENG.md) 
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
