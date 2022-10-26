@@ -1,0 +1,91 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Wed, 26 Oct 2022 17:49:53 +0900
+Subject: [PATCH] Petal Experimental patches
+
+
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index a06089083cf36b1934aa1d67c25bc859e73afbaf..2fa29657678a834c2b39243aaff0919f38c6d680 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -1705,6 +1705,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+                 if (chunk != null) {
+                     for (int j2 = k; j2 <= j1; ++j2) {
+                         flag |= chunk.getEventDispatcher(j2).walkListeners(event, emitterPos, emitter, (gameeventlistener, vec3d1) -> {
++                            if (!gameeventlistener.listensToEvent(event, emitter) && net.prismarineteam.prismarine.PrismarineConfig.reduceWorkDoneByGameEventSystem) return; // Prismarine - Petal patches (if they don't listen, ignore)
+                             (gameeventlistener.handleEventsImmediately() ? list : this.gameEventMessages).add(new GameEvent.Message(event, emitterPos, emitter, gameeventlistener, vec3d1));
+                         });
+                     }
+diff --git a/src/main/java/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
+index 22c309343299e60ed8028229b7f134109001ff35..11236fe487bb1d9b7fabed6679df4724ea602e6c 100644
+--- a/src/main/java/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
++++ b/src/main/java/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
+@@ -85,6 +85,13 @@ public class SculkCatalystBlockEntity extends BlockEntity implements GameEventLi
+         }
+     }
+ 
++    // Prismarine start
++    @Override
++    public boolean listensToEvent(GameEvent event, GameEvent.Context context) {
++        return !this.isRemoved() && gameEvent == GameEvent.ENTITY_DIE && context.sourceEntity() instanceof LivingEntity;
++    }
++    // Prismarine end
++
+     public static void serverTick(Level world, BlockPos pos, BlockState state, SculkCatalystBlockEntity blockEntity) {
+         org.bukkit.craftbukkit.event.CraftEventFactory.sourceBlockOverride = blockEntity.getBlockPos(); // CraftBukkit - SPIGOT-7068: Add source block override, not the most elegant way but better than passing down a BlockPosition up to five methods deep.
+         blockEntity.sculkSpreader.updateCursors(world, pos, world.getRandom(), true);
+diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
+index 7bae0525cc48d531de5a949f038417e098a59443..4aedd7ed9f89a444918a9e71d0a4b4efd2f95bb5 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -84,7 +84,7 @@ public class LevelChunk extends ChunkAccess {
+     private Supplier<ChunkHolder.FullChunkStatus> fullStatus;
+     @Nullable
+     private LevelChunk.PostLoadProcessor postLoad;
+-    private final Int2ObjectMap<GameEventDispatcher> gameEventDispatcherSections;
++    private final GameEventDispatcher[] gameEventDispatcherSections; // Prismarine - Petal patches
+     private final LevelChunkTicks<Block> blockTicks;
+     private final LevelChunkTicks<Fluid> fluidTicks;
+ 
+@@ -113,7 +113,7 @@ public class LevelChunk extends ChunkAccess {
+         this.tickersInLevel = Maps.newHashMap();
+         this.clientLightReady = false;
+         this.level = (ServerLevel) world; // CraftBukkit - type
+-        this.gameEventDispatcherSections = new Int2ObjectOpenHashMap();
++        this.gameEventDispatcherSections = new GameEventDispatcher[this.getSectionsCount() + 4]; // Prismarine
+         Heightmap.Types[] aheightmap_type = Heightmap.Types.values();
+         int j = aheightmap_type.length;
+ 
+diff --git a/src/main/java/net/minecraft/world/level/gameevent/vibrations/VibrationListener.java b/src/main/java/net/minecraft/world/level/gameevent/vibrations/VibrationListener.java
+index e45f54534bbf054eaf0008546ff459d4c11ddd50..6a37254c64e1b363b288170686602e0d1899b3eb 100644
+--- a/src/main/java/net/minecraft/world/level/gameevent/vibrations/VibrationListener.java
++++ b/src/main/java/net/minecraft/world/level/gameevent/vibrations/VibrationListener.java
+@@ -162,6 +162,13 @@ public class VibrationListener implements GameEventListener {
+         return true;
+     }
+ 
++    // Prismarine start - Petal patches
++    @Override
++    public boolean listensToEvent(GameEvent gameEvent, GameEvent.Context context) {
++        return this.receivingEvent == null && gameEvent.is(this.config.getListenableEvents());
++    }
++    // Prismarine end
++
+     public interface VibrationListenerConfig {
+ 
+         default TagKey<GameEvent> getListenableEvents() {
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index 6460b791f5394445c3df3bd03b4b807c071535ec..5d28dfdcaa8f0d6bd7bd02ffc7befccf842b3e00 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -239,4 +239,9 @@ public class PrismarineConfig {
+         convertToGameMessage = getBoolean("settings.no-chat-reports.convert-to-game-message", convertToGameMessage);
+         addQueryData = getBoolean("settings.no-chat-reports.add-query-data", addQueryData);
+     }
++
++    public static boolean reduceWorkDoneByGameEventSystem = false;
++    private static void petalExperimentalPatches() {
++        reduceWorkDoneByGameEventSystem = getBoolean("settings.experimental-petal-patches.reduce-work-done-by-game-event-system", reduceWorkDoneByGameEventSystem);
++    }
+ }
+\ No newline at end of file

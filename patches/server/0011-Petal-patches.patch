@@ -3,26 +3,6 @@ From: AlphaKR93 <alphakr93@outlook.com>
 Date: Tue, 25 Oct 2022 20:26:00 +0900
 Subject: [PATCH] Petal patches
 
-Original by peaches94 <peachescu94@gmail.com>
-
-Copyright (C) 2022 Bloom Host LLC
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-[PORTED PATCHES]
-0002 - feat: async path processing
-0003 - feat: multithreaded tracker
 
 diff --git a/src/main/java/host/bloom/pathfinding/AsyncPath.java b/src/main/java/host/bloom/pathfinding/AsyncPath.java
 new file mode 100644
