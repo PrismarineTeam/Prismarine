@@ -54,9 +54,9 @@
 
 ## [Slice](https://github.com/Cryptite/Slice)
 - 서버 패치
-   - [0004 - Don't send equipment updates if only durability changed](https://github.com/Cryptite/Slice/blob/master/patches/server/0004-Don-t-send-equipment-updates-if-only-durability-chan.patch)
-   - [0006 - Don't send fire packets if player has Fire Resistance](https://github.com/Cryptite/Slice/blob/master/patches/server/0006-Don-t-send-fire-packets-if-player-has-Fire-Resistanc.patch)
-   - [0012 - Packet obfuscation and reduction](https://github.com/Cryptite/Slice/blob/master/patches/server/0012-Packet-obfuscation-and-reduction.patch)
+   - [0004 - Ignore durability change equipment updates](https://github.com/Cryptite/Slice/blob/master/patches/server/0004-Ignore-durability-change-equipment-updates.patch)
+   - [0006 - Don't send fire packets if player has Fire Resistance](https://github.com/Cryptite/Slice/blob/master/patches/server/0006-Don-t-send-fire-packets-if-player-has-FR.patch)
+   - [0011 - Packet obfuscation and reduction](https://github.com/Cryptite/Slice/blob/master/patches/server/0011-Packet-obfuscation-and-reduction.patch)
 
 <!-- 
 ## [Mirai](https://github.com/etil2jz/Mirai)
