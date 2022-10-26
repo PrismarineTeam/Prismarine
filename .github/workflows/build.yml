@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew createMojmapPaperclipJar --stacktrace
         
       - name: Upload Artifacts
-        if: env.debug == 'true'
+        if: env.debug == 'true' | github.ref_name != env.branch
         uses: actions/upload-artifact@main
         with:
           name: Artifacts
