@@ -38,6 +38,7 @@ Prismarine에 사용된 모든 프로젝트, PR의 라이선스 입니다.
 
 ## [GNU 일반 공중 사용 허가서 버전 3.0](GNU_GPL_v3.0.md)
 - [Akarin-project/Akarin](https://github.com/Akarin-project/Akarin)
+- [Bloom-host/Petal](https://github.com/Bloom-host/Petal)
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse)
 - [Carleslc/Simple-YAML](https://github.com/Carleslc/Simple-YAML/)
 - [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse)
