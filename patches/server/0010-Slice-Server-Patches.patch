@@ -184,10 +184,10 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf362
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 5317a739305e95115633bbacbb3ea42c9f74c37a..52db5fb10f0ce23f6cb0ad6f6b66537d7bc8575d 100644
+index 6c4a831608d1d4568ed9f976d3103f7cde8edec4..60501b55aa4e24cd57edab24d25da247cc02d376 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -878,6 +878,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
          this.checkOutOfWorld();
          if (!this.level.isClientSide) {
@@ -202,7 +202,7 @@ index 5317a739305e95115633bbacbb3ea42c9f74c37a..52db5fb10f0ce23f6cb0ad6f6b66537d
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3146,7 +3154,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3157,7 +3165,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -265,10 +265,10 @@ index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c0
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 026a98f9c33ed2af243a89be1a89241e5df0188b..bf551661a20bd434460d9fd3282feca31fd37e4a 100644
+index bd363cd808f294f47298258ee7b99aeb36150887..124d8b8e6083fb1015e61ce5b7af387221255acd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2384,7 +2384,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2388,7 +2388,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
                  this.sendHealthUpdate();
              }
          }

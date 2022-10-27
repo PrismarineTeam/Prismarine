@@ -5,10 +5,10 @@ Subject: [PATCH] Force despawn API
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index cf99dcc1af77edc812eeb5acb277b1fbf91dd9f5..d13b60a1d78c0bebb16bec233326b162702816d6 100644
+index 60501b55aa4e24cd57edab24d25da247cc02d376..1a111ff8cfdfe119f619a3145705bdafa86aa960 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -4432,6 +4432,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4428,6 +4428,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkDespawn() {}
  
@@ -53,7 +53,7 @@ index 920318f80256632a8b6ac430e18ea470dfbfba37..fbf4db7ccf25af0765132c3638699b8f
      protected final void serverAiStep() {
          ++this.noActionTime;
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 3d62afb3add239c7ba61551f6729611ffc80dc9c..a76fcebcf75b0bd8d330175db0ae1fd21d6c727f 100644
+index 10208b3be330e8a02a4b248a3861ba978e64aab4..fa5e01d06a16bd1e4f6408eaff448104d331a89d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 @@ -687,6 +687,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
