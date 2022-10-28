@@ -5,7 +5,7 @@ Subject: [PATCH] Force despawn API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index fe84d277c14b41e0718d63695117088ff29991f8..2517519e8de8088e5876bfa5bc3fec2225baec8c 100644
+index 3959765b110b6fed91348c11ff85e302a885776c..9a90a098e0b77b708ebedf30e0538e8e67e292f1 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
 @@ -371,6 +371,10 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
