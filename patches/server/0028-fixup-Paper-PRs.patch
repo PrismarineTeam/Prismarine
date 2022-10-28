@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Fri, 28 Oct 2022 16:55:12 +0900
+Subject: [PATCH] fixup! Paper PRs
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index f4c06c9cc4530d56e74e43d69457e76dc3f429fc..10e2be46ba730e69ec4a3fd52f15c6b784943857 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -2276,8 +2276,9 @@ public abstract class LivingEntity extends Entity {
+                 // CraftBukkit end
+                 float f3 = this.getHealth();
+ 
+-                this.setHealth(f3 - f);
++                //this.setHealth(f3 - f); // Prismarine - move down
+                 this.getCombatTracker().recordDamage(damagesource, f3, f);
++                this.setHealth(f3 - f); // Prismarine - move down
+                 // CraftBukkit start
+                 if (!human) {
+                     this.setAbsorptionAmount(this.getAbsorptionAmount() - f);
