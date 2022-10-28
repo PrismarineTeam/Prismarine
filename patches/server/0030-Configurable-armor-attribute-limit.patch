@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Fri, 28 Oct 2022 17:20:06 +0900
+Subject: [PATCH] Configurable armor attribute limit
+
+
+diff --git a/src/main/java/net/minecraft/world/damagesource/CombatRules.java b/src/main/java/net/minecraft/world/damagesource/CombatRules.java
+index ccbfcef3e83b1bef364447657bfd08a92d615cf6..59e1dc4f9754b1f39c5eb060fd74c697c5c18a4e 100644
+--- a/src/main/java/net/minecraft/world/damagesource/CombatRules.java
++++ b/src/main/java/net/minecraft/world/damagesource/CombatRules.java
+@@ -11,12 +11,12 @@ public class CombatRules {
+ 
+     public static float getDamageAfterAbsorb(float damage, float armor, float armorToughness) {
+         float f = 2.0F + armorToughness / 4.0F;
+-        float g = Mth.clamp(armor - damage / f, armor * 0.2F, 20.0F);
++        float g = Mth.clamp(armor - damage / f, armor * 0.2F, net.prismarineteam.prismarine.PrismarineConfig.maxArmorAttributeValue); // Prismarine
+         return damage * (1.0F - g / 25.0F);
+     }
+ 
+     public static float getDamageAfterMagicAbsorb(float damageDealt, float protection) {
+-        float f = Mth.clamp(protection, 0.0F, 20.0F);
++        float f = Mth.clamp(protection, 0.0F, net.prismarineteam.prismarine.PrismarineConfig.maxArmorAttributeValue); // Prismarine
+         return damageDealt * (1.0F - f / 25.0F);
+     }
+ }
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index 6460b791f5394445c3df3bd03b4b807c071535ec..61d0ae70a682c4bfc3328b7c1b5a47e376b4e736 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -239,4 +239,9 @@ public class PrismarineConfig {
+         convertToGameMessage = getBoolean("settings.no-chat-reports.convert-to-game-message", convertToGameMessage);
+         addQueryData = getBoolean("settings.no-chat-reports.add-query-data", addQueryData);
+     }
++
++    public static float maxArmorAttributeValue = 20F;
++    private static void maxArmorAttributeValue() {
++        maxArmorAttributeValue = (float) getDouble("settings.max-armor-attribute-value", maxArmorAttributeValue);
++    }
+ }
+\ No newline at end of file
