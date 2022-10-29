@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 869b85b4c482d8bd0a48b948cffcf36289bceab0..3846817023da87e935152582d5bbc745182d0622 100644
+index 6760ef1dee40fb6bff29415c3ac33bab5ff22b10..ccd597b01de14af4aafc7664f43ad83424139998 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {
@@ -61,7 +61,7 @@ index 869b85b4c482d8bd0a48b948cffcf36289bceab0..3846817023da87e935152582d5bbc745
 +
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
-         player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}));
+         ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}))); // Prismarine - Petal patches (ensure main thread)
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 index da4b140a10687dde0e40da12baf68d63cfb2271e..2f3e794fcec9efe5ce3cae27b328644c2fd8132e 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java

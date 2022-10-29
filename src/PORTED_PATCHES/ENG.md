@@ -58,6 +58,11 @@
    - [0006 - Don't send fire packets if player has Fire Resistance](https://github.com/Cryptite/Slice/blob/master/patches/server/0006-Don-t-send-fire-packets-if-player-has-FR.patch)
    - [0011 - Packet obfuscation and reduction](https://github.com/Cryptite/Slice/blob/master/patches/server/0011-Packet-obfuscation-and-reduction.patch)
 
+## [Petal](https://github.com/bloom-host/Petal)
+- Server patches
+   - [0002 - feat: async path processing](https://github.com/Bloom-host/Petal/blob/ver/1.19.2/patches/server/0002-feat-async-path-processing.patch)
+   - [0003 - feat: multithreaded tracker](https://github.com/Bloom-host/Petal/blob/ver/1.19.2/patches/server/0003-feat-multithreaded-tracker.patch)
+
 <!-- 
 ## [Mirai](https://github.com/etil2jz/Mirai)
 ## [EmpireCraft](https://github.com/starlis/EmpireCraft)
