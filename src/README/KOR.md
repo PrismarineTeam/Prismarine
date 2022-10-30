@@ -20,6 +20,13 @@ Prismarine
 
 </div>
 
+## 삼가 고인의 명복을 빕니다.
+10월 29일 발생한 이태원 사태의 희생자, 부상자 그리고 유가족 분들께 깊은 애도를 표하며, 부상자 분들의 빠른 쾌유를 기원합니다.
+
+그리고, 계속해서 고생중이신 의료진, 경찰, 소방 공무원들께 감사를 표합니다.
+
+이 섹션은 국가애도기간(~11/05) 동안 계속해서 유지될 예정입니다.
+
 ## Prismarine 만의 장점
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse), [Paper](https://github.com/PaperMC/Paper) 기반으로 안정적이며, 대부분의 플러그인을 완벽히 지원합니다.
 - [Pufferfish](https://github.com/pufferfish-gg/Pufferfish), [Purpur](https://github.com/PurpurMC/Purpur)의 모든 패치를 포함하여 더 빠른 속도와 더 넓은 API를 지원합니다.
