@@ -722,10 +722,10 @@ index 2366d411bf64f88c7296e888cd3bf584825ae4a9..c119aae5b5f0d0717a883f3df5566185
                      return true;
                  }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index af8e4ebee0218e853d49ec6903ac455cfe5f618d..141ea294d12411d58771ea1ad58383e84b6ba048 100644
+index 69b8d1276045cd6742770dcedd6246bb1713fd3b..2a71c8e6901944af90c4ad4dfa39dba7fafc0126 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -554,11 +554,20 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -555,11 +555,20 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      private static final int MAX_PER_TICK = io.papermc.paper.configuration.GlobalConfiguration.get().misc.maxJoinsPerTick; // Paper
      private static int joinAttemptsThisTick; // Paper
      private static int currTick; // Paper
@@ -3236,10 +3236,10 @@ index 4e615e5d5b8d79f6eaac2136be03961415fd093e..66c632f9a824e705420b9bb86de294f0
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index ea9b56fd6ae1d5577da5bd3e0c38abfeec8f3646..0ea7c0f0f3f9be737e7b8e262be8113469912310 100644
+index fbd9807e3a9ad555999fa99e06211ecaf455a091..3a62b456e1f8ab68e3c34b9d73b822e379afd570 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -253,6 +253,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -252,6 +252,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
              return false;
          }
  
@@ -3248,7 +3248,7 @@ index ea9b56fd6ae1d5577da5bd3e0c38abfeec8f3646..0ea7c0f0f3f9be737e7b8e262be81134
          for (int i = 0, len = in.length(); i < len; ++i) {
              char c = in.charAt(i);
  
-@@ -379,7 +381,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+@@ -378,7 +380,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
                          ServerLoginPacketListenerImpl.this.gameProfile = gameprofile;
                          ServerLoginPacketListenerImpl.this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
                      } else {
@@ -3258,7 +3258,7 @@ index ea9b56fd6ae1d5577da5bd3e0c38abfeec8f3646..0ea7c0f0f3f9be737e7b8e262be81134
                      }
                  } catch (AuthenticationUnavailableException authenticationunavailableexception) {
 diff --git a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-index 29a22da1b94d51300481c071aa16bfd8cd02178f..f67cbb1badc007987e62872bb0160ad6d05e3d97 100644
+index f90eb6c50208879c4a2d5ad7e4181c06d38076f8..603d13f66684e3b44f913e2c71233032a38cd5db 100644
 --- a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
 @@ -153,6 +153,7 @@ public class ServerStatusPacketListenerImpl implements ServerStatusPacketListene
@@ -3290,7 +3290,7 @@ index 9ddbfcf80d9a381dace78a62880f85a4d767e0eb..7383c7d3820dce06108eaafd236a7c6c
      }
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index fc755298ebe76d71bd55d547fb82604df1da652a..755d15af7cc0e47c1700db55f51e8169a521bfb8 100644
+index 3be9352ae9b0b84acf07064b45562ceffd30391b..82634bd0ab2792f637573c2ee7d9d00ba1104900 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -503,6 +503,7 @@ public abstract class PlayerList {
@@ -20796,10 +20796,10 @@ index 03b3f29bde2bf6cb4e7b08a775bcc380a9404543..c47f6434d8c52d0524b0ce065ace5c45
              event = new EntityDamageEvent(damagee.getBukkitEntity(), cause, modifiers, modifierFunctions);
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
-index a2eeaad280569c9ab2c02d2885611db50462bf2b..2bb405c2ddb32604f70328ff1f67b2bafcf6a9cb 100644
+index 567449faf1a5d805c44b5a2685904e919f20ade8..b8d7caaf2918d98138097a1ab74d5b229e39703b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
-@@ -165,8 +165,19 @@ public class CraftContainer extends AbstractContainerMenu {
+@@ -164,8 +164,19 @@ public class CraftContainer extends AbstractContainerMenu {
              case PLAYER:
              case CHEST:
              case ENDER_CHEST:
