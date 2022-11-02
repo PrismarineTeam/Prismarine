@@ -20,10 +20,10 @@ copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED AS
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..fd4a23b4b9fc9143f88c907e406476508ff62f99 100644
+index 5b43f5c27ce903c53cbce245477fbdefdc88733f..40e47799426ba0180c15204241d7687071908543 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -9,7 +9,7 @@ plugins {
+@@ -7,7 +7,7 @@ plugins {
  }
  
  dependencies {
@@ -32,7 +32,7 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..fd4a23b4b9fc9143f88c907e40647650
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -44,6 +44,9 @@ dependencies {
+@@ -42,6 +42,9 @@ dependencies {
      runtimeOnly("mysql:mysql-connector-java:8.0.29")
      runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
  
@@ -42,7 +42,7 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..fd4a23b4b9fc9143f88c907e40647650
      runtimeOnly("org.apache.maven:maven-resolver-provider:3.8.5")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
-@@ -84,7 +87,7 @@ tasks.jar {
+@@ -82,7 +85,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -51,7 +51,7 @@ index f0d22a733e3b97fb959cd566fb6c93c6d5681e16..fd4a23b4b9fc9143f88c907e40647650
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -183,7 +186,7 @@ fun TaskContainer.registerRunTask(
+@@ -154,7 +157,7 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -3879,7 +3879,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106f7d8ecba 100644
+index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..385850b7a2802b4315a33aa2972a9a44127f8987 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -155,7 +155,7 @@ import org.bukkit.plugin.PluginManager;
@@ -4131,7 +4131,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
      }
  
      public int getAirSupply() {
-@@ -3370,14 +3399,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3374,14 +3403,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
          // Paper end
          if (this.level instanceof ServerLevel && !this.isRemoved()) {
@@ -4148,7 +4148,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
              PortalInfo shapedetectorshape = (location == null) ? this.findDimensionEntryPoint(worldserver) : new PortalInfo(new Vec3(location.x(), location.y(), location.z()), Vec3.ZERO, this.yRot, this.xRot, worldserver, null); // CraftBukkit
  
              if (shapedetectorshape == null) {
-@@ -3411,7 +3440,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3415,7 +3444,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.unRide();
                  // CraftBukkit end
  
@@ -4157,7 +4157,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
                  // Paper start - Change lead drop timing to prevent dupe
                  if (this instanceof Mob) {
                      ((Mob) this).dropLeash(true, true); // Paper drop lead
-@@ -3434,10 +3463,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3438,10 +3467,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
  
                  this.removeAfterChangingDimensions();
@@ -4170,7 +4170,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
                  return entity;
              }
          } else {
-@@ -3550,7 +3579,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3554,7 +3583,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -4179,7 +4179,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3797,6 +3826,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3801,6 +3830,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -4200,7 +4200,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
      @Override
      public void sendSystemMessage(Component message) {}
  
-@@ -4047,6 +4090,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4051,6 +4094,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -4213,7 +4213,7 @@ index 23ef9124bada519ab5ea3869b97d96679ad8f689..967647c7dc0a4c2d762e7133fe969106
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4553,4 +4602,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4557,4 +4606,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((net.minecraft.server.level.ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
@@ -20037,7 +20037,7 @@ index 85d94f47792bbd63c4c4ee8fa4a88abc4c440286..2491785f5edd782b74189bef33eeffe1
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 81ab184cb5235913ef43ae4d7f1ac82bce927519..fbab5e57565b8f9bc071d02933447f749a6bf5e3 100644
+index 55d83a9a691d11c9408d2c3260c3e77dfb51b97e..41fafd4a1583e748d763439e8838739ec1ff8e1d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -2234,6 +2234,48 @@ public class CraftWorld extends CraftRegionAccessor implements World {
