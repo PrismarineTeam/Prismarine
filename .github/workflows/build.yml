@@ -12,7 +12,7 @@ jobs:
   release:
     strategy:
       matrix:
-        jdk: [18.0.2]
+        jdk: [19.0.1]
         java: ['temurin']
         os: [ubuntu-20.04]
 
@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew createMojmapPaperclipJar --stacktrace
         
       - name: Upload Artifacts
-        if: env.debug == 'true'
+        if: env.debug == 'true' || github.ref_name != env.branch
         uses: actions/upload-artifact@main
         with:
           name: Artifacts

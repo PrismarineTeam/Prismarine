@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Fri, 28 Oct 2022 17:05:33 +0900
+Subject: [PATCH] Purpur PR (#1168) - Add option to fix creative mode actions
+ with NetworkItemSerializeEvent
+
+
+diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+index 245ffd8d8db27b598f1c6f491ff451c6734f1ed0..31764760577ee5972c3511d72272fd49bdc2df8b 100644
+--- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
++++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
+@@ -598,7 +598,11 @@ public class FriendlyByteBuf extends ByteBuf {
+             if (hasItemSerializeEvent) {
+                 var event = new org.purpurmc.purpur.event.packet.NetworkItemSerializeEvent(stack.asBukkitCopy());
+                 event.callEvent();
+-                stack = ItemStack.fromBukkitCopy(event.getItemStack());
++                // Prismarine start - Purpur PR
++                ItemStack newStack = ItemStack.fromBukkitCopy(event.getItemStack());
++                if (org.purpurmc.purpur.PurpurConfig.fixNetworkSerializedItemsInCreative && !ItemStack.matches(stack, newStack)) stack.save(newStack.getOrCreateTagElement("Purpur.OriginalItem"));
++                stack = newStack;
++                // Prismarine end
+             }
+             // Purpur end
+             Item item = stack.getItem();
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 5d50fe8439760ec023f560b0a306fa9516b9ec75..65903ecbae4da86bf40b222dddf1b3925b1ba0aa 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -3578,6 +3578,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+                 }
+             }
+ 
++            // Prismarine start - Purpur PR
++            if (org.purpurmc.purpur.PurpurConfig.fixNetworkSerializedItemsInCreative) {
++                var tag = itemstack.getTagElement("Purpur.OriginalItem");
++                if (tag != null) itemstack = ItemStack.of(tag);
++            }
++            // Prismarine end
++
+             boolean flag1 = packet.getSlotNum() >= 1 && packet.getSlotNum() <= 45;
+             boolean flag2 = itemstack.isEmpty() || itemstack.getDamageValue() >= 0 && itemstack.getCount() <= 64 && !itemstack.isEmpty();
+             if (flag || (flag1 && !ItemStack.matches(this.player.inventoryMenu.getSlot(packet.getSlotNum()).getItem(), packet.getItem()))) { // Insist on valid slot
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index 08dc32805edf49ede062d32a16f77bfc7926ec60..cebae850483e93e43b6f57e447ce989b6a80efec 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -643,4 +643,11 @@ public class PurpurConfig {
+             block.fallDistanceMultiplier = fallDistanceMultiplier.floatValue();
+         });
+     }
++
++    // Prismarine start - Purpur PR
++    public static boolean fixNetworkSerializedItemsInCreative = false;
++    private static void fixNetworkSerializedItemsInCreative() {
++        fixNetworkSerializedItemsInCreative = getBoolean("settings.fix-network-serialized-items-in-creative", fixNetworkSerializedItemsInCreative);
++    }
++    // Prismarine end
+ }

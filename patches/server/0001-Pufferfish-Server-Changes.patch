@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Tue, 25 Oct 2022 18:32:01 +0900
+Date: Sun, 30 Oct 2022 18:24:59 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -21,10 +21,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 44e0f265432487fe5c3c00c5245041298ade16a0..f0d22a733e3b97fb959cd566fb6c93c6d5681e16 100644
+index b0e4f11e8af4b909a56bb5576d05ef0537fb25f7..5b43f5c27ce903c53cbce245477fbdefdc88733f 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -9,8 +9,12 @@ plugins {
+@@ -7,8 +7,12 @@ plugins {
  }
  
  dependencies {
@@ -39,7 +39,7 @@ index 44e0f265432487fe5c3c00c5245041298ade16a0..f0d22a733e3b97fb959cd566fb6c93c6
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
      implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -44,6 +48,14 @@ dependencies {
+@@ -42,6 +46,14 @@ dependencies {
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
  
@@ -54,7 +54,7 @@ index 44e0f265432487fe5c3c00c5245041298ade16a0..f0d22a733e3b97fb959cd566fb6c93c6
      testImplementation("io.github.classgraph:classgraph:4.8.47") // Paper - mob goal test
      testImplementation("junit:junit:4.13.2")
      testImplementation("org.hamcrest:hamcrest-library:1.3")
-@@ -52,6 +64,14 @@ dependencies {
+@@ -50,6 +62,14 @@ dependencies {
  }
  
  val craftbukkitPackageVersion = "1_19_R1" // Paper
@@ -69,7 +69,7 @@ index 44e0f265432487fe5c3c00c5245041298ade16a0..f0d22a733e3b97fb959cd566fb6c93c6
  tasks.jar {
      archiveClassifier.set("dev")
  
-@@ -64,7 +84,7 @@ tasks.jar {
+@@ -62,7 +82,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -2607,7 +2607,7 @@ index 540bc9500c35c0db719b00aa26f6fb3a1b08ed9f..806cb760822a99316b08ad95ff8922df
      int LARGE_MAX_STACK_SIZE = 64;
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index f2908cf61ff28bef44fcf46b15cf585e942fd7ce..23ef9124bada519ab5ea3869b97d96679ad8f689 100644
+index 6fa47becd0f83ac4273ef3a10c314aa27b08184b..26b42474a94ccabd8cfcca39e4c37fb14852cbb8 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -291,7 +291,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -2692,7 +2692,7 @@ index f2908cf61ff28bef44fcf46b15cf585e942fd7ce..23ef9124bada519ab5ea3869b97d9667
          this.level.getProfiler().push("entityBaseTick");
          if (firstTick && this instanceof net.minecraft.world.entity.NeutralMob neutralMob) neutralMob.tickInitialPersistentAnger(level); // Paper - Update last hurt when ticking
          this.feetBlockState = null;
-@@ -4015,16 +4048,18 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4019,16 +4052,18 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
@@ -2718,7 +2718,7 @@ index f2908cf61ff28bef44fcf46b15cf585e942fd7ce..23ef9124bada519ab5ea3869b97d9667
              double d1 = 0.0D;
              boolean flag = this.isPushedByFluid();
              boolean flag1 = false;
-@@ -4032,14 +4067,61 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4036,14 +4071,61 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              int k1 = 0;
              BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
  
@@ -2786,7 +2786,7 @@ index f2908cf61ff28bef44fcf46b15cf585e942fd7ce..23ef9124bada519ab5ea3869b97d9667
  
                              if (d2 >= axisalignedbb.minY) {
                                  flag1 = true;
-@@ -4061,9 +4143,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4065,9 +4147,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                                  // CraftBukkit end
                              }
                          }

@@ -71,7 +71,7 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda87
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
          this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 0fc372f66b105692d75532b187b96b4d322113f8..d390fd4aeec7b75e65819d0e1f040b638e3b2433 100644
+index 8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb..08dc32805edf49ede062d32a16f77bfc7926ec60 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -258,7 +258,7 @@ public class PurpurConfig {
@@ -84,7 +84,7 @@ index 0fc372f66b105692d75532b187b96b4d322113f8..d390fd4aeec7b75e65819d0e1f040b63
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index d3e14750f70d8311ebf0b910ad03681a247fdbcb..03dac931c3ede6cd154fe648b7ace17f649ec96e 100644
+index 851750dd49a4275e6e949e7ee4f97861af4cafa4..cf1cf89be2eef899e659a490178d2c81c1388a38 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -417,7 +417,7 @@ public class PurpurWorldConfig {

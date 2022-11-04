@@ -15,7 +15,7 @@ THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
 HEREUNDER.
 
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 577a82608a5094df96e2f2a379f51516d1eab192..961a89ace505375be1cc71b6313e1accbbc2ec70 100644
+index f0b0e19ed20967cae12195707007532fbab185f8..5ad659c4af922cb7d928968e453984a84416f32c 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -43,6 +43,8 @@ public abstract class BaseSpawner {
