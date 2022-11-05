@@ -43,12 +43,12 @@ index 1f847ac2b0b8096015da1e830a6cd664f1cef244..d29af9f0a2abcc4baa166acbf1bb44ba
  
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 61d0ae70a682c4bfc3328b7c1b5a47e376b4e736..2d88404d8bf305c01c7cb5f80db645e9939471f1 100644
+index dd980223e4edd34ec897fa024f363beb3f58bcad..e0f73faa2873d5b63513f50c1c9228f204ed8114 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -244,4 +244,9 @@ public class PrismarineConfig {
-     private static void maxArmorAttributeValue() {
-         maxArmorAttributeValue = (float) getDouble("settings.max-armor-attribute-value", maxArmorAttributeValue);
+@@ -266,4 +266,9 @@ public class PrismarineConfig {
+     private static void noBedrock() {
+         noBedrock = getBoolean("settings.no-bedrock", noBedrock);
      }
 +
 +    public static boolean offlineWarning = true;
