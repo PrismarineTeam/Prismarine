@@ -83,10 +83,10 @@ index ba14657c6911bfd54da6ee9e248b3a050455d68a..3ac698a2c24bfdeb0b0433c0978f6ef7
      public void openCustomInventoryScreen(Player player) {
          player.openMenu(this);
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 6b0609ff86c840355b7ec3ee14ab11db5dcbc444..6a6cee3430f72bc0da37377f8dd3a870aa93714d 100644
+index 69901d7855af3ceaf0890ccb2811e41f513bff5f..2ded0f556bef879bd0c0da0c53b04c2c8315ab5d 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -101,4 +101,9 @@ public class PrismarineWorldConfig {
+@@ -85,4 +85,9 @@ public class PrismarineWorldConfig {
      private void timerTimeOut() {
          timerTimeOut = getInt("timer-time-out", timerTimeOut);
      }

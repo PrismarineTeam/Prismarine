@@ -24,10 +24,10 @@ index ccbfcef3e83b1bef364447657bfd08a92d615cf6..59e1dc4f9754b1f39c5eb060fd74c697
      }
  }
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 6460b791f5394445c3df3bd03b4b807c071535ec..61d0ae70a682c4bfc3328b7c1b5a47e376b4e736 100644
+index 66d8ed71981310612e2790f1d78ae092de7352ef..ba52424a2afcc74625601493a521407a6d5efa7c 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -239,4 +239,9 @@ public class PrismarineConfig {
+@@ -256,4 +256,9 @@ public class PrismarineConfig {
          convertToGameMessage = getBoolean("settings.no-chat-reports.convert-to-game-message", convertToGameMessage);
          addQueryData = getBoolean("settings.no-chat-reports.add-query-data", addQueryData);
      }

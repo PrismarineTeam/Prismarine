@@ -124,7 +124,7 @@ index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f20
                  BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 5bdc1c8a10d540e6de23cba0d82f1abd43e6e67e..6a8a5d930f03f7de3085b8614f8705d506baa641 100644
+index 89310e0759d4a3d215112f83630ed193596fd2ce..22edd0116f55abc50dfdd45831c0f621ad49ef10 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -616,7 +616,7 @@ public abstract class PlayerList {
@@ -182,7 +182,7 @@ index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55
  
      private EntitySelector() {}
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index f4c06c9cc4530d56e74e43d69457e76dc3f429fc..10e2be46ba730e69ec4a3fd52f15c6b784943857 100644
+index a8e16d71225ba14a736b96f2818a4b29b72bb725..ec097aae56979a38b482c7615b8d11264eaa4ff5 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -2276,8 +2276,9 @@ public abstract class LivingEntity extends Entity {
@@ -217,10 +217,10 @@ index 4e00c2216142b52fb34be0e51d00fa20fded92c8..4f31454c192361a18d32d3085cb9df90
  
      public static AttributeSupplier.Builder createAttributes() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 9c6c139ee8e66cf907e774c1ad18cae635adef02..3414d9f9d5f1f27330c05c252548153a5d18f660 100644
+index e87b812605a58e3a08e592b9543808db59ad8f44..6b3b673d50a382d0b609f7654cfec048f3453617 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -210,4 +210,13 @@ public class PrismarineConfig {
+@@ -227,4 +227,13 @@ public class PrismarineConfig {
      private static void useAirplaneCollisionContext() {
          useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
      }

@@ -66,12 +66,19 @@ index f0b0e19ed20967cae12195707007532fbab185f8..5ad659c4af922cb7d928968e453984a8
      }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 1aa9cc0c1d994f6c702360ae95a6a1c087aa498a..6b0609ff86c840355b7ec3ee14ab11db5dcbc444 100644
+index c66135f75f95a10dd49cfb67ed8d84317715193d..69901d7855af3ceaf0890ccb2811e41f513bff5f 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -96,4 +96,9 @@ public class PrismarineWorldConfig {
-     private void useSlicePacketSystem() {
-         useSlicePacketSystem = getBoolean("use-slice-packet-system", useSlicePacketSystem);
+@@ -74,9 +74,15 @@ public class PrismarineWorldConfig {
+         final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
+         return value.isEmpty() ? fallback : value;
+     }
+-    
++
+     public double fishingRodLength = 1024.0D;
++
+     private void fishingRodLength() {
+         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
      }
 +
 +    public int timerTimeOut = 0;

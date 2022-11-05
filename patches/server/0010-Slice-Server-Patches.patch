@@ -158,7 +158,7 @@ index 1c4e812c8b3f85ac5d69b637eb43d4b9751ad150..03b6ad0064d1d201f317f1c168f07834
      }
  }
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf36289bceab0 100644
+index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..5f209e0dcd42ad0af8aa2252f7cc19a53588c2ae 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -362,6 +362,21 @@ public class ServerEntity {
@@ -166,7 +166,7 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf362
  
          if (datawatcher.isDirty()) {
 +            // Prismarine start - Slice tweaks
-+            if (this.level.prismarineConfig.useSlicePacketSystem) {
++            if (net.prismarineteam.prismarine.PrismarineConfig.useSlicePacketSystem) {
 +                ClientboundSetEntityDataPacket dataPacket = new ClientboundSetEntityDataPacket(this.entity.getId(), datawatcher, false);
 +                if (this.entity instanceof ServerPlayer serverPlayer) {
 +                    serverPlayer.connection.send(dataPacket);
@@ -184,7 +184,7 @@ index 3441339e1ba5efb0e25c16fa13cb65d2fbdafc42..869b85b4c482d8bd0a48b948cffcf362
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 6c4a831608d1d4568ed9f976d3103f7cde8edec4..60501b55aa4e24cd57edab24d25da247cc02d376 100644
+index e7b87ec28ba1be5e8ff471a8fcb75bfa7e77e2a2..874be94c4a7611c7924fbfa59c318e5b8a15d3c9 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -193,8 +193,8 @@ index 6c4a831608d1d4568ed9f976d3103f7cde8edec4..60501b55aa4e24cd57edab24d25da247
          if (!this.level.isClientSide) {
 +            // Prismarine start - Slice tweaks
 +            if (this instanceof ServerPlayer serverPlayer) {
-+                if (this.level.prismarineConfig.doNotSendFirePacketsIfPlayerHasFireResistance) this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !serverPlayer.hasEffect(net.minecraft.world.effect.MobEffects.FIRE_RESISTANCE));
-+                else if (this.level.prismarineConfig.doNotSendFirePacketsIfPlayerIsCreative) this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !serverPlayer.isCreative());
++                if (net.prismarineteam.prismarine.PrismarineConfig.doNotSendFirePacketsIfPlayerHasFireResistance) this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !serverPlayer.hasEffect(net.minecraft.world.effect.MobEffects.FIRE_RESISTANCE));
++                else if (net.prismarineteam.prismarine.PrismarineConfig.doNotSendFirePacketsIfPlayerIsCreative) this.setSharedFlagOnFire(this.remainingFireTicks > 0 && !serverPlayer.isCreative());
 +                else this.setSharedFlagOnFire(this.remainingFireTicks > 0);
 +            } else this.setSharedFlagOnFire(this.remainingFireTicks > 0);
 +            // Prismarine end
@@ -212,7 +212,7 @@ index 6c4a831608d1d4568ed9f976d3103f7cde8edec4..60501b55aa4e24cd57edab24d25da247
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 5b5e91a4fd837093d012845a9024a5884b0fd209..f4c06c9cc4530d56e74e43d69457e76dc3f429fc 100644
+index 5b5e91a4fd837093d012845a9024a5884b0fd209..a8e16d71225ba14a736b96f2818a4b29b72bb725 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3153,7 +3153,7 @@ public abstract class LivingEntity extends Entity {
@@ -220,7 +220,7 @@ index 5b5e91a4fd837093d012845a9024a5884b0fd209..f4c06c9cc4530d56e74e43d69457e76d
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
 -            if (!ItemStack.matches(itemstack1, itemstack)) {
-+            if (this.level.prismarineConfig.doNotSendEquipmentUpdatesIfOnlyDurabilityChanges ? !ItemStack.isSameIgnoreDurability(itemstack1, itemstack) : !ItemStack.matches(itemstack1, itemstack)) { // Prismarine - Slice tweaks
++            if (net.prismarineteam.prismarine.PrismarineConfig.doNotSendEquipmentUpdatesIfOnlyDurabilityChanges ? !ItemStack.isSameIgnoreDurability(itemstack1, itemstack) : !ItemStack.matches(itemstack1, itemstack)) { // Prismarine - Slice tweaks
                  // Paper start - PlayerArmorChangeEvent
                  if (this instanceof ServerPlayer && enumitemslot.getType() == EquipmentSlot.Type.ARMOR) {
                      final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
@@ -237,30 +237,30 @@ index e87a436711e179a4384630de41188c09a75a7f0d..b78907c5f8b247e4553da14fedc7f28d
      }
  
      public void startAutoSpinAttack(int riptideTicks) {
-diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index c66135f75f95a10dd49cfb67ed8d84317715193d..1aa9cc0c1d994f6c702360ae95a6a1c087aa498a 100644
---- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-+++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -79,4 +79,21 @@ public class PrismarineWorldConfig {
-     private void fishingRodLength() {
-         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index da4b140a10687dde0e40da12baf68d63cfb2271e..303562950584279ffc6413a84bb22117a2aed5c6 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -200,4 +200,21 @@ public class PrismarineConfig {
+     private static void useAsyncExecutorAtAuthencatorPool() {
+         useAsyncExecutorAtAuthencatorPool = getBoolean("settings.use-async-executor-at-authencator-pool", useAsyncExecutorAtAuthencatorPool);
      }
 +
-+    public boolean doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = false;
-+    private void doNotSendEquipmentUpdatesIfOnlyDurabilityChanged() {
-+        doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = getBoolean("do-not-send-equipment-updates-if-only-durability-changes", doNotSendEquipmentUpdatesIfOnlyDurabilityChanges);
++    public static boolean doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = false;
++    private static void doNotSendEquipmentUpdatesIfOnlyDurabilityChanged() {
++        doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = getBoolean("settings.do-not-send-equipment-updates-if-only-durability-changes", doNotSendEquipmentUpdatesIfOnlyDurabilityChanges);
 +    }
 +
-+    public boolean doNotSendFirePacketsIfPlayerHasFireResistance = true;
-+    public boolean doNotSendFirePacketsIfPlayerIsCreative = true;
-+    private void fixFireDisplay() {
-+        doNotSendFirePacketsIfPlayerHasFireResistance = getBoolean("do-not-send-fire-packets.if-player-has-fire-resistance", doNotSendFirePacketsIfPlayerHasFireResistance);
-+        doNotSendFirePacketsIfPlayerIsCreative = getBoolean("do-not-send-fire-packets.if-player-is-creative", doNotSendFirePacketsIfPlayerHasFireResistance);
++    public static boolean doNotSendFirePacketsIfPlayerHasFireResistance = true;
++    public static boolean doNotSendFirePacketsIfPlayerIsCreative = true;
++    private static void fixFireDisplay() {
++        doNotSendFirePacketsIfPlayerHasFireResistance = getBoolean("settings.do-not-send-fire-packets.if-player-has-fire-resistance", doNotSendFirePacketsIfPlayerHasFireResistance);
++        doNotSendFirePacketsIfPlayerIsCreative = getBoolean("settings.do-not-send-fire-packets.if-player-is-creative", doNotSendFirePacketsIfPlayerHasFireResistance);
 +    }
 +
-+    public boolean useSlicePacketSystem = false;
-+    private void useSlicePacketSystem() {
-+        useSlicePacketSystem = getBoolean("use-slice-packet-system", useSlicePacketSystem);
++    public static boolean useSlicePacketSystem = false;
++    private static void useSlicePacketSystem() {
++        useSlicePacketSystem = getBoolean("settings.use-slice-packet-system", useSlicePacketSystem);
 +    }
  }
 \ No newline at end of file

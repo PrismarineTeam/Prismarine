@@ -95,7 +95,7 @@ index 66c632f9a824e705420b9bb86de294f0e7305c50..5d50fe8439760ec023f560b0a306fa95
          ChatMessageContent chatmessagecontent = this.getSignedContent(packet);
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6a8a5d930f03f7de3085b8614f8705d506baa641..f95d2c7a59f30fa239e34604eca2897fe5fe386c 100644
+index 22edd0116f55abc50dfdd45831c0f621ad49ef10..de2433b5f7c6f34d748c1285ca35c73b5e2ccb17 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1524,7 +1524,7 @@ public abstract class PlayerList {
@@ -121,7 +121,7 @@ index b78907c5f8b247e4553da14fedc7f28ddabec20c..db3956b6eb41e281b0457035b5eb7386
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 1b825f6dd406cb53ca33ba5b37bf4168d871f124..6460b791f5394445c3df3bd03b4b807c071535ec 100644
+index 50254ad7997dd3e7dd631ebebed1bfee7f415bd7..66d8ed71981310612e2790f1d78ae092de7352ef 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 @@ -50,8 +50,8 @@ public class PrismarineConfig {
@@ -135,7 +135,7 @@ index 1b825f6dd406cb53ca33ba5b37bf4168d871f124..6460b791f5394445c3df3bd03b4b807c
  
          readConfig(PrismarineConfig.class, null);
      }
-@@ -224,4 +224,19 @@ public class PrismarineConfig {
+@@ -241,4 +241,19 @@ public class PrismarineConfig {
      private static void storePlayerJsonListAsynchronously() {
          storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
      }

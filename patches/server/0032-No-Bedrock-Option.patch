@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sat, 5 Nov 2022 21:31:59 +0900
+Subject: [PATCH] No Bedrock Option
+
+
+diff --git a/src/main/java/net/minecraft/data/worldgen/SurfaceRuleData.java b/src/main/java/net/minecraft/data/worldgen/SurfaceRuleData.java
+index 1d5bc86516df3781aea894c3afd340421ba51a17..9a03ecd08e73531e0cc35034a3a13a403db6ca53 100644
+--- a/src/main/java/net/minecraft/data/worldgen/SurfaceRuleData.java
++++ b/src/main/java/net/minecraft/data/worldgen/SurfaceRuleData.java
+@@ -143,11 +143,11 @@ public class SurfaceRuleData {
+         SurfaceRules.RuleSource ruleSource9 = SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.WOODED_BADLANDS), SurfaceRules.ifTrue(conditionSource, SurfaceRules.sequence(SurfaceRules.ifTrue(conditionSource16, COARSE_DIRT), SurfaceRules.ifTrue(conditionSource17, COARSE_DIRT), SurfaceRules.ifTrue(conditionSource18, COARSE_DIRT), ruleSource))), SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.SWAMP), SurfaceRules.ifTrue(conditionSource6, SurfaceRules.ifTrue(SurfaceRules.not(conditionSource7), SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SWAMP, 0.0D), WATER)))), SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.MANGROVE_SWAMP), SurfaceRules.ifTrue(conditionSource5, SurfaceRules.ifTrue(SurfaceRules.not(conditionSource7), SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.SWAMP, 0.0D), WATER)))))), SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.BADLANDS, Biomes.ERODED_BADLANDS, Biomes.WOODED_BADLANDS), SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.sequence(SurfaceRules.ifTrue(conditionSource2, ORANGE_TERRACOTTA), SurfaceRules.ifTrue(conditionSource4, SurfaceRules.sequence(SurfaceRules.ifTrue(conditionSource16, TERRACOTTA), SurfaceRules.ifTrue(conditionSource17, TERRACOTTA), SurfaceRules.ifTrue(conditionSource18, TERRACOTTA), SurfaceRules.bandlands())), SurfaceRules.ifTrue(conditionSource8, SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, RED_SANDSTONE), RED_SAND)), SurfaceRules.ifTrue(SurfaceRules.not(conditionSource11), ORANGE_TERRACOTTA), SurfaceRules.ifTrue(conditionSource10, WHITE_TERRACOTTA), ruleSource3)), SurfaceRules.ifTrue(conditionSource3, SurfaceRules.sequence(SurfaceRules.ifTrue(conditionSource7, SurfaceRules.ifTrue(SurfaceRules.not(conditionSource4), ORANGE_TERRACOTTA)), SurfaceRules.bandlands())), SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, SurfaceRules.ifTrue(conditionSource10, WHITE_TERRACOTTA)))), SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.ifTrue(conditionSource8, SurfaceRules.sequence(SurfaceRules.ifTrue(conditionSource12, SurfaceRules.ifTrue(conditionSource11, SurfaceRules.sequence(SurfaceRules.ifTrue(conditionSource9, AIR), SurfaceRules.ifTrue(SurfaceRules.temperature(), ICE), WATER))), ruleSource8))), SurfaceRules.ifTrue(conditionSource10, SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.ifTrue(conditionSource12, SurfaceRules.ifTrue(conditionSource11, WATER))), SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, ruleSource7), SurfaceRules.ifTrue(conditionSource14, SurfaceRules.ifTrue(SurfaceRules.DEEP_UNDER_FLOOR, SANDSTONE)), SurfaceRules.ifTrue(conditionSource15, SurfaceRules.ifTrue(SurfaceRules.VERY_DEEP_UNDER_FLOOR, SANDSTONE)))), SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.FROZEN_PEAKS, Biomes.JAGGED_PEAKS), STONE), SurfaceRules.ifTrue(SurfaceRules.isBiome(Biomes.WARM_OCEAN, Biomes.LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN), ruleSource2), ruleSource3)));
+         ImmutableList.Builder<SurfaceRules.RuleSource> builder = ImmutableList.builder();
+         if (bedrockRoof) {
+-            builder.add(SurfaceRules.ifTrue(SurfaceRules.not(new PaperBedrockConditionSource("bedrock_roof", VerticalAnchor.belowTop(5), VerticalAnchor.top(), true)), BEDROCK)); // Paper
++            builder.add(SurfaceRules.ifTrue(SurfaceRules.not(new PaperBedrockConditionSource("bedrock_roof", VerticalAnchor.belowTop(5), VerticalAnchor.top(), true)), net.prismarineteam.prismarine.PrismarineConfig.noBedrock ? STONE : BEDROCK)); // Paper // Prismarine
+         }
+ 
+         if (bedrockFloor) {
+-            builder.add(SurfaceRules.ifTrue(new PaperBedrockConditionSource("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5), false), BEDROCK)); // Paper
++            builder.add(SurfaceRules.ifTrue(new PaperBedrockConditionSource("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5), false), net.prismarineteam.prismarine.PrismarineConfig.noBedrock ? STONE : BEDROCK)); // Paper // Prismarine
+         }
+ 
+         SurfaceRules.RuleSource ruleSource10 = SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), ruleSource9);
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index ba52424a2afcc74625601493a521407a6d5efa7c..dd980223e4edd34ec897fa024f363beb3f58bcad 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -261,4 +261,9 @@ public class PrismarineConfig {
+     private static void maxArmorAttributeValue() {
+         maxArmorAttributeValue = (float) getDouble("settings.max-armor-attribute-value", maxArmorAttributeValue);
+     }
++
++    public static boolean noBedrock = false;
++    private static void noBedrock() {
++        noBedrock = getBoolean("settings.no-bedrock", noBedrock);
++    }
+ }
+\ No newline at end of file

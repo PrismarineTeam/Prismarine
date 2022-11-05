@@ -28,7 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 6760ef1dee40fb6bff29415c3ac33bab5ff22b10..ccd597b01de14af4aafc7664f43ad83424139998 100644
+index 40720fd24ce9b404786d4145e21f3c0f5a382475..10ffaeec14d3fb62407d42c6213b15860ac58d93 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
 @@ -181,6 +181,7 @@ public class ServerEntity {
@@ -63,12 +63,12 @@ index 6760ef1dee40fb6bff29415c3ac33bab5ff22b10..ccd597b01de14af4aafc7664f43ad834
          this.entity.stopSeenByPlayer(player);
          ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}))); // Prismarine - Petal patches (ensure main thread)
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index da4b140a10687dde0e40da12baf68d63cfb2271e..2f3e794fcec9efe5ce3cae27b328644c2fd8132e 100644
+index 303562950584279ffc6413a84bb22117a2aed5c6..bbd6c81216426268a9bdd083904920039af0cf23 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -200,4 +200,9 @@ public class PrismarineConfig {
-     private static void useAsyncExecutorAtAuthencatorPool() {
-         useAsyncExecutorAtAuthencatorPool = getBoolean("settings.use-async-executor-at-authencator-pool", useAsyncExecutorAtAuthencatorPool);
+@@ -217,4 +217,9 @@ public class PrismarineConfig {
+     private static void useSlicePacketSystem() {
+         useSlicePacketSystem = getBoolean("settings.use-slice-packet-system", useSlicePacketSystem);
      }
 +
 +    public static boolean doNotSendUselessEntityPackets = true;
