@@ -13930,7 +13930,7 @@ index 056e4c2f7f632dadc0015710c032a0b718d46ff9..cc6e65d8fd760e46f20a7bcc6aff1cc0
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
-index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b4c061c47 100644
+index dc9402e343d3bc0b0d38e3a7834521a976f89c39..86cbf62b6a0ab4352d91456b6ea2324c4389374d 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 @@ -94,22 +94,69 @@ public class Zombie extends Monster {
@@ -14025,7 +14025,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
          this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
          this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
      }
-@@ -242,30 +301,7 @@ public class Zombie extends Monster {
+@@ -241,30 +300,7 @@ public class Zombie extends Monster {
  
      @Override
      public void aiStep() {
@@ -14057,7 +14057,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
          super.aiStep();
      }
  
-@@ -303,6 +339,7 @@ public class Zombie extends Monster {
+@@ -302,6 +338,7 @@ public class Zombie extends Monster {
  
      }
  
@@ -14065,7 +14065,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
      public boolean isSunSensitive() {
          return this.shouldBurnInDay; // Paper - use api value instead
      }
-@@ -432,7 +469,7 @@ public class Zombie extends Monster {
+@@ -431,7 +468,7 @@ public class Zombie extends Monster {
          nbt.putBoolean("CanBreakDoors", this.canBreakDoors());
          nbt.putInt("InWaterTime", this.isInWater() ? this.inWaterTime : -1);
          nbt.putInt("DrownedConversionTime", this.isUnderWaterConverting() ? this.conversionTime : -1);
@@ -14074,7 +14074,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
      }
  
      @Override
-@@ -446,7 +483,7 @@ public class Zombie extends Monster {
+@@ -445,7 +482,7 @@ public class Zombie extends Monster {
          }
          // Paper start
          if (nbt.contains("Paper.ShouldBurnInDay")) {
@@ -14083,7 +14083,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
          }
          // Paper end
  
-@@ -522,19 +559,20 @@ public class Zombie extends Monster {
+@@ -521,19 +558,20 @@ public class Zombie extends Monster {
          if (object instanceof Zombie.ZombieGroupData) {
              Zombie.ZombieGroupData entityzombie_groupdatazombie = (Zombie.ZombieGroupData) object;
  
@@ -14110,7 +14110,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
                          Chicken entitychicken1 = (Chicken) EntityType.CHICKEN.create(this.level);
  
                          entitychicken1.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-@@ -542,6 +580,7 @@ public class Zombie extends Monster {
+@@ -541,6 +579,7 @@ public class Zombie extends Monster {
                          entitychicken1.setChickenJockey(true);
                          this.startRiding(entitychicken1);
                          world.addFreshEntity(entitychicken1, CreatureSpawnEvent.SpawnReason.MOUNT); // CraftBukkit
@@ -14118,7 +14118,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
                      }
                  }
              }
-@@ -552,11 +591,7 @@ public class Zombie extends Monster {
+@@ -551,11 +590,7 @@ public class Zombie extends Monster {
          }
  
          if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
@@ -14131,7 +14131,7 @@ index 97b3082dc020043fa38d9e5e4591102f97519ed3..ef92a631f71a8d44741a46ef7f6b599b
                  this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(randomsource.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
                  this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
              }
-@@ -588,7 +623,7 @@ public class Zombie extends Monster {
+@@ -587,7 +622,7 @@ public class Zombie extends Monster {
      }
  
      protected void randomizeReinforcementsChance() {
@@ -16783,7 +16783,7 @@ index de5bdceb4c8578fb972a2fd5ee0dfdae509e46dc..bcf63ccb6e679cb97d658780b2663aaf
              com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent event = new com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent((org.bukkit.entity.Player) user.getBukkitEntity(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(itemStack), (org.bukkit.entity.Projectile) thrownPotion.getBukkitEntity());
              if (event.callEvent() && world.addFreshEntity(thrownPotion)) {
 diff --git a/src/main/java/net/minecraft/world/item/TridentItem.java b/src/main/java/net/minecraft/world/item/TridentItem.java
-index 998758be827efbcb7693ed36ab1dffc0ef0369bf..ccf1ae6d7b8bf1177526c95a62814f507221da58 100644
+index 9365f886a23a71c41091b22d46896ff18a5a0635..d35432087c70ce66b74d1e27df19f462f22b1aa1 100644
 --- a/src/main/java/net/minecraft/world/item/TridentItem.java
 +++ b/src/main/java/net/minecraft/world/item/TridentItem.java
 @@ -77,11 +77,19 @@ public class TridentItem extends Item implements Vanishable {
@@ -16805,9 +16805,9 @@ index 998758be827efbcb7693ed36ab1dffc0ef0369bf..ccf1ae6d7b8bf1177526c95a62814f50
 +                            // Purpur end
 +
                              // CraftBukkit start
-                             if (!world.addFreshEntity(entitythrowntrident)) {
-                                 if (entityhuman instanceof net.minecraft.server.level.ServerPlayer) {
-@@ -126,6 +134,14 @@ public class TridentItem extends Item implements Vanishable {
+                             // Paper start
+                             com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent event = new com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent((org.bukkit.entity.Player) entityhuman.getBukkitEntity(), org.bukkit.craftbukkit.inventory.CraftItemStack.asCraftMirror(stack), (org.bukkit.entity.Projectile) entitythrowntrident.getBukkitEntity());
+@@ -130,6 +138,14 @@ public class TridentItem extends Item implements Vanishable {
                          f2 *= f6 / f5;
                          f3 *= f6 / f5;
                          f4 *= f6 / f5;
