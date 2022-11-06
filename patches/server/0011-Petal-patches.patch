@@ -544,7 +544,7 @@ index f597d65d56964297eeeed6c7e77703764178fee0..f406dc012fd9722feed630ddfba11862
      public ChunkHolder.FullChunkStatus status;
  
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 2182ee049defee88067aa61cee42d3a0122061b7..1ba2611933f8d24d70cb53de495e7c17ccd74868 100644
+index c1db2333ce5fe87fd1ce059cbd8ae6d77abf6f06..26dbedad2781479626a73e016f589ab6c16c74a1 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1236,8 +1236,29 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -641,10 +641,10 @@ index ca42c2642a729b90d22b968af7258f3aee72e14b..ba1ae37d5605355a89d8e186d057174d
      public boolean visible = true;
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 869b85b4c482d8bd0a48b948cffcf36289bceab0..6760ef1dee40fb6bff29415c3ac33bab5ff22b10 100644
+index b79e12cab036339aca73bdda639a877cdddc3f75..b02cd7bed470c9c6dcbd986a24637fe2874ee9ca 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -249,14 +249,15 @@ public class ServerEntity {
+@@ -250,14 +250,15 @@ public class ServerEntity {
  
      public void removePairing(ServerPlayer player) {
          this.entity.stopSeenByPlayer(player);
@@ -662,7 +662,7 @@ index 869b85b4c482d8bd0a48b948cffcf36289bceab0..6760ef1dee40fb6bff29415c3ac33bab
          this.entity.startSeenByPlayer(player);
      }
  
-@@ -377,19 +378,24 @@ public class ServerEntity {
+@@ -378,19 +379,24 @@ public class ServerEntity {
                  }
              } else
              // Prismarine end

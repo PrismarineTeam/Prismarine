@@ -28,10 +28,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 40720fd24ce9b404786d4145e21f3c0f5a382475..10ffaeec14d3fb62407d42c6213b15860ac58d93 100644
+index b02cd7bed470c9c6dcbd986a24637fe2874ee9ca..f2a513cea03f7849f4c76ff3c9a3f3130b57c077 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -181,6 +181,7 @@ public class ServerEntity {
+@@ -182,6 +182,7 @@ public class ServerEntity {
                          this.teleportDelay = 0;
                          packet1 = new ClientboundTeleportEntityPacket(this.entity);
                      }
@@ -39,7 +39,7 @@ index 40720fd24ce9b404786d4145e21f3c0f5a382475..10ffaeec14d3fb62407d42c6213b1586
                  }
  
                  if ((this.trackDelta || this.entity.hasImpulse || this.entity instanceof LivingEntity && ((LivingEntity) this.entity).isFallFlying()) && this.tickCount > 0) {
-@@ -247,6 +248,22 @@ public class ServerEntity {
+@@ -248,6 +249,22 @@ public class ServerEntity {
  
      }
  

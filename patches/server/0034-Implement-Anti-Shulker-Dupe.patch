@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 6 Nov 2022 19:54:40 +0900
+Subject: [PATCH] Implement Anti Shulker Dupe
+
+Original: https://github.com/PotatoPresident/AntiShulkerDupe
+
+Copyright (c) 2021 Potatoboy9999
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+diff --git a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
+index f4c47f7a7f2572dedbaee4890c98e1f3589a40c2..9fcd8f51ebd76a60b5f10322675c2a8b7cd33ccb 100644
+--- a/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/ShulkerBoxBlock.java
+@@ -148,6 +148,7 @@ public class ShulkerBoxBlock extends BaseEntityBlock {
+                 }
+ 
+             });
++            if (net.prismarineteam.prismarine.PrismarineConfig.antiShulkerDupe) shulkerBoxBlockEntity.clearContent(); // Prismarine - Anti Shulker Dupe
+         }
+ 
+         return super.getDrops(state, builder);
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index e0f73faa2873d5b63513f50c1c9228f204ed8114..afffa90178aca8b2988824f51ec78bd488d580d6 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -271,4 +271,9 @@ public class PrismarineConfig {
+     private static void offlineWarning() {
+         offlineWarning = getBoolean("settings.offline-warning", offlineWarning);
+     }
++
++    public static boolean antiShulkerDupe = true;
++    private static void antiShulkerDupe() {
++        antiShulkerDupe = getBoolean("settings.anti-shulker-dupe", antiShulkerDupe);
++    }
+ }
+\ No newline at end of file

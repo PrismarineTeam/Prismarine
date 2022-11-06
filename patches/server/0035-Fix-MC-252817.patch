@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 6 Nov 2022 20:05:03 +0900
+Subject: [PATCH] Fix MC-252817
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java b/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
+index 420c13e00ca3e22a101d3867f99fdf2dd30776a8..5a6e0dcbf905bd46529f79c68e2332f1ee6fafa8 100644
+--- a/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
++++ b/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
+@@ -296,7 +296,7 @@ public class ItemFrame extends HangingEntity {
+     // Purpur end
+ 
+     private void removeFramedMap(ItemStack itemstack) {
+-        this.getFramedMapId().ifPresent((i) -> {
++        this.getMapIdFromItemStack(itemstack).ifPresent((i) -> { // Prismarine - Fix MC-252817
+             MapItemSavedData worldmap = MapItem.getSavedData(i, this.level);
+ 
+             if (worldmap != null) {
+@@ -326,6 +326,20 @@ public class ItemFrame extends HangingEntity {
+         return OptionalInt.empty();
+     }
+ 
++    // Prismarine - Fix MC-252817
++    public OptionalInt getMapIdFromItemStack(ItemStack stack) {
++        if (stack.is(Items.FILLED_MAP)) {
++            Integer integer = MapItem.getMapId(stack);
++
++            if (integer != null) {
++                return OptionalInt.of(integer);
++            }
++        }
++
++        return OptionalInt.empty();
++    }
++    // Prismarine end
++
+     public boolean hasFramedMap() {
+         return this.getFramedMapId().isPresent();
+     }
