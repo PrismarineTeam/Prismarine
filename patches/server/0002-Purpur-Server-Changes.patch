@@ -3738,7 +3738,7 @@ index 17ffab92f4ae2c06fa9f9249a474d4b6c9c55090..bb15cf2aa35ce8754bba56f5b312d92b
  
                  ((ServerPlayer) entityhuman).connection.send(new ClientboundSetHealthPacket(((ServerPlayer) entityhuman).getBukkitEntity().getScaledHealth(), entityhuman.getFoodData().foodLevel, entityhuman.getFoodData().saturationLevel));
 diff --git a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
-index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c0d27a862 100644
+index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..2284e283dec9a7a5cc691f55f5f14b55505b4a45 100644
 --- a/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
 +++ b/src/main/java/net/minecraft/world/effect/MobEffectInstance.java
 @@ -13,6 +13,7 @@ import net.minecraft.util.ExtraCodecs;
@@ -3757,23 +3757,33 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
      private MobEffectInstance hiddenEffect;
      private Optional<MobEffectInstance.FactorData> factorData;
  
-@@ -48,12 +50,27 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -43,17 +45,36 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+         this(type, duration, amplifier, ambient, visible, visible);
+     }
+ 
++    // Purpur start
++    public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean visible, @Nullable NamespacedKey key) {
++        this(type, duration, amplifier, ambient, visible, visible, key);
++    }
++    // Purpur end
++
+     public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon) {
+-        this(type, duration, amplifier, ambient, showParticles, showIcon, (MobEffectInstance)null, type.createFactorData());
++        // Purpur start
++        this(type, duration, amplifier, ambient, showParticles, showIcon, (MobEffectInstance) null, type.createFactorData(), (NamespacedKey) null);
++    }
++
++    public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable NamespacedKey key) {
++        this(type, duration, amplifier, ambient, showParticles, showIcon, (MobEffectInstance)null, type.createFactorData(), key);
++        // Purpur end
      }
  
      public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable MobEffectInstance hiddenEffect, Optional<MobEffectInstance.FactorData> factorCalculationData) {
 +        // Purpur start
-+        this(type, duration, amplifier, ambient, showParticles, showIcon, (NamespacedKey)null, hiddenEffect, factorCalculationData);
++        this(type, duration, amplifier, ambient, showParticles, showIcon, hiddenEffect, factorCalculationData, (NamespacedKey) null);
 +    }
 +
-+    public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, @Nullable NamespacedKey key, Optional<MobEffectInstance.FactorData> factorCalculationData) {
-+        this(type, duration, amplifier, ambient, showParticles, showParticles, key, (MobEffectInstance)null, factorCalculationData);
-+    }
-+
-+    public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable NamespacedKey key, Optional<MobEffectInstance.FactorData> factorCalculationData) {
-+        this(type, duration, amplifier, ambient, showParticles, showIcon, key, (MobEffectInstance)null, factorCalculationData);
-+    }
-+
-+    public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable NamespacedKey key, @Nullable MobEffectInstance hiddenEffect, Optional<MobEffectInstance.FactorData> factorCalculationData) { // Purpur - add key
++    public MobEffectInstance(MobEffect type, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable MobEffectInstance hiddenEffect, Optional<MobEffectInstance.FactorData> factorCalculationData, @Nullable NamespacedKey key) {
 +        // Purpur end
          this.effect = type;
          this.duration = duration;
@@ -3785,7 +3795,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
          this.hiddenEffect = hiddenEffect;
          this.factorData = factorCalculationData;
      }
-@@ -74,6 +91,7 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -74,6 +95,7 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
          this.ambient = that.ambient;
          this.visible = that.visible;
          this.showIcon = that.showIcon;
@@ -3793,7 +3803,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
      }
  
      public boolean update(MobEffectInstance that) {
-@@ -126,6 +144,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -126,6 +148,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
              bl = true;
          }
  
@@ -3807,7 +3817,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
          return bl;
      }
  
-@@ -153,6 +178,17 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -153,6 +182,17 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
          return this.showIcon;
      }
  
@@ -3825,7 +3835,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
      public boolean tick(LivingEntity entity, Runnable overwriteCallback) {
          if (this.duration > 0) {
              if (this.effect.isDurationEffectTick(this.duration, this.amplifier)) {
-@@ -209,6 +245,12 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -209,6 +249,12 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
              string = string + ", Show Icon: false";
          }
  
@@ -3838,7 +3848,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
          return string;
      }
  
-@@ -220,7 +262,7 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -220,7 +266,7 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
              return false;
          } else {
              MobEffectInstance mobEffectInstance = (MobEffectInstance)object;
@@ -3847,7 +3857,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
          }
      }
  
-@@ -244,6 +286,11 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -244,6 +290,11 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
          nbt.putBoolean("Ambient", this.isAmbient());
          nbt.putBoolean("ShowParticles", this.isVisible());
          nbt.putBoolean("ShowIcon", this.showIcon());
@@ -3859,7 +3869,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
          if (this.hiddenEffect != null) {
              CompoundTag compoundTag = new CompoundTag();
              this.hiddenEffect.save(compoundTag);
-@@ -278,6 +325,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -278,6 +329,13 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
              bl3 = nbt.getBoolean("ShowIcon");
          }
  
@@ -3873,17 +3883,17 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..64571396652d4447ce3665cd8cef668c
          MobEffectInstance mobEffectInstance = null;
          if (nbt.contains("HiddenEffect", 10)) {
              mobEffectInstance = loadSpecifiedEffect(type, nbt.getCompound("HiddenEffect"));
-@@ -290,7 +344,7 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
+@@ -290,7 +348,7 @@ public class MobEffectInstance implements Comparable<MobEffectInstance> {
              optional = Optional.empty();
          }
  
 -        return new MobEffectInstance(type, j, Math.max(i, 0), bl, bl2, bl3, mobEffectInstance, optional);
-+        return new MobEffectInstance(type, j, Math.max(i, 0), bl, bl2, bl3, key, mobEffectInstance, optional); // Purpur - add key
++        return new MobEffectInstance(type, j, Math.max(i, 0), bl, bl2, bl3, mobEffectInstance, optional, key); // Purpur - add key
      }
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..385850b7a2802b4315a33aa2972a9a44127f8987 100644
+index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af013fdbbf1b 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -155,7 +155,7 @@ import org.bukkit.plugin.PluginManager;
@@ -3925,7 +3935,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..385850b7a2802b4315a33aa2972a9a44
          this.stuckSpeedMultiplier = Vec3.ZERO;
          this.nextStep = 1.0F;
 -        this.random = SHARED_RANDOM; // Paper
-+        this.random = world.purpurConfig.entitySharedRandom ? SHARED_RANDOM : RandomSource.create(); // Paper // Purpur
++        this.random = world == null || world.purpurConfig.entitySharedRandom ? SHARED_RANDOM : RandomSource.create(); // Paper // Purpur
          this.remainingFireTicks = -this.getFireImmuneTicks();
          this.fluidHeight = new Object2DoubleArrayMap(2);
          this.fluidOnEyes = new HashSet();
@@ -20353,7 +20363,7 @@ index fea44ba6a6584b4a510af6a58cab07eecec6b68b..1ef853dafeb62d77936a3561522e1088
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 76ee8adfb6cccc15dde748b0796d1de7fc5507f8..9e192788af0b2ae5479c2fae1239b10e1ff45351 100644
+index 76ee8adfb6cccc15dde748b0796d1de7fc5507f8..a37f258821fc13cbc1759b0bc861f4d4b895bac1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -427,7 +427,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
@@ -20370,7 +20380,7 @@ index 76ee8adfb6cccc15dde748b0796d1de7fc5507f8..9e192788af0b2ae5479c2fae1239b10e
      @Override
      public boolean addPotionEffect(PotionEffect effect, boolean force) {
 -        this.getHandle().addEffect(new MobEffectInstance(MobEffect.byId(effect.getType().getId()), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon()), EntityPotionEffectEvent.Cause.PLUGIN); // Paper - Don't ignore icon
-+        this.getHandle().addEffect(new MobEffectInstance(MobEffect.byId(effect.getType().getId()), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon(), effect.getKey(), java.util.Optional.empty()), EntityPotionEffectEvent.Cause.PLUGIN); // Purpur - add key // Paper - Don't ignore icon
++        this.getHandle().addEffect(new MobEffectInstance(MobEffect.byId(effect.getType().getId()), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon(), effect.getKey()), EntityPotionEffectEvent.Cause.PLUGIN); // Purpur - add key // Paper - Don't ignore icon
          return true;
      }
  
@@ -20958,7 +20968,7 @@ index b2a15c986c7500a0ce227a54cb61ec3f5378f6f3..14600a7bc01bf61e8ffb736816d23df6
          if (MinecraftServer.getServer() != null && MinecraftServer.getServer().isDebugging()) {
              new Exception().printStackTrace();
 diff --git a/src/main/java/org/bukkit/craftbukkit/potion/CraftPotionUtil.java b/src/main/java/org/bukkit/craftbukkit/potion/CraftPotionUtil.java
-index acb69821a99aa69bce6d127e10976089c85be223..a44fc6122f6e653b149fff52e553d60a049e7432 100644
+index acb69821a99aa69bce6d127e10976089c85be223..c5abd73981c5f4b41605eba0d44e6573dfd2a77a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/potion/CraftPotionUtil.java
 +++ b/src/main/java/org/bukkit/craftbukkit/potion/CraftPotionUtil.java
 @@ -101,7 +101,7 @@ public class CraftPotionUtil {
@@ -20966,7 +20976,7 @@ index acb69821a99aa69bce6d127e10976089c85be223..a44fc6122f6e653b149fff52e553d60a
      public static MobEffectInstance fromBukkit(PotionEffect effect) {
          MobEffect type = MobEffect.byId(effect.getType().getId());
 -        return new MobEffectInstance(type, effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles());
-+        return new MobEffectInstance(type, effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.getKey(), java.util.Optional.empty()); // Purpur - add key
++        return new MobEffectInstance(type, effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.getKey()); // Purpur - add key
      }
  
      public static PotionEffect toBukkit(MobEffectInstance effect) {
