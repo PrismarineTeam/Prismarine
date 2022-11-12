@@ -53,7 +53,7 @@ index e61ab98ff3ed7692db7bbb50e1d50ce03f9711df..1f847ac2b0b8096015da1e830a6cd664
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 66c632f9a824e705420b9bb86de294f0e7305c50..5d50fe8439760ec023f560b0a306fa9516b9ec75 100644
+index 257daaf0881b1af992a20df83be3846e0d58de66..a3892aa3e4005974d00bc1f05b98311bc3e7789d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2240,10 +2240,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -108,10 +108,10 @@ index 22edd0116f55abc50dfdd45831c0f621ad49ef10..de2433b5f7c6f34d748c1285ca35c73b
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index b78907c5f8b247e4553da14fedc7f28ddabec20c..db3956b6eb41e281b0457035b5eb7386f7f25e58 100644
+index 91fa9d40b7aa779bb33f45df38079acb1517dfea..0cf2316e76036da16d9d24cf0af0a4347add1ce7 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1555,7 +1555,7 @@ public abstract class Player extends LivingEntity {
+@@ -1564,7 +1564,7 @@ public abstract class Player extends LivingEntity {
  
      @Nullable
      public ProfilePublicKey getProfilePublicKey() {

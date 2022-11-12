@@ -2433,7 +2433,7 @@ index 94f4a5bfd2af8389a99f80bab4eceac1f075512e..c888e654ab9449bfdc7dfe16078eb078
                  }
                  // Paper end
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd8f5bb589 100644
+index 3b122f521c166253f20d233c0fcebdede6660be5..14b2c36049c91a8abfc545e2fb5e3d6f908370e8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -261,6 +261,11 @@ public class ServerPlayer extends Player {
@@ -2577,7 +2577,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
              return this;
          }
      }
-@@ -1312,7 +1352,7 @@ public class ServerPlayer extends Player {
+@@ -1314,7 +1354,7 @@ public class ServerPlayer extends Player {
                              return entitymonster.isPreventingPlayerRest(this);
                          });
  
@@ -2586,7 +2586,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
                              return Either.left(Player.BedSleepingProblem.NOT_SAFE);
                          }
                      }
-@@ -1483,6 +1523,7 @@ public class ServerPlayer extends Player {
+@@ -1485,6 +1525,7 @@ public class ServerPlayer extends Player {
  
      @Override
      public void openTextEdit(SignBlockEntity sign) {
@@ -2594,7 +2594,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
          sign.setAllowedPlayerEditor(this.getUUID());
          this.connection.send(new ClientboundBlockUpdatePacket(this.level, sign.getBlockPos()));
          this.connection.send(new ClientboundOpenSignEditorPacket(sign.getBlockPos()));
-@@ -1708,6 +1749,26 @@ public class ServerPlayer extends Player {
+@@ -1710,6 +1751,26 @@ public class ServerPlayer extends Player {
          this.lastSentExp = -1; // CraftBukkit - Added to reset
      }
  
@@ -2621,7 +2621,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
      @Override
      public void displayClientMessage(Component message, boolean overlay) {
          this.sendSystemMessage(message, overlay);
-@@ -1976,6 +2037,7 @@ public class ServerPlayer extends Player {
+@@ -1978,6 +2039,7 @@ public class ServerPlayer extends Player {
      }
  
      public void sendTexturePack(String url, String hash, boolean required, @Nullable Component resourcePackPrompt) {
@@ -2629,7 +2629,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
          this.connection.send(new ClientboundResourcePackPacket(url, hash, required, resourcePackPrompt));
      }
  
-@@ -1990,8 +2052,58 @@ public class ServerPlayer extends Player {
+@@ -1992,8 +2054,58 @@ public class ServerPlayer extends Player {
  
      public void resetLastActionTime() {
          this.lastActionTime = Util.getMillis();
@@ -2688,7 +2688,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
      public ServerStatsCounter getStats() {
          return this.stats;
      }
-@@ -2451,8 +2563,16 @@ public class ServerPlayer extends Player {
+@@ -2453,8 +2565,16 @@ public class ServerPlayer extends Player {
  
      @Override
      public boolean isImmobile() {
@@ -2706,7 +2706,7 @@ index 5819e8e5e3c6f87eb123cf16091ea74357d53b3b..467f60dcbed645d773e7e3e042d2bbbd
  
      @Override
      public Scoreboard getScoreboard() {
-@@ -2501,4 +2621,50 @@ public class ServerPlayer extends Player {
+@@ -2503,4 +2623,50 @@ public class ServerPlayer extends Player {
          return (CraftPlayer) super.getBukkitEntity();
      }
      // CraftBukkit end
@@ -14982,7 +14982,7 @@ index daa7c4bd8a3f6c28f02b7117b061f0def29e3743..d4699d7eefafffd2d4e0a03d62d5094f
              if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, world, blockposition2, EntityType.WANDERING_TRADER)) {
                  blockposition1 = blockposition2;
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 9b131f0a827413e9f5d6d0f7491c5481576cb8b1..e87a436711e179a4384630de41188c09a75a7f0d 100644
+index 55bdf4f91be6750dcfd0589c566fbefde4512a1e..1b7e38538881ba00ffdbe9226952627151532c5c 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -187,6 +187,9 @@ public abstract class Player extends LivingEntity {
@@ -15072,7 +15072,7 @@ index 9b131f0a827413e9f5d6d0f7491c5481576cb8b1..e87a436711e179a4384630de41188c09
                      list1.add(entity);
                  } else if (!entity.isRemoved()) {
                      this.touch(entity);
-@@ -1284,7 +1325,7 @@ public abstract class Player extends LivingEntity {
+@@ -1293,7 +1334,7 @@ public abstract class Player extends LivingEntity {
                      flag2 = flag2 && !level.paperConfig().entities.behavior.disablePlayerCrits; // Paper
                      flag2 = flag2 && !this.isSprinting();
                      if (flag2) {
@@ -15081,7 +15081,7 @@ index 9b131f0a827413e9f5d6d0f7491c5481576cb8b1..e87a436711e179a4384630de41188c09
                      }
  
                      f += f1;
-@@ -1767,7 +1808,7 @@ public abstract class Player extends LivingEntity {
+@@ -1776,7 +1817,7 @@ public abstract class Player extends LivingEntity {
  
      @Override
      public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
@@ -15090,7 +15090,7 @@ index 9b131f0a827413e9f5d6d0f7491c5481576cb8b1..e87a436711e179a4384630de41188c09
              return false;
          } else {
              if (fallDistance >= 2.0F) {
-@@ -1967,9 +2008,18 @@ public abstract class Player extends LivingEntity {
+@@ -1976,9 +2017,18 @@ public abstract class Player extends LivingEntity {
      @Override
      public int getExperienceReward() {
          if (!this.level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && !this.isSpectator()) {
@@ -15112,7 +15112,7 @@ index 9b131f0a827413e9f5d6d0f7491c5481576cb8b1..e87a436711e179a4384630de41188c09
          } else {
              return 0;
          }
-@@ -2045,6 +2095,11 @@ public abstract class Player extends LivingEntity {
+@@ -2054,6 +2104,11 @@ public abstract class Player extends LivingEntity {
          return this.inventory.armor;
      }
  
@@ -15124,7 +15124,7 @@ index 9b131f0a827413e9f5d6d0f7491c5481576cb8b1..e87a436711e179a4384630de41188c09
      public boolean setEntityOnShoulder(CompoundTag entityNbt) {
          if (!this.isPassenger() && this.onGround && !this.isInWater() && !this.isInPowderSnow) {
              if (this.getShoulderEntityLeft().isEmpty()) {
-@@ -2323,7 +2378,7 @@ public abstract class Player extends LivingEntity {
+@@ -2332,7 +2387,7 @@ public abstract class Player extends LivingEntity {
      public ItemStack eat(Level world, ItemStack stack) {
          this.getFoodData().eat(stack.getItem(), stack);
          this.awardStat(Stats.ITEM_USED.get(stack.getItem()));
