@@ -5,7 +5,7 @@ Subject: [PATCH] Miscellaneous patches
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 7b34c1b859e5fdc8487e202f87a76f490382ce07..5e10c6876eb076b42e82f2c5442ab63c23a95711 100644
+index 7b34c1b859e5fdc8487e202f87a76f490382ce07..82ae8c6e0509a54ebf9226a879db6648a6a4bbe5 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 @@ -95,13 +95,14 @@ public class PufferfishConfig {
@@ -21,7 +21,7 @@ index 7b34c1b859e5fdc8487e202f87a76f490382ce07..5e10c6876eb076b42e82f2c5442ab63c
  		} else if (SIMDDetection.versionLimited) {
 -			PufferfishLogger.LOGGER.warning("Will not enable SIMD! These optimizations are only safely supported on Java 17 and Java 18.");
 +			PufferfishLogger.LOGGER.warning("Will not enable SIMD! These optimizations are only safely supported on Java 17, 18 and 19."); // Prismarine
-+			PufferfishLogger.LOGGER.warning("If you really want to enable them, add \"-DPrismarine.SkipSIMDJavaVersionCheck=true\" to your startup flags, BEFORE the \"-jar\"."); // Prismarine
++			PufferfishLogger.LOGGER.warning("If you really want to enable them, add \"-DPrismarine.SkipSIMDJavaVersionCheck=true\" to your startup flags, BETWEEN the \"-jar\" and *server file name*."); // Prismarine
  		} else {
  			PufferfishLogger.LOGGER.warning("SIMD operations are available for your server, but are not configured!");
  			PufferfishLogger.LOGGER.warning("To enable additional optimizations, add \"--add-modules=jdk.incubator.vector\" to your startup flags, BEFORE the \"-jar\".");
@@ -230,6 +230,18 @@ index 3eee2ebaee415cde427eb72f61a3c67ed5cc0e30..97115c2c5fdbea7f73b2eb81093dfae6
          }
      }
  
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 6e5e964917bf9d04935badf05dc2191988251656..a536c9ffdf191610e4c6f0fe4fde0a142e5f5003 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -460,6 +460,7 @@ public final class CraftServer implements Server {
+                     }
+ 
+                     extraJars.add(file);
++                    getLogger().info("Purpur: Spark has been downloaded and installed. If you really don't want to use Spark, add \"-DPurpur.IReallyDontWantSpark=true\" to your startup flags, BETWEEN the \"-jar\" and *server file name*.");
+                 } catch (Exception e) {
+                     getLogger().severe("Purpur: Failed to download and install spark plugin");
+                     e.printStackTrace();
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 index 0797dbf646550aa34b2b5d3fe9ab676740dfaf44..8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
