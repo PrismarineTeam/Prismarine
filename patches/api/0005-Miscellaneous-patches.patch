@@ -17,6 +17,19 @@ index 8e64ccdb928bc38cb703e60c8ec31339a6f6d894..dd8c91f73988a9ed972efbd33349de0d
      api("org.yaml:snakeyaml:1.33")
      // Paper start
      api("com.googlecode.json-simple:json-simple:1.1.1") {
+diff --git a/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java b/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java
+index 93f5d7ca36e043e6c0f959450d38e6946b348eaf..4b802e5c4a286ef7f35447fdb60c86f6dbc75254 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java
++++ b/src/main/java/gg/pufferfish/pufferfish/simd/SIMDChecker.java
+@@ -15,7 +15,7 @@ public class SIMDChecker {
+ 	@Deprecated
+ 	public static boolean canEnable(Logger logger) {
+ 		try {
+-			if (SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18) {
++			if (Boolean.getBoolean("Prismarine.SkipSIMDJavaVersionCheck") || SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18 && SIMDDetection.getJavaVersion() != 19) { // Prismarine - Support Java 19
+ 				return false;
+ 			} else {
+ 				SIMDDetection.testRun = true;
 diff --git a/src/main/java/org/bukkit/configuration/ConfigurationSection.java b/src/main/java/org/bukkit/configuration/ConfigurationSection.java
 index b6b00af08f12f838411845e4f4e29e62826dfc7f..4b5267576390515dbbdeed7a5752c80b6f951b34 100644
 --- a/src/main/java/org/bukkit/configuration/ConfigurationSection.java

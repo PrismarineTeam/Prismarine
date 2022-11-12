@@ -4,6 +4,27 @@ Date: Sat, 5 Mar 2022 12:27:53 +0900
 Subject: [PATCH] Miscellaneous patches
 
 
+diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+index 7b34c1b859e5fdc8487e202f87a76f490382ce07..5e10c6876eb076b42e82f2c5442ab63c23a95711 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
++++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+@@ -95,13 +95,14 @@ public class PufferfishConfig {
+ 		// Attempt to detect vectorization
+ 		try {
+ 			SIMDDetection.isEnabled = SIMDDetection.canEnable(PufferfishLogger.LOGGER);
+-			SIMDDetection.versionLimited = SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18;
++			SIMDDetection.versionLimited = Boolean.getBoolean("Prismarine.SkipSIMDJavaVersionCheck") || SIMDDetection.getJavaVersion() != 17 && SIMDDetection.getJavaVersion() != 18 && SIMDDetection.getJavaVersion() != 19; // Prismarine
+ 		} catch (NoClassDefFoundError | Exception ignored) {}
+ 		
+ 		if (SIMDDetection.isEnabled) {
+ 			PufferfishLogger.LOGGER.info("SIMD operations detected as functional. Will replace some operations with faster versions.");
+ 		} else if (SIMDDetection.versionLimited) {
+-			PufferfishLogger.LOGGER.warning("Will not enable SIMD! These optimizations are only safely supported on Java 17 and Java 18.");
++			PufferfishLogger.LOGGER.warning("Will not enable SIMD! These optimizations are only safely supported on Java 17, 18 and 19."); // Prismarine
++			PufferfishLogger.LOGGER.warning("If you really want to enable them, add \"-DPrismarine.SkipSIMDJavaVersionCheck=true\" to your startup flags, BEFORE the \"-jar\"."); // Prismarine
+ 		} else {
+ 			PufferfishLogger.LOGGER.warning("SIMD operations are available for your server, but are not configured!");
+ 			PufferfishLogger.LOGGER.warning("To enable additional optimizations, add \"--add-modules=jdk.incubator.vector\" to your startup flags, BEFORE the \"-jar\".");
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishVersionFetcher.java
 deleted file mode 100644
 index e877921370f6009a4bd204d9b17d2d58834b8822..0000000000000000000000000000000000000000

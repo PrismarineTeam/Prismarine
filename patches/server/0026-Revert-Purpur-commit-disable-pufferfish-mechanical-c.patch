@@ -6,10 +6,10 @@ Subject: [PATCH] Revert Purpur commit "disable pufferfish mechanical changes
 
 
 diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-index 7b34c1b859e5fdc8487e202f87a76f490382ce07..d26f8c2ac792bbf990f2f61a5d5c7f83fa61a562 100644
+index 82ae8c6e0509a54ebf9226a879db6648a6a4bbe5..cae44452cddc52e942ee2e0a86ab1fd5c6bec906 100644
 --- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
 +++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
-@@ -247,7 +247,7 @@ public class PufferfishConfig {
+@@ -248,7 +248,7 @@ public class PufferfishConfig {
      public static int activationDistanceMod;
  
      private static void dynamicActivationOfBrains() throws IOException {
@@ -18,7 +18,7 @@ index 7b34c1b859e5fdc8487e202f87a76f490382ce07..d26f8c2ac792bbf990f2f61a5d5c7f83
          startDistance = getInt("dab.start-distance", "activation-range.start-distance", 12,
                  "This value determines how far away an entity has to be",
                  "from the player to start being effected by DEAR.");
-@@ -291,7 +291,7 @@ public class PufferfishConfig {
+@@ -292,7 +292,7 @@ public class PufferfishConfig {
      
      public static boolean throttleInactiveGoalSelectorTick;
  	private static void inactiveGoalSelectorThrottle() {
