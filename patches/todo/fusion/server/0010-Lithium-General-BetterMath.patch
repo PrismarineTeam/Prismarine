@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: IPECTER <ipectert@gmail.com>
+Date: Mon, 17 Oct 2022 21:16:24 +0900
+Subject: [PATCH] Lithium-General-BetterMath
+
+Mirai - etil2jz - GPL 3.0
+JettPack - Titaniumtown - GPL 3.0
+Lithium - CaffeineMC  - GPL 3.0
+
+diff --git a/src/main/java/com/github/ipecter/fusion/FusionConfig.java b/src/main/java/com/github/ipecter/fusion/FusionConfig.java
+index 04a8a2c10bb39a1fd88b1484cf6a9b0b7bd5aec6..7c82a81026815ff275dfe998fa195a61594c3561 100644
+--- a/src/main/java/com/github/ipecter/fusion/FusionConfig.java
++++ b/src/main/java/com/github/ipecter/fusion/FusionConfig.java
+@@ -206,10 +206,12 @@ public class FusionConfig {
+ 
+     public static boolean lithiumEnable = true;
+     public static boolean lithiumGeneralFastUtil = true;
++    public static boolean lithiumGeneralBetterMath = true;
+ 
+     private static void lithiumConfig() {
+         setComment("lithium", "[ Lithium ] General-Purpose Optimization Mod");
+         lithiumEnable = getBoolean("lithium.enable", lithiumEnable);
+         lithiumGeneralFastUtil = getBoolean("lithium.general.fast-util", lithiumGeneralFastUtil) && lithiumEnable;
++        lithiumGeneralBetterMath = getBoolean("lithium.general.better-math", lithiumGeneralBetterMath) && lithiumEnable;
+     }
+
+     private static void lithiumConfigSetup() {
+     }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/minecraft/util/Mth.java b/src/main/java/net/minecraft/util/Mth.java
+index 9b22034aa655ceb0da151d9d8ca3147f6487889a..1272e33c596576ca0ef4e0c618d6b589c4c2d1c2 100644
+--- a/src/main/java/net/minecraft/util/Mth.java
++++ b/src/main/java/net/minecraft/util/Mth.java
+@@ -32,6 +32,7 @@ public class Mth {
+ 
+     });
+     private static final RandomSource RANDOM = RandomSource.createThreadSafe();
++    public static float[] getSinTable() { return SIN; } // Fusion - Lithium: General Better Math
+     private static final int[] MULTIPLY_DE_BRUIJN_BIT_POSITION = new int[]{0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9};
+     private static final double ONE_SIXTH = 0.16666666666666666D;
+     private static final int FRAC_EXP = 8;
+@@ -41,11 +42,11 @@ public class Mth {
+     private static final double[] COS_TAB = new double[257];
+ 
+     public static float sin(float value) {
+-        return SIN[(int)(value * 10430.378F) & '\uffff'];
++        return com.github.ipecter.fusion.FusionConfig.lithiumGeneralBetterMath ? me.jellysquid.mods.lithium.common.util.math.CompactSineLUT.sin(value) : SIN[(int)(value * 10430.378F) & '\uffff']; // Fusion - Lithium: General Better Math
+     }
+ 
+     public static float cos(float value) {
+-        return SIN[(int)(value * 10430.378F + 16384.0F) & '\uffff'];
++        return com.github.ipecter.fusion.FusionConfig.lithiumGeneralBetterMath ? me.jellysquid.mods.lithium.common.util.math.CompactSineLUT.cos(value) : SIN[(int)(value * 10430.378F + 16384.0F) & '\uffff']; // Fusion - Lithium: General Better Math
+     }
+ 
+     public static float sqrt(float value) {
