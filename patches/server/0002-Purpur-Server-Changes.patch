@@ -2836,7 +2836,7 @@ index 80c1e0e47818486a68e0114b063395290365346b..c677a55db62b4d197eeb1bf5d929e240
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + pos + ", status: " + this.generatingStatus + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
              hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 21c482725d2504b0aedb83ed2a7954b19c11bb61..257daaf0881b1af992a20df83be3846e0d58de66 100644
+index 42862061cbd6ca8c34d3fc6ff90145f418becbb9..57dd2f5190e00bddbc575044ce5d9cc613e3c0df 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -260,6 +260,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -3157,9 +3157,9 @@ index 21c482725d2504b0aedb83ed2a7954b19c11bb61..257daaf0881b1af992a20df83be3846e
              }
          }
  
--        if (playerchatmessage.hasExpiredServer(Instant.now())) {
-+        if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSentExpiredChat && playerchatmessage.hasExpiredServer(Instant.now())) { // Purpur
-             ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized? c: {} s: {}", this.player.getName().getString(), playerchatmessage.signedContent().plain(), playerchatmessage.timeStamp().getEpochSecond(), Instant.now().getEpochSecond()); // Paper
+-        if (message.hasExpiredServer(Instant.now())) {
++        if (!org.purpurmc.purpur.PurpurConfig.loggerSuppressSentExpiredChat && message.hasExpiredServer(Instant.now())) { // Purpur
+             ServerGamePacketListenerImpl.LOGGER.warn("{} sent expired chat: '{}'. Is the client/server system time unsynchronized? c: {} s: {}", this.player.getName().getString(), message.signedContent().plain(), message.timeStamp().getEpochSecond(), Instant.now().getEpochSecond()); // Paper
          }
  
 @@ -2905,6 +2996,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -5291,7 +5291,7 @@ index 5e8cc5cfac8888628c6d513148f41be09ca65a2c..a089fc61ec09be6b7490375489178dc6
      boolean readyForShearing();
  }
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
-index 9bce290eb0c2cfef4896a3f2076c80bf3d76bd56..00fc98797aea23e1f586b8e7f85fc27e2019352f 100644
+index 511fbbe5da0b6b0c51952c0f548f5ba9f6a64349..2c915c765ceef3ec28f5a58fa9a587282c1a906a 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 @@ -22,15 +22,22 @@ public class AttributeMap {
@@ -5318,7 +5318,7 @@ index 9bce290eb0c2cfef4896a3f2076c80bf3d76bd56..00fc98797aea23e1f586b8e7f85fc27e
              this.dirtyAttributes.add(instance);
          }
  
-@@ -42,11 +49,10 @@ public class AttributeMap {
+@@ -42,7 +49,7 @@ public class AttributeMap {
  
      public Collection<AttributeInstance> getSyncableAttributes() {
          return this.attributes.values().stream().filter((attribute) -> {
@@ -5327,10 +5327,6 @@ index 9bce290eb0c2cfef4896a3f2076c80bf3d76bd56..00fc98797aea23e1f586b8e7f85fc27e
          }).collect(Collectors.toList());
      }
  
--
-     @Nullable
-     public AttributeInstance getInstance(Attribute attribute) {
-         return this.attributes.computeIfAbsent(attribute, this.createInstance); // Pufferfish - cache lambda, as for some reason java allocates it anyways
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java b/src/main/java/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
 index d5d2b58f103d6bb50a4657299876ac02b77f258a..449b13ab3aeaebdf1e315700446b62b20e275e9b 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/DefaultAttributes.java
@@ -10733,7 +10729,7 @@ index b136cdc13d94bc34c998a1986e0c93525356ac5c..e9e50f353757340aee2196f2150dc7e4
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java b/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
-index d2a77b4ca343d19e1c70afe3f3906a9bd53d0eec..420c13e00ca3e22a101d3867f99fdf2dd30776a8 100644
+index b9cb39efe14a877ddedc5a5e4141ee5199ea8daf..2edf53d37508acd15bab7730ecb5d9fc0ce18e23 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/ItemFrame.java
 @@ -267,7 +267,13 @@ public class ItemFrame extends HangingEntity {
@@ -10763,8 +10759,8 @@ index d2a77b4ca343d19e1c70afe3f3906a9bd53d0eec..420c13e00ca3e22a101d3867f99fdf2d
 +    // Purpur end
 +
      private void removeFramedMap(ItemStack itemstack) {
-         this.getFramedMapId().ifPresent((i) -> {
-             MapItemSavedData worldmap = MapItem.getSavedData(i, this.level);
+         // Paper start - fix MC-252817 (green map markers do not disappear)
+         this.getFramedMapIdFromItem(itemstack).ifPresent((i) -> {
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/Painting.java b/src/main/java/net/minecraft/world/entity/decoration/Painting.java
 index 18697701ca6406b2a74f190b22d5b276359547d0..ee72748a8c07587c95bdce8f982fcdd73e8fd8f4 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/Painting.java
@@ -17240,7 +17236,7 @@ index 791411866cabc2c237f40d54250d5a34653ceaa0..0bb14272d024af90e7aef40f2f694e18
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index eceae1230e672d95491405f3f7c550c90ea9b138..6b8356e592bfca69cf785457284c99e47e360bd6 100644
+index a182b3c804cf56855e15290f826fdebdc289a552..50712b2222703fff01378e2ececb0fc0dba60b65 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -131,8 +131,8 @@ public final class NaturalSpawner {
@@ -19286,7 +19282,7 @@ index b86c17b5572f8f74bfefd0f3c6f9d25187574392..bcc4c1af0fe153ed87e55706a1a6a5c6
      protected final SoundType soundType;
      protected final float friction;
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 05f9a828e7c243520b87a77fb34598709aa3525b..7bae0525cc48d531de5a949f038417e098a59443 100644
+index 39684720c5ee2bb36b8d12cc10e05b7ab8d06172..2877441927de3aeba28f5c3dd876e2ae4c15797c 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -130,7 +130,7 @@ public class LevelChunk extends ChunkAccess {
@@ -19548,7 +19544,7 @@ index ede91a2fbe67480d2b6bcdeb776f87da0b69bdae..6b6093608e3fe97e72a1db5ad2a95b28
              } else if (blockState.is(Blocks.HONEY_BLOCK)) {
                  return BlockPathTypes.STICKY_HONEY;
 diff --git a/src/main/java/net/minecraft/world/level/portal/PortalShape.java b/src/main/java/net/minecraft/world/level/portal/PortalShape.java
-index 3414f3190e1a760c602613e82e551e797c3aa575..5368376c126f3b629c0448f937c140abb402ef43 100644
+index 0ef049f0fac81312bee4f0e0c14dc3e74b09d272..9c1dcbe8293f68f5e9026ff6acecf0c7cb31f73f 100644
 --- a/src/main/java/net/minecraft/world/level/portal/PortalShape.java
 +++ b/src/main/java/net/minecraft/world/level/portal/PortalShape.java
 @@ -30,7 +30,7 @@ public class PortalShape {
@@ -20685,7 +20681,7 @@ index 659e2959c5330e4764ea1edc7f8de9f464f9ff52..c2bac8ae958630acaaa8d758e31428d2
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
-index f0b910df1ee471b4d72d97c6197ab14f2854976e..6ce32a52d621a0c2629568ea07e445f50160d97d 100644
+index d1f5e1292246e0fb252d3d3409bbf37cc8166bbc..b20f448fa0a50f1e7cc580567f1dd7b5fdf318d0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftVillager.java
 @@ -194,4 +194,11 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
