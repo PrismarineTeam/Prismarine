@@ -29,10 +29,12 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0012
 0013
 0014
+0017
 0020
 0021
 0022
 0023
+0024
 0027
 0028
 0029
@@ -683,6 +685,19 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableJmxMonitoring = this.get("enable-jmx-monitoring", false);
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index a06089083cf36b1934aa1d67c25bc859e73afbaf..615c64ac01e30c187b39fea32e951932195e36a7 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -957,7 +957,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+                     BlockPos blockposition2 = blockposition.set(j + randomX, randomY, k + randomZ);
+                     BlockState iblockdata = com.destroystokyo.paper.util.maplist.IBlockDataList.getBlockDataFromRaw(raw);
+ 
+-                    iblockdata.randomTick(this, blockposition2, this.randomTickRandom);
++                    iblockdata.randomTick(this, blockposition2.immutable(), this.randomTickRandom); // Prismarine - reduce allocs
+                     // We drop the fluid tick since LAVA is ALREADY TICKED by the above method (See LiquidBlock).
+                     // TODO CHECK ON UPDATE
+                 }
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 index 3a62b456e1f8ab68e3c34b9d73b822e379afd570..38ac9aebd3f0687c57d9ed8186cb90e489655d47 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
@@ -1053,6 +1068,31 @@ index 809c6531d056cc9538e9bec9cdc5ca6e4c9f4792..1e1147f40ea27a676756eb7f9fd6b175
          }
      }
  
+diff --git a/src/main/java/net/minecraft/world/level/EntityBasedExplosionDamageCalculator.java b/src/main/java/net/minecraft/world/level/EntityBasedExplosionDamageCalculator.java
+index 2f9f15d99f8b31e9f13f7f32378b2a9e09bcb5e5..47b5f310c8db91940a454a92058f44c457f69f1e 100644
+--- a/src/main/java/net/minecraft/world/level/EntityBasedExplosionDamageCalculator.java
++++ b/src/main/java/net/minecraft/world/level/EntityBasedExplosionDamageCalculator.java
+@@ -15,9 +15,17 @@ public class EntityBasedExplosionDamageCalculator extends ExplosionDamageCalcula
+ 
+     @Override
+     public Optional<Float> getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+-        return super.getBlockExplosionResistance(explosion, world, pos, blockState, fluidState).map((max) -> {
+-            return this.source.getBlockExplosionResistance(explosion, world, pos, blockState, fluidState, max);
+-        });
++        // Prismarine start - JettPack patches (lithium: reduce allocs)
++        Optional<Float> optionalBlastResistance = super.getBlockExplosionResistance(explosion, world, pos, blockState, fluidState);
++        if (optionalBlastResistance.isPresent()) {
++            float blastResistance = optionalBlastResistance.get();
++            float effectiveExplosionResistance = this.source.getBlockExplosionResistance(explosion, world, pos, blockState, fluidState, blastResistance);
++            if (effectiveExplosionResistance != blastResistance) {
++                return Optional.of(effectiveExplosionResistance);
++            }
++        }
++        return optionalBlastResistance;
++        // Prismarine end
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
 index aa47d6e12c2472a58ba102a618d704e39a0777df..24f55068da24f0685aa48e2cef48802055c8f2b6 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java

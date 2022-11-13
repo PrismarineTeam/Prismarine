@@ -1,0 +1,1809 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 13 Nov 2022 17:46:36 +0900
+Subject: [PATCH] Reduce allocs
+
+
+diff --git a/src/main/java/ca/spottedleaf/starlight/common/light/StarLightEngine.java b/src/main/java/ca/spottedleaf/starlight/common/light/StarLightEngine.java
+index 1b0d92c68407cdb09ed8aac271b625d92db87017..9af00b00aff27beb997f91cb70b65f59eacf1ba7 100644
+--- a/src/main/java/ca/spottedleaf/starlight/common/light/StarLightEngine.java
++++ b/src/main/java/ca/spottedleaf/starlight/common/light/StarLightEngine.java
+@@ -29,7 +29,6 @@ import java.util.function.Consumer;
+ import java.util.function.IntConsumer;
+ 
+ public abstract class StarLightEngine {
+-
+     protected static final BlockState AIR_BLOCK_STATE = Blocks.AIR.defaultBlockState();
+ 
+     protected static final AxisDirection[] DIRECTIONS = AxisDirection.values();
+@@ -39,7 +38,7 @@ public abstract class StarLightEngine {
+             AxisDirection.POSITIVE_Z, AxisDirection.NEGATIVE_Z
+     };
+ 
+-    protected static enum AxisDirection {
++    public static enum AxisDirection { // Prismarine - protected -> public
+ 
+         // Declaration order is important and relied upon. Do not change without modifying propagation code.
+         POSITIVE_X(1, 0, 0), NEGATIVE_X(-1, 0, 0),
+@@ -1094,7 +1093,7 @@ public abstract class StarLightEngine {
+             for (int bitset = i, len = Integer.bitCount(i), index = 0; index < len; ++index, bitset ^= IntegerUtil.getTrailingBit(bitset)) {
+                 directions.add(AXIS_DIRECTIONS[IntegerUtil.trailingZeros(bitset)]);
+             }
+-            OLD_CHECK_DIRECTIONS[i] = directions.toArray(new AxisDirection[0]);
++            OLD_CHECK_DIRECTIONS[i] = directions.toArray(net.prismarineteam.prismarine.Constants.STARLIGHT_AXIS_DIRECTION); // Prismarine
+         }
+     }
+ 
+diff --git a/src/main/java/com/destroystokyo/paper/antixray/ChunkPacketBlockControllerAntiXray.java b/src/main/java/com/destroystokyo/paper/antixray/ChunkPacketBlockControllerAntiXray.java
+index dabd93c35bdbac6a8b668a82d5f3d4173a1baa4a..e954cb4db9381dbdcf98d4dc158a5cf1272c114e 100644
+--- a/src/main/java/com/destroystokyo/paper/antixray/ChunkPacketBlockControllerAntiXray.java
++++ b/src/main/java/com/destroystokyo/paper/antixray/ChunkPacketBlockControllerAntiXray.java
+@@ -91,8 +91,8 @@ public final class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockCo
+             Set<BlockState> presetBlockStateSet = new LinkedHashSet<>();
+             // Therefore addAll(Collection<? extends E>) is used, which guarantees this order in the doc
+             presetBlockStateSet.addAll(presetBlockStateList);
+-            presetBlockStates = presetBlockStateSet.isEmpty() ? new BlockState[]{Blocks.DIAMOND_ORE.defaultBlockState()} : presetBlockStateSet.toArray(new BlockState[0]);
+-            presetBlockStatesFull = presetBlockStateSet.isEmpty() ? new BlockState[]{Blocks.DIAMOND_ORE.defaultBlockState()} : presetBlockStateList.toArray(new BlockState[0]);
++            presetBlockStates = presetBlockStateSet.isEmpty() ? new BlockState[]{Blocks.DIAMOND_ORE.defaultBlockState()} : presetBlockStateSet.toArray(net.prismarineteam.prismarine.Constants.BLOCK_STATE);
++            presetBlockStatesFull = presetBlockStateSet.isEmpty() ? new BlockState[]{Blocks.DIAMOND_ORE.defaultBlockState()} : presetBlockStateList.toArray(net.prismarineteam.prismarine.Constants.BLOCK_STATE);
+             presetBlockStatesStone = null;
+             presetBlockStatesDeepslate = null;
+             presetBlockStatesNetherrack = null;
+diff --git a/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java b/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java
+index f2c27e0ac65be4b75c1d86ef6fd45fdb538d96ac..5def5a68c7e41f991812342c7908c7b1611771b4 100644
+--- a/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java
++++ b/src/main/java/com/destroystokyo/paper/io/PaperFileIOThread.java
+@@ -239,7 +239,7 @@ public final class PaperFileIOThread extends QueueExecutorThread {
+ 
+             onComplete.accept(complete);
+         };
+-        io.papermc.paper.chunk.system.io.RegionFileIOThread.loadChunkData(world, chunkX, chunkZ, transformComplete, intendingToBlock, newPriority, types.toArray(new io.papermc.paper.chunk.system.io.RegionFileIOThread.RegionFileType[0]));
++        io.papermc.paper.chunk.system.io.RegionFileIOThread.loadChunkData(world, chunkX, chunkZ, transformComplete, intendingToBlock, newPriority, types.toArray(net.prismarineteam.prismarine.Constants.REGION_FILE_TYPE));
+         // Paper end - rewrite chunk system
+ 
+     }
+diff --git a/src/main/java/com/destroystokyo/paper/network/StandardPaperServerListPingEventImpl.java b/src/main/java/com/destroystokyo/paper/network/StandardPaperServerListPingEventImpl.java
+index 4c2351b03b58511b80017b58ee9b20ab5193adc9..30ee332e45d4c4b7f896d5e048841e406f138c15 100644
+--- a/src/main/java/com/destroystokyo/paper/network/StandardPaperServerListPingEventImpl.java
++++ b/src/main/java/com/destroystokyo/paper/network/StandardPaperServerListPingEventImpl.java
+@@ -15,8 +15,6 @@ import net.minecraft.network.protocol.status.ServerStatus;
+ import net.minecraft.server.MinecraftServer;
+ 
+ public final class StandardPaperServerListPingEventImpl extends PaperServerListPingEventImpl {
+-
+-    private static final GameProfile[] EMPTY_PROFILES = new GameProfile[0];
+     private static final UUID FAKE_UUID = new UUID(0, 0);
+ 
+     private GameProfile[] originalSample;
+@@ -48,7 +46,7 @@ public final class StandardPaperServerListPingEventImpl extends PaperServerListP
+ 
+         List<PlayerProfile> entries = super.getPlayerSample();
+         if (entries.isEmpty()) {
+-            return EMPTY_PROFILES;
++            return net.prismarineteam.prismarine.Constants.GAME_PROFILE;
+         }
+ 
+         GameProfile[] profiles = new GameProfile[entries.size()];
+diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/ChunkList.java b/src/main/java/com/destroystokyo/paper/util/maplist/ChunkList.java
+index 554f4d4e63c1431721989e6f502a32ccc53a8807..ed165d6440cae9610e0288103ced026a145ae164 100644
+--- a/src/main/java/com/destroystokyo/paper/util/maplist/ChunkList.java
++++ b/src/main/java/com/destroystokyo/paper/util/maplist/ChunkList.java
+@@ -17,9 +17,7 @@ public final class ChunkList implements Iterable<LevelChunk> {
+         this.chunkToIndex.defaultReturnValue(Integer.MIN_VALUE);
+     }
+ 
+-    protected static final LevelChunk[] EMPTY_LIST = new LevelChunk[0];
+-
+-    protected LevelChunk[] chunks = EMPTY_LIST;
++    protected LevelChunk[] chunks = net.prismarineteam.prismarine.Constants.LEVEL_CHUNK;
+     protected int count;
+ 
+     public int size() {
+diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/EntityList.java b/src/main/java/com/destroystokyo/paper/util/maplist/EntityList.java
+index 0133ea6feb1ab88f021f66855669f58367e7420b..ab669ac002957431e974bbfe9d80f52e2bd41d04 100644
+--- a/src/main/java/com/destroystokyo/paper/util/maplist/EntityList.java
++++ b/src/main/java/com/destroystokyo/paper/util/maplist/EntityList.java
+@@ -17,9 +17,7 @@ public final class EntityList implements Iterable<Entity> {
+         this.entityToIndex.defaultReturnValue(Integer.MIN_VALUE);
+     }
+ 
+-    protected static final Entity[] EMPTY_LIST = new Entity[0];
+-
+-    protected Entity[] entities = EMPTY_LIST;
++    protected Entity[] entities = net.prismarineteam.prismarine.Constants.ENTITY;
+     protected int count;
+ 
+     public int size() {
+diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java b/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
+index 277cfd9d1e8fff5d9b5e534b75c3c5162d58b0b7..01418daaaae0b582c1f32cd039b1faa7251714a0 100644
+--- a/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
++++ b/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
+@@ -20,9 +20,7 @@ public final class IBlockDataList {
+         this.map.defaultReturnValue(Long.MAX_VALUE);
+     }
+ 
+-    private static final long[] EMPTY_LIST = new long[0];
+-
+-    private long[] byIndex = EMPTY_LIST;
++    private long[] byIndex = net.prismarineteam.prismarine.Constants.LONG;
+     private int size;
+ 
+     public static int getLocationKey(final int x, final int y, final int z) {
+diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java b/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java
+index 190c5f0b02a3d99054704ae1afbffb3498ddffe1..53ef9b02ecd90f664ef3a78f86c28c4eaac80768 100644
+--- a/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java
++++ b/src/main/java/com/destroystokyo/paper/util/maplist/ReferenceList.java
+@@ -15,9 +15,7 @@ public final class ReferenceList<E> implements Iterable<E> {
+         this.referenceToIndex.defaultReturnValue(Integer.MIN_VALUE);
+     }
+ 
+-    protected static final Object[] EMPTY_LIST = new Object[0];
+-
+-    protected Object[] references = EMPTY_LIST;
++    protected Object[] references = net.prismarineteam.prismarine.Constants.OBJECT;
+     protected int count;
+ 
+     public int size() {
+diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
+index 84cc9397237fa0c17aa1012dfb5683c90eb6d3b8..9558509274cfb6d75710e891dcbbce272121aa17 100644
+--- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
++++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
+@@ -751,7 +751,7 @@ public final class ChunkTaskScheduler {
+ 
+     public static ChunkInfo[] getChunkInfos() {
+         synchronized (WAITING_CHUNKS) {
+-            return WAITING_CHUNKS.toArray(new ChunkInfo[0]);
++            return WAITING_CHUNKS.toArray(net.prismarineteam.prismarine.Constants.CHUNK_INFO);
+         }
+     }
+ 
+diff --git a/src/main/java/io/papermc/paper/command/subcommands/VersionCommand.java b/src/main/java/io/papermc/paper/command/subcommands/VersionCommand.java
+index ae60bd96b5284d54676d8e7e4dd5d170b526ec1e..a829cf9c105150a8e7547ff32273bd5c6854bbc6 100644
+--- a/src/main/java/io/papermc/paper/command/subcommands/VersionCommand.java
++++ b/src/main/java/io/papermc/paper/command/subcommands/VersionCommand.java
+@@ -14,7 +14,7 @@ public final class VersionCommand implements PaperSubcommand {
+     public boolean execute(final CommandSender sender, final String subCommand, final String[] args) {
+         final @Nullable Command ver = MinecraftServer.getServer().server.getCommandMap().getCommand("version");
+         if (ver != null) {
+-            ver.execute(sender, "paper", new String[0]);
++            ver.execute(sender, "paper", net.prismarineteam.prismarine.Constants.STRING);
+         }
+         return true;
+     }
+diff --git a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
+index f406dc012fd9722feed630ddfba11862859987b7..25831dcb2e17a6b2ec5d9dc3f71c85dd562afb24 100644
+--- a/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
++++ b/src/main/java/io/papermc/paper/world/ChunkEntitySlices.java
+@@ -81,7 +81,7 @@ public final class ChunkEntitySlices {
+             }
+         }
+ 
+-        return ret.toArray(new org.bukkit.entity.Entity[0]);
++        return ret.toArray(net.prismarineteam.prismarine.Constants.BUKKIT_ENTITY);
+     }
+ 
+     public CompoundTag save() {
+@@ -297,8 +297,6 @@ public final class ChunkEntitySlices {
+     }
+ 
+     protected static final class BasicEntityList<E extends Entity> {
+-
+-        protected static final Entity[] EMPTY = new Entity[0];
+         protected static final int DEFAULT_CAPACITY = 4;
+ 
+         protected E[] storage;
+@@ -309,7 +307,7 @@ public final class ChunkEntitySlices {
+         }
+ 
+         public BasicEntityList(final int cap) {
+-            this.storage = (E[])(cap <= 0 ? EMPTY : new Entity[cap]);
++            this.storage = (E[])(cap <= 0 ? net.prismarineteam.prismarine.Constants.ENTITY : new Entity[cap]);
+         }
+ 
+         public boolean isEmpty() {
+@@ -321,7 +319,7 @@ public final class ChunkEntitySlices {
+         }
+ 
+         private void resize() {
+-            if (this.storage == EMPTY) {
++            if (this.storage == net.prismarineteam.prismarine.Constants.ENTITY) {
+                 this.storage = (E[])new Entity[DEFAULT_CAPACITY];
+             } else {
+                 this.storage = Arrays.copyOf(this.storage, this.storage.length * 2);
+diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
+index e52235ae17bddc768b291a45eb4492159bd65ac5..44937fc5007fa70bc73d560d41bc69bc99cc136f 100644
+--- a/src/main/java/net/minecraft/CrashReport.java
++++ b/src/main/java/net/minecraft/CrashReport.java
+@@ -28,7 +28,7 @@ public class CrashReport {
+     private final List<CrashReportCategory> details = Lists.newArrayList();
+     private File saveFile;
+     private boolean trackingStackTrace = true;
+-    private StackTraceElement[] uncategorizedStackTrace = new StackTraceElement[0];
++    private StackTraceElement[] uncategorizedStackTrace = net.prismarineteam.prismarine.Constants.STACK_TRACE_ELEMENT;
+     private final SystemReport systemReport = new SystemReport();
+ 
+     public CrashReport(String message, Throwable cause) {
+diff --git a/src/main/java/net/minecraft/CrashReportCategory.java b/src/main/java/net/minecraft/CrashReportCategory.java
+index 6df4d02020a14d17d9c5b1971bb5640b35411c45..9e7aade8f16e216e1fa462a4b66a9fe727176709 100644
+--- a/src/main/java/net/minecraft/CrashReportCategory.java
++++ b/src/main/java/net/minecraft/CrashReportCategory.java
+@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
+ public class CrashReportCategory {
+     private final String title;
+     private final List<CrashReportCategory.Entry> entries = Lists.newArrayList();
+-    private StackTraceElement[] stackTrace = new StackTraceElement[0];
++    private StackTraceElement[] stackTrace = net.prismarineteam.prismarine.Constants.STACK_TRACE_ELEMENT;
+ 
+     public CrashReportCategory(String title) {
+         this.title = title;
+diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
+index 80bfb4e038e8c7c3d34a7bbabdc73ebc79637239..3b8970e5580ad2bb0016f881a88cae099753418d 100644
+--- a/src/main/java/net/minecraft/Util.java
++++ b/src/main/java/net/minecraft/Util.java
+@@ -463,7 +463,7 @@ public class Util {
+         } else if (futures.size() == 1) {
+             return futures.get(0).thenApply(List::of);
+         } else {
+-            CompletableFuture<Void> completableFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
++            CompletableFuture<Void> completableFuture = CompletableFuture.allOf(futures.toArray(net.prismarineteam.prismarine.Constants.COMPLETABLE_FUTURE));
+             return completableFuture.thenApply((void_) -> {
+                 return futures.stream().map(CompletableFuture::join).toList();
+             });
+diff --git a/src/main/java/net/minecraft/advancements/AdvancementRewards.java b/src/main/java/net/minecraft/advancements/AdvancementRewards.java
+index ca24b2373dfdcd887eacfdd5c4299e6dd61f63f7..f5e5eb125e29fd72873e43831ae7f03b9806dbfa 100644
+--- a/src/main/java/net/minecraft/advancements/AdvancementRewards.java
++++ b/src/main/java/net/minecraft/advancements/AdvancementRewards.java
+@@ -24,7 +24,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+ 
+ public class AdvancementRewards {
+-    public static final AdvancementRewards EMPTY = new AdvancementRewards(0, new ResourceLocation[0], new ResourceLocation[0], CommandFunction.CacheableFunction.NONE);
++    public static final AdvancementRewards EMPTY = new AdvancementRewards(0, net.prismarineteam.prismarine.Constants.RESOURCE_LOCATION, net.prismarineteam.prismarine.Constants.RESOURCE_LOCATION, CommandFunction.CacheableFunction.NONE);
+     private final int experience;
+     private final ResourceLocation[] loot;
+     private final ResourceLocation[] recipes;
+diff --git a/src/main/java/net/minecraft/advancements/RequirementsStrategy.java b/src/main/java/net/minecraft/advancements/RequirementsStrategy.java
+index 051c1fb81d79c40be683edb86579bb975643bcb3..baa2c661ad202602af136c51e45a35f19c104691 100644
+--- a/src/main/java/net/minecraft/advancements/RequirementsStrategy.java
++++ b/src/main/java/net/minecraft/advancements/RequirementsStrategy.java
+@@ -14,7 +14,7 @@ public interface RequirementsStrategy {
+         return strings;
+     };
+     RequirementsStrategy OR = (criteriaNames) -> {
+-        return new String[][]{criteriaNames.toArray(new String[0])};
++        return new String[][]{criteriaNames.toArray(net.prismarineteam.prismarine.Constants.STRING)};
+     };
+ 
+     String[][] createRequirements(Collection<String> criteriaNames);
+diff --git a/src/main/java/net/minecraft/advancements/critereon/EnchantmentPredicate.java b/src/main/java/net/minecraft/advancements/critereon/EnchantmentPredicate.java
+index 2b67c9f84c77fb488b0da7d07224173fbf55ea76..06b9f6ad87be24539115d2b4d00e70bc01e2d48d 100644
+--- a/src/main/java/net/minecraft/advancements/critereon/EnchantmentPredicate.java
++++ b/src/main/java/net/minecraft/advancements/critereon/EnchantmentPredicate.java
+@@ -14,7 +14,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
+ 
+ public class EnchantmentPredicate {
+     public static final EnchantmentPredicate ANY = new EnchantmentPredicate();
+-    public static final EnchantmentPredicate[] NONE = new EnchantmentPredicate[0];
+     @Nullable
+     private final Enchantment enchantment;
+     private final MinMaxBounds.Ints level;
+@@ -95,7 +94,7 @@ public class EnchantmentPredicate {
+ 
+             return enchantmentPredicates;
+         } else {
+-            return NONE;
++            return net.prismarineteam.prismarine.Constants.ENCHANTMENT_PREDICATE;
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/advancements/critereon/EntityPredicate.java b/src/main/java/net/minecraft/advancements/critereon/EntityPredicate.java
+index b4b5243eacddda3563dd215b7bb8dcc347c1eaea..5d40c14d936cf40c10be6018e0f0f2ca2700ca75 100644
+--- a/src/main/java/net/minecraft/advancements/critereon/EntityPredicate.java
++++ b/src/main/java/net/minecraft/advancements/critereon/EntityPredicate.java
+@@ -282,7 +282,7 @@ public class EntityPredicate {
+     }
+ 
+     public static class Composite {
+-        public static final EntityPredicate.Composite ANY = new EntityPredicate.Composite(new LootItemCondition[0]);
++        public static final EntityPredicate.Composite ANY = new EntityPredicate.Composite(net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION);
+         private final LootItemCondition[] conditions;
+         private final Predicate<LootContext> compositePredicates;
+ 
+diff --git a/src/main/java/net/minecraft/advancements/critereon/ItemPredicate.java b/src/main/java/net/minecraft/advancements/critereon/ItemPredicate.java
+index d039c697a8b302767d58213e82feceda0b1d9a2d..2c04d48572d6dfeda2cf28e80c384b8515697cdd 100644
+--- a/src/main/java/net/minecraft/advancements/critereon/ItemPredicate.java
++++ b/src/main/java/net/minecraft/advancements/critereon/ItemPredicate.java
+@@ -47,8 +47,8 @@ public class ItemPredicate {
+         this.potion = null;
+         this.count = MinMaxBounds.Ints.ANY;
+         this.durability = MinMaxBounds.Ints.ANY;
+-        this.enchantments = EnchantmentPredicate.NONE;
+-        this.storedEnchantments = EnchantmentPredicate.NONE;
++        this.enchantments = net.prismarineteam.prismarine.Constants.ENCHANTMENT_PREDICATE;
++        this.storedEnchantments = net.prismarineteam.prismarine.Constants.ENCHANTMENT_PREDICATE;
+         this.nbt = NbtPredicate.ANY;
+     }
+ 
+@@ -212,7 +212,7 @@ public class ItemPredicate {
+ 
+             return itemPredicates;
+         } else {
+-            return new ItemPredicate[0];
++            return net.prismarineteam.prismarine.Constants.ITEM_PREDICATE;
+         }
+     }
+ 
+@@ -277,7 +277,7 @@ public class ItemPredicate {
+         }
+ 
+         public ItemPredicate build() {
+-            return new ItemPredicate(this.tag, this.items, this.count, this.durability, this.enchantments.toArray(EnchantmentPredicate.NONE), this.storedEnchantments.toArray(EnchantmentPredicate.NONE), this.potion, this.nbt);
++            return new ItemPredicate(this.tag, this.items, this.count, this.durability, this.enchantments.toArray(net.prismarineteam.prismarine.Constants.ENCHANTMENT_PREDICATE), this.storedEnchantments.toArray(net.prismarineteam.prismarine.Constants.ENCHANTMENT_PREDICATE), this.potion, this.nbt);
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/advancements/critereon/KilledByCrossbowTrigger.java b/src/main/java/net/minecraft/advancements/critereon/KilledByCrossbowTrigger.java
+index 86f3aedea64c7b506ada0a419cde61ec08022da6..9cefff2cb00be87eef1b3e733f7634ab6eb863e4 100644
+--- a/src/main/java/net/minecraft/advancements/critereon/KilledByCrossbowTrigger.java
++++ b/src/main/java/net/minecraft/advancements/critereon/KilledByCrossbowTrigger.java
+@@ -64,7 +64,7 @@ public class KilledByCrossbowTrigger extends SimpleCriterionTrigger<KilledByCros
+         }
+ 
+         public static KilledByCrossbowTrigger.TriggerInstance crossbowKilled(MinMaxBounds.Ints uniqueEntityTypes) {
+-            EntityPredicate.Composite[] composites = new EntityPredicate.Composite[0];
++            EntityPredicate.Composite[] composites = net.prismarineteam.prismarine.Constants.ENTITY_PREDICATE_COMPOSITE;
+             return new KilledByCrossbowTrigger.TriggerInstance(EntityPredicate.Composite.ANY, composites, uniqueEntityTypes);
+         }
+ 
+diff --git a/src/main/java/net/minecraft/commands/CommandFunction.java b/src/main/java/net/minecraft/commands/CommandFunction.java
+index 8273ee1c5e513f02c9743ee38c9b7cf700e2ecad..37b22f2766c59ddafd75adfe12272e69cce60da1 100644
+--- a/src/main/java/net/minecraft/commands/CommandFunction.java
++++ b/src/main/java/net/minecraft/commands/CommandFunction.java
+@@ -70,7 +70,7 @@ public class CommandFunction {
+             }
+         }
+ 
+-        return new CommandFunction(id, list.toArray(new CommandFunction.Entry[0]));
++        return new CommandFunction(id, list.toArray(net.prismarineteam.prismarine.Constants.COMMAND_FUNCTION_ENTRY));
+     }
+ 
+     public static class CacheableFunction {
+diff --git a/src/main/java/net/minecraft/commands/arguments/MessageArgument.java b/src/main/java/net/minecraft/commands/arguments/MessageArgument.java
+index 4da1ebcd0226897f8b03bd00a851f793df3506f4..0d6933759f8dc91d698f960f8e6e28a324a78241 100644
+--- a/src/main/java/net/minecraft/commands/arguments/MessageArgument.java
++++ b/src/main/java/net/minecraft/commands/arguments/MessageArgument.java
+@@ -172,7 +172,7 @@ public class MessageArgument implements SignedArgument<MessageArgument.Message>
+             String string = reader.getString().substring(reader.getCursor(), reader.getTotalLength());
+             if (!canUseSelectors) {
+                 reader.setCursor(reader.getTotalLength());
+-                return new MessageArgument.Message(string, new MessageArgument.Part[0]);
++                return new MessageArgument.Message(string, net.prismarineteam.prismarine.Constants.MESSAGE_ARGUMENT_PART);
+             } else {
+                 List<MessageArgument.Part> list = Lists.newArrayList();
+                 int i = reader.getCursor();
+@@ -182,7 +182,7 @@ public class MessageArgument implements SignedArgument<MessageArgument.Message>
+                     EntitySelector entitySelector;
+                     while(true) {
+                         if (!reader.canRead()) {
+-                            return new MessageArgument.Message(string, list.toArray(new MessageArgument.Part[0]));
++                            return new MessageArgument.Message(string, list.toArray(net.prismarineteam.prismarine.Constants.MESSAGE_ARGUMENT_PART));
+                         }
+ 
+                         if (reader.peek() == '@') {
+diff --git a/src/main/java/net/minecraft/commands/arguments/NbtPathArgument.java b/src/main/java/net/minecraft/commands/arguments/NbtPathArgument.java
+index fa776978cf61ef3e206acd4b4fb12ee9f792885c..39882f3c85d76761fe9e713c827bf6cc94e4c300 100644
+--- a/src/main/java/net/minecraft/commands/arguments/NbtPathArgument.java
++++ b/src/main/java/net/minecraft/commands/arguments/NbtPathArgument.java
+@@ -66,7 +66,7 @@ public class NbtPathArgument implements ArgumentType<NbtPathArgument.NbtPath> {
+             }
+         }
+ 
+-        return new NbtPathArgument.NbtPath(stringReader.getString().substring(i, stringReader.getCursor()), list.toArray(new NbtPathArgument.Node[0]), object2IntMap);
++        return new NbtPathArgument.NbtPath(stringReader.getString().substring(i, stringReader.getCursor()), list.toArray(net.prismarineteam.prismarine.Constants.NBT_PATH_ARGUMENT_NODE), object2IntMap);
+     }
+ 
+     private static NbtPathArgument.Node parseNode(StringReader reader, boolean root) throws CommandSyntaxException {
+@@ -630,7 +630,7 @@ public class NbtPathArgument implements ArgumentType<NbtPathArgument.NbtPath> {
+         }
+     }
+ 
+-    interface Node {
++    public interface Node { // Prismarine - package -> public
+         void getTag(Tag current, List<Tag> results);
+ 
+         void getOrCreateTag(Tag current, Supplier<Tag> source, List<Tag> results);
+diff --git a/src/main/java/net/minecraft/data/recipes/RecipeProvider.java b/src/main/java/net/minecraft/data/recipes/RecipeProvider.java
+index 7a0dc44cf2c3f1a8fdc52ad1694a91e81a60050c..c8b5afcf59f6797bb93063b8e0597d01e8882629 100644
+--- a/src/main/java/net/minecraft/data/recipes/RecipeProvider.java
++++ b/src/main/java/net/minecraft/data/recipes/RecipeProvider.java
+@@ -386,7 +386,7 @@ public class RecipeProvider implements DataProvider {
+         ShapedRecipeBuilder.shaped(Items.WARPED_FUNGUS_ON_A_STICK).define('#', Items.FISHING_ROD).define('X', Items.WARPED_FUNGUS).pattern("# ").pattern(" X").unlockedBy("has_warped_fungus", has(Items.WARPED_FUNGUS)).save(exporter);
+         ShapedRecipeBuilder.shaped(Blocks.CAULDRON).define('#', Items.IRON_INGOT).pattern("# #").pattern("# #").pattern("###").unlockedBy("has_water_bucket", has(Items.WATER_BUCKET)).save(exporter);
+         ShapedRecipeBuilder.shaped(Blocks.COMPOSTER).define('#', ItemTags.WOODEN_SLABS).pattern("# #").pattern("# #").pattern("###").unlockedBy("has_wood_slab", has(ItemTags.WOODEN_SLABS)).save(exporter);
+-        ShapedRecipeBuilder.shaped(Blocks.CHEST).define('#', ItemTags.PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_lots_of_items", new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.atLeast(10), MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, new ItemPredicate[0])).save(exporter);
++        ShapedRecipeBuilder.shaped(Blocks.CHEST).define('#', ItemTags.PLANKS).pattern("###").pattern("# #").pattern("###").unlockedBy("has_lots_of_items", new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.atLeast(10), MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, net.prismarineteam.prismarine.Constants.ITEM_PREDICATE)).save(exporter);
+         ShapelessRecipeBuilder.shapeless(Items.CHEST_MINECART).requires(Blocks.CHEST).requires(Items.MINECART).unlockedBy("has_minecart", has(Items.MINECART)).save(exporter);
+         chestBoat(exporter, Items.ACACIA_CHEST_BOAT, Items.ACACIA_BOAT);
+         chestBoat(exporter, Items.BIRCH_CHEST_BOAT, Items.BIRCH_BOAT);
+diff --git a/src/main/java/net/minecraft/nbt/ByteArrayTag.java b/src/main/java/net/minecraft/nbt/ByteArrayTag.java
+index 3dd8a189c26f41759c59c3b9d0e5282038989a9f..94a1c5dc3eea4ab17a316cc1164095be0bf77643 100644
+--- a/src/main/java/net/minecraft/nbt/ByteArrayTag.java
++++ b/src/main/java/net/minecraft/nbt/ByteArrayTag.java
+@@ -170,7 +170,7 @@ public class ByteArrayTag extends CollectionTag<ByteTag> {
+     }
+ 
+     public void clear() {
+-        this.data = new byte[0];
++        this.data = net.prismarineteam.prismarine.Constants.BYTE;
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/nbt/CompoundTag.java b/src/main/java/net/minecraft/nbt/CompoundTag.java
+index 912fd5135e89348bdd3c0a8b6c07860ebc106df3..5b4bf3242fdab2c573e7d06b760046e68a84db8c 100644
+--- a/src/main/java/net/minecraft/nbt/CompoundTag.java
++++ b/src/main/java/net/minecraft/nbt/CompoundTag.java
+@@ -364,7 +364,7 @@ public class CompoundTag implements Tag {
+             throw new ReportedException(this.createReport(key, ByteArrayTag.TYPE, var3));
+         }
+ 
+-        return new byte[0];
++        return net.prismarineteam.prismarine.Constants.BYTE;
+     }
+ 
+     public int[] getIntArray(String key) {
+@@ -376,7 +376,7 @@ public class CompoundTag implements Tag {
+             throw new ReportedException(this.createReport(key, IntArrayTag.TYPE, var3));
+         }
+ 
+-        return new int[0];
++        return net.prismarineteam.prismarine.Constants.INT;
+     }
+ 
+     public long[] getLongArray(String key) {
+@@ -388,7 +388,7 @@ public class CompoundTag implements Tag {
+             throw new ReportedException(this.createReport(key, LongArrayTag.TYPE, var3));
+         }
+ 
+-        return new long[0];
++        return net.prismarineteam.prismarine.Constants.LONG;
+     }
+ 
+     public CompoundTag getCompound(String key) {
+diff --git a/src/main/java/net/minecraft/nbt/IntArrayTag.java b/src/main/java/net/minecraft/nbt/IntArrayTag.java
+index a14b01cee7a8d7022c4fa7264d349a76be143ba5..b27c2315fa59596cc2a931c6899e770de9de5364 100644
+--- a/src/main/java/net/minecraft/nbt/IntArrayTag.java
++++ b/src/main/java/net/minecraft/nbt/IntArrayTag.java
+@@ -184,7 +184,7 @@ public class IntArrayTag extends CollectionTag<IntTag> {
+     }
+ 
+     public void clear() {
+-        this.data = new int[0];
++        this.data = net.prismarineteam.prismarine.Constants.INT;
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/nbt/ListTag.java b/src/main/java/net/minecraft/nbt/ListTag.java
+index 6a5e33d9821221be73f9c16afc17c9130248a231..3757501fa74fe3b4ef90ddfbad7a587b33e72dd0 100644
+--- a/src/main/java/net/minecraft/nbt/ListTag.java
++++ b/src/main/java/net/minecraft/nbt/ListTag.java
+@@ -218,7 +218,7 @@ public class ListTag extends CollectionTag<Tag> {
+             }
+         }
+ 
+-        return new int[0];
++        return net.prismarineteam.prismarine.Constants.INT;
+     }
+ 
+     public long[] getLongArray(int index) {
+@@ -229,7 +229,7 @@ public class ListTag extends CollectionTag<Tag> {
+             }
+         }
+ 
+-        return new long[0];
++        return net.prismarineteam.prismarine.Constants.LONG;
+     }
+ 
+     public double getDouble(int index) {
+diff --git a/src/main/java/net/minecraft/nbt/LongArrayTag.java b/src/main/java/net/minecraft/nbt/LongArrayTag.java
+index a39baec88dc9c73f1b592881ed96d11ab64ad785..aac1bb92ac288ad18b5462467905bc107a0f1b3b 100644
+--- a/src/main/java/net/minecraft/nbt/LongArrayTag.java
++++ b/src/main/java/net/minecraft/nbt/LongArrayTag.java
+@@ -188,7 +188,7 @@ public class LongArrayTag extends CollectionTag<LongTag> {
+ 
+     @Override
+     public void clear() {
+-        this.data = new long[0];
++        this.data = net.prismarineteam.prismarine.Constants.LONG;
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/network/CipherBase.java b/src/main/java/net/minecraft/network/CipherBase.java
+index a2920b8a9eff77d9c5d1d7f70ad3abdacba8f0fa..1c2fb297e001e93f9b146d5e5935f0ce1fe69d63 100644
+--- a/src/main/java/net/minecraft/network/CipherBase.java
++++ b/src/main/java/net/minecraft/network/CipherBase.java
+@@ -7,8 +7,8 @@ import javax.crypto.ShortBufferException;
+ 
+ public class CipherBase {
+     private final Cipher cipher;
+-    private byte[] heapIn = new byte[0];
+-    private byte[] heapOut = new byte[0];
++    private byte[] heapIn = net.prismarineteam.prismarine.Constants.BYTE;
++    private byte[] heapOut = net.prismarineteam.prismarine.Constants.BYTE;
+ 
+     protected CipherBase(Cipher cipher) {
+         this.cipher = cipher;
+diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
+index 2a71c8e6901944af90c4ad4dfa39dba7fafc0126..f594a32dcc3e6dac156f135112c8dee773993e82 100644
+--- a/src/main/java/net/minecraft/network/Connection.java
++++ b/src/main/java/net/minecraft/network/Connection.java
+@@ -312,7 +312,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+     }
+ 
+     public void setListener(PacketListener listener) {
+-        Validate.notNull(listener, "packetListener", new Object[0]);
++        Validate.notNull(listener, "packetListener", net.prismarineteam.prismarine.Constants.OBJECT);
+         this.packetListener = listener;
+     }
+     // Paper start
+diff --git a/src/main/java/net/minecraft/network/chat/contents/TranslatableContents.java b/src/main/java/net/minecraft/network/chat/contents/TranslatableContents.java
+index 02fb51f7f699992caf13d088c75b8275ec5267bb..00bb1a047ad918cebb8808dda8e9ae324edfbb3d 100644
+--- a/src/main/java/net/minecraft/network/chat/contents/TranslatableContents.java
++++ b/src/main/java/net/minecraft/network/chat/contents/TranslatableContents.java
+@@ -20,7 +20,6 @@ import net.minecraft.network.chat.Style;
+ import net.minecraft.world.entity.Entity;
+ 
+ public class TranslatableContents implements ComponentContents {
+-    private static final Object[] NO_ARGS = new Object[0];
+     private static final FormattedText TEXT_PERCENT = FormattedText.of("%");
+     private static final FormattedText TEXT_NULL = FormattedText.of("null");
+     private final String key;
+@@ -32,7 +31,7 @@ public class TranslatableContents implements ComponentContents {
+ 
+     public TranslatableContents(String key) {
+         this.key = key;
+-        this.args = NO_ARGS;
++        this.args = net.prismarineteam.prismarine.Constants.OBJECT;
+     }
+ 
+     public TranslatableContents(String key, Object... args) {
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSectionBlocksUpdatePacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSectionBlocksUpdatePacket.java
+index a0aeac9c29300a0cf6bad55133019e8c29f6cc1c..9494ab7266462380f851edb36bda2b5b60e46dc5 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSectionBlocksUpdatePacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSectionBlocksUpdatePacket.java
+@@ -67,7 +67,7 @@ public class ClientboundSectionBlocksUpdatePacket implements Packet<ClientGamePa
+     public ClientboundSectionBlocksUpdatePacket(SectionPos sectionPos, it.unimi.dsi.fastutil.shorts.Short2ObjectMap<BlockState> blockChanges, boolean suppressLightUpdates) {
+         this.sectionPos = sectionPos;
+         this.positions = blockChanges.keySet().toShortArray();
+-        this.states = blockChanges.values().toArray(new BlockState[0]);
++        this.states = blockChanges.values().toArray(net.prismarineteam.prismarine.Constants.BLOCK_STATE);
+         this.suppressLightUpdates = suppressLightUpdates;
+     }
+     // Paper end
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 752d67399c47475bd546395638892c998e18ab0f..3d42fb3e4813f03059a3cc6722026dfcd3674841 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -1385,8 +1385,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             try {
+                 BufferedImage bufferedimage = ImageIO.read(file);
+ 
+-                Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide", new Object[0]);
+-                Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high", new Object[0]);
++                Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide", net.prismarineteam.prismarine.Constants.OBJECT);
++                Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high", net.prismarineteam.prismarine.Constants.OBJECT);
+                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+ 
+                 ImageIO.write(bufferedimage, "PNG", bytearrayoutputstream);
+diff --git a/src/main/java/net/minecraft/server/RunningOnDifferentThreadException.java b/src/main/java/net/minecraft/server/RunningOnDifferentThreadException.java
+index 0f52e8a61ca7e57e9f52473dceb9cc3464c0c86d..a9f4b07c64398200c5e797816542783edde6d0f4 100644
+--- a/src/main/java/net/minecraft/server/RunningOnDifferentThreadException.java
++++ b/src/main/java/net/minecraft/server/RunningOnDifferentThreadException.java
+@@ -4,12 +4,12 @@ public final class RunningOnDifferentThreadException extends RuntimeException {
+     public static final RunningOnDifferentThreadException RUNNING_ON_DIFFERENT_THREAD = new RunningOnDifferentThreadException();
+ 
+     private RunningOnDifferentThreadException() {
+-        this.setStackTrace(new StackTraceElement[0]);
++        this.setStackTrace(net.prismarineteam.prismarine.Constants.STACK_TRACE_ELEMENT);
+     }
+ 
+     @Override
+     public synchronized Throwable fillInStackTrace() {
+-        this.setStackTrace(new StackTraceElement[0]);
++        this.setStackTrace(net.prismarineteam.prismarine.Constants.STACK_TRACE_ELEMENT);
+         return this;
+     }
+ }
+diff --git a/src/main/java/net/minecraft/server/ServerFunctionLibrary.java b/src/main/java/net/minecraft/server/ServerFunctionLibrary.java
+index c93d2f16bb8abb11862c3af98a8cc7af551e9a1c..acbd5a5c167b06a5968adfd0f2aea0c568df2c9a 100644
+--- a/src/main/java/net/minecraft/server/ServerFunctionLibrary.java
++++ b/src/main/java/net/minecraft/server/ServerFunctionLibrary.java
+@@ -85,7 +85,7 @@ public class ServerFunctionLibrary implements PreparableReloadListener {
+                 }, prepareExecutor));
+             }
+ 
+-            CompletableFuture<?>[] completableFutures = map.values().toArray(new CompletableFuture[0]);
++            CompletableFuture<?>[] completableFutures = map.values().toArray(net.prismarineteam.prismarine.Constants.COMPLETABLE_FUTURE);
+             return CompletableFuture.allOf(completableFutures).handle((unused, ex) -> {
+                 return map;
+             });
+diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
+index 26dbedad2781479626a73e016f589ab6c16c74a1..126b7f01e2bb4a5904fe3d511aea31211d2b307d 100644
+--- a/src/main/java/net/minecraft/server/level/ChunkMap.java
++++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
+@@ -1524,7 +1524,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+             // stuff could have been removed, so we need to check the trackedPlayers set
+             // for players that were removed
+ 
+-            for (ServerPlayerConnection conn : this.seenBy.toArray(new ServerPlayerConnection[0])) { // avoid CME
++            for (ServerPlayerConnection conn : this.seenBy.toArray(net.prismarineteam.prismarine.Constants.SERVER_PLAYER_CONNECTION)) { // avoid CME
+                 if (newTrackerCandidates == null || !newTrackerCandidates.contains(conn.getPlayer())) {
+                     this.updatePlayer(conn.getPlayer());
+                 }
+diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
+index f2a513cea03f7849f4c76ff3c9a3f3130b57c077..efa593e437550f3ec7ccfce6444bb142b1156ce9 100644
+--- a/src/main/java/net/minecraft/server/level/ServerEntity.java
++++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
+@@ -322,7 +322,7 @@ public class ServerEntity {
+ 
+         if (this.entity instanceof LivingEntity) {
+             List<Pair<EquipmentSlot, ItemStack>> list = Lists.newArrayList();
+-            EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++            EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES; // Prismarine - reduce allocs
+             int i = aenumitemslot.length;
+ 
+             for (int j = 0; j < i; ++j) {
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 615c64ac01e30c187b39fea32e951932195e36a7..a99ced814ce0c991a8e600eefdace0036d339be6 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -1230,7 +1230,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+ 
+     public static List<Entity> getCurrentlyTickingEntities() {
+         Entity ticking = currentlyTickingEntity.get();
+-        List<Entity> ret = java.util.Arrays.asList(ticking == null ? new Entity[0] : new Entity[] { ticking });
++        List<Entity> ret = java.util.Arrays.asList(ticking == null ? net.prismarineteam.prismarine.Constants.ENTITY : new Entity[] { ticking });
+ 
+         return ret;
+     }
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 1102566ce1e106c145f3a8531f500ac9715cff02..24c1db2aab67e8bae78aa6858f5b7e70cabd3819 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -440,7 +440,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+         if (this.keepAlivePending) {
+             if (!this.processedDisconnect && elapsedTime >= KEEPALIVE_LIMIT) { // check keepalive limit, don't fire if already disconnected
+                 ServerGamePacketListenerImpl.LOGGER.warn("{} was kicked due to keepalive timeout!", this.player.getScoreboardName()); // more info
+-                this.disconnect(Component.translatable("disconnect.timeout", new Object[0]), org.bukkit.event.player.PlayerKickEvent.Cause.TIMEOUT); // Paper - kick event cause
++                this.disconnect(Component.translatable("disconnect.timeout", net.prismarineteam.prismarine.Constants.OBJECT), org.bukkit.event.player.PlayerKickEvent.Cause.TIMEOUT); // Paper - kick event cause
+             }
+         } else {
+             if (elapsedTime >= 15000L) { // 15 seconds
+@@ -915,13 +915,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+         // PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel()); // Paper - run this async
+         // CraftBukkit start
+         if (this.chatSpamTickCount.addAndGet(io.papermc.paper.configuration.GlobalConfiguration.get().spamLimiter.tabSpamIncrement) > io.papermc.paper.configuration.GlobalConfiguration.get().spamLimiter.tabSpamLimit && !this.server.getPlayerList().isOp(this.player.getGameProfile())) { // Paper start - split and make configurable
+-            server.scheduleOnMain(() -> this.disconnect(Component.translatable("disconnect.spam", new Object[0]), org.bukkit.event.player.PlayerKickEvent.Cause.SPAM)); // Paper - kick event cause
++            server.scheduleOnMain(() -> this.disconnect(Component.translatable("disconnect.spam", net.prismarineteam.prismarine.Constants.OBJECT), org.bukkit.event.player.PlayerKickEvent.Cause.SPAM)); // Paper - kick event cause
+             return;
+         }
+         // Paper start
+         String str = packet.getCommand(); int index = -1;
+         if (str.length() > 64 && ((index = str.indexOf(' ')) == -1 || index >= 64)) {
+-            server.scheduleOnMain(() -> this.disconnect(Component.translatable("disconnect.spam", new Object[0]), org.bukkit.event.player.PlayerKickEvent.Cause.SPAM)); // Paper - kick event cause
++            server.scheduleOnMain(() -> this.disconnect(Component.translatable("disconnect.spam", net.prismarineteam.prismarine.Constants.OBJECT), org.bukkit.event.player.PlayerKickEvent.Cause.SPAM)); // Paper - kick event cause
+             return;
+         }
+         // Paper end
+@@ -3051,7 +3051,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+                             // Paper end
+                             // SPIGOT-7136 - Allays
+                             if (entity instanceof Allay allay) { // Paper
+-                                ServerGamePacketListenerImpl.this.send(new ClientboundSetEquipmentPacket(entity.getId(), Arrays.stream(net.minecraft.world.entity.EquipmentSlot.values()).map((slot) -> Pair.of(slot, allay.stripMeta(allay.getItemBySlot(slot), true))).collect(Collectors.toList()))); // Paper - remove unnecessary item meta
++                                ServerGamePacketListenerImpl.this.send(new ClientboundSetEquipmentPacket(entity.getId(), Arrays.stream(net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES).map((slot) -> Pair.of(slot, allay.stripMeta(allay.getItemBySlot(slot), true))).collect(Collectors.toList()))); // Paper - remove unnecessary item meta
+                                 player.containerMenu.sendAllDataToRemote();
+                             }
+                         }
+@@ -3511,7 +3511,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+         // Paper start
+         if (!org.bukkit.Bukkit.isPrimaryThread()) {
+             if (recipeSpamPackets.addAndGet(io.papermc.paper.configuration.GlobalConfiguration.get().spamLimiter.recipeSpamIncrement) > io.papermc.paper.configuration.GlobalConfiguration.get().spamLimiter.recipeSpamLimit) {
+-                server.scheduleOnMain(() -> this.disconnect(net.minecraft.network.chat.Component.translatable("disconnect.spam", new Object[0]), org.bukkit.event.player.PlayerKickEvent.Cause.SPAM)); // Paper - kick event cause
++                server.scheduleOnMain(() -> this.disconnect(net.minecraft.network.chat.Component.translatable("disconnect.spam", net.prismarineteam.prismarine.Constants.OBJECT), org.bukkit.event.player.PlayerKickEvent.Cause.SPAM)); // Paper - kick event cause
+                 return;
+             }
+         }
+diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+index 38ac9aebd3f0687c57d9ed8186cb90e489655d47..2b03274392300f89c634d3372c30a0fa0122ef85 100644
+--- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+@@ -277,8 +277,8 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+ 
+     @Override
+     public void handleHello(ServerboundHelloPacket packet) {
+-        Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet", new Object[0]);
+-        Validate.validState(ServerLoginPacketListenerImpl.isValidUsername(packet.name()), "Invalid characters in username", new Object[0]);
++        Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet", net.prismarineteam.prismarine.Constants.OBJECT);
++        Validate.validState(ServerLoginPacketListenerImpl.isValidUsername(packet.name()), "Invalid characters in username", net.prismarineteam.prismarine.Constants.OBJECT);
+         // Paper start - validate usernames
+         if (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() && io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.performUsernameValidation) {
+             if (!this.iKnowThisMayNotBeTheBestIdeaButPleaseDisableUsernameValidation && !validateUsername(packet.name())) {
+@@ -338,7 +338,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+ 
+     @Override
+     public void handleKey(ServerboundKeyPacket packet) {
+-        Validate.validState(this.state == ServerLoginPacketListenerImpl.State.KEY, "Unexpected key packet", new Object[0]);
++        Validate.validState(this.state == ServerLoginPacketListenerImpl.State.KEY, "Unexpected key packet", net.prismarineteam.prismarine.Constants.OBJECT);
+ 
+         final String s;
+ 
+diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
+index d6f78d6b7554f7419eacddf3b570655ee83483f8..6e836eaf23fd2cdacc29460ff62ff0b170fa1f3f 100644
+--- a/src/main/java/net/minecraft/server/players/PlayerList.java
++++ b/src/main/java/net/minecraft/server/players/PlayerList.java
+@@ -750,7 +750,7 @@ public abstract class PlayerList {
+         while (iterator.hasNext()) {
+             entityplayer = (ServerPlayer) iterator.next();
+             this.save(entityplayer); // CraftBukkit - Force the player's inventory to be saved
+-            entityplayer.connection.disconnect(Component.translatable("multiplayer.disconnect.duplicate_login", new Object[0]), org.bukkit.event.player.PlayerKickEvent.Cause.DUPLICATE_LOGIN); // Paper - kick event cause
++            entityplayer.connection.disconnect(Component.translatable("multiplayer.disconnect.duplicate_login", net.prismarineteam.prismarine.Constants.OBJECT), org.bukkit.event.player.PlayerKickEvent.Cause.DUPLICATE_LOGIN); // Paper - kick event cause
+         }
+ 
+         // Instead of kicking then returning, we need to store the kick reason
+@@ -842,7 +842,7 @@ public abstract class PlayerList {
+ 
+     public ServerPlayer respawn(ServerPlayer entityplayer, ServerLevel worldserver, boolean flag, Location location, boolean avoidSuffocation) {
+         // Paper start
+-        return respawn(entityplayer, worldserver, flag, location, avoidSuffocation, new org.bukkit.event.player.PlayerRespawnEvent.RespawnFlag[0]);
++        return respawn(entityplayer, worldserver, flag, location, avoidSuffocation, net.prismarineteam.prismarine.Constants.RESPAWN_FLAG);
+     }
+ 
+     public ServerPlayer respawn(ServerPlayer entityplayer, ServerLevel worldserver, boolean flag, Location location, boolean avoidSuffocation, org.bukkit.event.player.PlayerRespawnEvent.RespawnFlag...respawnFlags) {
+diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
+index 63a12d90821f22a9926fcd5dbcf35e5dd7f04058..0ccc25daf41881f719ec4ad8f8e6ab123a7bab99 100644
+--- a/src/main/java/net/minecraft/server/players/StoredUserList.java
++++ b/src/main/java/net/minecraft/server/players/StoredUserList.java
+@@ -96,7 +96,7 @@ public abstract class StoredUserList<K, V extends StoredUserEntry<K>> {
+     }
+ 
+     public String[] getUserList() {
+-        return (String[]) this.map.keySet().toArray(new String[0]);
++        return (String[]) this.map.keySet().toArray(net.prismarineteam.prismarine.Constants.STRING);
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/net/minecraft/util/MemoryReserve.java b/src/main/java/net/minecraft/util/MemoryReserve.java
+index 0ee04fe6ff6a4d09754f326526ae04fe7226bab2..d833a42c9b28ff611fa18f88143ed84b0594d2a3 100644
+--- a/src/main/java/net/minecraft/util/MemoryReserve.java
++++ b/src/main/java/net/minecraft/util/MemoryReserve.java
+@@ -11,6 +11,6 @@ public class MemoryReserve {
+     }
+ 
+     public static void release() {
+-        reserve = new byte[0];
++        reserve = net.prismarineteam.prismarine.Constants.BYTE;
+     }
+ }
+diff --git a/src/main/java/net/minecraft/util/ZeroBitStorage.java b/src/main/java/net/minecraft/util/ZeroBitStorage.java
+index 5d8e9bdf5538b19681f21949368d862fab8a89ad..6c42a3d641403fc188fb7cd3344c4480556efaa5 100644
+--- a/src/main/java/net/minecraft/util/ZeroBitStorage.java
++++ b/src/main/java/net/minecraft/util/ZeroBitStorage.java
+@@ -5,7 +5,6 @@ import java.util.function.IntConsumer;
+ import org.apache.commons.lang3.Validate;
+ 
+ public class ZeroBitStorage implements BitStorage {
+-    public static final long[] RAW = new long[0];
+     private final int size;
+ 
+     public ZeroBitStorage(int size) {
+@@ -33,7 +32,7 @@ public class ZeroBitStorage implements BitStorage {
+ 
+     @Override
+     public long[] getRaw() {
+-        return RAW;
++        return net.prismarineteam.prismarine.Constants.LONG;
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/util/monitoring/jmx/MinecraftServerStatistics.java b/src/main/java/net/minecraft/util/monitoring/jmx/MinecraftServerStatistics.java
+index 3b0c03506b883fcca1ef49ff54905a5bc4359a9d..d9dfd14875199a960192bce3db32d19a7bf8a65d 100644
+--- a/src/main/java/net/minecraft/util/monitoring/jmx/MinecraftServerStatistics.java
++++ b/src/main/java/net/minecraft/util/monitoring/jmx/MinecraftServerStatistics.java
+@@ -40,7 +40,7 @@ public final class MinecraftServerStatistics implements DynamicMBean {
+         MBeanAttributeInfo[] mBeanAttributeInfos = this.attributeDescriptionByName.values().stream().map(MinecraftServerStatistics.AttributeDescription::asMBeanAttributeInfo).toArray((i) -> {
+             return new MBeanAttributeInfo[i];
+         });
+-        this.mBeanInfo = new MBeanInfo(MinecraftServerStatistics.class.getSimpleName(), "metrics for dedicated server", mBeanAttributeInfos, (MBeanConstructorInfo[])null, (MBeanOperationInfo[])null, new MBeanNotificationInfo[0]);
++        this.mBeanInfo = new MBeanInfo(MinecraftServerStatistics.class.getSimpleName(), "metrics for dedicated server", mBeanAttributeInfos, (MBeanConstructorInfo[])null, (MBeanOperationInfo[])null, net.prismarineteam.prismarine.Constants.M_BEAN_NOTIFICATION_INFO);
+     }
+ 
+     public static void registerJmxMonitoring(MinecraftServer server) {
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index a776e8b705725d82758e96b36892b549b5df71b3..8ca290b7faefdefb5a7a80c2068eb23f394ebb36 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -3134,7 +3134,7 @@ public abstract class LivingEntity extends Entity {
+     @Nullable
+     private Map<EquipmentSlot, ItemStack> collectEquipmentChanges() {
+         Map<EquipmentSlot, ItemStack> map = null;
+-        EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++        EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+         int i = aenumitemslot.length;
+ 
+         for (int j = 0; j < i; ++j) {
+diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
+index e9fc05533d3f92836f8c6c93364d85c7a35b48b0..b9967d0323ef670ce4d3ab9d7a0845b9dc125650 100644
+--- a/src/main/java/net/minecraft/world/entity/Mob.java
++++ b/src/main/java/net/minecraft/world/entity/Mob.java
+@@ -1065,7 +1065,7 @@ public abstract class Mob extends LivingEntity {
+     @Override
+     protected void dropCustomDeathLoot(DamageSource source, int lootingMultiplier, boolean allowDrops) {
+         super.dropCustomDeathLoot(source, lootingMultiplier, allowDrops);
+-        EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++        EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+         int j = aenumitemslot.length;
+ 
+         for (int k = 0; k < j; ++k) {
+@@ -1127,7 +1127,7 @@ public abstract class Mob extends LivingEntity {
+             }
+ 
+             boolean flag = true;
+-            EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++            EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+             int j = aenumitemslot.length;
+ 
+             for (int k = 0; k < j; ++k) {
+@@ -1220,7 +1220,7 @@ public abstract class Mob extends LivingEntity {
+         float f = localDifficulty.getSpecialMultiplier();
+ 
+         this.enchantSpawnedWeapon(random, f);
+-        EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++        EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+         int i = aenumitemslot.length;
+ 
+         for (int j = 0; j < i; ++j) {
+@@ -1435,7 +1435,7 @@ public abstract class Mob extends LivingEntity {
+             t0.setInvulnerable(this.isInvulnerable());
+             if (flag) {
+                 t0.setCanPickUpLoot(this.canPickUpLoot());
+-                EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++                EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+                 int i = aenumitemslot.length;
+ 
+                 for (int j = 0; j < i; ++j) {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Bee.java b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+index d0dc965b9795c1424ec050e7935b2acfa7668854..f51d86a45ccb36c9717ef5799e5424061da0555c 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Bee.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Bee.java
+@@ -267,7 +267,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+         this.goalSelector.addGoal(8, new Bee.BeeWanderGoal());
+         this.goalSelector.addGoal(9, new FloatGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.targetSelector.addGoal(1, (new Bee.BeeHurtByOtherGoal(this)).setAlertOthers(new Class[0]));
++        this.targetSelector.addGoal(1, (new Bee.BeeHurtByOtherGoal(this)).setAlertOthers(net.prismarineteam.prismarine.Constants.CLASS));
+         this.targetSelector.addGoal(2, new Bee.BeeBecomeAngryTargetGoal(this));
+         this.targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, true));
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+index 0292690b9c99f66210a03817e512c65ca65bc749..311c445de36677fb6ed44ac22ae2a5b254dbb933 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
++++ b/src/main/java/net/minecraft/world/entity/animal/IronGolem.java
+@@ -125,7 +125,7 @@ public class IronGolem extends AbstractGolem implements NeutralMob {
+         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(1, new DefendVillageTargetGoal(this));
+-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
++        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS));
+         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (entityliving) -> {
+             return entityliving instanceof Enemy && !(entityliving instanceof Creeper);
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Panda.java b/src/main/java/net/minecraft/world/entity/animal/Panda.java
+index 4800a9f3c7bd6e62e97dde3d7f5ef15433f92f0e..8881e8e8ce6d232548ae8adf64610306a3e9a812 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Panda.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Panda.java
+@@ -327,7 +327,7 @@ public class Panda extends Animal {
+         this.goalSelector.addGoal(13, new FollowParentGoal(this, 1.25D));
+         this.goalSelector.addGoal(14, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.targetSelector.addGoal(1, (new Panda.PandaHurtByTargetGoal(this, new Class[0])).setAlertOthers(new Class[0]));
++        this.targetSelector.addGoal(1, (new Panda.PandaHurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS)).setAlertOthers(net.prismarineteam.prismarine.Constants.CLASS));
+     }
+ 
+     public static AttributeSupplier.Builder createAttributes() {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+index e6b36650d1c670dbb3ccb0657f43432e64166e29..1e0e97b05abf335081ff50d72d43f1f119e96e77 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Rabbit.java
+@@ -445,7 +445,7 @@ public class Rabbit extends Animal {
+         if (rabbitType == 99) {
+             this.getAttribute(Attributes.ARMOR).setBaseValue(8.0D);
+             this.goalSelector.addGoal(4, new Rabbit.EvilRabbitAttackGoal(this));
+-            this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers());
++            this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS)).setAlertOthers());
+             this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+             this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Wolf.class, true));
+             if (!this.hasCustomName()) {
+diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
+index 22a66e59687ca889965536464b628f45b0e88ec0..3388fa62611b491e1eea56ac03f96187739a72c0 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
++++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
+@@ -238,7 +238,7 @@ public class Wolf extends TamableAnimal implements NeutralMob {
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+-        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers());
++        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS)).setAlertOthers());
+         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+         // this.targetSelector.addGoal(5, new NonTameRandomTargetGoal<>(this, Animal.class, false, Wolf.PREY_SELECTOR)); // Purpur - moved to updatePathfinders()
+         this.targetSelector.addGoal(6, new NonTameRandomTargetGoal<>(this, Turtle.class, false, Turtle.BABY_ON_LAND_SELECTOR));
+diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+index 96e4981247f3a091d142b135fd5e2ac0f92cdafc..3af28ab2c3f1f821d5d1bba1b39892d1e7dffade 100644
+--- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
++++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
+@@ -87,7 +87,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+     private static final EntityDataAccessor<Boolean> DATA_DANCING = SynchedEntityData.defineId(Allay.class, EntityDataSerializers.BOOLEAN);
+     private static final EntityDataAccessor<Boolean> DATA_CAN_DUPLICATE = SynchedEntityData.defineId(Allay.class, EntityDataSerializers.BOOLEAN);
+     protected static final ImmutableList<SensorType<? extends Sensor<? super Allay>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.NEAREST_ITEMS);
+-    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.PATH, MemoryModuleType.LOOK_TARGET, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.HURT_BY, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.LIKED_PLAYER, MemoryModuleType.LIKED_NOTEBLOCK_POSITION, MemoryModuleType.LIKED_NOTEBLOCK_COOLDOWN_TICKS, MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleType.IS_PANICKING, new MemoryModuleType[0]);
++    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.PATH, MemoryModuleType.LOOK_TARGET, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.HURT_BY, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.LIKED_PLAYER, MemoryModuleType.LIKED_NOTEBLOCK_POSITION, MemoryModuleType.LIKED_NOTEBLOCK_COOLDOWN_TICKS, MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleType.IS_PANICKING, net.prismarineteam.prismarine.Constants.MEMORY_MODULE_TYPE);
+     public static final ImmutableList<Float> THROW_SOUND_PITCHES = ImmutableList.of(0.5625F, 0.625F, 0.75F, 0.9375F, 1.0F, 1.0F, 1.125F, 1.25F, 1.5F, 1.875F, 2.0F, 2.25F, new Float[]{2.5F, 3.0F, 3.75F, 4.0F});
+     private final DynamicGameEventListener<VibrationListener> dynamicVibrationListener;
+     private final VibrationListener.VibrationListenerConfig vibrationListenerConfig;
+diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/phases/EnderDragonPhase.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/phases/EnderDragonPhase.java
+index 48826eb0a960f7af6dd2ef184a8aed744a1d8f83..366419e7be6bed8646eb31b2461c9d82c57b9e02 100644
+--- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/phases/EnderDragonPhase.java
++++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/phases/EnderDragonPhase.java
+@@ -5,7 +5,7 @@ import java.util.Arrays;
+ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+ 
+ public class EnderDragonPhase<T extends DragonPhaseInstance> {
+-    private static EnderDragonPhase<?>[] phases = new EnderDragonPhase[0];
++    private static EnderDragonPhase<?>[] phases = net.prismarineteam.prismarine.Constants.ENDER_DRAGON_PHASE;
+     public static final EnderDragonPhase<DragonHoldingPatternPhase> HOLDING_PATTERN = create(DragonHoldingPatternPhase.class, "HoldingPattern");
+     public static final EnderDragonPhase<DragonStrafePlayerPhase> STRAFE_PLAYER = create(DragonStrafePlayerPhase.class, "StrafePlayer");
+     public static final EnderDragonPhase<DragonLandingApproachPhase> LANDING_APPROACH = create(DragonLandingApproachPhase.class, "LandingApproach");
+diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
+index 58cbf6277ff0475ecd91dbd1c614f01d57093ab2..48a44821a567e812121ce24c79c31c94bf2b8bae 100644
+--- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
++++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
+@@ -265,7 +265,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
++        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS));
+         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, false, false, WitherBoss.LIVING_ENTITY_SELECTOR));
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java b/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
+index 0cfe5cb3ce0ac8554bbdb68c6658369306ce634c..e49db17914ba345401ab7bb4b1d10678a599812e 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
++++ b/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
+@@ -78,7 +78,7 @@ public abstract class AbstractSkeleton extends Monster implements RangedAttackMo
+         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
++        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS));
+         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Creeper.java b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
+index fe26858b6d2f616fa34f4073ddfc130239aa1370..7d45b814fdd1b745df4241925c38392b0fce4a91 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Creeper.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
+@@ -185,7 +185,7 @@ public class Creeper extends Monster implements PowerableMob {
+         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
++        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS));
+     }
+ 
+     public static AttributeSupplier.Builder createAttributes() {
+diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
+index 4f31454c192361a18d32d3085cb9df90effadba9..b52c2473ad55ed27f2b28b6474499a5e01ffcbba 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
++++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
+@@ -127,7 +127,7 @@ public class EnderMan extends Monster implements NeutralMob {
+         this.goalSelector.addGoal(11, new EnderMan.EndermanTakeBlockGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+         this.targetSelector.addGoal(1, new EnderMan.EndermanLookForPlayerGoal(this, this::isAngryAt));
+-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, new Class[0]));
++        this.targetSelector.addGoal(2, new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS));
+         // Prismarine start - Paper PR
+         // Paper start - fix enderman universal anger
+         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Silverfish.java b/src/main/java/net/minecraft/world/entity/monster/Silverfish.java
+index f5922a8b2994c9af84fb372907d085950055741f..5cd6b5b7fce774bb9fcf20c23d59d58d80791405 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Silverfish.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Silverfish.java
+@@ -84,7 +84,7 @@ public class Silverfish extends Monster {
+         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
+         this.goalSelector.addGoal(5, new Silverfish.SilverfishMergeWithStoneGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers());
++        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS)).setAlertOthers());
+         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Spider.java b/src/main/java/net/minecraft/world/entity/monster/Spider.java
+index b9ac8cefefe1f47548166330b7c889dfbc05e583..0930a28259939fe6e13052499e67ec76307f5f53 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Spider.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Spider.java
+@@ -93,7 +93,7 @@ public class Spider extends Monster {
+         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+         this.targetSelector.addGoal(0, new org.purpurmc.purpur.entity.ai.HasRider(this)); // Purpur
+-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
++        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS));
+         this.targetSelector.addGoal(2, new Spider.SpiderTargetGoal<>(this, Player.class));
+         this.targetSelector.addGoal(3, new Spider.SpiderTargetGoal<>(this, IronGolem.class));
+     }
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
+index 86cbf62b6a0ab4352d91456b6ea2324c4389374d..68b849545d74a05f394c3c7c3c625afada3886c1 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Zombie.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
+@@ -164,7 +164,7 @@ public class Zombie extends Monster {
+         this.goalSelector.addGoal(2, new ZombieAttackGoal(this, 1.0D, false));
+         this.goalSelector.addGoal(6, new MoveThroughVillageGoal(this, 1.0D, true, 4, this::canBreakDoors));
+         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers(ZombifiedPiglin.class));
++        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS)).setAlertOthers(ZombifiedPiglin.class));
+         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+         // Purpur start
+         if ( level.spigotConfig.zombieAggressiveTowardsVillager ) this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<AbstractVillager>(this, AbstractVillager.class, false) { // Spigot
+diff --git a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
+index fa9c48aa10d74d4de8f28fd7b99b82d9ce87bde5..4df866cd1f32675aad54fe45f551d5f16b4758ca 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
++++ b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
+@@ -285,7 +285,7 @@ public class ZombieVillager extends Zombie implements VillagerDataHolder {
+             return;
+         }
+         // CraftBukkit end
+-        EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++        EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+         int i = aenumitemslot.length;
+ 
+         for (int j = 0; j < i; ++j) {
+diff --git a/src/main/java/net/minecraft/world/entity/monster/ZombifiedPiglin.java b/src/main/java/net/minecraft/world/entity/monster/ZombifiedPiglin.java
+index dd1b5c84682ebfb2ec3c52c8831c4b83343c77f4..62f5486f607ddbd512d3e70a42ef7a29c1a8d60c 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/ZombifiedPiglin.java
++++ b/src/main/java/net/minecraft/world/entity/monster/ZombifiedPiglin.java
+@@ -120,7 +120,7 @@ public class ZombifiedPiglin extends Zombie implements NeutralMob {
+     protected void addBehaviourGoals() {
+         this.goalSelector.addGoal(2, new ZombieAttackGoal(this, 1.0D, false));
+         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+-        this.targetSelector.addGoal(1, pathfinderGoalHurtByTarget = (new HurtByTargetGoal(this, new Class[0])).setAlertOthers()); // Paper - assign field
++        this.targetSelector.addGoal(1, pathfinderGoalHurtByTarget = (new HurtByTargetGoal(this, net.prismarineteam.prismarine.Constants.CLASS)).setAlertOthers()); // Paper - assign field
+         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+         this.targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, true));
+     }
+diff --git a/src/main/java/net/minecraft/world/item/CreativeModeTab.java b/src/main/java/net/minecraft/world/item/CreativeModeTab.java
+index 4322e29a493bcc3c131d1a1c5969118073c61bf0..cb88bd9c62f347ad0c0c187a160936fa265d9184 100644
+--- a/src/main/java/net/minecraft/world/item/CreativeModeTab.java
++++ b/src/main/java/net/minecraft/world/item/CreativeModeTab.java
+@@ -101,7 +101,7 @@ public abstract class CreativeModeTab {
+     private String backgroundSuffix = "items.png";
+     private boolean canScroll = true;
+     private boolean showTitle = true;
+-    private EnchantmentCategory[] enchantmentCategories = new EnchantmentCategory[0];
++    private EnchantmentCategory[] enchantmentCategories = net.prismarineteam.prismarine.Constants.ENCHANTMENT_CATEGORY;
+     private ItemStack iconItemStack;
+ 
+     public CreativeModeTab(int index, String id) {
+diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
+index 3a90c9609d27f68335c85d0b27f915bad30a66e9..e821f45a6e273f1724b539be1ecf380c6d657170 100644
+--- a/src/main/java/net/minecraft/world/item/ItemStack.java
++++ b/src/main/java/net/minecraft/world/item/ItemStack.java
+@@ -988,7 +988,7 @@ public final class ItemStack {
+         int k;
+ 
+         if (ItemStack.shouldShowInTooltip(i, ItemStack.TooltipPart.MODIFIERS)) {
+-            EquipmentSlot[] aenumitemslot = EquipmentSlot.values();
++            EquipmentSlot[] aenumitemslot = net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES;
+ 
+             k = aenumitemslot.length;
+ 
+diff --git a/src/main/java/net/minecraft/world/item/crafting/ShapedRecipe.java b/src/main/java/net/minecraft/world/item/crafting/ShapedRecipe.java
+index 9e3f9099cc47e6c6e40d11ef6d6e83fbf19a3cf7..b7b0a1c4b1463e3b7e06bafd5625aa0865811b58 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/ShapedRecipe.java
++++ b/src/main/java/net/minecraft/world/item/crafting/ShapedRecipe.java
+@@ -242,7 +242,7 @@ public class ShapedRecipe implements CraftingRecipe {
+         }
+ 
+         if (pattern.length == l) {
+-            return new String[0];
++            return net.prismarineteam.prismarine.Constants.STRING;
+         } else {
+             String[] astring1 = new String[pattern.length - l - k];
+ 
+diff --git a/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java b/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java
+index 9051559e78851257a56a998b4b882ebbcc394639..723ecdd6c11ded5823859551db53af1a9c7cdf33 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java
++++ b/src/main/java/net/minecraft/world/item/crafting/ShapelessRecipe.java
+@@ -80,7 +80,7 @@ public class ShapelessRecipe implements CraftingRecipe {
+     public boolean matches(CraftingContainer inventory, Level world) {
+         // Pufferfish start
+         if (!this.isBukkit) {
+-            java.util.List<Ingredient> ingredients = com.google.common.collect.Lists.newArrayList(this.ingredients.toArray(new Ingredient[0]));
++            java.util.List<Ingredient> ingredients = com.google.common.collect.Lists.newArrayList(this.ingredients.toArray(net.prismarineteam.prismarine.Constants.INGREDIENT));
+ 
+             inventory: for (int index = 0; index < inventory.getContainerSize(); index++) {
+                 ItemStack itemStack = inventory.getItem(index);
+diff --git a/src/main/java/net/minecraft/world/item/enchantment/Enchantments.java b/src/main/java/net/minecraft/world/item/enchantment/Enchantments.java
+index 1367908a54e1c1703d14b3c25852da5ec1b02019..541e09cb11ee5f4fcce4eca7773dc8a8d3ac51c4 100644
+--- a/src/main/java/net/minecraft/world/item/enchantment/Enchantments.java
++++ b/src/main/java/net/minecraft/world/item/enchantment/Enchantments.java
+@@ -43,8 +43,8 @@ public class Enchantments {
+     public static final Enchantment MULTISHOT = Enchantments.register("multishot", new MultiShotEnchantment(Enchantment.Rarity.RARE, new EquipmentSlot[]{EquipmentSlot.MAINHAND}));
+     public static final Enchantment QUICK_CHARGE = Enchantments.register("quick_charge", new QuickChargeEnchantment(Enchantment.Rarity.UNCOMMON, new EquipmentSlot[]{EquipmentSlot.MAINHAND}));
+     public static final Enchantment PIERCING = Enchantments.register("piercing", new ArrowPiercingEnchantment(Enchantment.Rarity.COMMON, new EquipmentSlot[]{EquipmentSlot.MAINHAND}));
+-    public static final Enchantment MENDING = Enchantments.register("mending", new MendingEnchantment(Enchantment.Rarity.RARE, EquipmentSlot.values()));
+-    public static final Enchantment VANISHING_CURSE = Enchantments.register("vanishing_curse", new VanishingCurseEnchantment(Enchantment.Rarity.VERY_RARE, EquipmentSlot.values()));
++    public static final Enchantment MENDING = Enchantments.register("mending", new MendingEnchantment(Enchantment.Rarity.RARE, net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES));
++    public static final Enchantment VANISHING_CURSE = Enchantments.register("vanishing_curse", new VanishingCurseEnchantment(Enchantment.Rarity.VERY_RARE, net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES));
+ 
+     // CraftBukkit start
+     static {
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index 92e25bcc7b94e26d93458bacb4b8e5c835820b5c..64b5ddd80c939081ff178a25e7f65ef21a44d954 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -1579,7 +1579,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     public org.bukkit.entity.Entity[] getChunkEntities(int chunkX, int chunkZ) {
+         io.papermc.paper.world.ChunkEntitySlices slices = ((ServerLevel)this).getEntityLookup().getChunk(chunkX, chunkZ);
+         if (slices == null) {
+-            return new org.bukkit.entity.Entity[0];
++            return net.prismarineteam.prismarine.Constants.BUKKIT_ENTITY;
+         }
+         return slices.getChunkEntities();
+     }
+diff --git a/src/main/java/net/minecraft/world/level/block/ComposterBlock.java b/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
+index 954c4a112d675144befd253abe880251f4ea1876..3c098c4258d18f7d965f1c84085388cffa761bda 100644
+--- a/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/ComposterBlock.java
+@@ -404,7 +404,7 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+ 
+         @Override
+         public int[] getSlotsForFace(Direction side) {
+-            return side == Direction.DOWN ? new int[]{0} : new int[0];
++            return side == Direction.DOWN ? net.prismarineteam.prismarine.Constants.ZERO_INT : net.prismarineteam.prismarine.Constants.INT;
+         }
+ 
+         @Override
+@@ -453,7 +453,7 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+ 
+         @Override
+         public int[] getSlotsForFace(Direction side) {
+-            return side == Direction.UP ? new int[]{0} : new int[0];
++            return side == Direction.UP ? net.prismarineteam.prismarine.Constants.ZERO_INT : net.prismarineteam.prismarine.Constants.INT;
+         }
+ 
+         @Override
+@@ -490,7 +490,7 @@ public class ComposterBlock extends Block implements WorldlyContainerHolder {
+ 
+         @Override
+         public int[] getSlotsForFace(Direction side) {
+-            return new int[0];
++            return net.prismarineteam.prismarine.Constants.INT;
+         }
+ 
+         @Override
+diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
+index 00cb9dafc711607f28529ea9afbcdb492b1b2595..bf14ace355094a49c768d17c012ed30547c0385b 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
++++ b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
+@@ -194,7 +194,7 @@ public class ChunkStatus {
+     }, (chunkstatus, worldserver, structuretemplatemanager, lightenginethreaded, function, ichunkaccess) -> {
+         return (CompletableFuture) function.apply(ichunkaccess);
+     });
+-    private static final List<ChunkStatus> STATUS_BY_RANGE = ImmutableList.of(ChunkStatus.FULL, ChunkStatus.FEATURES, ChunkStatus.LIQUID_CARVERS, ChunkStatus.BIOMES, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, new ChunkStatus[0]);
++    private static final List<ChunkStatus> STATUS_BY_RANGE = ImmutableList.of(ChunkStatus.FULL, ChunkStatus.FEATURES, ChunkStatus.LIQUID_CARVERS, ChunkStatus.BIOMES, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, ChunkStatus.STRUCTURE_STARTS, net.prismarineteam.prismarine.Constants.CHUNK_STATUS);
+     private static final IntList RANGE_BY_STATUS = (IntList) Util.make(new IntArrayList(ChunkStatus.getStatusList().size()), (intarraylist) -> {
+         int i = 0;
+ 
+diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
+index dcfe090c269d4cbcc2eb1b6f85392848bb34656c..9fdbe3e61dff48dea076e6cbe8dcffb2d7b7d99e 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
++++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
+@@ -445,7 +445,7 @@ public class RegionFile implements AutoCloseable {
+         initOversizedState(); // Paper
+         this.usedSectors = new RegionBitmap();
+         this.version = outputChunkStreamVersion;
+-        if (!Files.isDirectory(directory, new LinkOption[0])) {
++        if (!Files.isDirectory(directory, net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+             throw new IllegalArgumentException("Expected directory, got " + directory.toAbsolutePath());
+         } else {
+             this.externalFileDir = directory;
+@@ -701,7 +701,7 @@ public class RegionFile implements AutoCloseable {
+     private DataInputStream createExternalChunkInputStream(ChunkPos pos, byte flags) throws IOException {
+         Path path = this.getExternalChunkPath(pos);
+ 
+-        if (!Files.isRegularFile(path, new LinkOption[0])) {
++        if (!Files.isRegularFile(path, net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+             RegionFile.LOGGER.error("External chunk path {} is not file", path);
+             return null;
+         } else {
+@@ -753,7 +753,7 @@ public class RegionFile implements AutoCloseable {
+                             return false;
+                         }
+ 
+-                        if (!Files.isRegularFile(this.getExternalChunkPath(pos), new LinkOption[0])) {
++                        if (!Files.isRegularFile(this.getExternalChunkPath(pos), net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+                             return false;
+                         }
+                     } else {
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/DebugLevelSource.java b/src/main/java/net/minecraft/world/level/levelgen/DebugLevelSource.java
+index c13c1ccc607a222baa3a85ac67763f7c79749585..a13d0ea37c2a4ba883d2abe0af518a7515b30bf6 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/DebugLevelSource.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/DebugLevelSource.java
+@@ -97,7 +97,7 @@ public class DebugLevelSource extends ChunkGenerator {
+ 
+     @Override
+     public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor world, RandomState noiseConfig) {
+-        return new NoiseColumn(0, new BlockState[0]);
++        return new NoiseColumn(0, net.prismarineteam.prismarine.Constants.BLOCK_STATE);
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/world/level/pathfinder/Path.java b/src/main/java/net/minecraft/world/level/pathfinder/Path.java
+index 7fe51454914587dd7cc86de3db37e07d8c56650e..c7c050b14cbad63446a314e2a877e4e85d8cac29 100644
+--- a/src/main/java/net/minecraft/world/level/pathfinder/Path.java
++++ b/src/main/java/net/minecraft/world/level/pathfinder/Path.java
+@@ -13,8 +13,8 @@ import net.minecraft.world.phys.Vec3;
+ 
+ public class Path {
+     public final List<Node> nodes;
+-    private Node[] openSet = new Node[0];
+-    private Node[] closedSet = new Node[0];
++    private Node[] openSet = net.prismarineteam.prismarine.Constants.NODE;
++    private Node[] closedSet = net.prismarineteam.prismarine.Constants.NODE;
+     @Nullable
+     private Set<Target> targetNodes;
+     private int nextNodeIndex;
+diff --git a/src/main/java/net/minecraft/world/level/storage/LevelStorageSource.java b/src/main/java/net/minecraft/world/level/storage/LevelStorageSource.java
+index 69fb994ae11f0ea8ad5de8861477fcb25529f7ab..015bf55605df78e679f9472a8382c01adef6cac6 100644
+--- a/src/main/java/net/minecraft/world/level/storage/LevelStorageSource.java
++++ b/src/main/java/net/minecraft/world/level/storage/LevelStorageSource.java
+@@ -75,7 +75,7 @@ public class LevelStorageSource {
+         this.fixerUpper = dataFixer;
+ 
+         try {
+-            Files.createDirectories(Files.exists(savesDirectory, new LinkOption[0]) ? savesDirectory.toRealPath() : savesDirectory);
++            Files.createDirectories(Files.exists(savesDirectory, net.prismarineteam.prismarine.Constants.LINK_OPTION) ? savesDirectory.toRealPath() : savesDirectory);
+         } catch (IOException ioexception) {
+             throw new RuntimeException(ioexception);
+         }
+@@ -126,14 +126,14 @@ public class LevelStorageSource {
+     }
+ 
+     public LevelStorageSource.LevelCandidates findLevelCandidates() throws LevelStorageException {
+-        if (!Files.isDirectory(this.baseDir, new LinkOption[0])) {
++        if (!Files.isDirectory(this.baseDir, net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+             throw new LevelStorageException(Component.translatable("selectWorld.load_folder_access"));
+         } else {
+             try {
+                 List<LevelStorageSource.LevelDirectory> list = Files.list(this.baseDir).filter((path) -> {
+-                    return Files.isDirectory(path, new LinkOption[0]);
++                    return Files.isDirectory(path, net.prismarineteam.prismarine.Constants.LINK_OPTION);
+                 }).map(LevelStorageSource.LevelDirectory::new).filter((convertable_b) -> {
+-                    return Files.isRegularFile(convertable_b.dataFile(), new LinkOption[0]) || Files.isRegularFile(convertable_b.oldDataFile(), new LinkOption[0]);
++                    return Files.isRegularFile(convertable_b.dataFile(), net.prismarineteam.prismarine.Constants.LINK_OPTION) || Files.isRegularFile(convertable_b.oldDataFile(), net.prismarineteam.prismarine.Constants.LINK_OPTION);
+                 }).toList();
+ 
+                 return new LevelStorageSource.LevelCandidates(list);
+@@ -188,12 +188,12 @@ public class LevelStorageSource {
+ 
+     @Nullable
+     <T> T readLevelData(LevelStorageSource.LevelDirectory levelSave, BiFunction<Path, DataFixer, T> levelDataParser) {
+-        if (!Files.exists(levelSave.path(), new LinkOption[0])) {
++        if (!Files.exists(levelSave.path(), net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+             return null;
+         } else {
+             Path path = levelSave.dataFile();
+ 
+-            if (Files.exists(path, new LinkOption[0])) {
++            if (Files.exists(path, net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+                 T t0 = levelDataParser.apply(path, this.fixerUpper);
+ 
+                 if (t0 != null) {
+@@ -202,7 +202,7 @@ public class LevelStorageSource {
+             }
+ 
+             path = levelSave.oldDataFile();
+-            return Files.exists(path, new LinkOption[0]) ? levelDataParser.apply(path, this.fixerUpper) : null;
++            return Files.exists(path, net.prismarineteam.prismarine.Constants.LINK_OPTION) ? levelDataParser.apply(path, this.fixerUpper) : null;
+         }
+     }
+ 
+@@ -307,7 +307,7 @@ public class LevelStorageSource {
+     }
+ 
+     public boolean levelExists(String name) {
+-        return Files.isDirectory(this.baseDir.resolve(name), new LinkOption[0]);
++        return Files.isDirectory(this.baseDir.resolve(name), net.prismarineteam.prismarine.Constants.LINK_OPTION);
+     }
+ 
+     public Path getBaseDir() {
+@@ -531,7 +531,7 @@ public class LevelStorageSource {
+             this.checkLock();
+             Path path = this.levelDirectory.dataFile();
+ 
+-            if (Files.exists(path, new LinkOption[0])) {
++            if (Files.exists(path, net.prismarineteam.prismarine.Constants.LINK_OPTION)) {
+                 CompoundTag nbttagcompound = NbtIo.readCompressed(path.toFile());
+                 CompoundTag nbttagcompound1 = nbttagcompound.getCompound("Data");
+ 
+@@ -548,7 +548,7 @@ public class LevelStorageSource {
+             Path path = LevelStorageSource.this.getBackupPath();
+ 
+             try {
+-                Files.createDirectories(Files.exists(path, new LinkOption[0]) ? path.toRealPath() : path);
++                Files.createDirectories(Files.exists(path, net.prismarineteam.prismarine.Constants.LINK_OPTION) ? path.toRealPath() : path);
+             } catch (IOException ioexception) {
+                 throw new RuntimeException(ioexception);
+             }
+diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+index bb23784a480d9ca6e1246260e724a42073bb636a..492526948624267a19e7f307ca0f42b8208c5ad7 100644
+--- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
++++ b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+@@ -153,7 +153,7 @@ public class PlayerDataStorage {
+         String[] astring = this.playerDir.list();
+ 
+         if (astring == null) {
+-            astring = new String[0];
++            astring = net.prismarineteam.prismarine.Constants.STRING;
+         }
+ 
+         for (int i = 0; i < astring.length; ++i) {
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/LootPool.java b/src/main/java/net/minecraft/world/level/storage/loot/LootPool.java
+index fad524f8b032174cee0c68da7c68e020ee3cd619..f7bf51240b34c7a7fb048eac5134eee484d3b8e7 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/LootPool.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/LootPool.java
+@@ -160,7 +160,7 @@ public class LootPool {
+             if (this.rolls == null) {
+                 throw new IllegalArgumentException("Rolls not set");
+             } else {
+-                return new LootPool(this.entries.toArray(new LootPoolEntryContainer[0]), this.conditions.toArray(new LootItemCondition[0]), this.functions.toArray(new LootItemFunction[0]), this.rolls, this.bonusRolls);
++                return new LootPool(this.entries.toArray(net.prismarineteam.prismarine.Constants.LOOT_POOL_ENTRY_CONTAINER), this.conditions.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION), this.functions.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION), this.rolls, this.bonusRolls);
+             }
+         }
+     }
+@@ -170,8 +170,8 @@ public class LootPool {
+         public LootPool deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+             JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, "loot pool");
+             LootPoolEntryContainer[] lootPoolEntryContainers = GsonHelper.getAsObject(jsonObject, "entries", jsonDeserializationContext, LootPoolEntryContainer[].class);
+-            LootItemCondition[] lootItemConditions = GsonHelper.getAsObject(jsonObject, "conditions", new LootItemCondition[0], jsonDeserializationContext, LootItemCondition[].class);
+-            LootItemFunction[] lootItemFunctions = GsonHelper.getAsObject(jsonObject, "functions", new LootItemFunction[0], jsonDeserializationContext, LootItemFunction[].class);
++            LootItemCondition[] lootItemConditions = GsonHelper.getAsObject(jsonObject, "conditions", net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION, jsonDeserializationContext, LootItemCondition[].class);
++            LootItemFunction[] lootItemFunctions = GsonHelper.getAsObject(jsonObject, "functions", net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION, jsonDeserializationContext, LootItemFunction[].class);
+             NumberProvider numberProvider = GsonHelper.getAsObject(jsonObject, "rolls", jsonDeserializationContext, NumberProvider.class);
+             NumberProvider numberProvider2 = GsonHelper.getAsObject(jsonObject, "bonus_rolls", ConstantValue.exactly(0.0F), jsonDeserializationContext, NumberProvider.class);
+             return new LootPool(lootPoolEntryContainers, lootItemConditions, lootItemFunctions, numberProvider, numberProvider2);
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/LootTable.java b/src/main/java/net/minecraft/world/level/storage/loot/LootTable.java
+index 375d26ac2453f637bac3fa89873b6760095916b7..3b0be3340c2d1f5de13a9fe58bcc0109840cb23c 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/LootTable.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/LootTable.java
+@@ -42,7 +42,7 @@ import org.bukkit.event.world.LootGenerateEvent;
+ public class LootTable {
+ 
+     static final Logger LOGGER = LogUtils.getLogger();
+-    public static final LootTable EMPTY = new LootTable(LootContextParamSets.EMPTY, new LootPool[0], new LootItemFunction[0]);
++    public static final LootTable EMPTY = new LootTable(LootContextParamSets.EMPTY, net.prismarineteam.prismarine.Constants.LOOT_POOL, net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION);
+     public static final LootContextParamSet DEFAULT_PARAM_SET = LootContextParamSets.ALL_PARAMS;
+     final LootContextParamSet paramSet;
+     final LootPool[] pools;
+@@ -255,7 +255,7 @@ public class LootTable {
+         }
+ 
+         public LootTable build() {
+-            return new LootTable(this.paramSet, (LootPool[]) this.pools.toArray(new LootPool[0]), (LootItemFunction[]) this.functions.toArray(new LootItemFunction[0]));
++            return new LootTable(this.paramSet, (LootPool[]) this.pools.toArray(net.prismarineteam.prismarine.Constants.LOOT_POOL), (LootItemFunction[]) this.functions.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION));
+         }
+     }
+ 
+@@ -265,7 +265,7 @@ public class LootTable {
+ 
+         public LootTable deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+             JsonObject jsonobject = GsonHelper.convertToJsonObject(jsonelement, "loot table");
+-            LootPool[] alootselector = (LootPool[]) GsonHelper.getAsObject(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
++            LootPool[] alootselector = (LootPool[]) GsonHelper.getAsObject(jsonobject, "pools", net.prismarineteam.prismarine.Constants.LOOT_POOL, jsondeserializationcontext, LootPool[].class);
+             LootContextParamSet lootcontextparameterset = null;
+ 
+             if (jsonobject.has("type")) {
+@@ -274,7 +274,7 @@ public class LootTable {
+                 lootcontextparameterset = LootContextParamSets.get(new ResourceLocation(s));
+             }
+ 
+-            LootItemFunction[] alootitemfunction = (LootItemFunction[]) GsonHelper.getAsObject(jsonobject, "functions", new LootItemFunction[0], jsondeserializationcontext, LootItemFunction[].class);
++            LootItemFunction[] alootitemfunction = (LootItemFunction[]) GsonHelper.getAsObject(jsonobject, "functions", net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION, jsondeserializationcontext, LootItemFunction[].class);
+ 
+             return new LootTable(lootcontextparameterset != null ? lootcontextparameterset : LootContextParamSets.ALL_PARAMS, alootselector, alootitemfunction);
+         }
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/entries/AlternativesEntry.java b/src/main/java/net/minecraft/world/level/storage/loot/entries/AlternativesEntry.java
+index d63d8323290625bb0246a6965fc06f29a800750c..44376afad16b866e04c1b773dcba36f473a550dd 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/entries/AlternativesEntry.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/entries/AlternativesEntry.java
+@@ -85,7 +85,7 @@ public class AlternativesEntry extends CompositeEntryBase {
+ 
+         @Override
+         public LootPoolEntryContainer build() {
+-            return new AlternativesEntry(this.entries.toArray(new LootPoolEntryContainer[0]), this.getConditions());
++            return new AlternativesEntry(this.entries.toArray(net.prismarineteam.prismarine.Constants.LOOT_POOL_ENTRY_CONTAINER), this.getConditions());
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer.java b/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer.java
+index 3bea85eab6f0a3b460b060579c73e90b83be7de4..da3a93ee8e963993e56e0c7fb3411455bab1cac0 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer.java
+@@ -53,7 +53,7 @@ public abstract class LootPoolEntryContainer implements ComposableEntryContainer
+         }
+ 
+         protected LootItemCondition[] getConditions() {
+-            return this.conditions.toArray(new LootItemCondition[0]);
++            return this.conditions.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION);
+         }
+ 
+         public AlternativesEntry.Builder otherwise(LootPoolEntryContainer.Builder<?> builder) {
+@@ -83,7 +83,7 @@ public abstract class LootPoolEntryContainer implements ComposableEntryContainer
+ 
+         @Override
+         public final T deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
+-            LootItemCondition[] lootItemConditions = GsonHelper.getAsObject(jsonObject, "conditions", new LootItemCondition[0], jsonDeserializationContext, LootItemCondition[].class);
++            LootItemCondition[] lootItemConditions = GsonHelper.getAsObject(jsonObject, "conditions", net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION, jsonDeserializationContext, LootItemCondition[].class);
+             return this.deserializeCustom(jsonObject, jsonDeserializationContext, lootItemConditions);
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer.java b/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer.java
+index d125b5a470be0f4c56c2c1f229fc5c83fc4d2f3b..1359eacedfc4ee6491207c48caa79e638d6fb8a2 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer.java
+@@ -78,7 +78,7 @@ public abstract class LootPoolSingletonContainer extends LootPoolEntryContainer
+         }
+ 
+         protected LootItemFunction[] getFunctions() {
+-            return this.functions.toArray(new LootItemFunction[0]);
++            return this.functions.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION);
+         }
+ 
+         public T setWeight(int weight) {
+@@ -169,7 +169,7 @@ public abstract class LootPoolSingletonContainer extends LootPoolEntryContainer
+         public final T deserializeCustom(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] lootItemConditions) {
+             int i = GsonHelper.getAsInt(jsonObject, "weight", 1);
+             int j = GsonHelper.getAsInt(jsonObject, "quality", 0);
+-            LootItemFunction[] lootItemFunctions = GsonHelper.getAsObject(jsonObject, "functions", new LootItemFunction[0], jsonDeserializationContext, LootItemFunction[].class);
++            LootItemFunction[] lootItemFunctions = GsonHelper.getAsObject(jsonObject, "functions", net.prismarineteam.prismarine.Constants.LOOT_ITEM_FUNCTION, jsonDeserializationContext, LootItemFunction[].class);
+             return this.deserialize(jsonObject, jsonDeserializationContext, i, j, lootItemConditions, lootItemFunctions);
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/entries/SequentialEntry.java b/src/main/java/net/minecraft/world/level/storage/loot/entries/SequentialEntry.java
+index 28ee59e7745ef0c98b13ae3e32f52dc7defe0bcd..e17eb131f66815528c689b7004fa2b3f16928a2a 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/entries/SequentialEntry.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/entries/SequentialEntry.java
+@@ -63,7 +63,7 @@ public class SequentialEntry extends CompositeEntryBase {
+ 
+         @Override
+         public LootPoolEntryContainer build() {
+-            return new SequentialEntry(this.entries.toArray(new LootPoolEntryContainer[0]), this.getConditions());
++            return new SequentialEntry(this.entries.toArray(net.prismarineteam.prismarine.Constants.LOOT_POOL_ENTRY_CONTAINER), this.getConditions());
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/functions/LootItemConditionalFunction.java b/src/main/java/net/minecraft/world/level/storage/loot/functions/LootItemConditionalFunction.java
+index 5c67ae93a18f246d2bffd2c0b92f9ad82294b81e..95d5d2ed5fa1905de5794da56ede29f58ba07d5a 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/functions/LootItemConditionalFunction.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/functions/LootItemConditionalFunction.java
+@@ -63,7 +63,7 @@ public abstract class LootItemConditionalFunction implements LootItemFunction {
+         protected abstract T getThis();
+ 
+         protected LootItemCondition[] getConditions() {
+-            return this.conditions.toArray(new LootItemCondition[0]);
++            return this.conditions.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION);
+         }
+     }
+ 
+@@ -96,7 +96,7 @@ public abstract class LootItemConditionalFunction implements LootItemFunction {
+ 
+         @Override
+         public final T deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
+-            LootItemCondition[] lootItemConditions = GsonHelper.getAsObject(jsonObject, "conditions", new LootItemCondition[0], jsonDeserializationContext, LootItemCondition[].class);
++            LootItemCondition[] lootItemConditions = GsonHelper.getAsObject(jsonObject, "conditions", net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION, jsonDeserializationContext, LootItemCondition[].class);
+             return this.deserialize(jsonObject, jsonDeserializationContext, lootItemConditions);
+         }
+ 
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/functions/SetAttributesFunction.java b/src/main/java/net/minecraft/world/level/storage/loot/functions/SetAttributesFunction.java
+index bc264135c47dbdf83ebaf72e6bc976f1cd0f0b70..8a60a81413f9800a1ad8c8441f5e8d610c9ad25a 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/functions/SetAttributesFunction.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/functions/SetAttributesFunction.java
+@@ -235,7 +235,7 @@ public class SetAttributesFunction extends LootItemConditionalFunction {
+         }
+ 
+         public SetAttributesFunction.Modifier build() {
+-            return new SetAttributesFunction.Modifier(this.name, this.attribute, this.operation, this.amount, this.slots.toArray(new EquipmentSlot[0]), this.id);
++            return new SetAttributesFunction.Modifier(this.name, this.attribute, this.operation, this.amount, this.slots.toArray(net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT), this.id);
+         }
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/level/storage/loot/predicates/AlternativeLootItemCondition.java b/src/main/java/net/minecraft/world/level/storage/loot/predicates/AlternativeLootItemCondition.java
+index 72339c49807e4a4cd82f975b856f5029f4de8697..a93e8d68b01301cb65d0e5be4f3c1024be7d7e5d 100644
+--- a/src/main/java/net/minecraft/world/level/storage/loot/predicates/AlternativeLootItemCondition.java
++++ b/src/main/java/net/minecraft/world/level/storage/loot/predicates/AlternativeLootItemCondition.java
+@@ -61,7 +61,7 @@ public class AlternativeLootItemCondition implements LootItemCondition {
+ 
+         @Override
+         public LootItemCondition build() {
+-            return new AlternativeLootItemCondition(this.terms.toArray(new LootItemCondition[0]));
++            return new AlternativeLootItemCondition(this.terms.toArray(net.prismarineteam.prismarine.Constants.LOOT_ITEM_CONDITION));
+         }
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/phys/shapes/ArrayVoxelShape.java b/src/main/java/net/minecraft/world/phys/shapes/ArrayVoxelShape.java
+index ca5f01be5d5ccfcc56780ff93cca3824409ffc0d..dc1ce914f75a4da69518c48e7559c00f3332b3e1 100644
+--- a/src/main/java/net/minecraft/world/phys/shapes/ArrayVoxelShape.java
++++ b/src/main/java/net/minecraft/world/phys/shapes/ArrayVoxelShape.java
+@@ -36,7 +36,7 @@ public class ArrayVoxelShape extends VoxelShape {
+             throw (IllegalArgumentException)Util.pauseInIde(new IllegalArgumentException("Lengths of point arrays must be consistent with the size of the VoxelShape."));
+         }
+         // Paper start - optimise multi-aabb shapes
+-        this.boundingBoxesRepresentation = boundingBoxesRepresentation == null ? this.toAabbs().toArray(EMPTY) : boundingBoxesRepresentation;
++        this.boundingBoxesRepresentation = boundingBoxesRepresentation == null ? this.toAabbs().toArray(net.prismarineteam.prismarine.Constants.AABB) : boundingBoxesRepresentation;
+         this.offsetX = offsetX;
+         this.offsetY = offsetY;
+         this.offsetZ = offsetZ;
+@@ -79,7 +79,6 @@ public class ArrayVoxelShape extends VoxelShape {
+         }
+     }
+ 
+-    static final net.minecraft.world.phys.AABB[] EMPTY = new net.minecraft.world.phys.AABB[0];
+     final net.minecraft.world.phys.AABB[] boundingBoxesRepresentation;
+ 
+     final double offsetX;
+diff --git a/src/main/java/net/minecraft/world/scores/Team.java b/src/main/java/net/minecraft/world/scores/Team.java
+index 16d2aa4556bc9f32a2def7f9ca282aa3fa23fb87..7dbbd6d337d0de37ba2befab64bfbe2e8f42503f 100644
+--- a/src/main/java/net/minecraft/world/scores/Team.java
++++ b/src/main/java/net/minecraft/world/scores/Team.java
+@@ -80,7 +80,7 @@ public abstract class Team {
+         public final int id;
+ 
+         public static String[] getAllNames() {
+-            return BY_NAME.keySet().toArray(new String[0]);
++            return BY_NAME.keySet().toArray(net.prismarineteam.prismarine.Constants.STRING);
+         }
+ 
+         @Nullable
+diff --git a/src/main/java/net/prismarineteam/prismarine/Constants.java b/src/main/java/net/prismarineteam/prismarine/Constants.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..02deddbc2a3b287b49b6d34904b1f98f1bb95834
+--- /dev/null
++++ b/src/main/java/net/prismarineteam/prismarine/Constants.java
+@@ -0,0 +1,54 @@
++package net.prismarineteam.prismarine;
++
++public final class Constants {
++    public static final Object[] OBJECT = new Object[0];
++    public static final String[] STRING = new String[0];
++    public static final Class[] CLASS = new Class[0];
++    public static final int[] INT = new int[0];
++    public static final int[] ZERO_INT = new int[]{0};
++    public static final long[] LONG = new long[0];
++    public static final byte[] BYTE = new byte[0];
++
++    public static final java.net.URL[] URL = new java.net.URL[0];
++    public static final java.nio.file.LinkOption[] LINK_OPTION = new java.nio.file.LinkOption[0];
++    public static final java.util.concurrent.CompletableFuture[] COMPLETABLE_FUTURE = new java.util.concurrent.CompletableFuture[0];
++    public static final java.lang.StackTraceElement[] STACK_TRACE_ELEMENT = new java.lang.StackTraceElement[0];
++    public static final javax.management.MBeanNotificationInfo[] M_BEAN_NOTIFICATION_INFO = new javax.management.MBeanNotificationInfo[0];
++
++    public static final net.minecraft.world.entity.Entity[] ENTITY = new net.minecraft.world.entity.Entity[0];
++    public static final net.minecraft.world.phys.AABB[] AABB = new net.minecraft.world.phys.AABB[0];
++    public static final net.minecraft.world.level.storage.loot.functions.LootItemFunction[] LOOT_ITEM_FUNCTION = new net.minecraft.world.level.storage.loot.functions.LootItemFunction[0];
++    public static final net.minecraft.world.level.storage.loot.LootPool[] LOOT_POOL = new net.minecraft.world.level.storage.loot.LootPool[0];
++    public static final net.minecraft.world.level.pathfinder.Node[] NODE = new net.minecraft.world.level.pathfinder.Node[0];
++    public static final net.minecraft.world.level.chunk.ChunkStatus[] CHUNK_STATUS = new net.minecraft.world.level.chunk.ChunkStatus[0];
++    public static final net.minecraft.world.item.crafting.Ingredient[] INGREDIENT = new net.minecraft.world.item.crafting.Ingredient[0];
++    public static final net.minecraft.world.entity.ai.memory.MemoryModuleType[] MEMORY_MODULE_TYPE = new net.minecraft.world.entity.ai.memory.MemoryModuleType[0];
++    public static final net.minecraft.server.network.ServerPlayerConnection[] SERVER_PLAYER_CONNECTION = new net.minecraft.server.network.ServerPlayerConnection[0];
++    public static final net.minecraft.world.level.block.state.BlockState[] BLOCK_STATE = new net.minecraft.world.level.block.state.BlockState[0];
++    public static final net.minecraft.commands.arguments.MessageArgument.Part[] MESSAGE_ARGUMENT_PART = new net.minecraft.commands.arguments.MessageArgument.Part[0];
++    public static final net.minecraft.commands.CommandFunction.Entry[] COMMAND_FUNCTION_ENTRY = new net.minecraft.commands.CommandFunction.Entry[0];
++    public static final net.minecraft.world.level.chunk.LevelChunk[] LEVEL_CHUNK = new net.minecraft.world.level.chunk.LevelChunk[0];
++    public static final net.minecraft.world.entity.EquipmentSlot[] EQUIPMENT_SLOT_VALUES = net.minecraft.world.entity.EquipmentSlot.values();
++    public static final net.minecraft.world.entity.EquipmentSlot[] EQUIPMENT_SLOT = new net.minecraft.world.entity.EquipmentSlot[0];
++    public static final net.minecraft.world.level.storage.loot.predicates.LootItemCondition[] LOOT_ITEM_CONDITION = new net.minecraft.world.level.storage.loot.predicates.LootItemCondition[0];
++    public static final net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer[] LOOT_POOL_ENTRY_CONTAINER = new net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer[0];
++    public static final net.minecraft.world.item.enchantment.EnchantmentCategory[] ENCHANTMENT_CATEGORY = new net.minecraft.world.item.enchantment.EnchantmentCategory[0];
++    public static final net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase[] ENDER_DRAGON_PHASE = new net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase[0];
++    public static final net.minecraft.advancements.critereon.ItemPredicate[] ITEM_PREDICATE = new net.minecraft.advancements.critereon.ItemPredicate[0];
++    public static final net.minecraft.commands.arguments.NbtPathArgument.Node[] NBT_PATH_ARGUMENT_NODE = new net.minecraft.commands.arguments.NbtPathArgument.Node[0];
++    public static final net.minecraft.resources.ResourceLocation[] RESOURCE_LOCATION = new net.minecraft.resources.ResourceLocation[0];
++    public static final net.minecraft.advancements.critereon.EnchantmentPredicate[] ENCHANTMENT_PREDICATE = new net.minecraft.advancements.critereon.EnchantmentPredicate[0];
++    public static final net.minecraft.advancements.critereon.EntityPredicate.Composite[] ENTITY_PREDICATE_COMPOSITE = new net.minecraft.advancements.critereon.EntityPredicate.Composite[0];
++    public static final com.mojang.authlib.GameProfile[] GAME_PROFILE = new com.mojang.authlib.GameProfile[0];
++
++    public static final io.papermc.paper.entity.RelativeTeleportFlag[] RELATIVE_TELEPORT_FLAG = new io.papermc.paper.entity.RelativeTeleportFlag[0];
++    public static final io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.ChunkInfo[] CHUNK_INFO = new io.papermc.paper.chunk.system.scheduling.ChunkTaskScheduler.ChunkInfo[0];
++    public static final io.papermc.paper.chunk.system.io.RegionFileIOThread.RegionFileType[] REGION_FILE_TYPE = new io.papermc.paper.chunk.system.io.RegionFileIOThread.RegionFileType[0];
++    public static final ca.spottedleaf.starlight.common.light.StarLightEngine.AxisDirection [] STARLIGHT_AXIS_DIRECTION = new ca.spottedleaf.starlight.common.light.StarLightEngine.AxisDirection[0];
++
++    public static final net.md_5.bungee.api.chat.BaseComponent[] BASE_COMPONENT = new net.md_5.bungee.api.chat.BaseComponent[0];
++    public static final org.bukkit.inventory.EquipmentSlot[] BUKKIT_EQUIPMENT_SLOT = new org.bukkit.inventory.EquipmentSlot[0];
++    public static final org.bukkit.entity.Entity[] BUKKIT_ENTITY = new org.bukkit.entity.Entity[0];
++    public static final org.bukkit.event.player.PlayerRespawnEvent.RespawnFlag[] RESPAWN_FLAG = new org.bukkit.event.player.PlayerRespawnEvent.RespawnFlag[0];
++    public static final org.bukkit.inventory.EquipmentSlot[] BUKKIT_EQUIPMENT_SLOT_VALUES = org.bukkit.inventory.EquipmentSlot.values();
++}
+diff --git a/src/main/java/net/prismarineteam/prismarine/command/PrismarineCommand.java b/src/main/java/net/prismarineteam/prismarine/command/PrismarineCommand.java
+index 6fd00057defc1278c58b0f4c6e017ddcf27fc9ee..bd02337ad463ec07b0605141e296a98a6b87387c 100644
+--- a/src/main/java/net/prismarineteam/prismarine/command/PrismarineCommand.java
++++ b/src/main/java/net/prismarineteam/prismarine/command/PrismarineCommand.java
+@@ -57,7 +57,7 @@ public class PrismarineCommand extends Command {
+         } else if (args[0].equalsIgnoreCase("version")) {
+             Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
+             if (verCmd != null) {
+-                return verCmd.execute(sender, commandLabel, new String[0]);
++                return verCmd.execute(sender, commandLabel, net.prismarineteam.prismarine.Constants.STRING);
+             }
+         }
+ 
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftEquipmentSlot.java b/src/main/java/org/bukkit/craftbukkit/CraftEquipmentSlot.java
+index 402a238cf502003a232bb95473bd13e59e067fab..180ee5ef4b428f7c32424aa20f20bc3fa2c3779a 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftEquipmentSlot.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftEquipmentSlot.java
+@@ -5,8 +5,8 @@ import org.bukkit.inventory.EquipmentSlot;
+ 
+ public class CraftEquipmentSlot {
+ 
+-    private static final net.minecraft.world.entity.EquipmentSlot[] slots = new net.minecraft.world.entity.EquipmentSlot[EquipmentSlot.values().length];
+-    private static final EquipmentSlot[] enums = new EquipmentSlot[net.minecraft.world.entity.EquipmentSlot.values().length];
++    private static final net.minecraft.world.entity.EquipmentSlot[] slots = new net.minecraft.world.entity.EquipmentSlot[net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES.length];
++    private static final EquipmentSlot[] enums = new EquipmentSlot[net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES.length];
+ 
+     static {
+         set(EquipmentSlot.HAND, net.minecraft.world.entity.EquipmentSlot.MAINHAND);
+diff --git a/src/main/java/org/bukkit/craftbukkit/bootstrap/Main.java b/src/main/java/org/bukkit/craftbukkit/bootstrap/Main.java
+index 9a2ec50be757dfa3780a49ec96942fed89ed530c..f87161d6d67d904804b2d65593aa1b1b07d850a8 100644
+--- a/src/main/java/org/bukkit/craftbukkit/bootstrap/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/bootstrap/Main.java
+@@ -50,7 +50,7 @@ public class Main {
+                 System.exit(0);
+             }
+ 
+-            URLClassLoader classLoader = new URLClassLoader(extractedUrls.toArray(new URL[0]));
++            URLClassLoader classLoader = new URLClassLoader(extractedUrls.toArray(net.prismarineteam.prismarine.Constants.URL));
+ 
+             System.out.println("Starting server");
+             Thread runThread = new Thread(() -> {
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java
+index f4065938bbfd04519d1363ee8781c316aca468ab..5ef39c431f67ccf1ddb3b0302609f263b06cc75e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java
+@@ -4,7 +4,6 @@ import net.minecraft.core.Rotations;
+ import org.bukkit.craftbukkit.CraftEquipmentSlot;
+ import org.bukkit.craftbukkit.CraftServer;
+ import org.bukkit.entity.ArmorStand;
+-import org.bukkit.entity.ArmorStand.LockType;
+ import org.bukkit.entity.EntityType;
+ import org.bukkit.inventory.EquipmentSlot;
+ import org.bukkit.inventory.ItemStack;
+@@ -274,7 +273,7 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
+     @Override
+     public java.util.Set<org.bukkit.inventory.EquipmentSlot> getDisabledSlots() {
+         java.util.Set<org.bukkit.inventory.EquipmentSlot> disabled = new java.util.HashSet<>();
+-        for (org.bukkit.inventory.EquipmentSlot slot : org.bukkit.inventory.EquipmentSlot.values()) {
++        for (org.bukkit.inventory.EquipmentSlot slot : net.prismarineteam.prismarine.Constants.BUKKIT_EQUIPMENT_SLOT_VALUES) {
+             if (this.isSlotDisabled(slot)) {
+                 disabled.add(slot);
+             }
+@@ -297,14 +296,14 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
+     public void addDisabledSlots(org.bukkit.inventory.EquipmentSlot... slots) {
+         java.util.Set<org.bukkit.inventory.EquipmentSlot> disabled = getDisabledSlots();
+         java.util.Collections.addAll(disabled, slots);
+-        setDisabledSlots(disabled.toArray(new org.bukkit.inventory.EquipmentSlot[0]));
++        setDisabledSlots(disabled.toArray(net.prismarineteam.prismarine.Constants.BUKKIT_EQUIPMENT_SLOT));
+     }
+ 
+     @Override
+     public void removeDisabledSlots(org.bukkit.inventory.EquipmentSlot... slots) {
+         java.util.Set<org.bukkit.inventory.EquipmentSlot> disabled = getDisabledSlots();
+         for (final org.bukkit.inventory.EquipmentSlot slot : slots) disabled.remove(slot);
+-        setDisabledSlots(disabled.toArray(new org.bukkit.inventory.EquipmentSlot[0]));
++        setDisabledSlots(disabled.toArray(net.prismarineteam.prismarine.Constants.BUKKIT_EQUIPMENT_SLOT));
+     }
+ 
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index 124d8b8e6083fb1015e61ce5b7af387221255acd..12fc75b69cab8d04ebc6837b444b5d5de63dbc21 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -460,7 +460,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     public void sendTitle(Title title) {
+         Preconditions.checkNotNull(title, "Title is null");
+         setTitleTimes(title.getFadeIn(), title.getStay(), title.getFadeOut());
+-        setSubtitle(title.getSubtitle() == null ? new BaseComponent[0] : title.getSubtitle());
++        setSubtitle(title.getSubtitle() == null ? net.prismarineteam.prismarine.Constants.BASE_COMPONENT : title.getSubtitle());
+         showTitle(title.getTitle());
+     }
+ 
+@@ -1229,7 +1229,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+ 
+     @Override
+     public boolean teleport(Location location, PlayerTeleportEvent.TeleportCause cause, boolean ignorePassengers, boolean dismount) {
+-        return this.teleport(location, cause, ignorePassengers, dismount, new io.papermc.paper.entity.RelativeTeleportFlag[0]);
++        return this.teleport(location, cause, ignorePassengers, dismount, net.prismarineteam.prismarine.Constants.RELATIVE_TELEPORT_FLAG);
+     }
+ 
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftEntityEquipment.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftEntityEquipment.java
+index 6827979a5b270ced53b46ecb9eff548727dadb81..ee5475024182086c2079eea30092ec85f0f9218f 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftEntityEquipment.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftEntityEquipment.java
+@@ -165,7 +165,7 @@ public class CraftEntityEquipment implements EntityEquipment {
+ 
+     @Override
+     public void clear() {
+-        for (net.minecraft.world.entity.EquipmentSlot slot : net.minecraft.world.entity.EquipmentSlot.values()) {
++        for (net.minecraft.world.entity.EquipmentSlot slot : net.prismarineteam.prismarine.Constants.EQUIPMENT_SLOT_VALUES) {
+             this.setEquipment(slot, null, false);
+         }
+     }
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
+index a5d7fae348b0b262a0a8a5e8e76f1bc75ca52a16..5429c65b9b1ea814f2be55f9ef5d8ae7e6eaaf70 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
+@@ -609,7 +609,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
+                 throw new IllegalArgumentException("Invalid page number " + page + "/" + CraftMetaBook.this.getPageCount());
+             }
+ 
+-            BaseComponent[] newText = text == null ? new BaseComponent[0] : text;
++            BaseComponent[] newText = text == null ? net.prismarineteam.prismarine.Constants.BASE_COMPONENT : text;
+             CraftMetaBook.this.pages.set(page - 1, this.componentsToPage(newText));
+         }
+ 
+@@ -622,7 +622,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
+         public void addPage(final BaseComponent[]... pages) {
+             for (BaseComponent[] page : pages) {
+                 if (page == null) {
+-                    page = new BaseComponent[0];
++                    page = net.prismarineteam.prismarine.Constants.BASE_COMPONENT;
+                 }
+ 
+                 CraftMetaBook.this.internalAddPage(this.componentsToPage(page));
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
+index 3c4dadd0012c11191c873fe25a7625193563915d..f75d4c01b053c83bc5c8c0dcca3999110a174d78 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaItem.java
+@@ -877,7 +877,7 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
+     // Paper start
+     @Override
+     public net.md_5.bungee.api.chat.BaseComponent[] getDisplayNameComponent() {
+-        return displayName == null ? new net.md_5.bungee.api.chat.BaseComponent[0] : net.md_5.bungee.chat.ComponentSerializer.parse(displayName);
++        return displayName == null ? net.prismarineteam.prismarine.Constants.BASE_COMPONENT : net.md_5.bungee.chat.ComponentSerializer.parse(displayName);
+     }
+     // Paper end
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/WeakCollection.java b/src/main/java/org/bukkit/craftbukkit/util/WeakCollection.java
+index 049d750d3af991dd14ac8cf644330404e74b2151..72164f5d3f4711038d6bc3a57aaa9f6a0ac4fd89 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/WeakCollection.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/WeakCollection.java
+@@ -166,7 +166,7 @@ public final class WeakCollection<T> implements Collection<T> {
+ 
+     @Override
+     public Object[] toArray() {
+-        return this.toArray(new Object[0]);
++        return this.toArray(net.prismarineteam.prismarine.Constants.OBJECT);
+     }
+ 
+     @Override
+diff --git a/src/main/java/org/purpurmc/purpur/command/PurpurCommand.java b/src/main/java/org/purpurmc/purpur/command/PurpurCommand.java
+index 2621e54879e9ab0029a875f1d09eee67878b90d5..8f117c6e67a5d70719e5e197dc5e0da6d278b2a4 100644
+--- a/src/main/java/org/purpurmc/purpur/command/PurpurCommand.java
++++ b/src/main/java/org/purpurmc/purpur/command/PurpurCommand.java
+@@ -57,7 +57,7 @@ public class PurpurCommand extends Command {
+         } else if (args[0].equalsIgnoreCase("version")) {
+             Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
+             if (verCmd != null) {
+-                return verCmd.execute(sender, commandLabel, new String[0]);
++                return verCmd.execute(sender, commandLabel, net.prismarineteam.prismarine.Constants.STRING);
+             }
+         }
+ 

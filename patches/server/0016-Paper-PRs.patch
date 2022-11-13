@@ -49,6 +49,8 @@ Peter-Crawley <?> - List world on tile entity placement exception PaperMC/Paper#
 
 [JETTPACK RELATED]
 0017
+0018
+0019
 
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 index 580c0d76bdedd83be29500d64816a129e270fbc3..245ffd8d8db27b598f1c6f491ff451c6734f1ed0 100644
