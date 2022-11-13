@@ -3,11 +3,46 @@ From: AlphaKR93 <alphakr93@outlook.com>
 Date: Sun, 10 Jul 2022 18:59:37 +0900
 Subject: [PATCH] Optimize default configs
 
+[Reference]
+https://github.com/YouHaveTrouble/minecraft-optimization
+https://github.com/irochi-moe/Rubia
 
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index a1bd848bbf924267e74e61dabdb840628712b1ad..8e505fa457dbd5e72870d475f0cf0626fa7efdfa 100644
+index a1bd848bbf924267e74e61dabdb840628712b1ad..563c260ff1f18fe62f582e643fe535eeeb473042 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+@@ -80,16 +80,16 @@ public class WorldConfiguration extends ConfigurationPart {
+         public AntiXray antiXray;
+ 
+         public class AntiXray extends ConfigurationPart {
+-            public boolean enabled = false;
+-            public EngineMode engineMode = EngineMode.HIDE;
++            public boolean enabled = true; // Prismarine - Optimize default config
++            public EngineMode engineMode = EngineMode.OBFUSCATE; // Prismarine - Optimize default config
+             public int maxBlockHeight = 64;
+             public int updateRadius = 2;
+             public boolean lavaObscures = false;
+             public boolean usePermission = false;
+-            public List<String> hiddenBlocks = List.of("copper_ore", "deepslate_copper_ore", "gold_ore", "deepslate_gold_ore", "iron_ore", "deepslate_iron_ore",
+-                "coal_ore", "deepslate_coal_ore", "lapis_ore", "deepslate_lapis_ore", "mossy_cobblestone", "obsidian", "chest", "diamond_ore", "deepslate_diamond_ore",
+-                "redstone_ore", "deepslate_redstone_ore", "clay", "emerald_ore", "deepslate_emerald_ore", "ender_chest"); // TODO update type to List<Block>
+-            public List<String> replacementBlocks = List.of("stone", "oak_planks", "deepslate"); // TODO update type to List<Block>
++            public List<String> hiddenBlocks = List.of("air", "copper_ore", "deepslate_copper_ore", "raw_copper_block", "diamond_ore", "deepslate_diamond_ore",
++                    "gold_ore", "deepslate_gold_ore", "iron_ore", "deepslate_iron_ore", "raw_iron_block", "lapis_ore", "deepslate_lapis_ore", "redstone_ore", "deepslate_redstone_ore"); // TODO update type to List<Block>
++            public List<String> replacementBlocks = List.of("chest", "amethyst_block", "andesite", "budding_amethyst", "calcite", "coal_ore", "deepslate_coal_ore", "deepslate",
++                    "diorite", "dirt", "emerald_ore", "deepslate_emerald_ore", "granite", "gravel", "oak_planks", "smooth_basalt", "stone", "tuff"); // TODO update type to List<Block>
+         }
+     }
+ 
+@@ -129,7 +129,7 @@ public class WorldConfiguration extends ConfigurationPart {
+             @MergeMap
+             public Reference2IntMap<MobCategory> spawnLimits = Util.make(new Reference2IntOpenHashMap<>(NaturalSpawner.SPAWNING_CATEGORIES.length), map -> Arrays.stream(NaturalSpawner.SPAWNING_CATEGORIES).forEach(mobCategory -> map.put(mobCategory, -1)));
+             @MergeMap
+-            public Map<MobCategory, DespawnRange> despawnRanges = Arrays.stream(MobCategory.values()).collect(Collectors.toMap(Function.identity(), category -> new DespawnRange(category.getNoDespawnDistance(), category.getDespawnDistance())));
++            public Map<MobCategory, DespawnRange> despawnRanges = Arrays.stream(MobCategory.values()).collect(Collectors.toMap(Function.identity(), category -> new DespawnRange(56, 32))); // Prismarine - Optimize default config
+ 
+             @ConfigSerializable
+             public record DespawnRange(@Required int soft, @Required int hard) {
 @@ -309,7 +309,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
@@ -26,16 +61,39 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..8e505fa457dbd5e72870d475f0cf0626
          @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
          public int maxEntityCollisions = 8;
          public boolean allowPlayerCrammingDamage = false;
-@@ -401,7 +401,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -399,9 +399,9 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+     public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
-         public int maxAutoSaveChunksPerTick = 24;
+-        public int maxAutoSaveChunksPerTick = 24;
++        public int maxAutoSaveChunksPerTick = 8; // Prismarine - Optimize config
          public int fixedChunkInhabitedTime = -1;
 -        public boolean preventMovingIntoUnloadedChunks = false;
 +        public boolean preventMovingIntoUnloadedChunks = true; // Prismarine - Optimize config
          public Duration delayChunkUnloadsBy = Duration.of("10s");
          public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(Registry.ENTITY_TYPE.size()), map -> {
              map.defaultReturnValue(-1);
-@@ -452,7 +452,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -427,8 +427,17 @@ public class WorldConfiguration extends ConfigurationPart {
+         public int grassSpread = 1;
+         public int containerUpdate = 1;
+         public int mobSpawner = 1;
+-        public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "secondarypoisensor", 40));
+-        public Table<EntityType<?>, String, Integer> behavior = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "validatenearbypoi", -1));
++        public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> {
++            table.put(EntityType.VILLAGER, "secondarypoisensor", 80);
++            table.put(EntityType.VILLAGER, "nearestbedsensor", 80);
++            table.put(EntityType.VILLAGER, "villagerbabiessensor", 40);
++            table.put(EntityType.VILLAGER, "playersensor", 40);
++            table.put(EntityType.VILLAGER, "nearestlivingentitysensor", 40);
++        });
++        public Table<EntityType<?>, String, Integer> behavior = Util.make(HashBasedTable.create(), table -> {
++            table.put(EntityType.VILLAGER, "validatenearbypoi", 60);
++            table.put(EntityType.VILLAGER, "acquirepoi", 120);
++        });
+     }
+ 
+     @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
+@@ -452,7 +461,7 @@ public class WorldConfiguration extends ConfigurationPart {
          public int lightQueueSize = 20;
          public boolean updatePathfindingOnBlockUpdate = true;
          public boolean showSignClickCommandFailureMsgsToPlayer = false;
@@ -44,11 +102,32 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..8e505fa457dbd5e72870d475f0cf0626
          public boolean disableEndCredits = false;
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
+diff --git a/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java b/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java
+index 6af307481a6752529d87869760945cb140d05bed..08b4ea55e627675aaa0d5c161431b3ee09a5e6f7 100644
+--- a/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java
++++ b/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java
+@@ -88,14 +88,14 @@ public final class LegacyPaperWorldConfig {
+                     .build(),
+                 ConfigurationTransformation.builder().addAction(path("despawn-ranges"), (path, value) -> {
+                     final int softDistance = value.node("soft").getInt(32);
+-                    final int hardDistance = value.node("hard").getInt(128);
++                    final int hardDistance = value.node("hard").getInt(56); // Prismarine - Optimize default config
+                     value.node("soft").raw(null);
+                     value.node("hard").raw(null);
+                     for (final MobCategory category : MobCategory.values()) {
+                         if (softDistance != 32) {
+                             value.node(category.getName(), "soft").raw(softDistance);
+                         }
+-                        if (hardDistance != 128) {
++                        if (hardDistance != 56) { // Prismarine - Optimize default config
+                             value.node(category.getName(), "hard").raw(hardDistance);
+                         }
+                     }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda874ae54a0a 100644
+index 88900f7a2077049cc5d78fe17314dbdf57d64a08..bb3121b57c732b8dfb33d2c3c2acd56d0cb47651 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-@@ -121,16 +121,16 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+@@ -121,15 +121,15 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
          this.allowNether = this.get("allow-nether", true);
          this.spawnMonsters = this.get("spawn-monsters", true);
          this.useNativeTransport = this.get("use-native-transport", true);
@@ -63,13 +142,20 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..71d6bc1a5dd6fc4c28fb81b8c02bda87
          this.rateLimitPacketsPerSecond = this.get("rate-limit", 0);
 -        this.viewDistance = this.get("view-distance", 10);
 -        this.simulationDistance = this.get("simulation-distance", 10);
--        this.maxPlayers = this.get("max-players", 20);
 +        this.viewDistance = this.get("view-distance", 7); // Prismarine - Optimize config
 +        this.simulationDistance = this.get("simulation-distance", 4); // Prismarine - Optimize config
-+        this.maxPlayers = this.get("max-players", Integer.MAX_VALUE); // Prismarine - Optimize config
+         this.maxPlayers = this.get("max-players", 20);
          this.networkCompressionThreshold = this.get("network-compression-threshold", 256);
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
-         this.broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);
+@@ -148,7 +148,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+         this.previewsChat = this.get("previews-chat", false);
+         this.playerIdleTimeout = this.getMutable("player-idle-timeout", 0);
+         this.whiteList = this.getMutable("white-list", false);
+-        this.enforceSecureProfile = this.get("enforce-secure-profile", true);
++        this.enforceSecureProfile = this.get("enforce-secure-profile", false); // Prismarine - Optimize config
+         this.worldGenProperties = new DedicatedServerProperties.WorldGenProperties(this.get("level-seed", ""), (JsonObject) this.get("generator-settings", (s) -> {
+             return GsonHelper.parse(!s.isEmpty() ? s : "{}");
+         }, new JsonObject()), this.get("generate-structures", true), (String) this.get("level-type", (s) -> {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 index 8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb..08dc32805edf49ede062d32a16f77bfc7926ec60 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
@@ -96,3 +182,124 @@ index 851750dd49a4275e6e949e7ee4f97861af4cafa4..cf1cf89be2eef899e659a490178d2c81
      public boolean totemOfUndyingWorksInInventory = false;
      public boolean playerFixStuckPortal = false;
      public boolean creativeOnePunch = false;
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2ef2e4e5c0 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -146,14 +146,14 @@ public class SpigotWorldConfig
+     public double itemMerge;
+     private void itemMerge()
+     {
+-        this.itemMerge = this.getDouble("merge-radius.item", 2.5 );
++        this.itemMerge = this.getDouble("merge-radius.item", 3.5 ); // Prismarine - Optimize default config
+         this.log( "Item Merge Radius: " + this.itemMerge );
+     }
+ 
+     public double expMerge;
+     private void expMerge()
+     {
+-        this.expMerge = this.getDouble("merge-radius.exp", 3.0 );
++        this.expMerge = this.getDouble("merge-radius.exp", 4.0 ); // Prismarine - Optimize default config
+         this.log( "Experience Merge Radius: " + this.expMerge );
+     }
+ 
+@@ -203,14 +203,14 @@ public class SpigotWorldConfig
+         this.log( "Item Despawn Rate: " + this.itemDespawnRate );
+     }
+ 
+-    public int animalActivationRange = 32;
+-    public int monsterActivationRange = 32;
++    public int animalActivationRange = 16; // Prismarine - Optimize default config
++    public int monsterActivationRange = 24; // Prismarine - Optimize default config
+     public int raiderActivationRange = 48;
+-    public int miscActivationRange = 16;
++    public int miscActivationRange = 8; // Prismarine - Optimize default config
+     // Paper start
+     public int flyingMonsterActivationRange = 32;
+-    public int waterActivationRange = 16;
+-    public int villagerActivationRange = 32;
++    public int waterActivationRange = 8; // Prismarine - Optimize default config
++    public int villagerActivationRange = 16; // Prismarine - Optimize default config
+     public int wakeUpInactiveAnimals = 4;
+     public int wakeUpInactiveAnimalsEvery = 60*20;
+     public int wakeUpInactiveAnimalsFor = 5*20;
+@@ -227,7 +227,7 @@ public class SpigotWorldConfig
+     public int villagersWorkImmunityFor = 20;
+     public boolean villagersActiveForPanic = true;
+     // Paper end
+-    public boolean tickInactiveVillagers = true;
++    public boolean tickInactiveVillagers = false; // Prismarine - Optimize default config
+     public boolean ignoreSpectatorActivation = false;
+     private void activationRange()
+     {
+@@ -291,9 +291,9 @@ public class SpigotWorldConfig
+         this.hopperTransfer = this.getInt( "ticks-per.hopper-transfer", 8 );
+         if ( SpigotConfig.version < 11 )
+         {
+-            this.set( "ticks-per.hopper-check", 1 );
++            this.set( "ticks-per.hopper-check", 8 ); // Prismarine - Optimize default config
+         }
+-        this.hopperCheck = this.getInt( "ticks-per.hopper-check", 1 );
++        this.hopperCheck = this.getInt( "ticks-per.hopper-check", 8 ); // Prismarine - Optimize default config
+         this.hopperAmount = this.getInt( "hopper-amount", 1 );
+         this.hopperCanLoadChunks = this.getBoolean( "hopper-can-load-chunks", false );
+         this.log( "Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks );
+@@ -303,7 +303,7 @@ public class SpigotWorldConfig
+     public int tridentDespawnRate;
+     private void arrowDespawnRate()
+     {
+-        this.arrowDespawnRate = this.getInt( "arrow-despawn-rate", 1200 );
++        this.arrowDespawnRate = this.getInt( "arrow-despawn-rate", 300 ); // Prismarine - Optimize default config
+         this.tridentDespawnRate = this.getInt( "trident-despawn-rate", this.arrowDespawnRate );
+         this.log( "Arrow Despawn Rate: " + this.arrowDespawnRate + " Trident Respawn Rate:" + this.tridentDespawnRate );
+     }
+diff --git a/src/main/resources/configurations/bukkit.yml b/src/main/resources/configurations/bukkit.yml
+index eef7c125b2689f29cae5464659eacdf33f5695b2..f5515789f596bac7dd7361118387464cf8776653 100644
+--- a/src/main/resources/configurations/bukkit.yml
++++ b/src/main/resources/configurations/bukkit.yml
+@@ -24,22 +24,22 @@ settings:
+     minimum-api: none
+     use-map-color-cache: true
+ spawn-limits:
+-    monsters: 70
+-    animals: 10
+-    water-animals: 5
+-    water-ambient: 20
+-    water-underground-creature: 5
+-    axolotls: 5
+-    ambient: 15
++    monsters: 20
++    animals: 5
++    water-animals: 2
++    water-ambient: 2
++    water-underground-creature: 3
++    axolotls: 3
++    ambient: 1
+ chunk-gc:
+     period-in-ticks: 600
+ ticks-per:
++    monster-spawns: 10
+     animal-spawns: 400
+-    monster-spawns: 1
+-    water-spawns: 1
+-    water-ambient-spawns: 1
+-    water-underground-creature-spawns: 1
+-    axolotl-spawns: 1
+-    ambient-spawns: 1
++    water-spawns: 400
++    water-ambient-spawns: 400
++    water-underground-creature-spawns: 400
++    axolotl-spawns: 400
++    ambient-spawns: 400
+     autosave: 6000
+ aliases: now-in-commands.yml
+diff --git a/src/main/resources/configurations/commands.yml b/src/main/resources/configurations/commands.yml
+index 18f54571200e2eca09a39b88f170fe7b99d8618f..1b57d51d92c5c69286800d10baeaa936fa208cae 100644
+--- a/src/main/resources/configurations/commands.yml
++++ b/src/main/resources/configurations/commands.yml
+@@ -12,5 +12,3 @@
+ command-block-overrides: []
+ ignore-vanilla-permissions: false
+ aliases:
+-    icanhasbukkit:
+-      - "version $1-"

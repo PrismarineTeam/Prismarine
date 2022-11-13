@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 13 Nov 2022 23:37:48 +0900
+Subject: [PATCH] Rubia patch - Allow any characters in username
+
+Original by Irochi <me@irochi.moe>
+
+Copyright (C) Irochi.moe
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+index 2b03274392300f89c634d3372c30a0fa0122ef85..0633090d9d1824e1c810c205a07ee0bee7e07ab5 100644
+--- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
+@@ -278,6 +278,7 @@ public class ServerLoginPacketListenerImpl implements TickablePacketListener, Se
+     @Override
+     public void handleHello(ServerboundHelloPacket packet) {
+         Validate.validState(this.state == ServerLoginPacketListenerImpl.State.HELLO, "Unexpected hello packet", net.prismarineteam.prismarine.Constants.OBJECT);
++        if (!net.prismarineteam.prismarine.PrismarineConfig.allowAnyPlayerName) // Prismarine - Rubia patch
+         Validate.validState(ServerLoginPacketListenerImpl.isValidUsername(packet.name()), "Invalid characters in username", net.prismarineteam.prismarine.Constants.OBJECT);
+         // Paper start - validate usernames
+         if (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() && io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.performUsernameValidation) {
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index afffa90178aca8b2988824f51ec78bd488d580d6..77de467ce9cf2057d580128870dbe93c5252db17 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -276,4 +276,9 @@ public class PrismarineConfig {
+     private static void antiShulkerDupe() {
+         antiShulkerDupe = getBoolean("settings.anti-shulker-dupe", antiShulkerDupe);
+     }
++
++    public static boolean allowAnyPlayerName = false;
++    private static void allowAnyPlayerName() {
++        allowAnyPlayerName = getBoolean("settings.allow-any-player-name", allowAnyPlayerName);
++    }
+ }
+\ No newline at end of file
