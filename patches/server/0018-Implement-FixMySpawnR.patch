@@ -66,19 +66,12 @@ index f0b0e19ed20967cae12195707007532fbab185f8..5ad659c4af922cb7d928968e453984a8
      }
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index c66135f75f95a10dd49cfb67ed8d84317715193d..69901d7855af3ceaf0890ccb2811e41f513bff5f 100644
+index 17471282fd5820705b24a88888495d33d81b492c..2b79fbb3387fb1026dfcd56e906bb315b335a2ea 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -74,9 +74,15 @@ public class PrismarineWorldConfig {
-         final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
-         return value.isEmpty() ? fallback : value;
-     }
--    
-+
-     public double fishingRodLength = 1024.0D;
-+
-     private void fishingRodLength() {
-         fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
+@@ -84,4 +84,9 @@ public class PrismarineWorldConfig {
+     private void despawnMobWhenNoPlayerIsOnRange() {
+         despawnMobWhenNoPlayerIsOnRange = getBoolean("despawn-mob-when-no-player-is-on-range", despawnMobWhenNoPlayerIsOnRange);
      }
 +
 +    public int timerTimeOut = 0;

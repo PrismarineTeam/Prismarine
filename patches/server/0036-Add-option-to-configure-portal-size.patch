@@ -36,10 +36,10 @@ index 9c1dcbe8293f68f5e9026ff6acecf0c7cb31f73f..e0f433e23e4b5c334ab64cf2569fbd1c
  
      // CraftBukkit start - return boolean
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index 2ded0f556bef879bd0c0da0c53b04c2c8315ab5d..7e7580b865b3a375b059bd4052a25797a9ea880b 100644
+index 81081434bbe8248ab97792311836504f4f6b9f24..bec40a7442ae7976f05eb5bf4ca3a744403160f8 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -90,4 +90,15 @@ public class PrismarineWorldConfig {
+@@ -94,4 +94,15 @@ public class PrismarineWorldConfig {
      private void boatSettings() {
          boatBreakWhenLand = getBoolean("entity.boat.break-when-land", boatBreakWhenLand);
      }

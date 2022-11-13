@@ -18,7 +18,7 @@ index ccb5ad57f173ba27ab1d4a87e6323565248a2bf4..1dc720ca3844ef3a9bad7e470f67fb23
          return this.getPosition(delta).add(0.0D, (double) this.eyeHeight * 0.7D, 0.0D);
      }
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index d5e3bd662da349fc2ee58c7800d79c60300f33b3..4fe0cf5364dcedbff3a9287e565b1bedcd8031a4 100644
+index 4a63fdd784c4c214e3790936f2f759b335b664d3..e9fc05533d3f92836f8c6c93364d85c7a35b48b0 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -136,6 +136,7 @@ public abstract class Mob extends LivingEntity {
@@ -37,8 +37,8 @@ index d5e3bd662da349fc2ee58c7800d79c60300f33b3..4fe0cf5364dcedbff3a9287e565b1bed
 +        } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence() || this.forceDespawn) { // Prismarine
              // Paper start - optimise checkDespawn
              Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
-             if (entityhuman == null) {
-@@ -870,6 +871,13 @@ public abstract class Mob extends LivingEntity {
+             if (entityhuman == null || this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { // Prismarine
+@@ -871,6 +872,13 @@ public abstract class Mob extends LivingEntity {
          }
      }
  

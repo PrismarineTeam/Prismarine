@@ -795,7 +795,7 @@ index 50a9f33aa31e9273c7c52d4bb2b02f0f884f7ba5..76bb6cc0d28227afd6c0a62c1a13537d
              });
              return Collections.unmodifiableCollection(list);
 diff --git a/src/main/java/net/minecraft/util/Mth.java b/src/main/java/net/minecraft/util/Mth.java
-index 9b22034aa655ceb0da151d9d8ca3147f6487889a..4e0caf5dc8de00066819f40de52ec90559964f65 100644
+index 46e3e884890a23f5f90efc795a21566dd40804df..ef48024a21401c8c3543628e5da35f21d8d52a61 100644
 --- a/src/main/java/net/minecraft/util/Mth.java
 +++ b/src/main/java/net/minecraft/util/Mth.java
 @@ -25,7 +25,7 @@ public class Mth {
@@ -935,8 +935,29 @@ index 1ec9a48f2f44f5bd647e0661423ae90970aee262..5b5e91a4fd837093d012845a9024a588
          int i = this.getCurrentSwingDuration();
  
          if (this.swinging) {
+diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
+index d5e3bd662da349fc2ee58c7800d79c60300f33b3..4a63fdd784c4c214e3790936f2f759b335b664d3 100644
+--- a/src/main/java/net/minecraft/world/entity/Mob.java
++++ b/src/main/java/net/minecraft/world/entity/Mob.java
+@@ -841,7 +841,7 @@ public abstract class Mob extends LivingEntity {
+         } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
+             // Paper start - optimise checkDespawn
+             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
+-            if (entityhuman == null) {
++            if (entityhuman == null || this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { // Prismarine
+                 entityhuman = ((ServerLevel)this.level).playersAffectingSpawning.isEmpty() ? null : ((ServerLevel)this.level).playersAffectingSpawning.get(0);
+             }
+             // Paper end - optimise checkDespawn
+@@ -863,6 +863,7 @@ public abstract class Mob extends LivingEntity {
+                 } else if (d0 < (double) l) {
+                     this.noActionTime = 0;
+                 }
++            } else if (this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { this.discard(); // Prismarine
+             }
+ 
+         } else {
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
-index 00fc98797aea23e1f586b8e7f85fc27e2019352f..d281138a381a516804eef0da9dabd27e1e92145f 100644
+index 2c915c765ceef3ec28f5a58fa9a587282c1a906a..2840b720b6fb8d74710845d9186e565f3f99b10b 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 @@ -19,8 +19,8 @@ import org.slf4j.Logger;
@@ -1429,10 +1450,10 @@ index eb01aab61aa3383e39120c7dfb60d9c9a4b801d1..da4b140a10687dde0e40da12baf68d63
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-index cf494171713b5fc12e9627774f2705b911b54bd2..c66135f75f95a10dd49cfb67ed8d84317715193d 100644
+index cf494171713b5fc12e9627774f2705b911b54bd2..17471282fd5820705b24a88888495d33d81b492c 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
-@@ -74,4 +74,9 @@ public class PrismarineWorldConfig {
+@@ -74,4 +74,14 @@ public class PrismarineWorldConfig {
          final Map<String, Object> value = PrismarineConfig.getMap("world-settings." + worldName + "." + path, null);
          return value.isEmpty() ? fallback : value;
      }
@@ -1440,6 +1461,11 @@ index cf494171713b5fc12e9627774f2705b911b54bd2..c66135f75f95a10dd49cfb67ed8d8431
 +    public double fishingRodLength = 1024.0D;
 +    private void fishingRodLength() {
 +        fishingRodLength = getDouble("fishing-rod-length", fishingRodLength);
++    }
++
++    public boolean despawnMobWhenNoPlayerIsOnRange = false;
++    private void despawnMobWhenNoPlayerIsOnRange() {
++        despawnMobWhenNoPlayerIsOnRange = getBoolean("despawn-mob-when-no-player-is-on-range", despawnMobWhenNoPlayerIsOnRange);
 +    }
  }
 \ No newline at end of file
