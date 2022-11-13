@@ -34,7 +34,6 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0021
 0022
 0023
-0024
 0027
 0028
 0029
@@ -45,7 +44,54 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0041
 0042
 0043
+0044
+0045
+0057
+0058
 
+diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java b/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
+index 277cfd9d1e8fff5d9b5e534b75c3c5162d58b0b7..c8e5798f8d9a77f5f8552c3663b4d95eff77b5fb 100644
+--- a/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
++++ b/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
+@@ -26,7 +26,7 @@ public final class IBlockDataList {
+     private int size;
+ 
+     public static int getLocationKey(final int x, final int y, final int z) {
+-        return (x & 15) | (((z & 15) << 4)) | ((y & 255) << (4 + 4));
++        return (x & 15) | ((z & 15) << 4) | ((y & 4095) << 8); // Prismarine - JettPack patches (0058)
+     }
+ 
+     public static BlockState getBlockDataFromRaw(final long raw) {
+diff --git a/src/main/java/com/ishland/c2me/opts/allocs/common/ObjectCachingUtils.java b/src/main/java/com/ishland/c2me/opts/allocs/common/ObjectCachingUtils.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..35af9788a2cfc9203a9987a1a241870658feece7
+--- /dev/null
++++ b/src/main/java/com/ishland/c2me/opts/allocs/common/ObjectCachingUtils.java
+@@ -0,0 +1,23 @@
++package com.ishland.c2me.opts.allocs.common;
++
++import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
++
++import java.util.BitSet;
++import java.util.function.IntFunction;
++
++public class ObjectCachingUtils {
++
++    private static final IntFunction<BitSet> bitSetConstructor = BitSet::new;
++
++    public static ThreadLocal<Int2ObjectOpenHashMap<BitSet>> BITSETS = ThreadLocal.withInitial(Int2ObjectOpenHashMap::new);
++
++    private ObjectCachingUtils() {
++    }
++
++    public static BitSet getCachedOrNewBitSet(int bits) {
++        final BitSet bitSet = BITSETS.get().computeIfAbsent(bits, bitSetConstructor);
++        bitSet.clear();
++        return bitSet;
++    }
++
++}
+\ No newline at end of file
 diff --git a/src/main/java/io/papermc/paper/util/MCUtil.java b/src/main/java/io/papermc/paper/util/MCUtil.java
 index c8f7aa9e0794713724e1053581c220aa95f1bc90..07aa7249b2a84f0441ce7d010cc39e931cb67d34 100644
 --- a/src/main/java/io/papermc/paper/util/MCUtil.java
@@ -476,6 +522,202 @@ index 0000000000000000000000000000000000000000..600b30b097619c76ca95a4fdb6fb17b8
 +        return Float.intBitsToFloat(SINE_TABLE_INT[pos] ^ neg);
 +    }
 +}
+diff --git a/src/main/java/me/jellysquid/mods/lithium/common/world/chunk/LithiumHashPalette.java b/src/main/java/me/jellysquid/mods/lithium/common/world/chunk/LithiumHashPalette.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..16debe176798f316c122e8e7aef2b50ecb9883a6
+--- /dev/null
++++ b/src/main/java/me/jellysquid/mods/lithium/common/world/chunk/LithiumHashPalette.java
+@@ -0,0 +1,189 @@
++package me.jellysquid.mods.lithium.common.world.chunk;
++
++import com.google.common.collect.ImmutableList;
++import it.unimi.dsi.fastutil.HashCommon;
++import it.unimi.dsi.fastutil.objects.Reference2IntMap;
++import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
++import java.util.Arrays;
++import java.util.List;
++import java.util.function.Predicate;
++import net.minecraft.core.IdMap;
++import net.minecraft.network.FriendlyByteBuf;
++import net.minecraft.world.level.chunk.Palette;
++import net.minecraft.world.level.chunk.PaletteResize;
++
++import static it.unimi.dsi.fastutil.Hash.FAST_LOAD_FACTOR;
++
++/**
++ * Generally provides better performance over the vanilla {@link net.minecraft.world.level.chunk.HashMapPalette} when calling
++ * {@link LithiumHashPalette#idFor(Object)} through using a faster backing map and reducing pointer chasing.
++ */
++public class LithiumHashPalette<T> implements Palette<T> {
++    private static final int ABSENT_VALUE = -1;
++
++    private final IdMap<T> idList;
++    private final PaletteResize<T> resizeHandler;
++    private final int indexBits;
++
++    private final Reference2IntMap<T> table;
++    private T[] entries;
++    private int size = 0;
++
++    public LithiumHashPalette(IdMap<T> idList, PaletteResize<T> resizeHandler, int indexBits, T[] entries, Reference2IntMap<T> table, int size) {
++        this.idList = idList;
++        this.resizeHandler = resizeHandler;
++        this.indexBits = indexBits;
++        this.entries = entries;
++        this.table = table;
++        this.size = size;
++    }
++
++    public LithiumHashPalette(IdMap<T> idList, int bits, PaletteResize<T> resizeHandler, List<T> list) {
++        this(idList, bits, resizeHandler);
++
++        for (T t : list) {
++            this.addEntry(t);
++        }
++    }
++
++    @SuppressWarnings("unchecked")
++    public LithiumHashPalette(IdMap<T> idList, int bits, PaletteResize<T> resizeHandler) {
++        this.idList = idList;
++        this.indexBits = bits;
++        this.resizeHandler = resizeHandler;
++
++        int capacity = 1 << bits;
++
++        this.entries = (T[]) new Object[capacity];
++        this.table = new Reference2IntOpenHashMap<>(capacity, FAST_LOAD_FACTOR);
++        this.table.defaultReturnValue(ABSENT_VALUE);
++    }
++
++    @Override
++    public int idFor(T obj) {
++        int id = this.table.getInt(obj);
++
++        if (id == ABSENT_VALUE) {
++            id = this.computeEntry(obj);
++        }
++
++        return id;
++    }
++
++    @Override
++    public boolean maybeHas(Predicate<T> predicate) {
++        for (int i = 0; i < this.size; ++i) {
++            if (predicate.test(this.entries[i])) {
++                return true;
++            }
++        }
++
++        return false;
++    }
++
++    private int computeEntry(T obj) {
++        int id = this.addEntry(obj);
++
++        if (id >= 1 << this.indexBits) {
++            if (this.resizeHandler == null) {
++                throw new IllegalStateException("Cannot grow");
++            } else {
++                id = this.resizeHandler.onResize(this.indexBits + 1, obj);
++            }
++        }
++
++        return id;
++    }
++
++    private int addEntry(T obj) {
++        int nextId = this.size;
++
++        if (nextId >= this.entries.length) {
++            this.resize(this.size);
++        }
++
++        this.table.put(obj, nextId);
++        this.entries[nextId] = obj;
++
++        this.size++;
++
++        return nextId;
++    }
++
++    private void resize(int neededCapacity) {
++        this.entries = Arrays.copyOf(this.entries, HashCommon.nextPowerOfTwo(neededCapacity + 1));
++    }
++
++    @Override
++    public T valueFor(int id) {
++        T[] entries = this.entries;
++
++        if (id >= 0 && id < entries.length) {
++            return entries[id];
++        }
++
++        return null;
++    }
++
++    @Override
++    public void read(FriendlyByteBuf buf) {
++        this.clear();
++
++        int entryCount = buf.readVarInt();
++
++        for (int i = 0; i < entryCount; ++i) {
++            this.addEntry(this.idList.byId(buf.readVarInt()));
++        }
++    }
++
++    @Override
++    public void write(FriendlyByteBuf buf) {
++        int size = this.size;
++        buf.writeVarInt(size);
++
++        for (int i = 0; i < size; ++i) {
++            buf.writeVarInt(this.idList.getId(this.valueFor(i)));
++        }
++    }
++
++    @Override
++    public int getSerializedSize() {
++        int size = FriendlyByteBuf.getVarIntSize(this.size);
++
++        for (int i = 0; i < this.size; ++i) {
++            size += FriendlyByteBuf.getVarIntSize(this.idList.getId(this.valueFor(i)));
++        }
++
++        return size;
++    }
++
++    @Override
++    public int getSize() {
++        return this.size;
++    }
++
++    @Override
++    public Palette<T> copy() {
++        return new LithiumHashPalette<>(this.idList, this.resizeHandler, this.indexBits, this.entries.clone(), new Reference2IntOpenHashMap<>(this.table), this.size);
++    }
++
++    private void clear() {
++        Arrays.fill(this.entries, null);
++        this.table.clear();
++        this.size = 0;
++    }
++
++    public List<T> getElements() {
++        ImmutableList.Builder<T> builder = new ImmutableList.Builder<>();
++        for (T entry : this.entries) {
++            if (entry != null) {
++                builder.add(entry);
++            }
++        }
++        return builder.build();
++    }
++
++    public static <A> Palette<A> create(int bits, IdMap<A> idList, PaletteResize<A> listener, List<A> list) {
++        return new LithiumHashPalette<>(idList, bits, listener, list);
++    }
++}
+\ No newline at end of file
 diff --git a/src/main/java/me/titaniumtown/cache/NBTCache.java b/src/main/java/me/titaniumtown/cache/NBTCache.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..6b416b201c370f497e2fd4368ffa0cdbb064a53e
@@ -686,10 +928,26 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a06089083cf36b1934aa1d67c25bc859e73afbaf..615c64ac01e30c187b39fea32e951932195e36a7 100644
+index a06089083cf36b1934aa1d67c25bc859e73afbaf..38f356a83a0145f44f035edc0949d0bb7f8235e7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -957,7 +957,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -940,7 +940,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+                     continue;
+                 }
+ 
+-                int yPos = (sectionIndex + minSection) << 4;
++                int yPos = ((sectionIndex + minSection) << 4) + 4096; // Prismarine - JettPack patches (0058)
+                 for (int a = 0; a < randomTickSpeed; ++a) {
+                     int tickingBlocks = section.tickingList.size();
+                     int index = this.randomTickRandom.nextInt(16 * 16 * 16);
+@@ -951,13 +951,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+                     long raw = section.tickingList.getRaw(index);
+                     int location = com.destroystokyo.paper.util.maplist.IBlockDataList.getLocationFromRaw(raw);
+                     int randomX = location & 15;
+-                    int randomY = ((location >>> (4 + 4)) & 255) | yPos;
++                    int randomY = (((location >>> 8) & 4095) | yPos) - 4096; // Prismarine - JettPack patches (0058)
+                     int randomZ = (location >>> 4) & 15;
+ 
                      BlockPos blockposition2 = blockposition.set(j + randomX, randomY, k + randomZ);
                      BlockState iblockdata = com.destroystokyo.paper.util.maplist.IBlockDataList.getBlockDataFromRaw(raw);
  
@@ -762,6 +1020,17 @@ index 82634bd0ab2792f637573c2ee7d9d00ba1104900..89310e0759d4a3d215112f83630ed193
      }
  
      public void updateEntireScoreboard(ServerScoreboard scoreboard, ServerPlayer player) {
+diff --git a/src/main/java/net/minecraft/util/BitStorage.java b/src/main/java/net/minecraft/util/BitStorage.java
+index 106610ccc74b70b557b01c61262d56c4f1147acf..290fdadb522bc201d8f4453fe4333a98f387ec15 100644
+--- a/src/main/java/net/minecraft/util/BitStorage.java
++++ b/src/main/java/net/minecraft/util/BitStorage.java
+@@ -31,4 +31,6 @@ public interface BitStorage {
+ 
+     }
+     // Paper end
++
++    <T> void compact(net.minecraft.world.level.chunk.Palette<T> srcPalette, net.minecraft.world.level.chunk.Palette<T> dstPalette, short[] out); // Prismarine - JettPack patches (0044 - lithium: chunk.serialization)
+ }
 diff --git a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java b/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
 index 50a9f33aa31e9273c7c52d4bb2b02f0f884f7ba5..76bb6cc0d28227afd6c0a62c1a13537d8a8c1907 100644
 --- a/src/main/java/net/minecraft/util/ClassInstanceMultiMap.java
@@ -835,6 +1104,66 @@ index 46e3e884890a23f5f90efc795a21566dd40804df..ef48024a21401c8c3543628e5da35f21
          return SIN[(int)(value * 10430.378F + 16384.0F) & '\uffff'];
      }
  
+diff --git a/src/main/java/net/minecraft/util/SimpleBitStorage.java b/src/main/java/net/minecraft/util/SimpleBitStorage.java
+index 36e33923bf48e56c743ed043bcbc66bc32f0422f..8986a34ae144103aa87b7f678f4c0c3871c47523 100644
+--- a/src/main/java/net/minecraft/util/SimpleBitStorage.java
++++ b/src/main/java/net/minecraft/util/SimpleBitStorage.java
+@@ -201,4 +201,44 @@ public class SimpleBitStorage implements BitStorage {
+             super(message);
+         }
+     }
++
++    // Prismarine start - JettPack patches (0044 - lithium: chunk.serialization)
++    @Override
++    public <T> void compact(net.minecraft.world.level.chunk.Palette<T> srcPalette, net.minecraft.world.level.chunk.Palette<T> dstPalette, short[] out) {
++        if (this.size >= Short.MAX_VALUE) {
++            throw new IllegalStateException("Array too large");
++        }
++
++        if (this.size != out.length) {
++            throw new IllegalStateException("Array size mismatch");
++        }
++
++        short[] mappings = new short[(int) (this.mask + 1)];
++
++        int idx = 0;
++
++        for (long word : this.data) {
++            long bits = word;
++
++            for (int elementIdx = 0; elementIdx < this.valuesPerLong; ++elementIdx) {
++                int value = (int) (bits & this.mask);
++                int remappedId = mappings[value];
++
++                if (remappedId == 0) {
++                    remappedId = dstPalette.idFor(srcPalette.valueFor(value)) + 1;
++                    mappings[value] = (short) remappedId;
++                }
++
++                out[idx] = (short) (remappedId - 1);
++                bits >>= this.bits;
++
++                ++idx;
++
++                if (idx >= this.size) {
++                    return;
++                }
++            }
++        }
++    }
++    // Prismarine end
+ }
+diff --git a/src/main/java/net/minecraft/util/ZeroBitStorage.java b/src/main/java/net/minecraft/util/ZeroBitStorage.java
+index 5d8e9bdf5538b19681f21949368d862fab8a89ad..347f1dd2fe964fe7f9c4ad9aa92b27c5b455b66b 100644
+--- a/src/main/java/net/minecraft/util/ZeroBitStorage.java
++++ b/src/main/java/net/minecraft/util/ZeroBitStorage.java
+@@ -72,4 +72,6 @@ public class ZeroBitStorage implements BitStorage {
+     public BitStorage copy() {
+         return this;
+     }
++
++    @Override public <T> void compact(net.minecraft.world.level.chunk.Palette<T> srcPalette, net.minecraft.world.level.chunk.Palette<T> dstPalette, short[] out) {} // Prismarine - JettPack patches (0044 - lithium: chunk.serialization)
+ }
 diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d553dc29d9a 100644
 --- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
@@ -1140,6 +1469,162 @@ index e94ca6283a0471a49b31942de763472ccb989dcb..75e44de348a33991761f1306d0ebcfee
          }
      }
  }
+diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
+index f25467ad1c5bac7eaef4b63b2845ad04d7c76e4e..5019bac4a8f63181d22c43a676c12d24e060a184 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
++++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
+@@ -192,7 +192,7 @@ public class LevelChunkSection {
+             if (iblockdata1.isRandomlyTicking()) {
+                 --this.tickingBlockCount;
+                 // Paper start
+-                this.tickingList.remove(x, y, z);
++                this.tickingList.remove(x, y + 4096, z); // Prismarine - JettPack patches (0058)
+                 // Paper end
+             }
+         }
+@@ -207,7 +207,7 @@ public class LevelChunkSection {
+             if (state.isRandomlyTicking()) {
+                 ++this.tickingBlockCount;
+                 // Paper start
+-                this.tickingList.add(x, y, z, state);
++                this.tickingList.add(x, y + 4096, z, state); // Prismarine - JettPack patches (0058)
+                 // Paper end
+             }
+         }
+diff --git a/src/main/java/net/minecraft/world/level/chunk/PaletteResize.java b/src/main/java/net/minecraft/world/level/chunk/PaletteResize.java
+index acae3eb30e0689048937f479dc3070f0688abdad..a6a0a39f9d25960d78aae9856b805bcd1b74787b 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/PaletteResize.java
++++ b/src/main/java/net/minecraft/world/level/chunk/PaletteResize.java
+@@ -1,5 +1,5 @@
+ package net.minecraft.world.level.chunk;
+ 
+-interface PaletteResize<T> {
++public interface PaletteResize<T> { // Prismarine - package -> public
+     int onResize(int newBits, T object);
+ }
+diff --git a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
+index 7908360dd47937b2cb702e381802b7b278a5198e..ab816eac615a37fb58e36d213a3d94795e8fbb60 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
++++ b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
+@@ -24,6 +24,18 @@ import net.minecraft.util.ThreadingDetector;
+ import net.minecraft.util.ZeroBitStorage;
+ 
+ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainerRO<T> {
++    // Prismarine start - JettPack patches (0044 - lithium: chunk.serialization)
++    private static final ThreadLocal<short[]> CACHED_ARRAY_4096 = ThreadLocal.withInitial(() -> new short[4096]);
++    private static final ThreadLocal<short[]> CACHED_ARRAY_64 = ThreadLocal.withInitial(() -> new short[64]);
++    private Optional<LongStream> asOptional(long[] data) { return Optional.of(Arrays.stream(data)); }
++    private short[] getOrCreate(int size) {
++        return switch (size) {
++            case 4096 -> CACHED_ARRAY_4096.get();
++            case 64 -> CACHED_ARRAY_64.get();
++            default -> new short[size];
++        };
++    }
++    // Prismarine end
+     private static final int MIN_PALETTE_BITS = 0;
+     private final PaletteResize<T> dummyPaletteResize = (newSize, added) -> {
+         return 0;
+@@ -299,30 +311,53 @@ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainer
+     public synchronized PalettedContainerRO.PackedData<T> pack(IdMap<T> idList, PalettedContainer.Strategy paletteProvider) { // Paper - synchronize
+         this.acquire();
+ 
+-        PalettedContainerRO.PackedData var12;
++        // Prismarine start - JettPack patches (0044 - lithium: chunk.serialization)
++        Optional<LongStream> data = Optional.empty();
++        List<T> elements = null;
+         try {
+-            HashMapPalette<T> hashMapPalette = new HashMapPalette<>(idList, this.data.storage.getBits(), this.dummyPaletteResize);
+-            int i = paletteProvider.size();
+-            int[] is = new int[i];
+-            this.data.storage.unpack(is);
+-            swapPalette(is, (id) -> {
+-                return hashMapPalette.idFor(this.data.palette.valueFor(id));
+-            });
+-            int j = paletteProvider.calculateBitsForSerialization(idList, hashMapPalette.getSize());
+-            Optional<LongStream> optional;
+-            if (j != 0) {
+-                SimpleBitStorage simpleBitStorage = new SimpleBitStorage(j, i, is);
+-                optional = Optional.of(Arrays.stream(simpleBitStorage.getRaw()));
+-            } else {
+-                optional = Optional.empty();
++            // The palette that will be serialized
++            me.jellysquid.mods.lithium.common.world.chunk.LithiumHashPalette<T> hashPalette = null;
++            final Palette<T> palette = this.data.palette();
++            final BitStorage storage = this.data.storage();
++
++            if (storage instanceof ZeroBitStorage || palette.getSize() == 1) {
++                // If the palette only contains one entry, don't attempt to repack it.
++                elements = List.of(palette.valueFor(0));
++            } else if (palette instanceof me.jellysquid.mods.lithium.common.world.chunk.LithiumHashPalette<T> lithiumHashPalette) {
++                hashPalette = lithiumHashPalette;
+             }
+ 
+-            var12 = new PalettedContainerRO.PackedData<>(hashMapPalette.getEntries(), optional);
++            if (elements == null) {
++                me.jellysquid.mods.lithium.common.world.chunk.LithiumHashPalette compactedPalette = new me.jellysquid.mods.lithium.common.world.chunk.LithiumHashPalette<>(idList, storage.getBits(), this.dummyPaletteResize);
++                short[] array = this.getOrCreate(paletteProvider.size());
++
++                storage.compact(palette, compactedPalette, array);
++
++                // If the palette didn't change during compaction, do a simple copy of the data array
++                if (hashPalette != null && hashPalette.getSize() == compactedPalette.getSize() && storage.getBits() == paletteProvider.calculateBitsForSerialization(idList, hashPalette.getSize())) { // paletteSize can de-sync from palette - see https://github.com/CaffeineMC/lithium-fabric/issues/279
++                    data = this.asOptional(storage.getRaw().clone());
++                    elements = hashPalette.getElements();
++                } else {
++                    int bits = paletteProvider.calculateBitsForSerialization(idList, compactedPalette.getSize());
++                    if (bits != 0) {
++                        // Re-pack the int array as the palette has changed size
++                        SimpleBitStorage copy = new SimpleBitStorage(bits, array.length);
++                        for (int i = 0; i < array.length; ++i) {
++                            copy.set(i, array[i]);
++                        }
++
++                        // We don't need to clone the data array as we're the sole owner of it
++                        data = this.asOptional(copy.getRaw());
++                    }
++                    elements = compactedPalette.getElements();
++                }
++            }
+         } finally {
+             this.release();
+         }
+ 
+-        return var12;
++        return new PalettedContainerRO.PackedData<>(elements, data);
++        // Prismarine end
+     }
+ 
+     private static <T> void swapPalette(int[] is, IntUnaryOperator applier) {
+@@ -362,6 +397,12 @@ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainer
+ 
+     @Override
+     public void count(PalettedContainer.CountConsumer<T> counter) {
++        // Prismarine start - JettPack patches (0044 - lithium: chunk.serialization)
++        int len = this.data.palette().getSize();
++
++        // Don't allocate huge arrays if we're using a large palette
++        if (len > 4096) {
++        // Vanilla start
+         if (this.data.palette.getSize() == 1) {
+             counter.accept(this.data.palette.valueFor(0), this.data.storage.getSize());
+         } else {
+@@ -373,6 +414,15 @@ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainer
+                 counter.accept(this.data.palette.valueFor(entry.getIntKey()), entry.getIntValue());
+             });
+         }
++        // Vanilla end
++        }
++        short[] counts = new short[len];
++        this.data.storage().getAll(i -> counts[i]++);
++        for (int i = 0; i < counts.length; i++) {
++            T obj = this.data.palette().valueFor(i);
++            if (obj != null) counter.accept(obj, counts[i]);
++        }
++        // Prismarine end
+     }
+ 
+     static record Configuration<T>(Palette.Factory factory, int bits) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 index dfe2a2c13b149c20728112d4e9dfcfa8f118e541..02d877ebc0f4e0e8d24c1c432f8a654bef01f30f 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
@@ -1245,6 +1730,157 @@ index 4c1e7c219e1ca153be4423347bd239ebaec4a31d..1e34e7d81dd4aa3a47be6cadfadd9c0f
  
      public LongStream getExistingSectionPositionsInChunk(long chunkPos) {
          int i = ChunkPos.getX(chunkPos);
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/feature/OreFeature.java b/src/main/java/net/minecraft/world/level/levelgen/feature/OreFeature.java
+index b2f36a998437e2a63a3cbc6c3aa95b1402bff2f1..e33d239156ca1e7ab68d7c0cad8886e0beef1d60 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/feature/OreFeature.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/feature/OreFeature.java
+@@ -54,7 +54,7 @@ public class OreFeature extends Feature<OreConfiguration> {
+ 
+     protected boolean doPlace(WorldGenLevel world, RandomSource randomSource, OreConfiguration config, double startX, double endX, double startZ, double endZ, double startY, double endY, int x, int y, int z, int horizontalSize, int verticalSize) {
+         int i = 0;
+-        BitSet bitSet = new BitSet(horizontalSize * verticalSize * horizontalSize);
++        BitSet bitSet = com.ishland.c2me.opts.allocs.common.ObjectCachingUtils.getCachedOrNewBitSet(horizontalSize * verticalSize * horizontalSize); // Prismarine - JettPack patches (0057)
+         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+         int j = config.size;
+         double[] ds = new double[j * 4];
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/synth/ImprovedNoise.java b/src/main/java/net/minecraft/world/level/levelgen/synth/ImprovedNoise.java
+index fb84d703b4461343d50510d7c9be32fc1f09ed22..e9244efa122a9fa39dc36792af4c755dce70fa2b 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/synth/ImprovedNoise.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/synth/ImprovedNoise.java
+@@ -11,6 +11,27 @@ public final class ImprovedNoise {
+     public final double yo;
+     public final double zo;
+ 
++    // Prismarine start - JettPack patches (C2ME math optimizations)
++    private static final double[][] SIMPLEX_NOISE_GRADIENTS = new double[][]{
++            {1, 1, 0},
++            {-1, 1, 0},
++            {1, -1, 0},
++            {-1, -1, 0},
++            {1, 0, 1},
++            {-1, 0, 1},
++            {1, 0, -1},
++            {-1, 0, -1},
++            {0, 1, 1},
++            {0, -1, 1},
++            {0, 1, -1},
++            {0, -1, -1},
++            {1, 1, 0},
++            {0, -1, 1},
++            {-1, 1, 0},
++            {0, -1, -1}
++    };
++    // Prismarine end
++
+     public ImprovedNoise(RandomSource random) {
+         this.xo = random.nextDouble() * 256.0D;
+         this.yo = random.nextDouble() * 256.0D;
+@@ -40,27 +61,23 @@ public final class ImprovedNoise {
+         double d = x + this.xo;
+         double e = y + this.yo;
+         double f = z + this.zo;
+-        int i = Mth.floor(d);
+-        int j = Mth.floor(e);
+-        int k = Mth.floor(f);
+-        double g = d - (double)i;
+-        double h = e - (double)j;
+-        double l = f - (double)k;
+-        double o;
+-        if (yScale != 0.0D) {
++        // Prismarine start - JettPack patches (C2ME math optimizations)
++        double i = Mth.floor(d);
++        double j = Mth.floor(e);
++        double k = Mth.floor(f);
++        double h = e - j;
++        double o = 0.0D;
++        if (yScale != 0.0) {
+             double m;
+-            if (yMax >= 0.0D && yMax < h) {
++            if (yMax >= 0.0 && yMax < h) {
+                 m = yMax;
+             } else {
+                 m = h;
+             }
+-
+-            o = (double)Mth.floor(m / yScale + (double)1.0E-7F) * yScale;
+-        } else {
+-            o = 0.0D;
++            o = Mth.floor(m / yScale + 1.0E-7F) * yScale;
+         }
+-
+-        return this.sampleAndLerp(i, j, k, g, h - o, l, h);
++        return this.sampleAndLerp((int) i, (int) j, (int) k, d - i, h - o, f - k, h);
++        // Prismarine end
+     }
+ 
+     public double noiseWithDerivative(double x, double y, double z, double[] ds) {
+@@ -85,24 +102,35 @@ public final class ImprovedNoise {
+     }
+ 
+     private double sampleAndLerp(int sectionX, int sectionY, int sectionZ, double localX, double localY, double localZ, double fadeLocalY) {
+-        int i = this.p(sectionX);
+-        int j = this.p(sectionX + 1);
+-        int k = this.p(i + sectionY);
+-        int l = this.p(i + sectionY + 1);
+-        int m = this.p(j + sectionY);
+-        int n = this.p(j + sectionY + 1);
+-        double d = gradDot(this.p(k + sectionZ), localX, localY, localZ);
+-        double e = gradDot(this.p(m + sectionZ), localX - 1.0D, localY, localZ);
+-        double f = gradDot(this.p(l + sectionZ), localX, localY - 1.0D, localZ);
+-        double g = gradDot(this.p(n + sectionZ), localX - 1.0D, localY - 1.0D, localZ);
+-        double h = gradDot(this.p(k + sectionZ + 1), localX, localY, localZ - 1.0D);
+-        double o = gradDot(this.p(m + sectionZ + 1), localX - 1.0D, localY, localZ - 1.0D);
+-        double p = gradDot(this.p(l + sectionZ + 1), localX, localY - 1.0D, localZ - 1.0D);
+-        double q = gradDot(this.p(n + sectionZ + 1), localX - 1.0D, localY - 1.0D, localZ - 1.0D);
+-        double r = Mth.smoothstep(localX);
+-        double s = Mth.smoothstep(fadeLocalY);
+-        double t = Mth.smoothstep(localZ);
+-        return Mth.lerp3(r, s, t, d, e, f, g, h, o, p, q);
++        // Prismarine start - JettPack patches (C2ME math optimizations)
++        final int var1 = this.p[sectionX & 0xFF] & 0xFF;
++        final int var2 = this.p[(sectionX + 1) & 0xFF] & 0xFF;
++        final int var3 = this.p[(var1 + sectionY) & 0xFF] & 0xFF;
++        final int var4 = this.p[(var1 + sectionY + 1) & 0xFF] & 0xFF;
++        final int var5 = this.p[(var2 + sectionY) & 0xFF] & 0xFF;
++        final int var6 = this.p[(var2 + sectionY + 1) & 0xFF] & 0xFF;
++        final double[] var7 = SIMPLEX_NOISE_GRADIENTS[this.p[(var3 + sectionZ) & 0xFF] & 15];
++        final double[] var8 = SIMPLEX_NOISE_GRADIENTS[this.p[(var5 + sectionZ) & 0xFF] & 15];
++        final double[] var9 = SIMPLEX_NOISE_GRADIENTS[this.p[(var4 + sectionZ) & 0xFF] & 15];
++        final double[] var10 = SIMPLEX_NOISE_GRADIENTS[this.p[(var6 + sectionZ) & 0xFF] & 15];
++        final double[] var11 = SIMPLEX_NOISE_GRADIENTS[this.p[(var3 + sectionZ + 1) & 0xFF] & 15];
++        final double[] var12 = SIMPLEX_NOISE_GRADIENTS[this.p[(var5 + sectionZ + 1) & 0xFF] & 15];
++        final double[] var13 = SIMPLEX_NOISE_GRADIENTS[this.p[(var4 + sectionZ + 1) & 0xFF] & 15];
++        final double[] var14 = SIMPLEX_NOISE_GRADIENTS[this.p[(var6 + sectionZ + 1) & 0xFF] & 15];
++        final double var15 = localX - 1.0;
++        final double var16 = localY - 1.0;
++        final double var17 = localZ - 1.0;
++        final double var18 = (var7[0] * localX) + (var7[1] * localY) + (var7[2] * localZ);
++        final double var19 = (var9[0] * localX) + (var9[1] * var16) + (var9[2] * localZ);
++        final double var20 = (var11[0] * localX) + (var11[1] * localY) + (var11[2] * var17);
++        final double var21 = (var13[0] * localX) + (var13[1] * var16) + (var13[2] * var17);
++        final double var22 = localX * localX * localX * (localX * (localX * 6.0 - 15.0) + 10.0);
++        final double var23 = fadeLocalY * fadeLocalY * fadeLocalY * (fadeLocalY * (fadeLocalY * 6.0 - 15.0) + 10.0);
++        final double var24 = var18 + (var22 * (((var8[0] * var15) + (var8[1] * localY) + (var8[2] * localZ)) - var18));
++        final double var25 = var20 + (var22 * (((var12[0] * var15) + (var12[1] * localY) + (var12[2] * var17)) - var20));
++        final double var26 = var24 + (var23 * ((var19 + (var22 * (((var10[0] * var15) + (var10[1] * var16) + (var10[2] * localZ)) - var19))) - var24));
++        return var26 + ((localZ * localZ * localZ * (localZ * (localZ * 6.0 - 15.0) + 10.0)) * ((var25 + (var23 * ((var21 + (var22 * (((var14[0] * var15) + (var14[1] * var16) + (var14[2] * var17)) - var21))) - var25))) - var26));
++        // Prismarine end
+     }
+ 
+     private double sampleWithDerivative(int sectionX, int sectionY, int sectionZ, double localX, double localY, double localZ, double[] ds) {
+diff --git a/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java b/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
+index 03c752e4abfe9e1f27c79024af48b31f7e90e555..b58a52f946b7b67ef8dc917167e1669e8e05fe08 100644
+--- a/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
++++ b/src/main/java/net/minecraft/world/level/levelgen/synth/PerlinNoise.java
+@@ -192,7 +192,7 @@ public class PerlinNoise {
+     }
+ 
+     public static double wrap(double value) {
+-        return value - (double)Mth.lfloor(value / 3.3554432E7D + 0.5D) * 3.3554432E7D;
++        return value - Mth.lfloor(value / 3.3554432E7 + 0.5) * 3.3554432E7; // Prismarine - JettPack patches (C2ME math optimizations)
+     }
+ 
+     protected int firstOctave() {
 diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
 index 2bb24bf628a37c79e337f1cba99b816465ecb723..bb23784a480d9ca6e1246260e724a42073bb636a 100644
 --- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
