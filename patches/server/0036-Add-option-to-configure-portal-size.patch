@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 13 Nov 2022 13:21:17 +0900
+Subject: [PATCH] Add option to configure portal size
+
+
+diff --git a/src/main/java/net/minecraft/world/level/portal/PortalShape.java b/src/main/java/net/minecraft/world/level/portal/PortalShape.java
+index 9c1dcbe8293f68f5e9026ff6acecf0c7cb31f73f..e0f433e23e4b5c334ab64cf2569fbd1c4eca0708 100644
+--- a/src/main/java/net/minecraft/world/level/portal/PortalShape.java
++++ b/src/main/java/net/minecraft/world/level/portal/PortalShape.java
+@@ -94,7 +94,7 @@ public class PortalShape {
+     private int calculateWidth() {
+         int i = this.getDistanceUntilEdgeAboveFrame(this.bottomLeft, this.rightDir);
+ 
+-        return i >= 2 && i <= 21 ? i : 0;
++        return i >= this.level.getMinecraftWorld().prismarineConfig.portalMinWidth && i <= this.level.getMinecraftWorld().prismarineConfig.portalMaxWidth ? i : 0; // Prismarine
+     }
+ 
+     private int getDistanceUntilEdgeAboveFrame(BlockPos pos, Direction direction) {
+@@ -127,7 +127,7 @@ public class PortalShape {
+         BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
+         int i = this.getDistanceUntilTop(blockposition_mutableblockposition);
+ 
+-        return i >= 3 && i <= 21 && this.hasTopFrame(blockposition_mutableblockposition, i) ? i : 0;
++        return i >= this.level.getMinecraftWorld().prismarineConfig.portalMinHeight && i <= this.level.getMinecraftWorld().prismarineConfig.portalMaxHeight && this.hasTopFrame(blockposition_mutableblockposition, i) ? i : 0; // Prismarine
+     }
+ 
+     private boolean hasTopFrame(BlockPos.MutableBlockPos pos, int height) {
+@@ -181,7 +181,7 @@ public class PortalShape {
+     }
+ 
+     public boolean isValid() {
+-        return this.bottomLeft != null && this.width >= 2 && this.width <= 21 && this.height >= 3 && this.height <= 21;
++        return this.bottomLeft != null && this.width >= this.level.getMinecraftWorld().prismarineConfig.portalMinWidth && this.width <= this.level.getMinecraftWorld().prismarineConfig.portalMaxWidth && this.height >= this.level.getMinecraftWorld().prismarineConfig.portalMinHeight && this.height <= this.level.getMinecraftWorld().prismarineConfig.portalMaxHeight; // Prismarine
+     }
+ 
+     // CraftBukkit start - return boolean
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+index 2ded0f556bef879bd0c0da0c53b04c2c8315ab5d..7e7580b865b3a375b059bd4052a25797a9ea880b 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineWorldConfig.java
+@@ -90,4 +90,15 @@ public class PrismarineWorldConfig {
+     private void boatSettings() {
+         boatBreakWhenLand = getBoolean("entity.boat.break-when-land", boatBreakWhenLand);
+     }
++
++    public int portalMinWidth = 2;
++    public int portalMinHeight = 3;
++    public int portalMaxWidth = 21;
++    public int portalMaxHeight = 21;
++    private void portalSettings() {
++        portalMinWidth = getInt("portal.min-width", portalMinWidth);
++        portalMinHeight = getInt("portal.min-height", portalMinHeight);
++        portalMaxWidth = getInt("portal.max-width", portalMaxWidth);
++        portalMaxHeight = getInt("portal.max-height", portalMaxHeight);
++    }
+ }
+\ No newline at end of file

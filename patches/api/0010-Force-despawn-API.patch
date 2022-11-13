@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: AlphaKR93 <alphakr93@outlook.com>
+Date: Sun, 2 Oct 2022 21:26:54 +0900
+Subject: [PATCH] Force despawn API
+
+
+diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
+index 3959765b110b6fed91348c11ff85e302a885776c..9a90a098e0b77b708ebedf30e0538e8e67e292f1 100644
+--- a/src/main/java/org/bukkit/entity/Entity.java
++++ b/src/main/java/org/bukkit/entity/Entity.java
+@@ -371,6 +371,10 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+      */
+     public void remove();
+ 
++    // Prismarine start
++    public void setRemove(boolean force);
++    // Prismarine end
++
+     /**
+      * Returns true if this entity has been marked for removal.
+      *
