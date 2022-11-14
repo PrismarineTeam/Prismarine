@@ -864,7 +864,7 @@ index 18364ce4c60172529b10bc9e3a813dcedc4b766f..d495e77eac941e399b5b7e32637d634a
      private boolean reachedTarget(Mob entity, WalkTarget walkTarget) {
          return walkTarget.getTarget().currentBlockPosition().distManhattan(entity.blockPosition()) <= walkTarget.getCloseEnoughDist();
 diff --git a/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java b/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
-index 9bd6d4f7b86daaaa9cfbad454dde06b797e3f667..cedb40cfb148a2d5377dc84ceaea53578379b585 100644
+index 9bd6d4f7b86daaaa9cfbad454dde06b797e3f667..050dc9c1a09a7f19cc0a9e41905e10d01b802516 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/behavior/SetClosestHomeAsWalkTarget.java
 @@ -71,19 +71,25 @@ public class SetClosestHomeAsWalkTarget extends Behavior<LivingEntity> {
@@ -878,7 +878,7 @@ index 9bd6d4f7b86daaaa9cfbad454dde06b797e3f667..cedb40cfb148a2d5377dc84ceaea5357
 +
 +        // wait on the path to be processed
 +        host.bloom.pathfinding.AsyncPathProcessor.awaitProcessing(possiblePath, path -> {
-+            if (path != null || !path.canReach() || this.triedCount < 5) {
++            if (path == null || !path.canReach() || this.triedCount < 5) {
 +                this.batchCache.long2LongEntrySet().removeIf((entry) -> {
 +                    return entry.getLongValue() < this.lastUpdate;
 +                });
@@ -1129,18 +1129,17 @@ index 0a432fe44e8d444d635b3e3e274dd20cf0b910f3..d0dc965b9795c1424ec050e7935b2acf
          }
      }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-index 55a36e1573058175c45a2c0ac4978b7b96a9fda0..6a07cc89199f57de3371a938536a7538f9681dea 100644
+index 55a36e1573058175c45a2c0ac4978b7b96a9fda0..fd02f6da151ba7c7298553555af8ca6bfc7012ed 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -473,6 +473,15 @@ public class Frog extends Animal {
+@@ -473,6 +473,14 @@ public class Frog extends Animal {
      }
  
      static class FrogPathNavigation extends AmphibiousPathNavigation {
 +        // Prismarine start - Petal patches
 +        private static final host.bloom.pathfinding.NodeEvaluatorGenerator nodeEvaluatorGenerator = () -> {
-+            var nodeEvaluator = new FrogNodeEvaluator(true);
-+            nodeEvaluator.setCanOpenDoors(true);
-+            nodeEvaluator.setCanFloat(true);
++            var nodeEvaluator = new Frog.FrogNodeEvaluator(true);
++            nodeEvaluator.setCanPassDoors(true);
 +            return nodeEvaluator;
 +        };
 +        // Prismarine end
@@ -1148,7 +1147,7 @@ index 55a36e1573058175c45a2c0ac4978b7b96a9fda0..6a07cc89199f57de3371a938536a7538
          FrogPathNavigation(Frog frog, Level world) {
              super(frog, world);
          }
-@@ -481,7 +490,7 @@ public class Frog extends Animal {
+@@ -481,7 +489,7 @@ public class Frog extends Animal {
          protected PathFinder createPathFinder(int range) {
              this.nodeEvaluator = new Frog.FrogNodeEvaluator(true);
              this.nodeEvaluator.setCanPassDoors(true);
