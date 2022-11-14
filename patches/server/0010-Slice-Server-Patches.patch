@@ -50,7 +50,7 @@ index bf838c097aeb79fbe82c0b6cdf3315acf03474cd..88c488cc9bcbfdec50654a8d67ebbd65
          this.id = buf.readVarInt();
          this.packedItems = SynchedEntityData.unpack(buf);
 diff --git a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
-index 1c4e812c8b3f85ac5d69b637eb43d4b9751ad150..03b6ad0064d1d201f317f1c168f07834615b746b 100644
+index a376fc453986b66560f57076f0a72dcae9d427c2..7b165b7f556cd6095f4a513e31caaa7374a494e7 100644
 --- a/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
 +++ b/src/main/java/net/minecraft/network/syncher/SynchedEntityData.java
 @@ -137,6 +137,12 @@ public class SynchedEntityData {
@@ -184,7 +184,7 @@ index 7880cdcaf12197f6b36777c51b2859f2463f1595..b79e12cab036339aca73bdda639a877c
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index e7b87ec28ba1be5e8ff471a8fcb75bfa7e77e2a2..874be94c4a7611c7924fbfa59c318e5b8a15d3c9 100644
+index 41eeb8e8af29a6eb1e89abf785d3f4557ccd854b..3c8dea033631f9ff0622f5ded08e55fa4ad8ddb7 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -202,7 +202,7 @@ index e7b87ec28ba1be5e8ff471a8fcb75bfa7e77e2a2..874be94c4a7611c7924fbfa59c318e5b
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3157,7 +3165,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3158,7 +3166,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -225,7 +225,7 @@ index 5b5e91a4fd837093d012845a9024a5884b0fd209..a8e16d71225ba14a736b96f2818a4b29
                  if (this instanceof ServerPlayer && enumitemslot.getType() == EquipmentSlot.Type.ARMOR) {
                      final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index e87a436711e179a4384630de41188c09a75a7f0d..b78907c5f8b247e4553da14fedc7f28ddabec20c 100644
+index 1b7e38538881ba00ffdbe9226952627151532c5c..91fa9d40b7aa779bb33f45df38079acb1517dfea 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -682,7 +682,7 @@ public abstract class Player extends LivingEntity {

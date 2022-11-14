@@ -115,7 +115,7 @@ index 0133ea6feb1ab88f021f66855669f58367e7420b..ab669ac002957431e974bbfe9d80f52e
  
      public int size() {
 diff --git a/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java b/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
-index 277cfd9d1e8fff5d9b5e534b75c3c5162d58b0b7..01418daaaae0b582c1f32cd039b1faa7251714a0 100644
+index c8e5798f8d9a77f5f8552c3663b4d95eff77b5fb..f4c841651a21e65bb72bbd8124ccb51744704ab3 100644
 --- a/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
 +++ b/src/main/java/com/destroystokyo/paper/util/maplist/IBlockDataList.java
 @@ -20,9 +20,7 @@ public final class IBlockDataList {
@@ -653,7 +653,7 @@ index f2a513cea03f7849f4c76ff3c9a3f3130b57c077..efa593e437550f3ec7ccfce6444bb142
  
              for (int j = 0; j < i; ++j) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 615c64ac01e30c187b39fea32e951932195e36a7..a99ced814ce0c991a8e600eefdace0036d339be6 100644
+index 38f356a83a0145f44f035edc0949d0bb7f8235e7..7ec17310ebd1cbce6079b42a20315a9c69db907a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1230,7 +1230,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -784,7 +784,7 @@ index 0ee04fe6ff6a4d09754f326526ae04fe7226bab2..d833a42c9b28ff611fa18f88143ed84b
      }
  }
 diff --git a/src/main/java/net/minecraft/util/ZeroBitStorage.java b/src/main/java/net/minecraft/util/ZeroBitStorage.java
-index 5d8e9bdf5538b19681f21949368d862fab8a89ad..6c42a3d641403fc188fb7cd3344c4480556efaa5 100644
+index 347f1dd2fe964fe7f9c4ad9aa92b27c5b455b66b..dd4156382a4cc613d8948b9c2e95cb3f32219b7f 100644
 --- a/src/main/java/net/minecraft/util/ZeroBitStorage.java
 +++ b/src/main/java/net/minecraft/util/ZeroBitStorage.java
 @@ -5,7 +5,6 @@ import java.util.function.IntConsumer;

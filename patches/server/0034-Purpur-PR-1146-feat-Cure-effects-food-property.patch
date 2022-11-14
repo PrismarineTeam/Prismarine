@@ -154,7 +154,7 @@ index c8d6b5e60b6c8c612fa8580c63a32c4a8f8b0a7b..54c3c7b82cbd2cab801f80dd711b6a7c
          if (stack.isEmpty()) {
              return new ItemStack(Items.GLASS_BOTTLE);
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 369208531e284e8cd84df3dd8f5af0861f06792a..224f638d3f08d5f25aef6a5151fdc5a92e42e27b 100644
+index 6c3f9326585e1b88e63db6b4a7e95e450860bb5f..b2462527ebfe561d5a99f6927b19b58f1e01106e 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -575,6 +575,18 @@ public class PurpurConfig {

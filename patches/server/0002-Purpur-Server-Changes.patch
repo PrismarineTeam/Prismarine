@@ -3893,7 +3893,7 @@ index f5c9be3fde2654bd5a6b3ee737afe96a9393e836..2284e283dec9a7a5cc691f55f5f14b55
  
      public void setNoCounter(boolean permanent) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af013fdbbf1b 100644
+index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..b7519b92081249f902d6455a1ffbb42d4f727981 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -155,7 +155,7 @@ import org.bukkit.plugin.PluginManager;
@@ -3957,7 +3957,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
      }
  
      public void setSharedFlagOnFire(boolean onFire) {
-@@ -890,7 +892,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -890,10 +892,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkOutOfWorld() {
          // Paper start - Configurable nether ceiling damage
@@ -3966,7 +3966,11 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              && this.level.paperConfig().environment.netherCeilingVoidDamageHeight.test(v -> this.getY() >= v)
              && (!(this instanceof Player player) || !player.getAbilities().invulnerable))) {
              // Paper end
-@@ -1055,7 +1057,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
++            if (level.purpurConfig.teleportOnNetherCeilingDamage && this.level.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER) ((ServerPlayer) this).teleport(MCUtil.toLocation(level, level.getSharedSpawnPos())); else // Purpur
+             this.outOfWorld();
+         }
+ 
+@@ -1055,7 +1058,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
              }
  
@@ -3975,7 +3979,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              if (this.stuckSpeedMultiplier.lengthSqr() > 1.0E-7D) {
                  movement = movement.multiply(this.stuckSpeedMultiplier);
                  this.stuckSpeedMultiplier = Vec3.ZERO;
-@@ -1064,7 +1066,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1064,7 +1067,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              // Paper start - ignore movement changes while inactive.
              if (isTemporarilyActive && !(this instanceof ItemEntity || this instanceof net.minecraft.world.entity.vehicle.AbstractMinecart) && movement == getDeltaMovement() && movementType == MoverType.SELF) {
                  setDeltaMovement(Vec3.ZERO);
@@ -3984,7 +3988,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
                  return;
              }
              // Paper end
-@@ -1085,8 +1087,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1085,8 +1088,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.setPos(this.getX() + vec3d1.x, this.getY() + vec3d1.y, this.getZ() + vec3d1.z);
              }
  
@@ -3995,7 +3999,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              boolean flag = !Mth.equal(movement.x, vec3d1.x);
              boolean flag1 = !Mth.equal(movement.z, vec3d1.z);
  
-@@ -1105,7 +1107,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1105,7 +1108,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
              this.checkFallDamage(vec3d1.y, this.onGround, iblockdata, blockposition);
              if (this.isRemoved()) {
@@ -4004,7 +4008,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              } else {
                  if (this.horizontalCollision) {
                      Vec3 vec3d2 = this.getDeltaMovement();
-@@ -1246,7 +1248,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1246,7 +1249,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                      this.setRemainingFireTicks(-this.getFireImmuneTicks());
                  }
  
@@ -4013,7 +4017,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              }
          }
          // Paper start - detailed watchdog information
-@@ -1416,7 +1418,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1416,7 +1419,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              io.papermc.paper.util.CollisionUtil.getCollisions(world, this, collisionBox, potentialCollisions, false, this.level.paperConfig().chunks.preventMovingIntoUnloadedChunks,
                  false, false, null, null);
  
@@ -4022,7 +4026,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
                  io.papermc.paper.util.CollisionUtil.addBoxesToIfIntersects(world.getWorldBorder().getCollisionShape(), collisionBox, potentialCollisions);
              }
  
-@@ -1663,7 +1665,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1663,7 +1666,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean fireImmune() {
@@ -4031,7 +4035,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
      }
  
      public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-@@ -1732,7 +1734,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1732,7 +1735,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return this.isInWater() || flag;
      }
  
@@ -4040,7 +4044,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
          if (this.getVehicle() instanceof Boat) {
              this.wasTouchingWater = false;
          } else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
-@@ -2300,6 +2302,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2300,6 +2303,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  nbt.putBoolean("Paper.FreezeLock", true);
              }
              // Paper end
@@ -4052,7 +4056,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              return nbt;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2467,6 +2474,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2467,6 +2475,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  freezeLocked = nbt.getBoolean("Paper.FreezeLock");
              }
              // Paper end
@@ -4064,7 +4068,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
  
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Loading entity NBT");
-@@ -2781,6 +2793,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2781,6 +2794,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.passengers = ImmutableList.copyOf(list);
              }
  
@@ -4077,7 +4081,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
          }
          return true; // CraftBukkit
      }
-@@ -2821,6 +2839,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2821,6 +2840,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  return false;
              }
              // Spigot end
@@ -4092,7 +4096,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              if (this.passengers.size() == 1 && this.passengers.get(0) == entity) {
                  this.passengers = ImmutableList.of();
              } else {
-@@ -2875,12 +2901,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2875,12 +2902,15 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return Vec3.directionFromRotation(this.getRotationVector());
      }
  
@@ -4109,7 +4113,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              }
  
              this.isInsidePortal = true;
-@@ -2898,7 +2927,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2898,7 +2928,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  ServerLevel worldserver1 = minecraftserver.getLevel(resourcekey);
  
                  if (true && !this.isPassenger() && this.portalTime++ >= i) { // CraftBukkit
@@ -4118,7 +4122,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
                      this.portalTime = i;
                      // Paper start
                      io.papermc.paper.event.entity.EntityPortalReadyEvent event = new io.papermc.paper.event.entity.EntityPortalReadyEvent(this.getBukkitEntity(), worldserver1 == null ? null : worldserver1.getWorld(), org.bukkit.PortalType.NETHER);
-@@ -2916,7 +2945,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2916,7 +2946,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                      }
                      } // Paper
                      // CraftBukkit end
@@ -4127,7 +4131,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
                  }
  
                  this.isInsidePortal = false;
-@@ -2931,7 +2960,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2931,7 +2961,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
  
              this.processPortalCooldown();
@@ -4136,7 +4140,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
          }
      }
  
-@@ -3111,7 +3140,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3111,7 +3141,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public int getMaxAirSupply() {
@@ -4145,7 +4149,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
      }
  
      public int getAirSupply() {
-@@ -3374,14 +3403,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3374,14 +3404,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
          // Paper end
          if (this.level instanceof ServerLevel && !this.isRemoved()) {
@@ -4162,7 +4166,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
              PortalInfo shapedetectorshape = (location == null) ? this.findDimensionEntryPoint(worldserver) : new PortalInfo(new Vec3(location.x(), location.y(), location.z()), Vec3.ZERO, this.yRot, this.xRot, worldserver, null); // CraftBukkit
  
              if (shapedetectorshape == null) {
-@@ -3415,7 +3444,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3415,7 +3445,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  this.unRide();
                  // CraftBukkit end
  
@@ -4171,7 +4175,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
                  // Paper start - Change lead drop timing to prevent dupe
                  if (this instanceof Mob) {
                      ((Mob) this).dropLeash(true, true); // Paper drop lead
-@@ -3438,10 +3467,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3438,10 +3468,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  }
  
                  this.removeAfterChangingDimensions();
@@ -4184,7 +4188,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
                  return entity;
              }
          } else {
-@@ -3554,7 +3583,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3554,7 +3584,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public boolean canChangeDimensions() {
@@ -4193,7 +4197,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
      }
  
      public float getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState, float max) {
-@@ -3801,6 +3830,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3801,6 +3831,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return SlotAccess.NULL;
      }
  
@@ -4214,7 +4218,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
      @Override
      public void sendSystemMessage(Component message) {}
  
-@@ -4051,6 +4094,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4051,6 +4095,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          this.yRotO = this.getYRot();
      }
  
@@ -4227,7 +4231,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..9f3a065a24d2e8cc2ea7ae307545af01
      public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> tag, double speed) {
          if (false && this.touchingUnloadedChunk()) { // Pufferfish - cost of a lookup here is the same cost as below, so skip
              return false;
-@@ -4557,4 +4606,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4557,4 +4607,64 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          return ((net.minecraft.server.level.ServerChunkCache) level.getChunkSource()).isPositionTicking(this);
      }
      // Paper end
@@ -9431,7 +9435,7 @@ index 32cca29fd622d18030931e1f330791491e7f9fa0..5268a56a7967275df63f5a5ddb592199
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
-index 3c3453638e117609190787efbf5d87fc20dcf8fd..6df25a181567021ee60ea72847459e25b9ee5b99 100644
+index 3c3453638e117609190787efbf5d87fc20dcf8fd..55a9a1c9fb88773db7b84ee8857b9791c6fd5334 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -89,6 +89,43 @@ public class Goat extends Animal {
@@ -9497,6 +9501,14 @@ index 3c3453638e117609190787efbf5d87fc20dcf8fd..6df25a181567021ee60ea72847459e25
          super.customServerAiStep();
      }
  
+@@ -364,6 +401,7 @@ public class Goat extends Animal {
+ 
+     // Paper start - Goat ram API
+     public void ram(net.minecraft.world.entity.LivingEntity entity) {
++        if (!new org.purpurmc.purpur.event.entity.GoatRamEntityEvent((org.bukkit.entity.Goat) getBukkitEntity(), (org.bukkit.entity.LivingEntity) entity.getBukkitLivingEntity()).callEvent()) return; // Purpur
+         Brain<Goat> brain = this.getBrain();
+         brain.setMemory(MemoryModuleType.RAM_TARGET, entity.position());
+         brain.eraseMemory(MemoryModuleType.RAM_COOLDOWN_TICKS);
 diff --git a/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java b/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java
 index a8da601b8342aa6e4902b452eb588c76c98a7adf..205ce2bd91a98a0c67d3c5dd640eb88c052f9425 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/horse/AbstractHorse.java
@@ -21768,10 +21780,10 @@ index 0000000000000000000000000000000000000000..ccca392a45cb05abb55ddd5c6c36e6f9
 +}
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3409480d4e01db19e3e54474c9e122232043e4b0
+index 0000000000000000000000000000000000000000..bb352ed86e4047e38ad27900f72fc0ddb741bf71
 --- /dev/null
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -0,0 +1,3141 @@
+@@ -0,0 +1,3143 @@
 +package org.purpurmc.purpur;
 +
 +import gg.pufferfish.pufferfish.PufferfishConfig;
@@ -22192,6 +22204,7 @@ index 0000000000000000000000000000000000000000..3409480d4e01db19e3e54474c9e12223
 +    public String playerDeathExpDropEquation = "expLevel * 7";
 +    public int playerDeathExpDropMax = 100;
 +    public boolean teleportIfOutsideBorder = false;
++    public boolean teleportOnNetherCeilingDamage = false;
 +    public boolean totemOfUndyingWorksInInventory = false;
 +    public boolean playerFixStuckPortal = false;
 +    public boolean creativeOnePunch = false;
@@ -22223,6 +22236,7 @@ index 0000000000000000000000000000000000000000..3409480d4e01db19e3e54474c9e12223
 +        playerDeathExpDropEquation = getString("gameplay-mechanics.player.exp-dropped-on-death.equation", playerDeathExpDropEquation);
 +        playerDeathExpDropMax = getInt("gameplay-mechanics.player.exp-dropped-on-death.maximum", playerDeathExpDropMax);
 +        teleportIfOutsideBorder = getBoolean("gameplay-mechanics.player.teleport-if-outside-border", teleportIfOutsideBorder);
++        teleportOnNetherCeilingDamage = getBoolean("gameplay-mechanics.player.teleport-on-nether-ceiling-damage", teleportOnNetherCeilingDamage);
 +        totemOfUndyingWorksInInventory = getBoolean("gameplay-mechanics.player.totem-of-undying-works-in-inventory", totemOfUndyingWorksInInventory);
 +        playerFixStuckPortal = getBoolean("gameplay-mechanics.player.fix-stuck-in-portal", playerFixStuckPortal);
 +        creativeOnePunch = getBoolean("gameplay-mechanics.player.one-punch-in-creative", creativeOnePunch);

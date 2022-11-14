@@ -7,18 +7,40 @@ Subject: [PATCH] Optimize default configs
 https://github.com/YouHaveTrouble/minecraft-optimization
 https://github.com/irochi-moe/Rubia
 
+diff --git a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+index 82ae8c6e0509a54ebf9226a879db6648a6a4bbe5..587b5b20c8cc1a7049faed4bee82b885dee43b6e 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
++++ b/src/main/java/gg/pufferfish/pufferfish/PufferfishConfig.java
+@@ -235,7 +235,7 @@ public class PufferfishConfig {
+     public static int maxProjectileLoadsPerProjectile;
+     private static void projectileLoading() {
+         maxProjectileLoadsPerTick = getInt("projectile.max-loads-per-tick", 10, "Controls how many chunks are allowed", "to be sync loaded by projectiles in a tick.");
+-        maxProjectileLoadsPerProjectile = getInt("projectile.max-loads-per-projectile", 10, "Controls how many chunks a projectile", "can load in its lifetime before it gets", "automatically removed.");
++        maxProjectileLoadsPerProjectile = getInt("projectile.max-loads-per-projectile", 8, "Controls how many chunks a projectile", "can load in its lifetime before it gets", "automatically removed."); // Prismarine - Optimize default configurations
+ 
+         setComment("projectile", "Optimizes projectile settings");
+     }
+@@ -256,7 +256,7 @@ public class PufferfishConfig {
+         maximumActivationPrio = getInt("dab.max-tick-freq", "activation-range.max-tick-freq", 20,
+                 "This value defines how often in ticks, the furthest entity",
+                 "will get their pathfinders and behaviors ticked. 20 = 1s");
+-        activationDistanceMod = getInt("dab.activation-dist-mod", "activation-range.activation-dist-mod", 8,
++        activationDistanceMod = getInt("dab.activation-dist-mod", "activation-range.activation-dist-mod", 7, // Prismarine - Optimize default configurations
+                 "This value defines how much distance modifies an entity's",
+                 "tick frequency. freq = (distanceToPlayer^2) / (2^value)",
+                 "If you want further away entities to tick less often, use 7.",
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index a1bd848bbf924267e74e61dabdb840628712b1ad..563c260ff1f18fe62f582e643fe535eeeb473042 100644
+index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae40827817ca9b98 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -80,16 +80,16 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -80,16 +80,18 @@ public class WorldConfiguration extends ConfigurationPart {
          public AntiXray antiXray;
  
          public class AntiXray extends ConfigurationPart {
 -            public boolean enabled = false;
 -            public EngineMode engineMode = EngineMode.HIDE;
-+            public boolean enabled = true; // Prismarine - Optimize default config
-+            public EngineMode engineMode = EngineMode.OBFUSCATE; // Prismarine - Optimize default config
++            public boolean enabled = true; // Prismarine - Optimize default configurations
++            public EngineMode engineMode = EngineMode.OBFUSCATE; // Prismarine - Optimize default configurations
              public int maxBlockHeight = 64;
              public int updateRadius = 2;
              public boolean lavaObscures = false;
@@ -27,58 +49,146 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..563c260ff1f18fe62f582e643fe535ee
 -                "coal_ore", "deepslate_coal_ore", "lapis_ore", "deepslate_lapis_ore", "mossy_cobblestone", "obsidian", "chest", "diamond_ore", "deepslate_diamond_ore",
 -                "redstone_ore", "deepslate_redstone_ore", "clay", "emerald_ore", "deepslate_emerald_ore", "ender_chest"); // TODO update type to List<Block>
 -            public List<String> replacementBlocks = List.of("stone", "oak_planks", "deepslate"); // TODO update type to List<Block>
++            // Prismarine start - Optimize default config
 +            public List<String> hiddenBlocks = List.of("air", "copper_ore", "deepslate_copper_ore", "raw_copper_block", "diamond_ore", "deepslate_diamond_ore",
 +                    "gold_ore", "deepslate_gold_ore", "iron_ore", "deepslate_iron_ore", "raw_iron_block", "lapis_ore", "deepslate_lapis_ore", "redstone_ore", "deepslate_redstone_ore"); // TODO update type to List<Block>
 +            public List<String> replacementBlocks = List.of("chest", "amethyst_block", "andesite", "budding_amethyst", "calcite", "coal_ore", "deepslate_coal_ore", "deepslate",
 +                    "diorite", "dirt", "emerald_ore", "deepslate_emerald_ore", "granite", "gravel", "oak_planks", "smooth_basalt", "stone", "tuff"); // TODO update type to List<Block>
++            // Prismarine end
          }
      }
  
-@@ -129,7 +129,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -129,7 +131,7 @@ public class WorldConfiguration extends ConfigurationPart {
              @MergeMap
              public Reference2IntMap<MobCategory> spawnLimits = Util.make(new Reference2IntOpenHashMap<>(NaturalSpawner.SPAWNING_CATEGORIES.length), map -> Arrays.stream(NaturalSpawner.SPAWNING_CATEGORIES).forEach(mobCategory -> map.put(mobCategory, -1)));
              @MergeMap
 -            public Map<MobCategory, DespawnRange> despawnRanges = Arrays.stream(MobCategory.values()).collect(Collectors.toMap(Function.identity(), category -> new DespawnRange(category.getNoDespawnDistance(), category.getDespawnDistance())));
-+            public Map<MobCategory, DespawnRange> despawnRanges = Arrays.stream(MobCategory.values()).collect(Collectors.toMap(Function.identity(), category -> new DespawnRange(56, 32))); // Prismarine - Optimize default config
++            public Map<MobCategory, DespawnRange> despawnRanges = Arrays.stream(MobCategory.values()).collect(Collectors.toMap(Function.identity(), category -> new DespawnRange(30, 56))); // Prismarine - Optimize default configurations
  
              @ConfigSerializable
              public record DespawnRange(@Required int soft, @Required int hard) {
-@@ -309,7 +309,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -189,8 +191,37 @@ public class WorldConfiguration extends ConfigurationPart {
+             public AltItemDespawnRate altItemDespawnRate;
+ 
+             public class AltItemDespawnRate extends ConfigurationPart {
+-                public boolean enabled = false;
+-                public Reference2IntMap<Item> items = new Reference2IntOpenHashMap<>(Map.of(Items.COBBLESTONE, 300));
++                // Prismarine start - Optimize default configurations
++                public boolean enabled = true;
++                public Reference2IntMap<Item> items = new Reference2IntOpenHashMap<>(Map.ofEntries(
++                        Map.entry(Items.COBBLESTONE, 300),
++                        Map.entry(Items.NETHERRACK, 300),
++                        Map.entry(Items.SAND, 300),
++                        Map.entry(Items.RED_SAND, 300),
++                        Map.entry(Items.GRAVEL, 300),
++                        Map.entry(Items.DIRT, 300),
++                        Map.entry(Items.GRASS, 300),
++                        Map.entry(Items.PUMPKIN, 300),
++                        Map.entry(Items.MELON_SLICE, 300),
++                        Map.entry(Items.KELP, 300),
++                        Map.entry(Items.BAMBOO, 300),
++                        Map.entry(Items.SUGAR_CANE, 300),
++                        Map.entry(Items.TWISTING_VINES, 300),
++                        Map.entry(Items.WEEPING_VINES, 300),
++                        Map.entry(Items.OAK_LEAVES, 300),
++                        Map.entry(Items.SPRUCE_LEAVES, 300),
++                        Map.entry(Items.BIRCH_LEAVES, 300),
++                        Map.entry(Items.JUNGLE_LEAVES, 300),
++                        Map.entry(Items.ACACIA_LEAVES, 300),
++                        Map.entry(Items.DARK_OAK_LEAVES, 300),
++                        Map.entry(Items.MANGROVE_LEAVES, 300),
++                        Map.entry(Items.CACTUS, 300),
++                        Map.entry(Items.DIORITE, 300),
++                        Map.entry(Items.GRANITE, 300),
++                        Map.entry(Items.ANDESITE, 300),
++                        Map.entry(Items.SCAFFOLDING, 300)
++                ));
++                // Prismarine end
+             }
+         }
+ 
+@@ -309,7 +340,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
 -        public boolean optimizeExplosions = false;
-+        public boolean optimizeExplosions = true; // Prismarine - Optimize config
++        public boolean optimizeExplosions = true; // Prismarine - Optimize default configurations
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -389,7 +389,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -381,7 +412,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public class Hopper extends ConfigurationPart {
+         public boolean cooldownWhenFull = true;
+         public boolean disableMoveEvent = false;
+-        public boolean ignoreOccludingBlocks = false;
++        public boolean ignoreOccludingBlocks = true; // Prismarine - Optimize default configurations
+     }
+ 
+     public Collisions collisions;
+@@ -389,9 +420,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
 -        public boolean fixClimbingBypassingCrammingRule = false;
-+        public boolean fixClimbingBypassingCrammingRule = true; // Prismarine - Optimize config
++        public boolean fixClimbingBypassingCrammingRule = true; // Prismarine - Optimize default configurations
          @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
-         public int maxEntityCollisions = 8;
+-        public int maxEntityCollisions = 8;
++        public int maxEntityCollisions = 2; // Prismarine - Optimize default configurations
          public boolean allowPlayerCrammingDamage = false;
-@@ -399,9 +399,9 @@ public class WorldConfiguration extends ConfigurationPart {
+     }
+ 
+@@ -399,18 +430,31 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
 -        public int maxAutoSaveChunksPerTick = 24;
-+        public int maxAutoSaveChunksPerTick = 8; // Prismarine - Optimize config
++        public int maxAutoSaveChunksPerTick = 8; // Prismarine - Optimize default configurations
          public int fixedChunkInhabitedTime = -1;
 -        public boolean preventMovingIntoUnloadedChunks = false;
-+        public boolean preventMovingIntoUnloadedChunks = true; // Prismarine - Optimize config
++        public boolean preventMovingIntoUnloadedChunks = true; // Prismarine - Optimize default configurations
          public Duration delayChunkUnloadsBy = Duration.of("10s");
          public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(Registry.ENTITY_TYPE.size()), map -> {
              map.defaultReturnValue(-1);
-@@ -427,8 +427,17 @@ public class WorldConfiguration extends ConfigurationPart {
-         public int grassSpread = 1;
+-            map.put(EntityType.EXPERIENCE_ORB, -1);
+-            map.put(EntityType.SNOWBALL, -1);
+-            map.put(EntityType.ENDER_PEARL, -1);
+-            map.put(EntityType.ARROW, -1);
+-            map.put(EntityType.FIREBALL, -1);
+-            map.put(EntityType.SMALL_FIREBALL, -1);
++            // Prismarine start - Optimize defalut configurations
++            map.put(EntityType.AREA_EFFECT_CLOUD, 8);
++            map.put(EntityType.ARROW, 16);
++            map.put(EntityType.DRAGON_FIREBALL, 3);
++            map.put(EntityType.EGG, 8);
++            map.put(EntityType.ENDER_PEARL, 8);
++            map.put(EntityType.EXPERIENCE_ORB, 16);
++            map.put(EntityType.EYE_OF_ENDER, 8);
++            map.put(EntityType.FIREBALL, 8);
++            map.put(EntityType.FIREWORK_ROCKET, 8);
++            map.put(EntityType.LLAMA_SPIT, 3);
++            map.put(EntityType.POTION, 8);
++            map.put(EntityType.SHULKER_BULLET, 8);
++            map.put(EntityType.SMALL_FIREBALL, 8);
++            map.put(EntityType.SNOWBALL, 8);
++            map.put(EntityType.SPECTRAL_ARROW, 16);
++            map.put(EntityType.TRIDENT, 16);
++            map.put(EntityType.WITHER_SKULL, 4);
++            // Prismarine end
+         });
+     }
+ 
+@@ -424,11 +468,22 @@ public class WorldConfiguration extends ConfigurationPart {
+     public TickRates tickRates;
+ 
+     public class TickRates extends ConfigurationPart {
+-        public int grassSpread = 1;
++        public int grassSpread = 4; // Prismarine - Optimize default configurations
          public int containerUpdate = 1;
-         public int mobSpawner = 1;
+-        public int mobSpawner = 1;
 -        public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "secondarypoisensor", 40));
 -        public Table<EntityType<?>, String, Integer> behavior = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "validatenearbypoi", -1));
++        public int mobSpawner = 2; // Prismarine - Optimize default configurations
++        // Prismarine start - Optimize default configurations
 +        public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> {
 +            table.put(EntityType.VILLAGER, "secondarypoisensor", 80);
 +            table.put(EntityType.VILLAGER, "nearestbedsensor", 80);
@@ -90,20 +200,24 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..563c260ff1f18fe62f582e643fe535ee
 +            table.put(EntityType.VILLAGER, "validatenearbypoi", 60);
 +            table.put(EntityType.VILLAGER, "acquirepoi", 120);
 +        });
++        // Prismarine end
      }
  
      @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
-@@ -452,7 +461,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -450,9 +505,9 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+     public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
-         public boolean updatePathfindingOnBlockUpdate = true;
+-        public boolean updatePathfindingOnBlockUpdate = true;
++        public boolean updatePathfindingOnBlockUpdate = false; // Prismarine - Optimize default configurations
          public boolean showSignClickCommandFailureMsgsToPlayer = false;
 -        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.VANILLA;
-+        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.ALTERNATE_CURRENT; // Prismarine - Optimize config
++        public RedstoneImplementation redstoneImplementation = RedstoneImplementation.ALTERNATE_CURRENT; // Prismarine - Optimize default configurations
          public boolean disableEndCredits = false;
          public float maxLeashDistance = 10f;
          public boolean disableSprintInterruptionOnAttack = false;
 diff --git a/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java b/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java
-index 6af307481a6752529d87869760945cb140d05bed..08b4ea55e627675aaa0d5c161431b3ee09a5e6f7 100644
+index 6af307481a6752529d87869760945cb140d05bed..70f32930030fdafb0b49c7104468f2f9c92707db 100644
 --- a/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java
 +++ b/src/main/java/io/papermc/paper/configuration/transformation/world/LegacyPaperWorldConfig.java
 @@ -88,14 +88,14 @@ public final class LegacyPaperWorldConfig {
@@ -111,7 +225,7 @@ index 6af307481a6752529d87869760945cb140d05bed..08b4ea55e627675aaa0d5c161431b3ee
                  ConfigurationTransformation.builder().addAction(path("despawn-ranges"), (path, value) -> {
                      final int softDistance = value.node("soft").getInt(32);
 -                    final int hardDistance = value.node("hard").getInt(128);
-+                    final int hardDistance = value.node("hard").getInt(56); // Prismarine - Optimize default config
++                    final int hardDistance = value.node("hard").getInt(56); // Prismarine - Optimize default configurations
                      value.node("soft").raw(null);
                      value.node("hard").raw(null);
                      for (final MobCategory category : MobCategory.values()) {
@@ -119,12 +233,12 @@ index 6af307481a6752529d87869760945cb140d05bed..08b4ea55e627675aaa0d5c161431b3ee
                              value.node(category.getName(), "soft").raw(softDistance);
                          }
 -                        if (hardDistance != 128) {
-+                        if (hardDistance != 56) { // Prismarine - Optimize default config
++                        if (hardDistance != 56) { // Prismarine - Optimize default configurations
                              value.node(category.getName(), "hard").raw(hardDistance);
                          }
                      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 88900f7a2077049cc5d78fe17314dbdf57d64a08..bb3121b57c732b8dfb33d2c3c2acd56d0cb47651 100644
+index 88900f7a2077049cc5d78fe17314dbdf57d64a08..11466a8543c3b71dc4043a63173a539b2c063478 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 @@ -121,15 +121,15 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
@@ -133,8 +247,8 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..bb3121b57c732b8dfb33d2c3c2acd56d
          this.useNativeTransport = this.get("use-native-transport", true);
 -        this.enableCommandBlock = this.get("enable-command-block", false);
 -        this.spawnProtection = this.get("spawn-protection", 16);
-+        this.enableCommandBlock = this.get("enable-command-block", true); // Prismarine - Optimize config
-+        this.spawnProtection = this.get("spawn-protection", 0); // Prismarine - Optimize config
++        this.enableCommandBlock = this.get("enable-command-block", true); // Prismarine - Optimize default configurations
++        this.spawnProtection = this.get("spawn-protection", 0); // Prismarine - Optimize default configurations
          this.opPermissionLevel = this.get("op-permission-level", 4);
          this.functionPermissionLevel = this.get("function-permission-level", 2);
          this.maxTickTime = this.get("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
@@ -142,8 +256,8 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..bb3121b57c732b8dfb33d2c3c2acd56d
          this.rateLimitPacketsPerSecond = this.get("rate-limit", 0);
 -        this.viewDistance = this.get("view-distance", 10);
 -        this.simulationDistance = this.get("simulation-distance", 10);
-+        this.viewDistance = this.get("view-distance", 7); // Prismarine - Optimize config
-+        this.simulationDistance = this.get("simulation-distance", 4); // Prismarine - Optimize config
++        this.viewDistance = this.get("view-distance", 7); // Prismarine - Optimize default configurations
++        this.simulationDistance = this.get("simulation-distance", 4); // Prismarine - Optimize default configurations
          this.maxPlayers = this.get("max-players", 20);
          this.networkCompressionThreshold = this.get("network-compression-threshold", 256);
          this.broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
@@ -152,12 +266,12 @@ index 88900f7a2077049cc5d78fe17314dbdf57d64a08..bb3121b57c732b8dfb33d2c3c2acd56d
          this.playerIdleTimeout = this.getMutable("player-idle-timeout", 0);
          this.whiteList = this.getMutable("white-list", false);
 -        this.enforceSecureProfile = this.get("enforce-secure-profile", true);
-+        this.enforceSecureProfile = this.get("enforce-secure-profile", false); // Prismarine - Optimize config
++        this.enforceSecureProfile = this.get("enforce-secure-profile", false); // Prismarine - Optimize default configurations
          this.worldGenProperties = new DedicatedServerProperties.WorldGenProperties(this.get("level-seed", ""), (JsonObject) this.get("generator-settings", (s) -> {
              return GsonHelper.parse(!s.isEmpty() ? s : "{}");
          }, new JsonObject()), this.get("generate-structures", true), (String) this.get("level-type", (s) -> {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb..08dc32805edf49ede062d32a16f77bfc7926ec60 100644
+index 8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb..4f3d30127eacf250ab9fe5970f33c1834b5d3447 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -258,7 +258,7 @@ public class PurpurConfig {
@@ -165,25 +279,45 @@ index 8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb..08dc32805edf49ede062d32a16f77bfc
      }
  
 -    public static boolean useAlternateKeepAlive = false;
-+    public static boolean useAlternateKeepAlive = true; // Prismarine - Optimize config
++    public static boolean useAlternateKeepAlive = true; // Prismarine - Optimize default configurations
      private static void useAlternateKeepAlive() {
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 851750dd49a4275e6e949e7ee4f97861af4cafa4..cf1cf89be2eef899e659a490178d2c81c1388a38 100644
+index 21687d0bafc361f2e638376fa867a9eecbdf1f40..5981b3c5e467647d5d03d016fe9ac3cf44261ebe 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-@@ -417,7 +417,7 @@ public class PurpurWorldConfig {
+@@ -417,8 +417,8 @@ public class PurpurWorldConfig {
      public boolean playerInvulnerableWhileAcceptingResourcePack = false;
      public String playerDeathExpDropEquation = "expLevel * 7";
      public int playerDeathExpDropMax = 100;
 -    public boolean teleportIfOutsideBorder = false;
-+    public boolean teleportIfOutsideBorder = true; // Prismarine - Optimize config
+-    public boolean teleportOnNetherCeilingDamage = false;
++    public boolean teleportIfOutsideBorder = true; // Prismarine - Optimize default configurations
++    public boolean teleportOnNetherCeilingDamage = true; // Prismarine - Optimize default configurations
      public boolean totemOfUndyingWorksInInventory = false;
      public boolean playerFixStuckPortal = false;
      public boolean creativeOnePunch = false;
+@@ -2734,7 +2734,7 @@ public class PurpurWorldConfig {
+     public boolean villagerRidableInWater = false;
+     public boolean villagerControllable = true;
+     public double villagerMaxHealth = 20.0D;
+-    public int villagerBrainTicks = 1;
++    public int villagerBrainTicks = 2; // Optimize default configurations
+     public boolean villagerUseBrainTicksOnlyWhenLagging = true;
+     public boolean villagerFollowEmeraldBlock = false;
+     public boolean villagerCanBeLeashed = false;
+@@ -2988,7 +2988,7 @@ public class PurpurWorldConfig {
+     public boolean zombieJockeyOnlyBaby = true;
+     public double zombieJockeyChance = 0.05D;
+     public boolean zombieJockeyTryExistingChickens = true;
+-    public boolean zombieAggressiveTowardsVillagerWhenLagging = true;
++    public boolean zombieAggressiveTowardsVillagerWhenLagging = false; // Prismarine - Optimize defalut configurations
+     public boolean zombieBypassMobGriefing = false;
+     public boolean zombieTakeDamageFromWater = false;
+     public boolean zombieAlwaysDropExp = false;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2ef2e4e5c0 100644
+index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..6d7c9d2296381001bf4de3cb840f259802959591 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -146,14 +146,14 @@ public class SpigotWorldConfig
@@ -191,7 +325,7 @@ index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2e
      private void itemMerge()
      {
 -        this.itemMerge = this.getDouble("merge-radius.item", 2.5 );
-+        this.itemMerge = this.getDouble("merge-radius.item", 3.5 ); // Prismarine - Optimize default config
++        this.itemMerge = this.getDouble("merge-radius.item", 3.5 ); // Prismarine - Optimize default configurations
          this.log( "Item Merge Radius: " + this.itemMerge );
      }
  
@@ -199,8 +333,17 @@ index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2e
      private void expMerge()
      {
 -        this.expMerge = this.getDouble("merge-radius.exp", 3.0 );
-+        this.expMerge = this.getDouble("merge-radius.exp", 4.0 ); // Prismarine - Optimize default config
++        this.expMerge = this.getDouble("merge-radius.exp", 4.0 ); // Prismarine - Optimize default configurations
          this.log( "Experience Merge Radius: " + this.expMerge );
+     }
+ 
+@@ -192,7 +192,7 @@ public class SpigotWorldConfig
+     public byte mobSpawnRange;
+     private void mobSpawnRange()
+     {
+-        this.mobSpawnRange = (byte) getInt( "mob-spawn-range", 8 ); // Paper - Vanilla
++        this.mobSpawnRange = (byte) getInt( "mob-spawn-range", 2 ); // Paper - Vanilla // Prismarine - Optimize default configurations
+         this.log( "Mob Spawn Range: " + this.mobSpawnRange );
      }
  
 @@ -203,14 +203,14 @@ public class SpigotWorldConfig
@@ -209,17 +352,18 @@ index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2e
  
 -    public int animalActivationRange = 32;
 -    public int monsterActivationRange = 32;
-+    public int animalActivationRange = 16; // Prismarine - Optimize default config
-+    public int monsterActivationRange = 24; // Prismarine - Optimize default config
++    public int animalActivationRange = 16; // Prismarine - Optimize default configurations
++    public int monsterActivationRange = 24; // Prismarine - Optimize default configurations
      public int raiderActivationRange = 48;
 -    public int miscActivationRange = 16;
-+    public int miscActivationRange = 8; // Prismarine - Optimize default config
++    public int miscActivationRange = 8; // Prismarine - Optimize default configurations
      // Paper start
-     public int flyingMonsterActivationRange = 32;
+-    public int flyingMonsterActivationRange = 32;
 -    public int waterActivationRange = 16;
 -    public int villagerActivationRange = 32;
-+    public int waterActivationRange = 8; // Prismarine - Optimize default config
-+    public int villagerActivationRange = 16; // Prismarine - Optimize default config
++    public int flyingMonsterActivationRange = 48; // Prismarine - Optimize default configurations
++    public int waterActivationRange = 8; // Prismarine - Optimize default configurations
++    public int villagerActivationRange = 16; // Prismarine - Optimize default configurations
      public int wakeUpInactiveAnimals = 4;
      public int wakeUpInactiveAnimalsEvery = 60*20;
      public int wakeUpInactiveAnimalsFor = 5*20;
@@ -228,7 +372,7 @@ index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2e
      public boolean villagersActiveForPanic = true;
      // Paper end
 -    public boolean tickInactiveVillagers = true;
-+    public boolean tickInactiveVillagers = false; // Prismarine - Optimize default config
++    public boolean tickInactiveVillagers = false; // Prismarine - Optimize default configurations
      public boolean ignoreSpectatorActivation = false;
      private void activationRange()
      {
@@ -237,10 +381,10 @@ index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2e
          if ( SpigotConfig.version < 11 )
          {
 -            this.set( "ticks-per.hopper-check", 1 );
-+            this.set( "ticks-per.hopper-check", 8 ); // Prismarine - Optimize default config
++            this.set( "ticks-per.hopper-check", 8 ); // Prismarine - Optimize default configurations
          }
 -        this.hopperCheck = this.getInt( "ticks-per.hopper-check", 1 );
-+        this.hopperCheck = this.getInt( "ticks-per.hopper-check", 8 ); // Prismarine - Optimize default config
++        this.hopperCheck = this.getInt( "ticks-per.hopper-check", 8 ); // Prismarine - Optimize default configurations
          this.hopperAmount = this.getInt( "hopper-amount", 1 );
          this.hopperCanLoadChunks = this.getBoolean( "hopper-can-load-chunks", false );
          this.log( "Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks );
@@ -249,7 +393,7 @@ index 5503ad6a93d331771a0e92c0da6adedf2ac81aff..9509e267b87c11ad44e5edf8410aea2e
      private void arrowDespawnRate()
      {
 -        this.arrowDespawnRate = this.getInt( "arrow-despawn-rate", 1200 );
-+        this.arrowDespawnRate = this.getInt( "arrow-despawn-rate", 300 ); // Prismarine - Optimize default config
++        this.arrowDespawnRate = this.getInt( "arrow-despawn-rate", 300 ); // Prismarine - Optimize default configurations
          this.tridentDespawnRate = this.getInt( "trident-despawn-rate", this.arrowDespawnRate );
          this.log( "Arrow Despawn Rate: " + this.arrowDespawnRate + " Trident Respawn Rate:" + this.tridentDespawnRate );
      }
