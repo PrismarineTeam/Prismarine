@@ -43,10 +43,10 @@ index 1f847ac2b0b8096015da1e830a6cd664f1cef244..d29af9f0a2abcc4baa166acbf1bb44ba
  
  
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index dd980223e4edd34ec897fa024f363beb3f58bcad..e0f73faa2873d5b63513f50c1c9228f204ed8114 100644
+index 8fe69460195a0cd5d8cd7804f14b5fd771da452c..c0aa331bfc2af9417ed931de1024f1c01ed1737c 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -266,4 +266,9 @@ public class PrismarineConfig {
+@@ -271,4 +271,9 @@ public class PrismarineConfig {
      private static void noBedrock() {
          noBedrock = getBoolean("settings.no-bedrock", noBedrock);
      }

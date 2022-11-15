@@ -23,10 +23,10 @@ index 1d5bc86516df3781aea894c3afd340421ba51a17..9a03ecd08e73531e0cc35034a3a13a40
  
          SurfaceRules.RuleSource ruleSource10 = SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), ruleSource9);
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index ba52424a2afcc74625601493a521407a6d5efa7c..dd980223e4edd34ec897fa024f363beb3f58bcad 100644
+index 9addecba6dd4602daff61e095b43edc4ac0c5960..8fe69460195a0cd5d8cd7804f14b5fd771da452c 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -261,4 +261,9 @@ public class PrismarineConfig {
+@@ -266,4 +266,9 @@ public class PrismarineConfig {
      private static void maxArmorAttributeValue() {
          maxArmorAttributeValue = (float) getDouble("settings.max-armor-attribute-value", maxArmorAttributeValue);
      }

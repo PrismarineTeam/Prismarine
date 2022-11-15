@@ -4209,7 +4209,7 @@ index ebe65474a4a05ff1637d7f37ebcfe690af59def5..dd45d6464e095dfa82c569d198f5e42d
 +        // Pufferfish start
 +        Entity entity = this.entity;
 +        if (entity instanceof LivingEntity livingEntity) {
-+            return livingEntity.canStandOnFluid(state) && !stateAbove.getType().isSame(state.getType());
++            return livingEntity.canStandOnFluid(state) && !state.getType().isSame(state.getType());
 +        }
 +        return false;
 +        // Pufferfish end

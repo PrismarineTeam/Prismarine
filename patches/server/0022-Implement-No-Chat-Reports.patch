@@ -53,7 +53,7 @@ index e61ab98ff3ed7692db7bbb50e1d50ce03f9711df..1f847ac2b0b8096015da1e830a6cd664
  
      protected boolean convertOldUsers() {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 257daaf0881b1af992a20df83be3846e0d58de66..a3892aa3e4005974d00bc1f05b98311bc3e7789d 100644
+index 57dd2f5190e00bddbc575044ce5d9cc613e3c0df..20723af0d213c61eb2a57bb349524680578fd610 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2240,10 +2240,28 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -121,7 +121,7 @@ index 91fa9d40b7aa779bb33f45df38079acb1517dfea..0cf2316e76036da16d9d24cf0af0a434
  
      public Inventory getInventory() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 50254ad7997dd3e7dd631ebebed1bfee7f415bd7..66d8ed71981310612e2790f1d78ae092de7352ef 100644
+index 4f1236414ef785a23ad23aa974f195f2c9d68c9c..9e53bed038fe37414ded97c53820a1febe07a17d 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 @@ -50,8 +50,8 @@ public class PrismarineConfig {
@@ -135,7 +135,7 @@ index 50254ad7997dd3e7dd631ebebed1bfee7f415bd7..66d8ed71981310612e2790f1d78ae092
  
          readConfig(PrismarineConfig.class, null);
      }
-@@ -241,4 +241,19 @@ public class PrismarineConfig {
+@@ -246,4 +246,19 @@ public class PrismarineConfig {
      private static void storePlayerJsonListAsynchronously() {
          storePlayerJsonListAsynchronously = getBoolean("settings.store-player-json-list-asynchronously", storePlayerJsonListAsynchronously);
      }

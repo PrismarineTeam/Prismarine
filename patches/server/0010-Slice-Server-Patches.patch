@@ -238,12 +238,12 @@ index 1b7e38538881ba00ffdbe9226952627151532c5c..91fa9d40b7aa779bb33f45df38079acb
  
      public void startAutoSpinAttack(int riptideTicks) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index da4b140a10687dde0e40da12baf68d63cfb2271e..303562950584279ffc6413a84bb22117a2aed5c6 100644
+index ed3de4464f32cc75fd3cf5e1d90d65c971db1484..045960cebe1b7d46e7f791c768fb443335c7493b 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -200,4 +200,21 @@ public class PrismarineConfig {
-     private static void useAsyncExecutorAtAuthencatorPool() {
-         useAsyncExecutorAtAuthencatorPool = getBoolean("settings.use-async-executor-at-authencator-pool", useAsyncExecutorAtAuthencatorPool);
+@@ -205,4 +205,21 @@ public class PrismarineConfig {
+     private static void useExperimentalVMPIngredientMatchingCache() {
+         useExperimentalVMPIngredientMatchingCache = getBoolean("settings.use-experimental-vmp-ingredient-matching-cache", useExperimentalVMPIngredientMatchingCache);
      }
 +
 +    public static boolean doNotSendEquipmentUpdatesIfOnlyDurabilityChanges = false;

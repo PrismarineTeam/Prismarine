@@ -38,10 +38,10 @@ index f4c47f7a7f2572dedbaee4890c98e1f3589a40c2..9fcd8f51ebd76a60b5f10322675c2a8b
  
          return super.getDrops(state, builder);
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index e0f73faa2873d5b63513f50c1c9228f204ed8114..afffa90178aca8b2988824f51ec78bd488d580d6 100644
+index c0aa331bfc2af9417ed931de1024f1c01ed1737c..b475c631cbc030225872d7f152e6f4f711183f94 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -271,4 +271,9 @@ public class PrismarineConfig {
+@@ -276,4 +276,9 @@ public class PrismarineConfig {
      private static void offlineWarning() {
          offlineWarning = getBoolean("settings.offline-warning", offlineWarning);
      }

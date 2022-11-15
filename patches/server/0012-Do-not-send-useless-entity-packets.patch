@@ -63,10 +63,10 @@ index b02cd7bed470c9c6dcbd986a24637fe2874ee9ca..f2a513cea03f7849f4c76ff3c9a3f313
          this.entity.stopSeenByPlayer(player);
          ((ServerLevel) this.entity.level).chunkSource.chunkMap.runOnTrackerMainThread(() -> player.connection.send(new ClientboundRemoveEntitiesPacket(new int[]{this.entity.getId()}))); // Prismarine - Petal patches (ensure main thread)
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index 303562950584279ffc6413a84bb22117a2aed5c6..bbd6c81216426268a9bdd083904920039af0cf23 100644
+index 045960cebe1b7d46e7f791c768fb443335c7493b..23fc8073ded0cc5245ecd6165c200e9b1710fb85 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -217,4 +217,9 @@ public class PrismarineConfig {
+@@ -222,4 +222,9 @@ public class PrismarineConfig {
      private static void useSlicePacketSystem() {
          useSlicePacketSystem = getBoolean("settings.use-slice-packet-system", useSlicePacketSystem);
      }

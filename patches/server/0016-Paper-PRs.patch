@@ -219,10 +219,10 @@ index 4e00c2216142b52fb34be0e51d00fa20fded92c8..4f31454c192361a18d32d3085cb9df90
  
      public static AttributeSupplier.Builder createAttributes() {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index e87b812605a58e3a08e592b9543808db59ad8f44..6b3b673d50a382d0b609f7654cfec048f3453617 100644
+index 617a5619693877cf6ae158db8dda0caefa148633..6fb72bfc1498f8cdd65ebd7aead84e690d4d1e33 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -227,4 +227,13 @@ public class PrismarineConfig {
+@@ -232,4 +232,13 @@ public class PrismarineConfig {
      private static void useAirplaneCollisionContext() {
          useNormalCollisionContext = getBoolean("settings.use-normal-collision-context", useNormalCollisionContext);
      }
