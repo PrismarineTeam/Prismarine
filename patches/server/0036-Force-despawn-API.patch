@@ -18,14 +18,14 @@ index 3c8dea033631f9ff0622f5ded08e55fa4ad8ddb7..4349bea37d9c9d952b731aae6866ed98
          return this.getPosition(delta).add(0.0D, (double) this.eyeHeight * 0.7D, 0.0D);
      }
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 4a63fdd784c4c214e3790936f2f759b335b664d3..e9fc05533d3f92836f8c6c93364d85c7a35b48b0 100644
+index c6b43a4f148b39132cfc7139610d900327d069e6..44deff2f4a694b1234d8c0e51b8afde257771624 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -136,6 +136,7 @@ public abstract class Mob extends LivingEntity {
  
      public int ticksSinceLastInteraction; // Purpur
      public boolean aware = true; // CraftBukkit
-+     public boolean forceDespawn = false; // Prismarine
++    public boolean forceDespawn = false; // Prismarine
  
      protected Mob(EntityType<? extends Mob> type, Level world) {
          super(type, world);
@@ -36,8 +36,8 @@ index 4a63fdd784c4c214e3790936f2f759b335b664d3..e9fc05533d3f92836f8c6c93364d85c7
 -        } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
 +        } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence() || this.forceDespawn) { // Prismarine
              // Paper start - optimise checkDespawn
-             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
-             if (entityhuman == null || this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { // Prismarine
+             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.PLAYER_AFFECTS_SPAWNING); // Paper
+             if (entityhuman == null || this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { // Prismarine) {
 @@ -871,6 +872,13 @@ public abstract class Mob extends LivingEntity {
          }
      }

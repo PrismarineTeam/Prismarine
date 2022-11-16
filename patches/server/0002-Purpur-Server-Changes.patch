@@ -1940,7 +1940,7 @@ index 163f14b4e1ca99d75e5d8e14190f7b91cb58e8f3..7880cdcaf12197f6b36777c51b2859f2
  
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 94f4a5bfd2af8389a99f80bab4eceac1f075512e..c888e654ab9449bfdc7dfe16078eb0786ae6c15e 100644
+index aa4bd1b9c22b00d7db513d85f89734795ba6caa7..2c53e7915bdf299ce7ecfc0aade0716c30cdf0d3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -212,6 +212,8 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -4297,7 +4297,7 @@ index 26b42474a94ccabd8cfcca39e4c37fb14852cbb8..b7519b92081249f902d6455a1ffbb42d
 +    // Purpur end
  }
 diff --git a/src/main/java/net/minecraft/world/entity/EntitySelector.java b/src/main/java/net/minecraft/world/entity/EntitySelector.java
-index e39965c2e50bc8ee424ea07819346e0611398e28..212ea98eeaaf4b20ba0896dab03cd092c494471a 100644
+index a00c3d96f2fc7131d1f4afa7af4e41ace3cfce89..5a3e29aedc537c672d11385cec562b2c30761730 100644
 --- a/src/main/java/net/minecraft/world/entity/EntitySelector.java
 +++ b/src/main/java/net/minecraft/world/entity/EntitySelector.java
 @@ -28,6 +28,7 @@ public final class EntitySelector {
@@ -4973,7 +4973,7 @@ index 26efc49b4530112c8bd3f580ce375ab4203c9609..1ec9a48f2f44f5bd647e0661423ae909
                          });
                      }
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index e89b88eb3d4202ea7ff043dc9e92163332cd10d3..d5e3bd662da349fc2ee58c7800d79c60300f33b3 100644
+index 235db1306573c25a101265c8f88dad0fbe06ca59..7809f341dc76536250b4eb3809de9368b5c2d652 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -65,6 +65,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
@@ -13952,7 +13952,7 @@ index 056e4c2f7f632dadc0015710c032a0b718d46ff9..cc6e65d8fd760e46f20a7bcc6aff1cc0
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
-index dc9402e343d3bc0b0d38e3a7834521a976f89c39..86cbf62b6a0ab4352d91456b6ea2324c4389374d 100644
+index e0e16d3b4ba0afc3cfc66b93ecf5f889599f48dd..31b1715a5b62e4bd36d672ad21a3bdfbec8af7d1 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 @@ -94,22 +94,69 @@ public class Zombie extends Monster {
@@ -17038,7 +17038,7 @@ index 8a9a701baabdaf066cd9b28c05430f673fcafb4e..17cc3237c7fc8ceda136b2371fabf6f0
  
      public ItemStack assemble() {
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 6dea3a2a72e41e125f715dc9e364d48896056e3b..f0b0e19ed20967cae12195707007532fbab185f8 100644
+index 641709c3a2575dbe79165beff814cb77fa7dbdc1..c60f60167e20a4f6a89521ae6b84434d5c1db29b 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -52,6 +52,7 @@ public abstract class BaseSpawner {
@@ -17046,14 +17046,14 @@ index 6dea3a2a72e41e125f715dc9e364d48896056e3b..f0b0e19ed20967cae12195707007532f
  
      public boolean isNearPlayer(Level world, BlockPos pos) {
 +        if (world.purpurConfig.spawnerDeactivateByRedstone && world.hasNeighborSignal(pos)) return false; // Purpur
-         return world.isAffectsSpawningPlayerNearby((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, (double) this.requiredPlayerRange); // Paper
+         return world.hasNearbyAlivePlayerThatAffectsSpawning((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, (double) this.requiredPlayerRange); // Paper - Affects Spawning API
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/EntityGetter.java b/src/main/java/net/minecraft/world/level/EntityGetter.java
-index 3f458ddd4dc04ed28510a212be76bb19e7f6a61e..a36469186f72eccf8c4428d920d0583bf57b087e 100644
+index 87beea39636b641dc5b46c2755a00285b7671ac5..95931a038d3c845048b1ffaadd1e930a0fcb44bb 100644
 --- a/src/main/java/net/minecraft/world/level/EntityGetter.java
 +++ b/src/main/java/net/minecraft/world/level/EntityGetter.java
-@@ -156,7 +156,7 @@ public interface EntityGetter {
+@@ -154,7 +154,7 @@ public interface EntityGetter {
  
      default boolean hasNearbyAlivePlayer(double x, double y, double z, double range) {
          for(Player player : this.players()) {

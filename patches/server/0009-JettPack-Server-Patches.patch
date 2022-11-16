@@ -928,7 +928,7 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a06089083cf36b1934aa1d67c25bc859e73afbaf..38f356a83a0145f44f035edc0949d0bb7f8235e7 100644
+index 1a758d44459736fc5934b4ee3ebd98063ea1d04f..1e9d78801c32b21dc26e83ed710ad21e86b76f30 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -940,7 +940,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -1280,15 +1280,15 @@ index 1ec9a48f2f44f5bd647e0661423ae90970aee262..5b5e91a4fd837093d012845a9024a588
  
          if (this.swinging) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index d5e3bd662da349fc2ee58c7800d79c60300f33b3..4a63fdd784c4c214e3790936f2f759b335b664d3 100644
+index 7809f341dc76536250b4eb3809de9368b5c2d652..c6b43a4f148b39132cfc7139610d900327d069e6 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -841,7 +841,7 @@ public abstract class Mob extends LivingEntity {
          } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
              // Paper start - optimise checkDespawn
-             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.affectsSpawning); // Paper
+             Player entityhuman = this.level.findNearbyPlayer(this, level.paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory()).hard() + 1, EntitySelector.PLAYER_AFFECTS_SPAWNING); // Paper
 -            if (entityhuman == null) {
-+            if (entityhuman == null || this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { // Prismarine
++            if (entityhuman == null || this.level.prismarineConfig.despawnMobWhenNoPlayerIsOnRange) { // Prismarine) {
                  entityhuman = ((ServerLevel)this.level).playersAffectingSpawning.isEmpty() ? null : ((ServerLevel)this.level).playersAffectingSpawning.get(0);
              }
              // Paper end - optimise checkDespawn
