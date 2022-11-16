@@ -15727,7 +15727,7 @@ index 4adfc26062b322443828e94e6b0943884a18846b..0d9ecca25bff63f3428ccf93e2789fca
                  } else if (this.isFuel(itemstack1)) {
                      if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index 506d758efbf16da9467f120321d2359a8832e477..9621f139cf6b219cfe2c1d66b13f8de41e0287b6 100644
+index 506d758efbf16da9467f120321d2359a8832e477..50f5f52839e66f64cc8be67cd732cfc516177bc6 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -21,6 +21,13 @@ import org.slf4j.Logger;
@@ -15813,34 +15813,43 @@ index 506d758efbf16da9467f120321d2359a8832e477..9621f139cf6b219cfe2c1d66b13f8de4
                                      i2 = enchantment.getMaxLevel();
                                  }
  
-@@ -262,6 +281,26 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -262,6 +281,35 @@ public class AnvilMenu extends ItemCombinerMenu {
              } else if (!this.itemName.equals(itemstack.getHoverName().getString())) {
                  b1 = 1;
                  i += b1;
 +                // Purpur start
-+                if (player != null && player.level.purpurConfig.anvilAllowColors) {
-+                    org.bukkit.craftbukkit.entity.CraftHumanEntity bukkitPlayer = player.getBukkitEntity();
-+                    final net.kyori.adventure.text.Component renameTextComponent;
-+                    if (player.level.purpurConfig.anvilColorsUseMiniMessage && bukkitPlayer.hasPermission("purpur.anvil.minimessage")) {
-+                        renameTextComponent = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(itemName);
-+                        itemstack1.setHoverName(io.papermc.paper.adventure.PaperAdventure.asVanilla(renameTextComponent));
-+                    } else if (itemName.startsWith("&r") && player.getBukkitEntity().hasPermission("purpur.anvil.remove_italics")) {
-+                        renameTextComponent = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacyAmpersand().deserialize(itemName.substring(2)).decoration(net.kyori.adventure.text.format.TextDecoration.ITALIC, false);
-+                        itemstack1.setHoverName(io.papermc.paper.adventure.PaperAdventure.asVanilla(renameTextComponent));
-+                    } else if (bukkitPlayer.hasPermission("purpur.anvil.color")) {
-+                        renameTextComponent = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacyAmpersand().deserialize(itemName);
-+                        itemstack1.setHoverName(io.papermc.paper.adventure.PaperAdventure.asVanilla(renameTextComponent));
-+                    } else if (player.getBukkitEntity().hasPermission("purpur.anvil.format")){
-+                        itemName = itemName.replaceAll("(?i)&([l-or])", "\u00a7$1");
-+                        renameTextComponent = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().deserialize(itemName);
-+                        itemstack1.setHoverName(io.papermc.paper.adventure.PaperAdventure.asVanilla(renameTextComponent));
++                if (this.player != null) {
++                    org.bukkit.craftbukkit.entity.CraftHumanEntity player = this.player.getBukkitEntity();
++                    String name = this.itemName;
++                    boolean removeItalics = false;
++                    if (player.hasPermission("purpur.anvil.remove_italics") && (name.startsWith("&r") || name.startsWith("<r>") || name.startsWith("<reset>"))) {
++                        name = name.substring(2);
++                        removeItalics = true;
 +                    }
++                    if (this.player.level.purpurConfig.anvilAllowColors) {
++                        if (player.hasPermission("purpur.anvil.color")) {
++                            name.replaceAll("(?i)&([0-9a-fr])", "\u00a7$1");
++                        }
++                        if (player.hasPermission("purpur.anvil.format")) {
++                            name = name.replaceAll("(?i)&([l-or])", "\u00a7$1");
++                        }
++                    }
++                    net.kyori.adventure.text.Component component;
++                    if (this.player.level.purpurConfig.anvilColorsUseMiniMessage && player.hasPermission("purpur.anvil.minimessage")) {
++                        component = net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(name);
++                    } else {
++                        component = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().deserialize(name);
++                    }
++                    if (removeItalics) {
++                        component = component.decoration(net.kyori.adventure.text.format.TextDecoration.ITALIC, false);
++                    }
++                    itemstack1.setHoverName(io.papermc.paper.adventure.PaperAdventure.asVanilla(component));
 +                } else
 +                // Purpur end
                  itemstack1.setHoverName(Component.literal(this.itemName));
              }
  
-@@ -274,6 +313,13 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -274,6 +322,13 @@ public class AnvilMenu extends ItemCombinerMenu {
                  this.cost.set(this.maximumRepairCost - 1); // CraftBukkit
              }
  
@@ -15854,7 +15863,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..9621f139cf6b219cfe2c1d66b13f8de4
              if (this.cost.get() >= this.maximumRepairCost && !this.player.getAbilities().instabuild) { // CraftBukkit
                  itemstack1 = ItemStack.EMPTY;
              }
-@@ -296,11 +342,17 @@ public class AnvilMenu extends ItemCombinerMenu {
+@@ -296,11 +351,17 @@ public class AnvilMenu extends ItemCombinerMenu {
              org.bukkit.craftbukkit.event.CraftEventFactory.callPrepareAnvilEvent(this.getBukkitView(), itemstack1); // CraftBukkit
              sendAllDataToRemote(); // CraftBukkit - SPIGOT-6686: Always send completed inventory to stay in sync with client
              this.broadcastChanges();
