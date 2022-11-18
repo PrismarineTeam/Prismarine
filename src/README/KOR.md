@@ -1,31 +1,17 @@
 <div align="center">
 
-Prismarine
-=
-[![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
-[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
-[![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
-[![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
+# Prismarine
+[![License](https://img.shields.io/github/license/PurpurMC/Purpur?label=라이선스)](LICENSE.md)
+[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine?label=빌드)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
+[![Upstream Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/PrismarineManager/Scheduled%20Upstream%20(1.19.2)?label=업스트림)](https://github.com/PrismarineTeam/PrismarineManager/actions/workflows/prismarine.yml)
 
-[![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
-[![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
-[![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
-
-[Discord](https://discord.gg/kkqMSEVVxN) - [네이버 카페](https://cafe.naver.com/prismarine) | **한국어** - [English](../../README.md)
+**:kr: 한국어** - [:us: English](../../README.md)
 
 [Paper](https://github.com/PaperMC/Paper) 기반의 여러 개선이 추가된 Minecraft: Java Edition 용 서버 플랫폼
 
 *우측(또는 하단) Sponsor를 통해 이 프로젝트를 지원하실 수 있습니다!*
 
 </div>
-
-## 삼가 고인의 명복을 빕니다.
-10월 29일 발생한 이태원 사태의 희생자, 부상자 그리고 유가족 분들께 깊은 애도를 표하며, 부상자 분들의 빠른 쾌유를 기원합니다.
-
-그리고, 계속해서 고생중이신 의료진, 경찰, 소방 공무원들께 감사를 표합니다.
-
-이 섹션은 국가애도기간(~11/05) 동안 계속해서 유지될 예정입니다.
 
 ## Prismarine 만의 장점
 - [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse), [CraftBukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse), [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse), [Paper](https://github.com/PaperMC/Paper) 기반으로 안정적이며, 대부분의 플러그인을 완벽히 지원합니다.
@@ -37,8 +23,9 @@ Prismarine
 - GitHub Action 을 사용하여 자동적으로 업스트림을 진행해 버킷중에서 가장 빠른 업스트림을 제공합니다.
 - 채팅 신고 기능을 비활성화 할 수 있습니다.
 
-## 소통하기
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/kkqMSEVVxN)
+## 소통하기 [<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/social/twitter-singular_64h.png?raw=true" width="20px"></img>](https://twitter.com/TeamPrismarine)
+[<img src="https://discord.com/api/guilds/781822976773455882/widget.png?style=banner3"></img>](https://discord.gg/kkqMSEVVxN)
+[<img src="https://discord.com/api/guilds/1003295972203429949/widget.png?style=banner3"></img>](https://discord.gg/CQGVqeXQQC)
 
 [Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
 
