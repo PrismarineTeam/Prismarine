@@ -29,8 +29,6 @@
 
 [Discord](https://discord.gg/kkqMSEVVxN)에 접속해서 오류를 공유하고 해결 방법을 찾아보세요!
 
-한국인이라면, [네이버 카페](https://cafe.naver.com/prismarine)에 가입할수도 있습니다.
-
 ### 유용한 서버
 - [Minecraft Development Dictionary (MDD)](https://discord.gg/AZwXTA9Pgx)
    - Minecraft에 관련된 다양한 뉴스, 소식과 서버 개발에 대한 정보를 얻고 질문&답변 할 수 있습니다.
