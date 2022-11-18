@@ -1,18 +1,11 @@
 <div align="center">
 
-Prismarine
-=
+# Prismarine
 [![License](https://img.shields.io/github/license/PurpurMC/Purpur)](LICENSE.md)
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/actions/workflows/build.yml)
-[![Open Issues](https://img.shields.io/github/issues-raw/PrismarineTeam/Prismarine?label=issues)](https://github.com/PrismarineTeam/Prismarine/issues)
-[![Open PRs](https://img.shields.io/github/issues-pr-raw/PrismarineTeam/Prismarine?label=pull%20requests)](https://github.com/PrismarineTeam/Prismarine/pulls)
+[![Upstream Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/PrismarineManager/Scheduled%20Upstream%20(1.19.2)?label=upstream)](https://github.com/PrismarineTeam/PrismarineManager/actions/workflows/prismarine.yml)
 
-[![Forks](https://img.shields.io/github/forks/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/network/members)
-[![Stars](https://img.shields.io/github/stars/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/stargazers)
-[![Watchers](https://img.shields.io/github/watchers/PrismarineTeam/Prismarine)](https://github.com/PrismarineTeam/Prismarine/watchers)
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/CQGVqeXQQC)
-
-[Discord](https://discord.gg/CQGVqeXQQC) - [Reddit](https://reddit.com/r/Prismarine) | [한국어](src/README/KOR.md) - **English**
+[:kr: Korean](src/README/KOR.md) | **:us: English**
 
 A Server Platform for Minecraft: Java Edition with many improvements based on [Paper](https://github.com/PaperMC/Paper)
 
@@ -30,8 +23,9 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
 - Ability to disable Chat Report System.
 
-## Communicate
-[![Discord](https://img.shields.io/discord/781822976773455882?color=%235865F2&label=Discord&logo=discord)](https://discord.gg/CQGVqeXQQC)
+## Communicate [<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/social/twitter-singular_64h.png?raw=true" width="20px"></img>](https://twitter.com/TeamPrismarine)
+[<img src="https://discord.com/api/guilds/781822976773455882/widget.png?style=banner3"></img>](https://discord.gg/kkqMSEVVxN)
+[<img src="https://discord.com/api/guilds/1003295972203429949/widget.png?style=banner3"></img>](https://discord.gg/CQGVqeXQQC)
 
 Join [Discord](https://discord.gg/CQGVqeXQQC) and let us know error and help us find how to solve it!
 
