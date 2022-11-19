@@ -30,6 +30,15 @@
 
 Mojmap 또는 Bundler Jar는 [우측(또는 아래) Releases 탭](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)의 가장 하단에서 다운로드 할 수 있습니다.
 
+## 지원하기
+[<img src="https://github.com/AlphaKR93/AlphaKR93/blob/main/res/Toss.png?raw=true" width="32px"></img>](https://toss.me/alphakr93)
+[<img src="https://t1.kakaocdn.net/kakaocorp/kakaocorp/admin/5e604f55017800001.png" width="31px"></img>](https://qr.kakaopay.com/FPQhdrTiU)
+[<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/donate/paypal-singular_64h.png?raw=true" width="32px"></img>](https://www.paypal.me/alphakr93)
+[<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/donate/kofi-singular_64h.png?raw=true" width="32px"></img>](https://ko-fi.com/alphakr93)
+[<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/donate/patreon-singular_64h.png?raw=true" width="32px"></img>](https://patreon.com/alphakr93_)
+
+위 5가지 플랫폼을 통해 Prismarine을 지원하실 수 있습니다.
+
 ## 소통하기 [<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/social/twitter-singular_64h.png?raw=true" width="20px"></img>](https://twitter.com/TeamPrismarine)
 [<img src="https://discord.com/api/guilds/781822976773455882/widget.png?style=banner3"></img>](https://discord.gg/kkqMSEVVxN)
 [<img src="https://discord.com/api/guilds/1003295972203429949/widget.png?style=banner3"></img>](https://discord.gg/CQGVqeXQQC)
