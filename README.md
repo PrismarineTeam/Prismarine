@@ -23,6 +23,13 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 - Provides the fastest upstream by using GitHub Action which do upstream automatically.
 - Ability to disable Chat Report System.
 
+## Downloads
+[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
+
+In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.2-R0.1-SNAPSHOT-reobf.jar)
+
+Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
+
 ## Communicate [<img src="https://github.com/intergrav/devins-badges/blob/v2/assets/minimal/social/twitter-singular_64h.png?raw=true" width="20px"></img>](https://twitter.com/TeamPrismarine)
 [<img src="https://discord.com/api/guilds/781822976773455882/widget.png?style=banner3"></img>](https://discord.gg/kkqMSEVVxN)
 [<img src="https://discord.com/api/guilds/1003295972203429949/widget.png?style=banner3"></img>](https://discord.gg/CQGVqeXQQC)
@@ -52,13 +59,6 @@ Please join [#saveminecraft movement Discord](https://discord.gg/saveminecraft).
 Leave your opinion [in here](https://saveminecraft.org/opinions). You need Google account or GitHub account.
 
 And, please spread this movement widely. Please help chatting report function removed.
-
-## Downloads
-[![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
-
-In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.2-R0.1-SNAPSHOT-reobf.jar)
-
-Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
 ## Configuration & Optimize
 See [Wiki](https://github.com/PrismarineTeam/Prismarine/wiki)
