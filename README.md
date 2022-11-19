@@ -26,7 +26,7 @@ A Server Platform for Minecraft: Java Edition with many improvements based on [P
 ## Downloads
 [![Build Prismarine](https://img.shields.io/github/workflow/status/PrismarineTeam/Prismarine/Build%20Prismarine)](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest)
 
-In normal case, you can download latest JAR file by clicking [this](https://github.com/PrismarineTeam/Prismarine/releases/download/latest/Prismarine-paperclip-1.19.2-R0.1-SNAPSHOT-reobf.jar)
+In normal case, you can download the [`paperclip-*-reobf.jar`](https://github.com/PrismarineTeam/Prismarine/releases/download/latest-1.19.2/Prismarine-paperclip-1.19.2-R0.1-SNAPSHOT-reobf.jar) file from the Releases tab.
 
 Mojmap or Bundler Jar can be downloaded [right side(or below)'s Releases tab](https://github.com/PrismarineTeam/Prismarine/releases/tag/latest).
 
