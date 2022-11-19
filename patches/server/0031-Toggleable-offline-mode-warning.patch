@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Irochi <me@irochi.moe>
+Date: Tue, 25 Oct 2022 23:40:57 +0900
+Subject: [PATCH] Toggleable offline mode warning
+
+
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index 1f847ac2b0b8096015da1e830a6cd664f1cef244..1f6899246eeba9b969daf5fdde0f66bfe8b95fec 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -325,7 +325,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
+         // CraftBukkit end
+ 
+-        if (!this.usesAuthentication()) {
++        if (!this.usesAuthentication() && net.prismarineteam.prismarine.PrismarineConfig.offlineWarning) { // Prismarine - Toggleable offline mode warning
+             DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
+             DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
+             // Spigot start
+@@ -337,7 +337,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+                 DedicatedServer.LOGGER.warn("You will not be offered any support as long as the server allows offline-mode players to join."); // Purpur
+             }
+             // Spigot end
+-            DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
++            DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file, or set \"settings.offline-warning\" to \"false\" in the prismarin.yml file."); // Prismarine - Toggleable offline mode warning
+         }
+ 
+ 
+diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+index 9addecba6dd4602daff61e095b43edc4ac0c5960..e696dd4588d8fca027bfa461a8a908927ed452bc 100644
+--- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
++++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
+@@ -266,4 +266,9 @@ public class PrismarineConfig {
+     private static void maxArmorAttributeValue() {
+         maxArmorAttributeValue = (float) getDouble("settings.max-armor-attribute-value", maxArmorAttributeValue);
+     }
++
++    public static boolean offlineWarning = true;
++    private static void offlineWarning() {
++        offlineWarning = getBoolean("settings.offline-warning", offlineWarning);
++    }
+ }
+\ No newline at end of file

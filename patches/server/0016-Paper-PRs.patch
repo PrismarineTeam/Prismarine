@@ -158,7 +158,7 @@ index bb15cf2aa35ce8754bba56f5b312d92b1a50c9f8..82c1e4f79210e10031a7555be03e294d
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/EntitySelector.java b/src/main/java/net/minecraft/world/entity/EntitySelector.java
-index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55078ab757 100644
+index 5a3e29aedc537c672d11385cec562b2c30761730..2b039882c6857abce9394cafb7827865a75ff354 100644
 --- a/src/main/java/net/minecraft/world/entity/EntitySelector.java
 +++ b/src/main/java/net/minecraft/world/entity/EntitySelector.java
 @@ -27,7 +27,20 @@ public final class EntitySelector {
@@ -183,21 +183,6 @@ index 212ea98eeaaf4b20ba0896dab03cd092c494471a..3c8ea36eadf4073ed904cf6cbed30d55
      public static Predicate<Player> notAfk = (player) -> !player.isAfk(); // Purpur
  
      private EntitySelector() {}
-diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index a8e16d71225ba14a736b96f2818a4b29b72bb725..ec097aae56979a38b482c7615b8d11264eaa4ff5 100644
---- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
-+++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -2276,8 +2276,9 @@ public abstract class LivingEntity extends Entity {
-                 // CraftBukkit end
-                 float f3 = this.getHealth();
- 
--                this.setHealth(f3 - f);
-+                //this.setHealth(f3 - f); // Prismarine - move down
-                 this.getCombatTracker().recordDamage(damagesource, f3, f);
-+                this.setHealth(f3 - f); // Prismarine - move down
-                 // CraftBukkit start
-                 if (!human) {
-                     this.setAbsorptionAmount(this.getAbsorptionAmount() - f);
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 index 4e00c2216142b52fb34be0e51d00fa20fded92c8..4f31454c192361a18d32d3085cb9df90effadba9 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java

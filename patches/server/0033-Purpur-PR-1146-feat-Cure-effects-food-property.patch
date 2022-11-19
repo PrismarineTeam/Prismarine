@@ -25,10 +25,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index ec097aae56979a38b482c7615b8d11264eaa4ff5..a776e8b705725d82758e96b36892b549b5df71b3 100644
+index bb28ebe18acdff5e6f8456d0e90a325cd54bfbd3..37cd5682ee3886ac8cc37cec2b1c3088b4c9d457 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -4375,6 +4375,7 @@ public abstract class LivingEntity extends Entity {
+@@ -4376,6 +4376,7 @@ public abstract class LivingEntity extends Entity {
          if (stack.isEdible()) {
              world.playSound((net.minecraft.world.entity.player.Player) null, this.getX(), this.getY(), this.getZ(), this.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
              this.addEatEffect(stack, world, this);
@@ -36,7 +36,7 @@ index ec097aae56979a38b482c7615b8d11264eaa4ff5..a776e8b705725d82758e96b36892b549
              if (!(this instanceof net.minecraft.world.entity.player.Player) || !((net.minecraft.world.entity.player.Player) this).getAbilities().instabuild) {
                  stack.shrink(1);
              }
-@@ -4403,6 +4404,23 @@ public abstract class LivingEntity extends Entity {
+@@ -4404,6 +4405,23 @@ public abstract class LivingEntity extends Entity {
  
      }
  

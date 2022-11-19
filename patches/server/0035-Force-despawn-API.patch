@@ -5,10 +5,10 @@ Subject: [PATCH] Force despawn API
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 3c8dea033631f9ff0622f5ded08e55fa4ad8ddb7..4349bea37d9c9d952b731aae6866ed98974c9ab8 100644
+index ac7fa4ff2012c71ff897dc19081be45a8f0e9085..352fb856010532e2b76a9980b508240f703ca90a 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -4433,6 +4433,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4431,6 +4431,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      public void checkDespawn() {}
  

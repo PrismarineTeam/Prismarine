@@ -28,83 +28,28 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 0011 - Swaps the predicate order of collision
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index b7519b92081249f902d6455a1ffbb42d4f727981..41eeb8e8af29a6eb1e89abf785d3f4557ccd854b 100644
+index c8a24d1026671652cc5042d6b41b85e38ddfda8b..6da8a8f8912e893aa339f2d36b575769c9b92800 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -419,7 +419,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
-     public int activatedPriority = gg.pufferfish.pufferfish.PufferfishConfig.maximumActivationPrio; // golf score
-     public final BlockPos.MutableBlockPos cachedBlockPos = new BlockPos.MutableBlockPos(); // used where needed
-     // Pufferfish end
--    
-+
-     public float getBukkitYaw() {
-         return this.yRot;
-     }
-@@ -1970,38 +1970,37 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -1970,8 +1970,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      public void playerTouch(Player player) {}
  
      public void push(Entity entity) {
 -        if (!this.isPassengerOfSameVehicle(entity)) {
 -            if (!entity.noPhysics && !this.noPhysics) {
--                if (this.level.paperConfig().collisions.onlyPlayersCollide && !(entity instanceof ServerPlayer || this instanceof ServerPlayer)) return; // Paper
--                double d0 = entity.getX() - this.getX();
--                double d1 = entity.getZ() - this.getZ();
--                double d2 = Mth.absMax(d0, d1);
--
--                if (d2 >= 0.009999999776482582D) {
--                    d2 = Math.sqrt(d2);
--                    d0 /= d2;
--                    d1 /= d2;
--                    double d3 = 1.0D / d2;
--
--                    if (d3 > 1.0D) {
--                        d3 = 1.0D;
--                    }
--
--                    d0 *= d3;
--                    d1 *= d3;
--                    d0 *= 0.05000000074505806D;
--                    d1 *= 0.05000000074505806D;
--                    if (!this.isVehicle() && this.isPushable()) {
--                        this.push(-d0, 0.0D, -d1);
--                    }
-+        // Prismarine start - why? (Akarin patches)
-+        if (!this.isPassengerOfSameVehicle(entity) && !entity.noPhysics && !this.noPhysics) {
-+            if (this.level.paperConfig().collisions.onlyPlayersCollide && !(entity instanceof ServerPlayer || this instanceof ServerPlayer)) return; // Paper
-+            double d0 = entity.getX() - this.getX();
-+            double d1 = entity.getZ() - this.getZ();
-+            double d2 = Mth.absMax(d0, d1);
-+
-+            if (d2 >= 0.009999999776482582D) {
-+                d2 = Math.sqrt(d2);
-+                d0 /= d2;
-+                d1 /= d2;
-+                double d3 = 1.0D / d2;
-+
-+                if (d3 > 1.0D) {
-+                    d3 = 1.0D;
-+                }
- 
--                    if (!entity.isVehicle() && entity.isPushable()) {
--                        entity.push(d0, 0.0D, d1);
--                    }
-+                d0 *= d3;
-+                d1 *= d3;
-+                d0 *= 0.05000000074505806D;
-+                d1 *= 0.05000000074505806D;
-+                if (!this.isVehicle() && this.isPushable()) {
-+                    this.push(-d0, 0.0D, -d1);
++        if (!this.isPassengerOfSameVehicle(entity) && !entity.noPhysics && !this.noPhysics) { // Prismarine - Akarin patches
+                 if (this.level.paperConfig().collisions.onlyPlayersCollide && !(entity instanceof ServerPlayer || this instanceof ServerPlayer)) return; // Paper
+                 double d0 = entity.getX() - this.getX();
+                 double d1 = entity.getZ() - this.getZ();
+@@ -1999,8 +1998,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                         entity.push(d0, 0.0D, d1);
+                     }
                  }
- 
-+                if (!entity.isVehicle() && entity.isPushable()) {
-+                    entity.push(d0, 0.0D, d1);
-+                }
-             }
+-
+-            }
          }
-+        // Prismarine end
      }
  
-     public void push(double deltaX, double deltaY, double deltaZ) {
 diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
 index 601f8099f74e81c17600566b3c9b7a6dd39c9bcb..2bb24bf628a37c79e337f1cba99b816465ecb723 100644
 --- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java

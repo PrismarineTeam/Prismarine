@@ -184,7 +184,7 @@ index 7880cdcaf12197f6b36777c51b2859f2463f1595..b79e12cab036339aca73bdda639a877c
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 41eeb8e8af29a6eb1e89abf785d3f4557ccd854b..3c8dea033631f9ff0622f5ded08e55fa4ad8ddb7 100644
+index 6da8a8f8912e893aa339f2d36b575769c9b92800..ac7fa4ff2012c71ff897dc19081be45a8f0e9085 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -202,7 +202,7 @@ index 41eeb8e8af29a6eb1e89abf785d3f4557ccd854b..3c8dea033631f9ff0622f5ded08e55fa
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3158,7 +3166,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3156,7 +3164,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -212,10 +212,10 @@ index 41eeb8e8af29a6eb1e89abf785d3f4557ccd854b..3c8dea033631f9ff0622f5ded08e55fa
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 5b5e91a4fd837093d012845a9024a5884b0fd209..a8e16d71225ba14a736b96f2818a4b29b72bb725 100644
+index aa7afa4b399d92e0114860674d360106dd109525..bb28ebe18acdff5e6f8456d0e90a325cd54bfbd3 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3153,7 +3153,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3155,7 +3155,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  

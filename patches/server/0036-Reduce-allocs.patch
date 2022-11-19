@@ -653,7 +653,7 @@ index f2a513cea03f7849f4c76ff3c9a3f3130b57c077..efa593e437550f3ec7ccfce6444bb142
  
              for (int j = 0; j < i; ++j) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 38f356a83a0145f44f035edc0949d0bb7f8235e7..7ec17310ebd1cbce6079b42a20315a9c69db907a 100644
+index 1e9d78801c32b21dc26e83ed710ad21e86b76f30..1e850dcdae91b10115e4c68c986ee8b1d5862e06 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1230,7 +1230,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -818,10 +818,10 @@ index 3b0c03506b883fcca1ef49ff54905a5bc4359a9d..d9dfd14875199a960192bce3db32d19a
  
      public static void registerJmxMonitoring(MinecraftServer server) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index a776e8b705725d82758e96b36892b549b5df71b3..8ca290b7faefdefb5a7a80c2068eb23f394ebb36 100644
+index 37cd5682ee3886ac8cc37cec2b1c3088b4c9d457..018734b9285c674792794110a5a8ef83c3e95b17 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3134,7 +3134,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3135,7 +3135,7 @@ public abstract class LivingEntity extends Entity {
      @Nullable
      private Map<EquipmentSlot, ItemStack> collectEquipmentChanges() {
          Map<EquipmentSlot, ItemStack> map = null;
@@ -831,7 +831,7 @@ index a776e8b705725d82758e96b36892b549b5df71b3..8ca290b7faefdefb5a7a80c2068eb23f
  
          for (int j = 0; j < i; ++j) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index e9fc05533d3f92836f8c6c93364d85c7a35b48b0..b9967d0323ef670ce4d3ab9d7a0845b9dc125650 100644
+index 44deff2f4a694b1234d8c0e51b8afde257771624..e905a15408ad1617a04792b15ac5a22e0d76acd3 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -1065,7 +1065,7 @@ public abstract class Mob extends LivingEntity {
@@ -1040,7 +1040,7 @@ index b9ac8cefefe1f47548166330b7c889dfbc05e583..0930a28259939fe6e13052499e67ec76
          this.targetSelector.addGoal(3, new Spider.SpiderTargetGoal<>(this, IronGolem.class));
      }
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
-index 86cbf62b6a0ab4352d91456b6ea2324c4389374d..68b849545d74a05f394c3c7c3c625afada3886c1 100644
+index 31b1715a5b62e4bd36d672ad21a3bdfbec8af7d1..2078aa02d251b258c2b3e344e32688c99f9f8049 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Zombie.java
 @@ -164,7 +164,7 @@ public class Zombie extends Monster {

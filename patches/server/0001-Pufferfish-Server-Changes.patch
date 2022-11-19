@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Sun, 30 Oct 2022 18:24:59 +0000
+Date: Fri, 18 Nov 2022 15:46:16 +0000
 Subject: [PATCH] Pufferfish Server Changes
 
 Original by Kevin Raneri <kevin.raneri@gmail.com>
@@ -2418,7 +2418,7 @@ index 2358bb1788cfb902bac9b3b7588954af2d2cd823..163f14b4e1ca99d75e5d8e14190f7b91
                          this.wasOnGround = this.entity.isOnGround();
                          this.teleportDelay = 0;
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 8b3e703ebb497b9166bd211b4247a78891b61aeb..94f4a5bfd2af8389a99f80bab4eceac1f075512e 100644
+index a8cdb261c0f8c9a377bb4a6d39afbe5ef6f0d146..aa4bd1b9c22b00d7db513d85f89734795ba6caa7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -727,7 +727,20 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -2813,7 +2813,7 @@ index 72516335570d7137a62ec8667a6e8f06f024692f..b44322c337bcded94c60e1761a389101
      public final String id;
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 0318c9483a4d96eb39ff4df9054a9e6398186bc3..26efc49b4530112c8bd3f580ce375ab4203c9609 100644
+index c6cbf02c784d4b0a39c61cd65e777fe04e3c3772..88ebf53d3a5d93d6aa40152d55e83cb1f25443b3 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -142,7 +142,6 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -2871,7 +2871,7 @@ index 0318c9483a4d96eb39ff4df9054a9e6398186bc3..26efc49b4530112c8bd3f580ce375ab4
      public boolean onClimbable() {
          if (this.isSpectator()) {
              return false;
-@@ -3586,7 +3607,10 @@ public abstract class LivingEntity extends Entity {
+@@ -3588,7 +3609,10 @@ public abstract class LivingEntity extends Entity {
              Vec3 vec3d1 = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ());
  
              // Paper - diff on change - used in CraftLivingEntity#hasLineOfSight(Location) and CraftWorld#lineOfSightExists
@@ -2884,7 +2884,7 @@ index 0318c9483a4d96eb39ff4df9054a9e6398186bc3..26efc49b4530112c8bd3f580ce375ab4
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index fffa6ba329b38433a1df51df339df652d3fda828..e89b88eb3d4202ea7ff043dc9e92163332cd10d3 100644
+index 12fcc84e9de914657409142dc70ced7015cf5533..235db1306573c25a101265c8f88dad0fbe06ca59 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -210,14 +210,16 @@ public abstract class Mob extends LivingEntity {
@@ -2928,7 +2928,7 @@ index fffa6ba329b38433a1df51df339df652d3fda828..e89b88eb3d4202ea7ff043dc9e921633
              this.level.getProfiler().pop();
          }
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
-index 692524a69d43dcf52ae1b0f7f593fc53f3878137..511fbbe5da0b6b0c51952c0f548f5ba9f6a64349 100644
+index 692524a69d43dcf52ae1b0f7f593fc53f3878137..59ca3a0a70c68263495ae9972215b76554d3fb83 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/attributes/AttributeMap.java
 @@ -22,9 +22,11 @@ public class AttributeMap {
@@ -2943,8 +2943,11 @@ index 692524a69d43dcf52ae1b0f7f593fc53f3878137..511fbbe5da0b6b0c51952c0f548f5ba9
      }
  
      private void onAttributeModified(AttributeInstance instance) {
-@@ -46,9 +48,7 @@ public class AttributeMap {
+@@ -44,11 +46,10 @@ public class AttributeMap {
+         }).collect(Collectors.toList());
+     }
  
++
      @Nullable
      public AttributeInstance getInstance(Attribute attribute) {
 -        return this.attributes.computeIfAbsent(attribute, (attributex) -> {
@@ -4143,7 +4146,7 @@ index 35f9b11a3a61976c952a2c1c64bb2a932538f54f..9e9ac64764cf0a84e25e75d8d6f516cd
  
      public boolean hasParam(LootContextParam<?> parameter) {
 diff --git a/src/main/java/net/minecraft/world/phys/shapes/EntityCollisionContext.java b/src/main/java/net/minecraft/world/phys/shapes/EntityCollisionContext.java
-index ebe65474a4a05ff1637d7f37ebcfe690af59def5..dd45d6464e095dfa82c569d198f5e42d94e7d877 100644
+index ebe65474a4a05ff1637d7f37ebcfe690af59def5..42142c512b12e5b269c19f1e821c50e7496a5f25 100644
 --- a/src/main/java/net/minecraft/world/phys/shapes/EntityCollisionContext.java
 +++ b/src/main/java/net/minecraft/world/phys/shapes/EntityCollisionContext.java
 @@ -19,47 +19,66 @@ public class EntityCollisionContext implements CollisionContext {
@@ -4187,8 +4190,8 @@ index ebe65474a4a05ff1637d7f37ebcfe690af59def5..dd45d6464e095dfa82c569d198f5e42d
 +        // this(entity.isDescending(), entity.getY(), entity instanceof LivingEntity ? ((LivingEntity)entity).getMainHandItem() : ItemStack.EMPTY, entity instanceof LivingEntity ? ((LivingEntity)entity)::canStandOnFluid : (fluidState) -> {
 +        //     return false;
 +        // }, entity);
-+        this.entity = entity;
 +        // Pufferfish end
++        this.entity = entity;
      }
  
      @Override
@@ -4209,7 +4212,7 @@ index ebe65474a4a05ff1637d7f37ebcfe690af59def5..dd45d6464e095dfa82c569d198f5e42d
 +        // Pufferfish start
 +        Entity entity = this.entity;
 +        if (entity instanceof LivingEntity livingEntity) {
-+            return livingEntity.canStandOnFluid(state) && !state.getType().isSame(state.getType());
++            return livingEntity.canStandOnFluid(state) && !stateAbove.getType().isSame(state.getType());
 +        }
 +        return false;
 +        // Pufferfish end
