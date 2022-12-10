@@ -33,12 +33,12 @@ index 2b03274392300f89c634d3372c30a0fa0122ef85..0633090d9d1824e1c810c205a07ee0be
          // Paper start - validate usernames
          if (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() && io.papermc.paper.configuration.GlobalConfiguration.get().unsupportedSettings.performUsernameValidation) {
 diff --git a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-index ecba9b47ed31a7bce579fce4bf3c568ccba95c0b..5a6ef0616782d3a6f3288193413169f5b0d9ac9f 100644
+index e696dd4588d8fca027bfa461a8a908927ed452bc..fe4bfd8af138384e1e8a0bbdeb6fd783314a7374 100644
 --- a/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
 +++ b/src/main/java/net/prismarineteam/prismarine/PrismarineConfig.java
-@@ -276,4 +276,9 @@ public class PrismarineConfig {
-     private static void antiShulkerDupe() {
-         antiShulkerDupe = getBoolean("settings.anti-shulker-dupe", antiShulkerDupe);
+@@ -271,4 +271,9 @@ public class PrismarineConfig {
+     private static void offlineWarning() {
+         offlineWarning = getBoolean("settings.offline-warning", offlineWarning);
      }
 +
 +    public static boolean allowAnyPlayerName = false;
