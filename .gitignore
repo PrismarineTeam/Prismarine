@@ -1,48 +1,60 @@
-# JVM crash related
-core.*
-hs_err_pid*
+.gradle/
+build/
 
-# Intellij
-.idea/
-*.iml
-*.ipr
-*.iws
-out/
-
-# Eclipse
+# Eclipse stuff
 .classpath
 .project
 .settings/
+
+# VSCode stuff
+.vscode/
 
 # netbeans
 nbproject/
 nbactions.xml
 
-# Gradle
-.gradle/
-build/
-*/build/
-
 # we use maven!
 build.xml
 
-# Maven
-log/
+# maven
 target/
 dependency-reduced-pom.xml
 
+# vim
+.*.sw[a-p]
+
 # various other potential build files
-build/
 bin/
 dist/
 manifest.mf
 
-# Mac
+/work/Temp/
+work/1.*
+work/Minecraft
+work/BuildData
+work/Bukkit
+work/CraftBukkit
+work/Paperclip
+work/Spigot
+work/Spigot-Server
+work/Spigot-API
+work/*.jar
+work/test-server
+work/ForgeFlower
+
+# Mac filesystem dust
 .DS_Store/
 .DS_Store
 
-# vim
-.*.sw[a-p]
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+# JetBrains Fleet
+.fleet/
 
 # Linux temp files
 *~

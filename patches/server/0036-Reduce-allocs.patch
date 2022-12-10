@@ -533,7 +533,7 @@ index a2920b8a9eff77d9c5d1d7f70ad3abdacba8f0fa..1c2fb297e001e93f9b146d5e5935f0ce
      protected CipherBase(Cipher cipher) {
          this.cipher = cipher;
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 2a71c8e6901944af90c4ad4dfa39dba7fafc0126..f594a32dcc3e6dac156f135112c8dee773993e82 100644
+index 2b0ec158ff789b94fcc89ea3b4e8ece6d7185c57..58dc54e653bf5b47aebe6eab020ed782a3816437 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -312,7 +312,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -580,7 +580,7 @@ index a0aeac9c29300a0cf6bad55133019e8c29f6cc1c..9494ab7266462380f851edb36bda2b5b
      }
      // Paper end
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 752d67399c47475bd546395638892c998e18ab0f..3d42fb3e4813f03059a3cc6722026dfcd3674841 100644
+index 4e95e6eaa40e22c15a13c74479fd44a343ad9e29..6c3e2edd08b3b46a76963a1f903e9fcdf1030b82 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1385,8 +1385,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -627,7 +627,7 @@ index c93d2f16bb8abb11862c3af98a8cc7af551e9a1c..acbd5a5c167b06a5968adfd0f2aea0c5
                  return map;
              });
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 26dbedad2781479626a73e016f589ab6c16c74a1..126b7f01e2bb4a5904fe3d511aea31211d2b307d 100644
+index f34ed3753c311e204f78d2407f35f14aa122d531..983f228c980894985cbf3ababaaef8851c0f1ce7 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1524,7 +1524,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -653,10 +653,10 @@ index f2a513cea03f7849f4c76ff3c9a3f3130b57c077..efa593e437550f3ec7ccfce6444bb142
  
              for (int j = 0; j < i; ++j) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 1e9d78801c32b21dc26e83ed710ad21e86b76f30..1e850dcdae91b10115e4c68c986ee8b1d5862e06 100644
+index 4413ccc98565c02e3461461b6bdb4a5cf5d10f1c..4926cbd03c83cc0b7b239f0cdffc09ced8ec1668 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1230,7 +1230,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1232,7 +1232,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
  
      public static List<Entity> getCurrentlyTickingEntities() {
          Entity ticking = currentlyTickingEntity.get();
@@ -666,7 +666,7 @@ index 1e9d78801c32b21dc26e83ed710ad21e86b76f30..1e850dcdae91b10115e4c68c986ee8b1
          return ret;
      }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 1102566ce1e106c145f3a8531f500ac9715cff02..24c1db2aab67e8bae78aa6858f5b7e70cabd3819 100644
+index f6d50425730ab372d11583dedc3f6d6c5eda66ec..8b25ef769f8b99f441b2f55acb3fd1adca2c0081 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -440,7 +440,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -818,10 +818,10 @@ index 3b0c03506b883fcca1ef49ff54905a5bc4359a9d..d9dfd14875199a960192bce3db32d19a
  
      public static void registerJmxMonitoring(MinecraftServer server) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 37cd5682ee3886ac8cc37cec2b1c3088b4c9d457..018734b9285c674792794110a5a8ef83c3e95b17 100644
+index 3323066cf1a966fe1b4073e4e1448a6540e8f15e..940b8735583b45a8c34510117cf18a2913e26c91 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3135,7 +3135,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3150,7 +3150,7 @@ public abstract class LivingEntity extends Entity {
      @Nullable
      private Map<EquipmentSlot, ItemStack> collectEquipmentChanges() {
          Map<EquipmentSlot, ItemStack> map = null;
@@ -831,7 +831,7 @@ index 37cd5682ee3886ac8cc37cec2b1c3088b4c9d457..018734b9285c674792794110a5a8ef83
  
          for (int j = 0; j < i; ++j) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 44deff2f4a694b1234d8c0e51b8afde257771624..e905a15408ad1617a04792b15ac5a22e0d76acd3 100644
+index 25b6eb37a03430e0b1048eede4ef983b8c65fa3a..f55d701e862f91e078d0bc0dcb647d9ebf3f6882 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -1065,7 +1065,7 @@ public abstract class Mob extends LivingEntity {
@@ -923,7 +923,7 @@ index e6b36650d1c670dbb3ccb0657f43432e64166e29..1e0e97b05abf335081ff50d72d43f1f1
              this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Wolf.class, true));
              if (!this.hasCustomName()) {
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Wolf.java b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
-index 22a66e59687ca889965536464b628f45b0e88ec0..3388fa62611b491e1eea56ac03f96187739a72c0 100644
+index 80f9788d11a5161c3020837befbebb06172e86e5..178a51c2ad7e497629f794dec0f91aa559ae875a 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Wolf.java
 @@ -238,7 +238,7 @@ public class Wolf extends TamableAnimal implements NeutralMob {
@@ -1053,7 +1053,7 @@ index 31b1715a5b62e4bd36d672ad21a3bdfbec8af7d1..2078aa02d251b258c2b3e344e32688c9
          // Purpur start
          if ( level.spigotConfig.zombieAggressiveTowardsVillager ) this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<AbstractVillager>(this, AbstractVillager.class, false) { // Spigot
 diff --git a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
-index fa9c48aa10d74d4de8f28fd7b99b82d9ce87bde5..4df866cd1f32675aad54fe45f551d5f16b4758ca 100644
+index 1d0bad8da3d48dce629bfab3cb536358d818a97e..226ffc76727cdc41c5e50e10685acfc1427a1e0c 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/ZombieVillager.java
 @@ -285,7 +285,7 @@ public class ZombieVillager extends Zombie implements VillagerDataHolder {
@@ -1092,7 +1092,7 @@ index 4322e29a493bcc3c131d1a1c5969118073c61bf0..cb88bd9c62f347ad0c0c187a160936fa
  
      public CreativeModeTab(int index, String id) {
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index 3a90c9609d27f68335c85d0b27f915bad30a66e9..e821f45a6e273f1724b539be1ecf380c6d657170 100644
+index 7616333aafc42bccd84fe881515549d7e5f8c874..f852700a21f1606d5cd3450934820565f2f0f181 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
 @@ -988,7 +988,7 @@ public final class ItemStack {
@@ -1674,7 +1674,7 @@ index 9a2ec50be757dfa3780a49ec96942fed89ed530c..f87161d6d67d904804b2d65593aa1b1b
              System.out.println("Starting server");
              Thread runThread = new Thread(() -> {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java
-index f4065938bbfd04519d1363ee8781c316aca468ab..5ef39c431f67ccf1ddb3b0302609f263b06cc75e 100644
+index f80cafe3544c7e6c3c29073ba6539783adf6666c..e09d860b2b4c723c743b12767e1a27f50fb0e013 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftArmorStand.java
 @@ -4,7 +4,6 @@ import net.minecraft.core.Rotations;
@@ -1712,7 +1712,7 @@ index f4065938bbfd04519d1363ee8781c316aca468ab..5ef39c431f67ccf1ddb3b0302609f263
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 124d8b8e6083fb1015e61ce5b7af387221255acd..12fc75b69cab8d04ebc6837b444b5d5de63dbc21 100644
+index c3e21b80235f230c3cc23d3f625bfbb96a2311b5..49a25831491e05a1152a869e2b7be0da0e54904b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -460,7 +460,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

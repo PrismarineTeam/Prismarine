@@ -30,10 +30,10 @@ index 82ae8c6e0509a54ebf9226a879db6648a6a4bbe5..587b5b20c8cc1a7049faed4bee82b885
                  "tick frequency. freq = (distanceToPlayer^2) / (2^value)",
                  "If you want further away entities to tick less often, use 7.",
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae40827817ca9b98 100644
+index 5982dda61e07f1661b0a68d0ba1fcc1122e8d428..1b5a6f95c6e7495d46eab2f8ecb84899d66770f4 100644
 --- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -80,16 +80,18 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -81,16 +81,18 @@ public class WorldConfiguration extends ConfigurationPart {
          public AntiXray antiXray;
  
          public class AntiXray extends ConfigurationPart {
@@ -58,7 +58,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
          }
      }
  
-@@ -129,7 +131,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -130,7 +132,7 @@ public class WorldConfiguration extends ConfigurationPart {
              @MergeMap
              public Reference2IntMap<MobCategory> spawnLimits = Util.make(new Reference2IntOpenHashMap<>(NaturalSpawner.SPAWNING_CATEGORIES.length), map -> Arrays.stream(NaturalSpawner.SPAWNING_CATEGORIES).forEach(mobCategory -> map.put(mobCategory, -1)));
              @MergeMap
@@ -67,7 +67,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
  
              @ConfigSerializable
              public record DespawnRange(@Required int soft, @Required int hard) {
-@@ -189,8 +191,37 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -190,8 +192,37 @@ public class WorldConfiguration extends ConfigurationPart {
              public AltItemDespawnRate altItemDespawnRate;
  
              public class AltItemDespawnRate extends ConfigurationPart {
@@ -107,7 +107,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
              }
          }
  
-@@ -309,7 +340,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -313,7 +344,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Environment extends ConfigurationPart {
          public boolean disableThunder = false;
          public boolean disableIceAndSnow = false;
@@ -116,7 +116,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
          public boolean disableExplosionKnockback = false;
          public boolean generateFlatBedrock = false;
          public FrostedIce frostedIce;
-@@ -381,7 +412,7 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -385,7 +416,7 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Hopper extends ConfigurationPart {
          public boolean cooldownWhenFull = true;
          public boolean disableMoveEvent = false;
@@ -125,7 +125,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
      }
  
      public Collisions collisions;
-@@ -389,9 +420,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -393,9 +424,9 @@ public class WorldConfiguration extends ConfigurationPart {
      public class Collisions extends ConfigurationPart {
          public boolean onlyPlayersCollide = false;
          public boolean allowVehicleCollisions = true;
@@ -137,7 +137,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
          public boolean allowPlayerCrammingDamage = false;
      }
  
-@@ -399,18 +430,31 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -403,18 +434,31 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Chunks extends ConfigurationPart {
          public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
@@ -177,7 +177,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
          });
      }
  
-@@ -424,11 +468,22 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -428,11 +472,22 @@ public class WorldConfiguration extends ConfigurationPart {
      public TickRates tickRates;
  
      public class TickRates extends ConfigurationPart {
@@ -204,7 +204,7 @@ index a1bd848bbf924267e74e61dabdb840628712b1ad..bf54409629f58e145887dc18ae408278
      }
  
      @Setting(FeatureSeedsGeneration.FEATURE_SEEDS_KEY)
-@@ -450,9 +505,9 @@ public class WorldConfiguration extends ConfigurationPart {
+@@ -454,9 +509,9 @@ public class WorldConfiguration extends ConfigurationPart {
  
      public class Misc extends ConfigurationPart {
          public int lightQueueSize = 20;
@@ -284,7 +284,7 @@ index 8dfd4f3a008c9f8b677cf60da5c9dc53be947ebb..4f3d30127eacf250ab9fe5970f33c183
          useAlternateKeepAlive = getBoolean("settings.use-alternate-keepalive", useAlternateKeepAlive);
      }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 21687d0bafc361f2e638376fa867a9eecbdf1f40..5981b3c5e467647d5d03d016fe9ac3cf44261ebe 100644
+index 825ed75b9cb38956d76db92a18d918d4b591a881..7faba70879c50909f509d6e91c4b329fb8e11839 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -417,8 +417,8 @@ public class PurpurWorldConfig {
@@ -298,7 +298,7 @@ index 21687d0bafc361f2e638376fa867a9eecbdf1f40..5981b3c5e467647d5d03d016fe9ac3cf
      public boolean totemOfUndyingWorksInInventory = false;
      public boolean playerFixStuckPortal = false;
      public boolean creativeOnePunch = false;
-@@ -2734,7 +2734,7 @@ public class PurpurWorldConfig {
+@@ -2722,7 +2722,7 @@ public class PurpurWorldConfig {
      public boolean villagerRidableInWater = false;
      public boolean villagerControllable = true;
      public double villagerMaxHealth = 20.0D;
@@ -307,7 +307,7 @@ index 21687d0bafc361f2e638376fa867a9eecbdf1f40..5981b3c5e467647d5d03d016fe9ac3cf
      public boolean villagerUseBrainTicksOnlyWhenLagging = true;
      public boolean villagerFollowEmeraldBlock = false;
      public boolean villagerCanBeLeashed = false;
-@@ -2988,7 +2988,7 @@ public class PurpurWorldConfig {
+@@ -2976,7 +2976,7 @@ public class PurpurWorldConfig {
      public boolean zombieJockeyOnlyBaby = true;
      public double zombieJockeyChance = 0.05D;
      public boolean zombieJockeyTryExistingChickens = true;

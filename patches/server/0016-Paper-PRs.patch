@@ -113,18 +113,6 @@ index 580c0d76bdedd83be29500d64816a129e270fbc3..245ffd8d8db27b598f1c6f491ff451c6
          while ((value & -128) != 0) {
              this.writeByte(value & 127 | 128);
              value >>>= 7;
-diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-index c677a55db62b4d197eeb1bf5d929e24019fed5ec..4e6b1cb89a02fd24077854fd89902f2007bf4d66 100644
---- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-+++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
-@@ -227,6 +227,7 @@ public class WorldGenRegion implements WorldGenLevel {
-         if (iblockdata.isAir()) {
-             return false;
-         } else {
-+            if (drop) LOGGER.warn("Potential async entity add during worldgen", new Throwable()); // Paper - log when this happens // Prismarine - Paper PR
-             if (false) { // CraftBukkit - SPIGOT-6833: Do not drop during world generation
-                 BlockEntity tileentity = iblockdata.hasBlockEntity() ? this.getBlockEntity(pos) : null;
- 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
 index 89310e0759d4a3d215112f83630ed193596fd2ce..22edd0116f55abc50dfdd45831c0f621ad49ef10 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
@@ -157,32 +145,6 @@ index bb15cf2aa35ce8754bba56f5b312d92b1a50c9f8..82c1e4f79210e10031a7555be03e294d
              target.heal((float) j, RegainReason.MAGIC); // CraftBukkit
          }
  
-diff --git a/src/main/java/net/minecraft/world/entity/EntitySelector.java b/src/main/java/net/minecraft/world/entity/EntitySelector.java
-index 5a3e29aedc537c672d11385cec562b2c30761730..2b039882c6857abce9394cafb7827865a75ff354 100644
---- a/src/main/java/net/minecraft/world/entity/EntitySelector.java
-+++ b/src/main/java/net/minecraft/world/entity/EntitySelector.java
-@@ -27,7 +27,20 @@ public final class EntitySelector {
-         return !entity.isSpectator();
-     };
-     public static final Predicate<Entity> CAN_BE_COLLIDED_WITH = EntitySelector.NO_SPECTATORS.and(Entity::canBeCollidedWith);
--    public static Predicate<Player> isInsomniac = (player) -> net.minecraft.util.Mth.clamp(((net.minecraft.server.level.ServerPlayer) player).getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.TIME_SINCE_REST)), 1, Integer.MAX_VALUE) >= 72000; // Paper
-+    // Prismarine start - Paper PR
-+    // Paper start
-+    public static Predicate<Player> isInsomniac = (player) -> {
-+        net.minecraft.server.level.ServerPlayer serverPlayer = (net.minecraft.server.level.ServerPlayer) player;
-+        int playerInsomniaTicks = serverPlayer.getLevel().purpurConfig.phantomSpawnMinTimeSinceSlept; // Prismarine
-+
-+        if (playerInsomniaTicks <= 0) {
-+            return false;
-+        }
-+
-+        return net.minecraft.util.Mth.clamp(serverPlayer.getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.TIME_SINCE_REST)), 1, Integer.MAX_VALUE) >= playerInsomniaTicks;
-+    };
-+    // Paper end
-+    // Prismarine end
-     public static Predicate<Player> notAfk = (player) -> !player.isAfk(); // Purpur
- 
-     private EntitySelector() {}
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 index 4e00c2216142b52fb34be0e51d00fa20fded92c8..4f31454c192361a18d32d3085cb9df90effadba9 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
@@ -222,23 +184,6 @@ index 617a5619693877cf6ae158db8dda0caefa148633..6fb72bfc1498f8cdd65ebd7aead84e69
 +    }
  }
 \ No newline at end of file
-diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-index 62bca85da6c5d9877e21fecb702370506ddf671c..275f4b7378b1c9d297f2d0af5c7571b142a21db6 100644
---- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-+++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-@@ -372,10 +372,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
-                 ((ChorusFlowerBlock) Blocks.CHORUS_FLOWER).generatePlant(access, pos, random, 8);
-                 return true;
-             case CRIMSON_FUNGUS:
--                gen = TreeFeatures.CRIMSON_FUNGUS_PLANTED;
-+                gen = this.isNormalWorld() ? TreeFeatures.CRIMSON_FUNGUS_PLANTED : TreeFeatures.CRIMSON_FUNGUS; // Paper - if world gen, don't use planted version // Prismarine - Paper PR
-                 break;
-             case WARPED_FUNGUS:
--                gen = TreeFeatures.WARPED_FUNGUS_PLANTED;
-+                gen = this.isNormalWorld() ? TreeFeatures.WARPED_FUNGUS_PLANTED : TreeFeatures.WARPED_FUNGUS; // Paper - if world gen, don't use planted version // Prismarine - Paper PR
-                 break;
-             case AZALEA:
-                 gen = TreeFeatures.AZALEA_TREE;
 diff --git a/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java b/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java
 index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407e3678c7e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/persistence/CraftPersistentDataTypeRegistry.java
@@ -253,10 +198,10 @@ index 355c9f79fd3132848a00eacde951d1e1bfa92737..30e0d02eee10cfbf4558a0d61a0cb407
      /**
       * Creates a suitable adapter instance for the primitive class type
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 0b248a987d22da21aa802c5dba00b4f987c365ea..58eaeae2751261057bdb0081e50db26b99fd8c17 100644
+index b1e11bb17212174e546892cbaa04740e632cd075..04684755ca0b0df38644c1f26e8b0297b1c55ddb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-@@ -453,8 +453,8 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -458,8 +458,8 @@ public final class CraftMagicNumbers implements UnsafeValues {
  
          CompoundTag compound = deserializeNbtFromBytes(data);
          int dataVersion = compound.getInt("DataVersion");
@@ -267,7 +212,7 @@ index 0b248a987d22da21aa802c5dba00b4f987c365ea..58eaeae2751261057bdb0081e50db26b
      }
  
      @Override
-@@ -474,8 +474,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+@@ -479,8 +479,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
  
          CompoundTag compound = deserializeNbtFromBytes(data);
          int dataVersion = compound.getInt("DataVersion");

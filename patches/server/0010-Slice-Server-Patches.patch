@@ -184,10 +184,10 @@ index 7880cdcaf12197f6b36777c51b2859f2463f1595..b79e12cab036339aca73bdda639a877c
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 6da8a8f8912e893aa339f2d36b575769c9b92800..ac7fa4ff2012c71ff897dc19081be45a8f0e9085 100644
+index fbe8ef2bd3b209cb8da2d16063809f63e8bf2c3c..347f03418a1efd169c18154377d47c0f9fb4afa1 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -879,6 +879,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -880,6 +880,14 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
          this.checkOutOfWorld();
          if (!this.level.isClientSide) {
@@ -202,7 +202,7 @@ index 6da8a8f8912e893aa339f2d36b575769c9b92800..ac7fa4ff2012c71ff897dc19081be45a
              this.setSharedFlagOnFire(this.remainingFireTicks > 0);
          }
  
-@@ -3156,7 +3164,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3157,7 +3165,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.entityData.markDirty(Entity.DATA_AIR_SUPPLY_ID);
              return;
          }
@@ -212,10 +212,10 @@ index 6da8a8f8912e893aa339f2d36b575769c9b92800..ac7fa4ff2012c71ff897dc19081be45a
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index aa7afa4b399d92e0114860674d360106dd109525..bb28ebe18acdff5e6f8456d0e90a325cd54bfbd3 100644
+index 7a44e42d6238099a6db09fd23a72f30fb11c4df1..ee4222abcada721ef19698f6b5fdc1677d961f4b 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3155,7 +3155,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3170,7 +3170,7 @@ public abstract class LivingEntity extends Entity {
  
              ItemStack itemstack1 = this.getItemBySlot(enumitemslot);
  
@@ -225,7 +225,7 @@ index aa7afa4b399d92e0114860674d360106dd109525..bb28ebe18acdff5e6f8456d0e90a325c
                  if (this instanceof ServerPlayer && enumitemslot.getType() == EquipmentSlot.Type.ARMOR) {
                      final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 1b7e38538881ba00ffdbe9226952627151532c5c..91fa9d40b7aa779bb33f45df38079acb1517dfea 100644
+index c574a93afff2996d51f3ffbdfde4e534f22375f5..5eec08a13e0763b6fb9e7787377297029f26d40a 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -682,7 +682,7 @@ public abstract class Player extends LivingEntity {
@@ -265,7 +265,7 @@ index ed3de4464f32cc75fd3cf5e1d90d65c971db1484..045960cebe1b7d46e7f791c768fb4433
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index bd363cd808f294f47298258ee7b99aeb36150887..124d8b8e6083fb1015e61ce5b7af387221255acd 100644
+index 6c816179a2fef2c913580339eb68040e5af3fd92..c3e21b80235f230c3cc23d3f625bfbb96a2311b5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2388,7 +2388,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

@@ -1,12 +1,14 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
-Date: Fri, 18 Nov 2022 15:54:55 +0000
+Date: Thu, 8 Dec 2022 12:46:55 +0000
 Subject: [PATCH] Purpur API Changes
+
+Original by PurpurMC Team
 
 Copyright (C) 2022 PurpurMC LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
+of this software and associated documentation files (the Software), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
@@ -37,10 +39,10 @@ index 780c9b40f69c247592c1fe469c05fd12e984b633..8e64ccdb928bc38cb703e60c8ec31339
      options.overview = "src/main/javadoc/overview.html"
      options.use()
 diff --git a/src/main/java/co/aikar/timings/TimedEventExecutor.java b/src/main/java/co/aikar/timings/TimedEventExecutor.java
-index 4e6e1b8e8aeb07e34536941d2cbfc25e5cfa6c27..5f8aab2cb734fcea7e2b4d4b2803170a7beddb87 100644
+index 34e43e56ccc663e05b9cae36643e8df5eee5cb17..2c15b67149d014fdce2dd74a550013d83b6e44c8 100644
 --- a/src/main/java/co/aikar/timings/TimedEventExecutor.java
 +++ b/src/main/java/co/aikar/timings/TimedEventExecutor.java
-@@ -76,8 +76,8 @@ public class TimedEventExecutor implements EventExecutor {
+@@ -76,9 +76,9 @@ public class TimedEventExecutor implements EventExecutor {
              executor.execute(listener, event);
              return;
          }
@@ -50,7 +52,8 @@ index 4e6e1b8e8aeb07e34536941d2cbfc25e5cfa6c27..5f8aab2cb734fcea7e2b4d4b2803170a
 -        }
 +        //} // Purpur
      }
- }
+ 
+     @Override
 diff --git a/src/main/java/co/aikar/timings/Timing.java b/src/main/java/co/aikar/timings/Timing.java
 index a21e5ead5024fd0058c5e3302d8201dd249d32bc..505908e987a032a801ae03d7fb020dfb662bf81b 100644
 --- a/src/main/java/co/aikar/timings/Timing.java
@@ -151,7 +154,7 @@ index 3132dc98d26c54c5e46162e53aaed195d7335c8d..b461b5c50f97f11cb9ef68abc520271b
                  new ArrayList<String>(TIMINGS_SUBCOMMANDS.size()));
          }
 diff --git a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
-index 8fd399f791b45eb7fc62693ca954eea0c68e2881..c18940f5c3b3436c19ca6ea466bc8a78579c795f 100644
+index 2e9006700782924aa8f79e48194200cb1f13110f..2db495355709bb93d7abd641955256c1c0007940 100644
 --- a/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
 +++ b/src/main/java/com/destroystokyo/paper/entity/ai/VanillaGoal.java
 @@ -199,6 +199,18 @@ public interface VanillaGoal<T extends Mob> extends Goal<T> {
@@ -1122,7 +1125,7 @@ index 655e37cb3a09610a3f3df805d6dcad17d722da62..09fd716c8fc9ea34a1cbf87bcbe22df0
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Item.java b/src/main/java/org/bukkit/entity/Item.java
-index d0bef15785493b512ff0f7414c1d58d38fead581..35e7684cf8d9d5eea4b88ada24ff252ba225bd62 100644
+index 58017fce436cdbda255f7172fbdadb726d4b113c..932e65f3aff0d7b15663ef9855b8b74dcb066dd6 100644
 --- a/src/main/java/org/bukkit/entity/Item.java
 +++ b/src/main/java/org/bukkit/entity/Item.java
 @@ -1,6 +1,7 @@
@@ -1133,7 +1136,7 @@ index d0bef15785493b512ff0f7414c1d58d38fead581..35e7684cf8d9d5eea4b88ada24ff252b
  import org.bukkit.inventory.ItemStack;
  import org.jetbrains.annotations.NotNull;
  import org.jetbrains.annotations.Nullable;
-@@ -153,4 +154,64 @@ public interface Item extends Entity {
+@@ -153,4 +154,64 @@ public interface Item extends Entity, io.papermc.paper.entity.Frictional { // Pa
       */
      public void setHealth(int health);
      // Paper end
@@ -1199,12 +1202,12 @@ index d0bef15785493b512ff0f7414c1d58d38fead581..35e7684cf8d9d5eea4b88ada24ff252b
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/org/bukkit/entity/LivingEntity.java
-index 3bd1d100d0c481ae7edaa251869640ab370aeb42..c730b7e091b897fac7faa2d756b90ea5f0cef44d 100644
+index 97336be470a9d545d93f78e683a793f328013ad8..1da4521fe1930ce66e4d9931d059282d3a66e20d 100644
 --- a/src/main/java/org/bukkit/entity/LivingEntity.java
 +++ b/src/main/java/org/bukkit/entity/LivingEntity.java
-@@ -1016,4 +1016,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
+@@ -1059,4 +1059,41 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
       */
-     void knockback(double strength, double directionX, double directionZ);
+     void damageItemStack(org.bukkit.inventory.@NotNull EquipmentSlot slot, int amount);
      // Paper end
 +
 +    // Purpur start
@@ -1270,7 +1273,7 @@ index bc84b892cae5fe7019a3ad481e9da79956efa1fe..48eb5b00c460cccde29d327cef1d63fc
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index ecb8b4cf48c7d6151ffec92bc6855d1fc57a2b51..9c2dcca0b6e34a3083226360575f0956a077d767 100644
+index 1e27b9de47f111b9c000243214e22890e323f7fc..93e18658bb7a83a35f812811c2c87630a4b7eb0b 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2411,6 +2411,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -1288,7 +1291,7 @@ index ecb8b4cf48c7d6151ffec92bc6855d1fc57a2b51..9c2dcca0b6e34a3083226360575f0956
      /**
       * Gets whether the player has the "Allow Server Listings" setting enabled.
       *
-@@ -2850,4 +2858,153 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2903,4 +2911,153 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -1468,10 +1471,10 @@ index 10f8f6d45ae9280651c3ebddd1f90acbd7d6ff29..34f9d1b5d66ca96c71a94ebc981752e4
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Villager.java b/src/main/java/org/bukkit/entity/Villager.java
-index d61855b83da0776fe910dee8cde184c720571a71..b7b7963c07f9859df980017d0515ab437f7d9d10 100644
+index c61e7e41aeb3d4f5f4ac47da8890051d8e97340d..12b08318f78c8144cc809dbccf0feabdd31f0ee2 100644
 --- a/src/main/java/org/bukkit/entity/Villager.java
 +++ b/src/main/java/org/bukkit/entity/Villager.java
-@@ -297,4 +297,14 @@ public interface Villager extends AbstractVillager {
+@@ -328,4 +328,14 @@ public interface Villager extends AbstractVillager {
       */
      public void clearReputations();
      // Paper end
@@ -1599,7 +1602,7 @@ index c60be4fd24c7fdf65251dd6169e5e1ac3b588d95..569deccd2f1cf21da9b5906433ac493c
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index b8a344fd900dcbd4b28085a54b85b16c742e9c6f..91444a8bb400d1db36df118c8c24645c26fa72be 100644
+index 870c0ddd101094a3bce1ebf5ec4d42c51053db84..2cd247a315586b35b73e4396d850ca1d347eea92 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
 @@ -16,6 +16,18 @@ import org.bukkit.inventory.meta.ItemMeta;
@@ -1621,8 +1624,8 @@ index b8a344fd900dcbd4b28085a54b85b16c742e9c6f..91444a8bb400d1db36df118c8c24645c
  
  /**
   * Represents a stack of items.
-@@ -978,4 +990,626 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
-         return Bukkit.getUnsafe().isValidRepairItemStack(toBeRepaired, this);
+@@ -992,4 +1004,626 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
+         return livingEntity.damageItemStack(this, amount);
      }
      // Paper end
 +

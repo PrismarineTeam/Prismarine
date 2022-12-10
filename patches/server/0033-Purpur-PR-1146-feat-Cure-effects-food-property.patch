@@ -25,10 +25,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index bb28ebe18acdff5e6f8456d0e90a325cd54bfbd3..37cd5682ee3886ac8cc37cec2b1c3088b4c9d457 100644
+index ee4222abcada721ef19698f6b5fdc1677d961f4b..3323066cf1a966fe1b4073e4e1448a6540e8f15e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -4376,6 +4376,7 @@ public abstract class LivingEntity extends Entity {
+@@ -4410,6 +4410,7 @@ public abstract class LivingEntity extends Entity {
          if (stack.isEdible()) {
              world.playSound((net.minecraft.world.entity.player.Player) null, this.getX(), this.getY(), this.getZ(), this.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
              this.addEatEffect(stack, world, this);
@@ -36,7 +36,7 @@ index bb28ebe18acdff5e6f8456d0e90a325cd54bfbd3..37cd5682ee3886ac8cc37cec2b1c3088
              if (!(this instanceof net.minecraft.world.entity.player.Player) || !((net.minecraft.world.entity.player.Player) this).getAbilities().instabuild) {
                  stack.shrink(1);
              }
-@@ -4404,6 +4405,23 @@ public abstract class LivingEntity extends Entity {
+@@ -4438,6 +4439,23 @@ public abstract class LivingEntity extends Entity {
  
      }
  
@@ -57,7 +57,7 @@ index bb28ebe18acdff5e6f8456d0e90a325cd54bfbd3..37cd5682ee3886ac8cc37cec2b1c3088
 +    }
 +    // Purpur end
 +
-     private static byte entityEventForEquipmentBreak(EquipmentSlot slot) {
+     public static byte entityEventForEquipmentBreak(EquipmentSlot slot) {
          switch (slot) {
              case MAINHAND:
 diff --git a/src/main/java/net/minecraft/world/food/FoodProperties.java b/src/main/java/net/minecraft/world/food/FoodProperties.java

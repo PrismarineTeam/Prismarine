@@ -93,7 +93,7 @@ index 0000000000000000000000000000000000000000..35af9788a2cfc9203a9987a1a2418706
 +}
 \ No newline at end of file
 diff --git a/src/main/java/io/papermc/paper/util/MCUtil.java b/src/main/java/io/papermc/paper/util/MCUtil.java
-index c8f7aa9e0794713724e1053581c220aa95f1bc90..07aa7249b2a84f0441ce7d010cc39e931cb67d34 100644
+index b5d4c53bf1046fa52da5398491258b94f1e0fcd0..d83d136e99f59378d476c37820c4ae82bd881460 100644
 --- a/src/main/java/io/papermc/paper/util/MCUtil.java
 +++ b/src/main/java/io/papermc/paper/util/MCUtil.java
 @@ -55,9 +55,10 @@ import java.util.function.Consumer;
@@ -887,7 +887,7 @@ index 6c27b22dd1d497687c0f4d3835e34149bcf952c1..384ae82ca4b535e7af4ad88c498f8090
  
      public static Direction getNearest(double x, double y, double z) {
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1a8dffe6b975e1ac3b4db98bf8a6b36b687e4ae0..02c130383c0d26626ae867d1ceaba13517970cf8 100644
+index f6d0890e4ec464794f68489ed15f4b96d90c0cc7..5fff1f0c229c445d8b2a615414699b0a465f224b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1004,6 +1004,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -928,10 +928,10 @@ index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..88900f7a2077049cc5d78fe17314dbdf
          this.enableStatus = this.get("enable-status", true);
          this.hideOnlinePlayers = this.get("hide-online-players", false);
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 1a758d44459736fc5934b4ee3ebd98063ea1d04f..1e9d78801c32b21dc26e83ed710ad21e86b76f30 100644
+index 216b2faf27d532e3e85dd1c4cd551217b1050474..4413ccc98565c02e3461461b6bdb4a5cf5d10f1c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -940,7 +940,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -942,7 +942,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
                      continue;
                  }
  
@@ -940,7 +940,7 @@ index 1a758d44459736fc5934b4ee3ebd98063ea1d04f..1e9d78801c32b21dc26e83ed710ad21e
                  for (int a = 0; a < randomTickSpeed; ++a) {
                      int tickingBlocks = section.tickingList.size();
                      int index = this.randomTickRandom.nextInt(16 * 16 * 16);
-@@ -951,13 +951,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -953,13 +953,13 @@ public class ServerLevel extends Level implements WorldGenLevel {
                      long raw = section.tickingList.getRaw(index);
                      int location = com.destroystokyo.paper.util.maplist.IBlockDataList.getLocationFromRaw(raw);
                      int randomX = location & 15;
@@ -1165,7 +1165,7 @@ index 5d8e9bdf5538b19681f21949368d862fab8a89ad..347f1dd2fe964fe7f9c4ad9aa92b27c5
 +    @Override public <T> void compact(net.minecraft.world.level.chunk.Palette<T> srcPalette, net.minecraft.world.level.chunk.Palette<T> dstPalette, short[] out) {} // Prismarine - JettPack patches (0044 - lithium: chunk.serialization)
  }
 diff --git a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
-index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d553dc29d9a 100644
+index 83701fbfaa56a232593ee8f11a3afb8941238bfa..5b262bd43523f169f6eda3773021df6fd6540578 100644
 --- a/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 +++ b/src/main/java/net/minecraft/util/thread/BlockableEventLoop.java
 @@ -8,6 +8,8 @@ import java.util.Queue;
@@ -1211,7 +1211,7 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
 +        }
 +
 +        if (this.next == null) {
-+        // Prismarine end
++            // Prismarine end
              return false;
          } else {
 -            this.doRunTask(this.pendingRunnables.remove());
@@ -1245,10 +1245,10 @@ index 7a4ade1a4190bf4fbb048919ae2be230f7b80fff..ab33194cb4d00e033632e753fb131d55
  
      protected void doRunTask(R task) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 2163a1ac3a9e3c39bdef7ea57b19caa213dbb16c..aa7afa4b399d92e0114860674d360106dd109525 100644
+index f23829690d2be20af50256e4d985e3e342415d54..7a44e42d6238099a6db09fd23a72f30fb11c4df1 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -576,11 +576,11 @@ public abstract class LivingEntity extends Entity {
+@@ -577,11 +577,11 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void tryAddFrost() {
@@ -1262,7 +1262,7 @@ index 2163a1ac3a9e3c39bdef7ea57b19caa213dbb16c..aa7afa4b399d92e0114860674d360106
  
                  if (attributemodifiable == null) {
                      return;
-@@ -590,7 +590,7 @@ public abstract class LivingEntity extends Entity {
+@@ -591,7 +591,7 @@ public abstract class LivingEntity extends Entity {
  
                  attributemodifiable.addTransientModifier(new AttributeModifier(LivingEntity.SPEED_MODIFIER_POWDER_SNOW_UUID, "Powder snow slow", (double) f, AttributeModifier.Operation.ADDITION));
              }
@@ -1271,7 +1271,7 @@ index 2163a1ac3a9e3c39bdef7ea57b19caa213dbb16c..aa7afa4b399d92e0114860674d360106
  
      }
  
-@@ -2551,6 +2551,7 @@ public abstract class LivingEntity extends Entity {
+@@ -2566,6 +2566,7 @@ public abstract class LivingEntity extends Entity {
      }
  
      protected void updateSwingTime() {
@@ -1280,7 +1280,7 @@ index 2163a1ac3a9e3c39bdef7ea57b19caa213dbb16c..aa7afa4b399d92e0114860674d360106
  
          if (this.swinging) {
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 7809f341dc76536250b4eb3809de9368b5c2d652..c6b43a4f148b39132cfc7139610d900327d069e6 100644
+index bc18c166ca776b0ef6e816eb034e410c391258b6..a84cf77df69e59a73215d8049b7d410c6b41046b 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -841,7 +841,7 @@ public abstract class Mob extends LivingEntity {
@@ -1316,15 +1316,15 @@ index 2c915c765ceef3ec28f5a58fa9a587282c1a906a..2840b720b6fb8d74710845d9186e565f
      private final net.minecraft.world.entity.LivingEntity entity; // Purpur
      private final java.util.function.Function<Attribute, AttributeInstance> createInstance; // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
-index 872ec431ae6beb0ef603d833f38aedb9d87e5466..59014e55a6848addfd67cfc2bc0366e313c0145d 100644
+index cbe957013d958d10ed6707a3785893f6856b9c3f..6e2eaf29231db6743943ec23174995306af16661 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/GoalSelector.java
 @@ -27,7 +27,7 @@ public class GoalSelector {
          }
      };
      private final Map<Goal.Flag, WrappedGoal> lockedFlags = new EnumMap<>(Goal.Flag.class);
--    public final Set<WrappedGoal> availableGoals = Sets.newLinkedHashSet();
-+    public final Set<WrappedGoal> availableGoals = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>(); // JettPack - lithium: replace AI goal set with optimized collection // Prismarine - JettPack patches
+-    private final Set<WrappedGoal> availableGoals = Sets.newLinkedHashSet();
++    private final Set<WrappedGoal> availableGoals = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>(); // JettPack - lithium: replace AI goal set with optimized collection // Prismarine - JettPack patches
      private final Supplier<ProfilerFiller> profiler;
      private final EnumSet<Goal.Flag> disabledFlags = EnumSet.noneOf(Goal.Flag.class); // Paper unused, but dummy to prevent plugins from crashing as hard. Theyll need to support paper in a special case if this is super important, but really doesn't seem like it would be.
      private final com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<net.minecraft.world.entity.ai.goal.Goal.Flag> goalTypes = new com.destroystokyo.paper.util.set.OptimizedSmallEnumSet<>(Goal.Flag.class); // Paper - remove streams from pathfindergoalselector
