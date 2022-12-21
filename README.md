@@ -1,3 +1,20 @@
+# 이 프로젝트는 더 이상 업데이트 되지 않습니다.
+### This project is no longer maintained.
+
+개발자 (AlphaKR93) 의 건강 및 학업 등 여러 이유로 인하여 이 프로젝트는 더 이상 업데이트 되지 않습니다.
+이때까지 Prismarine을 사용해주신 모든 분들께 감사드립니다.
+
+Our main developer, Alpha93 can’t continue developing Prismarine because of health problems and studying.
+Thanks to everyone who used Prismarine, we were able to come till here, but I’m so sad to believe that this is the end of Prismarine. Thank you everyone.
+
+## 대체 가능한 플랫폼
+- [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
+   - 안정적이며 빠른 업데이트를 지원함.
+   - Stable and fast upstream.
+- [IPECTER/Fusion]
+   - 위 버킷의 모든 기능을 지원하며 실험적인 최적화를 포함함
+   - Supports all features of the above bukkit and includes experimental optimization
+
 <div align="center">
 
 # Prismarine
