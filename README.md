@@ -11,7 +11,7 @@ Thanks to everyone who used Prismarine, we were able to come till here, but I’
 - [PurpurMC/Purpur](https://github.com/PurpurMC/Purpur)
    - 안정적이며 빠른 업데이트를 지원함.
    - Stable and fast upstream.
-- [IPECTER/Fusion]
+- [IPECTER/Fusion](https://github.com/IPECTER/Fusion)
    - 위 버킷의 모든 기능을 지원하며 실험적인 최적화를 포함함
    - Supports all features of the above bukkit and includes experimental optimization
 
