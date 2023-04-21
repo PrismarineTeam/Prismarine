@@ -1,3 +1,6 @@
+# [PlazmaMC](https://github.com/PlazmaMC)에서 이 프로젝트를 계속 사용하실 수 있습니다!
+# Moved to [PlazmaMC](https://github.com/PlazmaMC)
+
 # 이 프로젝트는 더 이상 업데이트 되지 않습니다.
 ### This project is no longer maintained.
 
